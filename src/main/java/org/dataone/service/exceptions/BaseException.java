@@ -21,17 +21,12 @@ public class BaseException extends Exception {
     /** The detailed error subcode associated with this exception. */
     private int detail_code;
     
-    /** The description of this exception. */
-    private String description;
-    
     /** Additional trace-level debugging information, as name-value pairs. */
     private TreeMap<String, String> trace_information;
 
-    /** Construct a BaseException, initializing the superclass. */
-    private BaseException() {
-        super();
-        this.trace_information = new TreeMap<String, String>();
-    }
+    public final static int FMT_XML = 0;
+    public final static int FMT_JSON = 1;
+    public final static int FMT_HTML = 2;
     
     /**
      * Construct a BaseException with the given code, detail code, and description.
@@ -41,10 +36,10 @@ public class BaseException extends Exception {
      * @param description the description of this exception
      */
     protected BaseException(int code, int detail_code, String description) {
-        this();
+        super(description);
+        this.trace_information = new TreeMap<String, String>();
         this.code = code;
         this.detail_code = detail_code;
-        this.description = description;
     }
     
     /**
@@ -91,17 +86,10 @@ public class BaseException extends Exception {
     }
 
     /**
-     * @param description the description to set
-     */
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    /**
      * @return the description
      */
     public String getDescription() {
-        return description;
+        return getMessage();
     }
     
     /**
@@ -130,5 +118,60 @@ public class BaseException extends Exception {
      */
     public Set<String> getTraceKeySet() {
         return trace_information.keySet();
+    }
+    
+    /**
+     * Serialize the format in XML, JSON, or HTML format. If format is unknown,
+     * then return in XML format.
+     * @param format an integer code indicating the format
+     */
+    public String serialize(int format) {
+        switch(format) {
+        case FMT_XML:
+            return serializeXML();
+        case FMT_JSON:
+            return serializeJSON();
+        case FMT_HTML:
+            return serializeHTML();
+        default:
+            return serializeXML();
+        }
+    }
+    
+    /** Serialize the exception in XML format. */
+    private String serializeXML() {
+        StringBuffer sb = new StringBuffer();
+        sb.append("<?xml version=\"1.0\"?>\n"); 
+        sb.append("<error errorCode='").append(getCode()).append("' ");
+        sb.append("detailCode='").append(getDetail_code()).append("'>\n");
+        sb.append("  <description>\n");
+        sb.append("    <message>").append(getDescription()).append("</message>\n");
+        //sb.append("    <hint>").append(getHint()).append("</hint>");
+        sb.append("  </description>\n");
+        sb.append("  <traceInformation>\n");
+        for (String key : this.getTraceKeySet()) {
+            sb.append("    <value key='").append(key).append("'>");
+            sb.append(trace_information.get(key)).append("</value>\n");
+        }
+        sb.append("  </traceInformation>\n");
+        sb.append("</error>\n");
+      
+        return sb.toString();
+    }
+    
+    /** Serialize the exception in JSON format.
+     * TODO: Implement JSON serialization 
+     */
+    private String serializeJSON() {
+        StringBuffer sb = new StringBuffer();
+        return sb.toString();
+    }
+    
+    /** Serialize the exception in HTML format.
+     * TODO: Implement HTML serialization
+     */
+    private String serializeHTML() {
+        StringBuffer sb = new StringBuffer();
+        return sb.toString();
     }
 }
