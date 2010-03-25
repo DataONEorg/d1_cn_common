@@ -11,6 +11,10 @@ import junit.framework.TestSuite;
  */
 public class BaseExceptionTest extends TestCase
 {
+    private String msg = "The specified object does not exist on this node.";
+    private TreeMap<String, String> trace = new TreeMap<String, String>();
+    private BaseException e = null;
+    
     /**
      * Create the test case
      *
@@ -29,18 +33,19 @@ public class BaseExceptionTest extends TestCase
         return new TestSuite( BaseExceptionTest.class );
     }
     
+    /** Common setup code for all of the tests. */
+    public void setUp() {
+        trace.put("identifier", "123XYZ");
+        trace.put("method", "mn.get");
+        e = new BaseException(404, 14001, msg, trace);
+        assertNotNull(e);    
+    }
+    
     /**
      * Test creation of an exception, and serialization of the fields into XML.
      */
     public void testSerializeXML()
-    {
-        String msg = "The specified object does not exist on this node.";
-        TreeMap<String, String> trace = new TreeMap<String, String>();
-        trace.put("identifier", "123XYZ");
-        trace.put("method", "mn.get");
-        BaseException e = new BaseException(404, 14001, msg, trace);
-        assertNotNull(e);
-        
+    {   
         String xml = e.serialize(BaseException.FMT_XML);
         System.out.println(xml);
         
@@ -59,14 +64,7 @@ public class BaseExceptionTest extends TestCase
      * Test creation of an exception, and serialization of the fields into JSON.
      */
     public void testSerializeJSON()
-    {
-        String msg = "The specified object does not exist on this node.";
-        TreeMap<String, String> trace = new TreeMap<String, String>();
-        trace.put("identifier", "123XYZ");
-        trace.put("method", "mn.get");
-        BaseException e = new BaseException(404, 14001, msg, trace);
-        assertNotNull(e);
-        
+    {   
         String json = e.serialize(BaseException.FMT_JSON);
         System.out.println(json);
         
@@ -82,14 +80,7 @@ public class BaseExceptionTest extends TestCase
      * Test creation of an exception, and serialization of the fields into HTML.
      */
     public void testSerializeHTML()
-    {
-        String msg = "The specified object does not exist on this node.";
-        TreeMap<String, String> trace = new TreeMap<String, String>();
-        trace.put("identifier", "123XYZ");
-        trace.put("method", "mn.get");
-        BaseException e = new BaseException(404, 14001, msg, trace);
-        assertNotNull(e);
-        
+    {   
         String html = e.serialize(BaseException.FMT_HTML);
         System.out.println(html);
         
