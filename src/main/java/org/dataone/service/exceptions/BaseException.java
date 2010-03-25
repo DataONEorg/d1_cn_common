@@ -144,10 +144,7 @@ public class BaseException extends Exception {
         sb.append("<?xml version=\"1.0\"?>\n"); 
         sb.append("<error errorCode='").append(getCode()).append("' ");
         sb.append("detailCode='").append(getDetail_code()).append("'>\n");
-        sb.append("  <description>\n");
-        sb.append("    <message>").append(getDescription()).append("</message>\n");
-        //sb.append("    <hint>").append(getHint()).append("</hint>");
-        sb.append("  </description>\n");
+        sb.append("  <description>").append(getDescription()).append("</description>\n");
         sb.append("  <traceInformation>\n");
         for (String key : this.getTraceKeySet()) {
             sb.append("    <value key='").append(key).append("'>");
@@ -164,6 +161,16 @@ public class BaseException extends Exception {
      */
     private String serializeJSON() {
         StringBuffer sb = new StringBuffer();
+        sb.append("{'errorCode': ").append(getCode()).append(",\n");
+        sb.append(" 'detailCode': ").append(getDetail_code()).append(",\n");
+        sb.append(" 'description': '").append(getDescription()).append("',\n");
+        sb.append(" 'traceInformation': {\n");
+        for (String key : this.getTraceKeySet()) {
+            sb.append("    '").append(key).append("': '");
+            sb.append(trace_information.get(key)).append("',\n");
+        }
+        sb.append("  }\n");
+        sb.append("}\n");
         return sb.toString();
     }
     
@@ -172,6 +179,21 @@ public class BaseException extends Exception {
      */
     private String serializeHTML() {
         StringBuffer sb = new StringBuffer();
+        sb.append("<html>\n<body>\n"); 
+        sb.append("  <p>\n");
+        sb.append("    <dl>\n");
+        sb.append("      <dt>Code</dt><dd class='errorCode'>").append(getCode()).append("</dd>\n");
+        sb.append("      <dt>Detail Code</dt><dd class='detailCode'>").append(getDetail_code()).append("</dd>\n");
+        sb.append("    </dl>\n");
+        sb.append("  </p>\n");
+        sb.append("  <p class='description'>").append(getDescription()).append("</p>\n");
+        sb.append("  <div class='traceInformation'>\n");
+        for (String key : this.getTraceKeySet()) {
+            sb.append("    <dt>").append(key).append("</dt>\n");
+            sb.append("    <dd>").append(trace_information.get(key)).append("</dd>\n");
+        }
+        sb.append("  </div>\n");
+        sb.append("</body>\n</html>\n");
         return sb.toString();
     }
 }

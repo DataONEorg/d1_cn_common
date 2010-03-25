@@ -54,4 +54,53 @@ public class BaseExceptionTest extends TestCase
         assertTrue(xml.indexOf("method") != -1);
         assertTrue(xml.indexOf("mn.get") != -1);
     }
+    
+    /**
+     * Test creation of an exception, and serialization of the fields into JSON.
+     */
+    public void testSerializeJSON()
+    {
+        String msg = "The specified object does not exist on this node.";
+        TreeMap<String, String> trace = new TreeMap<String, String>();
+        trace.put("identifier", "123XYZ");
+        trace.put("method", "mn.get");
+        BaseException e = new BaseException(404, 14001, msg, trace);
+        assertNotNull(e);
+        
+        String json = e.serialize(BaseException.FMT_JSON);
+        System.out.println(json);
+        
+        assertNotNull(json);
+        assertTrue(json.indexOf("'errorCode': 404") != -1);
+        assertTrue(json.indexOf("'detailCode': 14001") != -1);
+        assertTrue(json.indexOf(msg) != -1);
+        assertTrue(json.indexOf("'identifier': '123XYZ'") != -1);
+        assertTrue(json.indexOf("'method': 'mn.get'") != -1);
+    }
+    
+    /**
+     * Test creation of an exception, and serialization of the fields into HTML.
+     */
+    public void testSerializeHTML()
+    {
+        String msg = "The specified object does not exist on this node.";
+        TreeMap<String, String> trace = new TreeMap<String, String>();
+        trace.put("identifier", "123XYZ");
+        trace.put("method", "mn.get");
+        BaseException e = new BaseException(404, 14001, msg, trace);
+        assertNotNull(e);
+        
+        String html = e.serialize(BaseException.FMT_HTML);
+        System.out.println(html);
+        
+        assertNotNull(html);
+        assertTrue(html.indexOf("<html>") != -1);
+        assertTrue(html.indexOf("404") != -1);
+        assertTrue(html.indexOf("14001") != -1);
+        assertTrue(html.indexOf(msg) != -1);
+        assertTrue(html.indexOf("identifier") != -1);
+        assertTrue(html.indexOf("123XYZ") != -1);
+        assertTrue(html.indexOf("method") != -1);
+        assertTrue(html.indexOf("mn.get") != -1);
+    }
 }
