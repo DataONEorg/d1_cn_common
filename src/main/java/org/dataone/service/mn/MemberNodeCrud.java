@@ -1,6 +1,6 @@
 package org.dataone.service.mn;
 
-import java.io.OutputStream;
+import java.io.InputStream;
 import java.util.Date;
 
 import org.dataone.service.exceptions.IdentifierNotUnique;
@@ -26,7 +26,7 @@ import org.dataone.service.types.SystemMetadata;
 public interface MemberNodeCrud 
 {
     // For 0.3 milestone
-    public OutputStream get(AuthToken token, IdentifierType guid)
+    public InputStream get(AuthToken token, IdentifierType guid)
         throws NotAuthorized, NotFound;
     public SystemMetadata getSystemMetadata(AuthToken token, IdentifierType guid)
         throws NotAuthorized, NotFound;
@@ -37,11 +37,11 @@ public interface MemberNodeCrud
     
     // For 0.4 milestone
     public IdentifierType create(AuthToken token, IdentifierType guid, 
-        Object object, SystemMetadata sysmeta) throws NotAuthorized, 
+        InputStream object, SystemMetadata sysmeta) throws NotAuthorized, 
         IdentifierNotUnique, UnsupportedType, 
         InsufficientResources, InvalidSystemMetadata;
     public IdentifierType update(AuthToken token, IdentifierType guid, 
-        Object object, IdentifierType obsoletedGuid, SystemMetadata sysmeta) 
+        InputStream object, IdentifierType obsoletedGuid, SystemMetadata sysmeta) 
         throws NotAuthorized, IdentifierNotUnique, UnsupportedType, 
         InsufficientResources, NotFound, InvalidSystemMetadata;
     public IdentifierType delete(AuthToken token, IdentifierType guid)
