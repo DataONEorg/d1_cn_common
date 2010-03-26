@@ -17,6 +17,9 @@ public interface MemberNodeReplication
 {
     public void listObjects(AuthToken token, String query) 
         throws NotAuthorized, InvalidRequest;
+    
+    // Didn't we eliminate these methods at the last CCIT meeting as not being
+    // needed if MNs are not aksed to track replicated objects?
     public void synchronizationComplete(AuthToken token, IdentifierType guid)
         throws NotAuthorized, NotFound;
     public void synchronizationFailed(AuthToken token, IdentifierType guid, 

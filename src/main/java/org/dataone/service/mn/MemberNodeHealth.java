@@ -1,5 +1,7 @@
 package org.dataone.service.mn;
 
+import org.dataone.service.types.HeartbeatResponse;
+
 /**
  * The DataONE MemberNode Health programmatic interface.  This defines an
  * implementation interface for Member Nodes that wish to build an
@@ -8,6 +10,12 @@ package org.dataone.service.mn;
  * @author Matthew Jones
  */
 public interface MemberNodeHealth 
-{
-    public void testMethod();
+{    
+    public HeartbeatResponse heartbeat();
+    
+    // Unclear whether these other methods are to be implemented, and if so,
+    // how they differ from one another.
+    //public PingResponse ping();
+    //public StatusResponse getStatus(AuthToken token);
+    //public void sohQuery(AuthToken token, String service);
 }
