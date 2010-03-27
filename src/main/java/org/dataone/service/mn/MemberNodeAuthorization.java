@@ -3,6 +3,7 @@ package org.dataone.service.mn;
 import org.dataone.service.exceptions.AuthenticationTimeout;
 import org.dataone.service.exceptions.InvalidCredentials;
 import org.dataone.service.exceptions.InvalidToken;
+import org.dataone.service.exceptions.NotAuthorized;
 import org.dataone.service.exceptions.NotFound;
 import org.dataone.service.types.AuthToken;
 import org.dataone.service.types.IdentifierType;
@@ -16,10 +17,13 @@ import org.dataone.service.types.IdentifierType;
  */
 public interface MemberNodeAuthorization 
 {
-    public AuthToken login(String user, String password);
-    public void logout(AuthToken token) 
+    public AuthToken login(String user, String password)
         throws InvalidCredentials, AuthenticationTimeout;
-    public void isAuthorized(AuthToken token, String method, IdentifierType guid)
-        throws InvalidToken, NotFound;
+    
+    public void logout(AuthToken token);
+    
+    public boolean isAuthorized(AuthToken token, IdentifierType guid, String operation)
+        throws InvalidToken, NotFound, NotAuthorized;
+    
     public boolean verify(AuthToken token);
 }
