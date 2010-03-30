@@ -1,5 +1,6 @@
 package org.dataone.service.mn;
 
+import org.dataone.service.exceptions.NotImplemented;
 import org.dataone.service.types.HeartbeatResponse;
 
 /**
@@ -11,7 +12,7 @@ import org.dataone.service.types.HeartbeatResponse;
  */
 public interface MemberNodeHealth 
 {    
-    public HeartbeatResponse heartbeat();
+    public HeartbeatResponse heartbeat() throws NotImplemented;
     
     // Unclear whether these other methods are to be implemented, and if so,
     // how they differ from one another.

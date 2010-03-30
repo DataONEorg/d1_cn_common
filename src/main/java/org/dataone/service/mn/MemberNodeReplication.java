@@ -2,6 +2,7 @@ package org.dataone.service.mn;
 
 import org.dataone.service.exceptions.InvalidRequest;
 import org.dataone.service.exceptions.NotAuthorized;
+import org.dataone.service.exceptions.NotImplemented;
 import org.dataone.service.types.AuthToken;
 
 /**
@@ -14,5 +15,5 @@ import org.dataone.service.types.AuthToken;
 public interface MemberNodeReplication 
 {
     public void listObjects(AuthToken token, String query) 
-        throws NotAuthorized, InvalidRequest;
+        throws NotAuthorized, InvalidRequest, NotImplemented;
 }
