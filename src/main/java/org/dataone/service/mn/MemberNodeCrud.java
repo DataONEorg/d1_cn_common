@@ -5,10 +5,13 @@ import java.util.Date;
 
 import org.dataone.service.exceptions.IdentifierNotUnique;
 import org.dataone.service.exceptions.InsufficientResources;
+import org.dataone.service.exceptions.InvalidRequest;
 import org.dataone.service.exceptions.InvalidSystemMetadata;
+import org.dataone.service.exceptions.InvalidToken;
 import org.dataone.service.exceptions.NotAuthorized;
 import org.dataone.service.exceptions.NotFound;
 import org.dataone.service.exceptions.NotImplemented;
+import org.dataone.service.exceptions.ServiceFailure;
 import org.dataone.service.exceptions.UnsupportedType;
 import org.dataone.service.types.AuthToken;
 import org.dataone.service.types.Checksum;
@@ -28,27 +31,34 @@ public interface MemberNodeCrud
 {
     // For 0.3 milestone
     public InputStream get(AuthToken token, IdentifierType guid)
-        throws NotAuthorized, NotFound, NotImplemented;
+        throws InvalidToken, ServiceFailure, NotAuthorized, NotFound, NotImplemented;
     public SystemMetadata getSystemMetadata(AuthToken token, IdentifierType guid)
-        throws NotAuthorized, NotFound, NotImplemented;
+        throws InvalidToken, ServiceFailure, NotAuthorized, NotFound, 
+        InvalidRequest, NotImplemented;
     public LogRecordSet getLogRecords(AuthToken token, Date fromDate, Date toDate)
-        throws NotAuthorized, NotImplemented;
+        throws InvalidToken, ServiceFailure, NotAuthorized, InvalidRequest, 
+        NotImplemented;
     public DescribeResponse describe(AuthToken token, IdentifierType guid)
-        throws NotAuthorized, NotFound, NotImplemented;
+        throws InvalidToken, ServiceFailure, NotAuthorized, NotFound, 
+        NotImplemented;
     
     // For 0.4 milestone
     public IdentifierType create(AuthToken token, IdentifierType guid, 
-        InputStream object, SystemMetadata sysmeta) throws NotAuthorized, 
-        IdentifierNotUnique, UnsupportedType, 
+        InputStream object, SystemMetadata sysmeta) throws InvalidToken, 
+        ServiceFailure, NotAuthorized, IdentifierNotUnique, UnsupportedType, 
         InsufficientResources, InvalidSystemMetadata, NotImplemented;
     public IdentifierType update(AuthToken token, IdentifierType guid, 
         InputStream object, IdentifierType obsoletedGuid, SystemMetadata sysmeta) 
-        throws NotAuthorized, IdentifierNotUnique, UnsupportedType, 
-        InsufficientResources, NotFound, InvalidSystemMetadata, NotImplemented;
+        throws InvalidToken, ServiceFailure, NotAuthorized, IdentifierNotUnique, 
+        UnsupportedType, InsufficientResources, NotFound, InvalidSystemMetadata, 
+        NotImplemented;
     public IdentifierType delete(AuthToken token, IdentifierType guid)
-        throws NotAuthorized, NotFound, NotImplemented;
+        throws InvalidToken, ServiceFailure, NotAuthorized, NotFound, 
+        NotImplemented;
     public Checksum getChecksum(AuthToken token, IdentifierType guid)
-        throws NotAuthorized, NotFound, NotImplemented;
+        throws InvalidToken, ServiceFailure, NotAuthorized, NotFound, 
+        InvalidRequest, NotImplemented;
     public Checksum getChecksum(AuthToken token, IdentifierType guid, 
-        String checksumAlgorithm) throws NotAuthorized, NotFound, NotImplemented;
+        String checksumAlgorithm) throws InvalidToken, ServiceFailure, 
+        NotAuthorized, NotFound, InvalidRequest, NotImplemented;
 }

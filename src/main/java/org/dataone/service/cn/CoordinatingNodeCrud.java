@@ -4,8 +4,11 @@ import java.io.InputStream;
 import java.util.List;
 
 import org.dataone.service.exceptions.InvalidRequest;
+import org.dataone.service.exceptions.InvalidToken;
 import org.dataone.service.exceptions.NotAuthorized;
 import org.dataone.service.exceptions.NotFound;
+import org.dataone.service.exceptions.NotImplemented;
+import org.dataone.service.exceptions.ServiceFailure;
 import org.dataone.service.types.AuthToken;
 import org.dataone.service.types.IdentifierFormatType;
 import org.dataone.service.types.IdentifierType;
@@ -21,20 +24,28 @@ import org.dataone.service.types.SystemMetadata;
 public interface CoordinatingNodeCrud 
 {
     public InputStream get(AuthToken token, IdentifierType guid)
-        throws NotAuthorized, NotFound;
+        throws InvalidToken, ServiceFailure, NotAuthorized, NotFound, 
+        NotImplemented;
     public SystemMetadata getSystemMetadata(AuthToken token, IdentifierType guid)
-        throws NotAuthorized, NotFound, InvalidRequest;
+        throws InvalidToken, ServiceFailure, NotAuthorized, NotFound, 
+        InvalidRequest, NotImplemented;
     public List<String> resolve(AuthToken token, IdentifierType guid)
-        throws NotAuthorized, NotFound, InvalidRequest;
+        throws InvalidToken, ServiceFailure, NotAuthorized, NotFound, 
+        InvalidRequest, NotImplemented;
     public IdentifierType reserveId(AuthToken token, String scope, IdentifierFormatType format) 
-        throws NotAuthorized, InvalidRequest;
+        throws InvalidToken, ServiceFailure, NotAuthorized, InvalidRequest, 
+        NotImplemented;
     public IdentifierType reserveId(AuthToken token, String scope) 
-        throws NotAuthorized, InvalidRequest;
+        throws InvalidToken, ServiceFailure, NotAuthorized, InvalidRequest, 
+        NotImplemented;
     public IdentifierType reserveId(AuthToken token, IdentifierFormatType format) 
-        throws NotAuthorized, InvalidRequest;
+        throws InvalidToken, ServiceFailure, NotAuthorized, InvalidRequest, 
+        NotImplemented;
     public IdentifierType reserveId(AuthToken token) 
-        throws NotAuthorized, InvalidRequest;
+        throws InvalidToken, ServiceFailure, NotAuthorized, InvalidRequest, 
+        NotImplemented;
     public boolean assertRelation(AuthToken token, IdentifierType subjectId, 
         String relationship, IdentifierType objectId) 
-        throws NotAuthorized, NotFound, InvalidRequest;
+        throws InvalidToken, ServiceFailure, NotAuthorized, NotFound, 
+        InvalidRequest, NotImplemented;
 }
