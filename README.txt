@@ -16,15 +16,13 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ====
 
-DataONE Java Client Library
----------------------------
+DataONE Java Service API
+------------------------
 
-d1-java is a client library for calling DataONE services. The library
-exposes the DataONE services as a set of Java classes and method calls, and
-forwards these requests to particular DataONE rest services.  The response
-and exceptions are handed back to the calling application.  The library
-makes it easy to utilize DataONE services without having to have a complete
-understanding of the REST API.
+This service-api library encapsulates the DataONE service programming
+interface as a set of Java classes that can be implemented by both client
+and server systems wishing to implement the API.  The API includes interface
+definitions and class definitions for types and exceptions.
 
 See the test classes under src/test for example usage.
 
