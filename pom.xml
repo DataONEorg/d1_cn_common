@@ -19,6 +19,13 @@
           <target>1.6</target>
         </configuration>
       </plugin>
+      <plugin>
+          <groupId>com.mycila.maven-license-plugin</groupId>
+          <artifactId>maven-license-plugin</artifactId>
+          <configuration>
+              <header>src/license-header.txt</header>
+          </configuration>
+      </plugin>
     </plugins>
   </build>
   <dependencies>
@@ -29,4 +36,10 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
+  <licenses>
+    <license>
+      <name>GNU General Public License (GPL), Version 2.0</name>
+      <url>LICENSE.txt</url>
+    </license>
+  </licenses>
 </project>
