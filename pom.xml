@@ -5,7 +5,7 @@
   <artifactId>dataone-service-api</artifactId>
   <packaging>jar</packaging>
   <version>0.1.0</version>
-  <name>service_api</name>
+  <name>service-api</name>
   <url>http://dataone.org</url>
   <description>DataONE Service Interface</description>
   <build>
