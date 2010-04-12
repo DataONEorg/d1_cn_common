@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<schema-set prefer-inline="true" generate-all="false" package="org.dataone.service.types" >
+     <class-decorator class="org.jibx.schema.codegen.extend.CollectionMethodsDecorator"/>
+
+    <schema name="common.xsd"  includes="Identifier NodeReference Principal ObjectFormat Checksum ChecksumAlgorithm" />
+    <schema name="systemmetadata.xsd" includes="systemMetadata AccessRule ReplicationPolicy SystemMetadata" />
+
+    <schema name="logging.xsd" includes="log LogEntry Event"/>
+    <schema name="listobjects.xsd" includes="listObjects ListObjects ObjectInfo" />
+
+</schema-set>

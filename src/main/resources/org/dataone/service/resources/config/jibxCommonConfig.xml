@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<schema-set  prefer-inline="true" generate-all="false" package="org.dataone.service.types">
+     <class-decorator class="org.jibx.schema.codegen.extend.CollectionMethodsDecorator"/>
+<schema-set names="common.xsd">
+    <schema name="common.xsd" includes="Identifier NodeReference Principal ObjectFormat Checksum ChecksumAlgorithm" />
+</schema-set>
+
+</schema-set>

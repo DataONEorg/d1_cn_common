@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : build.xml
+    Created on : April 1, 2010, 10:48 AM
+    Author     : rwaltz
+    Description:
+        Purpose of the document follows.
+-->
+
+<project name="DataONE-ServiceAPI-Java" default="hello" basedir=".">
+    <description>
+        tasks needed but not supported by Maven build file
+    </description>
+    <!-- set global properties for this build -->
+
+    <target name="downloadSchema">
+        <copy todir="${basedir}/src/main/resources/org/dataone/service/resources/schema" flatten="true" overwrite="true">
+            <resources>
+                <url url="https://repository.dataone.org/software/cicore/trunk/schemas/systemmetadata.xsd"/>
+                <url url="https://repository.dataone.org/software/cicore/trunk/schemas/logging.xsd"/>
+                <url url="https://repository.dataone.org/software/cicore/trunk/schemas/common.xsd"/>
+                <url url="https://repository.dataone.org/software/cicore/trunk/schemas/listobjects.xsd"/>
+            </resources>
+        </copy>
+        <echo message="downloadedSchema" />
+   <replaceregexp
+            match="https\:\/\/repository\.dataone\.org\/software\/cicore\/trunk\/schemas\/common\.xsd"
+            replace="file:\/\/${basedir}\/src\/main\/resources\/org\/dataone\/service\/resources\/schema\/common\.xsd"
+            flags="g"
+            byline="true">
+                 <fileset dir="${basedir}/src/main/resources/org/dataone/service/resources/schema" includes="*.xsd"/>
+        </replaceregexp>
+        <echo message="fixedSchema" />
+    </target>
+
+    <target name="hello"
+            description="say hello" >
+        <echo message="Hello World"/>
+        <echo message="compile classpath: ${compile_classpath}"/>
+        <echo message="runtime classpath: ${runtime_classpath}"/>
+
+    </target>
+
+    <target name="cleanUpTypes"
+            description="generate the distribution" >
+       <replaceregexp
+            match="ns\d"
+            replace="d1"
+            flags="g"
+            byline="true">
+                 <fileset dir="${basedir}/src/main/java" includes="*.xml"/>
+        </replaceregexp>
+        <!--
+       <replaceregexp
+            match="(structure\s)(map\-as\=&quot;common\:Identifier&quot;)"
+            replace="value style=&quot;attribute&quot; class=&quot;common\:Identifier&quot;"
+            flags="g"
+            byline="true">
+                 <fileset dir="${basedir}/src/main/java" includes="service_types_ListObjects_01Binding.xml"/>
+
+       </replaceregexp>
+       -->
+
+        <replace file="${basedir}/src/main/java/org/dataone/service/types/ObjectFormat.java" token="EMLECOINFORMATICSORGEML200" value="EML_2_0_0"/>
+        <replace file="${basedir}/src/main/java/org/dataone/service/types/ObjectFormat.java" token="EMLECOINFORMATICSORGEML201" value="EML_2_0_1"/>
+        <replace file="${basedir}/src/main/java/org/dataone/service/types/ObjectFormat.java" token="EMLECOINFORMATICSORGEML210" value="EML_2_1_0"/>
+        <replace file="${basedir}/src/main/java/org/dataone/service/types/ObjectFormat.java" token="FGDCST_D00111999" value="FGDC_STD_001_1_1999"/>
+        <replace file="${basedir}/src/main/java/org/dataone/service/types/ObjectFormat.java" token="FGDCST_D0011998" value="FGDC_STD_001_1998" />
+        <replace file="${basedir}/src/main/java/org/dataone/service/types/ObjectFormat.java" token="INCIT_S4532009" value="INCITS_453_2009" />
+        <replace file="${basedir}/src/main/java/org/dataone/service/types/ObjectFormat.java" token="HTTPWWWUNIDATAUCAREDUNAMESPACESNETCDFNCML22" value="NCML_2_2" />
+        <replace file="${basedir}/src/main/java/org/dataone/service/types/ObjectFormat.java" token="C_F10" value="CF_1_0" />
+        <replace file="${basedir}/src/main/java/org/dataone/service/types/ObjectFormat.java" token="C_F11" value="CF_1_1" />
+        <replace file="${basedir}/src/main/java/org/dataone/service/types/ObjectFormat.java" token="C_F12" value="CF_1_2" />
+        <replace file="${basedir}/src/main/java/org/dataone/service/types/ObjectFormat.java" token="C_F13" value="CF_1_3" />
+        <replace file="${basedir}/src/main/java/org/dataone/service/types/ObjectFormat.java" token="C_F14" value="CF_1_4" />
+        <replace file="${basedir}/src/main/java/org/dataone/service/types/ObjectFormat.java" token="HTTPWWWCUAHSIORGWATER_M_L10" value="WATER_ML_1_0" />
+        <replace file="${basedir}/src/main/java/org/dataone/service/types/ObjectFormat.java" token="HTTPWWWCUAHSIORGWATER_M_L11" value="WATER_ML_1_1" />
+        <replace file="${basedir}/src/main/java/org/dataone/service/types/ObjectFormat.java" token="NET_CD_F3" value="NET_CDF_3" />
+        <replace file="${basedir}/src/main/java/org/dataone/service/types/ObjectFormat.java" token="NET_CD_F4" value="NET_CDF_4" />
+        <replace file="${basedir}/src/main/java/org/dataone/service/types/ObjectFormat.java" token="HTTPRSTDWGORGDWCXSDSIMPLEDARWINCORE" value="SIMPLE_DARWIN_CORE" />
+        <replace file="${basedir}/src/main/java/org/dataone/service/types/ObjectFormat.java" token="HTTPDIGIRNETSCHEMACONCEPTUALDARWIN200310DARWIN2XSD" value="DARWIN_2" />
+
+        <replace file="${basedir}/src/main/java/org/dataone/service/types/ObjectFormat.java" token="TEXTPLAIN" value="TEXT_PLAIN" />
+        <replace file="${basedir}/src/main/java/org/dataone/service/types/ObjectFormat.java" token="TEXTCSV" value="TEXT_CSV" />
+        <replace file="${basedir}/src/main/java/org/dataone/service/types/ObjectFormat.java" token="IMAGEGIF" value="IMAGE_GIF" />
+        <replace file="${basedir}/src/main/java/org/dataone/service/types/Identifier.java" token="string" value="value" />
+        <replace file="${basedir}/src/main/java/org/dataone/service/types/Identifier.java" token="getString" value="getValue" />
+        <replace file="${basedir}/src/main/java/org/dataone/service/types/Identifier.java" token="setString" value="setValue" />
+        <replace file="${basedir}/src/main/java/org/dataone/service/types/NodeReference.java" token="string" value="value" />
+        <replace file="${basedir}/src/main/java/org/dataone/service/types/NodeReference.java" token="getString" value="getValue" />
+        <replace file="${basedir}/src/main/java/org/dataone/service/types/NodeReference.java" token="setString" value="setValue" />
+        <replace file="${basedir}/src/main/java/org/dataone/service/types/Principal.java" token="string" value="value" />
+        <replace file="${basedir}/src/main/java/org/dataone/service/types/Principal.java" token="getString" value="getValue" />
+        <replace file="${basedir}/src/main/java/org/dataone/service/types/Principal.java" token="setString" value="setValue" />
+        <replace file="${basedir}/src/main/java/org/dataone/service/types/Checksum.java" token="string" value="value" />
+        <replace file="${basedir}/src/main/java/org/dataone/service/types/Checksum.java" token="getString" value="getValue" />
+        <replace file="${basedir}/src/main/java/org/dataone/service/types/Checksum.java" token="setString" value="setValue" />
+        <replace file="${basedir}/src/main/java/service_types_common_01Binding.xml" token="getString" value="getValue" />
+        <replace file="${basedir}/src/main/java/service_types_common_01Binding.xml" token="setString" value="setValue" />
+
+        <replace file="${basedir}/src/main/java/service_types_ListObjects_01Binding.xml" token="ObjectInfos" value="ObjectInfoList" />
+        <replace file="${basedir}/src/main/java/org/dataone/service/types/ListObjects.java" token="ObjectInfos" value="ObjectInfoList" />
+
+        <replace file="${basedir}/src/main/java/service_types_logging_01Binding.xml" token="Entries" value="EntryList" />
+        <replace file="${basedir}/src/main/java/org/dataone/service/types/Log.java" token="Entries" value="EntryList" />
+
+        <replace file="${basedir}/src/main/java/org/dataone/service/types/ReplicationPolicy.java" token="MemberNodes" value="MemberNodeList" />
+        <replace file="${basedir}/src/main/java/service_types_SystemMetadata_01Binding.xml"  token="MemberNodes" value="MemberNodeList" />
+
+        <replace file="${basedir}/src/main/java/service_types_SystemMetadata_01Binding.xml"  token="Obsoletes" value="ObsoleteList" />
+        <replace file="${basedir}/src/main/java/org/dataone/service/types/SystemMetadata.java"  token="Obsoletes" value="ObsoleteList" />
+
+        <replace file="${basedir}/src/main/java/service_types_SystemMetadata_01Binding.xml"  token="ObsoletedBies" value="ObsoletedByList" />
+        <replace file="${basedir}/src/main/java/org/dataone/service/types/SystemMetadata.java"  token="ObsoletedBies" value="ObsoletedByList" />
+
+        <replace file="${basedir}/src/main/java/service_types_SystemMetadata_01Binding.xml"  token="DerivedFroms" value="DerivedFromList" />
+        <replace file="${basedir}/src/main/java/org/dataone/service/types/SystemMetadata.java"  token="DerivedFroms" value="DerivedFromList" />
+
+        <replace file="${basedir}/src/main/java/service_types_SystemMetadata_01Binding.xml"  token="Describes" value="DescribeList" />
+        <replace file="${basedir}/src/main/java/org/dataone/service/types/SystemMetadata.java"  token="Describes" value="DescribeList" />
+
+        <replace file="${basedir}/src/main/java/service_types_SystemMetadata_01Binding.xml"  token="DescribedBies" value="DescribedByList" />
+        <replace file="${basedir}/src/main/java/org/dataone/service/types/SystemMetadata.java"  token="DescribedBies" value="DescribedByList" />
+
+        <replace file="${basedir}/src/main/java/service_types_SystemMetadata_01Binding.xml"  token="AccessRules" value="AccessRuleList" />
+        <replace file="${basedir}/src/main/java/org/dataone/service/types/SystemMetadata.java"  token="AccessRules" value="AccessRuleList" />
+
+        <replace file="${basedir}/src/main/java/service_types_SystemMetadata_01Binding.xml"  token="getReplicas" value="getReplicaList" />
+        <replace file="${basedir}/src/main/java/service_types_SystemMetadata_01Binding.xml"  token="setReplicas" value="setReplicaList" />
+        <replace file="${basedir}/src/main/java/org/dataone/service/types/SystemMetadata.java"   token="getReplicas" value="getReplicaList" />
+        <replace file="${basedir}/src/main/java/org/dataone/service/types/SystemMetadata.java"   token="setReplicas" value="setReplicaList" />
+      </target>
+
+
+
+
+    <!-- generate using default settings -->
+    <target name="codegen">
+
+        <echo message="Running code generation from schema"/>
+        <!--
+       <java classname="org.jibx.schema.codegen.CodeGen" fork="yes"
+               failonerror="true">
+        <classpath>
+           <pathelement path="${compile_classpath}"/>
+           <pathelement path="{java.class.path}" />
+         </classpath>
+
+            <arg value="-c" />
+            <arg value="${basedir}/src/main/resources/org/dataone/service/resources/config/jibxCommonConfig.xml" />
+            <arg value="-s" />
+            <arg value="${basedir}/src/main/resources/org/dataone/service/resources/schema" />
+            <arg value="-t"/>
+            <arg value="${basedir}/src/main/java"/>
+            <arg value="common.xsd"/>
+        </java>
+-->
+
+<!--
+        <java classname="org.jibx.schema.codegen.CodeGen" fork="yes"
+               failonerror="true">
+        <classpath>
+           <pathelement path="${compile_classpath}"/>
+           <pathelement path="{java.class.path}" />
+         </classpath>
+
+            <arg value="-c" />
+            <arg value="${basedir}/src/main/resources/org/dataone/service/resources/config/jibxSystemMetaDataConfig.xml" />
+            <arg value="-s" />
+            <arg value="${basedir}/src/main/resources/org/dataone/service/resources/schema" />
+            <arg value="-t"/>
+            <arg value="${basedir}/src/main/java"/>
+            <arg value="systemmetadata.xsd"/>
+        </java>
+-->
+
+        <java classname="org.jibx.schema.codegen.CodeGen" fork="yes"
+              failonerror="true">
+            <classpath>
+                <pathelement path="${compile_classpath}"/>
+                <pathelement path="{java.class.path}" />
+            </classpath>
+
+            <arg value="-c" />
+            <arg value="${basedir}/src/main/resources/org/dataone/service/resources/config/jibxConfig.xml" />
+            <arg value="-s" />
+            <arg value="${basedir}/src/main/resources/org/dataone/service/resources/schema" />
+            <arg value="-t"/>
+            <arg value="${basedir}/src/main/java"/>
+            <arg value="*.xsd"/>
+        </java>
+
+    </target>
+</project>

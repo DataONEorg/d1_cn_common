@@ -1,20 +1,3 @@
-/**
- * Copyright 2010 Regents of the University of California and the
- *                National Center for Ecological Analysis and Synthesis
- *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License version 2 as
- * published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
- */
 
 package org.dataone.service.types;
 
@@ -22,311 +5,734 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-/**
- * The DataONE Type to represent system metadata as an object.
- *
- * @author Matthew Jones
+/** 
+ * Schema fragment(s) for this class:
+ * <pre>
+ * &lt;xs:complexType xmlns:ns="http://dataone.org/service/types/SystemMetadata/0.1" xmlns:ns1="http://dataone.org/service/types/common/0.1" xmlns:xs="http://www.w3.org/2001/XMLSchema" name="SystemMetadata">
+ *   &lt;xs:sequence>
+ *     &lt;xs:element type="ns1:Identifier" name="identifier" minOccurs="1" maxOccurs="1"/>
+ *     &lt;xs:element type="ns1:ObjectFormat" name="objectFormat"/>
+ *     &lt;xs:element type="xs:long" name="size"/>
+ *     &lt;xs:element type="ns1:Principal" name="submitter"/>
+ *     &lt;xs:element type="ns1:Principal" name="rightsHolder"/>
+ *     &lt;xs:element type="ns1:Identifier" name="obsoletes" minOccurs="0" maxOccurs="unbounded"/>
+ *     &lt;xs:element type="ns1:Identifier" name="obsoletedBy" minOccurs="0" maxOccurs="unbounded"/>
+ *     &lt;xs:element type="ns1:Identifier" name="derivedFrom" minOccurs="0" maxOccurs="unbounded"/>
+ *     &lt;xs:element type="ns1:Identifier" name="describes" minOccurs="0" maxOccurs="unbounded"/>
+ *     &lt;xs:element type="ns1:Identifier" name="describedBy" minOccurs="0" maxOccurs="unbounded"/>
+ *     &lt;xs:element type="ns1:Checksum" name="checksum" minOccurs="1" maxOccurs="1"/>
+ *     &lt;xs:element type="xs:dateTime" name="embargoExpires" minOccurs="0"/>
+ *     &lt;xs:element type="ns:AccessRule" name="accessRule" minOccurs="0" maxOccurs="unbounded"/>
+ *     &lt;xs:element type="ns:ReplicationPolicy" name="replicationPolicy" minOccurs="0" maxOccurs="1"/>
+ *     &lt;xs:element type="xs:dateTime" name="dateUploaded"/>
+ *     &lt;xs:element type="xs:dateTime" name="dateSysMetadataModified"/>
+ *     &lt;xs:element type="ns1:NodeReference" name="originMemberNode"/>
+ *     &lt;xs:element type="ns1:NodeReference" name="authoritativeMemberNode"/>
+ *     &lt;xs:element name="replica" minOccurs="0" maxOccurs="unbounded">
+ *       &lt;!-- Reference to inner class Replica -->
+ *     &lt;/xs:element>
+ *   &lt;/xs:sequence>
+ * &lt;/xs:complexType>
+ * </pre>
  */
-public class SystemMetadata 
+public class SystemMetadata
 {
-    private IdentifierType identifier;
+    private Identifier identifier;
     private ObjectFormat objectFormat;
     private long size;
-    private PrincipalType submitter;
-    private PrincipalType rightsHolder;
-    private List<IdentifierType> obsoleteList = new ArrayList<IdentifierType>();
-    private List<IdentifierType> obsoletedByList = new ArrayList<IdentifierType>();
-    private List<IdentifierType> derivedFromList = new ArrayList<IdentifierType>();
-    private List<IdentifierType> describeList = new ArrayList<IdentifierType>();
-    private List<IdentifierType> describedByList = new ArrayList<IdentifierType>();
+    private Principal submitter;
+    private Principal rightsHolder;
+    private List<Identifier> obsoleteList = new ArrayList<Identifier>();
+    private List<Identifier> obsoletedByList = new ArrayList<Identifier>();
+    private List<Identifier> derivedFromList = new ArrayList<Identifier>();
+    private List<Identifier> describeList = new ArrayList<Identifier>();
+    private List<Identifier> describedByList = new ArrayList<Identifier>();
     private Checksum checksum;
     private Date embargoExpires;
     private List<AccessRule> accessRuleList = new ArrayList<AccessRule>();
     private ReplicationPolicy replicationPolicy;
     private Date dateUploaded;
     private Date dateSysMetadataModified;
-    private NodeReferenceType originMemberNode;
-    private NodeReferenceType authoritativeMemberNode;
+    private NodeReference originMemberNode;
+    private NodeReference authoritativeMemberNode;
     private List<Replica> replicaList = new ArrayList<Replica>();
-        
-    // TODO: add serialization and deserialization to XML {and JSON, CSV, ...}
-    
-    /**
-     */
-    public SystemMetadata(IdentifierType identifier, ObjectFormat objectFormat, 
-            long size, PrincipalType submitter, PrincipalType rightsHolder,
-            Checksum checksum) {
-        this.setIdentifier(identifier);
-        this.setObjectFormat(objectFormat);
-        this.setSize(size);
-        this.setSubmitter(submitter);
-        this.setRightsHolder(rightsHolder);
-        this.setChecksum(checksum);
-    }
 
-    /**
-     * @param identifier the identifier to set
+    /** 
+     * Get the 'identifier' element value.
+     * 
+     * @return value
      */
-    public void setIdentifier(IdentifierType identifier) {
-        this.identifier = identifier;
-    }
-
-    /**
-     * @return the identifier
-     */
-    public IdentifierType getIdentifier() {
+    public Identifier getIdentifier() {
         return identifier;
     }
 
-    /**
-     * @param format the format to set
+    /** 
+     * Set the 'identifier' element value.
+     * 
+     * @param identifier
      */
-    public void setObjectFormat(ObjectFormat format) {
-        this.objectFormat = format;
+    public void setIdentifier(Identifier identifier) {
+        this.identifier = identifier;
     }
 
-    /**
-     * @return the format
+    /** 
+     * Get the 'objectFormat' element value.
+     * 
+     * @return value
      */
     public ObjectFormat getObjectFormat() {
         return objectFormat;
     }
 
-    /**
-     * @param size the size to set
+    /** 
+     * Set the 'objectFormat' element value.
+     * 
+     * @param objectFormat
      */
-    public void setSize(long size) {
-        this.size = size;
+    public void setObjectFormat(ObjectFormat objectFormat) {
+        this.objectFormat = objectFormat;
     }
 
-    /**
-     * @return the size
+    /** 
+     * Get the 'size' element value.
+     * 
+     * @return value
      */
     public long getSize() {
         return size;
     }
 
-    /**
-     * @return the submitter
+    /** 
+     * Set the 'size' element value.
+     * 
+     * @param size
      */
-    public PrincipalType getSubmitter() {
+    public void setSize(long size) {
+        this.size = size;
+    }
+
+    /** 
+     * Get the 'submitter' element value.
+     * 
+     * @return value
+     */
+    public Principal getSubmitter() {
         return submitter;
     }
 
-    /**
-     * @param submitter the submitter to set
+    /** 
+     * Set the 'submitter' element value.
+     * 
+     * @param submitter
      */
-    public void setSubmitter(PrincipalType submitter) {
+    public void setSubmitter(Principal submitter) {
         this.submitter = submitter;
     }
 
-    /**
-     * @return the rightsHolder
+    /** 
+     * Get the 'rightsHolder' element value.
+     * 
+     * @return value
      */
-    public PrincipalType getRightsHolder() {
+    public Principal getRightsHolder() {
         return rightsHolder;
     }
 
-    /**
-     * @param rightsHolder the rightsHolder to set
+    /** 
+     * Set the 'rightsHolder' element value.
+     * 
+     * @param rightsHolder
      */
-    public void setRightsHolder(PrincipalType rightsHolder) {
+    public void setRightsHolder(Principal rightsHolder) {
         this.rightsHolder = rightsHolder;
     }
 
-    /**
-     * @return the obsoleteList
+    /** 
+     * Get the list of 'obsoletes' element items.
+     * 
+     * @return list
      */
-    public List<IdentifierType> getObsoleteList() {
+    public List<Identifier> getObsoleteList() {
         return obsoleteList;
     }
 
-    /**
-     * @param obsoleteList the obsoleteList to set
+    /** 
+     * Set the list of 'obsoletes' element items.
+     * 
+     * @param list
      */
-    public void setObsoleteList(List<IdentifierType> obsoleteList) {
-        this.obsoleteList = obsoleteList;
+    public void setObsoleteList(List<Identifier> list) {
+        obsoleteList = list;
     }
 
-    /**
-     * @return the obsoletedByList
+    /** 
+     * Get the number of 'obsoletes' element items.
+     * @return count
      */
-    public List<IdentifierType> getObsoletedByList() {
+    public int sizeObsoleteList() {
+        return obsoleteList.size();
+    }
+
+    /** 
+     * Add a 'obsoletes' element item.
+     * @param item
+     */
+    public void addObsolete(Identifier item) {
+        obsoleteList.add(item);
+    }
+
+    /** 
+     * Get 'obsoletes' element item by position.
+     * @return item
+     * @param index
+     */
+    public Identifier getObsolete(int index) {
+        return obsoleteList.get(index);
+    }
+
+    /** 
+     * Remove all 'obsoletes' element items.
+     */
+    public void clearObsoleteList() {
+        obsoleteList.clear();
+    }
+
+    /** 
+     * Get the list of 'obsoletedBy' element items.
+     * 
+     * @return list
+     */
+    public List<Identifier> getObsoletedByList() {
         return obsoletedByList;
     }
 
-    /**
-     * @param obsoletedByList the obsoletedByList to set
+    /** 
+     * Set the list of 'obsoletedBy' element items.
+     * 
+     * @param list
      */
-    public void setObsoletedByList(List<IdentifierType> obsoletedByList) {
-        this.obsoletedByList = obsoletedByList;
+    public void setObsoletedByList(List<Identifier> list) {
+        obsoletedByList = list;
     }
 
-    /**
-     * @return the derivedFromList
+    /** 
+     * Get the number of 'obsoletedBy' element items.
+     * @return count
      */
-    public List<IdentifierType> getDerivedFromList() {
+    public int sizeObsoletedByList() {
+        return obsoletedByList.size();
+    }
+
+    /** 
+     * Add a 'obsoletedBy' element item.
+     * @param item
+     */
+    public void addObsoletedBy(Identifier item) {
+        obsoletedByList.add(item);
+    }
+
+    /** 
+     * Get 'obsoletedBy' element item by position.
+     * @return item
+     * @param index
+     */
+    public Identifier getObsoletedBy(int index) {
+        return obsoletedByList.get(index);
+    }
+
+    /** 
+     * Remove all 'obsoletedBy' element items.
+     */
+    public void clearObsoletedByList() {
+        obsoletedByList.clear();
+    }
+
+    /** 
+     * Get the list of 'derivedFrom' element items.
+     * 
+     * @return list
+     */
+    public List<Identifier> getDerivedFromList() {
         return derivedFromList;
     }
 
-    /**
-     * @param derivedFromList the derivedFromList to set
+    /** 
+     * Set the list of 'derivedFrom' element items.
+     * 
+     * @param list
      */
-    public void setDerivedFromList(List<IdentifierType> derivedFromList) {
-        this.derivedFromList = derivedFromList;
+    public void setDerivedFromList(List<Identifier> list) {
+        derivedFromList = list;
     }
 
-    /**
-     * @return the describeList
+    /** 
+     * Get the number of 'derivedFrom' element items.
+     * @return count
      */
-    public List<IdentifierType> getDescribeList() {
+    public int sizeDerivedFromList() {
+        return derivedFromList.size();
+    }
+
+    /** 
+     * Add a 'derivedFrom' element item.
+     * @param item
+     */
+    public void addDerivedFrom(Identifier item) {
+        derivedFromList.add(item);
+    }
+
+    /** 
+     * Get 'derivedFrom' element item by position.
+     * @return item
+     * @param index
+     */
+    public Identifier getDerivedFrom(int index) {
+        return derivedFromList.get(index);
+    }
+
+    /** 
+     * Remove all 'derivedFrom' element items.
+     */
+    public void clearDerivedFromList() {
+        derivedFromList.clear();
+    }
+
+    /** 
+     * Get the list of 'describes' element items.
+     * 
+     * @return list
+     */
+    public List<Identifier> getDescribeList() {
         return describeList;
     }
 
-    /**
-     * @param describeList the describeList to set
+    /** 
+     * Set the list of 'describes' element items.
+     * 
+     * @param list
      */
-    public void setDescribeList(List<IdentifierType> describeList) {
-        this.describeList = describeList;
+    public void setDescribeList(List<Identifier> list) {
+        describeList = list;
     }
 
-    /**
-     * @return the describedByList
+    /** 
+     * Get the number of 'describes' element items.
+     * @return count
      */
-    public List<IdentifierType> getDescribedByList() {
+    public int sizeDescribeList() {
+        return describeList.size();
+    }
+
+    /** 
+     * Add a 'describes' element item.
+     * @param item
+     */
+    public void addDescribe(Identifier item) {
+        describeList.add(item);
+    }
+
+    /** 
+     * Get 'describes' element item by position.
+     * @return item
+     * @param index
+     */
+    public Identifier getDescribe(int index) {
+        return describeList.get(index);
+    }
+
+    /** 
+     * Remove all 'describes' element items.
+     */
+    public void clearDescribeList() {
+        describeList.clear();
+    }
+
+    /** 
+     * Get the list of 'describedBy' element items.
+     * 
+     * @return list
+     */
+    public List<Identifier> getDescribedByList() {
         return describedByList;
     }
 
-    /**
-     * @param describedByList the describedByList to set
+    /** 
+     * Set the list of 'describedBy' element items.
+     * 
+     * @param list
      */
-    public void setDescribedByList(List<IdentifierType> describedByList) {
-        this.describedByList = describedByList;
+    public void setDescribedByList(List<Identifier> list) {
+        describedByList = list;
     }
 
-    /**
-     * @return the checksum
+    /** 
+     * Get the number of 'describedBy' element items.
+     * @return count
+     */
+    public int sizeDescribedByList() {
+        return describedByList.size();
+    }
+
+    /** 
+     * Add a 'describedBy' element item.
+     * @param item
+     */
+    public void addDescribedBy(Identifier item) {
+        describedByList.add(item);
+    }
+
+    /** 
+     * Get 'describedBy' element item by position.
+     * @return item
+     * @param index
+     */
+    public Identifier getDescribedBy(int index) {
+        return describedByList.get(index);
+    }
+
+    /** 
+     * Remove all 'describedBy' element items.
+     */
+    public void clearDescribedByList() {
+        describedByList.clear();
+    }
+
+    /** 
+     * Get the 'checksum' element value.
+     * 
+     * @return value
      */
     public Checksum getChecksum() {
         return checksum;
     }
 
-    /**
-     * @param checksum the checksum to set
+    /** 
+     * Set the 'checksum' element value.
+     * 
+     * @param checksum
      */
     public void setChecksum(Checksum checksum) {
         this.checksum = checksum;
     }
 
-    /**
-     * @return the embargoExpires
+    /** 
+     * Get the 'embargoExpires' element value.
+     * 
+     * @return value
      */
     public Date getEmbargoExpires() {
         return embargoExpires;
     }
 
-    /**
-     * @param embargoExpires the embargoExpires to set
+    /** 
+     * Set the 'embargoExpires' element value.
+     * 
+     * @param embargoExpires
      */
     public void setEmbargoExpires(Date embargoExpires) {
         this.embargoExpires = embargoExpires;
     }
 
-    /**
-     * @param accessRuleList the accessRuleList to set
-     */
-    public void setAccessRuleList(List<AccessRule> accessRuleList) {
-        this.accessRuleList = accessRuleList;
-    }
-
-    /**
-     * @return the accessRuleList
+    /** 
+     * Get the list of 'accessRule' element items.
+     * 
+     * @return list
      */
     public List<AccessRule> getAccessRuleList() {
         return accessRuleList;
     }
 
-    /**
-     * @param replicationPolicy the replicationPolicy to set
+    /** 
+     * Set the list of 'accessRule' element items.
+     * 
+     * @param list
      */
-    public void setReplicationPolicy(ReplicationPolicy replicationPolicy) {
-        this.replicationPolicy = replicationPolicy;
+    public void setAccessRuleList(List<AccessRule> list) {
+        accessRuleList = list;
     }
 
-    /**
-     * @return the replicationPolicy
+    /** 
+     * Get the number of 'accessRule' element items.
+     * @return count
+     */
+    public int sizeAccessRuleList() {
+        return accessRuleList.size();
+    }
+
+    /** 
+     * Add a 'accessRule' element item.
+     * @param item
+     */
+    public void addAccessRule(AccessRule item) {
+        accessRuleList.add(item);
+    }
+
+    /** 
+     * Get 'accessRule' element item by position.
+     * @return item
+     * @param index
+     */
+    public AccessRule getAccessRule(int index) {
+        return accessRuleList.get(index);
+    }
+
+    /** 
+     * Remove all 'accessRule' element items.
+     */
+    public void clearAccessRuleList() {
+        accessRuleList.clear();
+    }
+
+    /** 
+     * Get the 'replicationPolicy' element value.
+     * 
+     * @return value
      */
     public ReplicationPolicy getReplicationPolicy() {
         return replicationPolicy;
     }
 
-    /**
-     * @return the dateUploaded
+    /** 
+     * Set the 'replicationPolicy' element value.
+     * 
+     * @param replicationPolicy
+     */
+    public void setReplicationPolicy(ReplicationPolicy replicationPolicy) {
+        this.replicationPolicy = replicationPolicy;
+    }
+
+    /** 
+     * Get the 'dateUploaded' element value.
+     * 
+     * @return value
      */
     public Date getDateUploaded() {
         return dateUploaded;
     }
 
-    /**
-     * @param dateUploaded the dateUploaded to set
+    /** 
+     * Set the 'dateUploaded' element value.
+     * 
+     * @param dateUploaded
      */
     public void setDateUploaded(Date dateUploaded) {
         this.dateUploaded = dateUploaded;
     }
 
-    /**
-     * @return the dateSysMetadataModified
+    /** 
+     * Get the 'dateSysMetadataModified' element value.
+     * 
+     * @return value
      */
     public Date getDateSysMetadataModified() {
         return dateSysMetadataModified;
     }
 
-    /**
-     * @param dateSysMetadataModified the dateSysMetadataModified to set
+    /** 
+     * Set the 'dateSysMetadataModified' element value.
+     * 
+     * @param dateSysMetadataModified
      */
     public void setDateSysMetadataModified(Date dateSysMetadataModified) {
         this.dateSysMetadataModified = dateSysMetadataModified;
     }
 
-    /**
-     * @return the originMemberNode
+    /** 
+     * Get the 'originMemberNode' element value.
+     * 
+     * @return value
      */
-    public NodeReferenceType getOriginMemberNode() {
+    public NodeReference getOriginMemberNode() {
         return originMemberNode;
     }
 
-    /**
-     * @param originMemberNode the originMemberNode to set
+    /** 
+     * Set the 'originMemberNode' element value.
+     * 
+     * @param originMemberNode
      */
-    public void setOriginMemberNode(NodeReferenceType originMemberNode) {
+    public void setOriginMemberNode(NodeReference originMemberNode) {
         this.originMemberNode = originMemberNode;
     }
 
-    /**
-     * @return the authoritativeMemberNode
+    /** 
+     * Get the 'authoritativeMemberNode' element value.
+     * 
+     * @return value
      */
-    public NodeReferenceType getAuthoritativeMemberNode() {
+    public NodeReference getAuthoritativeMemberNode() {
         return authoritativeMemberNode;
     }
 
-    /**
-     * @param authoritativeMemberNode the authoritativeMemberNode to set
+    /** 
+     * Set the 'authoritativeMemberNode' element value.
+     * 
+     * @param authoritativeMemberNode
      */
-    public void setAuthoritativeMemberNode(NodeReferenceType authoritativeMemberNode) {
+    public void setAuthoritativeMemberNode(NodeReference authoritativeMemberNode) {
         this.authoritativeMemberNode = authoritativeMemberNode;
     }
 
-    /**
-     * @param replicaList the replicaList to set
-     */
-    public void setReplicaList(List<Replica> replicaList) {
-        this.replicaList = replicaList;
-    }
-
-    /**
-     * @return the replicaList
+    /** 
+     * Get the list of 'replica' element items.
+     * 
+     * @return list
      */
     public List<Replica> getReplicaList() {
         return replicaList;
+    }
+
+    /** 
+     * Set the list of 'replica' element items.
+     * 
+     * @param list
+     */
+    public void setReplicaList(List<Replica> list) {
+        replicaList = list;
+    }
+
+    /** 
+     * Get the number of 'replica' element items.
+     * @return count
+     */
+    public int sizeReplicas() {
+        return replicaList.size();
+    }
+
+    /** 
+     * Add a 'replica' element item.
+     * @param item
+     */
+    public void addReplica(Replica item) {
+        replicaList.add(item);
+    }
+
+    /** 
+     * Get 'replica' element item by position.
+     * @return item
+     * @param index
+     */
+    public Replica getReplica(int index) {
+        return replicaList.get(index);
+    }
+
+    /** 
+     * Remove all 'replica' element items.
+     */
+    public void clearReplicas() {
+        replicaList.clear();
+    }
+    /** 
+     * Schema fragment(s) for this class:
+     * <pre>
+     * &lt;xs:element xmlns:ns="http://dataone.org/service/types/common/0.1" xmlns:xs="http://www.w3.org/2001/XMLSchema" name="replica" minOccurs="0" maxOccurs="unbounded">
+     *   &lt;xs:complexType>
+     *     &lt;xs:sequence>
+     *       &lt;xs:element type="ns:NodeReference" name="replicaMemberNode"/>
+     *       &lt;xs:element name="replicationStatus">
+     *         &lt;xs:simpleType>
+     *           &lt;!-- Reference to inner class ReplicationStatus -->
+     *         &lt;/xs:simpleType>
+     *       &lt;/xs:element>
+     *       &lt;xs:element type="xs:dateTime" name="replicaVerified"/>
+     *     &lt;/xs:sequence>
+     *   &lt;/xs:complexType>
+     * &lt;/xs:element>
+     * </pre>
+     */
+    public static class Replica
+    {
+        private NodeReference replicaMemberNode;
+        private ReplicationStatus replicationStatus;
+        private Date replicaVerified;
+
+        /** 
+         * Get the 'replicaMemberNode' element value.
+         * 
+         * @return value
+         */
+        public NodeReference getReplicaMemberNode() {
+            return replicaMemberNode;
+        }
+
+        /** 
+         * Set the 'replicaMemberNode' element value.
+         * 
+         * @param replicaMemberNode
+         */
+        public void setReplicaMemberNode(NodeReference replicaMemberNode) {
+            this.replicaMemberNode = replicaMemberNode;
+        }
+
+        /** 
+         * Get the 'replicationStatus' element value.
+         * 
+         * @return value
+         */
+        public ReplicationStatus getReplicationStatus() {
+            return replicationStatus;
+        }
+
+        /** 
+         * Set the 'replicationStatus' element value.
+         * 
+         * @param replicationStatus
+         */
+        public void setReplicationStatus(ReplicationStatus replicationStatus) {
+            this.replicationStatus = replicationStatus;
+        }
+
+        /** 
+         * Get the 'replicaVerified' element value.
+         * 
+         * @return value
+         */
+        public Date getReplicaVerified() {
+            return replicaVerified;
+        }
+
+        /** 
+         * Set the 'replicaVerified' element value.
+         * 
+         * @param replicaVerified
+         */
+        public void setReplicaVerified(Date replicaVerified) {
+            this.replicaVerified = replicaVerified;
+        }
+        /** 
+         * Schema fragment(s) for this class:
+         * <pre>
+         * &lt;xs:simpleType xmlns:xs="http://www.w3.org/2001/XMLSchema">
+         *   &lt;xs:restriction base="xs:string">
+         *     &lt;xs:enumeration value="queued"/>
+         *     &lt;xs:enumeration value="requested"/>
+         *     &lt;xs:enumeration value="completed"/>
+         *     &lt;xs:enumeration value="invalidated"/>
+         *   &lt;/xs:restriction>
+         * &lt;/xs:simpleType>
+         * </pre>
+         */
+        public static enum ReplicationStatus {
+            QUEUED("queued"), REQUESTED("requested"), COMPLETED("completed"), INVALIDATED(
+                    "invalidated");
+            private final String value;
+
+            private ReplicationStatus(String value) {
+                this.value = value;
+            }
+
+            public String toString() {
+                return value;
+            }
+
+            public static ReplicationStatus convert(String value) {
+                for (ReplicationStatus inst : values()) {
+                    if (inst.toString().equals(value)) {
+                        return inst;
+                    }
+                }
+                return null;
+            }
+        }
     }
 }

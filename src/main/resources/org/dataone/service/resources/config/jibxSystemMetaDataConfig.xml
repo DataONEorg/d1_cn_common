@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<schema-set  prefer-inline="true" generate-all="false" package="org.dataone.service.types" binding-file-name="service_types_SystemMetadata_01Binding.xml">
+     <class-decorator class="org.jibx.schema.codegen.extend.CollectionMethodsDecorator"/>
+<schema-set names="systemmetadata.xsd">
+    <schema name="systemmetadata.xsd" includes="systemMetadata AccessRule ReplicationPolicy SystemMetadata" />
+</schema-set>
+
+</schema-set>

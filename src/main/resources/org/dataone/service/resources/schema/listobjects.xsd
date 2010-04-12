@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns="http://dataone.org/service/types/ListObjects/0.1"
+    version="0.1"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    targetNamespace="http://dataone.org/service/types/ListObjects/0.1"
+    xmlns:common="http://dataone.org/service/types/common/0.1"
+    elementFormDefault="unqualified"
+    attributeFormDefault="unqualified">
+    <xs:import namespace="http://dataone.org/service/types/common/0.1" 
+        schemaLocation="file:///home/rwaltz/Projects/NetBeans/DataONE-ServiceAPI/src/main/resources/org/dataone/service/resources/schema/common.xsd" />
+     <xs:complexType name="ObjectInfo">
+        <xs:sequence>
+            <xs:element name="identifier"  type="common:Identifier" minOccurs="1" maxOccurs="1"/>
+            <xs:element name="objectFormat" type="common:ObjectFormat"/>
+            <xs:element name="checksum" type="common:Checksum"
+                    minOccurs="1" maxOccurs="1" />
+            <xs:element name="dateSysMetadataModified" type="xs:dateTime"/>
+            <xs:element name="size" type="xs:long"/>
+
+        </xs:sequence>
+<!--        <xs:attribute name="identifier" use="required" type="common:Identifier"/> -->
+    </xs:complexType>
+
+  <xs:complexType name="ListObjects">
+      
+       <xs:sequence>
+        <xs:element name="objectInfo" type="ObjectInfo"
+                    minOccurs="0" maxOccurs="unbounded" />
+       </xs:sequence>
+      <xs:attribute name="count" use="required" type="xs:int"/>
+      <xs:attribute name="start" use="required" type="xs:int"/>
+      <xs:attribute name="total" use="required" type="xs:int"/>
+
+  </xs:complexType>
+
+  <xs:element name="listObjects" type="ListObjects" />
+</xs:schema>

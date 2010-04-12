@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<xs:schema xmlns="http://dataone.org/service/types/SystemMetadata/0.1"
+    version="0.1"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    xmlns:common="http://dataone.org/service/types/common/0.1"
+    targetNamespace="http://dataone.org/service/types/SystemMetadata/0.1"
+    elementFormDefault="unqualified" attributeFormDefault="unqualified">
+    <xs:import namespace="http://dataone.org/service/types/common/0.1" 
+        schemaLocation="file:///home/rwaltz/Projects/NetBeans/DataONE-ServiceAPI/src/main/resources/org/dataone/service/resources/schema/common.xsd" />
+    
+    <!-- TODO: Discuss the namespace for this document, and pick an effective, versioned URI for the namespace -->
+
+    <xs:complexType name="AccessRule">
+        <xs:attribute name="rule">
+            <xs:simpleType>
+                <xs:restriction base="xs:string">
+                    <xs:enumeration value="allow"/>
+                    <xs:enumeration value="deny"/>
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+
+        <xs:attribute name="service">
+            <xs:simpleType>
+                <xs:restriction base="xs:string">
+                    <xs:enumeration value="read"/>
+                    <xs:enumeration value="write"/>
+                    <xs:enumeration value="changePermission"/>
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+
+        <xs:attribute name="principal" type="common:Principal"/>
+    </xs:complexType>
+
+    <xs:complexType name="ReplicationPolicy">
+        <xs:sequence>
+            <xs:element name="preferredMemberNode" type="common:NodeReference"
+                minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="blockedMemberNode" type="common:NodeReference"
+                minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+
+        <xs:attribute name="replicationAllowed">
+            <xs:simpleType>
+                <xs:restriction base="xs:string">
+                    <xs:enumeration value="true"/>
+                    <xs:enumeration value="false"/>
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+
+        <xs:attribute name="numberReplicas" type="xs:int"/>
+    </xs:complexType>
+
+    <!-- Definition of the SystemMetdata element -->
+        <xs:complexType name="SystemMetadata">
+            <xs:sequence>
+                <!-- Client Provided system metadata fields -->
+                <xs:element name="identifier" type="common:Identifier" minOccurs="1" maxOccurs="1"/>
+                <xs:element name="objectFormat" type="common:ObjectFormat"/>
+                <xs:element name="size" type="xs:long"/>
+                <xs:element name="submitter" type="common:Principal"/>
+                <xs:element name="rightsHolder" type="common:Principal"/>
+
+                <!-- Client provided relationship fields -->
+                <xs:element name="obsoletes" type="common:Identifier" minOccurs="0"
+                    maxOccurs="unbounded"/>
+                <xs:element name="obsoletedBy" type="common:Identifier" minOccurs="0"
+                    maxOccurs="unbounded"/>
+                <xs:element name="derivedFrom" type="common:Identifier" minOccurs="0"
+                    maxOccurs="unbounded"/>
+                <xs:element name="describes" type="common:Identifier" minOccurs="0"
+                    maxOccurs="unbounded"/>
+                <xs:element name="describedBy" type="common:Identifier" minOccurs="0"
+                    maxOccurs="unbounded"/>
+                <xs:element name="checksum" type="common:Checksum"
+                    minOccurs="1" maxOccurs="1" />
+                <xs:element name="embargoExpires" type="xs:dateTime"
+                    minOccurs="0"/>
+                <xs:element name="accessRule" type="AccessRule"
+                    minOccurs="0" maxOccurs="unbounded" />
+                <xs:element name="replicationPolicy" type="ReplicationPolicy"
+                    minOccurs="0" maxOccurs="1" />
+
+                <!-- Fields provided by Member Node and Coordinating Node -->
+                <xs:element name="dateUploaded" type="xs:dateTime"/>
+                <xs:element name="dateSysMetadataModified" type="xs:dateTime"/>
+
+                <xs:element name="originMemberNode" type="common:NodeReference"/>
+                <xs:element name="authoritativeMemberNode" type="common:NodeReference"/>
+                <xs:element name="replica" maxOccurs="unbounded" minOccurs="0">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="replicaMemberNode" type="common:NodeReference"/>
+                            <xs:element name="replicationStatus">
+                                <xs:simpleType>
+                                    <xs:restriction base="xs:string">
+                                        <xs:enumeration value="queued"/>
+                                        <xs:enumeration value="requested"/>
+                                        <xs:enumeration value="completed"/>
+                                        <xs:enumeration value="invalidated"/>
+                                    </xs:restriction>
+                                </xs:simpleType>
+                            </xs:element>
+                            <xs:element name="replicaVerified" type="xs:dateTime"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+
+            </xs:sequence>
+        </xs:complexType>
+    
+    <xs:element name="systemMetadata" type="SystemMetadata"></xs:element>
+
+</xs:schema>

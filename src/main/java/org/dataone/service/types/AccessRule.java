@@ -1,129 +1,146 @@
-/**
- * Copyright 2010 Regents of the University of California and the
- *                National Center for Ecological Analysis and Synthesis
- *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License version 2 as
- * published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
- */
 
 package org.dataone.service.types;
 
-/**
- * The DataONE Type to represent an access rule.
- *
- * @author Matthew Jones
+/** 
+ * Schema fragment(s) for this class:
+ * <pre>
+ * &lt;xs:complexType xmlns:ns="http://dataone.org/service/types/SystemMetadata/0.1" xmlns:ns1="http://dataone.org/service/types/common/0.1" xmlns:xs="http://www.w3.org/2001/XMLSchema" name="AccessRule">
+ *   &lt;xs:attribute name="rule">
+ *     &lt;xs:simpleType>
+ *       &lt;!-- Reference to inner class Rule -->
+ *     &lt;/xs:simpleType>
+ *   &lt;/xs:attribute>
+ *   &lt;xs:attribute name="service">
+ *     &lt;xs:simpleType>
+ *       &lt;!-- Reference to inner class Service -->
+ *     &lt;/xs:simpleType>
+ *   &lt;/xs:attribute>
+ *   &lt;xs:attribute type="ns1:Principal" name="principal"/>
+ * &lt;/xs:complexType>
+ * </pre>
  */
-public class AccessRule {
- 
-        private RuleType rule;
-        private Service service;
-        private PrincipalType principal;
+public class AccessRule
+{
+    private Rule rule;
+    private Service service;
+    private Principal principal;
 
-        /** 
-         * Get the 'RuleType' attribute value.
-         * 
-         * @return value
-         */
-        public RuleType getRule() {
-            return rule;
+    /** 
+     * Get the 'rule' attribute value.
+     * 
+     * @return value
+     */
+    public Rule getRule() {
+        return rule;
+    }
+
+    /** 
+     * Set the 'rule' attribute value.
+     * 
+     * @param rule
+     */
+    public void setRule(Rule rule) {
+        this.rule = rule;
+    }
+
+    /** 
+     * Get the 'service' attribute value.
+     * 
+     * @return value
+     */
+    public Service getService() {
+        return service;
+    }
+
+    /** 
+     * Set the 'service' attribute value.
+     * 
+     * @param service
+     */
+    public void setService(Service service) {
+        this.service = service;
+    }
+
+    /** 
+     * Get the 'principal' attribute value.
+     * 
+     * @return value
+     */
+    public Principal getPrincipal() {
+        return principal;
+    }
+
+    /** 
+     * Set the 'principal' attribute value.
+     * 
+     * @param principal
+     */
+    public void setPrincipal(Principal principal) {
+        this.principal = principal;
+    }
+    /** 
+     * Schema fragment(s) for this class:
+     * <pre>
+     * &lt;xs:simpleType xmlns:xs="http://www.w3.org/2001/XMLSchema">
+     *   &lt;xs:restriction base="xs:string">
+     *     &lt;xs:enumeration value="allow"/>
+     *     &lt;xs:enumeration value="deny"/>
+     *   &lt;/xs:restriction>
+     * &lt;/xs:simpleType>
+     * </pre>
+     */
+    public static enum Rule {
+        ALLOW("allow"), DENY("deny");
+        private final String value;
+
+        private Rule(String value) {
+            this.value = value;
         }
 
-        /** 
-         * Set the 'RuleType' attribute value.
-         * 
-         * @param ruleType
-         */
-        public void setRule(RuleType rule) {
-            this.rule = rule;
+        public String toString() {
+            return value;
         }
 
-        /** 
-         * Get the 'Service' attribute value.
-         * 
-         * @return value
-         */
-        public Service getService() {
-            return service;
-        }
-
-        /** 
-         * Set the 'Service' attribute value.
-         * 
-         * @param service
-         */
-        public void setService(Service service) {
-            this.service = service;
-        }
-
-        /** 
-         * Get the 'Principal' attribute value.
-         * 
-         * @return value
-         */
-        public PrincipalType getPrincipal() {
-            return principal;
-        }
-
-        /** 
-         * Set the 'Principal' attribute value.
-         * 
-         * @param principal
-         */
-        public void setPrincipal(PrincipalType principal) {
-            this.principal = principal;
-        }
-
-        public static enum RuleType {
-            ALLOW("allow"), DENY("deny");
-            private final String value;
-
-            private RuleType(String value) {
-                this.value = value;
-            }
-
-            public String toString() {
-                return value;
-            }
-
-            public static RuleType convert(String value) {
-                for (RuleType inst : values()) {
-                    if (inst.toString().equals(value)) {
-                        return inst;
-                    }
+        public static Rule convert(String value) {
+            for (Rule inst : values()) {
+                if (inst.toString().equals(value)) {
+                    return inst;
                 }
-                return null;
             }
+            return null;
+        }
+    }
+    /** 
+     * Schema fragment(s) for this class:
+     * <pre>
+     * &lt;xs:simpleType xmlns:xs="http://www.w3.org/2001/XMLSchema">
+     *   &lt;xs:restriction base="xs:string">
+     *     &lt;xs:enumeration value="read"/>
+     *     &lt;xs:enumeration value="write"/>
+     *     &lt;xs:enumeration value="changePermission"/>
+     *   &lt;/xs:restriction>
+     * &lt;/xs:simpleType>
+     * </pre>
+     */
+    public static enum Service {
+        READ("read"), WRITE("write"), CHANGE_PERMISSION("changePermission");
+        private final String value;
+
+        private Service(String value) {
+            this.value = value;
         }
 
-        public static enum Service {
-            READ("read"), WRITE("write"), CHANGE_PERMISSION("changePermission");
-            private final String value;
+        public String toString() {
+            return value;
+        }
 
-            private Service(String value) {
-                this.value = value;
-            }
-
-            public String toString() {
-                return value;
-            }
-
-            public static Service convert(String value) {
-                for (Service inst : values()) {
-                    if (inst.toString().equals(value)) {
-                        return inst;
-                    }
+        public static Service convert(String value) {
+            for (Service inst : values()) {
+                if (inst.toString().equals(value)) {
+                    return inst;
                 }
-                return null;
             }
+            return null;
         }
+    }
 }
