@@ -26,7 +26,7 @@ package org.dataone.service.types;
  */
 public class ObjectLocation 
 {
-    private NodeReferenceType node;
+    private NodeReference node;
     private String url;
 
     /**
@@ -34,7 +34,7 @@ public class ObjectLocation
      * @param node the node on which the object exists
      * @param url the URL of the object on the node
      */
-    public ObjectLocation(NodeReferenceType node, String url) {
+    public ObjectLocation(NodeReference node, String url) {
         super();
         this.node = node;
         this.url = url;
@@ -43,14 +43,14 @@ public class ObjectLocation
     /**
      * @return the node
      */
-    public NodeReferenceType getNode() {
+    public NodeReference getNode() {
         return node;
     }
 
     /**
      * @param node the node to set
      */
-    public void setNode(NodeReferenceType node) {
+    public void setNode(NodeReference node) {
         this.node = node;
     }
 

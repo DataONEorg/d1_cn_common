@@ -28,8 +28,8 @@ import org.dataone.service.exceptions.NotFound;
 import org.dataone.service.exceptions.NotImplemented;
 import org.dataone.service.exceptions.ServiceFailure;
 import org.dataone.service.types.AuthToken;
-import org.dataone.service.types.IdentifierFormatType;
-import org.dataone.service.types.IdentifierType;
+import org.dataone.service.types.IdentifierFormat;
+import org.dataone.service.types.Identifier;
 import org.dataone.service.types.SystemMetadata;
 
 /**
@@ -41,29 +41,29 @@ import org.dataone.service.types.SystemMetadata;
  */
 public interface CoordinatingNodeCrud 
 {
-    public InputStream get(AuthToken token, IdentifierType guid)
+    public InputStream get(AuthToken token, Identifier guid)
         throws InvalidToken, ServiceFailure, NotAuthorized, NotFound, 
         NotImplemented;
-    public SystemMetadata getSystemMetadata(AuthToken token, IdentifierType guid)
-        throws InvalidToken, ServiceFailure, NotAuthorized, NotFound, 
-        InvalidRequest, NotImplemented;
-    public List<String> resolve(AuthToken token, IdentifierType guid)
+    public SystemMetadata getSystemMetadata(AuthToken token, Identifier guid)
         throws InvalidToken, ServiceFailure, NotAuthorized, NotFound, 
         InvalidRequest, NotImplemented;
-    public IdentifierType reserveId(AuthToken token, String scope, IdentifierFormatType format) 
+    public List<String> resolve(AuthToken token, Identifier guid)
+        throws InvalidToken, ServiceFailure, NotAuthorized, NotFound, 
+        InvalidRequest, NotImplemented;
+    public Identifier reserveId(AuthToken token, String scope, IdentifierFormat format)
         throws InvalidToken, ServiceFailure, NotAuthorized, InvalidRequest, 
         NotImplemented;
-    public IdentifierType reserveId(AuthToken token, String scope) 
+    public Identifier reserveId(AuthToken token, String scope)
         throws InvalidToken, ServiceFailure, NotAuthorized, InvalidRequest, 
         NotImplemented;
-    public IdentifierType reserveId(AuthToken token, IdentifierFormatType format) 
+    public Identifier reserveId(AuthToken token, IdentifierFormat format)
         throws InvalidToken, ServiceFailure, NotAuthorized, InvalidRequest, 
         NotImplemented;
-    public IdentifierType reserveId(AuthToken token) 
+    public Identifier reserveId(AuthToken token)
         throws InvalidToken, ServiceFailure, NotAuthorized, InvalidRequest, 
         NotImplemented;
-    public boolean assertRelation(AuthToken token, IdentifierType subjectId, 
-        String relationship, IdentifierType objectId) 
+    public boolean assertRelation(AuthToken token, Identifier subjectId,
+        String relationship, Identifier objectId)
         throws InvalidToken, ServiceFailure, NotAuthorized, NotFound, 
         InvalidRequest, NotImplemented;
 }

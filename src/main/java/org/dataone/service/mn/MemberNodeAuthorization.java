@@ -25,7 +25,7 @@ import org.dataone.service.exceptions.NotAuthorized;
 import org.dataone.service.exceptions.NotFound;
 import org.dataone.service.exceptions.NotImplemented;
 import org.dataone.service.types.AuthToken;
-import org.dataone.service.types.IdentifierType;
+import org.dataone.service.types.Identifier;
 
 /**
  * The DataONE MemberNode Authorization programmatic interface.  This defines an
@@ -41,7 +41,7 @@ public interface MemberNodeAuthorization
     
     public void logout(AuthToken token) throws NotImplemented;
     
-    public boolean isAuthorized(AuthToken token, IdentifierType guid, String operation)
+    public boolean isAuthorized(AuthToken token, Identifier guid, String operation)
         throws InvalidToken, NotFound, NotAuthorized, NotImplemented;
     
     public boolean verify(AuthToken token) throws NotImplemented;

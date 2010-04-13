@@ -26,8 +26,8 @@ import org.dataone.service.exceptions.NotAuthorized;
 import org.dataone.service.exceptions.NotFound;
 import org.dataone.service.types.AccessRule;
 import org.dataone.service.types.AuthToken;
-import org.dataone.service.types.IdentifierType;
-import org.dataone.service.types.PrincipalType;
+import org.dataone.service.types.Identifier;
+import org.dataone.service.types.Principal;
 
 /**
  * The DataONE Coordinating Node Authorization programmatic interface.  This defines an
@@ -44,17 +44,17 @@ public interface CoordinatingNodeAuthorization
     //public void logout(AuthToken token) 
     //    throws InvalidCredentials, AuthenticationTimeout;
     
-    public boolean setAccess(AuthToken token, IdentifierType guid, AccessRule accessLevel)
+    public boolean setAccess(AuthToken token, Identifier guid, AccessRule accessLevel)
         throws NotFound, NotAuthorized;
     
-    public IdentifierType setOwner(AuthToken token, IdentifierType guid, PrincipalType userId)
+    public Identifier setOwner(AuthToken token, Identifier guid, Principal userId)
         throws InvalidToken, NotAuthorized, NotFound;
     
-    public PrincipalType newAccount(String username, String password)
+    public Principal newAccount(String username, String password)
         throws IdentifierNotUnique, InvalidCredentials;
     
     public boolean verify(AuthToken token) throws NotAuthorized;
     
-    public boolean isAuthorized(AuthToken token, IdentifierType guid, String operation)
+    public boolean isAuthorized(AuthToken token, Identifier guid, String operation)
         throws InvalidToken, NotFound, NotAuthorized;
 }

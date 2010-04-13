@@ -27,14 +27,14 @@ import java.util.Date;
  */
 public class LogRecord 
 {
-    private IdentifierType entryId;
-    private IdentifierType identifier;
+    private Identifier entryId;
+    private Identifier identifier;
     private String ipAddress;
     private String userAgent;
-    private PrincipalType principal;
-    private EventType event;
+    private Principal principal;
+    private Event event;
     private Date logDate;
-    private NodeReferenceType memberNode;
+    private NodeReference memberNode;
     
     public LogRecord() {
     }
@@ -42,13 +42,13 @@ public class LogRecord
     /**
      * @return the entryId
      */
-    public IdentifierType getEntryId() {
+    public Identifier getEntryId() {
         return entryId;
     }
     /**
      * @return the identifier
      */
-    public IdentifierType getIdentifier() {
+    public Identifier getIdentifier() {
         return identifier;
     }
     /**
@@ -66,13 +66,13 @@ public class LogRecord
     /**
      * @return the principal
      */
-    public PrincipalType getPrincipal() {
+    public Principal getPrincipal() {
         return principal;
     }
     /**
      * @return the event
      */
-    public EventType getEvent() {
+    public Event getEvent() {
         return event;
     }
     /**
@@ -84,19 +84,19 @@ public class LogRecord
     /**
      * @return the memberNode
      */
-    public NodeReferenceType getMemberNode() {
+    public NodeReference getMemberNode() {
         return memberNode;
     }
     /**
      * @param entryId the entryId to set
      */
-    public void setEntryId(IdentifierType entryId) {
+    public void setEntryId(Identifier entryId) {
         this.entryId = entryId;
     }
     /**
      * @param identifier the identifier to set
      */
-    public void setIdentifier(IdentifierType identifier) {
+    public void setIdentifier(Identifier identifier) {
         this.identifier = identifier;
     }
     /**
@@ -114,13 +114,13 @@ public class LogRecord
     /**
      * @param principal the principal to set
      */
-    public void setPrincipal(PrincipalType principal) {
+    public void setPrincipal(Principal principal) {
         this.principal = principal;
     }
     /**
      * @param event the event to set
      */
-    public void setEvent(EventType event) {
+    public void setEvent(Event event) {
         this.event = event;
     }
     /**
@@ -132,7 +132,7 @@ public class LogRecord
     /**
      * @param memberNode the memberNode to set
      */
-    public void setMemberNode(NodeReferenceType memberNode) {
+    public void setMemberNode(NodeReference memberNode) {
         this.memberNode = memberNode;
     }
 }
