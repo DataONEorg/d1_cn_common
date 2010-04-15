@@ -1,9 +1,9 @@
-<binding xmlns:common="http://dataone.org/service/types/common/0.1" xmlns:d1="http://dataone.org/service/types/logging/0.1" name="binding" package="org.dataone.service.types" trim-whitespace="true">
+<binding xmlns:common="http://dataone.org/service/types/common/0.1" xmlns:ns2="http://dataone.org/service/types/logging/0.1" name="binding" package="org.dataone.service.types" trim-whitespace="true">
   <format label="common:ObjectFormat" type="org.dataone.service.types.ObjectFormat" enum-value-method="toString"/>
   <format label="common:ChecksumAlgorithm" type="org.dataone.service.types.ChecksumAlgorithm" enum-value-method="toString"/>
-  <format label="d1:Event" type="org.dataone.service.types.Event" enum-value-method="toString"/>
-  <include path="service_types_ListObjects_01Binding.xml"/>
+  <format label="ns2:Event" type="org.dataone.service.types.Event" enum-value-method="toString"/>
   <include path="service_types_SystemMetadata_01Binding.xml"/>
   <include path="service_types_common_01Binding.xml"/>
+  <include path="service_types_ListObjects_01Binding.xml"/>
   <include path="service_types_logging_01Binding.xml"/>
 </binding>

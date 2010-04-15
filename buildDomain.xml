@@ -14,7 +14,7 @@
     </description>
     <!-- set global properties for this build -->
 
-    <target name="downloadSchema">
+<!--    <target name="downloadSchema">
         <copy todir="${basedir}/src/main/resources/org/dataone/service/resources/schema" flatten="true" overwrite="true">
             <resources>
                 <url url="https://repository.dataone.org/software/cicore/trunk/schemas/systemmetadata.xsd"/>
@@ -32,7 +32,7 @@
                  <fileset dir="${basedir}/src/main/resources/org/dataone/service/resources/schema" includes="*.xsd"/>
         </replaceregexp>
         <echo message="fixedSchema" />
-    </target>
+    </target> -->
 
     <target name="hello"
             description="say hello" >
@@ -44,13 +44,13 @@
 
     <target name="cleanUpTypes"
             description="generate the distribution" >
-       <replaceregexp
-            match="ns\d"
-            replace="d1"
+<!--       <replaceregexp
+            match="prefix=&quot;ns\d"
+            replace="prefix=&quot;d1"
             flags="g"
             byline="true">
                  <fileset dir="${basedir}/src/main/java" includes="*.xml"/>
-        </replaceregexp>
+        </replaceregexp> -->
         <!--
        <replaceregexp
             match="(structure\s)(map\-as\=&quot;common\:Identifier&quot;)"
@@ -139,56 +139,24 @@
     <target name="codegen">
 
         <echo message="Running code generation from schema"/>
-        <!--
-       <java classname="org.jibx.schema.codegen.CodeGen" fork="yes"
-               failonerror="true">
-        <classpath>
-           <pathelement path="${compile_classpath}"/>
-           <pathelement path="{java.class.path}" />
-         </classpath>
-
-            <arg value="-c" />
-            <arg value="${basedir}/src/main/resources/org/dataone/service/resources/config/jibxCommonConfig.xml" />
-            <arg value="-s" />
-            <arg value="${basedir}/src/main/resources/org/dataone/service/resources/schema" />
-            <arg value="-t"/>
-            <arg value="${basedir}/src/main/java"/>
-            <arg value="common.xsd"/>
-        </java>
--->
-
-<!--
+        
         <java classname="org.jibx.schema.codegen.CodeGen" fork="yes"
                failonerror="true">
         <classpath>
            <pathelement path="${compile_classpath}"/>
            <pathelement path="{java.class.path}" />
          </classpath>
-
-            <arg value="-c" />
-            <arg value="${basedir}/src/main/resources/org/dataone/service/resources/config/jibxSystemMetaDataConfig.xml" />
-            <arg value="-s" />
-            <arg value="${basedir}/src/main/resources/org/dataone/service/resources/schema" />
-            <arg value="-t"/>
-            <arg value="${basedir}/src/main/java"/>
-            <arg value="systemmetadata.xsd"/>
-        </java>
--->
-
-        <java classname="org.jibx.schema.codegen.CodeGen" fork="yes"
-              failonerror="true">
-            <classpath>
-                <pathelement path="${compile_classpath}"/>
-                <pathelement path="{java.class.path}" />
-            </classpath>
 
             <arg value="-c" />
             <arg value="${basedir}/src/main/resources/org/dataone/service/resources/config/jibxConfig.xml" />
             <arg value="-s" />
-            <arg value="${basedir}/src/main/resources/org/dataone/service/resources/schema" />
+            <arg value="https://repository.dataone.org/software/cicore/trunk/schemas/" />
             <arg value="-t"/>
             <arg value="${basedir}/src/main/java"/>
-            <arg value="*.xsd"/>
+            <arg value="systemmetadata.xsd"/>
+            <arg value="common.xsd"/>
+            <arg value="listobjects.xsd"/>
+            <arg value="logging.xsd"/>
         </java>
 
     </target>

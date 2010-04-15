@@ -2,7 +2,7 @@
 <d1:log xmlns:common="http://dataone.org/service/types/common/0.1"
  xmlns:d1="http://dataone.org/service/types/logging/0.1"
  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
- xsi:schemaLocation="http://dataone.org/service/types/logging/0.1 file:/home/rwaltz/Projects/NetBeans/DataONE-CnPrototype/DataONE-CnDomain/src/main/resources/org/dataone/service/resources/schema/logging.xsd">
+ xsi:schemaLocation="http://dataone.org/service/types/logging/0.1 https://repository.dataone.org/software/cicore/trunk/schemas/logging.xsd">
     <logEntry>
         <entryId>123</entryId>
         <identifier>ABC</identifier>

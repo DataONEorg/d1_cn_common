@@ -1,33 +1,24 @@
 package org.dataone.service.types;
 
 
+import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
-import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.Source;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamSource;
-import javax.xml.validation.Schema;
-import javax.xml.validation.SchemaFactory;
-import javax.xml.validation.Validator;
 
 
 import org.junit.*;
-import org.w3c.dom.Document;
-import org.xml.sax.SAXException;
 
 
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.InputStreamReader;
 import java.io.StringWriter;
 import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
 
 import java.util.Date;
@@ -38,7 +29,6 @@ import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Source;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMResult;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
@@ -81,7 +71,7 @@ public class ValidateSamplesTestCase {
     @Test
     public void validateSysmetaSample() throws Exception, SAXException, IOException, ParserConfigurationException {
 
-        assertTrue(validateExamples("/org/dataone/service/resources/schema/systemmetadata.xsd","/org/dataone/service/samples/systemMetadataSample1.xml"));
+        assertTrue(validateExamples("https://repository.dataone.org/software/cicore/trunk/schemas/systemmetadata.xsd","/org/dataone/service/samples/systemMetadataSample1.xml"));
 
     }
 
@@ -95,7 +85,7 @@ public class ValidateSamplesTestCase {
     @Test
     public void validateListObjectsSample() throws Exception, SAXException, IOException, ParserConfigurationException {
 
-        assertTrue(validateExamples("/org/dataone/service/resources/schema/listobjects.xsd","/org/dataone/service/samples/listObjectsSample1.xml"));
+        assertTrue(validateExamples("https://repository.dataone.org/software/cicore/trunk/schemas/listobjects.xsd","/org/dataone/service/samples/listObjectsSample1.xml"));
 
     }
 
@@ -109,7 +99,7 @@ public class ValidateSamplesTestCase {
     @Test
     public void validateLoggingSample() throws Exception, SAXException, IOException, ParserConfigurationException {
 
-        assertTrue(validateExamples("/org/dataone/service/resources/schema/logging.xsd","/org/dataone/service/samples/loggingSample1.xml"));
+        assertTrue(validateExamples("https://repository.dataone.org/software/cicore/trunk/schemas/logging.xsd","/org/dataone/service/samples/loggingSample1.xml"));
 
     }
 
@@ -120,21 +110,27 @@ public class ValidateSamplesTestCase {
 
     }
 
-    private boolean validateExamples(String xsdDocument, String xmlDocument) throws Exception, SAXException, IOException, ParserConfigurationException {
+    private boolean validateExamples(String xsdUrlString, String xmlDocument) throws Exception, SAXException, IOException, ParserConfigurationException {
         DocumentBuilder parser;
         // create a SchemaFactory capable of understanding WXS schemas
         SchemaFactory factory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
         Document document;
         Schema schema;
         Source schemaFile;
+         URL xsdUrl = new URL(xsdUrlString);
+        
+        URLConnection xsdUrlConnection = xsdUrl.openConnection();
+        InputStream xsdUrlStream = xsdUrlConnection.getInputStream();
+        if (xsdUrlStream  == null)
+                System.out.println(xsdUrlString + " InputStream is null");
+        else
+                System.out.println("Validate: " + xsdUrlString);
+
+
         // load a WXS schema, represented by a Schema instance
 
-        InputStream resourceStream = this.getClass().getResourceAsStream(xsdDocument);
-                if (resourceStream == null)
-                System.out.println("this is null");
-        else
-                System.out.println(xsdDocument);
-        schemaFile = new StreamSource(resourceStream);
+        
+        schemaFile = new StreamSource(xsdUrlStream);
         schema = factory.newSchema(schemaFile);
         DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
 
@@ -156,6 +152,7 @@ public class ValidateSamplesTestCase {
         // validate the DOM tree
 
         return validateXmlDocument.validate(document);
+         
     }
 
     /**
@@ -278,7 +275,6 @@ public class ValidateSamplesTestCase {
 
 
         ByteArrayInputStream testSystemMetadataInput = new ByteArrayInputStream(testSytemMetadataOutput.toByteArray());
-        String[] unmarshallingClasses = bfact.getUnmarshallerClasses();
 
         //       BindingDirectory.getFactory("binding", "org.dataone.service.types");
         IUnmarshallingContext uctx = bfact.createUnmarshallingContext();
@@ -357,7 +353,6 @@ public class ValidateSamplesTestCase {
 
 
         ByteArrayInputStream testListObjectsInput = new ByteArrayInputStream(testListObjectsOutput.toByteArray());
-        String[] unmarshallingClasses = bfact.getUnmarshallerClasses();
 
         //       BindingDirectory.getFactory("binding", "org.dataone.service.types");
         IUnmarshallingContext uctx = bfact.createUnmarshallingContext();
@@ -442,8 +437,18 @@ public class ValidateSamplesTestCase {
 
 
         ByteArrayInputStream testLogInput = new ByteArrayInputStream(testLogOutput.toByteArray());
-        String[] unmarshallingClasses = bfact.getUnmarshallerClasses();
+/**
+	BufferedReader in = new BufferedReader(
+				new InputStreamReader(
+				testLogInput));
 
+	String inputLine;
+
+	while ((inputLine = in.readLine()) != null)
+	    System.out.println(inputLine);
+
+	in.close();
+*/
         //       BindingDirectory.getFactory("binding", "org.dataone.service.types");
         IUnmarshallingContext uctx = bfact.createUnmarshallingContext();
 

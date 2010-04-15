@@ -1,13 +1,13 @@
-<binding xmlns:d1="http://dataone.org/service/types/SystemMetadata/0.1" xmlns:common="http://dataone.org/service/types/common/0.1" trim-whitespace="true">
+<binding xmlns:ns1="http://dataone.org/service/types/SystemMetadata/0.1" xmlns:common="http://dataone.org/service/types/common/0.1" trim-whitespace="true">
   <namespace uri="http://dataone.org/service/types/SystemMetadata/0.1" prefix="d1"/>
-  <mapping abstract="true" type-name="d1:AccessRule" class="org.dataone.service.types.AccessRule">
+  <mapping abstract="true" type-name="ns1:AccessRule" class="org.dataone.service.types.AccessRule">
     <format type="org.dataone.service.types.AccessRule$Rule" enum-value-method="toString"/>
     <format type="org.dataone.service.types.AccessRule$Service" enum-value-method="toString"/>
     <value style="attribute" name="rule" get-method="getRule" set-method="setRule" usage="optional"/>
     <value style="attribute" name="service" get-method="getService" set-method="setService" usage="optional"/>
     <structure map-as="common:Principal" get-method="getPrincipal" set-method="setPrincipal" usage="optional" name="principal"/>
   </mapping>
-  <mapping abstract="true" type-name="d1:ReplicationPolicy" class="org.dataone.service.types.ReplicationPolicy">
+  <mapping abstract="true" type-name="ns1:ReplicationPolicy" class="org.dataone.service.types.ReplicationPolicy">
     <format type="org.dataone.service.types.ReplicationPolicy$ReplicationAllowed" enum-value-method="toString"/>
     <collection get-method="getPreferredMemberNodeList" set-method="setPreferredMemberNodeList" create-type="java.util.ArrayList">
       <structure map-as="common:NodeReference" name="preferredMemberNode"/>
@@ -18,7 +18,7 @@
     <value style="attribute" name="replicationAllowed" get-method="getReplicationAllowed" set-method="setReplicationAllowed" usage="optional"/>
     <value style="attribute" name="numberReplicas" get-method="getNumberReplicas" set-method="setNumberReplicas" usage="optional"/>
   </mapping>
-  <mapping abstract="true" type-name="d1:SystemMetadata" class="org.dataone.service.types.SystemMetadata">
+  <mapping abstract="true" type-name="ns1:SystemMetadata" class="org.dataone.service.types.SystemMetadata">
     <format type="org.dataone.service.types.SystemMetadata$Replica$ReplicationStatus" enum-value-method="toString"/>
     <structure map-as="common:Identifier" get-method="getIdentifier" set-method="setIdentifier" name="identifier"/>
     <value style="element" name="objectFormat" get-method="getObjectFormat" set-method="setObjectFormat" format="common:ObjectFormat"/>
@@ -43,9 +43,9 @@
     <structure map-as="common:Checksum" get-method="getChecksum" set-method="setChecksum" name="checksum"/>
     <value style="element" name="embargoExpires" get-method="getEmbargoExpires" set-method="setEmbargoExpires" usage="optional"/>
     <collection get-method="getAccessRuleList" set-method="setAccessRuleList" create-type="java.util.ArrayList">
-      <structure map-as="d1:AccessRule" name="accessRule"/>
+      <structure map-as="ns1:AccessRule" name="accessRule"/>
     </collection>
-    <structure map-as="d1:ReplicationPolicy" get-method="getReplicationPolicy" set-method="setReplicationPolicy" usage="optional" name="replicationPolicy"/>
+    <structure map-as="ns1:ReplicationPolicy" get-method="getReplicationPolicy" set-method="setReplicationPolicy" usage="optional" name="replicationPolicy"/>
     <value style="element" name="dateUploaded" get-method="getDateUploaded" set-method="setDateUploaded"/>
     <value style="element" name="dateSysMetadataModified" get-method="getDateSysMetadataModified" set-method="setDateSysMetadataModified"/>
     <structure map-as="common:NodeReference" get-method="getOriginMemberNode" set-method="setOriginMemberNode" name="originMemberNode"/>
@@ -59,6 +59,6 @@
     </collection>
   </mapping>
   <mapping class="org.dataone.service.types.SystemMetadata" name="systemMetadata" ns="http://dataone.org/service/types/SystemMetadata/0.1">
-    <structure map-as="d1:SystemMetadata"/>
+    <structure map-as="ns1:SystemMetadata"/>
   </mapping>
 </binding>
