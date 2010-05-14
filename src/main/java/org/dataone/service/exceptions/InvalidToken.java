@@ -31,11 +31,11 @@ public class InvalidToken extends BaseException {
     /** Fix the errorCode in this exception. */
     private static final int errorCode=401;
     
-    public InvalidToken(int detailCode, String description) {
+    public InvalidToken(String detailCode, String description) {
         super(errorCode, detailCode, description);
     }
 
-    public InvalidToken(int detailCode, String description, 
+    public InvalidToken(String detailCode, String description, 
             TreeMap<String, String> trace_information) {
         super(errorCode, detailCode, description);
     }

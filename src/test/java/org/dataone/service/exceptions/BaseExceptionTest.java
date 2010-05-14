@@ -55,7 +55,7 @@ public class BaseExceptionTest extends TestCase
     public void setUp() {
         trace.put("identifier", "123XYZ");
         trace.put("method", "mn.get");
-        e = new BaseException(404, 14001, msg, trace);
+        e = new BaseException(404, "14001", msg, trace);
         assertNotNull(e);    
     }
     

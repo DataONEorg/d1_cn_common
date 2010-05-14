@@ -31,11 +31,11 @@ public class InvalidRequest extends BaseException {
     /** Fix the errorCode in this exception. */
     private static final int errorCode=400;
     
-    public InvalidRequest(int detailCode, String description) {
+    public InvalidRequest(String detailCode, String description) {
         super(errorCode, detailCode, description);
     }
 
-    public InvalidRequest(int detailCode, String description, 
+    public InvalidRequest(String detailCode, String description, 
             TreeMap<String, String> trace_information) {
         super(errorCode, detailCode, description);
     }

@@ -31,11 +31,11 @@ public class NotImplemented extends BaseException {
     /** Fix the errorCode in this exception. */
     private static final int errorCode=400;
     
-    public NotImplemented(int detailCode, String description) {
+    public NotImplemented(String detailCode, String description) {
         super(errorCode, detailCode, description);
     }
 
-    public NotImplemented(int detailCode, String description, 
+    public NotImplemented(String detailCode, String description, 
             TreeMap<String, String> trace_information) {
         super(errorCode, detailCode, description);
     }

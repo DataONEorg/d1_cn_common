@@ -37,7 +37,7 @@ public class BaseException extends Exception {
     private int code;
     
     /** The detailed error subcode associated with this exception. */
-    private int detail_code;
+    private String detail_code;
     
     /** Additional trace-level debugging information, as name-value pairs. */
     private TreeMap<String, String> trace_information;
@@ -53,7 +53,7 @@ public class BaseException extends Exception {
      * @param detail_code the detailed code for this exception
      * @param description the description of this exception
      */
-    protected BaseException(int code, int detail_code, String description) {
+    protected BaseException(int code, String detail_code, String description) {
         super(description);
         this.trace_information = new TreeMap<String, String>();
         this.code = code;
@@ -69,7 +69,7 @@ public class BaseException extends Exception {
      * @param description the description of this exception
      * @param trace_information containing a Map of key/value pairs
      */
-    protected BaseException(int code, int detail_code, String description, 
+    protected BaseException(int code, String detail_code, String description, 
             TreeMap<String, String> trace_information) {
         this(code, detail_code, description);
         this.trace_information = trace_information;
@@ -92,14 +92,14 @@ public class BaseException extends Exception {
     /**
      * @param detail_code the detail_code to set
      */
-    public void setDetail_code(int detail_code) {
+    public void setDetail_code(String detail_code) {
         this.detail_code = detail_code;
     }
 
     /**
      * @return the detail_code
      */
-    public int getDetail_code() {
+    public String getDetail_code() {
         return detail_code;
     }
 

@@ -31,11 +31,11 @@ public class InsufficientResources extends BaseException {
     /** Fix the errorCode in this exception. */
     private static final int errorCode=413;
     
-    public InsufficientResources(int detailCode, String description) {
+    public InsufficientResources(String detailCode, String description) {
         super(errorCode, detailCode, description);
     }
 
-    public InsufficientResources(int detailCode, String description, 
+    public InsufficientResources(String detailCode, String description, 
             TreeMap<String, String> trace_information) {
         super(errorCode, detailCode, description);
     }

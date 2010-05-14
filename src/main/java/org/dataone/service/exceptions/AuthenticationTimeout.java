@@ -31,11 +31,11 @@ public class AuthenticationTimeout extends BaseException {
     /** Fix the errorCode in this exception. */
     private static final int errorCode=408;
     
-    public AuthenticationTimeout(int detailCode, String description) {
+    public AuthenticationTimeout(String detailCode, String description) {
         super(errorCode, detailCode, description);
     }
 
-    public AuthenticationTimeout(int detailCode, String description, 
+    public AuthenticationTimeout(String detailCode, String description, 
             TreeMap<String, String> trace_information) {
         super(errorCode, detailCode, description);
     }

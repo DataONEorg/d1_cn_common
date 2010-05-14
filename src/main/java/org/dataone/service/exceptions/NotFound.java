@@ -31,11 +31,11 @@ public class NotFound extends BaseException {
     /** Fix the errorCode in this exception. */
     private static final int errorCode=404;
     
-    public NotFound(int detailCode, String description) {
+    public NotFound(String detailCode, String description) {
         super(errorCode, detailCode, description);
     }
 
-    public NotFound(int detailCode, String description, 
+    public NotFound(String detailCode, String description, 
             TreeMap<String, String> trace_information) {
         super(errorCode, detailCode, description);
     }

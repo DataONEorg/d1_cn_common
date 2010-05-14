@@ -31,11 +31,11 @@ public class InvalidCredentials extends BaseException {
     /** Fix the errorCode in this exception. */
     private static final int errorCode=401;
     
-    public InvalidCredentials(int detailCode, String description) {
+    public InvalidCredentials(String detailCode, String description) {
         super(errorCode, detailCode, description);
     }
 
-    public InvalidCredentials(int detailCode, String description, 
+    public InvalidCredentials(String detailCode, String description, 
             TreeMap<String, String> trace_information) {
         super(errorCode, detailCode, description);
     }

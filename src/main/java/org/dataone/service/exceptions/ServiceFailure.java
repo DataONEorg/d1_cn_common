@@ -32,11 +32,11 @@ public class ServiceFailure extends BaseException {
     /** Fix the errorCode in this exception. */
     private static final int errorCode=500;
     
-    public ServiceFailure(int detailCode, String description) {
+    public ServiceFailure(String detailCode, String description) {
         super(errorCode, detailCode, description);
     }
 
-    public ServiceFailure(int detailCode, String description, 
+    public ServiceFailure(String detailCode, String description, 
             TreeMap<String, String> trace_information) {
         super(errorCode, detailCode, description);
     }

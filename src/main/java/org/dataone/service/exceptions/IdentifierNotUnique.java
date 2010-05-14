@@ -32,11 +32,11 @@ public class IdentifierNotUnique extends BaseException {
     /** Fix the errorCode in this exception. */
     private static final int errorCode=409;
     
-    public IdentifierNotUnique(int detailCode, String description) {
+    public IdentifierNotUnique(String detailCode, String description) {
         super(errorCode, detailCode, description);
     }
 
-    public IdentifierNotUnique(int detailCode, String description, 
+    public IdentifierNotUnique(String detailCode, String description, 
             TreeMap<String, String> trace_information) {
         super(errorCode, detailCode, description);
     }

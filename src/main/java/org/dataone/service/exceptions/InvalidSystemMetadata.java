@@ -33,11 +33,11 @@ public class InvalidSystemMetadata extends BaseException {
     /** Fix the errorCode in this exception. */
     private static final int errorCode=400;
     
-    public InvalidSystemMetadata(int detailCode, String description) {
+    public InvalidSystemMetadata(String detailCode, String description) {
         super(errorCode, detailCode, description);
     }
 
-    public InvalidSystemMetadata(int detailCode, String description, 
+    public InvalidSystemMetadata(String detailCode, String description, 
             TreeMap<String, String> trace_information) {
         super(errorCode, detailCode, description);
     }
