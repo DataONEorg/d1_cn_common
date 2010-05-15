@@ -6,7 +6,7 @@ import java.util.Date;
 /** 
  * Schema fragment(s) for this class:
  * <pre>
- * &lt;xs:complexType xmlns:ns="http://dataone.org/service/types/ListObjects/0.1" xmlns:ns1="http://dataone.org/service/types/common/0.1" xmlns:xs="http://www.w3.org/2001/XMLSchema" name="ObjectInfo">
+ * &lt;xs:complexType xmlns:ns="http://dataone.org/service/types/ObjectList/0.1" xmlns:ns1="http://dataone.org/service/types/common/0.1" xmlns:xs="http://www.w3.org/2001/XMLSchema" name="ObjectInfo">
  *   &lt;xs:sequence>
  *     &lt;xs:element type="ns1:Identifier" name="identifier" minOccurs="1" maxOccurs="1"/>
  *     &lt;xs:element type="ns1:ObjectFormat" name="objectFormat"/>

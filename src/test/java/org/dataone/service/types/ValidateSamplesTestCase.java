@@ -39,7 +39,7 @@ import org.dataone.service.types.Checksum;
 import org.dataone.service.types.ChecksumAlgorithm;
 import org.dataone.service.types.Event;
 import org.dataone.service.types.Identifier;
-import org.dataone.service.types.ListObjects;
+import org.dataone.service.types.ObjectList;
 import org.dataone.service.types.Log;
 import org.dataone.service.types.LogEntry;
 import org.dataone.service.types.NodeReference;
@@ -83,16 +83,16 @@ public class ValidateSamplesTestCase {
     }
 
     @Test
-    public void validateListObjectsSample() throws Exception, SAXException, IOException, ParserConfigurationException {
+    public void validateObjectListSample() throws Exception, SAXException, IOException, ParserConfigurationException {
 
-        assertTrue(validateExamples("https://repository.dataone.org/software/cicore/trunk/schemas/listobjects.xsd","/org/dataone/service/samples/listObjectsSample1.xml"));
+        assertTrue(validateExamples("https://repository.dataone.org/software/cicore/trunk/schemas/objectlist.xsd","/org/dataone/service/samples/objectListSample1.xml"));
 
     }
 
     @Test
-    public void validateListObjectsMarshalling() throws Exception, SAXException, IOException, ParserConfigurationException {
+    public void validateObjectListMarshalling() throws Exception, SAXException, IOException, ParserConfigurationException {
 
-        assertTrue(testListObjectsMarshalling("/org/dataone/service/samples/listObjectsSample1.xml"));
+        assertTrue(testObjectListMarshalling("/org/dataone/service/samples/objectListSample1.xml"));
 
     }
 
@@ -291,15 +291,15 @@ public class ValidateSamplesTestCase {
         return true;
     }
 
-    public boolean testListObjectsMarshalling(String externalListObjects) throws Exception {
-        ListObjects listObjects = new ListObjects();
-        listObjects.setCount(3);
-        listObjects.setStart(0);
-        listObjects.setTotal(3);
+    public boolean testObjectListMarshalling(String externalObjectList) throws Exception {
+        ObjectList objectList = new ObjectList();
+        objectList.setCount(3);
+        objectList.setStart(0);
+        objectList.setTotal(3);
 
         List <ObjectInfo> objectInfoList = new ArrayList<ObjectInfo>();
 
-        listObjects.setObjectInfoList(objectInfoList);
+        objectList.setObjectInfoList(objectInfoList);
 
         ObjectInfo objectInfo1 = new ObjectInfo();
         Identifier identifier1 = new Identifier();
@@ -312,7 +312,7 @@ public class ValidateSamplesTestCase {
         objectInfo1.setChecksum(checksum1);
         objectInfo1.setDateSysMetadataModified(new Date());
         objectInfo1.setSize(412341324);
-        listObjects.addObjectInfo(objectInfo1);
+        objectList.addObjectInfo(objectInfo1);
 
         ObjectInfo objectInfo2 = new ObjectInfo();
         Identifier identifier2 = new Identifier();
@@ -325,7 +325,7 @@ public class ValidateSamplesTestCase {
         objectInfo2.setChecksum(checksum1);
         objectInfo2.setDateSysMetadataModified(new Date());
         objectInfo2.setSize(9087654);
-        listObjects.addObjectInfo(objectInfo2);
+        objectList.addObjectInfo(objectInfo2);
 
         ObjectInfo objectInfo3 = new ObjectInfo();
         Identifier identifier3 = new Identifier();
@@ -338,30 +338,30 @@ public class ValidateSamplesTestCase {
         objectInfo3.setChecksum(checksum1);
         objectInfo3.setDateSysMetadataModified(new Date());
         objectInfo3.setSize(90654);
-        listObjects.addObjectInfo(objectInfo3);
+        objectList.addObjectInfo(objectInfo3);
 
 
         IBindingFactory bfact =
-                BindingDirectory.getFactory(org.dataone.service.types.ListObjects.class);
+                BindingDirectory.getFactory(org.dataone.service.types.ObjectList.class);
 
         IMarshallingContext mctx = bfact.createMarshallingContext();
-        ByteArrayOutputStream testListObjectsOutput = new ByteArrayOutputStream();
+        ByteArrayOutputStream testObjectListOutput = new ByteArrayOutputStream();
 
-        mctx.marshalDocument(listObjects, "UTF-8", null, testListObjectsOutput);
+        mctx.marshalDocument(objectList, "UTF-8", null, testObjectListOutput);
 
         //       InputStream inputStream = this.getClass().getResourceAsStream(xmlDocument);
 
 
-        ByteArrayInputStream testListObjectsInput = new ByteArrayInputStream(testListObjectsOutput.toByteArray());
+        ByteArrayInputStream testObjectListInput = new ByteArrayInputStream(testObjectListOutput.toByteArray());
 
         //       BindingDirectory.getFactory("binding", "org.dataone.service.types");
         IUnmarshallingContext uctx = bfact.createUnmarshallingContext();
 
-        listObjects = (ListObjects) uctx.unmarshalDocument(testListObjectsInput, null);
+        objectList = (ObjectList) uctx.unmarshalDocument(testObjectListInput, null);
 
-        InputStream inputStream = this.getClass().getResourceAsStream(externalListObjects);
+        InputStream inputStream = this.getClass().getResourceAsStream(externalObjectList);
         try {
-            listObjects = (ListObjects) uctx.unmarshalDocument(inputStream, null);
+            objectList = (ObjectList) uctx.unmarshalDocument(inputStream, null);
 
         } finally {
             inputStream.close();

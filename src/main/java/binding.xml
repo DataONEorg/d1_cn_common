@@ -4,6 +4,6 @@
   <format label="ns2:Event" type="org.dataone.service.types.Event" enum-value-method="toString"/>
   <include path="service_types_SystemMetadata_01Binding.xml"/>
   <include path="service_types_common_01Binding.xml"/>
-  <include path="service_types_ListObjects_01Binding.xml"/>
+  <include path="service_types_ObjectList_01Binding.xml"/>
   <include path="service_types_logging_01Binding.xml"/>
 </binding>

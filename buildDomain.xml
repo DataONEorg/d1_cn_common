@@ -20,7 +20,7 @@
                 <url url="https://repository.dataone.org/software/cicore/trunk/schemas/systemmetadata.xsd"/>
                 <url url="https://repository.dataone.org/software/cicore/trunk/schemas/logging.xsd"/>
                 <url url="https://repository.dataone.org/software/cicore/trunk/schemas/common.xsd"/>
-                <url url="https://repository.dataone.org/software/cicore/trunk/schemas/listobjects.xsd"/>
+                <url url="https://repository.dataone.org/software/cicore/trunk/schemas/objectlist.xsd"/>
             </resources>
         </copy>
         <echo message="downloadedSchema" />
@@ -57,7 +57,7 @@
             replace="value style=&quot;attribute&quot; class=&quot;common\:Identifier&quot;"
             flags="g"
             byline="true">
-                 <fileset dir="${basedir}/src/main/java" includes="service_types_ListObjects_01Binding.xml"/>
+                 <fileset dir="${basedir}/src/main/java" includes="service_types_ObjectList_01Binding.xml"/>
 
        </replaceregexp>
        -->
@@ -99,8 +99,8 @@
         <replace file="${basedir}/src/main/java/service_types_common_01Binding.xml" token="getString" value="getValue" />
         <replace file="${basedir}/src/main/java/service_types_common_01Binding.xml" token="setString" value="setValue" />
 
-        <replace file="${basedir}/src/main/java/service_types_ListObjects_01Binding.xml" token="ObjectInfos" value="ObjectInfoList" />
-        <replace file="${basedir}/src/main/java/org/dataone/service/types/ListObjects.java" token="ObjectInfos" value="ObjectInfoList" />
+        <replace file="${basedir}/src/main/java/service_types_ObjectList_01Binding.xml" token="ObjectInfos" value="ObjectInfoList" />
+        <replace file="${basedir}/src/main/java/org/dataone/service/types/ObjectList.java" token="ObjectInfos" value="ObjectInfoList" />
 
         <replace file="${basedir}/src/main/java/service_types_logging_01Binding.xml" token="Entries" value="EntryList" />
         <replace file="${basedir}/src/main/java/org/dataone/service/types/Log.java" token="Entries" value="EntryList" />
@@ -155,7 +155,7 @@
             <arg value="${basedir}/src/main/java"/>
             <arg value="systemmetadata.xsd"/>
             <arg value="common.xsd"/>
-            <arg value="listobjects.xsd"/>
+            <arg value="objectlist.xsd"/>
             <arg value="logging.xsd"/>
         </java>
 

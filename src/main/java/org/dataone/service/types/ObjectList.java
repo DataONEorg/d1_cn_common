@@ -7,7 +7,7 @@ import java.util.List;
 /** 
  * Schema fragment(s) for this class:
  * <pre>
- * &lt;xs:complexType xmlns:ns="http://dataone.org/service/types/ListObjects/0.1" xmlns:xs="http://www.w3.org/2001/XMLSchema" name="ListObjects">
+ * &lt;xs:complexType xmlns:ns="http://dataone.org/service/types/ObjectList/0.1" xmlns:xs="http://www.w3.org/2001/XMLSchema" name="ObjectList">
  *   &lt;xs:sequence>
  *     &lt;xs:element type="ns:ObjectInfo" name="objectInfo" minOccurs="0" maxOccurs="unbounded"/>
  *   &lt;/xs:sequence>
@@ -17,7 +17,7 @@ import java.util.List;
  * &lt;/xs:complexType>
  * </pre>
  */
-public class ListObjects
+public class ObjectList
 {
     private List<ObjectInfo> objectInfoList = new ArrayList<ObjectInfo>();
     private int count;

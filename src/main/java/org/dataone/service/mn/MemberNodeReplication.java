@@ -32,6 +32,6 @@ import org.dataone.service.types.AuthToken;
  */
 public interface MemberNodeReplication 
 {
-    public void listObjects(AuthToken token, String query) 
+    public void objectList(AuthToken token, String query) 
         throws NotAuthorized, InvalidRequest, NotImplemented;
 }
