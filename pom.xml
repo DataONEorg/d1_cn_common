@@ -209,6 +209,16 @@
     </build>
     <repositories>
         <repository>
+            <id>sonatype.org</id>
+            <url>http://repository.sonatype.org/content/repositories/central</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+        <repository>
             <id>Jibx Maven Repository</id>
             <url>http://jibx.sourceforge.net/maven/</url>
         </repository>
