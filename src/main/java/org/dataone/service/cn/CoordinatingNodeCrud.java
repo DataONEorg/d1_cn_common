@@ -44,24 +44,31 @@ public interface CoordinatingNodeCrud
     public InputStream get(AuthToken token, Identifier guid)
         throws InvalidToken, ServiceFailure, NotAuthorized, NotFound, 
         NotImplemented;
+    
     public SystemMetadata getSystemMetadata(AuthToken token, Identifier guid)
         throws InvalidToken, ServiceFailure, NotAuthorized, NotFound, 
         InvalidRequest, NotImplemented;
+    
     public List<String> resolve(AuthToken token, Identifier guid)
         throws InvalidToken, ServiceFailure, NotAuthorized, NotFound, 
         InvalidRequest, NotImplemented;
+    
     public Identifier reserveId(AuthToken token, String scope, IdentifierFormat format)
         throws InvalidToken, ServiceFailure, NotAuthorized, InvalidRequest, 
         NotImplemented;
+    
     public Identifier reserveId(AuthToken token, String scope)
         throws InvalidToken, ServiceFailure, NotAuthorized, InvalidRequest, 
         NotImplemented;
+    
     public Identifier reserveId(AuthToken token, IdentifierFormat format)
         throws InvalidToken, ServiceFailure, NotAuthorized, InvalidRequest, 
         NotImplemented;
+    
     public Identifier reserveId(AuthToken token)
         throws InvalidToken, ServiceFailure, NotAuthorized, InvalidRequest, 
         NotImplemented;
+    
     public boolean assertRelation(AuthToken token, Identifier subjectId,
         String relationship, Identifier objectId)
         throws InvalidToken, ServiceFailure, NotAuthorized, NotFound, 

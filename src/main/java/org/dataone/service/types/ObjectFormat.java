@@ -20,6 +20,7 @@ package org.dataone.service.types;
  *     &lt;xs:enumeration value="CF-1.4"/>
  *     &lt;xs:enumeration value="http://www.cuahsi.org/waterML/1.0/"/>
  *     &lt;xs:enumeration value="http://www.cuahsi.org/waterML/1.1/"/>
+ *     &lt;xs:enumeration value="DSPACE METS SIP Profile 1.0"/>
  *     &lt;xs:enumeration value="netCDF-3"/>
  *     &lt;xs:enumeration value="netCDF-4"/>
  *     &lt;xs:enumeration value="text/plain"/>
@@ -27,6 +28,7 @@ package org.dataone.service.types;
  *     &lt;xs:enumeration value="image/gif"/>
  *     &lt;xs:enumeration value="http://rs.tdwg.org/dwc/xsd/simpledarwincore/"/>
  *     &lt;xs:enumeration value="http://digir.net/schema/conceptual/darwin/2003/1.0/darwin2.xsd"/>
+ *     &lt;xs:enumeration value="application/octet-stream"/>
  *   &lt;/xs:restriction>
  * &lt;/xs:simpleType>
  * </pre>
@@ -41,11 +43,13 @@ public enum ObjectFormat {
             "CF-1.0"), CF_1_1("CF-1.1"), CF_1_2("CF-1.2"), CF_1_3("CF-1.3"), CF_1_4(
             "CF-1.4"), WATER_ML_1_0(
             "http://www.cuahsi.org/waterML/1.0/"), WATER_ML_1_1(
-            "http://www.cuahsi.org/waterML/1.1/"), NET_CDF_3("netCDF-3"), NET_CDF_4(
+            "http://www.cuahsi.org/waterML/1.1/"), DSPACEMETSSIP_PROFILE10(
+            "DSPACE METS SIP Profile 1.0"), NET_CDF_3("netCDF-3"), NET_CDF_4(
             "netCDF-4"), TEXT_PLAIN("text/plain"), TEXT_CSV("text/csv"), IMAGE_GIF(
             "image/gif"), SIMPLE_DARWIN_CORE(
             "http://rs.tdwg.org/dwc/xsd/simpledarwincore/"), DARWIN_2(
-            "http://digir.net/schema/conceptual/darwin/2003/1.0/darwin2.xsd");
+            "http://digir.net/schema/conceptual/darwin/2003/1.0/darwin2.xsd"), APPLICATIONOCTETSTREAM(
+            "application/octet-stream");
     private final String value;
 
     private ObjectFormat(String value) {
