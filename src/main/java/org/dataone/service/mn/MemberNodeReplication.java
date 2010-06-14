@@ -18,10 +18,15 @@
 
 package org.dataone.service.mn;
 
+import java.util.Date;
 import org.dataone.service.exceptions.InvalidRequest;
+import org.dataone.service.exceptions.InvalidToken;
 import org.dataone.service.exceptions.NotAuthorized;
 import org.dataone.service.exceptions.NotImplemented;
+import org.dataone.service.exceptions.ServiceFailure;
 import org.dataone.service.types.AuthToken;
+import org.dataone.service.types.ObjectFormat;
+import org.dataone.service.types.ObjectList;
 
 /**
  * The DataONE MemberNode Replication programmatic interface.  This defines an
@@ -32,6 +37,7 @@ import org.dataone.service.types.AuthToken;
  */
 public interface MemberNodeReplication 
 {
-    public void objectList(AuthToken token, String query) 
-        throws NotAuthorized, InvalidRequest, NotImplemented;
+    public ObjectList listObjects(AuthToken token, Date startTime, Date endTime,
+            ObjectFormat objectFormat, boolean replicaStatus, int start, int count)
+        throws NotAuthorized, InvalidRequest, NotImplemented, ServiceFailure, InvalidToken;
 }
