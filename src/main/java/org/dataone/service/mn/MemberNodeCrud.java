@@ -37,6 +37,7 @@ import org.dataone.service.types.DescribeResponse;
 import org.dataone.service.types.Identifier;
 import org.dataone.service.types.Log;
 import org.dataone.service.types.SystemMetadata;
+import org.dataone.service.types.Event;
 
 /**
  * The DataONE MemberNode CRUD programmatic interface.  This defines an
@@ -53,7 +54,7 @@ public interface MemberNodeCrud
     public SystemMetadata getSystemMetadata(AuthToken token, Identifier guid)
         throws InvalidToken, ServiceFailure, NotAuthorized, NotFound, 
         InvalidRequest, NotImplemented;
-    public Log getLogRecords(AuthToken token, Date fromDate, Date toDate)
+    public Log getLogRecords(AuthToken token, Date fromDate, Date toDate, Event event)
         throws InvalidToken, ServiceFailure, NotAuthorized, InvalidRequest, 
         NotImplemented;
     public DescribeResponse describe(AuthToken token, Identifier guid)
