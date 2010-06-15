@@ -35,7 +35,7 @@ import org.dataone.service.types.AuthToken;
 import org.dataone.service.types.Checksum;
 import org.dataone.service.types.DescribeResponse;
 import org.dataone.service.types.Identifier;
-import org.dataone.service.types.LogRecordSet;
+import org.dataone.service.types.Log;
 import org.dataone.service.types.SystemMetadata;
 
 /**
@@ -53,7 +53,7 @@ public interface MemberNodeCrud
     public SystemMetadata getSystemMetadata(AuthToken token, Identifier guid)
         throws InvalidToken, ServiceFailure, NotAuthorized, NotFound, 
         InvalidRequest, NotImplemented;
-    public LogRecordSet getLogRecords(AuthToken token, Date fromDate, Date toDate)
+    public Log getLogRecords(AuthToken token, Date fromDate, Date toDate)
         throws InvalidToken, ServiceFailure, NotAuthorized, InvalidRequest, 
         NotImplemented;
     public DescribeResponse describe(AuthToken token, Identifier guid)
