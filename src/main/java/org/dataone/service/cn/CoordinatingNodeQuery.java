@@ -26,7 +26,7 @@ import org.dataone.service.exceptions.InvalidRequest;
 import org.dataone.service.exceptions.NotAuthorized;
 import org.dataone.service.types.AuthToken;
 import org.dataone.service.types.ObjectList;
-import org.dataone.service.types.LogRecordSet;
+import org.dataone.service.types.Log;
 
 /**
  * The DataONE CoordinatingNode CRUD programmatic interface.  This defines an
@@ -39,7 +39,7 @@ public interface CoordinatingNodeQuery
 {
     public ObjectList search(AuthToken token, Query query)
         throws NotAuthorized, InvalidRequest;
-    public LogRecordSet getLogRecords(AuthToken token, 
+    public Log getLogRecords(AuthToken token, 
             Date fromDate, Date toDate)
         throws NotAuthorized, InvalidRequest;
 }
