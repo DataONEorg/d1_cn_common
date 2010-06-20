@@ -27,17 +27,22 @@ public class AuthToken
 {
     private String token;
 
+
+
     /**
      * @param token the token to set
      */
     public AuthToken(String token) {
         this.token = token;
     }
-
+    public AuthToken() {}
     /**
      * @return the token
      */
     public String getToken() {
         return token;
+    }
+    public void setToken(String token) {
+        this.token = token;
     }
 }
