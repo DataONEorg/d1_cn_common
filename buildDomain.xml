@@ -61,7 +61,7 @@
 
        </replaceregexp>
        -->
-
+       <!-- XXX need to add in conversion for ChecksumAlgorithm -->
         <replace file="${basedir}/src/main/java/org/dataone/service/types/ObjectFormat.java" token="EMLECOINFORMATICSORGEML200" value="EML_2_0_0"/>
         <replace file="${basedir}/src/main/java/org/dataone/service/types/ObjectFormat.java" token="EMLECOINFORMATICSORGEML201" value="EML_2_0_1"/>
         <replace file="${basedir}/src/main/java/org/dataone/service/types/ObjectFormat.java" token="EMLECOINFORMATICSORGEML210" value="EML_2_1_0"/>
@@ -157,6 +157,7 @@
             <arg value="common.xsd"/>
             <arg value="objectlist.xsd"/>
             <arg value="logging.xsd"/>
+            <arg value="noderegistry.xsd"/>
         </java>
 
     </target>

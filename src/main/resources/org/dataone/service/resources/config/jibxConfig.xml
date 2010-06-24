@@ -24,4 +24,7 @@
     <schema-set names="objectlist.xsd" prefix="d1">
         <schema name="objectlist.xsd" includes="objectList ObjectList ObjectInfo" />
     </schema-set>
+    <schema-set names="noderegistry.xsd" prefix="d1">
+        <schema name="noderegistry.xsd" includes="nodeRegistry Node Services Synchronization Schedule" />
+    </schema-set>
 </schema-set>
