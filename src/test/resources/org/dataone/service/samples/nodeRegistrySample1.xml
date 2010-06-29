@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<d1:nodeRegistry xmlns:d1="http://dataone.org/service/types/NodeRegistry/0.1"
+ xmlns:common="http://dataone.org/service/types/common/0.1"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xsi:schemaLocation="http://dataone.org/service/types/NodeRegistry/0.1 https://repository.dataone.org/software/cicore/trunk/schemas/noderegistry.xsd">
+    <node type="member" synchronize="true" replicate="true">
+        <identifier>ERTWE5635WERTW3456</identifier>
+        <name>This is Some member node</name>
+        <baseURL>http://some.mn.com/mn/</baseURL>  
+        <services>
+            <service api="mn_crud" method="get" rest="object/${GUID}" available="true"    datechecked="2010-06-07T23:55:10Z" />
+            <service api="mn_crud" method="getSystemMetadata" rest="meta/${GUID}" available="true"     datechecked="2010-06-07T23:55:10Z" />
+            <service api="mn_replicate" method="listObjects" rest="object" available="true"    datechecked="2010-06-07T23:55:10Z" />
+        </services>
+        <synchronization>
+            <schedule sec="00" min="00" hour="12" mday="*"  mon="*" wday="*" year="*" />
+            <lastHarvested>2010-06-07T23:55:10Z</lastHarvested>
+            <lastCompleteHarvest>2010-06-07T23:55:10Z</lastCompleteHarvest>
+        </synchronization>
+    </node>
+    <node type="member" synchronize="true" replicate="true">
+        <identifier>634TERT435YETRY4E56Y</identifier>
+        <name>This is Some Other member node</name>
+        <baseURL>http://other.mn.com/mn/</baseURL>  
+        <services>
+            <service api="mn_crud" method="get" rest="object/${GUID}" available="true"    datechecked="2010-06-07T23:55:10Z" />
+            <service api="mn_crud" method="getSystemMetadata" rest="meta/${GUID}" available="true"     datechecked="2010-06-07T23:55:10Z" />
+            <service api="mn_replicate" method="listObjects" rest="object" available="true"    datechecked="2010-06-07T23:55:10Z" />
+        </services>
+        <synchronization>
+            <schedule sec="00" min="00" hour="12" mday="*"  mon="*" wday="*" year="*" />
+            <lastHarvested>2010-06-07T23:55:10Z</lastHarvested>
+            <lastCompleteHarvest>2010-06-07T23:55:10Z</lastCompleteHarvest>
+        </synchronization>
+    </node>
+</d1:nodeRegistry>

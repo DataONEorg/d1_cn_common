@@ -1,7 +1,9 @@
 package org.dataone.service.types;
 
 
-import java.io.BufferedReader;
+import java.text.SimpleDateFormat;
+import java.text.DateFormat;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -15,7 +17,6 @@ import org.junit.*;
 
 
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.StringWriter;
 import java.net.URL;
 import java.net.URLConnection;
@@ -35,18 +36,7 @@ import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.Schema;
 import javax.xml.validation.Validator;
-import org.dataone.service.types.Checksum;
-import org.dataone.service.types.ChecksumAlgorithm;
-import org.dataone.service.types.Event;
-import org.dataone.service.types.Identifier;
-import org.dataone.service.types.ObjectList;
-import org.dataone.service.types.Log;
-import org.dataone.service.types.LogEntry;
-import org.dataone.service.types.NodeReference;
-import org.dataone.service.types.ObjectFormat;
-import org.dataone.service.types.ObjectInfo;
-import org.dataone.service.types.Principal;
-import org.dataone.service.types.SystemMetadata;
+import org.dataone.service.types.Services.Service;
 import org.jibx.runtime.BindingDirectory;
 import org.jibx.runtime.IBindingFactory;
 import org.jibx.runtime.IMarshallingContext;
@@ -109,7 +99,19 @@ public class ValidateSamplesTestCase {
         assertTrue(testLoggingMarshalling("/org/dataone/service/samples/loggingSample1.xml"));
 
     }
+    @Test
+    public void validateNodeRegistrySample() throws Exception, SAXException, IOException, ParserConfigurationException {
 
+        assertTrue(validateExamples("https://repository.dataone.org/software/cicore/trunk/schemas/noderegistry.xsd","/org/dataone/service/samples/nodeRegistrySample1.xml"));
+
+    }
+
+    @Test
+    public void validateNodeRegistryMarshalling() throws Exception, SAXException, IOException, ParserConfigurationException {
+
+        assertTrue(testNodeRegistryMarshalling("/org/dataone/service/samples/nodeRegistrySample1.xml"));
+
+    }
     private boolean validateExamples(String xsdUrlString, String xmlDocument) throws Exception, SAXException, IOException, ParserConfigurationException {
         DocumentBuilder parser;
         // create a SchemaFactory capable of understanding WXS schemas
@@ -466,5 +468,77 @@ public class ValidateSamplesTestCase {
         }
         return true;
     }
+    public boolean testNodeRegistryMarshalling(String externalObjectList) throws Exception {
+        NodeRegistry nodeRegistry = new NodeRegistry();
+        Node node = new Node();
+        nodeRegistry.addNode(node);
+        node.setReplicate(true);
+        node.setSynchronize(true);
+        node.setType("member");
 
+        Identifier id1 = new Identifier();
+        id1.setValue("123");
+        node.setIdentifier(id1);
+
+        NodeReference name = new NodeReference();
+        name.setValue("nodename");
+        node.setName(name);
+        node.setBaseURL("this.here.org");
+
+        Services services1 = new Services();
+
+        Service getService = new Service();
+        getService.setApi("mn_crud");
+        getService.setMethod("get");
+        getService.setRest("object/${GUID}");
+        getService.setAvailable(true);
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss'Z'");
+        Date defaultDate = df.parse("2010-06-21T00:00:00Z");
+        getService.setDatechecked(defaultDate);
+        services1.addService(getService);
+        node.setServices(services1);
+        Synchronization synchronize = new Synchronization();
+        Schedule schedule = new Schedule();
+        schedule.setSec("00");
+        schedule.setMin("01");
+        schedule.setHour("0,6,12,18");
+        schedule.setMday("*");
+        schedule.setWday("*");
+        schedule.setMon("*");
+        schedule.setYear("*");
+        synchronize.setSchedule(schedule);
+
+        synchronize.setLastHarvested(defaultDate);
+        synchronize.setLastCompleteHarvest(defaultDate);
+        node.setSynchronization(synchronize);
+        
+        IBindingFactory bfact =
+                BindingDirectory.getFactory(org.dataone.service.types.NodeRegistry.class);
+
+        IMarshallingContext mctx = bfact.createMarshallingContext();
+        ByteArrayOutputStream testOutput = new ByteArrayOutputStream();
+
+        mctx.marshalDocument(nodeRegistry, "UTF-8", null, testOutput);
+
+        //       InputStream inputStream = this.getClass().getResourceAsStream(xmlDocument);
+
+        byte[] nodeRegistryTestOutput = testOutput.toByteArray();
+        String nodeRegistryStringOutput = new String(nodeRegistryTestOutput);
+        System.out.println(nodeRegistryStringOutput);
+        ByteArrayInputStream testInput = new ByteArrayInputStream(nodeRegistryTestOutput);
+
+        //       BindingDirectory.getFactory("binding", "org.dataone.service.types");
+        IUnmarshallingContext uctx = bfact.createUnmarshallingContext();
+
+        nodeRegistry = (NodeRegistry) uctx.unmarshalDocument(testInput, null);
+
+        InputStream inputStream = this.getClass().getResourceAsStream(externalObjectList);
+        try {
+            nodeRegistry = (NodeRegistry) uctx.unmarshalDocument(inputStream, null);
+
+        } finally {
+            inputStream.close();
+        }
+        return true;
+    }
 }

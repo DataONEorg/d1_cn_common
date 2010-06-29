@@ -1,9 +1,6 @@
 
 package org.dataone.service.types;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /** 
  * Schema fragment(s) for this class:
  * <pre>
@@ -12,8 +9,8 @@ import java.util.List;
  *     &lt;xs:element type="ns1:Identifier" name="identifier" minOccurs="1" maxOccurs="1"/>
  *     &lt;xs:element type="ns1:NodeReference" name="name"/>
  *     &lt;xs:element type="xs:string" name="baseURL"/>
- *     &lt;xs:element type="ns:Services" name="services" maxOccurs="unbounded"/>
- *     &lt;xs:element type="ns:Synchronization" name="synchronization"/>
+ *     &lt;xs:element type="ns:Services" name="services" minOccurs="0" maxOccurs="1"/>
+ *     &lt;xs:element type="ns:Synchronization" name="synchronization" minOccurs="0" maxOccurs="1"/>
  *   &lt;/xs:sequence>
  *   &lt;xs:attribute type="xs:boolean" use="required" name="replicate"/>
  *   &lt;xs:attribute type="xs:boolean" use="required" name="synchronize"/>
@@ -26,7 +23,7 @@ public class Node
     private Identifier identifier;
     private NodeReference name;
     private String baseURL;
-    private List<Services> serviceList = new ArrayList<Services>();
+    private Services services;
     private Synchronization synchronization;
     private boolean replicate;
     private boolean synchronize;
@@ -87,53 +84,21 @@ public class Node
     }
 
     /** 
-     * Get the list of 'services' element items.
+     * Get the 'services' element value.
      * 
-     * @return list
+     * @return value
      */
-    public List<Services> getServices() {
-        return serviceList;
+    public Services getServices() {
+        return services;
     }
 
     /** 
-     * Set the list of 'services' element items.
+     * Set the 'services' element value.
      * 
-     * @param list
+     * @param services
      */
-    public void setServices(List<Services> list) {
-        serviceList = list;
-    }
-
-    /** 
-     * Get the number of 'services' element items.
-     * @return count
-     */
-    public int sizeServices() {
-        return serviceList.size();
-    }
-
-    /** 
-     * Add a 'services' element item.
-     * @param item
-     */
-    public void addService(Services item) {
-        serviceList.add(item);
-    }
-
-    /** 
-     * Get 'services' element item by position.
-     * @return item
-     * @param index
-     */
-    public Services getService(int index) {
-        return serviceList.get(index);
-    }
-
-    /** 
-     * Remove all 'services' element items.
-     */
-    public void clearServices() {
-        serviceList.clear();
+    public void setServices(Services services) {
+        this.services = services;
     }
 
     /** 
