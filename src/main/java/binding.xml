@@ -6,5 +6,5 @@
   <include path="service_types_common_01Binding.xml"/>
   <include path="service_types_ObjectList_01Binding.xml"/>
   <include path="service_types_logging_01Binding.xml"/>
-  <include path="service_types_NodeRegistry_01Binding.xml"/>
+  <include path="service_types_NodeList_01Binding.xml"/>
 </binding>

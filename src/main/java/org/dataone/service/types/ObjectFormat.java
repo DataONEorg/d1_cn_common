@@ -43,12 +43,12 @@ public enum ObjectFormat {
             "CF-1.0"), CF_1_1("CF-1.1"), CF_1_2("CF-1.2"), CF_1_3("CF-1.3"), CF_1_4(
             "CF-1.4"), WATER_ML_1_0(
             "http://www.cuahsi.org/waterML/1.0/"), WATER_ML_1_1(
-            "http://www.cuahsi.org/waterML/1.1/"), DSPACEMETSSIP_PROFILE10(
+            "http://www.cuahsi.org/waterML/1.1/"), DSPACE_METS_SIP_1_0(
             "DSPACE METS SIP Profile 1.0"), NET_CDF_3("netCDF-3"), NET_CDF_4(
             "netCDF-4"), TEXT_PLAIN("text/plain"), TEXT_CSV("text/csv"), IMAGE_GIF(
             "image/gif"), SIMPLE_DARWIN_CORE(
             "http://rs.tdwg.org/dwc/xsd/simpledarwincore/"), DARWIN_2(
-            "http://digir.net/schema/conceptual/darwin/2003/1.0/darwin2.xsd"), APPLICATIONOCTETSTREAM(
+            "http://digir.net/schema/conceptual/darwin/2003/1.0/darwin2.xsd"), OCTET_STREAM(
             "application/octet-stream");
     private final String value;
 

@@ -7,16 +7,14 @@ import java.util.List;
 /** 
  * Schema fragment(s) for this class:
  * <pre>
- * &lt;xs:element xmlns:ns="http://dataone.org/service/types/NodeRegistry/0.1" xmlns:xs="http://www.w3.org/2001/XMLSchema" name="nodeRegistry">
- *   &lt;xs:complexType>
- *     &lt;xs:sequence>
- *       &lt;xs:element type="ns:Node" name="node" minOccurs="1" maxOccurs="unbounded"/>
- *     &lt;/xs:sequence>
- *   &lt;/xs:complexType>
- * &lt;/xs:element>
+ * &lt;xs:complexType xmlns:ns="http://dataone.org/service/types/NodeList/0.1" xmlns:xs="http://www.w3.org/2001/XMLSchema" name="NodeList">
+ *   &lt;xs:sequence>
+ *     &lt;xs:element type="ns:Node" name="node" minOccurs="1" maxOccurs="unbounded"/>
+ *   &lt;/xs:sequence>
+ * &lt;/xs:complexType>
  * </pre>
  */
-public class NodeRegistry
+public class NodeList
 {
     private List<Node> nodeList = new ArrayList<Node>();
 

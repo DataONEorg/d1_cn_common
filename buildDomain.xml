@@ -84,6 +84,8 @@
         <replace file="${basedir}/src/main/java/org/dataone/service/types/ObjectFormat.java" token="TEXTPLAIN" value="TEXT_PLAIN" />
         <replace file="${basedir}/src/main/java/org/dataone/service/types/ObjectFormat.java" token="TEXTCSV" value="TEXT_CSV" />
         <replace file="${basedir}/src/main/java/org/dataone/service/types/ObjectFormat.java" token="IMAGEGIF" value="IMAGE_GIF" />
+        <replace file="${basedir}/src/main/java/org/dataone/service/types/ObjectFormat.java" token="DSPACEMETSSIP_PROFILE10" value="DSPACE_METS_SIP_1_0" />
+        <replace file="${basedir}/src/main/java/org/dataone/service/types/ObjectFormat.java" token="APPLICATIONOCTETSTREAM" value="OCTET_STREAM" />
         <replace file="${basedir}/src/main/java/org/dataone/service/types/Identifier.java" token="string" value="value" />
         <replace file="${basedir}/src/main/java/org/dataone/service/types/Identifier.java" token="getString" value="getValue" />
         <replace file="${basedir}/src/main/java/org/dataone/service/types/Identifier.java" token="setString" value="setValue" />
@@ -157,7 +159,7 @@
             <arg value="common.xsd"/>
             <arg value="objectlist.xsd"/>
             <arg value="logging.xsd"/>
-            <arg value="noderegistry.xsd"/>
+            <arg value="nodelist.xsd"/>
         </java>
 
     </target>

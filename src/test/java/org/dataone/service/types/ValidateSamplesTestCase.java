@@ -102,16 +102,16 @@ public class ValidateSamplesTestCase {
     @Test
     public void validateNodeRegistrySample() throws Exception, SAXException, IOException, ParserConfigurationException {
 
-        assertTrue(validateExamples("https://repository.dataone.org/software/cicore/trunk/schemas/noderegistry.xsd","/org/dataone/service/samples/nodeRegistrySample1.xml"));
+        assertTrue(validateExamples("https://repository.dataone.org/software/cicore/trunk/schemas/nodelist.xsd","/org/dataone/service/samples/nodeListSample1.xml"));
 
     }
 
-    @Test
+/*    @Test
     public void validateNodeRegistryMarshalling() throws Exception, SAXException, IOException, ParserConfigurationException {
 
         assertTrue(testNodeRegistryMarshalling("/org/dataone/service/samples/nodeRegistrySample1.xml"));
 
-    }
+    } */
     private boolean validateExamples(String xsdUrlString, String xmlDocument) throws Exception, SAXException, IOException, ParserConfigurationException {
         DocumentBuilder parser;
         // create a SchemaFactory capable of understanding WXS schemas
@@ -468,20 +468,19 @@ public class ValidateSamplesTestCase {
         }
         return true;
     }
-    public boolean testNodeRegistryMarshalling(String externalObjectList) throws Exception {
-        NodeRegistry nodeRegistry = new NodeRegistry();
+    public boolean testNodeListMarshalling(String externalObjectList) throws Exception {
+        NodeList nodeList = new NodeList();
         Node node = new Node();
-        nodeRegistry.addNode(node);
+        nodeList.addNode(node);
         node.setReplicate(true);
         node.setSynchronize(true);
         node.setType("member");
 
-        Identifier id1 = new Identifier();
+        NodeReference id1 = new NodeReference();
         id1.setValue("123");
         node.setIdentifier(id1);
 
-        NodeReference name = new NodeReference();
-        name.setValue("nodename");
+        String name = "nodename";
         node.setName(name);
         node.setBaseURL("this.here.org");
 
@@ -513,12 +512,12 @@ public class ValidateSamplesTestCase {
         node.setSynchronization(synchronize);
         
         IBindingFactory bfact =
-                BindingDirectory.getFactory(org.dataone.service.types.NodeRegistry.class);
+                BindingDirectory.getFactory(org.dataone.service.types.NodeList.class);
 
         IMarshallingContext mctx = bfact.createMarshallingContext();
         ByteArrayOutputStream testOutput = new ByteArrayOutputStream();
 
-        mctx.marshalDocument(nodeRegistry, "UTF-8", null, testOutput);
+        mctx.marshalDocument(nodeList, "UTF-8", null, testOutput);
 
         //       InputStream inputStream = this.getClass().getResourceAsStream(xmlDocument);
 
@@ -530,15 +529,15 @@ public class ValidateSamplesTestCase {
         //       BindingDirectory.getFactory("binding", "org.dataone.service.types");
         IUnmarshallingContext uctx = bfact.createUnmarshallingContext();
 
-        nodeRegistry = (NodeRegistry) uctx.unmarshalDocument(testInput, null);
+        nodeList = (NodeList) uctx.unmarshalDocument(testInput, null);
 
         InputStream inputStream = this.getClass().getResourceAsStream(externalObjectList);
         try {
-            nodeRegistry = (NodeRegistry) uctx.unmarshalDocument(inputStream, null);
+            nodeList = (NodeList) uctx.unmarshalDocument(inputStream, null);
 
         } finally {
             inputStream.close();
         }
         return true;
-    }
+    } 
 }

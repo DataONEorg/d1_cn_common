@@ -80,4 +80,9 @@ public interface MemberNodeCrud
     public Checksum getChecksum(AuthToken token, Identifier guid,
         String checksumAlgorithm) throws InvalidToken, ServiceFailure, 
         NotAuthorized, NotFound, InvalidRequest, NotImplemented;
+
+    // XXX THIS IS BROKE, NEED TO FIX
+    public void setAccess(AuthToken token, Identifier id, String principal, String permission,
+            String permissionType, String permissionOrder)
+      throws ServiceFailure;
 }

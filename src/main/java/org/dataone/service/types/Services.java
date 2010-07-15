@@ -8,7 +8,7 @@ import java.util.List;
 /** 
  * Schema fragment(s) for this class:
  * <pre>
- * &lt;xs:complexType xmlns="http://dataone.org/service/types/NodeRegistry/0.1" xmlns:xs="http://www.w3.org/2001/XMLSchema" name="Services">
+ * &lt;xs:complexType xmlns="http://dataone.org/service/types/NodeList/0.1" xmlns:xs="http://www.w3.org/2001/XMLSchema" name="Services">
  *   &lt;xs:sequence>
  *     &lt;xs:element type="Service" name="service" minOccurs="1" maxOccurs="unbounded">
  *       &lt;!-- Reference to inner class Service -->
@@ -73,9 +73,9 @@ public class Services
     /** 
      * Schema fragment(s) for this class:
      * <pre>
-     * &lt;xs:element xmlns:ns="http://dataone.org/service/types/NodeRegistry/0.1" xmlns:xs="http://www.w3.org/2001/XMLSchema" type="ns:Service" name="service" minOccurs="1" maxOccurs="unbounded"/>
+     * &lt;xs:element xmlns:ns="http://dataone.org/service/types/NodeList/0.1" xmlns:xs="http://www.w3.org/2001/XMLSchema" type="ns:Service" name="service" minOccurs="1" maxOccurs="unbounded"/>
      * 
-     * &lt;xs:complexType xmlns:ns="http://dataone.org/service/types/NodeRegistry/0.1" xmlns:xs="http://www.w3.org/2001/XMLSchema" name="Service">
+     * &lt;xs:complexType xmlns:ns="http://dataone.org/service/types/NodeList/0.1" xmlns:xs="http://www.w3.org/2001/XMLSchema" name="Service">
      *   &lt;xs:attribute type="xs:string" use="required" name="api"/>
      *   &lt;xs:attribute type="xs:boolean" use="required" name="available"/>
      *   &lt;xs:attribute type="xs:dateTime" use="required" name="datechecked"/>

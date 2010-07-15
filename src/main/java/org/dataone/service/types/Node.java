@@ -4,10 +4,10 @@ package org.dataone.service.types;
 /** 
  * Schema fragment(s) for this class:
  * <pre>
- * &lt;xs:complexType xmlns:ns="http://dataone.org/service/types/NodeRegistry/0.1" xmlns:ns1="http://dataone.org/service/types/common/0.1" xmlns:xs="http://www.w3.org/2001/XMLSchema" name="Node">
+ * &lt;xs:complexType xmlns:ns="http://dataone.org/service/types/NodeList/0.1" xmlns:ns1="http://dataone.org/service/types/common/0.1" xmlns:xs="http://www.w3.org/2001/XMLSchema" name="Node">
  *   &lt;xs:sequence>
- *     &lt;xs:element type="ns1:Identifier" name="identifier" minOccurs="1" maxOccurs="1"/>
- *     &lt;xs:element type="ns1:NodeReference" name="name"/>
+ *     &lt;xs:element type="ns1:NodeReference" name="identifier" minOccurs="1" maxOccurs="1"/>
+ *     &lt;xs:element type="xs:string" name="name"/>
  *     &lt;xs:element type="xs:string" name="baseURL"/>
  *     &lt;xs:element type="ns:Services" name="services" minOccurs="0" maxOccurs="1"/>
  *     &lt;xs:element type="ns:Synchronization" name="synchronization" minOccurs="0" maxOccurs="1"/>
@@ -20,8 +20,8 @@ package org.dataone.service.types;
  */
 public class Node
 {
-    private Identifier identifier;
-    private NodeReference name;
+    private NodeReference identifier;
+    private String name;
     private String baseURL;
     private Services services;
     private Synchronization synchronization;
@@ -30,20 +30,28 @@ public class Node
     private String type;
 
     /** 
-     * Get the 'identifier' element value.
+     * Get the 'identifier' element value. A unique identifier for the node.  This may initially 
+          be the same as the baseURL, however this value should not change for 
+          future implementations of the same node, whereas the baseURL may change 
+          in the future.
+          
      * 
      * @return value
      */
-    public Identifier getIdentifier() {
+    public NodeReference getIdentifier() {
         return identifier;
     }
 
     /** 
-     * Set the 'identifier' element value.
+     * Set the 'identifier' element value. A unique identifier for the node.  This may initially 
+          be the same as the baseURL, however this value should not change for 
+          future implementations of the same node, whereas the baseURL may change 
+          in the future.
+          
      * 
      * @param identifier
      */
-    public void setIdentifier(Identifier identifier) {
+    public void setIdentifier(NodeReference identifier) {
         this.identifier = identifier;
     }
 
@@ -52,7 +60,7 @@ public class Node
      * 
      * @return value
      */
-    public NodeReference getName() {
+    public String getName() {
         return name;
     }
 
@@ -61,7 +69,7 @@ public class Node
      * 
      * @param name
      */
-    public void setName(NodeReference name) {
+    public void setName(String name) {
         this.name = name;
     }
 

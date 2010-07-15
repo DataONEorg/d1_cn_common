@@ -6,7 +6,7 @@ import java.util.Date;
 /** 
  * Schema fragment(s) for this class:
  * <pre>
- * &lt;xs:complexType xmlns:ns="http://dataone.org/service/types/NodeRegistry/0.1" xmlns:xs="http://www.w3.org/2001/XMLSchema" name="Synchronization">
+ * &lt;xs:complexType xmlns:ns="http://dataone.org/service/types/NodeList/0.1" xmlns:xs="http://www.w3.org/2001/XMLSchema" name="Synchronization">
  *   &lt;xs:sequence>
  *     &lt;xs:element type="ns:Schedule" name="schedule"/>
  *     &lt;xs:element type="xs:dateTime" name="lastHarvested"/>

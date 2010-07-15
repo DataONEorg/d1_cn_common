@@ -1,8 +1,8 @@
-<binding xmlns:ns3="http://dataone.org/service/types/NodeRegistry/0.1" xmlns:common="http://dataone.org/service/types/common/0.1" trim-whitespace="true">
-  <namespace uri="http://dataone.org/service/types/NodeRegistry/0.1" prefix="d1"/>
+<binding xmlns:ns3="http://dataone.org/service/types/NodeList/0.1" xmlns:common="http://dataone.org/service/types/common/0.1" trim-whitespace="true">
+  <namespace uri="http://dataone.org/service/types/NodeList/0.1" prefix="d1"/>
   <mapping abstract="true" type-name="ns3:Node" class="org.dataone.service.types.Node">
-    <structure map-as="common:Identifier" get-method="getIdentifier" set-method="setIdentifier" name="identifier"/>
-    <structure map-as="common:NodeReference" get-method="getName" set-method="setName" name="name"/>
+    <structure map-as="common:NodeReference" get-method="getIdentifier" set-method="setIdentifier" name="identifier"/>
+    <value style="element" name="name" get-method="getName" set-method="setName"/>
     <value style="element" name="baseURL" get-method="getBaseURL" set-method="setBaseURL"/>
     <structure map-as="ns3:Services" get-method="getServices" set-method="setServices" usage="optional" name="services"/>
     <structure map-as="ns3:Synchronization" get-method="getSynchronization" set-method="setSynchronization" usage="optional" name="synchronization"/>
@@ -35,9 +35,12 @@
     <value style="attribute" name="wday" get-method="getWday" set-method="setWday"/>
     <value style="attribute" name="year" get-method="getYear" set-method="setYear"/>
   </mapping>
-  <mapping class="org.dataone.service.types.NodeRegistry" name="nodeRegistry" ns="http://dataone.org/service/types/NodeRegistry/0.1">
+  <mapping abstract="true" type-name="ns3:NodeList" class="org.dataone.service.types.NodeList">
     <collection get-method="getNodes" set-method="setNodes" create-type="java.util.ArrayList">
       <structure map-as="ns3:Node" name="node"/>
     </collection>
+  </mapping>
+  <mapping class="org.dataone.service.types.NodeList" name="nodeList" ns="http://dataone.org/service/types/NodeList/0.1">
+    <structure map-as="ns3:NodeList"/>
   </mapping>
 </binding>
