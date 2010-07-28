@@ -10,7 +10,7 @@ import java.util.List;
  * &lt;xs:element xmlns:ns="http://dataone.org/service/types/logging/0.1" xmlns:xs="http://www.w3.org/2001/XMLSchema" name="log">
  *   &lt;xs:complexType>
  *     &lt;xs:sequence>
- *       &lt;xs:element type="ns:LogEntry" name="logEntry" minOccurs="1" maxOccurs="unbounded"/>
+ *       &lt;xs:element type="ns:LogEntry" name="logEntry" minOccurs="0" maxOccurs="unbounded"/>
  *     &lt;/xs:sequence>
  *   &lt;/xs:complexType>
  * &lt;/xs:element>
