@@ -4,7 +4,7 @@
     <groupId>org.dataone</groupId>
     <artifactId>dataone-service-api</artifactId>
     <packaging>jar</packaging>
-    <version>0.3.0</version>
+    <version>0.4.0</version>
     <name>DataONE-ServiceApi-Java</name>
     <url>http://dataone.org</url>
     <description>DataONE Service Interface</description>
