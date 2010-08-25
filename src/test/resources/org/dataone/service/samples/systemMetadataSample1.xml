@@ -24,7 +24,7 @@
 <d1:systemMetadata xmlns:common="http://dataone.org/service/types/common/0.1"
  xmlns:d1="http://dataone.org/service/types/SystemMetadata/0.1"
  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
- xsi:schemaLocation="http://dataone.org/service/types/SystemMetadata/0.1 https://repository.dataone.org/software/cicore/trunk/schemas/systemmetadata.xsd">
+ xsi:schemaLocation="http://dataone.org/service/types/SystemMetadata/0.1 https://repository.dataone.org/software/cicore/tags/D1_SCHEMA_0_4/systemmetadata.xsd">
     <identifier>ABC123</identifier>
     <objectFormat>eml://ecoinformatics.org/eml-2.0.0</objectFormat>
     <size>922337203</size>

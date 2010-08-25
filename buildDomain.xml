@@ -173,7 +173,7 @@
             <arg value="-c" />
             <arg value="${basedir}/src/main/resources/org/dataone/service/resources/config/jibxConfig.xml" />
             <arg value="-s" />
-            <arg value="https://repository.dataone.org/software/cicore/trunk/schemas/" />
+            <arg value="https://repository.dataone.org/software/cicore/tags/D1_SCHEMA_0_4/" />
             <arg value="-t"/>
             <arg value="${basedir}/src/main/java"/>
             <arg value="systemmetadata.xsd"/>

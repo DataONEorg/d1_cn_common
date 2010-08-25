@@ -80,49 +80,49 @@ public class ValidateSamplesTestCase {
 
     @Test
     public void validateSysmetaSample() throws Exception, SAXException, IOException, ParserConfigurationException {
-
-        assertTrue(validateExamples("https://repository.dataone.org/software/cicore/trunk/schemas/systemmetadata.xsd","/org/dataone/service/samples/systemMetadataSample1.xml"));
+// TODO arguments should be injected based on version of service api to test and build
+        assertTrue(validateExamples("https://repository.dataone.org/software/cicore/tags/D1_SCHEMA_0_4/systemmetadata.xsd","/org/dataone/service/samples/systemMetadataSample1.xml"));
 
     }
 
     @Test
     public void validateSysmetaMarshalling() throws Exception, SAXException, IOException, ParserConfigurationException {
-
+// TODO arguments should be injected based on version of service api to test and build
         assertTrue(testSystemMetadataMarshalling("/org/dataone/service/samples/systemMetadataSample1.xml"));
 
     }
 
     @Test
     public void validateObjectListSample() throws Exception, SAXException, IOException, ParserConfigurationException {
-
-        assertTrue(validateExamples("https://repository.dataone.org/software/cicore/trunk/schemas/objectlist.xsd","/org/dataone/service/samples/objectListSample1.xml"));
+// TODO arguments should be injected based on version of service api to test and build
+        assertTrue(validateExamples("https://repository.dataone.org/software/cicore/tags/D1_SCHEMA_0_4/objectlist.xsd","/org/dataone/service/samples/objectListSample1.xml"));
 
     }
 
     @Test
     public void validateObjectListMarshalling() throws Exception, SAXException, IOException, ParserConfigurationException {
-
+// TODO arguments should be injected based on version of service api to test and build
         assertTrue(testObjectListMarshalling("/org/dataone/service/samples/objectListSample1.xml"));
 
     }
 
     @Test
     public void validateLoggingSample() throws Exception, SAXException, IOException, ParserConfigurationException {
-
-        assertTrue(validateExamples("https://repository.dataone.org/software/cicore/trunk/schemas/logging.xsd","/org/dataone/service/samples/loggingSample1.xml"));
+// TODO arguments should be injected based on version of service api to test and build
+        assertTrue(validateExamples("https://repository.dataone.org/software/cicore/tags/D1_SCHEMA_0_4/logging.xsd","/org/dataone/service/samples/loggingSample1.xml"));
 
     }
 
     @Test
     public void validateLoggingMarshalling() throws Exception, SAXException, IOException, ParserConfigurationException {
-
+// TODO arguments should be injected based on version of service api to test and build
         assertTrue(testLoggingMarshalling("/org/dataone/service/samples/loggingSample1.xml"));
 
     }
     @Test
     public void validateNodeRegistrySample() throws Exception, SAXException, IOException, ParserConfigurationException {
-
-        assertTrue(validateExamples("https://repository.dataone.org/software/cicore/trunk/schemas/nodelist.xsd","/org/dataone/service/samples/nodeListSample1.xml"));
+// TODO arguments should be injected based on version of service api to test and build
+        assertTrue(validateExamples("https://repository.dataone.org/software/cicore/tags/D1_SCHEMA_0_4/nodelist.xsd","/org/dataone/service/samples/nodeListSample1.xml"));
 
     }
 
