@@ -20,7 +20,7 @@ package org.dataone.service.types;
  *     &lt;xs:enumeration value="CF-1.4"/>
  *     &lt;xs:enumeration value="http://www.cuahsi.org/waterML/1.0/"/>
  *     &lt;xs:enumeration value="http://www.cuahsi.org/waterML/1.1/"/>
- *     &lt;xs:enumeration value="DSPACE METS SIP Profile 1.0"/>
+ *     &lt;xs:enumeration value="http://www.loc.gov/METS/"/>
  *     &lt;xs:enumeration value="netCDF-3"/>
  *     &lt;xs:enumeration value="netCDF-4"/>
  *     &lt;xs:enumeration value="text/plain"/>
@@ -44,7 +44,7 @@ public enum ObjectFormat {
             "CF-1.4"), WATER_ML_1_0(
             "http://www.cuahsi.org/waterML/1.0/"), WATER_ML_1_1(
             "http://www.cuahsi.org/waterML/1.1/"), DSPACE_METS_SIP_1_0(
-            "DSPACE METS SIP Profile 1.0"), NET_CDF_3("netCDF-3"), NET_CDF_4(
+            "http://www.loc.gov/METS/"), NET_CDF_3("netCDF-3"), NET_CDF_4(
             "netCDF-4"), TEXT_PLAIN("text/plain"), TEXT_CSV("text/csv"), IMAGE_GIF(
             "image/gif"), SIMPLE_DARWIN_CORE(
             "http://rs.tdwg.org/dwc/xsd/simpledarwincore/"), DARWIN_2(

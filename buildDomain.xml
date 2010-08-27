@@ -105,7 +105,7 @@
         <replace file="${basedir}/src/main/java/org/dataone/service/types/ObjectFormat.java" token="TEXTPLAIN" value="TEXT_PLAIN" />
         <replace file="${basedir}/src/main/java/org/dataone/service/types/ObjectFormat.java" token="TEXTCSV" value="TEXT_CSV" />
         <replace file="${basedir}/src/main/java/org/dataone/service/types/ObjectFormat.java" token="IMAGEGIF" value="IMAGE_GIF" />
-        <replace file="${basedir}/src/main/java/org/dataone/service/types/ObjectFormat.java" token="DSPACEMETSSIP_PROFILE10" value="DSPACE_METS_SIP_1_0" />
+        <replace file="${basedir}/src/main/java/org/dataone/service/types/ObjectFormat.java" token="HTTPWWWLOCGOV_METS" value="DSPACE_METS_SIP_1_0" />
         <replace file="${basedir}/src/main/java/org/dataone/service/types/ObjectFormat.java" token="APPLICATIONOCTETSTREAM" value="OCTET_STREAM" />
         <replace file="${basedir}/src/main/java/org/dataone/service/types/Identifier.java" token="string" value="value" />
         <replace file="${basedir}/src/main/java/org/dataone/service/types/Identifier.java" token="getString" value="getValue" />
