@@ -55,19 +55,19 @@ public interface CoordinatingNodeCrud
         throws InvalidToken, ServiceFailure, NotAuthorized, NotFound, 
         InvalidRequest, NotImplemented;
     
-    public Identifier reserveId(AuthToken token, String scope, IdentifierFormat format)
+    public Identifier reserveIdentifier(AuthToken token, String scope, IdentifierFormat format)
         throws InvalidToken, ServiceFailure, NotAuthorized, InvalidRequest, 
         NotImplemented;
     
-    public Identifier reserveId(AuthToken token, String scope)
+    public Identifier reserveIdentifier(AuthToken token, String scope)
         throws InvalidToken, ServiceFailure, NotAuthorized, InvalidRequest, 
         NotImplemented;
     
-    public Identifier reserveId(AuthToken token, IdentifierFormat format)
+    public Identifier reserveIdentifier(AuthToken token, IdentifierFormat format)
         throws InvalidToken, ServiceFailure, NotAuthorized, InvalidRequest, 
         NotImplemented;
     
-    public Identifier reserveId(AuthToken token)
+    public Identifier reserveIdentifier (AuthToken token)
         throws InvalidToken, ServiceFailure, NotAuthorized, InvalidRequest, 
         NotImplemented;
     
