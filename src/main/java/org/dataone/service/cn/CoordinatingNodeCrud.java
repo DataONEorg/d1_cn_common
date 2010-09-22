@@ -32,6 +32,7 @@ import org.dataone.service.exceptions.ServiceFailure;
 import org.dataone.service.types.AuthToken;
 import org.dataone.service.types.IdentifierFormat;
 import org.dataone.service.types.Identifier;
+import org.dataone.service.types.ObjectLocationList;
 import org.dataone.service.types.SystemMetadata;
 
 /**
@@ -51,7 +52,7 @@ public interface CoordinatingNodeCrud
         throws InvalidToken, ServiceFailure, NotAuthorized, NotFound, 
         InvalidRequest, NotImplemented;
     
-    public List<String> resolve(AuthToken token, Identifier guid)
+    public ObjectLocationList resolve(AuthToken token, Identifier guid)
         throws InvalidToken, ServiceFailure, NotAuthorized, NotFound, 
         InvalidRequest, NotImplemented;
     

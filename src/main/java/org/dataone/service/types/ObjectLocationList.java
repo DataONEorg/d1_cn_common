@@ -21,6 +21,7 @@
 package org.dataone.service.types;
 
 import java.util.Set;
+import java.util.TreeSet;
 
 /**
  * The DataONE Type to represent a list of locations on which replicas of an 
@@ -32,7 +33,19 @@ public class ObjectLocationList
 {
     private Set<ObjectLocation> locations;
     
+    /**
+     * Construct a list using a default empty set of locations.
+     */
+    public ObjectLocationList() {
+        locations = new TreeSet<ObjectLocation>();
+    }
+    
+    /**
+     * Construct a list using the provided set of locations.
+     * @param locations the Set of locations
+     */
     public ObjectLocationList(Set<ObjectLocation> locations) {
+        this.locations = locations;
     }
 
     /**
@@ -49,4 +62,11 @@ public class ObjectLocationList
         this.locations = locations;
     }
 
+    /**
+     * Add a new location to the list of object locations.
+     * @param l the location to be added.
+     */
+    public void add(ObjectLocation l) {
+        locations.add(l);
+    }
 }
