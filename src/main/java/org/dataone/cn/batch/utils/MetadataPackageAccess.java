@@ -32,42 +32,73 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.HashMap;
+import java.util.Map;
 import org.apache.log4j.Logger;
 
 /**
+ * Manage persistent metadata concerning the processing of Metacat log files
+ * The log files contain information about create events and replication events
+ * The files crossreference DataONE GUIDs of sci and sys metadata to the Metacat
+ * named files on the file system
  *
  * @author rwaltz
  */
 public class MetadataPackageAccess {
 
     Logger logger = Logger.getLogger(MetadataPackageAccess.class.getName());
-    static public final String SKIP_IN_LOG_FIELD = "skipInLogFile";
-    static public final String DATE_TIME_LAST_ACCESSED_FIELD = "dateTimeLastAccessed";
-    private String eventLogFilePersistDataPath;
-    private String eventLogFilePersistDataName;
-    File logfilePersistData;
+
+
+    // This file contains metadata (last date and # of bytes read) for the packager
+    // reading the
+    private String logFilePersistAccessDataPath = null;
+    private String logFilePersistAccessDataName = null;
+
+    private String logFilePersistPendingDataPath = null;
+    private String logFilePersistPendingDataName = null;
+
+    File logfilePersistAccessData = null;
+    File logfilePersistPendingData = null;
     private HashMap<String, Long> persistMappings = new HashMap<String, Long>();
+    private Map<String, Map<String, String>> pendingDataQueue = new HashMap<String, Map<String, String>>();
 
     public void init() throws FileNotFoundException, IOException, ClassNotFoundException, Exception {
-        this.logfilePersistData = new File(eventLogFilePersistDataPath + File.separator + eventLogFilePersistDataName);
+        this.logfilePersistAccessData = new File(logFilePersistAccessDataPath + File.separator + logFilePersistAccessDataName);
         FileInputStream fis = null;
-//        try {
-            if (this.logfilePersistData.exists() && this.logfilePersistData.length() > 0) {
-                if (this.logfilePersistData.canRead() ) {
+        logger.info(this.logfilePersistAccessData.getAbsolutePath());
+        if (this.logfilePersistAccessData.exists() && this.logfilePersistAccessData.length() > 0) {
+            if (this.logfilePersistAccessData.canRead() ) {
 
-                    fis = new FileInputStream(this.logfilePersistData);
+                fis = new FileInputStream(this.logfilePersistAccessData);
+                ObjectInputStream ois = new ObjectInputStream(fis);
+                this.persistMappings.putAll((HashMap<String, Long>) ois.readObject());
+                fis.close();
+
+            } else {
+                throw new Exception("LogFileSkipData file " + logFilePersistAccessDataName + " either does not exist or cannot be read!");
+            }
+        } else {
+            this.logfilePersistAccessData.createNewFile();
+            this.persistMappings.put(MetadataPackageAccessKey.SKIP_IN_LOG_FIELD.toString(), new Long(0));
+            this.persistMappings.put(MetadataPackageAccessKey.DATE_TIME_LAST_ACCESSED_FIELD.toString(), new Long(0));
+        }
+        
+        if (logFilePersistPendingDataPath != null && logFilePersistPendingDataName != null) {
+            this.logfilePersistPendingData = new File(logFilePersistPendingDataPath + File.separator + logFilePersistPendingDataName);
+            if (this.logfilePersistPendingData.exists() && this.logfilePersistPendingData.length() > 0) {
+                if (this.logfilePersistPendingData.canRead() ) {
+
+                    fis = new FileInputStream(this.logfilePersistPendingData);
                     ObjectInputStream ois = new ObjectInputStream(fis);
-                    this.persistMappings.putAll((HashMap<String, Long>) ois.readObject());
+                    this.pendingDataQueue.putAll((HashMap<String, HashMap<String, String>>) ois.readObject());
                     fis.close();
 
                 } else {
-                    throw new Exception("LogReader: LogFileSkipData file " + eventLogFilePersistDataName + " either does not exist or cannot be read!");
+                    throw new Exception("LogFilePendingData file " + logFilePersistPendingDataName + " either does not exist or cannot be read!");
                 }
             } else {
-                this.logfilePersistData.createNewFile();
-                this.persistMappings.put(SKIP_IN_LOG_FIELD, new Long(0));
-                this.persistMappings.put(DATE_TIME_LAST_ACCESSED_FIELD, new Long(0));
+                this.logfilePersistPendingData.createNewFile();
             }
+        }
 /*        } catch (FileNotFoundException ex) {
             logger.error(ex.getMessage(), ex);
         } catch (IOException ex) {
@@ -89,31 +120,62 @@ public class MetadataPackageAccess {
 
     // only call this after all transactions have succeeded
     public void writePersistentData() throws FileNotFoundException, IOException, Exception {
-        if (this.logfilePersistData.canWrite()) {
-            FileOutputStream fos = new FileOutputStream(this.logfilePersistData);
+        if (this.logfilePersistAccessData.canWrite()) {
+            FileOutputStream fos = new FileOutputStream(this.logfilePersistAccessData);
             ObjectOutputStream oos = new ObjectOutputStream(fos);
             oos.writeObject(this.persistMappings);
             oos.flush();
             fos.close();
         } else {
-            throw new Exception("LogReader: LogFileSkipData file " + eventLogFilePersistDataName + " either does not exist or cannot be read!");
+            throw new Exception("LogFileSkipData file " + logFilePersistAccessDataName + " either does not exist or cannot be read!");
+        }
+        if (this.logfilePersistPendingData != null && this.logfilePersistPendingData.exists() && (this.logfilePersistPendingData.canWrite())) {
+            FileOutputStream fos = new FileOutputStream(this.logfilePersistPendingData);
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+            oos.writeObject(this.pendingDataQueue);
+            oos.flush();
+            fos.close();
         }
     }
 
-    public String getEventLogFilePersistDataName() {
-        return eventLogFilePersistDataName;
+    public String getLogFilePersistAccessDataName() {
+        return logFilePersistAccessDataName;
     }
 
-    public void setEventLogFilePersistDataName(String eventLogFilePersistDataName) {
-        this.eventLogFilePersistDataName = eventLogFilePersistDataName;
+    public void setLogFilePersistAccessDataName(String logFilePersistAccessDataName) {
+        this.logFilePersistAccessDataName = logFilePersistAccessDataName;
     }
 
-    public String getEventLogFilePersistDataPath() {
-        return eventLogFilePersistDataPath;
+    public String getLogFilePersistAccessDataPath() {
+        return logFilePersistAccessDataPath;
     }
 
-    public void setEventLogFilePersistDataPath(String eventLogFilePersistDataPath) {
-        this.eventLogFilePersistDataPath = eventLogFilePersistDataPath;
+    public void setLogFilePersistAccessDataPath(String logFilePersistAccessDataPath) {
+        this.logFilePersistAccessDataPath = logFilePersistAccessDataPath;
+    }
+
+    public String getLogFilePersistPendingDataName() {
+        return logFilePersistPendingDataName;
+    }
+
+    public void setLogFilePersistPendingDataName(String logFilePersistPendingDataName) {
+        this.logFilePersistPendingDataName = logFilePersistPendingDataName;
+    }
+
+    public String getLogFilePersistPendingDataPath() {
+        return logFilePersistPendingDataPath;
+    }
+
+    public void setLogFilePersistPendingDataPath(String logFilePersistPendingDataPath) {
+        this.logFilePersistPendingDataPath = logFilePersistPendingDataPath;
+    }
+
+    public Map<String, Map<String, String>> getPendingDataQueue() {
+        return pendingDataQueue;
+    }
+
+    public void setPendingDataQueue(Map<String, Map<String, String>> pendingDataQueue) {
+        this.pendingDataQueue = pendingDataQueue;
     }
 
     public HashMap<String, Long> getPersistMappings() {

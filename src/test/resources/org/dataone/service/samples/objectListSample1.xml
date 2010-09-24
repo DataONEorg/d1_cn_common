@@ -40,4 +40,13 @@
         <dateSysMetadataModified>2006-05-05T18:13:51.0Z</dateSysMetadataModified>
         <size>922337203</size>
     </objectInfo>
+<!--
+    <objectInfo> if you uncomment this entry it will fail with "Value '' is not facet-valid with respect to enumeration" error
+        <identifier>ABC4567</identifier>
+        <objectFormat></objectFormat>
+        <checksum algorithm="SHA-1">V29ybGQgSGVsbG8h</checksum>
+        <dateSysMetadataModified>2006-05-05T18:13:51.0Z</dateSysMetadataModified>
+        <size>922337203</size>
+    </objectInfo>
+-->
 </d1:objectList>
