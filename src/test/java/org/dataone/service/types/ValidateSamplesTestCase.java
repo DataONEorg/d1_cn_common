@@ -56,6 +56,9 @@ import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.Schema;
 import javax.xml.validation.Validator;
+
+import org.dataone.service.types.Node.Environment;
+import org.dataone.service.types.Node.NodeType;
 import org.dataone.service.types.Services.Service;
 import org.jibx.runtime.BindingDirectory;
 import org.jibx.runtime.IBindingFactory;
@@ -261,7 +264,7 @@ public class ValidateSamplesTestCase {
         identifier.setValue("ABC432");
 //        systemMetadata.
         systemMetadata.setIdentifier(identifier);
-        ObjectFormat objectFormat;
+//        ObjectFormat objectFormat;
 
         systemMetadata.setObjectFormat(ObjectFormat.CF_1_0);
         systemMetadata.setSize(1235431);
@@ -494,8 +497,14 @@ public class ValidateSamplesTestCase {
         nodeList.addNode(node);
         node.setReplicate(true);
         node.setSynchronize(true);
-        node.setType("member");
-
+        NodeType nt = new NodeType();
+        nt.setType("mn");
+        node.setType(nt);
+        Environment e = new Environment();
+        e.setEnvironment("test");
+        node.setEnvironment(e);
+        
+        
         NodeReference id1 = new NodeReference();
         id1.setValue("123");
         node.setIdentifier(id1);

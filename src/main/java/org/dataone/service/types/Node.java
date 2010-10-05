@@ -27,7 +27,8 @@ public class Node
     private Synchronization synchronization;
     private boolean replicate;
     private boolean synchronize;
-    private String type;
+    private NodeType type;
+    private Environment environment;
 
     /** 
      * Get the 'identifier' element value. A unique identifier for the node.  This may initially 
@@ -168,7 +169,7 @@ public class Node
      * 
      * @return value
      */
-    public String getType() {
+    public NodeType getType() {
         return type;
     }
 
@@ -177,7 +178,56 @@ public class Node
      * 
      * @param type
      */
-    public void setType(String type) {
-        this.type = type;
+    public void setType(NodeType type) {
+    	this.type = type;
+    }
+
+    
+    /** 
+     * Get the 'environment' attribute value.
+     * 
+     * @return value
+     */
+    public Environment getEnvironment() {
+        return this.environment;
+    }
+    
+    /** 
+     * Set the 'environment' attribute value.
+     * 
+     * @param environment
+     */
+    public void setEnvironment(Environment e) {
+    	this.environment = e;
+    }
+
+    
+
+    public static class NodeType {
+    	private String nodeType;
+	
+    	public void setType(String t) {
+    		// TODO: perhaps pre-validate against the controlled-vocabulary defined in the NodeList schema?
+    		nodeType = t;
+    	}
+	
+    	public String getValue() {
+    		return nodeType;
+    	}
+    }
+
+    public static class Environment {
+    	private String environment;
+	
+    	public void setEnvironment(String e) {
+    		// TODO: perhaps pre-validate against the controlled-vocabulary defined in the NodeList schema?
+    		environment = e;
+    	}
+	
+    	public String getValue() {
+    		return environment;
+    	}
     }
 }
+
+
