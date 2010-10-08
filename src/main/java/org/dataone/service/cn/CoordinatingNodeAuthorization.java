@@ -26,6 +26,7 @@ import org.dataone.service.exceptions.InvalidCredentials;
 import org.dataone.service.exceptions.InvalidToken;
 import org.dataone.service.exceptions.NotAuthorized;
 import org.dataone.service.exceptions.NotFound;
+import org.dataone.service.exceptions.ServiceFailure;
 import org.dataone.service.types.AccessRule;
 import org.dataone.service.types.AuthToken;
 import org.dataone.service.types.Identifier;
@@ -41,13 +42,14 @@ import org.dataone.service.types.Principal;
 public interface CoordinatingNodeAuthorization 
 {
     public AuthToken login(String user, String password)
-        throws InvalidCredentials, AuthenticationTimeout;
+        throws InvalidCredentials, AuthenticationTimeout, ServiceFailure;
     
     //public void logout(AuthToken token) 
     //    throws InvalidCredentials, AuthenticationTimeout;
     
-    public boolean setAccess(AuthToken token, Identifier guid, AccessRule accessLevel)
-        throws NotFound, NotAuthorized;
+    public boolean setAccess(AuthToken token, Identifier id, String principal,
+            String permission, String permissionType, String permissionOrder)
+            throws ServiceFailure;
     
     public Identifier setOwner(AuthToken token, Identifier guid, Principal userId)
         throws InvalidToken, NotAuthorized, NotFound;

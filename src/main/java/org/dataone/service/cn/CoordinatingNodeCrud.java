@@ -22,13 +22,17 @@ package org.dataone.service.cn;
 
 import java.io.InputStream;
 import java.util.List;
+import org.dataone.service.exceptions.IdentifierNotUnique;
+import org.dataone.service.exceptions.InsufficientResources;
 
 import org.dataone.service.exceptions.InvalidRequest;
+import org.dataone.service.exceptions.InvalidSystemMetadata;
 import org.dataone.service.exceptions.InvalidToken;
 import org.dataone.service.exceptions.NotAuthorized;
 import org.dataone.service.exceptions.NotFound;
 import org.dataone.service.exceptions.NotImplemented;
 import org.dataone.service.exceptions.ServiceFailure;
+import org.dataone.service.exceptions.UnsupportedType;
 import org.dataone.service.types.AuthToken;
 import org.dataone.service.types.IdentifierFormat;
 import org.dataone.service.types.Identifier;
@@ -56,6 +60,12 @@ public interface CoordinatingNodeCrud
         throws InvalidToken, ServiceFailure, NotAuthorized, NotFound, 
         InvalidRequest, NotImplemented;
     
+    public Identifier create(AuthToken token, Identifier guid,
+            InputStream object, SystemMetadata sysmeta) throws InvalidToken,
+            ServiceFailure, NotAuthorized, IdentifierNotUnique,
+            UnsupportedType, InsufficientResources, InvalidSystemMetadata,
+            NotImplemented;
+
     public Identifier reserveIdentifier(AuthToken token, String scope, IdentifierFormat format)
         throws InvalidToken, ServiceFailure, NotAuthorized, InvalidRequest, 
         NotImplemented;
