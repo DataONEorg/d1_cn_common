@@ -7,22 +7,20 @@ import java.util.List;
 /** 
  * Schema fragment(s) for this class:
  * <pre>
- * &lt;xs:complexType xmlns:ns="http://dataone.org/service/types/ObjectList/0.1" xmlns:xs="http://www.w3.org/2001/XMLSchema" name="ObjectList">
- *   &lt;xs:sequence>
- *     &lt;xs:element type="ns:ObjectInfo" name="objectInfo" minOccurs="0" maxOccurs="unbounded"/>
- *   &lt;/xs:sequence>
- *   &lt;xs:attribute type="xs:int" use="required" name="count"/>
- *   &lt;xs:attribute type="xs:int" use="required" name="start"/>
- *   &lt;xs:attribute type="xs:int" use="required" name="total"/>
+ * &lt;xs:complexType xmlns:ns="http://dataone.org/service/types/common/0.5" xmlns:ns1="http://dataone.org/service/types/ObjectList/0.5" xmlns:xs="http://www.w3.org/2001/XMLSchema" name="ObjectList">
+ *   &lt;xs:complexContent>
+ *     &lt;xs:extension base="ns:Slice">
+ *       &lt;xs:sequence>
+ *         &lt;xs:element type="ns1:ObjectInfo" name="objectInfo" minOccurs="0" maxOccurs="unbounded"/>
+ *       &lt;/xs:sequence>
+ *     &lt;/xs:extension>
+ *   &lt;/xs:complexContent>
  * &lt;/xs:complexType>
  * </pre>
  */
-public class ObjectList
+public class ObjectList extends Slice
 {
     private List<ObjectInfo> objectInfoList = new ArrayList<ObjectInfo>();
-    private int count;
-    private int start;
-    private int total;
 
     /** 
      * Get the list of 'objectInfo' element items.
@@ -72,59 +70,5 @@ public class ObjectList
      */
     public void clearObjectInfoList() {
         objectInfoList.clear();
-    }
-
-    /** 
-     * Get the 'count' attribute value.
-     * 
-     * @return value
-     */
-    public int getCount() {
-        return count;
-    }
-
-    /** 
-     * Set the 'count' attribute value.
-     * 
-     * @param count
-     */
-    public void setCount(int count) {
-        this.count = count;
-    }
-
-    /** 
-     * Get the 'start' attribute value.
-     * 
-     * @return value
-     */
-    public int getStart() {
-        return start;
-    }
-
-    /** 
-     * Set the 'start' attribute value.
-     * 
-     * @param start
-     */
-    public void setStart(int start) {
-        this.start = start;
-    }
-
-    /** 
-     * Get the 'total' attribute value.
-     * 
-     * @return value
-     */
-    public int getTotal() {
-        return total;
-    }
-
-    /** 
-     * Set the 'total' attribute value.
-     * 
-     * @param total
-     */
-    public void setTotal(int total) {
-        this.total = total;
     }
 }

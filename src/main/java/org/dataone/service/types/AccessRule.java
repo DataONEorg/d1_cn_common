@@ -4,7 +4,7 @@ package org.dataone.service.types;
 /** 
  * Schema fragment(s) for this class:
  * <pre>
- * &lt;xs:complexType xmlns:ns="http://dataone.org/service/types/SystemMetadata/0.1" xmlns:ns1="http://dataone.org/service/types/common/0.1" xmlns:xs="http://www.w3.org/2001/XMLSchema" name="AccessRule">
+ * &lt;xs:complexType xmlns:ns="http://dataone.org/service/types/common/0.5" xmlns:ns1="http://dataone.org/service/types/SystemMetadata/0.5" xmlns:xs="http://www.w3.org/2001/XMLSchema" name="AccessRule">
  *   &lt;xs:attribute name="rule">
  *     &lt;xs:simpleType>
  *       &lt;!-- Reference to inner class Rule -->
@@ -15,7 +15,7 @@ package org.dataone.service.types;
  *       &lt;!-- Reference to inner class Service -->
  *     &lt;/xs:simpleType>
  *   &lt;/xs:attribute>
- *   &lt;xs:attribute type="ns1:Principal" name="principal"/>
+ *   &lt;xs:attribute type="ns:Principal" name="principal"/>
  * &lt;/xs:complexType>
  * </pre>
  */

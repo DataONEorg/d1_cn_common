@@ -1,0 +1,18 @@
+<binding xmlns:ns3="http://dataone.org/service/types/ObjectLocationList/0.5" xmlns:common="http://dataone.org/service/types/common/0.5" trim-whitespace="true">
+  <namespace uri="http://dataone.org/service/types/ObjectLocationList/0.5" prefix="d1"/>
+  <mapping abstract="true" type-name="ns3:ObjectLocation" class="org.dataone.service.types.ObjectLocation">
+    <structure map-as="common:Identifier" get-method="getNodeIdentifier" set-method="setNodeIdentifier" name="nodeIdentifier"/>
+    <value style="element" name="baseURL" get-method="getBaseURL" set-method="setBaseURL"/>
+    <value style="element" name="url" get-method="getUrl" set-method="setUrl"/>
+    <value style="element" name="preference" get-method="getPreference" set-method="setPreference" usage="optional"/>
+  </mapping>
+  <mapping abstract="true" type-name="ns3:ObjectLocationList" class="org.dataone.service.types.ObjectLocationList">
+    <structure map-as="common:Identifier" get-method="getIdentifier" set-method="setIdentifier" name="identifier"/>
+    <collection get-method="getObjectLocationList" set-method="setObjectLocationList" create-type="java.util.ArrayList">
+      <structure map-as="ns3:ObjectLocation" name="objectLocation"/>
+    </collection>
+  </mapping>
+  <mapping class="org.dataone.service.types.ObjectLocationList" name="objectLocationList" ns="http://dataone.org/service/types/ObjectLocationList/0.5">
+    <structure map-as="ns3:ObjectLocationList"/>
+  </mapping>
+</binding>

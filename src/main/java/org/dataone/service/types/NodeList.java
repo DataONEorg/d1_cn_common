@@ -7,7 +7,7 @@ import java.util.List;
 /** 
  * Schema fragment(s) for this class:
  * <pre>
- * &lt;xs:complexType xmlns:ns="http://dataone.org/service/types/NodeList/0.1" xmlns:xs="http://www.w3.org/2001/XMLSchema" name="NodeList">
+ * &lt;xs:complexType xmlns:ns="http://dataone.org/service/types/NodeList/0.5" xmlns:xs="http://www.w3.org/2001/XMLSchema" name="NodeList">
  *   &lt;xs:sequence>
  *     &lt;xs:element type="ns:Node" name="node" minOccurs="1" maxOccurs="unbounded"/>
  *   &lt;/xs:sequence>
@@ -23,7 +23,7 @@ public class NodeList
      * 
      * @return list
      */
-    public List<Node> getNodes() {
+    public List<Node> getNodeList() {
         return nodeList;
     }
 
@@ -32,7 +32,7 @@ public class NodeList
      * 
      * @param list
      */
-    public void setNodes(List<Node> list) {
+    public void setNodeList(List<Node> list) {
         nodeList = list;
     }
 
@@ -40,7 +40,7 @@ public class NodeList
      * Get the number of 'node' element items.
      * @return count
      */
-    public int sizeNodes() {
+    public int sizeNodeList() {
         return nodeList.size();
     }
 
@@ -64,7 +64,7 @@ public class NodeList
     /** 
      * Remove all 'node' element items.
      */
-    public void clearNodes() {
+    public void clearNodeList() {
         nodeList.clear();
     }
 }

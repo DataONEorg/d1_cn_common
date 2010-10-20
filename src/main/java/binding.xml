@@ -1,10 +1,16 @@
-<binding xmlns:common="http://dataone.org/service/types/common/0.1" xmlns:ns2="http://dataone.org/service/types/logging/0.1" name="binding" package="org.dataone.service.types" trim-whitespace="true">
+<binding xmlns:ns1="http://dataone.org/service/types/SystemMetadata/0.5" xmlns:common="http://dataone.org/service/types/common/0.5" xmlns:ns4="http://dataone.org/service/types/logging/0.5" xmlns:d1="http://dataone.org/service/types/NodeList/0.5" name="binding" package="org.dataone.service.types" trim-whitespace="true">
+  <format label="ns1:ReplicationStatus" type="org.dataone.service.types.ReplicationStatus" enum-value-method="toString"/>
+  <format label="common:ComponentName" type="org.dataone.service.types.ComponentName" enum-value-method="toString"/>
   <format label="common:ObjectFormat" type="org.dataone.service.types.ObjectFormat" enum-value-method="toString"/>
   <format label="common:ChecksumAlgorithm" type="org.dataone.service.types.ChecksumAlgorithm" enum-value-method="toString"/>
-  <format label="ns2:Event" type="org.dataone.service.types.Event" enum-value-method="toString"/>
-  <include path="service_types_SystemMetadata_01Binding.xml"/>
-  <include path="service_types_common_01Binding.xml"/>
-  <include path="service_types_ObjectList_01Binding.xml"/>
-  <include path="service_types_logging_01Binding.xml"/>
-  <include path="service_types_NodeList_01Binding.xml"/>
+  <format label="ns4:Event" type="org.dataone.service.types.Event" enum-value-method="toString"/>
+  <format label="d1:Environment" type="org.dataone.service.types.Environment" enum-value-method="toString"/>
+  <format label="d1:NodeType" type="org.dataone.service.types.NodeType" enum-value-method="toString"/>
+  <format label="d1:NodeState" type="org.dataone.service.types.NodeState" enum-value-method="toString"/>
+  <include path="service_types_SystemMetadata_05Binding.xml"/>
+  <include path="service_types_common_05Binding.xml"/>
+  <include path="service_types_ObjectList_05Binding.xml"/>
+  <include path="service_types_ObjectLocationList_05Binding.xml"/>
+  <include path="service_types_logging_05Binding.xml"/>
+  <include path="service_types_NodeList_05Binding.xml"/>
 </binding>

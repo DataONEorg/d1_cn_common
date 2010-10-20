@@ -2,9 +2,12 @@
 package org.dataone.service.types;
 
 /** 
+ * The schedule on which MnSynchronization will run for a particular run
+
+ * 
  * Schema fragment(s) for this class:
  * <pre>
- * &lt;xs:complexType xmlns:ns="http://dataone.org/service/types/NodeList/0.1" xmlns:xs="http://www.w3.org/2001/XMLSchema" name="Schedule">
+ * &lt;xs:complexType xmlns:ns="http://dataone.org/service/types/NodeList/0.5" xmlns:xs="http://www.w3.org/2001/XMLSchema" name="Schedule">
  *   &lt;xs:attribute type="xs:string" use="required" name="hour"/>
  *   &lt;xs:attribute type="xs:string" use="required" name="mday"/>
  *   &lt;xs:attribute type="xs:string" use="required" name="min"/>

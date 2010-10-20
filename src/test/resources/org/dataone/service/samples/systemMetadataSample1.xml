@@ -21,10 +21,10 @@
 
 -->
 
-<d1:systemMetadata xmlns:common="http://dataone.org/service/types/common/0.1"
- xmlns:d1="http://dataone.org/service/types/SystemMetadata/0.1"
+<d1:systemMetadata xmlns:common="http://dataone.org/service/types/common/0.5"
+ xmlns:d1="http://dataone.org/service/types/SystemMetadata/0.5"
  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
- xsi:schemaLocation="http://dataone.org/service/types/SystemMetadata/0.1 https://repository.dataone.org/software/cicore/tags/D1_SCHEMA_0_4/systemmetadata.xsd">
+ xsi:schemaLocation="http://dataone.org/service/types/SystemMetadata/0.5 https://repository.dataone.org/software/cicore/tags/D1_SCHEMA_0_5/systemmetadata.xsd">
     <identifier>ABC123</identifier>
     <objectFormat>http://www.loc.gov/METS/</objectFormat>
     <size>922337203</size>

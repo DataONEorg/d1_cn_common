@@ -7,16 +7,20 @@ import java.util.List;
 /** 
  * Schema fragment(s) for this class:
  * <pre>
- * &lt;xs:element xmlns:ns="http://dataone.org/service/types/logging/0.1" xmlns:xs="http://www.w3.org/2001/XMLSchema" name="log">
+ * &lt;xs:element xmlns:ns="http://dataone.org/service/types/common/0.5" xmlns:ns1="http://dataone.org/service/types/logging/0.5" xmlns:xs="http://www.w3.org/2001/XMLSchema" name="log">
  *   &lt;xs:complexType>
- *     &lt;xs:sequence>
- *       &lt;xs:element type="ns:LogEntry" name="logEntry" minOccurs="0" maxOccurs="unbounded"/>
- *     &lt;/xs:sequence>
+ *     &lt;xs:complexContent>
+ *       &lt;xs:extension base="ns:Slice">
+ *         &lt;xs:sequence>
+ *           &lt;xs:element type="ns1:LogEntry" name="logEntry" minOccurs="0" maxOccurs="unbounded"/>
+ *         &lt;/xs:sequence>
+ *       &lt;/xs:extension>
+ *     &lt;/xs:complexContent>
  *   &lt;/xs:complexType>
  * &lt;/xs:element>
  * </pre>
  */
-public class Log
+public class Log extends Slice
 {
     private List<LogEntry> logEntryList = new ArrayList<LogEntry>();
 

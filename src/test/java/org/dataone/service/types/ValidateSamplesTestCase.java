@@ -57,9 +57,10 @@ import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.Schema;
 import javax.xml.validation.Validator;
 
-import org.dataone.service.types.Node.Environment;
-import org.dataone.service.types.Node.NodeType;
-import org.dataone.service.types.Services.Service;
+//import org.dataone.service.types.Node.Environment;
+//import org.dataone.service.types.Node.NodeType;
+import org.dataone.service.types.Services;
+
 import org.jibx.runtime.BindingDirectory;
 import org.jibx.runtime.IBindingFactory;
 import org.jibx.runtime.IMarshallingContext;
@@ -84,7 +85,7 @@ public class ValidateSamplesTestCase {
     @Test
     public void validateSysmetaSample() throws Exception, SAXException, IOException, ParserConfigurationException {
 // TODO arguments should be injected based on version of service api to test and build
-        assertTrue(validateExamples("https://repository.dataone.org/software/cicore/tags/D1_SCHEMA_0_4/systemmetadata.xsd","/org/dataone/service/samples/systemMetadataSample1.xml"));
+        assertTrue(validateExamples("https://repository.dataone.org/software/cicore/tags/D1_SCHEMA_0_5/systemmetadata.xsd","/org/dataone/service/samples/systemMetadataSample1.xml"));
 
     }
 
@@ -98,7 +99,7 @@ public class ValidateSamplesTestCase {
     @Test
     public void validateObjectListSample() throws Exception, SAXException, IOException, ParserConfigurationException {
 // TODO arguments should be injected based on version of service api to test and build
-        assertTrue(validateExamples("https://repository.dataone.org/software/cicore/tags/D1_SCHEMA_0_4/objectlist.xsd","/org/dataone/service/samples/objectListSample1.xml"));
+        assertTrue(validateExamples("https://repository.dataone.org/software/cicore/tags/D1_SCHEMA_0_5/objectlist.xsd","/org/dataone/service/samples/objectListSample1.xml"));
 
     }
 
@@ -112,7 +113,7 @@ public class ValidateSamplesTestCase {
     @Test
     public void validateLoggingSample() throws Exception, SAXException, IOException, ParserConfigurationException {
 // TODO arguments should be injected based on version of service api to test and build
-        assertTrue(validateExamples("https://repository.dataone.org/software/cicore/tags/D1_SCHEMA_0_4/logging.xsd","/org/dataone/service/samples/loggingSample1.xml"));
+        assertTrue(validateExamples("https://repository.dataone.org/software/cicore/tags/D1_SCHEMA_0_5/logging.xsd","/org/dataone/service/samples/loggingSample1.xml"));
 
     }
 
@@ -125,7 +126,7 @@ public class ValidateSamplesTestCase {
     @Test
     public void validateNodeRegistrySample() throws Exception, SAXException, IOException, ParserConfigurationException {
 // TODO arguments should be injected based on version of service api to test and build
-        assertTrue(validateExamples("https://repository.dataone.org/software/cicore/tags/D1_SCHEMA_0_4/nodelist.xsd","/org/dataone/service/samples/nodeListSample1.xml"));
+        assertTrue(validateExamples("https://repository.dataone.org/software/cicore/tags/D1_SCHEMA_0_5/nodelist.xsd","/org/dataone/service/samples/nodeListSample1.xml"));
 
     }
 
@@ -420,7 +421,7 @@ public class ValidateSamplesTestCase {
         logEntry1.setMemberNode(memberNode);
 
         Principal principal1 = new Principal();
-        principal1.setValue("Kermit de Frog");
+        principal1.setValue("Scooter");
         logEntry1.setPrincipal(principal1);
 
         logEntry1.setUserAgent("Mozilla/4.0 (compatible; MSIE 6.0; Update a; AOL 6.0; Windows 98)");
@@ -444,7 +445,7 @@ public class ValidateSamplesTestCase {
         logEntry2.setMemberNode(memberNode2);
 
         Principal principal2 = new Principal();
-        principal2.setValue("Fozzy Bear");
+        principal2.setValue("Fozzie Bear");
         logEntry2.setPrincipal(principal1);
 
         logEntry2.setUserAgent("Mozilla/4.0 (compatible; MSIE 6.0; Update a; AOL 6.0; Windows 98)");
@@ -497,12 +498,12 @@ public class ValidateSamplesTestCase {
         nodeList.addNode(node);
         node.setReplicate(true);
         node.setSynchronize(true);
-        NodeType nt = new NodeType();
-        nt.setType("mn");
-        node.setType(nt);
-        Environment e = new Environment();
-        e.setEnvironment("test");
-        node.setEnvironment(e);
+//        NodeType nt = new NodeType();
+//        nt.setType("mn");
+//        node.setType(nt);
+//        Environment e = new Environment();
+//        e.setEnvironment("test");
+//        node.setEnvironment(e);
         
         
         NodeReference id1 = new NodeReference();
@@ -513,18 +514,22 @@ public class ValidateSamplesTestCase {
         node.setName(name);
         node.setBaseURL("this.here.org");
 
-        Services services1 = new Services();
+        Services services = new Services();
 
-        Service getService = new Service();
-        getService.setApi("mn_crud");
-        getService.setMethod("get");
-        getService.setRest("object/${GUID}");
-        getService.setAvailable(true);
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss'Z'");
-        Date defaultDate = df.parse("2010-06-21T00:00:00Z");
-        getService.setDatechecked(defaultDate);
-        services1.addService(getService);
-        node.setServices(services1);
+        Service service = new Service();
+
+        service.setName("crud");
+        service.setVersion("0.5");
+        service.setAvailable(true);
+
+        ServiceMethod serviceMethod = new ServiceMethod();
+        serviceMethod.setName("get");
+        serviceMethod.setRest("/object/{GUID}");
+        serviceMethod.setImplemented(true);
+
+
+        services.addService(service);
+        node.setServices(services);
         Synchronization synchronize = new Synchronization();
         Schedule schedule = new Schedule();
         schedule.setSec("00");
@@ -535,7 +540,8 @@ public class ValidateSamplesTestCase {
         schedule.setMon("*");
         schedule.setYear("*");
         synchronize.setSchedule(schedule);
-
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss'Z'");
+        Date defaultDate = df.parse("2010-06-21T00:00:00Z");
         synchronize.setLastHarvested(defaultDate);
         synchronize.setLastCompleteHarvest(defaultDate);
         node.setSynchronization(synchronize);

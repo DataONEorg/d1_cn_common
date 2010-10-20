@@ -1,73 +1,113 @@
-/**
- * This work was created by participants in the DataONE project, and is
- * jointly copyrighted by participating institutions in DataONE. For
- * more information on DataONE, see our web site at http://dataone.org.
- *
- *   Copyright ${year}
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 
 package org.dataone.service.types;
 
+import java.math.BigInteger;
 
-/**
- * The DataONE Type to represent a location of an object on a DataONE node.
- *
- * @author Matthew Jones
+/** 
+ * Schema fragment(s) for this class:
+ * <pre>
+ * &lt;xs:complexType xmlns:ns="http://dataone.org/service/types/common/0.5" xmlns:ns1="http://dataone.org/service/types/ObjectLocationList/0.5" xmlns:xs="http://www.w3.org/2001/XMLSchema" name="ObjectLocation">
+ *   &lt;xs:sequence>
+ *     &lt;xs:element type="ns:Identifier" name="nodeIdentifier" minOccurs="1" maxOccurs="1"/>
+ *     &lt;xs:element type="xs:string" name="baseURL" minOccurs="1" maxOccurs="1"/>
+ *     &lt;xs:element type="xs:string" name="url" minOccurs="1" maxOccurs="1"/>
+ *     &lt;xs:element type="xs:integer" name="preference" minOccurs="0" maxOccurs="1"/>
+ *   &lt;/xs:sequence>
+ * &lt;/xs:complexType>
+ * </pre>
  */
-public class ObjectLocation 
+public class ObjectLocation
 {
-    private NodeReference node;
+    private Identifier nodeIdentifier;
+    private String baseURL;
     private String url;
+    private BigInteger preference;
 
-    /**
-     * Construct an object location on a given node with a given URL.
-     * @param node the node on which the object exists
-     * @param url the URL of the object on the node
+    /** 
+     * Get the 'nodeIdentifier' element value. Identifier of the node (the same identifier used
+    					in the node registry for identifying the node.
+            			
+     * 
+     * @return value
      */
-    public ObjectLocation(NodeReference node, String url) {
-        super();
-        this.node = node;
-        this.url = url;
+    public Identifier getNodeIdentifier() {
+        return nodeIdentifier;
     }
 
-    /**
-     * @return the node
+    /** 
+     * Set the 'nodeIdentifier' element value. Identifier of the node (the same identifier used
+    					in the node registry for identifying the node.
+            			
+     * 
+     * @param nodeIdentifier
      */
-    public NodeReference getNode() {
-        return node;
+    public void setNodeIdentifier(Identifier nodeIdentifier) {
+        this.nodeIdentifier = nodeIdentifier;
     }
 
-    /**
-     * @param node the node to set
+    /** 
+     * Get the 'baseURL' element value. The current base URL for services implemented on the target node.
+    				
+     * 
+     * @return value
      */
-    public void setNode(NodeReference node) {
-        this.node = node;
+    public String getBaseURL() {
+        return baseURL;
     }
 
-    /**
-     * @return the url
+    /** 
+     * Set the 'baseURL' element value. The current base URL for services implemented on the target node.
+    				
+     * 
+     * @param baseURL
+     */
+    public void setBaseURL(String baseURL) {
+        this.baseURL = baseURL;
+    }
+
+    /** 
+     * Get the 'url' element value. The full (absolute) URL that can be used to
+    					retrieve the object using the get() method of the rest interface.
+    				
+     * 
+     * @return value
      */
     public String getUrl() {
         return url;
     }
 
-    /**
-     * @param url the url to set
+    /** 
+     * Set the 'url' element value. The full (absolute) URL that can be used to
+    					retrieve the object using the get() method of the rest interface.
+    				
+     * 
+     * @param url
      */
     public void setUrl(String url) {
         this.url = url;
     }
 
+    /** 
+     * Get the 'preference' element value. A weighting parameter that provides a hint 
+    				to the caller for the relative preference for nodes from which
+    				 the content should be retrieved.
+    				
+     * 
+     * @return value
+     */
+    public BigInteger getPreference() {
+        return preference;
+    }
+
+    /** 
+     * Set the 'preference' element value. A weighting parameter that provides a hint 
+    				to the caller for the relative preference for nodes from which
+    				 the content should be retrieved.
+    				
+     * 
+     * @param preference
+     */
+    public void setPreference(BigInteger preference) {
+        this.preference = preference;
+    }
 }

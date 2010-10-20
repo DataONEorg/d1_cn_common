@@ -1,0 +1,63 @@
+<binding xmlns:ns1="http://dataone.org/service/types/SystemMetadata/0.5" xmlns:common="http://dataone.org/service/types/common/0.5" trim-whitespace="true">
+  <namespace uri="http://dataone.org/service/types/SystemMetadata/0.5" prefix="d1"/>
+  <mapping abstract="true" type-name="ns1:AccessRule" class="org.dataone.service.types.AccessRule">
+    <format type="org.dataone.service.types.AccessRule$Rule" enum-value-method="toString"/>
+    <format type="org.dataone.service.types.AccessRule$Service" enum-value-method="toString"/>
+    <value style="attribute" name="rule" get-method="getRule" set-method="setRule" usage="optional"/>
+    <value style="attribute" name="service" get-method="getService" set-method="setService" usage="optional"/>
+    <structure map-as="common:Principal" get-method="getPrincipal" set-method="setPrincipal" usage="optional" name="principal"/>
+  </mapping>
+  <mapping abstract="true" type-name="ns1:ReplicationPolicy" class="org.dataone.service.types.ReplicationPolicy">
+    <collection get-method="getPreferredMemberNodeList" set-method="setPreferredMemberNodeList" create-type="java.util.ArrayList">
+      <structure map-as="common:NodeReference" name="preferredMemberNode"/>
+    </collection>
+    <collection get-method="getBlockedMemberNodeList" set-method="setBlockedMemberNodeList" create-type="java.util.ArrayList">
+      <structure map-as="common:NodeReference" name="blockedMemberNode"/>
+    </collection>
+    <value style="attribute" name="replicationAllowed" get-method="getReplicationAllowed" set-method="setReplicationAllowed" usage="optional"/>
+    <value style="attribute" name="numberReplicaList" get-method="getNumberReplicaList" set-method="setNumberReplicaList" usage="optional"/>
+  </mapping>
+  <mapping abstract="true" type-name="ns1:Replica" class="org.dataone.service.types.Replica">
+    <structure map-as="common:NodeReference" get-method="getReplicaMemberNode" set-method="setReplicaMemberNode" name="replicaMemberNode"/>
+    <value style="element" name="replicationStatus" get-method="getReplicationStatus" set-method="setReplicationStatus" format="ns1:ReplicationStatus"/>
+    <value style="element" name="replicaVerified" get-method="getReplicaVerified" set-method="setReplicaVerified"/>
+  </mapping>
+  <mapping abstract="true" type-name="ns1:SystemMetadata" class="org.dataone.service.types.SystemMetadata">
+    <structure map-as="common:Identifier" get-method="getIdentifier" set-method="setIdentifier" name="identifier"/>
+    <value style="element" name="objectFormat" get-method="getObjectFormat" set-method="setObjectFormat" format="common:ObjectFormat"/>
+    <value style="element" name="size" get-method="getSize" set-method="setSize"/>
+    <structure map-as="common:Principal" get-method="getSubmitter" set-method="setSubmitter" name="submitter"/>
+    <structure map-as="common:Principal" get-method="getRightsHolder" set-method="setRightsHolder" name="rightsHolder"/>
+    <collection get-method="getObsoleteList" set-method="setObsoleteList" create-type="java.util.ArrayList">
+      <structure map-as="common:Identifier" name="obsoletes"/>
+    </collection>
+    <collection get-method="getObsoletedByList" set-method="setObsoletedByList" create-type="java.util.ArrayList">
+      <structure map-as="common:Identifier" name="obsoletedBy"/>
+    </collection>
+    <collection get-method="getDerivedFromList" set-method="setDerivedFromList" create-type="java.util.ArrayList">
+      <structure map-as="common:Identifier" name="derivedFrom"/>
+    </collection>
+    <collection get-method="getDescribeList" set-method="setDescribeList" create-type="java.util.ArrayList">
+      <structure map-as="common:Identifier" name="describes"/>
+    </collection>
+    <collection get-method="getDescribedByList" set-method="setDescribedByList" create-type="java.util.ArrayList">
+      <structure map-as="common:Identifier" name="describedBy"/>
+    </collection>
+    <structure map-as="common:Checksum" get-method="getChecksum" set-method="setChecksum" name="checksum"/>
+    <value style="element" name="embargoExpires" get-method="getEmbargoExpires" set-method="setEmbargoExpires" usage="optional"/>
+    <collection get-method="getAccessRuleList" set-method="setAccessRuleList" create-type="java.util.ArrayList">
+      <structure map-as="ns1:AccessRule" name="accessRule"/>
+    </collection>
+    <structure map-as="ns1:ReplicationPolicy" get-method="getReplicationPolicy" set-method="setReplicationPolicy" usage="optional" name="replicationPolicy"/>
+    <value style="element" name="dateUploaded" get-method="getDateUploaded" set-method="setDateUploaded"/>
+    <value style="element" name="dateSysMetadataModified" get-method="getDateSysMetadataModified" set-method="setDateSysMetadataModified"/>
+    <structure map-as="common:NodeReference" get-method="getOriginMemberNode" set-method="setOriginMemberNode" name="originMemberNode"/>
+    <structure map-as="common:NodeReference" get-method="getAuthoritativeMemberNode" set-method="setAuthoritativeMemberNode" name="authoritativeMemberNode"/>
+    <collection get-method="getReplicaList" set-method="setReplicaList" create-type="java.util.ArrayList">
+      <structure map-as="ns1:Replica" name="replica"/>
+    </collection>
+  </mapping>
+  <mapping class="org.dataone.service.types.SystemMetadata" name="systemMetadata" ns="http://dataone.org/service/types/SystemMetadata/0.5">
+    <structure map-as="ns1:SystemMetadata"/>
+  </mapping>
+</binding>

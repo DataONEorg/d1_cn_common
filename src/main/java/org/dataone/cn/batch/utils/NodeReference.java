@@ -43,7 +43,7 @@ public class NodeReference {
 
     public Node getMnNode() {
         if (mnNode == null) {
-            List<Node> nodes = mnNodeList.getNodes();
+            List<Node> nodes = mnNodeList.getNodeList();
             for (Node node : nodes) {
                 if (node.getIdentifier().getValue().contentEquals(this.mnNodeIdentifier)) {
                     this.mnNode = node;

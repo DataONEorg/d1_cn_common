@@ -7,17 +7,13 @@ import java.util.List;
 /** 
  * Schema fragment(s) for this class:
  * <pre>
- * &lt;xs:complexType xmlns:ns="http://dataone.org/service/types/SystemMetadata/0.1" xmlns:ns1="http://dataone.org/service/types/common/0.1" xmlns:xs="http://www.w3.org/2001/XMLSchema" name="ReplicationPolicy">
+ * &lt;xs:complexType xmlns:ns="http://dataone.org/service/types/common/0.5" xmlns:ns1="http://dataone.org/service/types/SystemMetadata/0.5" xmlns:xs="http://www.w3.org/2001/XMLSchema" name="ReplicationPolicy">
  *   &lt;xs:sequence>
- *     &lt;xs:element type="ns1:NodeReference" name="preferredMemberNode" minOccurs="0" maxOccurs="unbounded"/>
- *     &lt;xs:element type="ns1:NodeReference" name="blockedMemberNode" minOccurs="0" maxOccurs="unbounded"/>
+ *     &lt;xs:element type="ns:NodeReference" name="preferredMemberNode" minOccurs="0" maxOccurs="unbounded"/>
+ *     &lt;xs:element type="ns:NodeReference" name="blockedMemberNode" minOccurs="0" maxOccurs="unbounded"/>
  *   &lt;/xs:sequence>
- *   &lt;xs:attribute name="replicationAllowed">
- *     &lt;xs:simpleType>
- *       &lt;!-- Reference to inner class ReplicationAllowed -->
- *     &lt;/xs:simpleType>
- *   &lt;/xs:attribute>
- *   &lt;xs:attribute type="xs:int" name="numberReplicas"/>
+ *   &lt;xs:attribute type="xs:boolean" name="replicationAllowed"/>
+ *   &lt;xs:attribute type="xs:int" name="numberReplicaList"/>
  * &lt;/xs:complexType>
  * </pre>
  */
@@ -25,8 +21,8 @@ public class ReplicationPolicy
 {
     private List<NodeReference> preferredMemberNodeList = new ArrayList<NodeReference>();
     private List<NodeReference> blockedMemberNodeList = new ArrayList<NodeReference>();
-    private ReplicationAllowed replicationAllowed;
-    private Integer numberReplicas;
+    private Boolean replicationAllowed;
+    private Integer numberReplicaList;
 
     /** 
      * Get the list of 'preferredMemberNode' element items.
@@ -133,7 +129,7 @@ public class ReplicationPolicy
      * 
      * @return value
      */
-    public ReplicationAllowed getReplicationAllowed() {
+    public Boolean getReplicationAllowed() {
         return replicationAllowed;
     }
 
@@ -142,57 +138,25 @@ public class ReplicationPolicy
      * 
      * @param replicationAllowed
      */
-    public void setReplicationAllowed(ReplicationAllowed replicationAllowed) {
+    public void setReplicationAllowed(Boolean replicationAllowed) {
         this.replicationAllowed = replicationAllowed;
     }
 
     /** 
-     * Get the 'numberReplicas' attribute value.
+     * Get the 'numberReplicaList' attribute value.
      * 
      * @return value
      */
-    public Integer getNumberReplicas() {
-        return numberReplicas;
+    public Integer getNumberReplicaList() {
+        return numberReplicaList;
     }
 
     /** 
-     * Set the 'numberReplicas' attribute value.
+     * Set the 'numberReplicaList' attribute value.
      * 
-     * @param numberReplicas
+     * @param numberReplicaList
      */
-    public void setNumberReplicas(Integer numberReplicas) {
-        this.numberReplicas = numberReplicas;
-    }
-    /** 
-     * Schema fragment(s) for this class:
-     * <pre>
-     * &lt;xs:simpleType xmlns:xs="http://www.w3.org/2001/XMLSchema">
-     *   &lt;xs:restriction base="xs:string">
-     *     &lt;xs:enumeration value="true"/>
-     *     &lt;xs:enumeration value="false"/>
-     *   &lt;/xs:restriction>
-     * &lt;/xs:simpleType>
-     * </pre>
-     */
-    public static enum ReplicationAllowed {
-        TRUE("true"), FALSE("false");
-        private final String value;
-
-        private ReplicationAllowed(String value) {
-            this.value = value;
-        }
-
-        public String toString() {
-            return value;
-        }
-
-        public static ReplicationAllowed convert(String value) {
-            for (ReplicationAllowed inst : values()) {
-                if (inst.toString().equals(value)) {
-                    return inst;
-                }
-            }
-            return null;
-        }
+    public void setNumberReplicaList(Integer numberReplicaList) {
+        this.numberReplicaList = numberReplicaList;
     }
 }

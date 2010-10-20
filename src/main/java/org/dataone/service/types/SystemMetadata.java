@@ -8,29 +8,27 @@ import java.util.List;
 /** 
  * Schema fragment(s) for this class:
  * <pre>
- * &lt;xs:complexType xmlns:ns="http://dataone.org/service/types/SystemMetadata/0.1" xmlns:ns1="http://dataone.org/service/types/common/0.1" xmlns:xs="http://www.w3.org/2001/XMLSchema" name="SystemMetadata">
+ * &lt;xs:complexType xmlns:ns="http://dataone.org/service/types/common/0.5" xmlns:ns1="http://dataone.org/service/types/SystemMetadata/0.5" xmlns:xs="http://www.w3.org/2001/XMLSchema" name="SystemMetadata">
  *   &lt;xs:sequence>
- *     &lt;xs:element type="ns1:Identifier" name="identifier" minOccurs="1" maxOccurs="1"/>
- *     &lt;xs:element type="ns1:ObjectFormat" name="objectFormat"/>
+ *     &lt;xs:element type="ns:Identifier" name="identifier" minOccurs="1" maxOccurs="1"/>
+ *     &lt;xs:element type="ns:ObjectFormat" name="objectFormat"/>
  *     &lt;xs:element type="xs:long" name="size"/>
- *     &lt;xs:element type="ns1:Principal" name="submitter"/>
- *     &lt;xs:element type="ns1:Principal" name="rightsHolder"/>
- *     &lt;xs:element type="ns1:Identifier" name="obsoletes" minOccurs="0" maxOccurs="unbounded"/>
- *     &lt;xs:element type="ns1:Identifier" name="obsoletedBy" minOccurs="0" maxOccurs="unbounded"/>
- *     &lt;xs:element type="ns1:Identifier" name="derivedFrom" minOccurs="0" maxOccurs="unbounded"/>
- *     &lt;xs:element type="ns1:Identifier" name="describes" minOccurs="0" maxOccurs="unbounded"/>
- *     &lt;xs:element type="ns1:Identifier" name="describedBy" minOccurs="0" maxOccurs="unbounded"/>
- *     &lt;xs:element type="ns1:Checksum" name="checksum" minOccurs="1" maxOccurs="1"/>
+ *     &lt;xs:element type="ns:Principal" name="submitter"/>
+ *     &lt;xs:element type="ns:Principal" name="rightsHolder"/>
+ *     &lt;xs:element type="ns:Identifier" name="obsoletes" minOccurs="0" maxOccurs="unbounded"/>
+ *     &lt;xs:element type="ns:Identifier" name="obsoletedBy" minOccurs="0" maxOccurs="unbounded"/>
+ *     &lt;xs:element type="ns:Identifier" name="derivedFrom" minOccurs="0" maxOccurs="unbounded"/>
+ *     &lt;xs:element type="ns:Identifier" name="describes" minOccurs="0" maxOccurs="unbounded"/>
+ *     &lt;xs:element type="ns:Identifier" name="describedBy" minOccurs="0" maxOccurs="unbounded"/>
+ *     &lt;xs:element type="ns:Checksum" name="checksum" minOccurs="1" maxOccurs="1"/>
  *     &lt;xs:element type="xs:dateTime" name="embargoExpires" minOccurs="0"/>
- *     &lt;xs:element type="ns:AccessRule" name="accessRule" minOccurs="0" maxOccurs="unbounded"/>
- *     &lt;xs:element type="ns:ReplicationPolicy" name="replicationPolicy" minOccurs="0" maxOccurs="1"/>
+ *     &lt;xs:element type="ns1:AccessRule" name="accessRule" minOccurs="0" maxOccurs="unbounded"/>
+ *     &lt;xs:element type="ns1:ReplicationPolicy" name="replicationPolicy" minOccurs="0" maxOccurs="1"/>
  *     &lt;xs:element type="xs:dateTime" name="dateUploaded"/>
  *     &lt;xs:element type="xs:dateTime" name="dateSysMetadataModified"/>
- *     &lt;xs:element type="ns1:NodeReference" name="originMemberNode"/>
- *     &lt;xs:element type="ns1:NodeReference" name="authoritativeMemberNode"/>
- *     &lt;xs:element name="replica" minOccurs="0" maxOccurs="unbounded">
- *       &lt;!-- Reference to inner class Replica -->
- *     &lt;/xs:element>
+ *     &lt;xs:element type="ns:NodeReference" name="originMemberNode"/>
+ *     &lt;xs:element type="ns:NodeReference" name="authoritativeMemberNode"/>
+ *     &lt;xs:element type="ns1:Replica" name="replica" minOccurs="0" maxOccurs="unbounded"/>
  *   &lt;/xs:sequence>
  * &lt;/xs:complexType>
  * </pre>
@@ -595,7 +593,7 @@ public class SystemMetadata
      * Get the number of 'replica' element items.
      * @return count
      */
-    public int sizeReplicas() {
+    public int sizeReplicaList() {
         return replicaList.size();
     }
 
@@ -619,120 +617,7 @@ public class SystemMetadata
     /** 
      * Remove all 'replica' element items.
      */
-    public void clearReplicas() {
+    public void clearReplicaList() {
         replicaList.clear();
-    }
-    /** 
-     * Schema fragment(s) for this class:
-     * <pre>
-     * &lt;xs:element xmlns:ns="http://dataone.org/service/types/common/0.1" xmlns:xs="http://www.w3.org/2001/XMLSchema" name="replica" minOccurs="0" maxOccurs="unbounded">
-     *   &lt;xs:complexType>
-     *     &lt;xs:sequence>
-     *       &lt;xs:element type="ns:NodeReference" name="replicaMemberNode"/>
-     *       &lt;xs:element name="replicationStatus">
-     *         &lt;xs:simpleType>
-     *           &lt;!-- Reference to inner class ReplicationStatus -->
-     *         &lt;/xs:simpleType>
-     *       &lt;/xs:element>
-     *       &lt;xs:element type="xs:dateTime" name="replicaVerified"/>
-     *     &lt;/xs:sequence>
-     *   &lt;/xs:complexType>
-     * &lt;/xs:element>
-     * </pre>
-     */
-    public static class Replica
-    {
-        private NodeReference replicaMemberNode;
-        private ReplicationStatus replicationStatus;
-        private Date replicaVerified;
-
-        /** 
-         * Get the 'replicaMemberNode' element value.
-         * 
-         * @return value
-         */
-        public NodeReference getReplicaMemberNode() {
-            return replicaMemberNode;
-        }
-
-        /** 
-         * Set the 'replicaMemberNode' element value.
-         * 
-         * @param replicaMemberNode
-         */
-        public void setReplicaMemberNode(NodeReference replicaMemberNode) {
-            this.replicaMemberNode = replicaMemberNode;
-        }
-
-        /** 
-         * Get the 'replicationStatus' element value.
-         * 
-         * @return value
-         */
-        public ReplicationStatus getReplicationStatus() {
-            return replicationStatus;
-        }
-
-        /** 
-         * Set the 'replicationStatus' element value.
-         * 
-         * @param replicationStatus
-         */
-        public void setReplicationStatus(ReplicationStatus replicationStatus) {
-            this.replicationStatus = replicationStatus;
-        }
-
-        /** 
-         * Get the 'replicaVerified' element value.
-         * 
-         * @return value
-         */
-        public Date getReplicaVerified() {
-            return replicaVerified;
-        }
-
-        /** 
-         * Set the 'replicaVerified' element value.
-         * 
-         * @param replicaVerified
-         */
-        public void setReplicaVerified(Date replicaVerified) {
-            this.replicaVerified = replicaVerified;
-        }
-        /** 
-         * Schema fragment(s) for this class:
-         * <pre>
-         * &lt;xs:simpleType xmlns:xs="http://www.w3.org/2001/XMLSchema">
-         *   &lt;xs:restriction base="xs:string">
-         *     &lt;xs:enumeration value="queued"/>
-         *     &lt;xs:enumeration value="requested"/>
-         *     &lt;xs:enumeration value="completed"/>
-         *     &lt;xs:enumeration value="invalidated"/>
-         *   &lt;/xs:restriction>
-         * &lt;/xs:simpleType>
-         * </pre>
-         */
-        public static enum ReplicationStatus {
-            QUEUED("queued"), REQUESTED("requested"), COMPLETED("completed"), INVALIDATED(
-                    "invalidated");
-            private final String value;
-
-            private ReplicationStatus(String value) {
-                this.value = value;
-            }
-
-            public String toString() {
-                return value;
-            }
-
-            public static ReplicationStatus convert(String value) {
-                for (ReplicationStatus inst : values()) {
-                    if (inst.toString().equals(value)) {
-                        return inst;
-                    }
-                }
-                return null;
-            }
-        }
     }
 }

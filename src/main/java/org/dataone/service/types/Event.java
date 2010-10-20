@@ -4,7 +4,7 @@ package org.dataone.service.types;
 /** 
  * Schema fragment(s) for this class:
  * <pre>
- * &lt;xs:simpleType xmlns:ns="http://dataone.org/service/types/logging/0.1" xmlns:xs="http://www.w3.org/2001/XMLSchema" name="Event">
+ * &lt;xs:simpleType xmlns:ns="http://dataone.org/service/types/logging/0.5" xmlns:xs="http://www.w3.org/2001/XMLSchema" name="Event">
  *   &lt;xs:restriction base="xs:string">
  *     &lt;xs:enumeration value="create"/>
  *     &lt;xs:enumeration value="read"/>

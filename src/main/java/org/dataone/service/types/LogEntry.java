@@ -6,16 +6,16 @@ import java.util.Date;
 /** 
  * Schema fragment(s) for this class:
  * <pre>
- * &lt;xs:complexType xmlns:ns="http://dataone.org/service/types/logging/0.1" xmlns:ns1="http://dataone.org/service/types/common/0.1" xmlns:xs="http://www.w3.org/2001/XMLSchema" name="LogEntry">
+ * &lt;xs:complexType xmlns:ns="http://dataone.org/service/types/common/0.5" xmlns:ns1="http://dataone.org/service/types/logging/0.5" xmlns:xs="http://www.w3.org/2001/XMLSchema" name="LogEntry">
  *   &lt;xs:sequence>
- *     &lt;xs:element type="ns1:Identifier" name="entryId" minOccurs="1" maxOccurs="1"/>
- *     &lt;xs:element type="ns1:Identifier" name="identifier" minOccurs="1" maxOccurs="1"/>
+ *     &lt;xs:element type="ns:Identifier" name="entryId" minOccurs="1" maxOccurs="1"/>
+ *     &lt;xs:element type="ns:Identifier" name="identifier" minOccurs="1" maxOccurs="1"/>
  *     &lt;xs:element type="xs:string" name="ipAddress" minOccurs="1" maxOccurs="1"/>
  *     &lt;xs:element type="xs:string" name="userAgent" minOccurs="1" maxOccurs="1"/>
- *     &lt;xs:element type="ns1:Principal" name="principal" minOccurs="1" maxOccurs="1"/>
- *     &lt;xs:element type="ns:Event" name="event" minOccurs="1" maxOccurs="1"/>
+ *     &lt;xs:element type="ns:Principal" name="principal" minOccurs="1" maxOccurs="1"/>
+ *     &lt;xs:element type="ns1:Event" name="event" minOccurs="1" maxOccurs="1"/>
  *     &lt;xs:element type="xs:dateTime" name="dateLogged" minOccurs="1" maxOccurs="1"/>
- *     &lt;xs:element type="ns1:NodeReference" name="memberNode" minOccurs="1" maxOccurs="1"/>
+ *     &lt;xs:element type="ns:NodeReference" name="memberNode" minOccurs="1" maxOccurs="1"/>
  *   &lt;/xs:sequence>
  * &lt;/xs:complexType>
  * </pre>

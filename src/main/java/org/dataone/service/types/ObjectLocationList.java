@@ -1,72 +1,99 @@
-/**
- * This work was created by participants in the DataONE project, and is
- * jointly copyrighted by participating institutions in DataONE. For
- * more information on DataONE, see our web site at http://dataone.org.
- *
- *   Copyright ${year}
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 
 package org.dataone.service.types;
 
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.ArrayList;
+import java.util.List;
 
-/**
- * The DataONE Type to represent a list of locations on which replicas of an 
- * object are stored.
- *
- * @author Matthew Jones
+/** 
+ * An ObjectLocationList is the structure returned
+ from the resolve() method of the CN REST interface. It provides a
+ list of locations from which the specified object can be retrieved.
+
+ * 
+ * Schema fragment(s) for this class:
+ * <pre>
+ * &lt;xs:complexType xmlns:ns="http://dataone.org/service/types/common/0.5" xmlns:ns1="http://dataone.org/service/types/ObjectLocationList/0.5" xmlns:xs="http://www.w3.org/2001/XMLSchema" name="ObjectLocationList">
+ *   &lt;xs:sequence>
+ *     &lt;xs:element type="ns:Identifier" name="identifier" minOccurs="1" maxOccurs="1"/>
+ *     &lt;xs:element type="ns1:ObjectLocation" name="objectLocation" minOccurs="0" maxOccurs="unbounded"/>
+ *   &lt;/xs:sequence>
+ * &lt;/xs:complexType>
+ * </pre>
  */
-public class ObjectLocationList 
+public class ObjectLocationList
 {
-    private Set<ObjectLocation> locations;
-    
-    /**
-     * Construct a list using a default empty set of locations.
+    private Identifier identifier;
+    private List<ObjectLocation> objectLocationList = new ArrayList<ObjectLocation>();
+
+    /** 
+     * Get the 'identifier' element value. The identifier of the object being resolved.
+    				
+     * 
+     * @return value
      */
-    public ObjectLocationList() {
-        locations = new TreeSet<ObjectLocation>();
-    }
-    
-    /**
-     * Construct a list using the provided set of locations.
-     * @param locations the Set of locations
-     */
-    public ObjectLocationList(Set<ObjectLocation> locations) {
-        this.locations = locations;
+    public Identifier getIdentifier() {
+        return identifier;
     }
 
-    /**
-     * @return the locations
+    /** 
+     * Set the 'identifier' element value. The identifier of the object being resolved.
+    				
+     * 
+     * @param identifier
      */
-    public Set<ObjectLocation> getLocations() {
-        return locations;
+    public void setIdentifier(Identifier identifier) {
+        this.identifier = identifier;
     }
 
-    /**
-     * @param locations the locations to set
+    /** 
+     * Get the list of 'objectLocation' element items. List of nodes from which the object can be
+    					retrieved
+     * 
+     * @return list
      */
-    public void setLocations(Set<ObjectLocation> locations) {
-        this.locations = locations;
+    public List<ObjectLocation> getObjectLocationList() {
+        return objectLocationList;
     }
 
-    /**
-     * Add a new location to the list of object locations.
-     * @param l the location to be added.
+    /** 
+     * Set the list of 'objectLocation' element items. List of nodes from which the object can be
+    					retrieved
+     * 
+     * @param list
      */
-    public void add(ObjectLocation l) {
-        locations.add(l);
+    public void setObjectLocationList(List<ObjectLocation> list) {
+        objectLocationList = list;
+    }
+
+    /** 
+     * Get the number of 'objectLocation' element items.
+     * @return count
+     */
+    public int sizeObjectLocationList() {
+        return objectLocationList.size();
+    }
+
+    /** 
+     * Add a 'objectLocation' element item.
+     * @param item
+     */
+    public void addObjectLocation(ObjectLocation item) {
+        objectLocationList.add(item);
+    }
+
+    /** 
+     * Get 'objectLocation' element item by position.
+     * @return item
+     * @param index
+     */
+    public ObjectLocation getObjectLocation(int index) {
+        return objectLocationList.get(index);
+    }
+
+    /** 
+     * Remove all 'objectLocation' element items.
+     */
+    public void clearObjectLocationList() {
+        objectLocationList.clear();
     }
 }
