@@ -47,6 +47,4 @@ public class Constants
     public static final String RESOURCE_IDENTIFIER = "identifier";
     /** API LOG controls logging events */
     public static final String RESOURCE_LOG = "log";
-    /** The URL string for the node REST API */
-    private String nodeBaseServiceUrl;
 }
