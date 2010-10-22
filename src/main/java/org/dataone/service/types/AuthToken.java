@@ -23,6 +23,10 @@ package org.dataone.service.types;
 /**
  * The DataONE Type to represent an authentication token.
  *
+ * An AuthToken is used to identify a principal and to assert that
+ * the identity of the principal has been verified
+ * by the DataONE authentication infrastructure.
+ * 
  * @author Matthew Jones
  */
 public class AuthToken 
