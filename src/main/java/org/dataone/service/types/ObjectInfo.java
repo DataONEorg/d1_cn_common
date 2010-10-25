@@ -58,7 +58,7 @@ public class ObjectInfo
      * @param objectFormat
      */
     public void setObjectFormat(ObjectFormat objectFormat) {
-        this.objectFormat = objectFormat;
+        if (objectFormat != null) {this.objectFormat = objectFormat;} else { throw new NullPointerException("ObjectFormat cannot be null!");}
     }
 
     /** 

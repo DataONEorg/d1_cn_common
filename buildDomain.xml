@@ -131,6 +131,11 @@
         <replace file="${basedir}/src/main/java/org/dataone/service/types/ReplicationPolicy.java"   token="Replicas" value="ReplicaList" />
 
 
+        <replaceregexp file="${basedir}/src/main/java/org/dataone/service/types/ObjectInfo.java"
+                       match="(\s+)(this\.objectFormat \= objectFormat\;)"
+                       replace="\1if \(objectFormat != null\) \{\2} else \{throw new NullPointerException\(&quot;ObjectFormat cannot be null!&quot;\);\}"
+                       byline="true"
+        />
 
       </target>
 
