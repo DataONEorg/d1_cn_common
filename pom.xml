@@ -2,12 +2,12 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.dataone</groupId>
-    <artifactId>dataone-service-api</artifactId>
+    <artifactId>d1_common_java</artifactId>
     <packaging>jar</packaging>
     <version>0.5.0</version>
-    <name>DataONE-ServiceApi-Java</name>
+    <name>DataONE_Common_Java</name>
     <url>http://dataone.org</url>
-    <description>DataONE Service Interface</description>
+    <description>DataONE Common Code with Service Interface Definitions</description>
     <build>
         <defaultGoal>test</defaultGoal>
         <directory>target</directory>
