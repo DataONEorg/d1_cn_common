@@ -47,4 +47,6 @@ public class Constants
     public static final String RESOURCE_IDENTIFIER = "identifier";
     /** API LOG controls logging events */
     public static final String RESOURCE_LOG = "log";
+    /** API checksum resource*/
+    public static final String RESOURCE_CHECKSUM = "checksum";
 }
