@@ -1,4 +1,4 @@
-package org.dataone.cn.web;
+package org.dataone.service;
 
 import static org.junit.Assert.*;
 
@@ -7,8 +7,8 @@ import java.util.Iterator;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
-import org.apache.commons.codec.binary.Hex;
-import org.dataone.cn.rest.util.ResolveUtilities;
+// import org.apache.commons.codec.binary.Hex;
+import org.dataone.service.EncodingUtilities;
 import org.junit.Test;
 
 public class TestIdentifierEncoding 
@@ -68,7 +68,7 @@ public class TestIdentifierEncoding
 		{
 			String id = (String) i.next();
 			System.out.println("Identifier:    " + id );
-			String encodedID = ResolveUtilities.encodeIdentifier(id);
+			String encodedID = EncodingUtilities.encodeIdentifier(id);
 			System.out.println("       got:    " + encodedID);
 			assertTrue("identifier: " + id, encodedID.equals(idEncodingPairs.get(id)));	
 		}
