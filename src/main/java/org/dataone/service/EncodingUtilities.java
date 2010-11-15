@@ -55,6 +55,8 @@ public class EncodingUtilities {
 	
 	
 	private static BitSet pcharUnescapedCharacters;
+	private static BitSet fragmentUnescapedCharacters;
+	private static BitSet queryUnescapedCharacters;
 
 	private static final char[] hexadecimal = { '0', '1', '2', '3', '4', '5', '6', '7',
 											    '8', '9', 'A', 'B', 'C', 'D', 'E', 'F' };
@@ -91,9 +93,62 @@ public class EncodingUtilities {
 		// allowable from general delimiters set
 		pcharUnescapedCharacters.set(':');
 		pcharUnescapedCharacters.set('@');
+	
+		
+		// set up fragmentUnescapedCharacters - a superset of pchar
+		fragmentUnescapedCharacters = (BitSet) pcharUnescapedCharacters.clone();
+		fragmentUnescapedCharacters.set('/');
+		fragmentUnescapedCharacters.set('?');
+
+		// set up queryUnescapedCharacters - in ABNF, is the same as frag
+		// but have to remove a couple character to follow key-value pair convention
+		// (the ABNF allows those, but they have a reserved purpose within the query part
+		// of the URL that the ABNF does not define
+		queryUnescapedCharacters = (BitSet) fragmentUnescapedCharacters.clone();
+		queryUnescapedCharacters.clear('=');
+		queryUnescapedCharacters.clear('&');
 	}
 
 
+	/**
+	 * Encode a URL path segment as required by the URL specifications (<a href="http://tools.ietf.org/html/rfc3986">
+	 * RFC 3986</a> and <a href="http://www.ietf.org/rfc/rfc1738#section-3.3"> RFC 1738 section 3.3</a>). 
+	 * This differs from <code>java.net.URLEncoder.encode()</code> which encodes according
+	 * to the <code>x-www-form-urlencoded</code> MIME format.
+	 *
+	 * @param segmentString: the http URL path segment to encode 
+	 * @return the URL-path-segment-safe UTF-8 encoded string
+	 */
+	public static String encodeUrlPathSegment(String segmentString) {
+		return encodeString(pcharUnescapedCharacters, segmentString);
+	}
+
+	/**
+	 * Encode a URL query segment following the item-list / key-value convention:
+	 *   query = "?" q-item *( "&" q-item)
+	 *   q=item = q-segment [ "=" q-segment ]
+	 *   
+	 *   @param segmentString: the http URL query segment to encode
+	 *   @return the URL-query-segment-safe UTF-8 encoded string
+	 */
+	public static String encodeUrlQuerySegment(String segmentString) {
+		return encodeString(queryUnescapedCharacters, segmentString);
+	}
+
+	/**
+	 * Encode the URL fragment section following <a href="http://tools.ietf.org/html/rfc3986">
+	 * RFC 3986</a>.  
+	 * 
+	 * @param fragmentString
+	 * @return the URL-fragment-safe UTF-8 encoded string
+	 */
+	public static String encodeUrlFragment(String fragmentString) {
+		return encodeString(fragmentUnescapedCharacters, fragmentString);
+	}
+
+	
+	
+	
 	/**
 	 * Encode a path segment as required by the URL specification (<a href="http://www.ietf.org/rfc/rfc3986.txt">
 	 * RFC 3986</a>). This differs from <code>java.net.URLEncoder.encode()</code> which encodes according
@@ -102,7 +157,7 @@ public class EncodingUtilities {
 	 * @param idString the identifier to encode (operating as a segment, according to the ABNF)
 	 * @return the URL-safe UTF-8 encoded identifier
 	 */
-	public static String encodeIdentifier(String idString) {
+	private static String encodeString(BitSet unescapedSet, String idString) {
 		// replaced StringBuffer with StringBuilder, as per recommendation in javadocs, for higher performance
 
 
@@ -120,7 +175,7 @@ public class EncodingUtilities {
 
 		for (int i = 0; i < idString.length(); i++) {
 			int c = idString.charAt(i);
-			if (pcharUnescapedCharacters.get(c)) {
+			if (unescapedSet.get(c)) {
 				rewrittenPathSegment.append((char)c);
 			} else {
 				// convert to external encoding (UTF-8) before hex conversion
@@ -147,7 +202,8 @@ public class EncodingUtilities {
 		return rewrittenPathSegment.toString();
 	}
 	
-	
+	// TODO: this was built speculatively, and might not be used, so consider removing
+	//   (there are no tests for it)
 	public static String decodeXmlDataItems(String dataString)
 	{
 		String decodedString;
@@ -160,4 +216,8 @@ public class EncodingUtilities {
 		
 		return decodedString;
 	}
+	
+	
+	
+	
 }
