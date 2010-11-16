@@ -61,7 +61,7 @@ public interface MemberNodeCrud
         NotImplemented;
     public DescribeResponse describe(AuthToken token, Identifier guid)
         throws InvalidToken, ServiceFailure, NotAuthorized, NotFound, 
-        NotImplemented;
+        NotImplemented, InvalidRequest;
     
     // For 0.4 milestone
     public Identifier create(AuthToken token, Identifier guid,
