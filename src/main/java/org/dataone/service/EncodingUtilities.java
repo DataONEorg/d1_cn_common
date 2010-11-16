@@ -85,7 +85,10 @@ public class EncodingUtilities {
 		pcharUnescapedCharacters.set('(');
 		pcharUnescapedCharacters.set(')');
 		pcharUnescapedCharacters.set('*');
-		pcharUnescapedCharacters.set('+');
+		// some older URL parsers replace '+' with a space
+		// so we'll escape this character to avoid mis-interpretation by clients
+		// (removing it from the unescaped list)
+		// pcharUnescapedCharacters.set('+');
 		pcharUnescapedCharacters.set(',');
 		pcharUnescapedCharacters.set(';');
 		pcharUnescapedCharacters.set('=');      

@@ -23,13 +23,17 @@ public class TestIdentifierEncoding
 	
 	private static HashMap<String, String> commonEncodingPairs = new HashMap<String, String>();
 	static {
+		// exhaustive list of allowable characters
 		commonEncodingPairs.put("allowed-abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ",
 				                "allowed-abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ");
 		commonEncodingPairs.put("allowed-0123456789","allowed-0123456789");
-		commonEncodingPairs.put("allowed-;:@$-_.+!*()',~", "allowed-;:@$-_.+!*()',~");
-		commonEncodingPairs.put(" disallowed-ascii-spaces: x x ", "%20disallowed-ascii-spaces:%20x%20x%20");
+		commonEncodingPairs.put("allowed-;:@$-_.!*()',~", "allowed-;:@$-_.!*()',~");
+		
+		commonEncodingPairs.put("escaping-anyway:+", "escaping-anyway:%2B");
+
+		commonEncodingPairs.put("disallowed-ascii-spaces: x x ", "disallowed-ascii-spaces:%20x%20x%20");
 		commonEncodingPairs.put("disallowed-ascii-percent:%", "disallowed-ascii-percent:%25");
-		commonEncodingPairs.put("disallowed-ascii-printables:?/[]", "disallowed-ascii-printables:%3F%2F%5B%5D");
+		commonEncodingPairs.put("disallowed-ascii-others:\"#<>[]\\^`{}|", "disallowed-ascii-others:%22%23%3C%3E%5B%5D%5C%5E%60%7B%7D%7C");
 		commonEncodingPairs.put("disallowed-nonAscii-BMP-umlauted-u:" + "\u00FC", "disallowed-nonAscii-BMP-umlauted-u:%C3%BC");
 		commonEncodingPairs.put("disallowed-nonAscii-BMP-euro:" + "\u20AC", "disallowed-nonAscii-BMP-euro:%E2%82%AC");
 
@@ -60,16 +64,21 @@ public class TestIdentifierEncoding
 		while (i.hasNext())
 		{
 			String id = (String) i.next();
-			runAssertion(i.next(),
+			runAssertion(id,
 					 commonEncodingPairs.get(id),
 					 EncodingUtilities.encodeUrlPathSegment(id)
 					 );
 		}
 		
 		// these are allowed in paths and fragments, but not queries
-		runAssertion("allowed-&=&=",
-					 "allowed-&=&=",
-					 EncodingUtilities.encodeUrlPathSegment("allowed-&=&="));
+		runAssertion("disallowed-ascii-?/",
+					 "disallowed-ascii-%3F%2F",
+					 EncodingUtilities.encodeUrlPathSegment("disallowed-ascii-?/"));
+		
+		// these are allowed in paths and fragments, but not queries
+		runAssertion("allowed-ascii-&=&=",
+					 "allowed-ascii-&=&=",
+					 EncodingUtilities.encodeUrlPathSegment("allowed-ascii-&=&="));
 	}
 
 
@@ -83,21 +92,21 @@ public class TestIdentifierEncoding
 		while (i.hasNext())
 		{
 			String id = (String) i.next();
-			runAssertion(i.next(),
+			runAssertion(id,
 						 commonEncodingPairs.get(id),
 						 EncodingUtilities.encodeUrlFragment(id)
 						 );
 		}
 		// these are allowed in paths and fragments, but not queries
-		runAssertion("allowed-&=&=",
-					 "allowed-&=&=",
-					 EncodingUtilities.encodeUrlFragment("allowed-&=&="));
+		runAssertion("allowed-ascii-&=&=",
+					 "allowed-ascii-&=&=",
+					 EncodingUtilities.encodeUrlFragment("allowed-ascii-&=&="));
 
 		
 		// fragments and queries are allowed 2 extra characters to be in the unescaped set: "/" and "?"
-		runAssertion("allowed-/?/?",
-					 "allowed-/?/?",
-					 EncodingUtilities.encodeUrlFragment("allowed-/?/?"));
+		runAssertion("allowed-ascii-/?/?",
+					 "allowed-ascii-/?/?",
+					 EncodingUtilities.encodeUrlFragment("allowed-ascii-/?/?"));
 	}
 
 	@Test
@@ -110,15 +119,16 @@ public class TestIdentifierEncoding
 		while (i.hasNext())
 		{
 			String id = (String) i.next();
-			runAssertion(i.next(),
+			runAssertion(id,
 						 commonEncodingPairs.get(id),
 						 EncodingUtilities.encodeUrlQuerySegment(id)
 						 );
 		}
 		// fragments and queries are allowed 2 extra characters to be in the unescaped set: "/" and "?"
-		runAssertion("allowed-/?/?",
-					 "allowed-/?/?",
-					 EncodingUtilities.encodeUrlQuerySegment("allowed-/?/?"));
+		runAssertion("allowed-ascii-/?/?",
+					 "allowed-ascii-/?/?",
+					 EncodingUtilities.encodeUrlQuerySegment("allowed-ascii-/?/?"));
+
 		
 		// queries need to escape 2 characters that are reserved by convention for separating segments
 		//  the characters "&" and "="
@@ -139,6 +149,7 @@ public class TestIdentifierEncoding
 		System.out.println("    expect:    " + expected);
 		System.out.println("       got:    " + got);
 		System.out.println();
+//		System.out.flush();
 		assertTrue("identifier: " + id, got.equals(expected));		
 	}
 	
