@@ -30,7 +30,7 @@ public class TestIdentifierEncoding
 		commonEncodingPairs.put(" disallowed-ascii-spaces: x x ", "%20disallowed-ascii-spaces:%20x%20x%20");
 		commonEncodingPairs.put("disallowed-ascii-percent:%", "disallowed-ascii-percent:%25");
 		commonEncodingPairs.put("disallowed-ascii-printables:?/[]", "disallowed-ascii-printables:%3F%2F%5B%5D");
-		commonEncodingPairs.put("disallowed-nonAscii-BMP-umlaut:Ÿ",          "disallowed-nonAscii-BMP-umlaut:%C3%BC");
+		commonEncodingPairs.put("disallowed-nonAscii-BMP-umlauted-u:" + "\u00FC", "disallowed-nonAscii-BMP-umlauted-u:%C3%BC");
 		commonEncodingPairs.put("disallowed-nonAscii-BMP-euro:" + "\u20AC", "disallowed-nonAscii-BMP-euro:%E2%82%AC");
 
 		commonEncodingPairs.put("disallowed-nonAscii-BMP-thai:" + "\u0E09", "disallowed-nonAscii-BMP-thai:%E0%B8%89");
