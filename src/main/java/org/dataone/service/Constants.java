@@ -33,6 +33,8 @@ public class Constants
     public static final String POST = "POST";
     /** HTTP Verb PUT */
     public static final String PUT = "PUT";
+    /** HTTP Verb HEAD*/
+    public static final String HEAD = "HEAD";
     /** HTTP Verb DELETE */
     public static final String DELETE = "DELETE";    
     /** API OBJECTS Resource which handles with document operations */

@@ -75,7 +75,7 @@ public interface MemberNodeCrud
         NotImplemented;
     public Identifier delete(AuthToken token, Identifier guid)
         throws InvalidToken, ServiceFailure, NotAuthorized, NotFound, 
-        NotImplemented;
+        NotImplemented, InvalidRequest;
     public Checksum getChecksum(AuthToken token, Identifier guid)
         throws InvalidToken, ServiceFailure, NotAuthorized, NotFound, 
         InvalidRequest, NotImplemented;
