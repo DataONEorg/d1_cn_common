@@ -3,11 +3,12 @@ package org.dataone.service;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
 import java.util.BitSet;
 
 
 /*
- Adapted from:
+ Encoding routines Adapted from:
  (http://www.java2s.com/Code/Java/Network-Protocol/EncodeapathasrequiredbytheURLspecification.htm)
  
  Derby - Class org.apache.derby.iapi.util.PropertyUtil
@@ -27,7 +28,29 @@ import java.util.BitSet;
  See the License for the specific language governing permissions and
  limitations under the License.
 
+ *
+ *
+ *  Decoding routines adapted from:	
+ *  http://www.java2s.com/Code/Java/Network-Protocol/Requestparsingandencodingutilitymethods.htm	
+ *
+ *  distributed with the following license:
+ *	
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ * 
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
+
 
 /*
  * Useful resources for background on encoding 
@@ -148,9 +171,7 @@ public class EncodingUtilities {
 	public static String encodeUrlFragment(String fragmentString) {
 		return encodeString(fragmentUnescapedCharacters, fragmentString);
 	}
-
-	
-	
+		
 	
 	/**
 	 * Encode a path segment as required by the URL specification (<a href="http://www.ietf.org/rfc/rfc3986.txt">
@@ -204,6 +225,101 @@ public class EncodingUtilities {
 		}
 		return rewrittenPathSegment.toString();
 	}
+
+	
+	/**
+	 * Decode and return the specified pct-encoded String.  UTF-8 encoding
+	 * is assumed.
+	 *
+	 * @param str
+	 * @throws UnsupportedEncodingException 
+	 * @exception IllegalArgumentException if a '%' character is not followed
+	 * by a valid 2-digit hexadecimal number
+	 */
+	public static String decodeString(String str) throws UnsupportedEncodingException {
+		return decodeString(str,null);  // using null, encoding defaults to UTF-8
+	}
+	
+	/**
+     * Decode and return the specified URL-encoded String.
+     *
+     * @param str The pct-encoded string
+     * @param enc The encoding to use; if null, UTF-8 encoding is used
+	 * @throws UnsupportedEncodingException 
+     * @exception IllegalArgumentException if a '%' character is not followed
+     * by a valid 2-digit hexadecimal number
+     */
+    public static String decodeString(String str, String enc) throws UnsupportedEncodingException {
+    	if (str == null)
+    		return (null);
+
+        // use the specified encoding to extract bytes out of the
+        // given string so that the encoding is not lost. If an
+        // encoding is not specified, let it use platform default
+    	if (enc == null) {
+    		enc = "UTF-8";
+    	}
+    	byte[] bytes = null;
+        try
+        {
+        	bytes = str.getBytes(enc);
+        }
+        catch (UnsupportedEncodingException uee) {}
+
+        return decodeString(bytes, enc);
+
+    }
+	
+	
+	/**
+     * Decode and return the specified pct-encoded byte array.
+     *
+     * @param bytes The pct-encoded byte array
+     * @param enc The encoding to use; if null, UTF-8 encoding is used
+	 * @throws UnsupportedEncodingException 
+     * @exception IllegalArgumentException if a '%' character is not followed
+     * by a valid 2-digit hexadecimal number
+     */
+    public static String decodeString(byte[] bytes, String enc) throws UnsupportedEncodingException {
+
+        if (bytes == null)
+            return (null);
+
+        int len = bytes.length;
+        int i = 0;
+        int j = 0;
+        while (i < len) {
+            byte b = bytes[i++];     // Get byte to test
+            if (b == '%') {
+            	if (i+1 < len) {
+            		b = (byte) ((convertHexDigit(bytes[i++]) << 4)
+            				+ convertHexDigit(bytes[i++]));
+            	} else {
+            		throw new IllegalArgumentException("decoding error: ran out of bytes before able to decode {% hex hex} pattern.");
+            	}
+            }
+            bytes[j++] = b;
+        }
+        if (enc == null) {
+        	enc = "UTF-8";
+        }
+        return new String(bytes, 0, j, enc);
+    }
+	
+    /**
+     * Convert a byte character value to hexidecimal digit value.
+     *
+     * @param b the character value byte
+     */
+    private static byte convertHexDigit( byte b ) throws IllegalArgumentException
+    {
+        if ((b >= '0') && (b <= '9')) return (byte)(b - '0');
+        if ((b >= 'a') && (b <= 'f')) return (byte)(b - 'a' + 10);
+        if ((b >= 'A') && (b <= 'F')) return (byte)(b - 'A' + 10);
+        throw new IllegalArgumentException("decoding error: '" + (char) b + "' is not a legal hexadecimal digit");
+    }
+	
+	
 	
 	// TODO: this was built speculatively, and might not be used, so consider removing
 	//   (there are no tests for it)

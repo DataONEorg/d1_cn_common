@@ -1,8 +1,10 @@
 package org.dataone.service;
 
+import static org.hamcrest.core.IsInstanceOf.instanceOf;
 import static org.junit.Assert.*;
 
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Scanner;
@@ -108,8 +110,71 @@ public class TestIdentifierEncoding
 		log("");
 	}
 
+	@Test
+	public final void testDecodeString() throws UnsupportedEncodingException
+	{
+		log(" * * * * * * * testing Decoding * * * * * * ");
+
+		SortedSet<String> ids = new TreeSet<String>(StandardTests.keySet());
+		Iterator<String> i = ids.iterator();
+		while (i.hasNext())
+		{
+			String id = (String) i.next();
+			runDecodeAssertion(StandardTests.get(id),
+						 id,
+						 EncodingUtilities.decodeString(StandardTests.get(id))
+						 );
+		}
+		log("");
+	}
+
+	@Test
+	public final void testDecodeError1() throws UnsupportedEncodingException
+	{
+		log(" * * * * * * * testing Decoding Error 1 * * * * * * ");
+		log("String to decode: testMalformedEscape-%3X");
+		try {
+			String s = EncodingUtilities.decodeString("testMalformedEscape-%3X");
+		} catch (IllegalArgumentException iae) {
+			assertThat("Malformed hex error caught",iae, instanceOf(IllegalArgumentException.class));
+			log("caught the error (bad hex character)");
+			return;
+		}
+		fail("did not catch malformed hex error (bad hex character)");
+	}
+		
+	@Test
+	public final void testDecodeError2() throws UnsupportedEncodingException
+	{
+		log(" * * * * * * * testing Decoding Error 2 * * * * * * ");
+		log("String to decode: testMalformedEscape-%3");
+		try {
+			String s = EncodingUtilities.decodeString("testMalformedEscape-%3");
+		} catch (IllegalArgumentException iae) {
+			assertThat("Malformed hex error caught",iae, instanceOf(IllegalArgumentException.class));
+			log("caught the error (truncated hex pattern)");
+			return;
+		}
+		fail("did not catch malformed hex error (incomplete hex string)");
+	}
 	
 	
+	@Test
+	public final void testDecodeError3() throws UnsupportedEncodingException
+	{
+		log(" * * * * * * * testing Decoding Error 3 * * * * * * ");
+		log("String to decode: testMalformedEscape-%");
+		try {
+			String s = EncodingUtilities.decodeString("testMalformedEscape-%");
+		} catch (IllegalArgumentException iae) {
+			assertThat("Malformed hex error caught",iae, instanceOf(IllegalArgumentException.class));
+			log("caught the error (truncated hex pattern)");
+			return;
+		}
+		fail("did not catch malformed hex error (incomplete hex string)");
+	}
+
+
 	private void runAssertion(String id, String expected, String got)
 	{
 		System.out.println("Identifier:    " + id);
@@ -120,6 +185,17 @@ public class TestIdentifierEncoding
 		assertTrue("identifier: " + id, got.equals(expected));		
 	}
 
+	private void runDecodeAssertion(String id, String expected, String got)
+	{
+		System.out.println("Encoded Id:    " + id);
+		System.out.println("    expect:    " + expected);
+		System.out.println("       got:    " + got);
+		System.out.println();
+
+		assertTrue("identifier: " + id, got.equals(expected));		
+	}
+
+	
 	  private static void log(Object aObject){
 		  System.out.println(String.valueOf(aObject));
 	  }	  
