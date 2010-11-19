@@ -6,10 +6,10 @@ import java.util.Date;
 /** 
  * Schema fragment(s) for this class:
  * <pre>
- * &lt;xs:complexType xmlns:ns="http://dataone.org/service/types/common/0.5" xmlns:ns1="http://dataone.org/service/types/SystemMetadata/0.5" xmlns:xs="http://www.w3.org/2001/XMLSchema" name="Replica">
+ * &lt;xs:complexType xmlns:ns="http://dataone.org/service/types/0.5.1" xmlns:xs="http://www.w3.org/2001/XMLSchema" name="Replica">
  *   &lt;xs:sequence>
  *     &lt;xs:element type="ns:NodeReference" name="replicaMemberNode"/>
- *     &lt;xs:element type="ns1:ReplicationStatus" name="replicationStatus"/>
+ *     &lt;xs:element type="ns:ReplicationStatus" name="replicationStatus"/>
  *     &lt;xs:element type="xs:dateTime" name="replicaVerified"/>
  *   &lt;/xs:sequence>
  * &lt;/xs:complexType>

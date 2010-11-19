@@ -6,7 +6,7 @@ import java.math.BigInteger;
 /** 
  * Schema fragment(s) for this class:
  * <pre>
- * &lt;xs:complexType xmlns:ns="http://dataone.org/service/types/common/0.5" xmlns:ns1="http://dataone.org/service/types/ObjectLocationList/0.5" xmlns:xs="http://www.w3.org/2001/XMLSchema" name="ObjectLocation">
+ * &lt;xs:complexType xmlns:ns="http://dataone.org/service/types/0.5.1" xmlns:xs="http://www.w3.org/2001/XMLSchema" name="ObjectLocation">
  *   &lt;xs:sequence>
  *     &lt;xs:element type="ns:Identifier" name="nodeIdentifier" minOccurs="1" maxOccurs="1"/>
  *     &lt;xs:element type="xs:string" name="baseURL" minOccurs="1" maxOccurs="1"/>
@@ -25,8 +25,8 @@ public class ObjectLocation
 
     /** 
      * Get the 'nodeIdentifier' element value. Identifier of the node (the same identifier used
-    					in the node registry for identifying the node.
-            			
+                          in the node registry for identifying the node.
+                      
      * 
      * @return value
      */
@@ -36,8 +36,8 @@ public class ObjectLocation
 
     /** 
      * Set the 'nodeIdentifier' element value. Identifier of the node (the same identifier used
-    					in the node registry for identifying the node.
-            			
+                          in the node registry for identifying the node.
+                      
      * 
      * @param nodeIdentifier
      */
@@ -47,7 +47,7 @@ public class ObjectLocation
 
     /** 
      * Get the 'baseURL' element value. The current base URL for services implemented on the target node.
-    				
+                      
      * 
      * @return value
      */
@@ -57,7 +57,7 @@ public class ObjectLocation
 
     /** 
      * Set the 'baseURL' element value. The current base URL for services implemented on the target node.
-    				
+                      
      * 
      * @param baseURL
      */
@@ -67,8 +67,8 @@ public class ObjectLocation
 
     /** 
      * Get the 'url' element value. The full (absolute) URL that can be used to
-    					retrieve the object using the get() method of the rest interface.
-    				
+                          retrieve the object using the get() method of the rest interface.
+                      
      * 
      * @return value
      */
@@ -78,8 +78,8 @@ public class ObjectLocation
 
     /** 
      * Set the 'url' element value. The full (absolute) URL that can be used to
-    					retrieve the object using the get() method of the rest interface.
-    				
+                          retrieve the object using the get() method of the rest interface.
+                      
      * 
      * @param url
      */
@@ -88,10 +88,9 @@ public class ObjectLocation
     }
 
     /** 
-     * Get the 'preference' element value. A weighting parameter that provides a hint 
-    				to the caller for the relative preference for nodes from which
-    				 the content should be retrieved.
-    				
+     * Get the 'preference' element value. A weighting parameter that provides a hint to the caller 
+                          for the relative preference for nodes from which the content should be retrieved.
+                      
      * 
      * @return value
      */
@@ -100,10 +99,9 @@ public class ObjectLocation
     }
 
     /** 
-     * Set the 'preference' element value. A weighting parameter that provides a hint 
-    				to the caller for the relative preference for nodes from which
-    				 the content should be retrieved.
-    				
+     * Set the 'preference' element value. A weighting parameter that provides a hint to the caller 
+                          for the relative preference for nodes from which the content should be retrieved.
+                      
      * 
      * @param preference
      */

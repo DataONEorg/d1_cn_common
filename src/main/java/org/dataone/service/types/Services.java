@@ -7,7 +7,7 @@ import java.util.List;
 /** 
  * Schema fragment(s) for this class:
  * <pre>
- * &lt;xs:complexType xmlns:ns="http://dataone.org/service/types/NodeList/0.5" xmlns:xs="http://www.w3.org/2001/XMLSchema" name="Services">
+ * &lt;xs:complexType xmlns:ns="http://dataone.org/service/types/0.5.1" xmlns:xs="http://www.w3.org/2001/XMLSchema" name="Services">
  *   &lt;xs:sequence>
  *     &lt;xs:element type="ns:Service" name="service" minOccurs="1" maxOccurs="unbounded"/>
  *   &lt;/xs:sequence>

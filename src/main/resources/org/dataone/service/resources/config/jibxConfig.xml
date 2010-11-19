@@ -23,21 +23,19 @@
 
 <schema-set prefer-inline="true" generate-all="false" package="org.dataone.service.types" >
      <class-decorator class="org.jibx.schema.codegen.extend.CollectionMethodsDecorator"/>
-
-<!--    <schema name="common.xsd"  includes="Identifier NodeReference Principal ObjectFormat Checksum ChecksumAlgorithm" />
-    <schema name="systemmetadata.xsd" includes="systemMetadata AccessRule ReplicationPolicy SystemMetadata" />
-
-    <schema name="logging.xsd" includes="log LogEntry Event"/>
-    <schema name="objectlist.xsd" includes="objectList ObjectList ObjectInfo" /> -->
+<!--
     <schema-set names="common.xsd" prefix="common" namespaces="http://dataone.org/service/types/common/0.5">
-        <schema name="common.xsd"  includes="Identifier NodeReference Principal ComponentName ComponentVersion ObjectFormat Checksum ChecksumAlgorithm Slice" />
+        <schema name="common.xsd"  includes="NodeReference Principal ComponentName ComponentVersion ObjectFormat Checksum Identifier ChecksumAlgorithm Slice" />
     </schema-set>
+    <schema-set names="identifier.xsd" prefix="d1" namespaces="http://dataone.org/service/types/Identifier/0.5">
+        <schema name="identifier.xsd" includes="identifier" />
+    </schema-set>
+    <schema-set names="checksum.xsd" prefix="d1" namespaces="http://dataone.org/service/types/Checksum/0.5">
+        <schema name="checksum.xsd" includes="checksum" />
+    </schema-set>
+
     <schema-set names="systemmetadata.xsd" prefix="d1" namespaces="http://dataone.org/service/types/SystemMetadata/0.5">
         <schema name="systemmetadata.xsd" includes="systemMetadata AccessRule ReplicationPolicy SystemMetadata Replica ReplicationStatus" />
-        <!-- may need to modify schema to support this type of notation
-            <namespace uri="http://www.w3.org/2001/XMLSchema-instance" default="none" prefix="xsi"/>
-            <value style="attribute" ns="http://www.w3.org/2001/XMLSchema-instance" name="schemaLocation" field="schemaLocation" get-method="getSchemaLocation" set-method="setSchemaLocation"   default="http://dataone.org/service/types/ObjectList/0.1 http://dataone.org/service/types/ObjectList/0.1/objectlist.xsd"  usage="optional"/>
-        -->
     </schema-set>
     <schema-set names="logging.xsd" prefix="d1" namespaces="http://dataone.org/service/types/logging/0.5">
         <schema name="logging.xsd" includes="log LogEntry Event"/>
@@ -50,5 +48,8 @@
     </schema-set>
     <schema-set names="objectlocationlist.xsd" prefix="d1" namespaces="http://dataone.org/service/types/ObjectLocationList/0.5">
         <schema name="objectlocationlist.xsd" includes="objectLocationList ObjectLocationList ObjectLocation" />
+    </schema-set> -->
+    <schema-set names="dataoneTypes.xsd" prefix="d1" namespaces="http://dataone.org/service/types/0.5.1">
+        <schema name="dataoneTypes.xsd" includes="identifier checksum objectLocationList ObjectLocationList ObjectLocation nodeList Node Environment NodeType Services Service ServiceMethod Synchronization Schedule NodeHealth NodeState objectList ObjectList ObjectInfo log LogEntry Event systemMetadata AccessRule ReplicationPolicy SystemMetadata Replica ReplicationStatus NodeReference Principal ComponentName ComponentVersion ObjectFormat Checksum Identifier IdentifierFormat ChecksumAlgorithm Slice" />
     </schema-set>
 </schema-set>

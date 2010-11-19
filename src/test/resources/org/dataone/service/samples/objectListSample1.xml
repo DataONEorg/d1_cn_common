@@ -21,10 +21,9 @@
 
 -->
 
-<d1:objectList xmlns:d1="http://dataone.org/service/types/ObjectList/0.5"
- xmlns:common="http://dataone.org/service/types/common/0.5"
- xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
- xsi:schemaLocation="http://dataone.org/service/types/ObjectList/0.5 https://repository.dataone.org/software/cicore/tags/D1_SCHEMA_0_5/objectlist.xsd"
+<d1:objectList xmlns:d1="http://dataone.org/service/types/0.5.1"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://dataone.org/service/types/0.5.1 https://repository.dataone.org/software/cicore/tags/D1_SCHEMA_0_5_1/dataoneSchema.xsd"
  count="2" start="0" total="2">
     <objectInfo>
         <identifier>ABC123</identifier>

@@ -8,7 +8,7 @@ import java.util.List;
 /** 
  * Schema fragment(s) for this class:
  * <pre>
- * &lt;xs:complexType xmlns:ns="http://dataone.org/service/types/common/0.5" xmlns:ns1="http://dataone.org/service/types/SystemMetadata/0.5" xmlns:xs="http://www.w3.org/2001/XMLSchema" name="SystemMetadata">
+ * &lt;xs:complexType xmlns:ns="http://dataone.org/service/types/0.5.1" xmlns:xs="http://www.w3.org/2001/XMLSchema" name="SystemMetadata">
  *   &lt;xs:sequence>
  *     &lt;xs:element type="ns:Identifier" name="identifier" minOccurs="1" maxOccurs="1"/>
  *     &lt;xs:element type="ns:ObjectFormat" name="objectFormat"/>
@@ -22,13 +22,13 @@ import java.util.List;
  *     &lt;xs:element type="ns:Identifier" name="describedBy" minOccurs="0" maxOccurs="unbounded"/>
  *     &lt;xs:element type="ns:Checksum" name="checksum" minOccurs="1" maxOccurs="1"/>
  *     &lt;xs:element type="xs:dateTime" name="embargoExpires" minOccurs="0"/>
- *     &lt;xs:element type="ns1:AccessRule" name="accessRule" minOccurs="0" maxOccurs="unbounded"/>
- *     &lt;xs:element type="ns1:ReplicationPolicy" name="replicationPolicy" minOccurs="0" maxOccurs="1"/>
+ *     &lt;xs:element type="ns:AccessRule" name="accessRule" minOccurs="0" maxOccurs="unbounded"/>
+ *     &lt;xs:element type="ns:ReplicationPolicy" name="replicationPolicy" minOccurs="0" maxOccurs="1"/>
  *     &lt;xs:element type="xs:dateTime" name="dateUploaded"/>
  *     &lt;xs:element type="xs:dateTime" name="dateSysMetadataModified"/>
  *     &lt;xs:element type="ns:NodeReference" name="originMemberNode"/>
  *     &lt;xs:element type="ns:NodeReference" name="authoritativeMemberNode"/>
- *     &lt;xs:element type="ns1:Replica" name="replica" minOccurs="0" maxOccurs="unbounded"/>
+ *     &lt;xs:element type="ns:Replica" name="replica" minOccurs="0" maxOccurs="unbounded"/>
  *   &lt;/xs:sequence>
  * &lt;/xs:complexType>
  * </pre>

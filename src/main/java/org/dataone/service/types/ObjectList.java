@@ -7,11 +7,11 @@ import java.util.List;
 /** 
  * Schema fragment(s) for this class:
  * <pre>
- * &lt;xs:complexType xmlns:ns="http://dataone.org/service/types/common/0.5" xmlns:ns1="http://dataone.org/service/types/ObjectList/0.5" xmlns:xs="http://www.w3.org/2001/XMLSchema" name="ObjectList">
+ * &lt;xs:complexType xmlns:ns="http://dataone.org/service/types/0.5.1" xmlns:xs="http://www.w3.org/2001/XMLSchema" name="ObjectList">
  *   &lt;xs:complexContent>
  *     &lt;xs:extension base="ns:Slice">
  *       &lt;xs:sequence>
- *         &lt;xs:element type="ns1:ObjectInfo" name="objectInfo" minOccurs="0" maxOccurs="unbounded"/>
+ *         &lt;xs:element type="ns:ObjectInfo" name="objectInfo" minOccurs="0" maxOccurs="unbounded"/>
  *       &lt;/xs:sequence>
  *     &lt;/xs:extension>
  *   &lt;/xs:complexContent>

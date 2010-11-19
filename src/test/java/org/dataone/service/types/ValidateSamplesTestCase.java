@@ -85,7 +85,7 @@ public class ValidateSamplesTestCase {
     @Test
     public void validateSysmetaSample() throws Exception, SAXException, IOException, ParserConfigurationException {
 // TODO arguments should be injected based on version of service api to test and build
-        assertTrue(validateExamples("https://repository.dataone.org/software/cicore/tags/D1_SCHEMA_0_5/systemmetadata.xsd","/org/dataone/service/samples/systemMetadataSample1.xml"));
+        assertTrue(validateExamples("https://repository.dataone.org/software/cicore/tags/D1_SCHEMA_0_5_1/dataoneTypes.xsd","/org/dataone/service/samples/systemMetadataSample1.xml"));
 
     }
 
@@ -99,7 +99,7 @@ public class ValidateSamplesTestCase {
     @Test
     public void validateObjectListSample() throws Exception, SAXException, IOException, ParserConfigurationException {
 // TODO arguments should be injected based on version of service api to test and build
-        assertTrue(validateExamples("https://repository.dataone.org/software/cicore/tags/D1_SCHEMA_0_5/objectlist.xsd","/org/dataone/service/samples/objectListSample1.xml"));
+        assertTrue(validateExamples("https://repository.dataone.org/software/cicore/tags/D1_SCHEMA_0_5_1/dataoneTypes.xsd","/org/dataone/service/samples/objectListSample1.xml"));
 
     }
 
@@ -113,7 +113,7 @@ public class ValidateSamplesTestCase {
     @Test
     public void validateLoggingSample() throws Exception, SAXException, IOException, ParserConfigurationException {
 // TODO arguments should be injected based on version of service api to test and build
-        assertTrue(validateExamples("https://repository.dataone.org/software/cicore/tags/D1_SCHEMA_0_5/logging.xsd","/org/dataone/service/samples/loggingSample1.xml"));
+        assertTrue(validateExamples("https://repository.dataone.org/software/cicore/tags/D1_SCHEMA_0_5_1/dataoneTypes.xsd","/org/dataone/service/samples/loggingSample1.xml"));
 
     }
 
@@ -126,16 +126,33 @@ public class ValidateSamplesTestCase {
     @Test
     public void validateNodeRegistrySample() throws Exception, SAXException, IOException, ParserConfigurationException {
 // TODO arguments should be injected based on version of service api to test and build
-        assertTrue(validateExamples("https://repository.dataone.org/software/cicore/tags/D1_SCHEMA_0_5/nodelist.xsd","/org/dataone/service/samples/nodeListSample1.xml"));
+        assertTrue(validateExamples("https://repository.dataone.org/software/cicore/tags/D1_SCHEMA_0_5_1/dataoneTypes.xsd","/org/dataone/service/samples/nodeListSample1.xml"));
 
     }
+    @Test
+    public void validateIdentifierSample() throws Exception, SAXException, IOException, ParserConfigurationException {
+// TODO arguments should be injected based on version of service api to test and build
+        assertTrue(validateExamples("https://repository.dataone.org/software/cicore/tags/D1_SCHEMA_0_5_1/dataoneTypes.xsd","/org/dataone/service/samples/identifier1.xml"));
 
-/*    @Test
+    }
+    @Test
+    public void validateIdentifierMarshalling() throws Exception, SAXException, IOException, ParserConfigurationException {
+// TODO arguments should be injected based on version of service api to test and build
+        assertTrue(testIdentifierMarshalling("/org/dataone/service/samples/identifier1.xml"));
+
+    }
+    @Test
+    public void validateChecksumSample() throws Exception, SAXException, IOException, ParserConfigurationException {
+// TODO arguments should be injected based on version of service api to test and build
+        assertTrue(validateExamples("https://repository.dataone.org/software/cicore/tags/D1_SCHEMA_0_5_1/dataoneTypes.xsd","/org/dataone/service/samples/checksum1.xml"));
+
+    }
+    @Test
     public void validateNodeRegistryMarshalling() throws Exception, SAXException, IOException, ParserConfigurationException {
 
-        assertTrue(testNodeRegistryMarshalling("/org/dataone/service/samples/nodeRegistrySample1.xml"));
+        assertTrue(testChecksumMarshalling("/org/dataone/service/samples/checksum1.xml"));
 
-    } */
+    } 
     private boolean validateExamples(String xsdUrlString, String xmlDocument) throws Exception, SAXException, IOException, ParserConfigurationException {
         DocumentBuilder parser;
         // create a SchemaFactory capable of understanding WXS schemas
@@ -480,9 +497,6 @@ public class ValidateSamplesTestCase {
 
         log = (Log) uctx.unmarshalDocument(testLogInput, null);
 
-
-
-
         InputStream inputStream = this.getClass().getResourceAsStream(externalLoggingObjects);
         try {
             log = (Log) uctx.unmarshalDocument(inputStream, null);
@@ -574,5 +588,72 @@ public class ValidateSamplesTestCase {
             inputStream.close();
         }
         return true;
-    } 
+    }
+
+    public boolean testIdentifierMarshalling(String identifierDoc) throws Exception {
+        Identifier id = new Identifier();
+        id.setValue("ABC123");
+
+        IBindingFactory bfact =
+                BindingDirectory.getFactory(org.dataone.service.types.Identifier.class);
+
+        IMarshallingContext mctx = bfact.createMarshallingContext();
+        ByteArrayOutputStream testOutput = new ByteArrayOutputStream();
+
+        mctx.marshalDocument(id, "UTF-8", null, testOutput);
+
+        //       InputStream inputStream = this.getClass().getResourceAsStream(xmlDocument);
+
+        byte[] identifierTestOutput = testOutput.toByteArray();
+        String identifierStringOutput = new String(identifierTestOutput);
+        System.out.println(identifierStringOutput);
+        ByteArrayInputStream testInput = new ByteArrayInputStream(identifierTestOutput);
+
+        IUnmarshallingContext uctx = bfact.createUnmarshallingContext();
+
+        id = (Identifier) uctx.unmarshalDocument(testInput, null);
+
+        InputStream inputStream = this.getClass().getResourceAsStream(identifierDoc);
+        try {
+            id = (Identifier) uctx.unmarshalDocument(inputStream, null);
+
+        } finally {
+            inputStream.close();
+        }
+        return true;
+    }
+    public boolean testChecksumMarshalling(String checksumDoc) throws Exception {
+        Checksum checksum = new Checksum();
+        checksum.setValue("ADSFA21341234ADSFADSF");
+        checksum.setAlgorithm(ChecksumAlgorithm.SH_A1);
+
+
+        IBindingFactory bfact =
+                BindingDirectory.getFactory(org.dataone.service.types.Checksum.class);
+
+        IMarshallingContext mctx = bfact.createMarshallingContext();
+        ByteArrayOutputStream testOutput = new ByteArrayOutputStream();
+
+        mctx.marshalDocument(checksum, "UTF-8", null, testOutput);
+
+        //       InputStream inputStream = this.getClass().getResourceAsStream(xmlDocument);
+
+        byte[] checksumTestOutput = testOutput.toByteArray();
+        String checksumStringOutput = new String(checksumTestOutput);
+        System.out.println(checksumStringOutput);
+        ByteArrayInputStream testInput = new ByteArrayInputStream(checksumTestOutput);
+
+        IUnmarshallingContext uctx = bfact.createUnmarshallingContext();
+
+        checksum = (Checksum) uctx.unmarshalDocument(testInput, null);
+
+        InputStream inputStream = this.getClass().getResourceAsStream(checksumDoc);
+        try {
+            checksum = (Checksum) uctx.unmarshalDocument(inputStream, null);
+
+        } finally {
+            inputStream.close();
+        }
+        return true;
+    }
 }

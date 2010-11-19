@@ -4,7 +4,7 @@ package org.dataone.service.types;
 /** 
  * Schema fragment(s) for this class:
  * <pre>
- * &lt;xs:simpleType xmlns:ns="http://dataone.org/service/types/SystemMetadata/0.5" xmlns:xs="http://www.w3.org/2001/XMLSchema" name="ReplicationStatus">
+ * &lt;xs:simpleType xmlns:ns="http://dataone.org/service/types/0.5.1" xmlns:xs="http://www.w3.org/2001/XMLSchema" name="ReplicationStatus">
  *   &lt;xs:restriction base="xs:string">
  *     &lt;xs:enumeration value="queued"/>
  *     &lt;xs:enumeration value="requested"/>

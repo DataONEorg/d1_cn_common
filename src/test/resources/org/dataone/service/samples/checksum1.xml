@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : checksum.xml
+    Created on : November 16, 2010, 2:17 PM
+    Author     : waltz
+    Description:
+        Purpose of the document follows.
+-->
+
+<d1:checksum  xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
+   xmlns:d1='http://dataone.org/service/types/0.5.1'
+   xsi:schemaLocation='http://dataone.org/service/types/0.5.1 https://repository.dataone.org/software/cicore/tags/D1_SCHEMA_0_5_1/dataoneTypes.xsd'
+   algorithm="SHA-1">SGVsbG8gV29ybGQh</d1:checksum>

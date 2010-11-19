@@ -74,7 +74,7 @@
 
         <replace file="${basedir}/src/main/java/org/dataone/service/types/Identifier.java" token="string" value="value" />
         <replace file="${basedir}/src/main/java/org/dataone/service/types/Identifier.java" token="getString" value="getValue" />
-        <replace file="${basedir}/src/main/java/org/dataone/service/types/Identifier.java" token="setString" value="setValue" />
+        <replace file="${basedir}/src/main/java/org/dataone/service/types/Identifier.java" token="setString" value="setValue" /> 
         <replace file="${basedir}/src/main/java/org/dataone/service/types/NodeReference.java" token="string" value="value" />
         <replace file="${basedir}/src/main/java/org/dataone/service/types/NodeReference.java" token="getString" value="getValue" />
         <replace file="${basedir}/src/main/java/org/dataone/service/types/NodeReference.java" token="setString" value="setValue" />
@@ -87,46 +87,46 @@
         <replace file="${basedir}/src/main/java/org/dataone/service/types/ComponentVersion.java" token="getString" value="getValue" />
         <replace file="${basedir}/src/main/java/org/dataone/service/types/ComponentVersion.java" token="setString" value="setValue" />
 
-        <replace file="${basedir}/src/main/java/service_types_common_05Binding.xml" token="getString" value="getValue" />
-        <replace file="${basedir}/src/main/java/service_types_common_05Binding.xml" token="setString" value="setValue" />
+        <replace file="${basedir}/src/main/java/binding.xml" token="getString" value="getValue" />
+        <replace file="${basedir}/src/main/java/binding.xml" token="setString" value="setValue" />
 
 
-        <replace file="${basedir}/src/main/java/service_types_ObjectList_05Binding.xml" token="ObjectInfos" value="ObjectInfoList" />
+        <replace file="${basedir}/src/main/java/binding.xml" token="ObjectInfos" value="ObjectInfoList" />
         <replace file="${basedir}/src/main/java/org/dataone/service/types/ObjectList.java" token="ObjectInfos" value="ObjectInfoList" />
 
-        <replace file="${basedir}/src/main/java/service_types_ObjectLocationList_05Binding.xml" token="ObjectLocations" value="ObjectLocationList" />
+        <replace file="${basedir}/src/main/java/binding.xml" token="ObjectLocations" value="ObjectLocationList" />
         <replace file="${basedir}/src/main/java/org/dataone/service/types/ObjectLocationList.java" token="ObjectLocations" value="ObjectLocationList" />
 
-        <replace file="${basedir}/src/main/java/service_types_NodeList_05Binding.xml" token="Nodes" value="NodeList" />
+        <replace file="${basedir}/src/main/java/binding.xml" token="Nodes" value="NodeList" />
         <replace file="${basedir}/src/main/java/org/dataone/service/types/NodeList.java" token="Nodes" value="NodeList" />
-        <replace file="${basedir}/src/main/java/service_types_NodeList_05Binding.xml" token="Methods" value="MethodList" />
+        <replace file="${basedir}/src/main/java/binding.xml" token="Methods" value="MethodList" />
         <replace file="${basedir}/src/main/java/org/dataone/service/types/Service.java"   token="Methods" value="MethodList" />
 
-        <replace file="${basedir}/src/main/java/service_types_logging_05Binding.xml" token="Entries" value="EntryList" />
+        <replace file="${basedir}/src/main/java/binding.xml" token="Entries" value="EntryList" />
         <replace file="${basedir}/src/main/java/org/dataone/service/types/Log.java" token="Entries" value="EntryList" />
 
         <replace file="${basedir}/src/main/java/org/dataone/service/types/ReplicationPolicy.java" token="MemberNodes" value="MemberNodeList" />
-        <replace file="${basedir}/src/main/java/service_types_SystemMetadata_05Binding.xml"  token="MemberNodes" value="MemberNodeList" />
+        <replace file="${basedir}/src/main/java/binding.xml"  token="MemberNodes" value="MemberNodeList" />
 
-        <replace file="${basedir}/src/main/java/service_types_SystemMetadata_05Binding.xml"  token="Obsoletes" value="ObsoleteList" />
+        <replace file="${basedir}/src/main/java/binding.xml"  token="Obsoletes" value="ObsoleteList" />
         <replace file="${basedir}/src/main/java/org/dataone/service/types/SystemMetadata.java"  token="Obsoletes" value="ObsoleteList" />
 
-        <replace file="${basedir}/src/main/java/service_types_SystemMetadata_05Binding.xml"  token="ObsoletedBies" value="ObsoletedByList" />
+        <replace file="${basedir}/src/main/java/binding.xml"  token="ObsoletedBies" value="ObsoletedByList" />
         <replace file="${basedir}/src/main/java/org/dataone/service/types/SystemMetadata.java"  token="ObsoletedBies" value="ObsoletedByList" />
 
-        <replace file="${basedir}/src/main/java/service_types_SystemMetadata_05Binding.xml"  token="DerivedFroms" value="DerivedFromList" />
+        <replace file="${basedir}/src/main/java/binding.xml"  token="DerivedFroms" value="DerivedFromList" />
         <replace file="${basedir}/src/main/java/org/dataone/service/types/SystemMetadata.java"  token="DerivedFroms" value="DerivedFromList" />
 
-        <replace file="${basedir}/src/main/java/service_types_SystemMetadata_05Binding.xml"  token="Describes" value="DescribeList" />
+        <replace file="${basedir}/src/main/java/binding.xml"  token="Describes" value="DescribeList" />
         <replace file="${basedir}/src/main/java/org/dataone/service/types/SystemMetadata.java"  token="Describes" value="DescribeList" />
 
-        <replace file="${basedir}/src/main/java/service_types_SystemMetadata_05Binding.xml"  token="DescribedBies" value="DescribedByList" />
+        <replace file="${basedir}/src/main/java/binding.xml"  token="DescribedBies" value="DescribedByList" />
         <replace file="${basedir}/src/main/java/org/dataone/service/types/SystemMetadata.java"  token="DescribedBies" value="DescribedByList" />
 
-        <replace file="${basedir}/src/main/java/service_types_SystemMetadata_05Binding.xml"  token="AccessRules" value="AccessRuleList" />
+        <replace file="${basedir}/src/main/java/binding.xml"  token="AccessRules" value="AccessRuleList" />
         <replace file="${basedir}/src/main/java/org/dataone/service/types/SystemMetadata.java"  token="AccessRules" value="AccessRuleList" />
 
-        <replace file="${basedir}/src/main/java/service_types_SystemMetadata_05Binding.xml"  token="Replicas" value="ReplicaList" />
+        <replace file="${basedir}/src/main/java/binding.xml"  token="Replicas" value="ReplicaList" />
         <replace file="${basedir}/src/main/java/org/dataone/service/types/SystemMetadata.java"   token="Replicas" value="ReplicaList" />
         <replace file="${basedir}/src/main/java/org/dataone/service/types/ReplicationPolicy.java"   token="Replicas" value="ReplicaList" />
 
@@ -157,15 +157,22 @@
             <arg value="-c" />
             <arg value="${basedir}/src/main/resources/org/dataone/service/resources/config/jibxConfig.xml" />
             <arg value="-s" />
-            <arg value="https://repository.dataone.org/software/cicore/tags/D1_SCHEMA_0_5/" />
+            <arg value="https://repository.dataone.org/software/cicore/tags/D1_SCHEMA_0_5_1/" />
+ <!--           <arg value="https://repository.dataone.org/software/cicore/tags/D1_SCHEMA_0_5/" /> -->
+ <!--           <arg value="https://repository.dataone.org/software/cicore/trunk/d1_schemas/" /> -->
             <arg value="-t"/>
             <arg value="${basedir}/src/main/java"/>
+            <arg value="dataoneTypes.xsd" />
+<!--            <arg value="common.xsd"/>
+            <arg value="identifier.xsd"/>
+            <arg value="checksum.xsd"/>
             <arg value="systemmetadata.xsd"/>
-            <arg value="common.xsd"/>
             <arg value="objectlist.xsd"/>
             <arg value="objectlocationlist.xsd"/>
             <arg value="logging.xsd"/>
             <arg value="nodelist.xsd"/>
+-->
+
         </java>
 
     </target>

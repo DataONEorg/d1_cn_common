@@ -12,10 +12,10 @@ import java.util.List;
  * 
  * Schema fragment(s) for this class:
  * <pre>
- * &lt;xs:complexType xmlns:ns="http://dataone.org/service/types/common/0.5" xmlns:ns1="http://dataone.org/service/types/ObjectLocationList/0.5" xmlns:xs="http://www.w3.org/2001/XMLSchema" name="ObjectLocationList">
+ * &lt;xs:complexType xmlns:ns="http://dataone.org/service/types/0.5.1" xmlns:xs="http://www.w3.org/2001/XMLSchema" name="ObjectLocationList">
  *   &lt;xs:sequence>
  *     &lt;xs:element type="ns:Identifier" name="identifier" minOccurs="1" maxOccurs="1"/>
- *     &lt;xs:element type="ns1:ObjectLocation" name="objectLocation" minOccurs="0" maxOccurs="unbounded"/>
+ *     &lt;xs:element type="ns:ObjectLocation" name="objectLocation" minOccurs="0" maxOccurs="unbounded"/>
  *   &lt;/xs:sequence>
  * &lt;/xs:complexType>
  * </pre>
@@ -27,7 +27,7 @@ public class ObjectLocationList
 
     /** 
      * Get the 'identifier' element value. The identifier of the object being resolved.
-    				
+                      
      * 
      * @return value
      */
@@ -37,7 +37,7 @@ public class ObjectLocationList
 
     /** 
      * Set the 'identifier' element value. The identifier of the object being resolved.
-    				
+                      
      * 
      * @param identifier
      */
@@ -47,7 +47,7 @@ public class ObjectLocationList
 
     /** 
      * Get the list of 'objectLocation' element items. List of nodes from which the object can be
-    					retrieved
+                          retrieved
      * 
      * @return list
      */
@@ -57,7 +57,7 @@ public class ObjectLocationList
 
     /** 
      * Set the list of 'objectLocation' element items. List of nodes from which the object can be
-    					retrieved
+                          retrieved
      * 
      * @param list
      */

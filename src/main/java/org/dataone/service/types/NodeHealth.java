@@ -9,7 +9,7 @@ import java.util.Date;
  * 
  * Schema fragment(s) for this class:
  * <pre>
- * &lt;xs:complexType xmlns:ns="http://dataone.org/service/types/NodeList/0.5" xmlns:xs="http://www.w3.org/2001/XMLSchema" name="NodeHealth">
+ * &lt;xs:complexType xmlns:ns="http://dataone.org/service/types/0.5.1" xmlns:xs="http://www.w3.org/2001/XMLSchema" name="NodeHealth">
  *   &lt;xs:sequence>
  *     &lt;xs:element type="ns:Ping" name="ping"/>
  *     &lt;xs:element type="ns:Status" name="status"/>
@@ -17,12 +17,12 @@ import java.util.Date;
  *   &lt;xs:attribute type="ns:NodeState" use="required" name="state"/>
  * &lt;/xs:complexType>
  * 
- * &lt;xs:complexType xmlns:ns="http://dataone.org/service/types/NodeList/0.5" xmlns:xs="http://www.w3.org/2001/XMLSchema" name="Ping">
+ * &lt;xs:complexType xmlns:ns="http://dataone.org/service/types/0.5.1" xmlns:xs="http://www.w3.org/2001/XMLSchema" name="Ping">
  *   &lt;xs:attribute type="xs:boolean" name="success"/>
  *   &lt;xs:attribute type="xs:dateTime" name="lastSuccess"/>
  * &lt;/xs:complexType>
  * 
- * &lt;xs:complexType xmlns:ns="http://dataone.org/service/types/NodeList/0.5" xmlns:xs="http://www.w3.org/2001/XMLSchema" name="Status">
+ * &lt;xs:complexType xmlns:ns="http://dataone.org/service/types/0.5.1" xmlns:xs="http://www.w3.org/2001/XMLSchema" name="Status">
  *   &lt;xs:attribute type="xs:boolean" name="success"/>
  *   &lt;xs:attribute type="xs:dateTime" use="required" name="dateChecked"/>
  * &lt;/xs:complexType>
