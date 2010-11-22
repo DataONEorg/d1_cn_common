@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Scanner;
@@ -128,6 +129,26 @@ public class TestIdentifierEncoding
 		log("");
 	}
 
+	@Test
+	public final void testDecodeStringAlternate() throws UnsupportedEncodingException
+	{
+		log(" * * * * * * * testing Decoding using URLEncoder * * * * * * ");
+
+		SortedSet<String> ids = new TreeSet<String>(StandardTests.keySet());
+		Iterator<String> i = ids.iterator();
+		while (i.hasNext())
+		{
+			String id = (String) i.next();
+			String encodedString = StandardTests.get(id);
+			runDecodeAssertion(encodedString,
+						 id,
+						 EncodingUtilities.decodeString(encodedString)
+						 );
+		}
+		log("");
+	}
+
+	
 	@Test
 	public final void testDecodeError1() throws UnsupportedEncodingException
 	{

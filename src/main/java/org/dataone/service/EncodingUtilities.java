@@ -4,6 +4,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.BitSet;
 
 
@@ -226,98 +227,24 @@ public class EncodingUtilities {
 		return rewrittenPathSegment.toString();
 	}
 
-	
 	/**
 	 * Decode and return the specified pct-encoded String.  UTF-8 encoding
-	 * is assumed.
-	 *
-	 * @param str
-	 * @throws UnsupportedEncodingException 
+	 * is assumed.  For compatibility with older encoders, '+' characters
+	 * in the input String will be decoded as spaces.  Has no effect on 
+	 * 
+	 * @param string
+	 * @return the decoded string 
+	 * @throws UnsupportedEncodingException
 	 * @exception IllegalArgumentException if a '%' character is not followed
 	 * by a valid 2-digit hexadecimal number
 	 */
-	public static String decodeString(String str) throws UnsupportedEncodingException {
-		return decodeString(str,null);  // using null, encoding defaults to UTF-8
+	public static String decodeString(String string) throws UnsupportedEncodingException 
+	{
+		// a string containing a '+' should not reach here
+		// but if it does, don't want to fail
+		string = string.replace("+", "%2B");
+		return URLDecoder.decode(string,"UTF-8");
 	}
-	
-	/**
-     * Decode and return the specified URL-encoded String.
-     *
-     * @param str The pct-encoded string
-     * @param enc The encoding to use; if null, UTF-8 encoding is used
-	 * @throws UnsupportedEncodingException 
-     * @exception IllegalArgumentException if a '%' character is not followed
-     * by a valid 2-digit hexadecimal number
-     */
-    public static String decodeString(String str, String enc) throws UnsupportedEncodingException {
-    	if (str == null)
-    		return (null);
-
-        // use the specified encoding to extract bytes out of the
-        // given string so that the encoding is not lost. If an
-        // encoding is not specified, let it use platform default
-    	if (enc == null) {
-    		enc = "UTF-8";
-    	}
-    	byte[] bytes = null;
-        try
-        {
-        	bytes = str.getBytes(enc);
-        }
-        catch (UnsupportedEncodingException uee) {}
-
-        return decodeString(bytes, enc);
-
-    }
-	
-	
-	/**
-     * Decode and return the specified pct-encoded byte array.
-     *
-     * @param bytes The pct-encoded byte array
-     * @param enc The encoding to use; if null, UTF-8 encoding is used
-	 * @throws UnsupportedEncodingException 
-     * @exception IllegalArgumentException if a '%' character is not followed
-     * by a valid 2-digit hexadecimal number
-     */
-    public static String decodeString(byte[] bytes, String enc) throws UnsupportedEncodingException {
-
-        if (bytes == null)
-            return (null);
-
-        int len = bytes.length;
-        int i = 0;
-        int j = 0;
-        while (i < len) {
-            byte b = bytes[i++];     // Get byte to test
-            if (b == '%') {
-            	if (i+1 < len) {
-            		b = (byte) ((convertHexDigit(bytes[i++]) << 4)
-            				+ convertHexDigit(bytes[i++]));
-            	} else {
-            		throw new IllegalArgumentException("decoding error: ran out of bytes before able to decode {% hex hex} pattern.");
-            	}
-            }
-            bytes[j++] = b;
-        }
-        if (enc == null) {
-        	enc = "UTF-8";
-        }
-        return new String(bytes, 0, j, enc);
-    }
-	
-    /**
-     * Convert a byte character value to hexidecimal digit value.
-     *
-     * @param b the character value byte
-     */
-    private static byte convertHexDigit( byte b ) throws IllegalArgumentException
-    {
-        if ((b >= '0') && (b <= '9')) return (byte)(b - '0');
-        if ((b >= 'a') && (b <= 'f')) return (byte)(b - 'a' + 10);
-        if ((b >= 'A') && (b <= 'F')) return (byte)(b - 'A' + 10);
-        throw new IllegalArgumentException("decoding error: '" + (char) b + "' is not a legal hexadecimal digit");
-    }
 	
 	
 	
