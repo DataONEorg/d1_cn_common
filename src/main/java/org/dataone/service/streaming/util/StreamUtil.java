@@ -121,6 +121,12 @@ public class StreamUtil
                 //System.out.println("first char matched");
                 for(int j=0; j<search.length() - i; j++)
                 {
+                    //System.out.println("source.length: " + source.length() + " j: " + j);
+                    if(source.length() < j+1)
+                    {
+                        //System.out.println("breaking, match == true");
+                        return source.length();
+                    }
                     sourceChar = source.substring(j, j+1);
                     searchChar = search.substring(i+j, i+j+1);
                     //System.out.println("  searchChar: " + searchChar);

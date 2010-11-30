@@ -115,6 +115,11 @@ public class StreamUtilTest extends TestCase
             //System.out.println("x: " + x[0] + " " + x[1]);
             assertTrue(x[0] == 0);
             assertTrue(x[1] == "boundary=".length());
+            
+            //test if the searched string has fewer chars than searchstring
+            x = StreamUtil.lookForMatch("boundary=", "bound");
+            assertTrue(x[0] == 0);
+            assertTrue(x[1] == "bound".length());
         } 
         catch (Exception e) 
         {
