@@ -51,4 +51,6 @@ public class Constants
     public static final String RESOURCE_LOG = "log";
     /** API checksum resource*/
     public static final String RESOURCE_CHECKSUM = "checksum";
+    /** Temporary file directory */
+    public static final String TEMP_DIR = "/tmp";
 }
