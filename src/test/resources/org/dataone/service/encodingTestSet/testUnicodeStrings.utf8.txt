@@ -2,7 +2,7 @@ common-unicode-ascii-safe-ABCDEFGHIJKLMNOPQRSTUVWXYZ	common-unicode-ascii-safe-A
 common-unicode-ascii-safe-abcdefghijklmnopqrstuvwxyz	common-unicode-ascii-safe-abcdefghijklmnopqrstuvwxyz
 common-unicode-ascii-safe-0123456789	common-unicode-ascii-safe-0123456789
 common-unicode-ascii-safe-;:@$-_.!*()',~	common-unicode-ascii-safe-;:@$-_.!*()',~
-common-unicode-ascii-escaped-"#<>[]\^`{}|	common-unicode-ascii-escaped-%22%23%3C%3E%5B%5D%5C%5E%60%7B%7D%7C
+common-unicode-ascii-escaped-"#<>[]^`{}|	common-unicode-ascii-escaped-%22%23%3C%3E%5B%5D%5E%60%7B%7D%7C
 common-unicode-ascii-escaped-%	common-unicode-ascii-escaped-%25
 common-unicode-ascii-escaped-space x x	common-unicode-ascii-escaped-space%20x%20x
 common-unicode-ascii-escape-anyway-+	common-unicode-ascii-escape-anyway-%2B

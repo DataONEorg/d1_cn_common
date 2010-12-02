@@ -20,6 +20,16 @@
  
 package org.dataone.service.streaming.util;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.util.Date;
+
+import org.dataone.service.Constants;
+import org.dataone.service.exceptions.ServiceFailure;
+import org.dataone.service.types.SystemMetadata;
+
 /**
  * @author berkley
  * A class to handle string processing in streams.  This allows string
