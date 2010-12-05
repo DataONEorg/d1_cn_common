@@ -61,23 +61,12 @@ public class TypeMarshaller {
         return outputFile;
     }
 
-    public static <T> T unmarshalTypeFromFile(Class<T> domainClass, String filenamePath) throws IOException, InstantiationException, IllegalAccessException {
-        Reader reader = null;
-        T domainObject = null;
-        try {
-            IBindingFactory bfact = BindingDirectory.getFactory(domainClass);
-            IUnmarshallingContext uctx = bfact.createUnmarshallingContext();
-            domainObject = domainClass.newInstance();
-            reader = new FileReader(filenamePath);
-
-            domainObject = (T) uctx.unmarshalDocument(reader);
-        } catch (FileNotFoundException ex) {
-            logger.error(ex.getMessage(), ex);
-        } catch (JiBXException ex) {
-            logger.error(ex.getMessage(), ex);
-        } finally {
-            reader.close();
-        }
+    public static <T> T unmarshalTypeFromFile(Class<T> domainClass, String filenamePath) throws IOException, InstantiationException, IllegalAccessException, JiBXException {
+        IBindingFactory bfact = BindingDirectory.getFactory(domainClass);
+        IUnmarshallingContext uctx = bfact.createUnmarshallingContext();
+        Reader reader = new FileReader(filenamePath);
+        T domainObject = (T) uctx.unmarshalDocument(reader);
+        reader.close();
         return domainObject;
     }
 }
