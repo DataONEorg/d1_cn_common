@@ -114,9 +114,13 @@ public class EncodingUtilities {
 		// (removing it from the unescaped list)
 		// pcharUnescapedCharacters.set('+');
 		pcharUnescapedCharacters.set(',');
-		pcharUnescapedCharacters.set(';');
 		pcharUnescapedCharacters.set('=');      
+		
+		// Apache/mod_jk doesn't like ; due to the security risk
+		// (removing it from the unescaped list)	
+		// pcharUnescapedCharacters.set(';');
 
+				
 		// allowable from general delimiters set
 		pcharUnescapedCharacters.set(':');
 		pcharUnescapedCharacters.set('@');
@@ -126,6 +130,7 @@ public class EncodingUtilities {
 		fragmentUnescapedCharacters = (BitSet) pcharUnescapedCharacters.clone();
 		fragmentUnescapedCharacters.set('/');
 		fragmentUnescapedCharacters.set('?');
+		fragmentUnescapedCharacters.set(';');
 
 		// set up queryUnescapedCharacters - in ABNF, is the same as frag
 		// but have to remove a couple character to follow key-value pair convention
