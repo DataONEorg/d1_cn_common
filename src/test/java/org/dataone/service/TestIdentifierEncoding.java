@@ -121,24 +121,6 @@ public class TestIdentifierEncoding
 		while (i.hasNext())
 		{
 			String id = (String) i.next();
-			runDecodeAssertion(StandardTests.get(id),
-						 id,
-						 EncodingUtilities.decodeString(StandardTests.get(id))
-						 );
-		}
-		log("");
-	}
-
-	@Test
-	public final void testDecodeStringAlternate() throws UnsupportedEncodingException
-	{
-		log(" * * * * * * * testing Decoding using URLEncoder * * * * * * ");
-
-		SortedSet<String> ids = new TreeSet<String>(StandardTests.keySet());
-		Iterator<String> i = ids.iterator();
-		while (i.hasNext())
-		{
-			String id = (String) i.next();
 			String encodedString = StandardTests.get(id);
 			runDecodeAssertion(encodedString,
 						 id,
@@ -148,6 +130,74 @@ public class TestIdentifierEncoding
 		log("");
 	}
 
+//	@Test
+	public final void testDecodeStringAlternate() throws UnsupportedEncodingException
+	{
+		log(" * * * * * * * testing Decoding using URLDecoder * * * * * * ");
+
+		SortedSet<String> ids = new TreeSet<String>(StandardTests.keySet());
+		Iterator<String> i = ids.iterator();
+		while (i.hasNext())
+		{
+			String id = (String) i.next();
+			String encodedString = StandardTests.get(id);
+			runDecodeAssertion(encodedString,
+						 id,
+						 URLDecoder.decode(encodedString, "UTF-8")
+						 );
+		}
+		log("");
+	}
+
+	
+	@Test
+	public final void testEncodeDecode() throws UnsupportedEncodingException
+	{
+		log(" * * * * * * * testing Encode - Decode roundtrip  * * * * * * ");
+
+		SortedSet<String> ids = new TreeSet<String>(StandardTests.keySet());
+		Iterator<String> i = ids.iterator();
+		while (i.hasNext())
+		{
+			String id = (String) i.next();
+			if (id.startsWith("common-") || id.startsWith("path-")) 
+			{	
+				String encodedString = EncodingUtilities.encodeUrlPathSegment(id);
+				runDecodeAssertion(
+						encodedString,
+						id,
+						EncodingUtilities.decodeString(encodedString)
+				);
+			}
+		}	
+		log("");
+	}
+
+	@Test
+	public final void testEncodeDecodeAlternate() throws UnsupportedEncodingException
+	{
+		log(" * * * * * * * testing Encode - Decode roundtrip using URLDecoder * * * * * * ");
+
+		SortedSet<String> ids = new TreeSet<String>(StandardTests.keySet());
+		Iterator<String> i = ids.iterator();
+		while (i.hasNext())
+		{
+			String id = (String) i.next();
+			if (id.startsWith("common-") || id.startsWith("path-")) 
+			{	
+				String encodedString = EncodingUtilities.encodeUrlPathSegment(id);
+				runDecodeAssertion(
+						encodedString,
+						id,
+						URLDecoder.decode(encodedString, "UTF-8")
+				);
+			}
+		}	
+		log("");
+	}
+
+	
+	
 	
 	@Test
 	public final void testDecodeError1() throws UnsupportedEncodingException
