@@ -20,7 +20,12 @@
 
 package org.dataone.service.mn;
 
+import org.dataone.service.exceptions.InsufficientResources;
+import org.dataone.service.exceptions.InvalidRequest;
+import org.dataone.service.exceptions.NotAuthorized;
 import org.dataone.service.exceptions.NotImplemented;
+import org.dataone.service.exceptions.ServiceFailure;
+import org.dataone.service.exceptions.UnsupportedType;
 import org.dataone.service.types.HeartbeatResponse;
 
 /**
@@ -32,11 +37,8 @@ import org.dataone.service.types.HeartbeatResponse;
  */
 public interface MemberNodeHealth 
 {    
-    public HeartbeatResponse heartbeat() throws NotImplemented;
-    
-    // Unclear whether these other methods are to be implemented, and if so,
-    // how they differ from one another.
-    //public PingResponse ping();
-    //public StatusResponse getStatus(AuthToken token);
-    //public void sohQuery(AuthToken token, String service);
+    public void ping(); 
+    public void getObjectStatistics();
+    public void getOperationStatistics();
+    public void getStatus();
 }
