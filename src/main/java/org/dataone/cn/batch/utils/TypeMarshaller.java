@@ -29,6 +29,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.Reader;
 import org.apache.log4j.Logger;
 import org.jibx.runtime.BindingDirectory;
@@ -67,6 +68,21 @@ public class TypeMarshaller {
         Reader reader = new FileReader(filenamePath);
         T domainObject = (T) uctx.unmarshalDocument(reader);
         reader.close();
+        return domainObject;
+    }
+    public static <T> T unmarshalTypeFromFile(Class<T> domainClass, File file) throws IOException, InstantiationException, IllegalAccessException, JiBXException {
+        IBindingFactory bfact = BindingDirectory.getFactory(domainClass);
+        IUnmarshallingContext uctx = bfact.createUnmarshallingContext();
+        Reader reader = new FileReader(file);
+        T domainObject = (T) uctx.unmarshalDocument(reader);
+        reader.close();
+        return domainObject;
+    }
+    public static <T> T unmarshalTypeFromStream(Class<T> domainClass, InputStream inputStream) throws IOException, InstantiationException, IllegalAccessException, JiBXException {
+        IBindingFactory bfact = BindingDirectory.getFactory(domainClass);
+        IUnmarshallingContext uctx = bfact.createUnmarshallingContext();
+        T domainObject = (T) uctx.unmarshalDocument(inputStream, null);
+        inputStream.close();
         return domainObject;
     }
 }
