@@ -34,11 +34,17 @@ public class NodeListParser
 {
     private static String nodelistSchemaLocation = "https://repository.dataone.org/software/cicore/tags/D1_SCHEMA_0_5_1/dataoneTypes.xsd";
     
+    public static Map<String, String> parseNodeListFile(InputStream nodeListStream)
+        throws SAXException, IOException, XPathExpressionException, ParserConfigurationException
+    {
+        return parseNodeListFile(nodeListStream, nodelistSchemaLocation, true);
+    }
+    
     /**
      * Parses the stream for node information.  returns a map of identifier -> url.
      * returns null if the nodelist is not found or does not produce any node information
      */
-    public static Map<String,String> parseNodeListFile(InputStream nodeListStream)
+    public static Map<String,String> parseNodeListFile(InputStream nodeListStream, String xsdUrlString, boolean useSchema)
         throws SAXException, IOException, XPathExpressionException, ParserConfigurationException
     { 
         if (nodeListStream == null) 
@@ -48,7 +54,7 @@ public class NodeListParser
         
         Hashtable<String, String> baseUrlMap = new Hashtable<String, String>();
         // build the XML parser
-        Schema schema = createXsdSchema(nodelistSchemaLocation, true);
+        Schema schema = createXsdSchema(xsdUrlString, useSchema);
         Validator v = schema.newValidator();
         DocumentBuilder parser = createNSDOMParser();
 
