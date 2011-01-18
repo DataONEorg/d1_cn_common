@@ -37,7 +37,7 @@ import org.dataone.service.types.ObjectInfo;
 public interface MemberNodeHealth 
 {   
     /**
-     * Low level “are you alive” operation. Response is simple ACK, but may be 
+     * Low level are you alive operation. Response is simple ACK, but may be 
      * reasonable to overload with a couple of flags that could indicate 
      * availability of new data or change in capabilities.
      * 
