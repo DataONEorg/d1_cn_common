@@ -216,6 +216,39 @@
                 <type>maven-plugin</type>
                 <scope>compile</scope>
         </dependency>
+        
+        <dependency>
+            <groupId>cos</groupId>
+            <artifactId>cos</artifactId>
+            <version>26-Dec2008</version>
+            <scope>system</scope>
+            <systemPath>${basedir}/lib/cos-26Dec2008.jar</systemPath>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpmime</artifactId>
+            <version>4.0-beta2</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+            <version>4.0-beta2</version>
+        </dependency>
+        
+        <dependency>
+          <groupId>org.apache.servicemix.bundles</groupId>
+          <artifactId>org.apache.servicemix.bundles.commons-httpclient</artifactId>
+          <version>3.1_5</version>
+        </dependency>
+        
+        <dependency>
+          <groupId>org.apache.tomcat</groupId>
+          <artifactId>servlet-api</artifactId>
+          <version>6.0.30</version>
+        </dependency>
+        
     </dependencies>
     <licenses>
         <license>
