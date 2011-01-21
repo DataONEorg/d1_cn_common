@@ -24,12 +24,14 @@
  */
 package org.dataone.cn.batch.utils;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.Reader;
 import org.apache.log4j.Logger;
 import org.jibx.runtime.BindingDirectory;
@@ -61,7 +63,22 @@ public class TypeMarshaller {
         }
         return outputFile;
     }
+    // Not to be used with large objects! Other than ObjectList or NodeList, its probably ok to use
+    // with most other Dataone Types.  Possible that SystemMetadata objects may become
+    // too large at some point as well.
+    //
+    // We may wish to throw exceptions based on the class of the object being marshalled
+    // in the future
+    public static OutputStream marshalTypeToOutputStream(Object typeObject) throws JiBXException, FileNotFoundException, IOException {
+        IBindingFactory bfact = BindingDirectory.getFactory(typeObject.getClass());
 
+        IMarshallingContext mctx = bfact.createMarshallingContext();
+        ByteArrayOutputStream typeOutput = new ByteArrayOutputStream();
+
+        mctx.marshalDocument(typeObject, "UTF-8", null, typeOutput);
+
+        return typeOutput;
+    }
     public static <T> T unmarshalTypeFromFile(Class<T> domainClass, String filenamePath) throws IOException, InstantiationException, IllegalAccessException, JiBXException {
         IBindingFactory bfact = BindingDirectory.getFactory(domainClass);
         IUnmarshallingContext uctx = bfact.createUnmarshallingContext();
