@@ -31,6 +31,7 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
 import org.apache.http.entity.mime.MultipartEntity;
 import org.apache.http.entity.mime.content.FileBody;
+import org.apache.http.entity.mime.content.InputStreamBody;
 import org.apache.http.entity.mime.content.StringBody;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.dataone.service.Constants;
@@ -82,12 +83,20 @@ public class MultipartRequestHandler
         entity.addPart(name, fileBody);
     }
     
-//    public void addFilePart(InputStream is, String name)
-//    {
-//    	StreamFileBody sfBody = new StreamFileBody(is);
-//    	FileBody fileBody = new FileBody(sf);
-//        entity.addPart(name, sfBody);
-//    }
+    /**
+     * add a file part to the MMP, using InputStream
+     * Does not set contentLength, so not guaranteed to
+     * work on all servers.
+     * @param is
+     * @param name
+     */
+    public void addFilePart(InputStream is, String name)
+    {
+    	InputStreamBody isBody = new InputStreamBody(is,name);
+    	// InputStreamBody sets contentLength to -1, 
+    	// and is not guaranteed to work on all servers.
+    	entity.addPart(name, isBody);
+    }
     
     /**
      * add a param part to the MMP
