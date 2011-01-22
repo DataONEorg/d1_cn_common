@@ -26,11 +26,14 @@ import java.nio.charset.Charset;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.methods.HttpEntityEnclosingRequestBase;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpPut;
 import org.apache.http.entity.mime.MultipartEntity;
 import org.apache.http.entity.mime.content.FileBody;
 import org.apache.http.entity.mime.content.StringBody;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.dataone.service.Constants;
 
 /**
  * @author berkley
@@ -38,18 +41,32 @@ import org.apache.http.impl.client.DefaultHttpClient;
  */
 public class MultipartRequestHandler
 {
-    DefaultHttpClient httpclient;
-    HttpPost method;
+
+	DefaultHttpClient httpclient;
+    HttpEntityEnclosingRequestBase method;
     MultipartEntity entity;
     
     /**
      * cunstructor
      * @param url
      */
-    public MultipartRequestHandler(String url)
+    public MultipartRequestHandler(String url, String httpMethod )
     {
         httpclient = new DefaultHttpClient();
-        method = new HttpPost(url);
+        if (httpMethod == Constants.POST) 
+            method = new HttpPost(url);        	
+        if (httpMethod == Constants.PUT) 
+            method = new HttpPut(url);       
+        
+        entity = new MultipartEntity();
+        method.setEntity(entity);
+    }
+    
+    
+    public MultipartRequestHandler(String url, HttpEntityEnclosingRequestBase httpMethod )
+    {
+        httpclient = new DefaultHttpClient();
+        method = httpMethod;
         entity = new MultipartEntity();
         method.setEntity(entity);
     }
@@ -64,6 +81,13 @@ public class MultipartRequestHandler
         FileBody fileBody = new FileBody(f);
         entity.addPart(name, fileBody);
     }
+    
+//    public void addFilePart(InputStream is, String name)
+//    {
+//    	StreamFileBody sfBody = new StreamFileBody(is);
+//    	FileBody fileBody = new FileBody(sf);
+//        entity.addPart(name, sfBody);
+//    }
     
     /**
      * add a param part to the MMP
