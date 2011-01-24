@@ -23,7 +23,9 @@ package org.dataone.mimemultipart;
 
 import java.io.*;
 import java.nio.charset.Charset;
+import java.util.Date;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.HttpEntityEnclosingRequestBase;
@@ -48,7 +50,7 @@ public class MultipartRequestHandler
     MultipartEntity entity;
     
     /**
-     * cunstructor
+     * constructor
      * @param url
      */
     public MultipartRequestHandler(String url, String httpMethod )
@@ -85,18 +87,67 @@ public class MultipartRequestHandler
     
     /**
      * add a file part to the MMP, using InputStream
-     * Does not set contentLength, so not guaranteed to
-     * work on all servers.
+     * This method writes the contents of the stream to 
+     * a temp file and sends it.  
      * @param is
      * @param name
      */
     public void addFilePart(InputStream is, String name)
     {
-    	InputStreamBody isBody = new InputStreamBody(is,name);
-    	// InputStreamBody sets contentLength to -1, 
-    	// and is not guaranteed to work on all servers.
-    	entity.addPart(name, isBody);
+		File outputFile = generateTempFile();
+		try {
+			FileOutputStream os = new FileOutputStream(outputFile);	
+			// transfer input stream to temp file
+			try {
+				IOUtils.copy(is, os);
+//				byte[] buffer = new byte[255];  
+//				int bytesRead;  
+//				while ((bytesRead = is.read(buffer)) != -1) {  
+//					os.write(buffer, 0, bytesRead);  
+//				}
+			} finally {	
+//				is.close();  
+			}	
+			os.flush();
+			os.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		FileBody fBody = new FileBody(outputFile);
+		entity.addPart(name, fBody);
     }
+   
+    /**
+     * This method generates a temp files for sending, containing
+     * the value parameter.  Encoding is in UTF-8.
+     * @param name
+     * @param value
+     */
+    public void addFilePart(String name, String value)
+    {	
+    	File outputFile = generateTempFile();
+    	try {
+    		FileOutputStream os = new FileOutputStream(outputFile);
+    		OutputStreamWriter osw = new OutputStreamWriter(os,"UTF-8");
+    		osw.write(value);
+    		osw.flush();
+    		osw.close();
+    	} catch (FileNotFoundException e) {
+    		// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+    	
+    	FileBody fileBody = new FileBody(outputFile);
+        entity.addPart(name, fileBody);
+    }
+
     
     /**
      * add a param part to the MMP
@@ -131,4 +182,14 @@ public class MultipartRequestHandler
         return response;
     }
      
+    
+    private static File generateTempFile()
+    {
+    	Date d = new Date();
+		File tmpDir = new File(Constants.TEMP_DIR);
+		File outputFile = new File(tmpDir, "mmp.output." + d.getTime());
+		System.out.println("temp outputFile is: " + outputFile.getAbsolutePath());
+		return outputFile;
+    }
+    
 }
