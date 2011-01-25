@@ -11,8 +11,10 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileItemFactory;
 import org.apache.commons.fileupload.FileUploadException;
+import org.apache.commons.fileupload.disk.DiskFileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.apache.log4j.Logger;
 
 /*
  * Copyright 2002-2010 the original author or authors.
@@ -54,9 +56,10 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
  */
 public class MultipartRequestResolver
 {
-
+    Logger logger = Logger.getLogger(MultipartRequestResolver.class.getName());
     private DiskFileItemFactory factory;
     private ServletFileUpload upload;
+    final static int SIZE = 16384;
     /**
      * constructor.  
      * @param filePartFile a Directory path to write any file contents to.
@@ -136,9 +139,31 @@ public class MultipartRequestResolver
                 }
             } else {
                // processUploadedFile(item);
-                File itemFile = new File(item.getName());
                 String fileKey = getOriginalFilename(item);
-                mpFiles.put(fileKey, itemFile);
+                if (item instanceof DiskFileItem) {
+                    DiskFileItem diskItem = (DiskFileItem)item;
+                  mpFiles.put(fileKey, diskItem.getStoreLocation());
+                } else if (item.isInMemory()){
+                    File fileItem = new File (this.factory.getRepository().getAbsolutePath() + fileKey);
+                    if (fileItem.exists()) {
+                        fileItem.delete();
+                    }
+                    fileItem.createNewFile();
+                    FileOutputStream fileItemOutput = new FileOutputStream(fileItem);
+                    InputStream inputStream = item.getInputStream();
+                    byte[] barray = new byte[SIZE];
+                    int nRead = 0;
+
+                    while ((nRead = inputStream.read(barray, 0, SIZE)) != -1) {
+                    fileItemOutput.write(barray, 0, nRead);
+                    }
+                fileItemOutput.flush();
+                fileItemOutput.close();
+                inputStream.close();
+                mpFiles.put(fileKey, fileItem);
+                } else {
+                    throw new FileUploadException("unable to determine file location of Multipart Form named: " +item.getName());
+                }
             }
         }
         return multipartRequest;
