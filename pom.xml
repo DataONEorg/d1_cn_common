@@ -218,12 +218,11 @@
         </dependency>
         
         <dependency>
-            <groupId>cos</groupId>
-            <artifactId>cos</artifactId>
-            <version>26-Dec2008</version>
-            <scope>system</scope>
-            <systemPath>${basedir}/lib/cos-26Dec2008.jar</systemPath>
+            <groupId>commons-fileupload</groupId>
+            <artifactId>commons-fileupload</artifactId>
+            <version>1.2.2</version>
         </dependency>
+
         
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
