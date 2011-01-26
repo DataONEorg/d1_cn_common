@@ -31,6 +31,7 @@ import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.HttpEntityEnclosingRequestBase;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
+import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.entity.mime.MultipartEntity;
 import org.apache.http.entity.mime.content.FileBody;
 import org.apache.http.entity.mime.content.InputStreamBody;
@@ -41,12 +42,13 @@ import org.dataone.service.Constants;
 /**
  * @author berkley
  * A class to handle writing MIME multipart messages
+ *  see http://hc.apache.org/httpcomponents-client-dev/httpclient/apidocs/org/apache/http/client/methods/package-tree.html
  */
 public class MultipartRequestHandler
 {
 
 	DefaultHttpClient httpclient;
-    HttpEntityEnclosingRequestBase method;
+    HttpEntityEnclosingRequestBase request;  // superclass of HttpPost and HttpGet 
     MultipartEntity entity;
     
     /**
@@ -57,22 +59,25 @@ public class MultipartRequestHandler
     {
         httpclient = new DefaultHttpClient();
         if (httpMethod == Constants.POST) 
-            method = new HttpPost(url);        	
+            request = new HttpPost(url);        	
         if (httpMethod == Constants.PUT) 
-            method = new HttpPut(url);       
+            request = new HttpPut(url);       
         
         entity = new MultipartEntity();
-        method.setEntity(entity);
+        request.setEntity(entity);
     }
     
+// complexities of getting the uri into the method make it likely that this constructor 
+// will never be used.
     
-    public MultipartRequestHandler(String url, HttpEntityEnclosingRequestBase httpMethod )
-    {
-        httpclient = new DefaultHttpClient();
-        method = httpMethod;
-        entity = new MultipartEntity();
-        method.setEntity(entity);
-    }
+//    public MultipartRequestHandler(String url, HttpEntityEnclosingRequestBase httpMethod )
+//    {
+//        httpclient = new DefaultHttpClient();
+//        method = httpMethod;
+//        entity = new MultipartEntity();
+//        method.setEntity(entity);
+//
+//    }
     
     /**
      * add a file part to the MMP
@@ -168,6 +173,13 @@ public class MultipartRequestHandler
     }
     
     /**
+     * Returns the request for use by any org.apache.http.client.HttpClient
+     * @return
+     */
+    public HttpUriRequest getRequest() {
+    	return this.request;
+    }
+    /**
      * execute the request
      * @return
      * @throws ClientProtocolException
@@ -176,12 +188,12 @@ public class MultipartRequestHandler
     public HttpResponse executeRequest() 
         throws ClientProtocolException, IOException
     {
-        HttpResponse response = httpclient.execute(method);
+        HttpResponse response = httpclient.execute(request);
         System.out.println("Response from MultipartRequestHandler.executeRequest: " + 
                 response.getStatusLine());
         return response;
     }
-     
+         
     
     private static File generateTempFile()
     {
