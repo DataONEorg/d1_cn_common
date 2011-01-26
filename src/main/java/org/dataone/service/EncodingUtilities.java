@@ -253,8 +253,7 @@ public class EncodingUtilities {
 	
 	
 	
-	// TODO: this was built speculatively, and might not be used, so consider removing
-	//   (there are no tests for it)
+	// TODO: create tests for this
 	public static String decodeXmlDataItems(String dataString)
 	{
 		String decodedString;
