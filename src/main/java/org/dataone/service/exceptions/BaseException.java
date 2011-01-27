@@ -163,6 +163,7 @@ public class BaseException extends Exception {
         StringBuffer sb = new StringBuffer();
         sb.append("<?xml version=\"1.0\"?>\n"); 
         sb.append("<error errorCode='").append(getCode()).append("' ");
+        sb.append("name='").append(getName()).append("' ");
         sb.append("detailCode='").append(getDetail_code()).append("'>\n");
         sb.append("  <description>").append(getDescription()).append("</description>\n");
         sb.append("  <traceInformation>\n");
@@ -174,6 +175,11 @@ public class BaseException extends Exception {
         sb.append("</error>\n");
       
         return sb.toString();
+    }
+    
+    private String getName() {
+    	String c = this.getClass().getName();
+    	return  c.substring(c.lastIndexOf(".")+1);
     }
     
     /** Serialize the exception in JSON format.

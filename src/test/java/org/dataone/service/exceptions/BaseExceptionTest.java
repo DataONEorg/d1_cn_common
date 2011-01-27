@@ -114,4 +114,23 @@ public class BaseExceptionTest extends TestCase
         assertTrue(html.indexOf("method") != -1);
         assertTrue(html.indexOf("mn.get") != -1);
     }
+    
+    
+    /**
+     * Test creation of an exception, and serialization of the fields into XML.
+     */
+    public void testSerializeNameFieldXML()
+    {   
+        NotFound e = new NotFound( "14001", "some description");
+        assertNotNull(e);    
+        String xml = e.serialize(BaseException.FMT_XML);
+        System.out.println(xml);
+        
+        assertNotNull(xml);
+        assertTrue(xml.indexOf("<error") != -1);
+        assertTrue(xml.indexOf("'404'") != -1);
+        assertTrue(xml.indexOf("name") != -1);
+        assertTrue(xml.indexOf("NotFound") != -1);
+    }
+    
 }
