@@ -58,7 +58,7 @@ public class MultipartRequestResolver
 {
     Logger logger = Logger.getLogger(MultipartRequestResolver.class.getName());
     private DiskFileItemFactory factory;
-    private ServletFileUpload upload;
+    private org.apache.commons.fileupload.servlet.ServletFileUpload upload;
     final static int SIZE = 16384;
     /**
      * constructor.  
