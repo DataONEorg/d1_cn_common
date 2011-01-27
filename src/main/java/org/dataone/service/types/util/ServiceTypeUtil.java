@@ -24,7 +24,10 @@ package org.dataone.service.types.util;
 
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.security.MessageDigest;
 
+import org.dataone.service.types.Checksum;
+import org.dataone.service.types.ChecksumAlgorithm;
 import org.jibx.runtime.BindingDirectory;
 import org.jibx.runtime.IBindingFactory;
 import org.jibx.runtime.IMarshallingContext;
@@ -65,5 +68,52 @@ public class ServiceTypeUtil
         IUnmarshallingContext uctx = bfact.createUnmarshallingContext();
         Object o = (Object) uctx.unmarshalDocument(is, null);
         return o;
+    }
+    
+    /**
+     * return a checksum based on the input of the stream
+     * @param is
+     * @param algorithm
+     * @return
+     * @throws Exception
+     */
+    public static Checksum checksum(InputStream is, ChecksumAlgorithm algorithm)
+        throws Exception
+    {        
+        byte[] buffer = new byte[1024];
+        MessageDigest complete = MessageDigest.getInstance(algorithm.toString());
+        int numRead;
+
+        do 
+        {
+            numRead = is.read(buffer);
+            if (numRead > 0) 
+            {
+                complete.update(buffer, 0, numRead);
+            }
+        } while (numRead != -1);
+
+        String csStr = getHex(complete.digest());
+        Checksum checksum = new Checksum();
+        checksum.setValue(csStr);
+        checksum.setAlgorithm(algorithm);
+        return checksum;
+    }
+    
+    /**
+     * convert a byte array to a hex string
+     */
+    private static String getHex( byte [] raw ) 
+    {
+        final String HEXES = "0123456789ABCDEF";
+        if ( raw == null ) {
+          return null;
+        }
+        final StringBuilder hex = new StringBuilder( 2 * raw.length );
+        for ( final byte b : raw ) {
+          hex.append(HEXES.charAt((b & 0xF0) >> 4))
+             .append(HEXES.charAt((b & 0x0F)));
+        }
+        return hex.toString();
     }
 }
