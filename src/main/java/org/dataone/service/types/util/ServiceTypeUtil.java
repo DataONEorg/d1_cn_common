@@ -44,7 +44,7 @@ public class ServiceTypeUtil
      * @param out the stream to serialize it to
      * @throws JiBXException
      */
-    private static void serializeServiceType(Class type, Object object, OutputStream out)
+    public static void serializeServiceType(Class type, Object object, OutputStream out)
       throws JiBXException
     {
         IBindingFactory bfact = BindingDirectory.getFactory(type);
@@ -58,7 +58,7 @@ public class ServiceTypeUtil
      * @param is the stream to deserialize from
      * @throws JiBXException
      */
-    private static Object deserializeServiceType(Class type, InputStream is)
+    public static Object deserializeServiceType(Class type, InputStream is)
       throws JiBXException
     {
         IBindingFactory bfact = BindingDirectory.getFactory(type);
