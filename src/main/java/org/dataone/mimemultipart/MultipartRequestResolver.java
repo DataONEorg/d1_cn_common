@@ -10,6 +10,7 @@ import java.util.*;
 import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileItemFactory;
+import org.apache.commons.fileupload.FileItemHeaders;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
@@ -31,7 +32,6 @@ import org.apache.log4j.Logger;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /**
  * DataOne conversion of HttpServletRequests into a DataONE MultipartRequest via
  *  <a href="http://jakarta.apache.org/commons/fileupload">Jakarta Commons FileUpload</a>
@@ -54,19 +54,19 @@ import org.apache.log4j.Logger;
  * @see org.apache.commons.fileupload.servlet.ServletFileUpload
  * @see org.apache.commons.fileupload.disk.DiskFileItemFactory
  */
-public class MultipartRequestResolver
-{
+public class MultipartRequestResolver {
+
     Logger logger = Logger.getLogger(MultipartRequestResolver.class.getName());
     private DiskFileItemFactory factory;
     private org.apache.commons.fileupload.servlet.ServletFileUpload upload;
     final static int SIZE = 16384;
+
     /**
      * constructor.  
      * @param filePartFile a Directory path to write any file contents to.
      *
      */
-    public MultipartRequestResolver()
-    {
+    public MultipartRequestResolver() {
         // Create a factory for disk-based file items
         this.factory = new DiskFileItemFactory();
 
@@ -74,14 +74,14 @@ public class MultipartRequestResolver
         this.upload = new ServletFileUpload(this.factory);
 
     }
-    public MultipartRequestResolver(String tmpUploadDir)
-    {
+
+    public MultipartRequestResolver(String tmpUploadDir) {
         this.factory = new DiskFileItemFactory();
         this.factory.setRepository(new File(tmpUploadDir));
         this.upload = new ServletFileUpload(factory);
     }
-    public MultipartRequestResolver(String tmpUploadDir, int maxUploadSize)
-    {
+
+    public MultipartRequestResolver(String tmpUploadDir, int maxUploadSize) {
         this.factory = new DiskFileItemFactory();
 
         // Set factory constraints
@@ -94,8 +94,8 @@ public class MultipartRequestResolver
         this.upload.setSizeMax(maxUploadSize);
 
     }
-    public MultipartRequestResolver(String tmpUploadDir, int maxUploadSize, int maxMemorySize)
-    {
+
+    public MultipartRequestResolver(String tmpUploadDir, int maxUploadSize, int maxMemorySize) {
         this.factory = new DiskFileItemFactory();
 
         // Set factory constraints
@@ -109,13 +109,13 @@ public class MultipartRequestResolver
         this.upload.setSizeMax(maxUploadSize);
 
     }
+
     /**
      * get the parts of a
      *
      * @throws IOException 
      */
-    public MultipartRequest resolveMultipart(HttpServletRequest request) throws IOException, FileUploadException
-    {
+    public MultipartRequest resolveMultipart(HttpServletRequest request) throws IOException, FileUploadException, Exception {
         Map<String, List<String>> mpParams = new HashMap<String, List<String>>();
         Map<String, File> mpFiles = new HashMap<String, File>();
         MultipartRequest multipartRequest = new MultipartRequest(request, mpFiles, mpParams);
@@ -138,63 +138,37 @@ public class MultipartRequestResolver
                     mpParams.put(name, values);
                 }
             } else {
-               // processUploadedFile(item);
-                String fileKey = getOriginalFilename(item);
+                // processUploadedFile(item);
+                
                 if (item instanceof DiskFileItem) {
-                    DiskFileItem diskItem = (DiskFileItem)item;
-                  mpFiles.put(fileKey, diskItem.getStoreLocation());
-                } else if (item.isInMemory()){
-                    File fileItem = new File (this.factory.getRepository().getAbsolutePath() + fileKey);
-                    if (fileItem.exists()) {
-                        fileItem.delete();
-                    }
-                    fileItem.createNewFile();
-                    FileOutputStream fileItemOutput = new FileOutputStream(fileItem);
-                    InputStream inputStream = item.getInputStream();
-                    byte[] barray = new byte[SIZE];
-                    int nRead = 0;
+                    DiskFileItem diskItem = (DiskFileItem) item;
 
-                    while ((nRead = inputStream.read(barray, 0, SIZE)) != -1) {
-                    fileItemOutput.write(barray, 0, nRead);
+                    String fileKey = diskItem.getFieldName();
+
+                    if (diskItem.isInMemory()) {
+                        File fileItem =  diskItem.getStoreLocation();
+//                        File fileItem = new File(this.factory.getRepository().getAbsolutePath() + fileKey);
+                        if (fileItem.exists()) {
+                            logger.info("length: " + Long.toString(fileItem.length()) +" lastModified: " +  Long.toString(fileItem.lastModified()) + " is it really a file: " + fileItem.isFile());
+                        } else {
+                            logger.debug("force creation of  " + fileItem.getAbsolutePath());
+                            fileItem.createNewFile();
+                            fileItem.deleteOnExit();
+                            fileItem.setWritable(true);
+                            fileItem.setReadable(true);
+                            FileOutputStream fileItemOutput = new FileOutputStream(fileItem);
+                            diskItem.write(fileItem);
+                        }
+
+                        mpFiles.put(fileKey, fileItem);
+                    } else {
+                        mpFiles.put(fileKey, diskItem.getStoreLocation());
                     }
-                fileItemOutput.flush();
-                fileItemOutput.close();
-                inputStream.close();
-                mpFiles.put(fileKey, fileItem);
                 } else {
-                    throw new FileUploadException("unable to determine file location of Multipart Form named: " +item.getName());
+                    throw new FileUploadException("unable to determine file location of Multipart Form named: " + item.getName());
                 }
             }
         }
         return multipartRequest;
-    }
- /**
- * From the MultipartFile Class implementation for Jakarta Commons FileUpload.
- *<a href="http://static.springsource.org/spring/docs/3.0.x/javadoc-api/org/springframework/web/multipart/commons/CommonsMultipartFile.html"> CommonsMultipartFile </a>
- *
- * @author Trevor D. Cook
- * @author Juergen Hoeller
- * @since 29.09.2003
- */
-    private String getOriginalFilename(FileItem fileItem) {
-            String filename = fileItem.getName();
-            if (filename == null) {
-                    // Should never happen.
-                    return "";
-            }
-            // check for Unix-style path
-            int pos = filename.lastIndexOf("/");
-            if (pos == -1) {
-                    // check for Windows-style path
-                    pos = filename.lastIndexOf("\\");
-            }
-            if (pos != -1)  {
-                    // any sort of path separator found
-                    return filename.substring(pos + 1);
-            }
-            else {
-                    // plain name
-                    return filename;
-            }
     }
 }
