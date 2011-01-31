@@ -45,6 +45,14 @@ public class D1Url {
 	public void addNonEmptyParam(String param) throws IllegalArgumentException {
 		paramV.add(EncodingUtilities.encodeUrlQuerySegment(trimAndValidateString(param)));
 	}
+	/**
+	 * Method for adding query params that bypasses encoding. Use sparingly, as it is a bit unsafe, 
+	 * but useful if the choice of params is too much to put in a method signature. 
+	 * @param param
+	 */
+	public void addPreEncodedNonEmptyQueryParams(String param) {
+		paramV.add(trimAndValidateString(param));
+	}
 	
 	public void addNextPathElement(String pathEl) throws IllegalArgumentException {
 		pathElements.add(EncodingUtilities.encodeUrlPathSegment(trimAndValidateString(pathEl)));
