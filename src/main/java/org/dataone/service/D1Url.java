@@ -1,6 +1,10 @@
 package org.dataone.service;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Map;
+import java.util.TimeZone;
 import java.util.Vector;
 
 public class D1Url {
@@ -34,30 +38,92 @@ public class D1Url {
 	public String getResource() {
 		return this.resource;
 	}
-	
+
+	/**
+	 * adds the next path element to the path portion of the URL, encoding unsafe characters.
+	 * Empty values to the pathElement parameter causes nothing to be added.
+	 * @param pathElement
+	 * @throws IllegalArgumentException
+	 */
+	public void addNextPathElement(String pathElement)  {
+		try {
+			pathElements.add(EncodingUtilities.encodeUrlPathSegment(trimAndValidateString(pathElement)));
+		} catch (IllegalArgumentException e) {
+			// do nothing
+		}
+	}
+
+	/**
+	 * adds a single parameter to the query portion of the URL (not a key-value pair)
+	 * encoding unsafe characters
+	 * @param param
+	 */
+	public void addNonEmptyParam(String param)  {
+		try {
+			paramV.add(EncodingUtilities.encodeUrlQuerySegment(trimAndValidateString(param)));
+		} catch (IllegalArgumentException e) {
+			// do nothing
+		}
+	}
+
+	/**
+	 * adds a key value pair to the query portion of the URL, placing '=' character between them,
+	 * and encoding unsafe characters.
+	 * If either key or value is empty or null, quietly does not add anything to the url.
+	 * @param key
+	 * @param value
+	 */	
+	public void addNonEmptyParamPair(String key, String value)  {
+		try {
+			paramV.add(EncodingUtilities.encodeUrlQuerySegment(trimAndValidateString(key)) + "=" +
+					EncodingUtilities.encodeUrlQuerySegment(trimAndValidateString(value)));
+		} catch (IllegalArgumentException e) {
+			// do nothing
+		}
+	}
+
+	/**
+	 * convenience method for adding date object to query parameters.  The date is converted to
+	 * GMT and serialized as a string.  If date is null, nothing is added to the URL.
+	 * @param key
+	 * @param date
+	 * @throws IllegalArgumentException
+	 */
+	public void addDateParamPair(String key, Date dateLocalTime)  {
+		if (dateLocalTime != null) {
+			String dateString = convertDateToGMT(dateLocalTime);
+			paramV.add(EncodingUtilities.encodeUrlQuerySegment(trimAndValidateString(key)) + "=" +
+				EncodingUtilities.encodeUrlQuerySegment(trimAndValidateString(dateString)));
+		}
+	}
+
+	/**
+	 * adds a key value pair to the query portion of the URL, placing '=' character between them,
+	 * and encoding unsafe characters.
+	 * If either key or value is empty or null, quietly does not add anything to the url.
+	 * @param key
+	 * @param integer
+	 */	
+	public void addNonEmptyParamPair(String key, Integer integer) {
+		if (integer != null)
+			paramV.add(EncodingUtilities.encodeUrlQuerySegment(trimAndValidateString(key)) + "=" +
+				EncodingUtilities.encodeUrlQuerySegment(trimAndValidateString(integer.toString())));
+	}
 
 	
-	public void addNonEmptyParamPair(String key, String value) throws IllegalArgumentException {
-		paramV.add(EncodingUtilities.encodeUrlQuerySegment(trimAndValidateString(key)) + "=" +
-				EncodingUtilities.encodeUrlQuerySegment(trimAndValidateString(value)));
-	}
-	
-	public void addNonEmptyParam(String param) throws IllegalArgumentException {
-		paramV.add(EncodingUtilities.encodeUrlQuerySegment(trimAndValidateString(param)));
-	}
 	/**
 	 * Method for adding query params that bypasses encoding. Use sparingly, as it is a bit unsafe, 
 	 * but useful if the choice of params is too much to put in a method signature. 
 	 * @param param
 	 */
 	public void addPreEncodedNonEmptyQueryParams(String param) {
-		paramV.add(trimAndValidateString(param));
+		try {
+			paramV.add(trimAndValidateString(param));
+		} catch (IllegalArgumentException e) {
+			// do nothing
+		}
 	}
-	
-	public void addNextPathElement(String pathEl) throws IllegalArgumentException {
-		pathElements.add(EncodingUtilities.encodeUrlPathSegment(trimAndValidateString(pathEl)));
-	}
-	
+
 	public String getUrl() {
 		assembleUrl();
 		return this.url;
@@ -104,7 +170,20 @@ public class D1Url {
 				joined =  j + s;
 		return joined;
 	}
+	
 
+	/**
+	 * convert a date to GMT
+	 * 
+	 * @param d
+	 * @return
+	 */
+	public String convertDateToGMT(Date d) {
+		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
+		dateFormat.setTimeZone(TimeZone.getTimeZone("GMT-0"));
+		String s = dateFormat.format(d);
+		return s;
+	}
 }
 
 
