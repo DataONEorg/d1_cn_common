@@ -20,8 +20,22 @@
 
 package org.dataone.service.exceptions;
 
+import java.io.StringWriter;
 import java.util.Set;
 import java.util.TreeMap;
+import java.util.logging.Level;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerConfigurationException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+import org.apache.log4j.Logger;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 /**
  * A BaseException is the root of all DataONE service class exception messages.
@@ -34,7 +48,8 @@ import java.util.TreeMap;
  * @author Matthew Jones
  */
 public class BaseException extends Exception {
-    
+
+    static Logger logger = Logger.getLogger(BaseException.class.getName());
     /** The major error code associated with this exception. */
     private int code;
     
@@ -47,7 +62,10 @@ public class BaseException extends Exception {
     public final static int FMT_XML = 0;
     public final static int FMT_JSON = 1;
     public final static int FMT_HTML = 2;
-    
+    private DocumentBuilder documentBuilder = null;
+    private Transformer transformer = null;
+    private StringWriter strWtr = new StringWriter();
+
     /**
      * Construct a BaseException with the given code, detail code, and description.
      * 
@@ -57,10 +75,28 @@ public class BaseException extends Exception {
      */
     protected BaseException(int code, String detail_code, String description) {
         super(description);
+
         this.trace_information = new TreeMap<String, String>();
         this.code = code;
         this.detail_code = detail_code;
+        try {
+
+            documentBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+
+            TransformerFactory transformerFactory = TransformerFactory.newInstance();
+            transformer = transformerFactory.newTransformer();
+            transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
+            transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+            transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "no");
+            transformer.setOutputProperty(OutputKeys.METHOD, "xml"); //xml, html, text
+            transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
+        } catch (ParserConfigurationException ex) {
+            logger.error(ex.getMessage());
+        } catch (TransformerConfigurationException ex) {
+            logger.error(ex.getMessage());
+        }
     }
+    
     
     /**
      * Construct a BaseException with the given code, detail code, description,
@@ -160,21 +196,51 @@ public class BaseException extends Exception {
     
     /** Serialize the exception in XML format. */
     private String serializeXML() {
-        StringBuffer sb = new StringBuffer();
-        sb.append("<?xml version=\"1.0\"?>\n"); 
-        sb.append("<error errorCode='").append(getCode()).append("' ");
-        sb.append("name='").append(getName()).append("' ");
-        sb.append("detailCode='").append(getDetail_code()).append("'>\n");
-        sb.append("  <description>").append(getDescription()).append("</description>\n");
-        sb.append("  <traceInformation>\n");
-        for (String key : this.getTraceKeySet()) {
+            /*        StringBuffer sb = new StringBuffer();
+            sb.append("<?xml version=\"1.0\"?>\n");
+            sb.append("<error errorCode='").append(getCode()).append("' ");
+            sb.append("name='").append(getName()).append("' ");
+            sb.append("detailCode='").append(getDetail_code()).append("'>\n");
+            sb.append("  <description>").append(getDescription()).append("</description>\n");
+            sb.append("  <traceInformation>\n");
+            for (String key : this.getTraceKeySet()) {
             sb.append("    <value key='").append(key).append("'>");
             sb.append(trace_information.get(key)).append("</value>\n");
+            }
+            sb.append("  </traceInformation>\n");
+            sb.append("</error>\n");
+            return sb.toString(); */
+        Document dom = documentBuilder.newDocument();
+        // create the root node of the dom
+        Element errorNode = dom.createElement("error");
+        
+        errorNode.setAttribute("name", getName());
+        errorNode.setAttribute("detailCode", getDetail_code());
+        errorNode.setAttribute("errorCode", Integer.toString(getCode()));
+        
+        Element description = dom.createElement("description");
+        description.setTextContent(getDescription());
+        
+        dom.appendChild(errorNode);
+        errorNode.appendChild(description);        
+        if (!trace_information.isEmpty()) {
+            Element traceInformation = dom.createElement("traceInformation");
+            for (String key : this.getTraceKeySet()) {
+                Element value = dom.createElement("value");
+                value.setAttribute("key", key);
+                value.setTextContent(trace_information.get(key));
+                traceInformation.appendChild(value);
+            }
+            errorNode.appendChild(traceInformation);
         }
-        sb.append("  </traceInformation>\n");
-        sb.append("</error>\n");
-      
-        return sb.toString();
+
+        try {
+            return this.domToString(dom);
+        } catch (Exception ex) {
+            logger.error(ex.getMessage());
+            return ex.getMessage();
+        }
+
     }
     
     private String getName() {
@@ -222,4 +288,15 @@ public class BaseException extends Exception {
         sb.append("</body>\n</html>\n");
         return sb.toString();
     }
+    
+    private String domToString(Document document) throws Exception {
+        String result = null;
+        if (document != null) {
+            StreamResult strResult = new StreamResult(strWtr);
+            transformer.transform(new DOMSource(document.getDocumentElement()), strResult);
+            result = strResult.getWriter().toString();
+        }
+        return result;
+    }
+    
 }

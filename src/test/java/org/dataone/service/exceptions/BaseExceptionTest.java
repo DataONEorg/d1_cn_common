@@ -71,8 +71,8 @@ public class BaseExceptionTest extends TestCase
         
         assertNotNull(xml);
         assertTrue(xml.indexOf("<error") != -1);
-        assertTrue(xml.indexOf("'404'") != -1);
-        assertTrue(xml.indexOf("'14001'") != -1);
+        assertTrue(xml.indexOf("\"404\"") != -1);
+        assertTrue(xml.indexOf("\"14001\"") != -1);
         assertTrue(xml.indexOf(msg) != -1);
         assertTrue(xml.indexOf("identifier") != -1);
         assertTrue(xml.indexOf("123XYZ") != -1);
@@ -128,7 +128,7 @@ public class BaseExceptionTest extends TestCase
         
         assertNotNull(xml);
         assertTrue(xml.indexOf("<error") != -1);
-        assertTrue(xml.indexOf("'404'") != -1);
+        assertTrue(xml.indexOf("\"404\"") != -1);
         assertTrue(xml.indexOf("name") != -1);
         assertTrue(xml.indexOf("NotFound") != -1);
     }
