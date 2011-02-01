@@ -41,16 +41,13 @@ public class D1Url {
 
 	/**
 	 * adds the next path element to the path portion of the URL, encoding unsafe characters.
-	 * Empty values to the pathElement parameter causes nothing to be added.
+	 * Empty values to the pathElement parameter throws an exception
 	 * @param pathElement
 	 * @throws IllegalArgumentException
 	 */
-	public void addNextPathElement(String pathElement)  {
-		try {
-			pathElements.add(EncodingUtilities.encodeUrlPathSegment(trimAndValidateString(pathElement)));
-		} catch (IllegalArgumentException e) {
-			// do nothing
-		}
+	public void addNextPathElement(String pathElement) throws IllegalArgumentException  {
+
+		pathElements.add(EncodingUtilities.encodeUrlPathSegment(trimAndValidateString(pathElement)));
 	}
 
 	/**

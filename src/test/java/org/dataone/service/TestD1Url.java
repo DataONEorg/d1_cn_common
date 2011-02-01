@@ -201,4 +201,15 @@ public class TestD1Url {
 			assertTrue("Correct exception thrown", true);
 		}
 	}
+	
+	@Test
+	public void testNullPathElement() {
+		try {
+			D1Url url = new D1Url(testBaseUrl,testResource);
+			url.addNextPathElement(" ");
+			fail("Exception should have been thrown");
+		} catch (IllegalArgumentException e) {
+			assertTrue("Correct exception thrown", true);
+		}
+	}
 }
