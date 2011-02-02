@@ -24,6 +24,7 @@ package org.dataone.mimemultipart;
 import java.io.*;
 import java.nio.charset.Charset;
 import java.util.Date;
+import java.util.Vector;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpResponse;
@@ -40,12 +41,12 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.dataone.service.Constants;
 
 /**
- * @author berkley
+ * @author berkley, nahf
  * A class to simplify creation of MIME multipart messages
  */
 public class SimpleMultipartEntity extends MultipartEntity
 {
-        
+	private Vector<String> tempfileNames = new Vector<String>();;
     /**
      * add a file part to the MMP
      * @param f
@@ -75,9 +76,17 @@ public class SimpleMultipartEntity extends MultipartEntity
     {
 		File outputFile = generateTempFile();
 		try {
-			FileOutputStream os = new FileOutputStream(outputFile);	
+			FileOutputStream os = new FileOutputStream(outputFile);
 			// transfer input stream to temp file
-			IOUtils.copy(is, os);
+			byte[] bytebuffer = new byte[4096];
+			
+			int num = is.read(bytebuffer);
+			System.out.print(" "+ num);
+			while (num != -1) {
+				os.write(bytebuffer, 0, num);
+				num = is.read(bytebuffer);
+				System.out.print(" "+ num);
+			}
 			os.flush();
 			os.close();
 		} catch (IOException e) {
@@ -136,13 +145,19 @@ public class SimpleMultipartEntity extends MultipartEntity
                     uee.getMessage());
         }
     }
+    
+    protected String getLastTempfile() {
+    	return tempfileNames.lastElement();
+    }
              
     
-    private static File generateTempFile()
+    private File generateTempFile()
     {
     	Date d = new Date();
 		File tmpDir = new File(Constants.TEMP_DIR);
 		File outputFile = new File(tmpDir, "mmp.output." + d.getTime());
+		String afp = outputFile.getAbsolutePath();
+		tempfileNames.add(afp);
 		System.out.println("temp outputFile is: " + outputFile.getAbsolutePath());
 		return outputFile;
     }
