@@ -80,15 +80,16 @@ public class SimpleMultipartEntity extends MultipartEntity
 			// transfer input stream to temp file
 			byte[] bytebuffer = new byte[4096];
 			
+			int total = 0;
 			int num = is.read(bytebuffer);
-			System.out.print(" "+ num);
 			while (num != -1) {
 				os.write(bytebuffer, 0, num);
+				total += num;
 				num = is.read(bytebuffer);
-				System.out.print(" "+ num);
 			}
 			os.flush();
 			os.close();
+			System.out.println("     bytes written: " + total);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
