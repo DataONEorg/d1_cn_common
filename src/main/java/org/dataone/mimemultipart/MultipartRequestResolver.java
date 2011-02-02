@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileItemFactory;
 import org.apache.commons.fileupload.FileItemHeaders;
+import org.apache.commons.fileupload.FileUpload;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
@@ -119,7 +120,7 @@ public class MultipartRequestResolver {
         Map<String, List<String>> mpParams = new HashMap<String, List<String>>();
         Map<String, File> mpFiles = new HashMap<String, File>();
         MultipartRequest multipartRequest = new MultipartRequest(request, mpFiles, mpParams);
-        if (!this.upload.isMultipartContent(request)) {
+        if (!this.isMultipartContent(request)) {
             return multipartRequest;
         }
         List /* FileItem */ items = upload.parseRequest(request);
@@ -139,17 +140,17 @@ public class MultipartRequestResolver {
                 }
             } else {
                 // processUploadedFile(item);
-                
+
                 if (item instanceof DiskFileItem) {
                     DiskFileItem diskItem = (DiskFileItem) item;
 
                     String fileKey = diskItem.getFieldName();
 
                     if (diskItem.isInMemory()) {
-                        File fileItem =  diskItem.getStoreLocation();
+                        File fileItem = diskItem.getStoreLocation();
 //                        File fileItem = new File(this.factory.getRepository().getAbsolutePath() + fileKey);
                         if (fileItem.exists()) {
-                            logger.info("length: " + Long.toString(fileItem.length()) +" lastModified: " +  Long.toString(fileItem.lastModified()) + " is it really a file: " + fileItem.isFile());
+                            logger.info("length: " + Long.toString(fileItem.length()) + " lastModified: " + Long.toString(fileItem.lastModified()) + " is it really a file: " + fileItem.isFile());
                         } else {
                             logger.debug("force creation of  " + fileItem.getAbsolutePath());
                             fileItem.createNewFile();
@@ -170,5 +171,20 @@ public class MultipartRequestResolver {
             }
         }
         return multipartRequest;
+    }
+
+    public static final boolean isMultipartContent(
+            HttpServletRequest request) {
+        if ("post".equals(request.getMethod().toLowerCase()) || "put".equals(request.getMethod().toLowerCase())) {
+            String contentType = request.getContentType();
+            if (contentType == null) {
+                return false;
+            }
+            if (contentType.toLowerCase().startsWith(FileUpload.MULTIPART)) {
+                return true;
+            }
+        }
+        return false;
+
     }
 }
