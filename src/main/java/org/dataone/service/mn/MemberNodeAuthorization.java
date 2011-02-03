@@ -17,15 +17,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.dataone.service.mn;
 
-import org.dataone.service.exceptions.AuthenticationTimeout;
-import org.dataone.service.exceptions.InvalidCredentials;
+import java.security.Permission;
+import org.dataone.service.exceptions.InvalidRequest;
 import org.dataone.service.exceptions.InvalidToken;
 import org.dataone.service.exceptions.NotAuthorized;
 import org.dataone.service.exceptions.NotFound;
 import org.dataone.service.exceptions.NotImplemented;
+import org.dataone.service.exceptions.ServiceFailure;
+import org.dataone.service.types.AccessPolicy;
 import org.dataone.service.types.AuthToken;
 import org.dataone.service.types.Identifier;
 
@@ -36,15 +37,17 @@ import org.dataone.service.types.Identifier;
  *
  * @author Matthew Jones
  */
-public interface MemberNodeAuthorization 
-{
-    public AuthToken login(String user, String password)
-        throws InvalidCredentials, AuthenticationTimeout, NotImplemented;
-    
-    public void logout(AuthToken token) throws NotImplemented;
-    
-    public boolean isAuthorized(AuthToken token, Identifier guid, String operation)
-        throws InvalidToken, NotFound, NotAuthorized, NotImplemented;
-    
-    public boolean verify(AuthToken token) throws NotImplemented;
+public interface MemberNodeAuthorization {
+
+    public boolean isAuthorized(AuthToken token, Identifier guid, Permission action)
+            throws ServiceFailure, InvalidRequest, InvalidToken, NotFound, NotAuthorized, NotImplemented;
+    // this is the signature that setAccess should have in the future
+
+    public boolean setAccess(AuthToken token, Identifier pid, AccessPolicy accessPolicy)
+            throws InvalidToken, ServiceFailure, NotFound, NotAuthorized, NotImplemented, InvalidRequest;
+
+    // this is the signature that setAcess has now, should be deprecated in future
+    public void setAccess(AuthToken token, Identifier pid, String principal, String permission,
+            String permissionType, String permissionOrder)
+            throws InvalidToken, ServiceFailure, NotFound, NotAuthorized, NotImplemented, InvalidRequest;
 }

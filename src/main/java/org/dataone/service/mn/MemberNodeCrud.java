@@ -17,7 +17,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.dataone.service.mn;
 
 import java.io.InputStream;
@@ -48,43 +47,45 @@ import org.dataone.service.types.Event;
  *
  * @author Matthew Jones
  */
-public interface MemberNodeCrud 
-{
+public interface MemberNodeCrud {
     // For 0.3 milestone
+
     public InputStream get(AuthToken token, Identifier guid)
-        throws InvalidToken, ServiceFailure, NotAuthorized, NotFound, NotImplemented;
+            throws InvalidToken, ServiceFailure, NotAuthorized, NotFound, NotImplemented;
+
     public SystemMetadata getSystemMetadata(AuthToken token, Identifier guid)
-        throws InvalidToken, ServiceFailure, NotAuthorized, NotFound, 
-        InvalidRequest, NotImplemented;
+            throws InvalidToken, ServiceFailure, NotAuthorized, NotFound,
+            InvalidRequest, NotImplemented;
+
     public Log getLogRecords(AuthToken token, Date fromDate, Date toDate, Event event)
-        throws InvalidToken, ServiceFailure, NotAuthorized, InvalidRequest, 
-        NotImplemented;
+            throws InvalidToken, ServiceFailure, NotAuthorized, InvalidRequest,
+            NotImplemented;
+
     public DescribeResponse describe(AuthToken token, Identifier guid)
-        throws InvalidToken, ServiceFailure, NotAuthorized, NotFound, 
-        NotImplemented, InvalidRequest;
-    
+            throws InvalidToken, ServiceFailure, NotAuthorized, NotFound,
+            NotImplemented, InvalidRequest;
+
     // For 0.4 milestone
     public Identifier create(AuthToken token, Identifier guid,
-        InputStream object, SystemMetadata sysmeta) throws InvalidToken, 
-        ServiceFailure, NotAuthorized, IdentifierNotUnique, UnsupportedType, 
-        InsufficientResources, InvalidSystemMetadata, NotImplemented;
-    public Identifier update(AuthToken token, Identifier guid,
-        InputStream object, Identifier obsoletedGuid, SystemMetadata sysmeta)
-        throws InvalidToken, ServiceFailure, NotAuthorized, IdentifierNotUnique, 
-        UnsupportedType, InsufficientResources, NotFound, InvalidSystemMetadata, 
-        NotImplemented;
-    public Identifier delete(AuthToken token, Identifier guid)
-        throws InvalidToken, ServiceFailure, NotAuthorized, NotFound, 
-        NotImplemented, InvalidRequest;
-    public Checksum getChecksum(AuthToken token, Identifier guid)
-        throws InvalidToken, ServiceFailure, NotAuthorized, NotFound, 
-        InvalidRequest, NotImplemented;
-    public Checksum getChecksum(AuthToken token, Identifier guid,
-        String checksumAlgorithm) throws InvalidToken, ServiceFailure, 
-        NotAuthorized, NotFound, InvalidRequest, NotImplemented;
+            InputStream object, SystemMetadata sysmeta) throws InvalidToken,
+            ServiceFailure, NotAuthorized, IdentifierNotUnique, UnsupportedType,
+            InsufficientResources, InvalidSystemMetadata, NotImplemented;
 
-    // XXX THIS IS BROKE, NEED TO FIX
-    public void setAccess(AuthToken token, Identifier id, String principal, String permission,
-            String permissionType, String permissionOrder)
-      throws ServiceFailure;
+    public Identifier update(AuthToken token, Identifier guid,
+            InputStream object, Identifier obsoletedGuid, SystemMetadata sysmeta)
+            throws InvalidToken, ServiceFailure, NotAuthorized, IdentifierNotUnique,
+            UnsupportedType, InsufficientResources, NotFound, InvalidSystemMetadata,
+            NotImplemented;
+
+    public Identifier delete(AuthToken token, Identifier guid)
+            throws InvalidToken, ServiceFailure, NotAuthorized, NotFound,
+            NotImplemented, InvalidRequest;
+
+    public Checksum getChecksum(AuthToken token, Identifier guid)
+            throws InvalidToken, ServiceFailure, NotAuthorized, NotFound,
+            InvalidRequest, NotImplemented;
+
+    public Checksum getChecksum(AuthToken token, Identifier guid,
+            String checksumAlgorithm) throws InvalidToken, ServiceFailure,
+            NotAuthorized, NotFound, InvalidRequest, NotImplemented;
 }
