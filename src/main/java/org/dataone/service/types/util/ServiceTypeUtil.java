@@ -22,9 +22,11 @@
 
 package org.dataone.service.types.util;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 import org.dataone.service.types.Checksum;
 import org.dataone.service.types.ChecksumAlgorithm;
@@ -75,10 +77,10 @@ public class ServiceTypeUtil
      * @param is
      * @param algorithm
      * @return
-     * @throws Exception
+     * @throws NoSuchAlgorithmException 
+     * @throws IOException 
      */
-    public static Checksum checksum(InputStream is, ChecksumAlgorithm algorithm)
-        throws Exception
+    public static Checksum checksum(InputStream is, ChecksumAlgorithm algorithm) throws NoSuchAlgorithmException, IOException
     {        
         byte[] buffer = new byte[1024];
         MessageDigest complete = MessageDigest.getInstance(algorithm.toString());
