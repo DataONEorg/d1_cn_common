@@ -21,8 +21,8 @@
 package org.dataone.service.cn;
 
 import java.util.Date;
+import java.util.Map;
 
-import javax.management.Query;
 
 import org.dataone.service.exceptions.InvalidRequest;
 import org.dataone.service.exceptions.NotAuthorized;
@@ -39,7 +39,11 @@ import org.dataone.service.types.Log;
  */
 public interface CoordinatingNodeQuery 
 {
-    public ObjectList search(AuthToken token, Query query)
+    // until we define a dataone query type, (some kind of triplestores tied with
+    // nested boolean logic structure?) we should just pass a Map
+    // since it is a lot easier to manipulate and comforms to
+    // the parameter map that will contain the query fields from the Request
+    public ObjectList search(AuthToken token, Map query)
         throws NotAuthorized, InvalidRequest;
     public Log getLogRecords(AuthToken token, 
             Date fromDate, Date toDate)
