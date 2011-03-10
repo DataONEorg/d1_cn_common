@@ -116,7 +116,10 @@ public class BaseException extends Exception {
             TreeMap<String, String> trace_information) {
         this(code, detail_code, description);
         this.setPid(pid);
-        this.trace_information = trace_information;
+        if (trace_information == null)
+        	this.trace_information = new TreeMap<String, String>();
+        else 
+        	this.trace_information = trace_information;
     }
   
     
