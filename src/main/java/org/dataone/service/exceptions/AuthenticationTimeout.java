@@ -22,6 +22,8 @@ package org.dataone.service.exceptions;
 
 import java.util.TreeMap;
 
+import org.dataone.service.types.Identifier;
+
 /**
  * The DataONE AuthenticationTimeout exception, raised when authentication 
  * operations exceed pre-established limits.
@@ -39,6 +41,12 @@ public class AuthenticationTimeout extends BaseException {
 
     public AuthenticationTimeout(String detailCode, String description, 
             TreeMap<String, String> trace_information) {
-        super(errorCode, detailCode, description);
+        super(errorCode, detailCode, description, trace_information);
+    }
+    
+    public AuthenticationTimeout(String detailCode, String description, 
+    		Identifier pid,
+            TreeMap<String, String> trace_information) {
+        super(errorCode, detailCode, pid, description, trace_information);
     }
 }

@@ -22,6 +22,8 @@ package org.dataone.service.exceptions;
 
 import java.util.TreeMap;
 
+import org.dataone.service.types.Identifier;
+
 /**
  * The DataONE NotAuthorized exception, raised when the supplied identity 
  * information is not authorized for the requested operation.
@@ -39,6 +41,12 @@ public class NotAuthorized extends BaseException {
 
     public NotAuthorized(String detailCode, String description, 
             TreeMap<String, String> trace_information) {
-        super(errorCode, detailCode, description);
+        super(errorCode, detailCode, description, trace_information);
+    }
+    
+    public NotAuthorized(String detailCode, String description, 
+    		Identifier pid,
+            TreeMap<String, String> trace_information) {
+        super(errorCode, detailCode, pid, description, trace_information);
     }
 }

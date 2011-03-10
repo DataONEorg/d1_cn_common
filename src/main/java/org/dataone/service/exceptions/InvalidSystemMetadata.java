@@ -22,6 +22,8 @@ package org.dataone.service.exceptions;
 
 import java.util.TreeMap;
 
+import org.dataone.service.types.Identifier;
+
 /**
  * The DataONE InvalidSystemMetadata exception, raised when a request 
  * is issued and the supplied system metadata is invalid. This could be 
@@ -41,6 +43,12 @@ public class InvalidSystemMetadata extends BaseException {
 
     public InvalidSystemMetadata(String detailCode, String description, 
             TreeMap<String, String> trace_information) {
-        super(errorCode, detailCode, description);
+        super(errorCode, detailCode, description, trace_information);
+    }
+    
+    public InvalidSystemMetadata(String detailCode, String description, 
+    		Identifier pid,
+            TreeMap<String, String> trace_information) {
+        super(errorCode, detailCode, pid, description, trace_information);
     }
 }

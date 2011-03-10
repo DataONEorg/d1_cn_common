@@ -22,6 +22,8 @@ package org.dataone.service.exceptions;
 
 import java.util.TreeMap;
 
+import org.dataone.service.types.Identifier;
+
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
@@ -57,7 +59,9 @@ public class BaseExceptionTest extends TestCase
     public void setUp() {
         trace.put("identifier", "123XYZ");
         trace.put("method", "mn.get");
-        e = new BaseException(404, "14001", msg, trace);
+        Identifier pid = new Identifier();
+        pid.setValue("myD");
+        e = new BaseException(404, "14001", pid, msg, trace);
         assertNotNull(e);    
     }
     
@@ -75,6 +79,7 @@ public class BaseExceptionTest extends TestCase
         assertTrue(xml.indexOf("\"14001\"") != -1);
         assertTrue(xml.indexOf(msg) != -1);
         assertTrue(xml.indexOf("identifier") != -1);
+        assertTrue(xml.indexOf("pid=\"myD\"") != -1);
         assertTrue(xml.indexOf("123XYZ") != -1);
         assertTrue(xml.indexOf("method") != -1);
         assertTrue(xml.indexOf("mn.get") != -1);
@@ -93,6 +98,7 @@ public class BaseExceptionTest extends TestCase
         assertTrue(json.indexOf("'detailCode': 14001") != -1);
         assertTrue(json.indexOf(msg) != -1);
         assertTrue(json.indexOf("'identifier': '123XYZ'") != -1);
+        assertTrue(json.indexOf("'pid': 'myD'")!= -1);
         assertTrue(json.indexOf("'method': 'mn.get'") != -1);
     }
     
@@ -110,6 +116,7 @@ public class BaseExceptionTest extends TestCase
         assertTrue(html.indexOf("14001") != -1);
         assertTrue(html.indexOf(msg) != -1);
         assertTrue(html.indexOf("identifier") != -1);
+        assertTrue(html.indexOf("pid") != -1);
         assertTrue(html.indexOf("123XYZ") != -1);
         assertTrue(html.indexOf("method") != -1);
         assertTrue(html.indexOf("mn.get") != -1);

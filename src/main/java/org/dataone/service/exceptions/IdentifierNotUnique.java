@@ -22,6 +22,8 @@ package org.dataone.service.exceptions;
 
 import java.util.TreeMap;
 
+import org.dataone.service.types.Identifier;
+
 /**
  * The DataONE IdentifierNotUnique exception, raised when a requested 
  * identifier has already been used or reserved.  Clients need to choose a
@@ -40,6 +42,12 @@ public class IdentifierNotUnique extends BaseException {
 
     public IdentifierNotUnique(String detailCode, String description, 
             TreeMap<String, String> trace_information) {
-        super(errorCode, detailCode, description);
+        super(errorCode, detailCode, description, trace_information);
+    }
+    
+    public IdentifierNotUnique(String detailCode, String description, 
+    		Identifier pid,
+            TreeMap<String, String> trace_information) {
+        super(errorCode, detailCode, pid, description, trace_information);
     }
 }

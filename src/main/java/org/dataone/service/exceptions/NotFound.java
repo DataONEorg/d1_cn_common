@@ -22,6 +22,8 @@ package org.dataone.service.exceptions;
 
 import java.util.TreeMap;
 
+import org.dataone.service.types.Identifier;
+
 /**
  * The DataONE NotFound exception, raised when an object is not present 
  * on the node where the exception was raised.
@@ -39,6 +41,12 @@ public class NotFound extends BaseException {
 
     public NotFound(String detailCode, String description, 
             TreeMap<String, String> trace_information) {
-        super(errorCode, detailCode, description);
+        super(errorCode, detailCode, description, trace_information);
+    }
+    
+    public NotFound(String detailCode, String description, 
+    		Identifier pid,
+            TreeMap<String, String> trace_information) {
+        super(errorCode, detailCode, pid, description, trace_information);
     }
 }

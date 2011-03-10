@@ -34,6 +34,7 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import org.apache.log4j.Logger;
+import org.dataone.service.types.Identifier;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -55,6 +56,9 @@ public class BaseException extends Exception {
     
     /** The detailed error subcode associated with this exception. */
     private String detail_code;
+    
+    /** The optional PID associated with this exception. */
+    private Identifier pid;
     
     /** Additional trace-level debugging information, as name-value pairs. */
     private TreeMap<String, String> trace_information;
@@ -96,7 +100,25 @@ public class BaseException extends Exception {
             logger.error(ex.getMessage());
         }
     }
+  
     
+    /**
+     * Construct a BaseException with the given code, detail code, description,
+     * and trace_information.
+     * 
+     * @param code the code used to classify the exception
+     * @param detail_code the detailed code for this exception
+     * @param pid: the identifier associated with the exception, and usually with the request
+     * @param description the description of this exception
+     * @param trace_information containing a Map of key/value pairs
+     */
+    protected BaseException(int code, String detail_code, Identifier pid, String description, 
+            TreeMap<String, String> trace_information) {
+        this(code, detail_code, description);
+        this.setPid(pid);
+        this.trace_information = trace_information;
+    }
+  
     
     /**
      * Construct a BaseException with the given code, detail code, description,
@@ -141,6 +163,14 @@ public class BaseException extends Exception {
         return detail_code;
     }
 
+    public Identifier getPid() {
+    	return pid;
+    }
+    
+    public void setPid(Identifier p) {
+    	this.pid = p;
+    }
+    
     /**
      * @return the description
      */
@@ -217,7 +247,8 @@ public class BaseException extends Exception {
         errorNode.setAttribute("name", getName());
         errorNode.setAttribute("detailCode", getDetail_code());
         errorNode.setAttribute("errorCode", Integer.toString(getCode()));
-        
+        if (getPid() != null)
+        	errorNode.setAttribute("pid", getPid().getValue());
         Element description = dom.createElement("description");
         description.setTextContent(getDescription());
         
@@ -255,6 +286,8 @@ public class BaseException extends Exception {
         StringBuffer sb = new StringBuffer();
         sb.append("{'errorCode': ").append(getCode()).append(",\n");
         sb.append(" 'detailCode': ").append(getDetail_code()).append(",\n");
+        if (getPid() != null)
+        	sb.append(" 'pid': '").append(getPid().getValue()).append("',\n");
         sb.append(" 'description': '").append(getDescription()).append("',\n");
         sb.append(" 'traceInformation': {\n");
         for (String key : this.getTraceKeySet()) {
@@ -276,6 +309,7 @@ public class BaseException extends Exception {
         sb.append("    <dl>\n");
         sb.append("      <dt>Code</dt><dd class='errorCode'>").append(getCode()).append("</dd>\n");
         sb.append("      <dt>Detail Code</dt><dd class='detailCode'>").append(getDetail_code()).append("</dd>\n");
+        sb.append("      <dt>PID</dt><dd class='pid'>").append(getPid()).append("</dd>\n");
         sb.append("    </dl>\n");
         sb.append("  </p>\n");
         sb.append("  <p class='description'>").append(getDescription()).append("</p>\n");
