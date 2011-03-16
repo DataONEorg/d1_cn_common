@@ -65,6 +65,12 @@ public interface CoordinatingNodeCrud
             ServiceFailure, NotAuthorized, IdentifierNotUnique,
             UnsupportedType, InsufficientResources, InvalidSystemMetadata,
             NotImplemented;
+    
+    public Identifier update(AuthToken token, Identifier guid,
+            InputStream object, Identifier obsoletedGuid, SystemMetadata sysmeta)
+            throws InvalidToken, ServiceFailure, NotAuthorized, IdentifierNotUnique,
+            UnsupportedType, InsufficientResources, NotFound, InvalidSystemMetadata,
+            NotImplemented;
 
     public Identifier reserveIdentifier(AuthToken token, String scope, IdentifierFormat format)
         throws InvalidToken, ServiceFailure, NotAuthorized, InvalidRequest, 
