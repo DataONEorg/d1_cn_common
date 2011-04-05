@@ -36,6 +36,8 @@ import org.dataone.service.exceptions.UnsupportedType;
 import org.dataone.service.types.AuthToken;
 import org.dataone.service.types.IdentifierFormat;
 import org.dataone.service.types.Identifier;
+import org.dataone.service.types.ObjectFormat;
+import org.dataone.service.types.ObjectFormatList;
 import org.dataone.service.types.ObjectLocationList;
 import org.dataone.service.types.SystemMetadata;
 
@@ -60,6 +62,14 @@ public interface CoordinatingNodeCrud
         throws InvalidToken, ServiceFailure, NotAuthorized, NotFound, 
         InvalidRequest, NotImplemented;
     
+    public ObjectFormatList listFormats()
+        throws ServiceFailure, NotImplemented, InvalidRequest, NotFound,
+        InsufficientResources;
+          
+    public ObjectFormat getFormat()
+        throws ServiceFailure, NotImplemented, InvalidRequest, NotFound,
+        InsufficientResources;
+
     public Identifier create(AuthToken token, Identifier guid,
             InputStream object, SystemMetadata sysmeta) throws InvalidToken,
             ServiceFailure, NotAuthorized, IdentifierNotUnique,
