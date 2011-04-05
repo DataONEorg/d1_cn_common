@@ -66,7 +66,7 @@ public interface CoordinatingNodeCrud
         throws ServiceFailure, NotImplemented, InvalidRequest, NotFound,
         InsufficientResources;
           
-    public ObjectFormat getFormat()
+    public ObjectFormat getFormat(Identifier fmtid)
         throws ServiceFailure, NotImplemented, InvalidRequest, NotFound,
         InsufficientResources;
 
