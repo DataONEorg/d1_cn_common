@@ -41,8 +41,6 @@ public class Constants
     public static final String RESOURCE_OBJECTS = "object";
     /** API META Resource which handles SystemMetadata operations */
     public static final String RESOURCE_META = "meta";
-    /** API FORMATS resource which handles object format operations */
-    public static final String RESOURCE_FORMATS = "formats";
     /** API SESSION Resource which handles with user session operations */
     public static final String RESOURCE_SESSION = "session";
     /** API RESOLVE Resource which handles resolve operations */
