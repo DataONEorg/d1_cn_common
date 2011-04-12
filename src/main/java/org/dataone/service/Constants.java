@@ -25,8 +25,8 @@ package org.dataone.service;
  * @author berkley
  * A class to contain constants used in clients 
  */
-public class Constants
-{
+public class Constants {
+
     /** HTTP Verb GET */
     public static final String GET = "GET";
     /** HTTP Verb POST */
@@ -36,7 +36,7 @@ public class Constants
     /** HTTP Verb HEAD*/
     public static final String HEAD = "HEAD";
     /** HTTP Verb DELETE */
-    public static final String DELETE = "DELETE";    
+    public static final String DELETE = "DELETE";
     /** API OBJECTS Resource which handles with document operations */
     public static final String RESOURCE_OBJECTS = "object";
     /** API META Resource which handles SystemMetadata operations */
@@ -45,6 +45,8 @@ public class Constants
     public static final String RESOURCE_SESSION = "session";
     /** API RESOLVE Resource which handles resolve operations */
     public static final String RESOURCE_RESOLVE = "resolve";
+    /** API NODE Resource which handles node operations */
+    public static final String RESOURCE_NODE = "node";
     /** API IDENTIFIER Resource which controls object identifier operations */
     public static final String RESOURCE_IDENTIFIER = "identifier";
     /** API LOG controls logging events */

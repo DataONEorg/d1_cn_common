@@ -45,7 +45,7 @@
     <value style="element" name="userAgent" get-method="getUserAgent" set-method="setUserAgent"/>
     <structure map-as="d1:Principal" get-method="getPrincipal" set-method="setPrincipal" name="principal"/>
     <value style="element" name="event" get-method="getEvent" set-method="setEvent" format="d1:Event"/>
-    <value style="element" name="dateLogged" get-method="getDateLogged" set-method="setDateLogged"/>
+    <value style="element" name="dateLogged" get-method="getDateLogged" set-method="setDateLogged" serializer="org.dataone.service.types.util.ServiceTypeUtil.serializeDateToUTC" deserializer="org.dataone.service.types.util.ServiceTypeUtil.deserializeDateToUTC"/>
     <structure map-as="d1:NodeReference" get-method="getMemberNode" set-method="setMemberNode" name="memberNode"/>
   </mapping>
   <mapping abstract="true" type-name="d1:Node" class="org.dataone.service.types.Node">
@@ -64,11 +64,11 @@
   <mapping abstract="true" type-name="d1:NodeHealth" class="org.dataone.service.types.NodeHealth">
     <structure name="ping">
       <value style="attribute" name="success" get-method="getPingSuccess" set-method="setPingSuccess" usage="optional"/>
-      <value style="attribute" name="lastSuccess" get-method="getPingLastSuccess" set-method="setPingLastSuccess" usage="optional"/>
+      <value style="attribute" name="lastSuccess" get-method="getPingLastSuccess" set-method="setPingLastSuccess" usage="optional" serializer="org.dataone.service.types.util.ServiceTypeUtil.serializeDateToUTC" deserializer="org.dataone.service.types.util.ServiceTypeUtil.deserializeDateToUTC"/>
     </structure>
     <structure name="status">
       <value style="attribute" name="success" get-method="getStatusSuccess" set-method="setStatusSuccess" usage="optional"/>
-      <value style="attribute" name="dateChecked" get-method="getStatusDateChecked" set-method="setStatusDateChecked"/>
+      <value style="attribute" name="dateChecked" get-method="getStatusDateChecked" set-method="setStatusDateChecked" serializer="org.dataone.service.types.util.ServiceTypeUtil.serializeDateToUTC" deserializer="org.dataone.service.types.util.ServiceTypeUtil.deserializeDateToUTC"/>
     </structure>
     <value style="attribute" name="state" get-method="getState" set-method="setState" format="d1:NodeState"/>
   </mapping>
@@ -84,7 +84,7 @@
     <structure map-as="d1:Identifier" get-method="getIdentifier" set-method="setIdentifier" name="identifier"/>
     <value style="element" name="objectFormat" get-method="getObjectFormat" set-method="setObjectFormat" format="d1:ObjectFormat"/>
     <structure map-as="d1:Checksum" get-method="getChecksum" set-method="setChecksum" name="checksum"/>
-    <value style="element" name="dateSysMetadataModified" get-method="getDateSysMetadataModified" set-method="setDateSysMetadataModified"/>
+    <value style="element" name="dateSysMetadataModified" get-method="getDateSysMetadataModified" set-method="setDateSysMetadataModified" serializer="org.dataone.service.types.util.ServiceTypeUtil.serializeDateToUTC" deserializer="org.dataone.service.types.util.ServiceTypeUtil.deserializeDateToUTC"/>
     <value style="element" name="size" get-method="getSize" set-method="setSize"/>
   </mapping>
   <mapping abstract="true" type-name="d1:ObjectList" class="org.dataone.service.types.ObjectList">
@@ -114,7 +114,7 @@
   <mapping abstract="true" type-name="d1:Replica" class="org.dataone.service.types.Replica">
     <structure map-as="d1:NodeReference" get-method="getReplicaMemberNode" set-method="setReplicaMemberNode" name="replicaMemberNode"/>
     <value style="element" name="replicationStatus" get-method="getReplicationStatus" set-method="setReplicationStatus" format="d1:ReplicationStatus"/>
-    <value style="element" name="replicaVerified" get-method="getReplicaVerified" set-method="setReplicaVerified"/>
+    <value style="element" name="replicaVerified" get-method="getReplicaVerified" set-method="setReplicaVerified" serializer="org.dataone.service.types.util.ServiceTypeUtil.serializeDateToUTC" deserializer="org.dataone.service.types.util.ServiceTypeUtil.deserializeDateToUTC"/>
   </mapping>
   <mapping abstract="true" type-name="d1:ReplicationPolicy" class="org.dataone.service.types.ReplicationPolicy">
     <collection get-method="getPreferredMemberNodeList" set-method="setPreferredMemberNodeList" create-type="java.util.ArrayList">
@@ -160,8 +160,8 @@
   </mapping>
   <mapping abstract="true" type-name="d1:Synchronization" class="org.dataone.service.types.Synchronization">
     <structure map-as="d1:Schedule" get-method="getSchedule" set-method="setSchedule" name="schedule"/>
-    <value style="element" name="lastHarvested" get-method="getLastHarvested" set-method="setLastHarvested"/>
-    <value style="element" name="lastCompleteHarvest" get-method="getLastCompleteHarvest" set-method="setLastCompleteHarvest"/>
+    <value style="element" name="lastHarvested" get-method="getLastHarvested" set-method="setLastHarvested" serializer="org.dataone.service.types.util.ServiceTypeUtil.serializeDateToUTC" deserializer="org.dataone.service.types.util.ServiceTypeUtil.deserializeDateToUTC"/>
+    <value style="element" name="lastCompleteHarvest" get-method="getLastCompleteHarvest" set-method="setLastCompleteHarvest" serializer="org.dataone.service.types.util.ServiceTypeUtil.serializeDateToUTC" deserializer="org.dataone.service.types.util.ServiceTypeUtil.deserializeDateToUTC"/>
   </mapping>
   <mapping abstract="true" type-name="d1:SystemMetadata" class="org.dataone.service.types.SystemMetadata">
     <structure map-as="d1:Identifier" get-method="getIdentifier" set-method="setIdentifier" name="identifier"/>
@@ -185,13 +185,13 @@
       <structure map-as="d1:Identifier" name="describedBy"/>
     </collection>
     <structure map-as="d1:Checksum" get-method="getChecksum" set-method="setChecksum" name="checksum"/>
-    <value style="element" name="embargoExpires" get-method="getEmbargoExpires" set-method="setEmbargoExpires" usage="optional"/>
+    <value style="element" name="embargoExpires" get-method="getEmbargoExpires" set-method="setEmbargoExpires" usage="optional" serializer="org.dataone.service.types.util.ServiceTypeUtil.serializeDateToUTC" deserializer="org.dataone.service.types.util.ServiceTypeUtil.deserializeDateToUTC"/>
     <collection get-method="getAccessRuleList" set-method="setAccessRuleList" create-type="java.util.ArrayList">
       <structure map-as="d1:AccessRule" name="accessRule"/>
     </collection>
     <structure map-as="d1:ReplicationPolicy" get-method="getReplicationPolicy" set-method="setReplicationPolicy" usage="optional" name="replicationPolicy"/>
-    <value style="element" name="dateUploaded" get-method="getDateUploaded" set-method="setDateUploaded"/>
-    <value style="element" name="dateSysMetadataModified" get-method="getDateSysMetadataModified" set-method="setDateSysMetadataModified"/>
+    <value style="element" name="dateUploaded" get-method="getDateUploaded" set-method="setDateUploaded" serializer="org.dataone.service.types.util.ServiceTypeUtil.serializeDateToUTC" deserializer="org.dataone.service.types.util.ServiceTypeUtil.deserializeDateToUTC"/>
+    <value style="element" name="dateSysMetadataModified" get-method="getDateSysMetadataModified" set-method="setDateSysMetadataModified" serializer="org.dataone.service.types.util.ServiceTypeUtil.serializeDateToUTC" deserializer="org.dataone.service.types.util.ServiceTypeUtil.deserializeDateToUTC"/>
     <structure map-as="d1:NodeReference" get-method="getOriginMemberNode" set-method="setOriginMemberNode" name="originMemberNode"/>
     <structure map-as="d1:NodeReference" get-method="getAuthoritativeMemberNode" set-method="setAuthoritativeMemberNode" name="authoritativeMemberNode"/>
     <collection get-method="getReplicaList" set-method="setReplicaList" create-type="java.util.ArrayList">

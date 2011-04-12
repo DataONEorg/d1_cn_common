@@ -189,6 +189,11 @@
             <version>1.2.2</version>
         </dependency>
         <dependency>
+            <groupId>joda-time</groupId>
+            <artifactId>joda-time</artifactId>
+            <version>1.6.2</version>
+        </dependency>
+        <dependency>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-compiler-plugin</artifactId>
             <version>2.3.1</version>
@@ -246,7 +251,7 @@
     </dependencies>
     <licenses>
         <license>
-            <name>GNU General Public License (GPL), Version 2.0</name>
+            <name>Apache License, Version 2.0</name>
             <url>LICENSE.txt</url>
         </license>
     </licenses>

@@ -50,6 +50,9 @@
         <schema name="objectlocationlist.xsd" includes="objectLocationList ObjectLocationList ObjectLocation" />
     </schema-set> -->
     <schema-set names="dataoneTypes.xsd" prefix="d1" namespaces="http://dataone.org/service/types/0.5.1">
+  <schema-type type-name="dateTime" java-class="java.util.Date"
+      serializer="org.dataone.service.types.util.ServiceTypeUtil.serializeDateToUTC"
+      deserializer="org.dataone.service.types.util.ServiceTypeUtil.deserializeDateToUTC"/>
         <schema name="dataoneTypes.xsd" includes="identifier checksum objectLocationList ObjectLocationList ObjectLocation nodeList Node Environment NodeType Services Service ServiceMethod Synchronization Schedule NodeHealth NodeState objectList ObjectList ObjectInfo log LogEntry Event systemMetadata AccessRule ReplicationPolicy SystemMetadata Replica ReplicationStatus NodeReference Principal ComponentName ComponentVersion ObjectFormat Checksum Identifier IdentifierFormat ChecksumAlgorithm Slice" />
     </schema-set>
 </schema-set>

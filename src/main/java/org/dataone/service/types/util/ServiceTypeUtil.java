@@ -19,7 +19,6 @@
  * 
  * $Id$
  */
-
 package org.dataone.service.types.util;
 
 import java.io.IOException;
@@ -27,6 +26,10 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.TimeZone;
 
 import org.dataone.service.types.Checksum;
 import org.dataone.service.types.ChecksumAlgorithm;
@@ -35,13 +38,21 @@ import org.jibx.runtime.IBindingFactory;
 import org.jibx.runtime.IMarshallingContext;
 import org.jibx.runtime.IUnmarshallingContext;
 import org.jibx.runtime.JiBXException;
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 
 /**
  * @author berkley
  * Service Type utility methods
  */
-public class ServiceTypeUtil
-{
+public class ServiceTypeUtil {
+
+    static final DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
+
+    static {
+        dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+    }
+
     /**
      * serialize an object of type to out
      * @param type the class of the object to serialize (i.e. SystemMetadata.class)
@@ -50,13 +61,12 @@ public class ServiceTypeUtil
      * @throws JiBXException
      */
     public static void serializeServiceType(Class type, Object object, OutputStream out)
-      throws JiBXException
-    {
+            throws JiBXException {
         IBindingFactory bfact = BindingDirectory.getFactory(type);
         IMarshallingContext mctx = bfact.createMarshallingContext();
         mctx.marshalDocument(object, "UTF-8", null, out);
     }
-    
+
     /**
      * deserialize an object of type from is
      * @param type the class of the object to serialize (i.e. SystemMetadata.class)
@@ -64,14 +74,13 @@ public class ServiceTypeUtil
      * @throws JiBXException
      */
     public static Object deserializeServiceType(Class type, InputStream is)
-      throws JiBXException
-    {
+            throws JiBXException {
         IBindingFactory bfact = BindingDirectory.getFactory(type);
         IUnmarshallingContext uctx = bfact.createUnmarshallingContext();
         Object o = (Object) uctx.unmarshalDocument(is, null);
         return o;
     }
-    
+
     /**
      * return a checksum based on the input of the stream
      * @param is
@@ -80,17 +89,14 @@ public class ServiceTypeUtil
      * @throws NoSuchAlgorithmException 
      * @throws IOException 
      */
-    public static Checksum checksum(InputStream is, ChecksumAlgorithm algorithm) throws NoSuchAlgorithmException, IOException
-    {        
+    public static Checksum checksum(InputStream is, ChecksumAlgorithm algorithm) throws NoSuchAlgorithmException, IOException {
         byte[] buffer = new byte[1024];
         MessageDigest complete = MessageDigest.getInstance(algorithm.toString());
         int numRead;
 
-        do 
-        {
+        do {
             numRead = is.read(buffer);
-            if (numRead > 0) 
-            {
+            if (numRead > 0) {
                 complete.update(buffer, 0, numRead);
             }
         } while (numRead != -1);
@@ -101,21 +107,35 @@ public class ServiceTypeUtil
         checksum.setAlgorithm(algorithm);
         return checksum;
     }
-    
+
     /**
      * convert a byte array to a hex string
      */
-    private static String getHex( byte [] raw ) 
-    {
+    private static String getHex(byte[] raw) {
         final String HEXES = "0123456789ABCDEF";
-        if ( raw == null ) {
-          return null;
+        if (raw == null) {
+            return null;
         }
-        final StringBuilder hex = new StringBuilder( 2 * raw.length );
-        for ( final byte b : raw ) {
-          hex.append(HEXES.charAt((b & 0xF0) >> 4))
-             .append(HEXES.charAt((b & 0x0F)));
+        final StringBuilder hex = new StringBuilder(2 * raw.length);
+        for (final byte b : raw) {
+            hex.append(HEXES.charAt((b & 0xF0) >> 4)).append(HEXES.charAt((b & 0x0F)));
         }
         return hex.toString();
+    }
+
+    /**
+     * convert a date to GMT
+     *
+     * @param d
+     * @return
+     */
+    public static String serializeDateToUTC(Date d) {
+        return dateFormat.format(d);
+    }
+
+    public static Date deserializeDateToUTC(String dt) {
+        DateTime dateTime = new DateTime(dt);
+        dateTime = dateTime.withZone(DateTimeZone.UTC);
+        return dateTime.toDate();
     }
 }

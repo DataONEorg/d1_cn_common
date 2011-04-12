@@ -17,8 +17,8 @@ package org.dataone.service.types;
  * </pre>
  */
 public enum ChecksumAlgorithm {
-    SH_A1("SHA-1"), SH_A224("SHA-224"), SH_A256("SHA-256"), SH_A384("SHA-384"), SH_A512(
-            "SHA-512"), M_D5("MD5");
+    SHA_1("SHA-1"), SHA_224("SHA-224"), SHA_256("SHA-256"), SHA_384("SHA-384"), SHA_512(
+            "SHA-512"), MD5("MD5");
     private final String value;
 
     private ChecksumAlgorithm(String value) {

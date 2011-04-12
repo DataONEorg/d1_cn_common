@@ -17,9 +17,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.dataone.service.types;
-
 
 import java.text.SimpleDateFormat;
 import java.text.DateFormat;
@@ -59,7 +57,6 @@ import javax.xml.validation.Validator;
 
 //import org.dataone.service.types.Node.Environment;
 //import org.dataone.service.types.Node.NodeType;
-import org.dataone.service.types.Services;
 
 import org.jibx.runtime.BindingDirectory;
 import org.jibx.runtime.IBindingFactory;
@@ -85,7 +82,7 @@ public class ValidateSamplesTestCase {
     @Test
     public void validateSysmetaSample() throws Exception, SAXException, IOException, ParserConfigurationException {
 // TODO arguments should be injected based on version of service api to test and build
-        assertTrue(validateExamples("https://repository.dataone.org/software/cicore/tags/D1_SCHEMA_0_5_1/dataoneTypes.xsd","/org/dataone/service/samples/systemMetadataSample1.xml"));
+        assertTrue(validateExamples("https://repository.dataone.org/software/cicore/tags/D1_SCHEMA_0_5_1/dataoneTypes.xsd", "/org/dataone/service/samples/systemMetadataSample1.xml"));
 
     }
 
@@ -99,7 +96,7 @@ public class ValidateSamplesTestCase {
     @Test
     public void validateObjectListSample() throws Exception, SAXException, IOException, ParserConfigurationException {
 // TODO arguments should be injected based on version of service api to test and build
-        assertTrue(validateExamples("https://repository.dataone.org/software/cicore/tags/D1_SCHEMA_0_5_1/dataoneTypes.xsd","/org/dataone/service/samples/objectListSample1.xml"));
+        assertTrue(validateExamples("https://repository.dataone.org/software/cicore/tags/D1_SCHEMA_0_5_1/dataoneTypes.xsd", "/org/dataone/service/samples/objectListSample1.xml"));
 
     }
 
@@ -113,7 +110,7 @@ public class ValidateSamplesTestCase {
     @Test
     public void validateLoggingSample() throws Exception, SAXException, IOException, ParserConfigurationException {
 // TODO arguments should be injected based on version of service api to test and build
-        assertTrue(validateExamples("https://repository.dataone.org/software/cicore/tags/D1_SCHEMA_0_5_1/dataoneTypes.xsd","/org/dataone/service/samples/loggingSample1.xml"));
+        assertTrue(validateExamples("https://repository.dataone.org/software/cicore/tags/D1_SCHEMA_0_5_1/dataoneTypes.xsd", "/org/dataone/service/samples/loggingSample1.xml"));
 
     }
 
@@ -123,36 +120,42 @@ public class ValidateSamplesTestCase {
         assertTrue(testLoggingMarshalling("/org/dataone/service/samples/loggingSample1.xml"));
 
     }
+
     @Test
     public void validateNodeRegistrySample() throws Exception, SAXException, IOException, ParserConfigurationException {
 // TODO arguments should be injected based on version of service api to test and build
-        assertTrue(validateExamples("https://repository.dataone.org/software/cicore/tags/D1_SCHEMA_0_5_1/dataoneTypes.xsd","/org/dataone/service/samples/nodeListSample1.xml"));
+        assertTrue(validateExamples("https://repository.dataone.org/software/cicore/tags/D1_SCHEMA_0_5_1/dataoneTypes.xsd", "/org/dataone/service/samples/nodeListSample1.xml"));
 
     }
+
     @Test
     public void validateIdentifierSample() throws Exception, SAXException, IOException, ParserConfigurationException {
 // TODO arguments should be injected based on version of service api to test and build
-        assertTrue(validateExamples("https://repository.dataone.org/software/cicore/tags/D1_SCHEMA_0_5_1/dataoneTypes.xsd","/org/dataone/service/samples/identifier1.xml"));
+        assertTrue(validateExamples("https://repository.dataone.org/software/cicore/tags/D1_SCHEMA_0_5_1/dataoneTypes.xsd", "/org/dataone/service/samples/identifier1.xml"));
 
     }
+
     @Test
     public void validateIdentifierMarshalling() throws Exception, SAXException, IOException, ParserConfigurationException {
 // TODO arguments should be injected based on version of service api to test and build
         assertTrue(testIdentifierMarshalling("/org/dataone/service/samples/identifier1.xml"));
 
     }
+
     @Test
     public void validateChecksumSample() throws Exception, SAXException, IOException, ParserConfigurationException {
 // TODO arguments should be injected based on version of service api to test and build
-        assertTrue(validateExamples("https://repository.dataone.org/software/cicore/tags/D1_SCHEMA_0_5_1/dataoneTypes.xsd","/org/dataone/service/samples/checksum1.xml"));
+        assertTrue(validateExamples("https://repository.dataone.org/software/cicore/tags/D1_SCHEMA_0_5_1/dataoneTypes.xsd", "/org/dataone/service/samples/checksum1.xml"));
 
     }
+
     @Test
     public void validateNodeRegistryMarshalling() throws Exception, SAXException, IOException, ParserConfigurationException {
 
         assertTrue(testChecksumMarshalling("/org/dataone/service/samples/checksum1.xml"));
 
-    } 
+    }
+
     private boolean validateExamples(String xsdUrlString, String xmlDocument) throws Exception, SAXException, IOException, ParserConfigurationException {
         DocumentBuilder parser;
         // create a SchemaFactory capable of understanding WXS schemas
@@ -160,19 +163,20 @@ public class ValidateSamplesTestCase {
         Document document;
         Schema schema;
         Source schemaFile;
-         URL xsdUrl = new URL(xsdUrlString);
-        
+        URL xsdUrl = new URL(xsdUrlString);
+
         URLConnection xsdUrlConnection = xsdUrl.openConnection();
         InputStream xsdUrlStream = xsdUrlConnection.getInputStream();
-        if (xsdUrlStream  == null)
-                System.out.println(xsdUrlString + " InputStream is null");
-        else
-                System.out.println("Validate: " + xsdUrlString);
+        if (xsdUrlStream == null) {
+            System.out.println(xsdUrlString + " InputStream is null");
+        } else {
+            System.out.println("Validate: " + xsdUrlString);
+        }
 
 
         // load a WXS schema, represented by a Schema instance
 
-        
+
         schemaFile = new StreamSource(xsdUrlStream);
         schema = factory.newSchema(schemaFile);
         DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
@@ -195,7 +199,7 @@ public class ValidateSamplesTestCase {
         // validate the DOM tree
 
         return validateXmlDocument.validate(document);
-         
+
     }
 
     /**
@@ -276,6 +280,7 @@ public class ValidateSamplesTestCase {
     }
 
     public boolean testSystemMetadataMarshalling(String externalSystemMetadata) throws Exception {
+        System.out.println("Starting testing of testSystemMetadataMarshalling");
         SystemMetadata systemMetadata = new SystemMetadata();
 
         Identifier identifier = new Identifier();
@@ -302,7 +307,7 @@ public class ValidateSamplesTestCase {
         systemMetadata.setAuthoritativeMemberNode(authoritativeMemberNode);
         Checksum checksum = new Checksum();
         checksum.setValue("V29ybGQgSGVsbG8h");
-        checksum.setAlgorithm(ChecksumAlgorithm.SH_A1);
+        checksum.setAlgorithm(ChecksumAlgorithm.SHA_1);
 
         systemMetadata.setChecksum(checksum);
 
@@ -316,7 +321,7 @@ public class ValidateSamplesTestCase {
 
         //       InputStream inputStream = this.getClass().getResourceAsStream(xmlDocument);
 
-
+        System.out.println(testSytemMetadataOutput.toString());
         ByteArrayInputStream testSystemMetadataInput = new ByteArrayInputStream(testSytemMetadataOutput.toByteArray());
 
         //       BindingDirectory.getFactory("binding", "org.dataone.service.types");
@@ -327,6 +332,9 @@ public class ValidateSamplesTestCase {
         InputStream inputStream = this.getClass().getResourceAsStream(externalSystemMetadata);
         try {
             systemMetadata = (SystemMetadata) uctx.unmarshalDocument(inputStream, null);
+            testSytemMetadataOutput = new ByteArrayOutputStream();
+            mctx.marshalDocument(systemMetadata, "UTF-8", null, testSytemMetadataOutput);
+            System.out.println(testSytemMetadataOutput.toString());
 
         } finally {
             inputStream.close();
@@ -340,7 +348,7 @@ public class ValidateSamplesTestCase {
         objectList.setStart(0);
         objectList.setTotal(3);
 
-        List <ObjectInfo> objectInfoList = new ArrayList<ObjectInfo>();
+        List<ObjectInfo> objectInfoList = new ArrayList<ObjectInfo>();
 
         objectList.setObjectInfoList(objectInfoList);
 
@@ -351,7 +359,7 @@ public class ValidateSamplesTestCase {
         objectInfo1.setObjectFormat(ObjectFormat.CF_1_0);
         Checksum checksum1 = new Checksum();
         checksum1.setValue("V29ybGQgSGVsbG8h");
-        checksum1.setAlgorithm(ChecksumAlgorithm.SH_A1);
+        checksum1.setAlgorithm(ChecksumAlgorithm.SHA_1);
         objectInfo1.setChecksum(checksum1);
         objectInfo1.setDateSysMetadataModified(new Date());
         objectInfo1.setSize(412341324);
@@ -364,7 +372,7 @@ public class ValidateSamplesTestCase {
         objectInfo2.setObjectFormat(ObjectFormat.DARWIN_2);
         Checksum checksum2 = new Checksum();
         checksum2.setValue("V29ybGQgSGVsaF89");
-        checksum2.setAlgorithm(ChecksumAlgorithm.M_D5);
+        checksum2.setAlgorithm(ChecksumAlgorithm.MD5);
         objectInfo2.setChecksum(checksum1);
         objectInfo2.setDateSysMetadataModified(new Date());
         objectInfo2.setSize(9087654);
@@ -377,7 +385,7 @@ public class ValidateSamplesTestCase {
         objectInfo3.setObjectFormat(ObjectFormat.FGDC_STD_001_1998);
         Checksum checksum3 = new Checksum();
         checksum3.setValue("V29ybGQgSGVsaF89ybGE8987adf3");
-        checksum3.setAlgorithm(ChecksumAlgorithm.SH_A512);
+        checksum3.setAlgorithm(ChecksumAlgorithm.SHA_512);
         objectInfo3.setChecksum(checksum1);
         objectInfo3.setDateSysMetadataModified(new Date());
         objectInfo3.setSize(90654);
@@ -412,11 +420,10 @@ public class ValidateSamplesTestCase {
         return true;
     }
 
-
     public boolean testLoggingMarshalling(String externalLoggingObjects) throws Exception {
 
         Log log = new Log();
-        List <LogEntry> logEntryList = new ArrayList<LogEntry>();
+        List<LogEntry> logEntryList = new ArrayList<LogEntry>();
 
         log.setLogEntryList(logEntryList);
 
@@ -480,18 +487,18 @@ public class ValidateSamplesTestCase {
 
 
         ByteArrayInputStream testLogInput = new ByteArrayInputStream(testLogOutput.toByteArray());
-/**
-	BufferedReader in = new BufferedReader(
-				new InputStreamReader(
-				testLogInput));
+        /**
+        BufferedReader in = new BufferedReader(
+        new InputStreamReader(
+        testLogInput));
 
-	String inputLine;
+        String inputLine;
 
-	while ((inputLine = in.readLine()) != null)
-	    System.out.println(inputLine);
+        while ((inputLine = in.readLine()) != null)
+        System.out.println(inputLine);
 
-	in.close();
-*/
+        in.close();
+         */
         //       BindingDirectory.getFactory("binding", "org.dataone.service.types");
         IUnmarshallingContext uctx = bfact.createUnmarshallingContext();
 
@@ -506,6 +513,7 @@ public class ValidateSamplesTestCase {
         }
         return true;
     }
+
     public boolean testNodeListMarshalling(String externalObjectList) throws Exception {
         NodeList nodeList = new NodeList();
         Node node = new Node();
@@ -518,8 +526,8 @@ public class ValidateSamplesTestCase {
 //        Environment e = new Environment();
 //        e.setEnvironment("test");
 //        node.setEnvironment(e);
-        
-        
+
+
         NodeReference id1 = new NodeReference();
         id1.setValue("123");
         node.setIdentifier(id1);
@@ -554,12 +562,12 @@ public class ValidateSamplesTestCase {
         schedule.setMon("*");
         schedule.setYear("*");
         synchronize.setSchedule(schedule);
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss'Z'");
-        Date defaultDate = df.parse("2010-06-21T00:00:00Z");
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss.SSSZ");
+        Date defaultDate = df.parse("2010-06-21T00:00:00.000Z");
         synchronize.setLastHarvested(defaultDate);
         synchronize.setLastCompleteHarvest(defaultDate);
         node.setSynchronization(synchronize);
-        
+
         IBindingFactory bfact =
                 BindingDirectory.getFactory(org.dataone.service.types.NodeList.class);
 
@@ -622,10 +630,11 @@ public class ValidateSamplesTestCase {
         }
         return true;
     }
+
     public boolean testChecksumMarshalling(String checksumDoc) throws Exception {
         Checksum checksum = new Checksum();
         checksum.setValue("ADSFA21341234ADSFADSF");
-        checksum.setAlgorithm(ChecksumAlgorithm.SH_A1);
+        checksum.setAlgorithm(ChecksumAlgorithm.SHA_1);
 
 
         IBindingFactory bfact =

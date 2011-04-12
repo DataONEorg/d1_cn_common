@@ -17,7 +17,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.dataone.service.mn;
 
 import java.util.Date;
@@ -37,9 +36,9 @@ import org.dataone.service.types.ObjectList;
  *
  * @author Matthew Jones
  */
-public interface MemberNodeReplication 
-{
+public interface MemberNodeReplication {
+
     public ObjectList listObjects(AuthToken token, Date startTime, Date endTime,
-            ObjectFormat objectFormat, boolean replicaStatus, int start, int count)
-        throws NotAuthorized, InvalidRequest, NotImplemented, ServiceFailure, InvalidToken;
+            ObjectFormat objectFormat, Boolean replicaStatus, Integer start, Integer count)
+            throws NotAuthorized, InvalidRequest, NotImplemented, ServiceFailure, InvalidToken;
 }
