@@ -73,6 +73,12 @@ import static org.junit.Assert.*;
 
 public class ValidateSamplesTestCase {
 
+    static String systemMetadataSchemaLocation = "https://repository.dataone.org/software/cicore/tags/D1_SCHEMA_0_5_1/dataoneTypes.xsd";
+    static String systemObjectListSchemaLocation = "https://repository.dataone.org/software/cicore/tags/D1_SCHEMA_0_5_1/dataoneTypes.xsd";
+    static String systemLoggingSchemaLocation = "https://repository.dataone.org/software/cicore/tags/D1_SCHEMA_0_5_1/dataoneTypes.xsd";
+    static String systemNodeRegistrySchemaLocation = "https://repository.dataone.org/software/cicore/tags/D1_SCHEMA_0_5_1/dataoneTypes.xsd";
+    static String systemIdentifierSchemaLocation = "https://repository.dataone.org/software/cicore/tags/D1_SCHEMA_0_5_1/dataoneTypes.xsd";
+    static String systemChecksumSchemaLocation = "https://repository.dataone.org/software/cicore/tags/D1_SCHEMA_0_5_1/dataoneTypes.xsd";
     @Test
     public void fake() throws Exception {
         // parse an XML document into a DOM tree
@@ -82,7 +88,7 @@ public class ValidateSamplesTestCase {
     @Test
     public void validateSysmetaSample() throws Exception, SAXException, IOException, ParserConfigurationException {
 // TODO arguments should be injected based on version of service api to test and build
-        assertTrue(validateExamples("https://repository.dataone.org/software/cicore/tags/D1_SCHEMA_0_5_1/dataoneTypes.xsd", "/org/dataone/service/samples/systemMetadataSample1.xml"));
+        assertTrue(validateExamples(systemMetadataSchemaLocation, "/org/dataone/service/samples/systemMetadataSample1.xml"));
 
     }
 
@@ -95,7 +101,7 @@ public class ValidateSamplesTestCase {
     @Test
     public void validateSysmetaSampleUnicodeSupplEscaped() throws Exception, SAXException, IOException, ParserConfigurationException {
 // TODO arguments should be injected based on version of service api to test and build
-        assertTrue(validateExamples("https://repository.dataone.org/software/cicore/tags/D1_SCHEMA_0_5_1/dataoneTypes.xsd", "/org/dataone/service/samples/systemMetadataSampleUnicodeSupplEscaped.xml"));
+        assertTrue(validateExamples(systemMetadataSchemaLocation, "/org/dataone/service/samples/systemMetadataSampleUnicodeSupplEscaped.xml"));
 
     }
 
@@ -108,7 +114,7 @@ public class ValidateSamplesTestCase {
     @Test
     public void validateObjectListSample() throws Exception, SAXException, IOException, ParserConfigurationException {
 // TODO arguments should be injected based on version of service api to test and build
-        assertTrue(validateExamples("https://repository.dataone.org/software/cicore/tags/D1_SCHEMA_0_5_1/dataoneTypes.xsd", "/org/dataone/service/samples/objectListSample1.xml"));
+        assertTrue(validateExamples(systemObjectListSchemaLocation, "/org/dataone/service/samples/objectListSample1.xml"));
 
     }
 
@@ -122,7 +128,7 @@ public class ValidateSamplesTestCase {
     @Test
     public void validateLoggingSample() throws Exception, SAXException, IOException, ParserConfigurationException {
 // TODO arguments should be injected based on version of service api to test and build
-        assertTrue(validateExamples("https://repository.dataone.org/software/cicore/tags/D1_SCHEMA_0_5_1/dataoneTypes.xsd", "/org/dataone/service/samples/loggingSample1.xml"));
+        assertTrue(validateExamples(systemLoggingSchemaLocation, "/org/dataone/service/samples/loggingSample1.xml"));
 
     }
 
@@ -136,14 +142,14 @@ public class ValidateSamplesTestCase {
     @Test
     public void validateNodeRegistrySample() throws Exception, SAXException, IOException, ParserConfigurationException {
 // TODO arguments should be injected based on version of service api to test and build
-        assertTrue(validateExamples("https://repository.dataone.org/software/cicore/tags/D1_SCHEMA_0_5_1/dataoneTypes.xsd", "/org/dataone/service/samples/nodeListSample1.xml"));
+        assertTrue(validateExamples(systemNodeRegistrySchemaLocation, "/org/dataone/service/samples/nodeListSample1.xml"));
 
     }
 
     @Test
     public void validateIdentifierSample() throws Exception, SAXException, IOException, ParserConfigurationException {
 // TODO arguments should be injected based on version of service api to test and build
-        assertTrue(validateExamples("https://repository.dataone.org/software/cicore/tags/D1_SCHEMA_0_5_1/dataoneTypes.xsd", "/org/dataone/service/samples/identifier1.xml"));
+        assertTrue(validateExamples(systemIdentifierSchemaLocation, "/org/dataone/service/samples/identifier1.xml"));
 
     }
 
@@ -157,7 +163,7 @@ public class ValidateSamplesTestCase {
     @Test
     public void validateChecksumSample() throws Exception, SAXException, IOException, ParserConfigurationException {
 // TODO arguments should be injected based on version of service api to test and build
-        assertTrue(validateExamples("https://repository.dataone.org/software/cicore/tags/D1_SCHEMA_0_5_1/dataoneTypes.xsd", "/org/dataone/service/samples/checksum1.xml"));
+        assertTrue(validateExamples(systemChecksumSchemaLocation, "/org/dataone/service/samples/checksum1.xml"));
 
     }
 
@@ -167,8 +173,7 @@ public class ValidateSamplesTestCase {
         assertTrue(testChecksumMarshalling("/org/dataone/service/samples/checksum1.xml"));
 
     }
-
-    private boolean validateExamples(String xsdUrlString, String xmlDocument) throws Exception, SAXException, IOException, ParserConfigurationException {
+    private boolean validateExamples(String xsdUrlString, InputStream xmlInputStream) throws Exception, SAXException, IOException, ParserConfigurationException {
         DocumentBuilder parser;
         // create a SchemaFactory capable of understanding WXS schemas
         SchemaFactory factory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
@@ -199,9 +204,8 @@ public class ValidateSamplesTestCase {
         documentBuilderFactory.setValidating(false);
 
         parser = documentBuilderFactory.newDocumentBuilder();
-
         // load in the file to validate
-        document = parser.parse(this.getClass().getResourceAsStream(xmlDocument));
+        document = parser.parse(xmlInputStream);
         System.out.println(document.getDocumentElement().getNodeName());
         // create a Validator instance, which can be used to validate an instance document
 
@@ -212,6 +216,9 @@ public class ValidateSamplesTestCase {
 
         return validateXmlDocument.validate(document);
 
+    }
+    private boolean validateExamples(String xsdUrlString, String xmlDocument) throws Exception, SAXException, IOException, ParserConfigurationException {
+        return validateExamples(xsdUrlString,this.getClass().getResourceAsStream(xmlDocument) );
     }
 
     /**
@@ -338,10 +345,12 @@ public class ValidateSamplesTestCase {
 
         //       BindingDirectory.getFactory("binding", "org.dataone.service.types");
         IUnmarshallingContext uctx = bfact.createUnmarshallingContext();
-
+        
         systemMetadata = (SystemMetadata) uctx.unmarshalDocument(testSystemMetadataInput, null);
         assertTrue(systemMetadata != null);
         assertTrue(systemMetadata.getIdentifier().getValue().equalsIgnoreCase("ABC432"));
+        testSystemMetadataInput.reset();
+        assertTrue(validateExamples(systemMetadataSchemaLocation, testSystemMetadataInput));
     }
 
     public boolean testSystemMetadataMarshalling(String externalSystemMetadata) throws Exception {
@@ -359,6 +368,7 @@ public class ValidateSamplesTestCase {
             ByteArrayOutputStream testSytemMetadataOutput = new ByteArrayOutputStream();
             mctx.marshalDocument(systemMetadata, "UTF-8", null, testSytemMetadataOutput);
             System.out.println(testSytemMetadataOutput.toString());
+            assertTrue(validateExamples(systemMetadataSchemaLocation,new ByteArrayInputStream(testSytemMetadataOutput.toByteArray())));
 
         } finally {
             inputStream.close();
@@ -441,6 +451,15 @@ public class ValidateSamplesTestCase {
         } finally {
             inputStream.close();
         }
+        // validate deserialized Composed object above
+        testObjectListInput.reset();
+        assertTrue(validateExamples(systemObjectListSchemaLocation, testObjectListInput));
+        
+        // validate deserialized resource stream
+        testObjectListOutput.reset();
+        mctx.marshalDocument(objectList, "UTF-8", null, testObjectListOutput);
+        testObjectListInput = new ByteArrayInputStream(testObjectListOutput.toByteArray());
+        assertTrue(validateExamples(systemObjectListSchemaLocation, testObjectListInput));
         return true;
     }
 
@@ -511,19 +530,7 @@ public class ValidateSamplesTestCase {
 
 
         ByteArrayInputStream testLogInput = new ByteArrayInputStream(testLogOutput.toByteArray());
-        /**
-        BufferedReader in = new BufferedReader(
-        new InputStreamReader(
-        testLogInput));
 
-        String inputLine;
-
-        while ((inputLine = in.readLine()) != null)
-        System.out.println(inputLine);
-
-        in.close();
-         */
-        //       BindingDirectory.getFactory("binding", "org.dataone.service.types");
         IUnmarshallingContext uctx = bfact.createUnmarshallingContext();
 
         log = (Log) uctx.unmarshalDocument(testLogInput, null);
@@ -535,6 +542,15 @@ public class ValidateSamplesTestCase {
         } finally {
             inputStream.close();
         }
+        // validate deserialized Composed object above
+        testLogInput.reset();
+        assertTrue(validateExamples(systemLoggingSchemaLocation, testLogInput));
+
+        // validate deserialized resource stream
+        testLogOutput.reset();
+        mctx.marshalDocument(log, "UTF-8", null, testLogOutput);
+        testLogInput = new ByteArrayInputStream(testLogOutput.toByteArray());
+        assertTrue(validateExamples(systemLoggingSchemaLocation, testLogInput));
         return true;
     }
 
@@ -544,13 +560,6 @@ public class ValidateSamplesTestCase {
         nodeList.addNode(node);
         node.setReplicate(true);
         node.setSynchronize(true);
-//        NodeType nt = new NodeType();
-//        nt.setType("mn");
-//        node.setType(nt);
-//        Environment e = new Environment();
-//        e.setEnvironment("test");
-//        node.setEnvironment(e);
-
 
         NodeReference id1 = new NodeReference();
         id1.setValue("123");
@@ -619,6 +628,15 @@ public class ValidateSamplesTestCase {
         } finally {
             inputStream.close();
         }
+        // validate deserialized Composed object above
+        testInput.reset();
+        assertTrue(validateExamples(systemNodeRegistrySchemaLocation, testInput));
+
+        // validate deserialized resource stream
+        testOutput.reset();
+        mctx.marshalDocument(nodeList, "UTF-8", null, testOutput);
+        testInput = new ByteArrayInputStream(testOutput.toByteArray());
+        assertTrue(validateExamples(systemNodeRegistrySchemaLocation, testInput));
         return true;
     }
 
@@ -652,6 +670,15 @@ public class ValidateSamplesTestCase {
         } finally {
             inputStream.close();
         }
+        // validate deserialized Composed object above
+        testInput.reset();
+        assertTrue(validateExamples(systemIdentifierSchemaLocation, testInput));
+
+        // validate deserialized resource stream
+        testOutput.reset();
+        mctx.marshalDocument(id, "UTF-8", null, testOutput);
+        testInput = new ByteArrayInputStream(testOutput.toByteArray());
+        assertTrue(validateExamples(systemIdentifierSchemaLocation, testInput));
         return true;
     }
 
@@ -687,6 +714,15 @@ public class ValidateSamplesTestCase {
         } finally {
             inputStream.close();
         }
+        // validate deserialized Composed object above
+        testInput.reset();
+        assertTrue(validateExamples(systemChecksumSchemaLocation, testInput));
+
+        // validate deserialized resource stream
+        testOutput.reset();
+        mctx.marshalDocument(checksum, "UTF-8", null, testOutput);
+        testInput = new ByteArrayInputStream(testOutput.toByteArray());
+        assertTrue(validateExamples(systemChecksumSchemaLocation, testInput));
         return true;
     }
 }
