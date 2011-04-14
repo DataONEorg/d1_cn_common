@@ -40,6 +40,8 @@ import org.jibx.runtime.IUnmarshallingContext;
 import org.jibx.runtime.JiBXException;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 
 /**
  * @author berkley
@@ -47,11 +49,7 @@ import org.joda.time.DateTimeZone;
  */
 public class ServiceTypeUtil {
 
-    static final DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
-
-    static {
-        dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
-    }
+    static final DateTimeFormatter fmt =  DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss.SSSZZ");
 
     /**
      * serialize an object of type to out
@@ -130,7 +128,10 @@ public class ServiceTypeUtil {
      * @return
      */
     public static String serializeDateToUTC(Date d) {
-        return dateFormat.format(d);
+    DateTime dt = new DateTime(d);
+    DateTime dtUTC = dt.withZone(DateTimeZone.UTC);
+    return fmt.print(dtUTC);
+
     }
 
     public static Date deserializeDateToUTC(String dt) {

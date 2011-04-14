@@ -92,7 +92,19 @@ public class ValidateSamplesTestCase {
         assertTrue(testSystemMetadataMarshalling("/org/dataone/service/samples/systemMetadataSample1.xml"));
 
     }
+    @Test
+    public void validateSysmetaSampleUnicodeSupplEscaped() throws Exception, SAXException, IOException, ParserConfigurationException {
+// TODO arguments should be injected based on version of service api to test and build
+        assertTrue(validateExamples("https://repository.dataone.org/software/cicore/tags/D1_SCHEMA_0_5_1/dataoneTypes.xsd", "/org/dataone/service/samples/systemMetadataSampleUnicodeSupplEscaped.xml"));
 
+    }
+
+ //   @Test
+    public void validateSysmetaSampleUnicodeSupplEscapedMarshalling() throws Exception, SAXException, IOException, ParserConfigurationException {
+// TODO arguments should be injected based on version of service api to test and build
+        assertTrue(testSystemMetadataMarshalling("/org/dataone/service/samples/systemMetadataSampleUnicodeSupplEscaped.xml"));
+
+    }
     @Test
     public void validateObjectListSample() throws Exception, SAXException, IOException, ParserConfigurationException {
 // TODO arguments should be injected based on version of service api to test and build
@@ -278,9 +290,9 @@ public class ValidateSamplesTestCase {
             return result;
         }//toString()
     }
-
-    public boolean testSystemMetadataMarshalling(String externalSystemMetadata) throws Exception {
-        System.out.println("Starting testing of testSystemMetadataMarshalling");
+    @Test
+    public void testSimpleSystemMetadataMarshalling() throws Exception {
+        System.out.println("Starting testing of testSimpleSystemMetadataMarshalling");
         SystemMetadata systemMetadata = new SystemMetadata();
 
         Identifier identifier = new Identifier();
@@ -328,11 +340,23 @@ public class ValidateSamplesTestCase {
         IUnmarshallingContext uctx = bfact.createUnmarshallingContext();
 
         systemMetadata = (SystemMetadata) uctx.unmarshalDocument(testSystemMetadataInput, null);
+        assertTrue(systemMetadata != null);
+        assertTrue(systemMetadata.getIdentifier().getValue().equalsIgnoreCase("ABC432"));
+    }
+
+    public boolean testSystemMetadataMarshalling(String externalSystemMetadata) throws Exception {
+        System.out.println("Starting testing of testSystemMetadataMarshalling");
+        SystemMetadata systemMetadata = new SystemMetadata();
+        IBindingFactory bfact =
+                BindingDirectory.getFactory(org.dataone.service.types.SystemMetadata.class);
+
+        IMarshallingContext mctx = bfact.createMarshallingContext();
+        IUnmarshallingContext uctx = bfact.createUnmarshallingContext();
 
         InputStream inputStream = this.getClass().getResourceAsStream(externalSystemMetadata);
         try {
             systemMetadata = (SystemMetadata) uctx.unmarshalDocument(inputStream, null);
-            testSytemMetadataOutput = new ByteArrayOutputStream();
+            ByteArrayOutputStream testSytemMetadataOutput = new ByteArrayOutputStream();
             mctx.marshalDocument(systemMetadata, "UTF-8", null, testSytemMetadataOutput);
             System.out.println(testSytemMetadataOutput.toString());
 
