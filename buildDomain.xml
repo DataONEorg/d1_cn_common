@@ -144,6 +144,7 @@
         <replace file="${basedir}/src/main/java/org/dataone/service/types/SystemMetadata.java"   token="Replicas" value="ReplicaList" />
         <replace file="${basedir}/src/main/java/org/dataone/service/types/ReplicationPolicy.java"   token="Replicas" value="ReplicaList" />
 
+        <replace file="${basedir}/src/main/java/org/dataone/service/types/ObjectFormat.java" token="return null" value="return ObjectFormat.OCTET_STREAM" />
 
         <replaceregexp file="${basedir}/src/main/java/org/dataone/service/types/ObjectInfo.java"
                        match="(\s+)(this\.objectFormat \= objectFormat\;)"
