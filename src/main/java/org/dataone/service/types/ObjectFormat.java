@@ -76,6 +76,6 @@ public enum ObjectFormat {
                 return inst;
             }
         }
-        return null;
+        return ObjectFormat.OCTET_STREAM;
     }
 }

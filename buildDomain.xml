@@ -87,19 +87,20 @@
         <replace file="${basedir}/src/main/java/org/dataone/service/types/ChecksumAlgorithm.java" token="M_D5" value="MD5" />
         
         <replace file="${basedir}/src/main/java/org/dataone/service/types/Identifier.java" token="string" value="value" />
-        <replace file="${basedir}/src/main/java/org/dataone/service/types/Identifier.java" token="getString" value="getValue" />
-        <replace file="${basedir}/src/main/java/org/dataone/service/types/Identifier.java" token="setString" value="setValue" /> 
+        <replace file="${basedir}/src/main/java/org/dataone/service/types/Identifier.java" token="getString" value="getValue" /> 
+        <replace file="${basedir}/src/main/java/org/dataone/service/types/Identifier.java" token="setString" value="setValue" />
         <replace file="${basedir}/src/main/java/org/dataone/service/types/NodeReference.java" token="string" value="value" />
         <replace file="${basedir}/src/main/java/org/dataone/service/types/NodeReference.java" token="getString" value="getValue" />
         <replace file="${basedir}/src/main/java/org/dataone/service/types/NodeReference.java" token="setString" value="setValue" />
+
         <replace file="${basedir}/src/main/java/org/dataone/service/types/Principal.java" token="string" value="value" />
         <replace file="${basedir}/src/main/java/org/dataone/service/types/Principal.java" token="getString" value="getValue" />
         <replace file="${basedir}/src/main/java/org/dataone/service/types/Principal.java" token="setString" value="setValue" />
+
         <replace file="${basedir}/src/main/java/org/dataone/service/types/Checksum.java" token="string" value="value" />
         <replace file="${basedir}/src/main/java/org/dataone/service/types/Checksum.java" token="getString" value="getValue" />
         <replace file="${basedir}/src/main/java/org/dataone/service/types/Checksum.java" token="setString" value="setValue" />
-        <replace file="${basedir}/src/main/java/org/dataone/service/types/ComponentVersion.java" token="getString" value="getValue" />
-        <replace file="${basedir}/src/main/java/org/dataone/service/types/ComponentVersion.java" token="setString" value="setValue" />
+
 
         <replace file="${basedir}/src/main/java/binding.xml" token="getString" value="getValue" />
         <replace file="${basedir}/src/main/java/binding.xml" token="setString" value="setValue" />
@@ -113,6 +114,15 @@
 
         <replace file="${basedir}/src/main/java/binding.xml" token="Nodes" value="NodeList" />
         <replace file="${basedir}/src/main/java/org/dataone/service/types/NodeList.java" token="Nodes" value="NodeList" />
+
+        <replace file="${basedir}/src/main/java/binding.xml" token="collection get-method=&quot;getServices" value="collection get-method=&quot;getServiceList" />
+        <replace file="${basedir}/src/main/java/binding.xml" token="getServiceList&quot; set-method=&quot;setServices" value="getServiceList&quot; set-method=&quot;setServiceList" />
+        <replace file="${basedir}/src/main/java/org/dataone/service/types/Services.java" token="getServices" value="getServiceList" />
+        <replace file="${basedir}/src/main/java/org/dataone/service/types/Services.java" token="setServices" value="setServiceList" />
+        <replace file="${basedir}/src/main/java/org/dataone/service/types/Services.java" token="setServices" value="setServiceList" />
+        <replace file="${basedir}/src/main/java/org/dataone/service/types/Services.java" token="sizeServices" value="sizeServiceList" />
+        <replace file="${basedir}/src/main/java/org/dataone/service/types/Services.java" token="clearServices" value="clearServiceList" />
+
         <replace file="${basedir}/src/main/java/binding.xml" token="Methods" value="MethodList" />
         <replace file="${basedir}/src/main/java/org/dataone/service/types/Service.java"   token="Methods" value="MethodList" />
 
@@ -140,9 +150,9 @@
         <replace file="${basedir}/src/main/java/binding.xml"  token="AccessRules" value="AccessRuleList" />
         <replace file="${basedir}/src/main/java/org/dataone/service/types/SystemMetadata.java"  token="AccessRules" value="AccessRuleList" />
 
-        <replace file="${basedir}/src/main/java/binding.xml"  token="Replicas" value="ReplicaList" />
+        <replace file="${basedir}/src/main/java/binding.xml"  token="collection get-method=&quot;getReplicas" value="collection get-method=&quot;getReplicaList" />
+        <replace file="${basedir}/src/main/java/binding.xml"  token="getReplicaList&quot; set-method=&quot;setReplicas" value="getReplicaList&quot; set-method=&quot;setReplicaList" />
         <replace file="${basedir}/src/main/java/org/dataone/service/types/SystemMetadata.java"   token="Replicas" value="ReplicaList" />
-        <replace file="${basedir}/src/main/java/org/dataone/service/types/ReplicationPolicy.java"   token="Replicas" value="ReplicaList" />
 
         <replace file="${basedir}/src/main/java/org/dataone/service/types/ObjectFormat.java" token="return null" value="return ObjectFormat.OCTET_STREAM" />
 

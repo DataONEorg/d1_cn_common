@@ -13,7 +13,7 @@ import java.util.List;
  *     &lt;xs:element type="ns:NodeReference" name="blockedMemberNode" minOccurs="0" maxOccurs="unbounded"/>
  *   &lt;/xs:sequence>
  *   &lt;xs:attribute type="xs:boolean" name="replicationAllowed"/>
- *   &lt;xs:attribute type="xs:int" name="numberReplicaList"/>
+ *   &lt;xs:attribute type="xs:int" name="numberReplicas"/>
  * &lt;/xs:complexType>
  * </pre>
  */
@@ -22,7 +22,7 @@ public class ReplicationPolicy
     private List<NodeReference> preferredMemberNodeList = new ArrayList<NodeReference>();
     private List<NodeReference> blockedMemberNodeList = new ArrayList<NodeReference>();
     private Boolean replicationAllowed;
-    private Integer numberReplicaList;
+    private Integer numberReplicas;
 
     /** 
      * Get the list of 'preferredMemberNode' element items.
@@ -143,20 +143,20 @@ public class ReplicationPolicy
     }
 
     /** 
-     * Get the 'numberReplicaList' attribute value.
+     * Get the 'numberReplicas' attribute value.
      * 
      * @return value
      */
-    public Integer getNumberReplicaList() {
-        return numberReplicaList;
+    public Integer getNumberReplicas() {
+        return numberReplicas;
     }
 
     /** 
-     * Set the 'numberReplicaList' attribute value.
+     * Set the 'numberReplicas' attribute value.
      * 
-     * @param numberReplicaList
+     * @param numberReplicas
      */
-    public void setNumberReplicaList(Integer numberReplicaList) {
-        this.numberReplicaList = numberReplicaList;
+    public void setNumberReplicas(Integer numberReplicas) {
+        this.numberReplicas = numberReplicas;
     }
 }

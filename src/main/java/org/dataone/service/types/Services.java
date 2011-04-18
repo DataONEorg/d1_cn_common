@@ -23,7 +23,7 @@ public class Services
      * 
      * @return list
      */
-    public List<Service> getServices() {
+    public List<Service> getServiceList() {
         return serviceList;
     }
 
@@ -32,7 +32,7 @@ public class Services
      * 
      * @param list
      */
-    public void setServices(List<Service> list) {
+    public void setServiceList(List<Service> list) {
         serviceList = list;
     }
 
@@ -40,7 +40,7 @@ public class Services
      * Get the number of 'service' element items.
      * @return count
      */
-    public int sizeServices() {
+    public int sizeServiceList() {
         return serviceList.size();
     }
 
@@ -64,7 +64,7 @@ public class Services
     /** 
      * Remove all 'service' element items.
      */
-    public void clearServices() {
+    public void clearServiceList() {
         serviceList.clear();
     }
 }

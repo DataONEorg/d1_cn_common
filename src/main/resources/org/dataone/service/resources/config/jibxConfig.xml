@@ -21,8 +21,11 @@
 
 -->
 
-<schema-set prefer-inline="true" generate-all="false" package="org.dataone.service.types" >
+<schema-set prefer-inline="true" generate-all="false" package="org.dataone.service.types" enumeration-type="java5" >
      <class-decorator class="org.jibx.schema.codegen.extend.CollectionMethodsDecorator"/>
+     <!-- Should add in the serializable decorator, we may want to use it at some point -->
+<!--     <class-decorator class="org.jibx.schema.codegen.extend.SerializableDecorator" /> -->
+
 <!--
     <schema-set names="common.xsd" prefix="common" namespaces="http://dataone.org/service/types/common/0.5">
         <schema name="common.xsd"  includes="NodeReference Principal ComponentName ComponentVersion ObjectFormat Checksum Identifier ChecksumAlgorithm Slice" />
@@ -53,6 +56,8 @@
   <schema-type type-name="dateTime" java-class="java.util.Date"
       serializer="org.dataone.service.types.util.ServiceTypeUtil.serializeDateToUTC"
       deserializer="org.dataone.service.types.util.ServiceTypeUtil.deserializeDateToUTC"/>
-        <schema name="dataoneTypes.xsd" includes="identifier checksum objectLocationList ObjectLocationList ObjectLocation nodeList Node Environment NodeType Services Service ServiceMethod Synchronization Schedule NodeHealth NodeState objectList ObjectList ObjectInfo log LogEntry Event systemMetadata AccessRule ReplicationPolicy SystemMetadata Replica ReplicationStatus NodeReference Principal ComponentName ComponentVersion ObjectFormat Checksum Identifier IdentifierFormat ChecksumAlgorithm Slice" />
+        <schema name="dataoneTypes.xsd" includes="identifier checksum  componentList nodeList objectList objectLocationList systemMetadata Identifier Checksum ObjectLocationList ObjectLocation  Node Environment NodeType Services Service ServiceMethod Synchronization Schedule NodeHealth NodeState ObjectList ObjectInfo log LogEntry Event AccessRule ReplicationPolicy SystemMetadata Replica ReplicationStatus NodeReference Component ComponentName ObjectFormat Principal IdentifierFormat ChecksumAlgorithm Slice">
+
+        </schema>
     </schema-set>
 </schema-set>

@@ -1,3 +1,4 @@
+
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
@@ -8,6 +9,9 @@
     <name>DataONE_Common_Java</name>
     <url>http://dataone.org</url>
     <description>DataONE Common Code with Service Interface Definitions</description>
+    <properties>
+        <org.jibx.version>1.2.2</org.jibx.version>
+    </properties>
     <build>
         <defaultGoal>test</defaultGoal>
         <directory>target</directory>
@@ -103,7 +107,7 @@
             <plugin>
                 <groupId>org.jibx</groupId>
                 <artifactId>maven-jibx-plugin</artifactId>
-                <version>1.2.2</version>
+                <version>${org.jibx.version}</version>
                 <configuration>
                     <multi-module>true</multi-module>
                 </configuration>
@@ -117,6 +121,11 @@
                             </includes>
                             <verbose>true</verbose>
                         </configuration>
+<!---  1.2.3 needs this config                  <configuration>
+                            <bindingDirectory>src/main/java</bindingDirectory>
+                            <include>*.xml</include>
+                            <verbose>true</verbose>
+                        </configuration> -->
                         <phase>compile</phase>
                         <goals>
                             <goal>bind</goal>
@@ -160,33 +169,33 @@
         <dependency>
             <groupId>org.jibx</groupId>
             <artifactId>jibx-bind</artifactId>
-            <version>1.2.2</version>
+            <version>${org.jibx.version}</version>
         </dependency>
         <dependency>
             <groupId>org.jibx</groupId>
             <artifactId>jibx-extras</artifactId>
-            <version>1.2.2</version>
+            <version>${org.jibx.version}</version>
         </dependency>
         <dependency>
             <groupId>org.jibx</groupId>
             <artifactId>jibx-run</artifactId>
-            <version>1.2.2</version>
+            <version>${org.jibx.version}</version>
         </dependency>
         <dependency>
             <groupId>org.jibx</groupId>
             <artifactId>jibx-schema</artifactId>
-            <version>1.2.2</version>
+            <version>${org.jibx.version}</version>
         </dependency>
         <dependency>
             <groupId>org.jibx</groupId>
             <artifactId>jibx-tools</artifactId>
-            <version>1.2.2</version>
+            <version>${org.jibx.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.jibx</groupId>
             <artifactId>maven-jibx-plugin</artifactId>
-            <version>1.2.2</version>
+            <version>${org.jibx.version}</version>
         </dependency>
         <dependency>
             <groupId>joda-time</groupId>
@@ -215,11 +224,11 @@
             <scope>compile</scope>
         </dependency>
         <dependency>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-clean-plugin</artifactId>
-                <version>2.4.1</version>
-                <type>maven-plugin</type>
-                <scope>compile</scope>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-clean-plugin</artifactId>
+            <version>2.4.1</version>
+            <type>maven-plugin</type>
+            <scope>compile</scope>
         </dependency>
         
         <dependency>
@@ -242,10 +251,10 @@
         </dependency>
         
         <dependency>
-          <groupId>org.apache.tomcat</groupId>
-          <artifactId>servlet-api</artifactId>
-          <version>6.0.30</version>
-          <scope>provided</scope>
+            <groupId>org.apache.tomcat</groupId>
+            <artifactId>servlet-api</artifactId>
+            <version>6.0.30</version>
+            <scope>provided</scope>
         </dependency>
         
     </dependencies>
