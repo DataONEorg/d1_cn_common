@@ -18,7 +18,6 @@ import org.junit.Test;
  */
 public class NodeListParserTest 
 {
-    private static final String TEST_CN_URL = "http://cn-dev.dataone.org/cn/";
     
     @Test
     /**
@@ -28,8 +27,8 @@ public class NodeListParserTest
     {
         try
         {
-            URL url = new URL(TEST_CN_URL + "node");
-            InputStream is = url.openStream();
+
+            InputStream is = this.getClass().getResourceAsStream("/org/dataone/service/samples/nodeListSample2.xml");
             String nodeDoc = IOUtils.toString(is);
             
             assertTrue("Node document null.", (nodeDoc != null));
@@ -39,8 +38,8 @@ public class NodeListParserTest
             InputStream ndIs = IOUtils.toInputStream(nodeDoc);
             Map<String, String> m = NodeListParser.parseNodeListFile(ndIs);
 
-            assertTrue("knb-mn key", m.containsKey("http://knb-mn.ecoinformatics.org"));
-            assertTrue("knb-mn value", m.get("http://knb-mn.ecoinformatics.org").equals("http://knb-mn.ecoinformatics.org/knb/d1/"));
+            assertTrue("knb-mn key", m.containsKey("d1m2"));
+            assertTrue("knb-mn value", m.get("d1m2").equals("http://knb-mn.ecoinformatics.org/knb/d1/"));
         }
         catch(Exception e)
         {
