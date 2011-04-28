@@ -86,7 +86,9 @@ public class D1Url {
      */
     public void addDateParamPair(String key, Date dateLocalTime) {
         if (dateLocalTime != null) {
-            String dateString = ServiceTypeUtil.serializeDateToUTC(dateLocalTime);
+            // XXX should be using serializeDatetoUTC, but MNs at this point are not
+            // fully ISO 8601 compliant, and this should work...
+            String dateString = ServiceTypeUtil.serializeDateToZ(dateLocalTime);
             paramV.add(EncodingUtilities.encodeUrlQuerySegment(trimAndValidateString(key)) + "="
                     + EncodingUtilities.encodeUrlQuerySegment(trimAndValidateString(dateString)));
         }
