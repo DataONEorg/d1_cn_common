@@ -66,11 +66,12 @@ public interface CoordinatingNodeCrud
             UnsupportedType, InsufficientResources, InvalidSystemMetadata,
             NotImplemented;
     
-    public Identifier update(AuthToken token, Identifier guid,
-            InputStream object, Identifier obsoletedGuid, SystemMetadata sysmeta)
+    // new implementation matches MNcrud, but this method probably going away with the refactoring of the api's
+    public Identifier update(AuthToken token, Identifier pid,
+            InputStream object, Identifier newPid, SystemMetadata sysmeta)
             throws InvalidToken, ServiceFailure, NotAuthorized, IdentifierNotUnique,
             UnsupportedType, InsufficientResources, NotFound, InvalidSystemMetadata,
-            NotImplemented;
+            NotImplemented, InvalidRequest;
 
     public Identifier reserveIdentifier(AuthToken token, String scope, IdentifierFormat format)
         throws InvalidToken, ServiceFailure, NotAuthorized, InvalidRequest, 

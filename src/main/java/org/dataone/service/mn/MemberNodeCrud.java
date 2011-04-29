@@ -70,12 +70,30 @@ public interface MemberNodeCrud {
             InputStream object, SystemMetadata sysmeta) throws InvalidToken,
             ServiceFailure, NotAuthorized, IdentifierNotUnique, UnsupportedType,
             InsufficientResources, InvalidSystemMetadata, NotImplemented;
-
-    public Identifier update(AuthToken token, Identifier guid,
-            InputStream object, Identifier obsoletedGuid, SystemMetadata sysmeta)
+    /**
+     * 
+     * @param token - the authorization token returned by login
+     * @param pid - the identifier of the object that is being updated.
+     * @param object - the bytes of data or science metadata that will deprecate the existing object
+     * @param newPid - the identifier that will become the replacement identifier for the existing object after the update
+     * @param sysmeta - the system metadata
+     * @return the identifier that was used to insert the document into the system, should be same as newpid
+     * @throws InvalidToken
+     * @throws ServiceFailure
+     * @throws NotAuthorized
+     * @throws IdentifierNotUnique
+     * @throws UnsupportedType
+     * @throws InsufficientResources
+     * @throws NotFound
+     * @throws InvalidSystemMetadata
+     * @throws NotImplemented
+     * @throws InvalidRequest
+     */
+    public Identifier update(AuthToken token, Identifier pid,
+            InputStream object, Identifier newPid, SystemMetadata sysmeta)
             throws InvalidToken, ServiceFailure, NotAuthorized, IdentifierNotUnique,
             UnsupportedType, InsufficientResources, NotFound, InvalidSystemMetadata,
-            NotImplemented;
+            NotImplemented, InvalidRequest;
 
     public Identifier delete(AuthToken token, Identifier guid)
             throws InvalidToken, ServiceFailure, NotAuthorized, NotFound,

@@ -3,7 +3,6 @@ package org.dataone.mimemultipart;
 import static org.junit.Assert.*;
 
 import java.io.File;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
@@ -22,12 +21,12 @@ public class TestSimpleMultipartEntity {
 	private static final String echoAndParseServiceUrl = "http://dev-testing.dataone.org/testsvc/echomm";
 	
 	@Test
-	public void testTempFileCreation_InputStream()
+	public void testTempFileCreation_InputStream() throws IOException
 	{
 		SimpleMultipartEntity smpe = new SimpleMultipartEntity();
 		String content = "this is a very short test input stream.";
 		InputStream is = IOUtils.toInputStream(content);
-		smpe.addFilePart(is,"isTestPart");
+		smpe.addFilePart("isTestPart", is);
 		File t = new File(smpe.getLastTempfile());
 		assertEquals("tempfile length is equal to input", content.length(),t.length());
 	}
@@ -64,7 +63,7 @@ public class TestSimpleMultipartEntity {
 		fw.flush();
 		fw.close();
 		
-		mprh.addFilePart(outputFile,"testTwo");
+		mprh.addFilePart("testTwo", outputFile);
 		
 		HttpResponse res = mprh.executeRequest();
 		int code = res.getStatusLine().getStatusCode();
@@ -83,7 +82,7 @@ public class TestSimpleMultipartEntity {
 		mprh.addParamPart("testOne", "bizbazbuzzzz");
 
 		InputStream is = IOUtils.toInputStream("flip-flap-flop");
-		mprh.addFilePart(is,"testTwo");
+		mprh.addFilePart("testTwo", is);
 		
 		HttpResponse res = mprh.executeRequest();
 		int code = res.getStatusLine().getStatusCode();

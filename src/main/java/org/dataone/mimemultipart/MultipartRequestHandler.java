@@ -84,7 +84,7 @@ public class MultipartRequestHandler
      * @param f
      * @param name
      */
-    public void addFilePart(File f, String name)
+    public void addFilePart(String name,File f)
     {
         FileBody fileBody = new FileBody(f);
         entity.addPart(name, fileBody);
@@ -96,28 +96,26 @@ public class MultipartRequestHandler
      * a temp file and sends it.  
      * @param is
      * @param name
+     * @throws IOException 
      */
-    public void addFilePart(InputStream is, String name)
+    public void addFilePart(String name,InputStream is) throws IOException
     {
 		File outputFile = generateTempFile();
+
+		FileOutputStream os = new FileOutputStream(outputFile);	
+		// transfer input stream to temp file
 		try {
-			FileOutputStream os = new FileOutputStream(outputFile);	
-			// transfer input stream to temp file
-			try {
-				IOUtils.copy(is, os);
-//				byte[] buffer = new byte[255];  
-//				int bytesRead;  
-//				while ((bytesRead = is.read(buffer)) != -1) {  
-//					os.write(buffer, 0, bytesRead);  
-//				}
-			} finally {	
-//				is.close();  
-			}	
-			os.flush();
-			os.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+			IOUtils.copy(is, os);
+			//				byte[] buffer = new byte[255];  
+			//				int bytesRead;  
+			//				while ((bytesRead = is.read(buffer)) != -1) {  
+			//					os.write(buffer, 0, bytesRead);  
+			//				}
+		} finally {	
+			//				is.close();  
+		}	
+		os.flush();
+		os.close();
 		
 		FileBody fBody = new FileBody(outputFile);
 		entity.addPart(name, fBody);
@@ -128,26 +126,17 @@ public class MultipartRequestHandler
      * the value parameter.  Encoding is in UTF-8.
      * @param name
      * @param value
+     * @throws IOException 
      */
-    public void addFilePart(String name, String value)
+    public void addFilePart(String name, String value) throws IOException
     {	
     	File outputFile = generateTempFile();
-    	try {
-    		FileOutputStream os = new FileOutputStream(outputFile);
-    		OutputStreamWriter osw = new OutputStreamWriter(os,"UTF-8");
-    		osw.write(value);
-    		osw.flush();
-    		osw.close();
-    	} catch (FileNotFoundException e) {
-    		// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} 
+ 
+    	FileOutputStream os = new FileOutputStream(outputFile);
+    	OutputStreamWriter osw = new OutputStreamWriter(os,"UTF-8");
+    	osw.write(value);
+    	osw.flush();
+    	osw.close();
     	
     	FileBody fileBody = new FileBody(outputFile);
         entity.addPart(name, fileBody);

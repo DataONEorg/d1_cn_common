@@ -46,22 +46,22 @@ import org.dataone.service.Constants;
  */
 public class SimpleMultipartEntity extends MultipartEntity
 {
-	private Vector<String> tempfileNames = new Vector<String>();;
+	private Vector<String> tempfileNames = new Vector<String>();
     /**
      * add a file part to the MMP
-     * @param f
-     * @param name
-     * @throws Exception 
+     * @param name - the name assigned to the file part
+     * @param file - the file to be put into the file part
      */
-    public void addFilePart(File f, String name) throws Exception
+    public void addFilePart(String name, File file)
     {
-        if (!f.exists()) 
-        	throw new Exception("File Not Found: " + f.getName());
-        if (f.isDirectory())
-        	throw new Exception("File cannot be a directory");
-        if (!f.canRead())
-        	throw new Exception("File not readable");
-    	FileBody fileBody = new FileBody(f);
+// should let the processing method throw any exceptions.
+//        if (!f.exists()) 
+//        	throw new FileNotFoundException("File Not Found: " + f.getName());
+//        if (f.isDirectory())
+//        	throw new Exception("File cannot be a directory");
+//        if (!f.canRead())
+//        	throw new Exception("File not readable");
+    	FileBody fileBody = new FileBody(file);
         addPart(name, fileBody);
     }
     
@@ -69,29 +69,32 @@ public class SimpleMultipartEntity extends MultipartEntity
      * add a file part to the MMP, using InputStream
      * This method writes the contents of the stream to 
      * a temp file and sends it.  
-     * @param is
-     * @param name
+     * @param name - the name assigned to the file part
+     * @param is - the inputStream
+     * @throws IOException 
      */
-    public void addFilePart(InputStream is, String name)
+    public void addFilePart(String name, InputStream is) throws IOException
     {
 		File outputFile = generateTempFile();
+		FileOutputStream os = null;
+		int total = 0;
 		try {
-			FileOutputStream os = new FileOutputStream(outputFile);
+			os = new FileOutputStream(outputFile);
 			// transfer input stream to temp file
 			byte[] bytebuffer = new byte[4096];
 			
-			int total = 0;
+			
 			int num = is.read(bytebuffer);
 			while (num != -1) {
 				os.write(bytebuffer, 0, num);
 				total += num;
 				num = is.read(bytebuffer);
 			}
+		} finally {
 			os.flush();
 			os.close();
 			System.out.println("     bytes written: " + total);
-		} catch (IOException e) {
-			e.printStackTrace();
+			
 		}
 		
 		FileBody fBody = new FileBody(outputFile);
@@ -101,29 +104,22 @@ public class SimpleMultipartEntity extends MultipartEntity
     /**
      * This method generates a temp files for sending, containing
      * the value parameter.  Encoding is in UTF-8.
-     * @param name
-     * @param value
+     * @param name - the name assigned to the file part
+     * @param value - the String to be passed as a file part
+     * @throws IOException 
      */
-    public void addFilePart(String name, String value)
+    public void addFilePart(String name, String value) throws IOException
     {	
     	File outputFile = generateTempFile();
+    	OutputStreamWriter osw = null;
     	try {
     		FileOutputStream os = new FileOutputStream(outputFile);
-    		OutputStreamWriter osw = new OutputStreamWriter(os,"UTF-8");
+    		osw = new OutputStreamWriter(os,"UTF-8");
     		osw.write(value);
+    	} finally {
     		osw.flush();
     		osw.close();
-    	} catch (FileNotFoundException e) {
-    		// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} 
-    	
+		}   	
     	FileBody fileBody = new FileBody(outputFile);
         addPart(name, fileBody);
     }
@@ -131,8 +127,8 @@ public class SimpleMultipartEntity extends MultipartEntity
     
     /**
      * add a param part to the MMP
-     * @param name
-     * @param value
+     * @param name - the name (key) assigned to the param part
+     * @param value - the value associated to the name 
      */
     public void addParamPart(String name, String value)
     {

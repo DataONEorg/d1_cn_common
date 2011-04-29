@@ -53,7 +53,7 @@ public class testMultipartTransmission {
 		fw.flush();
 		fw.close();
 		
-		mprh.addFilePart(outputFile,"testTwo");
+		mprh.addFilePart("testTwo",outputFile);
 		
 		HttpResponse res = mprh.executeRequest();
 		int code = res.getStatusLine().getStatusCode();
@@ -72,7 +72,7 @@ public class testMultipartTransmission {
 		mprh.addParamPart("testOne", "bizbazbuzzzz");
 
 		InputStream is = IOUtils.toInputStream("flip-flap-flop");
-		mprh.addFilePart(is,"testTwo");
+		mprh.addFilePart("testTwo",is);
 		
 		HttpResponse res = mprh.executeRequest();
 		int code = res.getStatusLine().getStatusCode();
