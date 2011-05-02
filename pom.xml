@@ -256,7 +256,7 @@
             <version>6.0.30</version>
             <scope>provided</scope>
         </dependency>
-        
+ <!--       
         <dependency>
         	<groupId>org.dataone</groupId>
         	<artifactId>d1_test_resources</artifactId>
@@ -264,6 +264,7 @@
         	<type>jar</type>
         	<scope>runtime</scope>
         </dependency>
+-->
     </dependencies>
     <licenses>
         <license>
