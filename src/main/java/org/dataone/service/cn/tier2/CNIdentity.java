@@ -55,21 +55,22 @@ public interface CNIdentity {
         throws ServiceFailure, NotAuthorized, NotImplemented, InvalidToken, InvalidRequest;
 
     /* TODO: add when Types are updated.
-    // TODO: this is identical to lostPrincipals and needs to be revised to return Person
-    public PrincipalList getPrincipalInfo(String query, int start, int count)
+    public PrincipalList getPrincipalInfo(Principal principal)
         throws ServiceFailure, InvalidToken, NotAuthorized, NotImplemented;
   
     public PrincipalList listPrincipals(String query, int start, int count)
         throws ServiceFailure, InvalidToken, NotAuthorized, NotImplemented;
     */
     
-    public boolean mapIdentity(AuthToken token1, AuthToken token2) 
+    // TODO: first param should be x509 cert
+    public boolean mapIdentity(Principal primaryPrincipal, Principal secondaryPrincipal) 
         throws ServiceFailure, InvalidToken, NotAuthorized, NotFound, NotImplemented, InvalidRequest;
 
+    // TODO: discuss if we need two methods or can we jsut use single method with different behavior depending on the state of data?
     public boolean confirmMapIdentity(AuthToken token1, AuthToken token2) 
         throws ServiceFailure, InvalidToken, NotAuthorized, NotFound, NotImplemented, InvalidRequest;
     
-    public Identifier createGroup(Identifier groupName) 
+    public boolean createGroup(Principal groupName) 
         throws ServiceFailure, InvalidToken, NotAuthorized, NotFound, NotImplemented,
             InvalidRequest, IdentifierNotUnique;
 
