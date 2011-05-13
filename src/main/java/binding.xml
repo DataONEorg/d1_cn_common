@@ -15,6 +15,9 @@
   <mapping abstract="true" type-name="d1:Principal" class="org.dataone.service.types.Principal">
     <value style="text" get-method="getValue" set-method="setValue"/>
   </mapping>
+  <mapping abstract="true" type-name="d1:X509Certificate" class="org.dataone.service.types.X509Certificate">
+    <value style="text" get-method="getValue" set-method="setValue"/>
+  </mapping>
   <mapping abstract="true" type-name="d1:AccessRule" class="org.dataone.service.types.AccessRule">
     <format type="org.dataone.service.types.AccessRule$Permission" enum-value-method="toString"/>
     <collection get-method="getPrincipals" set-method="setPrincipals" create-type="java.util.ArrayList">

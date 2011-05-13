@@ -97,6 +97,10 @@
         <replace file="${basedir}/src/main/java/org/dataone/service/types/Principal.java" token="getString" value="getValue" />
         <replace file="${basedir}/src/main/java/org/dataone/service/types/Principal.java" token="setString" value="setValue" />
 
+    	<replace file="${basedir}/src/main/java/org/dataone/service/types/X509Certificate.java" token="string" value="value" />
+        <replace file="${basedir}/src/main/java/org/dataone/service/types/X509Certificate.java" token="getString" value="getValue" />
+        <replace file="${basedir}/src/main/java/org/dataone/service/types/X509Certificate.java" token="setString" value="setValue" />
+        	
         <replace file="${basedir}/src/main/java/org/dataone/service/types/Checksum.java" token="string" value="value" />
         <replace file="${basedir}/src/main/java/org/dataone/service/types/Checksum.java" token="getString" value="getValue" />
         <replace file="${basedir}/src/main/java/org/dataone/service/types/Checksum.java" token="setString" value="setValue" />

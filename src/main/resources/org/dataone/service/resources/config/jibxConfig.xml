@@ -56,7 +56,7 @@
   <schema-type type-name="dateTime" java-class="java.util.Date"
       serializer="org.dataone.service.types.util.ServiceTypeUtil.serializeDateToUTC"
       deserializer="org.dataone.service.types.util.ServiceTypeUtil.deserializeDateToUTC"/>
-        <schema name="dataoneTypes.xsd" includes="identifier checksum  componentList nodeList objectList objectLocationList systemMetadata Identifier Checksum ObjectLocationList ObjectLocation  Node Environment NodeType Services Service ServiceMethod Synchronization Schedule NodeHealth NodeState ObjectList ObjectInfo log LogEntry Event AccessRule ReplicationPolicy SystemMetadata Replica ReplicationStatus NodeReference Component ComponentName ObjectFormat Principal PrincipalList Person IdentifierFormat ChecksumAlgorithm Slice">
+        <schema name="dataoneTypes.xsd" includes="identifier checksum  componentList nodeList objectList objectLocationList systemMetadata Identifier Checksum ObjectLocationList ObjectLocation  Node Environment NodeType Services Service ServiceMethod Synchronization Schedule NodeHealth NodeState ObjectList ObjectInfo log LogEntry Event AccessRule ReplicationPolicy SystemMetadata Replica ReplicationStatus NodeReference Component ComponentName ObjectFormat Principal PrincipalList Person IdentifierFormat ChecksumAlgorithm Slice X509Certificate">
 
         </schema>
     </schema-set>
