@@ -20,8 +20,6 @@
 
 package org.dataone.service.cn.tier2;
 
-import java.util.List;
-
 import org.dataone.service.exceptions.IdentifierNotUnique;
 import org.dataone.service.exceptions.InvalidCredentials;
 import org.dataone.service.exceptions.InvalidRequest;
@@ -30,11 +28,8 @@ import org.dataone.service.exceptions.NotAuthorized;
 import org.dataone.service.exceptions.NotFound;
 import org.dataone.service.exceptions.NotImplemented;
 import org.dataone.service.exceptions.ServiceFailure;
-import org.dataone.service.types.AccessPolicy;
 import org.dataone.service.types.AuthToken;
-import org.dataone.service.types.AuthType;
-import org.dataone.service.types.Event;
-import org.dataone.service.types.Identifier;
+import org.dataone.service.types.Person;
 import org.dataone.service.types.Principal;
 
 /**
@@ -46,10 +41,9 @@ import org.dataone.service.types.Principal;
  */
 public interface CNIdentity {
 
-    /* TODO: add when Types are updated.
     public Principal registerAccount(Person person) 
         throws ServiceFailure, IdentifierNotUnique, InvalidCredentials, NotImplemented, InvalidRequest;
-    */
+    
     
     public boolean verifyAccount(Principal principal) 
         throws ServiceFailure, NotAuthorized, NotImplemented, InvalidToken, InvalidRequest;

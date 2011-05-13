@@ -2,14 +2,13 @@
 package org.dataone.service.types;
 
 /** 
- * 
- A unique implementation of the member node or coordination node software
+ * A unique implementation of the member node or coordination node software
  stack. several nodes may exist on a single physical device or hostname 
 
  * 
  * Schema fragment(s) for this class:
  * <pre>
- * &lt;xs:complexType xmlns:ns="http://dataone.org/service/types/0.5.1" xmlns:xs="http://www.w3.org/2001/XMLSchema" name="Node">
+ * &lt;xs:complexType xmlns:ns="http://ns.dataone.org/service/types/0.6.1" xmlns:xs="http://www.w3.org/2001/XMLSchema" name="Node">
  *   &lt;xs:sequence>
  *     &lt;xs:element type="ns:NodeReference" name="identifier" minOccurs="1" maxOccurs="1"/>
  *     &lt;xs:element type="xs:string" name="name" minOccurs="1" maxOccurs="1"/>

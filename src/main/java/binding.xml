@@ -1,5 +1,5 @@
-<binding xmlns:d1="http://dataone.org/service/types/0.5.1" name="binding" package="org.dataone.service.types" trim-whitespace="true">
-  <namespace uri="http://dataone.org/service/types/0.5.1" prefix="d1"/>
+<binding xmlns:d1="http://ns.dataone.org/service/types/0.6.1" name="binding" package="org.dataone.service.types" trim-whitespace="true">
+  <namespace uri="http://ns.dataone.org/service/types/0.6.1" prefix="d1"/>
   <format label="d1:ChecksumAlgorithm" type="org.dataone.service.types.ChecksumAlgorithm" enum-value-method="toString"/>
   <format label="d1:ComponentName" type="org.dataone.service.types.ComponentName" enum-value-method="toString"/>
   <format label="d1:Event" type="org.dataone.service.types.Event" enum-value-method="toString"/>
@@ -16,17 +16,22 @@
     <value style="text" get-method="getValue" set-method="setValue"/>
   </mapping>
   <mapping abstract="true" type-name="d1:AccessRule" class="org.dataone.service.types.AccessRule">
-    <format type="org.dataone.service.types.AccessRule$Rule" enum-value-method="toString"/>
-    <format type="org.dataone.service.types.AccessRule$Service" enum-value-method="toString"/>
-    <value style="attribute" name="rule" get-method="getRule" set-method="setRule" usage="optional"/>
-    <value style="attribute" name="service" get-method="getService" set-method="setService" usage="optional"/>
-    <structure map-as="d1:Principal" get-method="getPrincipal" set-method="setPrincipal" usage="optional" name="principal"/>
+    <format type="org.dataone.service.types.AccessRule$Permission" enum-value-method="toString"/>
+    <collection get-method="getPrincipals" set-method="setPrincipals" create-type="java.util.ArrayList">
+      <structure map-as="d1:Principal" name="principal"/>
+    </collection>
+    <collection type="java.util.List" get-method="getPermissions" set-method="setPermissions" create-type="java.util.ArrayList">
+      <value style="element" name="permission" type="org.dataone.service.types.AccessRule$Permission"/>
+    </collection>
+    <collection get-method="getResources" set-method="setResources" create-type="java.util.ArrayList">
+      <structure map-as="d1:Identifier" name="resource"/>
+    </collection>
   </mapping>
   <mapping abstract="true" type-name="d1:Checksum" class="org.dataone.service.types.Checksum">
     <value style="text" get-method="getValue" set-method="setValue"/>
     <value style="attribute" name="algorithm" get-method="getAlgorithm" set-method="setAlgorithm" format="d1:ChecksumAlgorithm"/>
   </mapping>
-  <mapping class="org.dataone.service.types.Checksum" name="checksum" ns="http://dataone.org/service/types/0.5.1">
+  <mapping class="org.dataone.service.types.Checksum" name="checksum" ns="http://ns.dataone.org/service/types/0.6.1">
     <structure map-as="d1:Checksum"/>
   </mapping>
   <mapping abstract="true" type-name="d1:Component" class="org.dataone.service.types.Component">
@@ -36,13 +41,13 @@
   <mapping abstract="true" type-name="d1:ComponentList" class="org.dataone.service.types.ComponentList">
     <structure map-as="d1:Component" get-method="getComponent" set-method="setComponent" name="component"/>
   </mapping>
-  <mapping class="org.dataone.service.types.ComponentList" name="componentList" ns="http://dataone.org/service/types/0.5.1">
+  <mapping class="org.dataone.service.types.ComponentList" name="componentList" ns="http://ns.dataone.org/service/types/0.6.1">
     <structure map-as="d1:ComponentList"/>
   </mapping>
   <mapping abstract="true" type-name="d1:Identifier" class="org.dataone.service.types.Identifier">
     <value style="text" get-method="getValue" set-method="setValue"/>
   </mapping>
-  <mapping class="org.dataone.service.types.Identifier" name="identifier" ns="http://dataone.org/service/types/0.5.1">
+  <mapping class="org.dataone.service.types.Identifier" name="identifier" ns="http://ns.dataone.org/service/types/0.6.1">
     <structure map-as="d1:Identifier"/>
   </mapping>
   <mapping abstract="true" type-name="d1:LogEntry" class="org.dataone.service.types.LogEntry">
@@ -84,7 +89,7 @@
       <structure map-as="d1:Node" name="node"/>
     </collection>
   </mapping>
-  <mapping class="org.dataone.service.types.NodeList" name="nodeList" ns="http://dataone.org/service/types/0.5.1">
+  <mapping class="org.dataone.service.types.NodeList" name="nodeList" ns="http://ns.dataone.org/service/types/0.6.1">
     <structure map-as="d1:NodeList"/>
   </mapping>
   <mapping abstract="true" type-name="d1:ObjectInfo" class="org.dataone.service.types.ObjectInfo">
@@ -100,7 +105,7 @@
       <structure map-as="d1:ObjectInfo" name="objectInfo"/>
     </collection>
   </mapping>
-  <mapping class="org.dataone.service.types.ObjectList" name="objectList" ns="http://dataone.org/service/types/0.5.1">
+  <mapping class="org.dataone.service.types.ObjectList" name="objectList" ns="http://ns.dataone.org/service/types/0.6.1">
     <structure map-as="d1:ObjectList"/>
   </mapping>
   <mapping abstract="true" type-name="d1:ObjectLocation" class="org.dataone.service.types.ObjectLocation">
@@ -115,8 +120,40 @@
       <structure map-as="d1:ObjectLocation" name="objectLocation"/>
     </collection>
   </mapping>
-  <mapping class="org.dataone.service.types.ObjectLocationList" name="objectLocationList" ns="http://dataone.org/service/types/0.5.1">
+  <mapping class="org.dataone.service.types.ObjectLocationList" name="objectLocationList" ns="http://ns.dataone.org/service/types/0.6.1">
     <structure map-as="d1:ObjectLocationList"/>
+  </mapping>
+  <mapping abstract="true" type-name="d1:Person" class="org.dataone.service.types.Person">
+    <structure map-as="d1:Principal" get-method="getPrincipal" set-method="setPrincipal" name="principal"/>
+    <collection get-method="getGivenNames" set-method="setGivenNames" create-type="java.util.ArrayList">
+      <value style="element" name="givenName" type="java.lang.String"/>
+    </collection>
+    <value style="element" name="familyName" get-method="getFamilyName" set-method="setFamilyName"/>
+    <collection get-method="getEmails" set-method="setEmails" create-type="java.util.ArrayList">
+      <value style="element" name="email" type="java.lang.String"/>
+    </collection>
+    <collection get-method="getIsMemberOfs" set-method="setIsMemberOfs" create-type="java.util.ArrayList">
+      <structure map-as="d1:Principal" name="isMemberOf"/>
+    </collection>
+    <collection get-method="getEquivalentIdentities" set-method="setEquivalentIdentities" create-type="java.util.ArrayList">
+      <structure map-as="d1:Principal" name="equivalentIdentity"/>
+    </collection>
+  </mapping>
+  <mapping abstract="true" type-name="d1:PrincipalList" class="org.dataone.service.types.PrincipalList">
+    <structure usage="optional" ordered="false" choice="true">
+      <collection test-method="ifPerson" get-method="getPersons" set-method="setPersons" usage="optional" create-type="java.util.ArrayList">
+        <structure map-as="d1:Person" name="person"/>
+      </collection>
+      <collection test-method="ifGroup" get-method="getGroups" set-method="setGroups" usage="optional" create-type="java.util.ArrayList">
+        <structure type="org.dataone.service.types.PrincipalList$Group" name="group">
+          <structure map-as="d1:Principal" get-method="getPrincipal" set-method="setPrincipal" name="principal"/>
+          <value style="element" name="groupName" get-method="getGroupName" set-method="setGroupName"/>
+          <collection get-method="getHasMembers" set-method="setHasMembers" create-type="java.util.ArrayList">
+            <structure map-as="d1:Principal" name="hasMember"/>
+          </collection>
+        </structure>
+      </collection>
+    </structure>
   </mapping>
   <mapping abstract="true" type-name="d1:Replica" class="org.dataone.service.types.Replica">
     <structure map-as="d1:NodeReference" get-method="getReplicaMemberNode" set-method="setReplicaMemberNode" name="replicaMemberNode"/>
@@ -176,6 +213,12 @@
     <value style="element" name="size" get-method="getSize" set-method="setSize"/>
     <structure map-as="d1:Principal" get-method="getSubmitter" set-method="setSubmitter" name="submitter"/>
     <structure map-as="d1:Principal" get-method="getRightsHolder" set-method="setRightsHolder" name="rightsHolder"/>
+    <structure get-method="getAccessPolicy" set-method="setAccessPolicy" usage="optional" name="accessPolicy">
+      <collection get-method="getAllows" set-method="setAllows" create-type="java.util.ArrayList">
+        <structure map-as="d1:AccessRule" name="allow"/>
+      </collection>
+    </structure>
+    <structure map-as="d1:ReplicationPolicy" get-method="getReplicationPolicy" set-method="setReplicationPolicy" usage="optional" name="replicationPolicy"/>
     <collection get-method="getObsoleteList" set-method="setObsoleteList" create-type="java.util.ArrayList">
       <structure map-as="d1:Identifier" name="obsoletes"/>
     </collection>
@@ -193,10 +236,6 @@
     </collection>
     <structure map-as="d1:Checksum" get-method="getChecksum" set-method="setChecksum" name="checksum"/>
     <value style="element" name="embargoExpires" get-method="getEmbargoExpires" set-method="setEmbargoExpires" usage="optional" serializer="org.dataone.service.types.util.ServiceTypeUtil.serializeDateToUTC" deserializer="org.dataone.service.types.util.ServiceTypeUtil.deserializeDateToUTC"/>
-    <collection get-method="getAccessRuleList" set-method="setAccessRuleList" create-type="java.util.ArrayList">
-      <structure map-as="d1:AccessRule" name="accessRule"/>
-    </collection>
-    <structure map-as="d1:ReplicationPolicy" get-method="getReplicationPolicy" set-method="setReplicationPolicy" usage="optional" name="replicationPolicy"/>
     <value style="element" name="dateUploaded" get-method="getDateUploaded" set-method="setDateUploaded" serializer="org.dataone.service.types.util.ServiceTypeUtil.serializeDateToUTC" deserializer="org.dataone.service.types.util.ServiceTypeUtil.deserializeDateToUTC"/>
     <value style="element" name="dateSysMetadataModified" get-method="getDateSysMetadataModified" set-method="setDateSysMetadataModified" serializer="org.dataone.service.types.util.ServiceTypeUtil.serializeDateToUTC" deserializer="org.dataone.service.types.util.ServiceTypeUtil.deserializeDateToUTC"/>
     <structure map-as="d1:NodeReference" get-method="getOriginMemberNode" set-method="setOriginMemberNode" name="originMemberNode"/>
@@ -205,10 +244,10 @@
       <structure map-as="d1:Replica" name="replica"/>
     </collection>
   </mapping>
-  <mapping class="org.dataone.service.types.SystemMetadata" name="systemMetadata" ns="http://dataone.org/service/types/0.5.1">
+  <mapping class="org.dataone.service.types.SystemMetadata" name="systemMetadata" ns="http://ns.dataone.org/service/types/0.6.1">
     <structure map-as="d1:SystemMetadata"/>
   </mapping>
-  <mapping class="org.dataone.service.types.Log" name="log" ns="http://dataone.org/service/types/0.5.1">
+  <mapping class="org.dataone.service.types.Log" name="log" ns="http://ns.dataone.org/service/types/0.6.1">
     <structure map-as="d1:Slice"/>
     <collection get-method="getLogEntryList" set-method="setLogEntryList" create-type="java.util.ArrayList">
       <structure map-as="d1:LogEntry" name="logEntry"/>

@@ -21,14 +21,21 @@
 
 -->
 
-<d1:systemMetadata xmlns:d1="http://dataone.org/service/types/0.5.1"
+<d1:systemMetadata xmlns:d1="http://ns.dataone.org/service/types/0.6.1"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:schemaLocation="http://dataone.org/service/types/0.5.1 https://repository.dataone.org/software/cicore/tags/D1_SCHEMA_0_5_1/dataoneTypes.xsd">
+        xsi:schemaLocation="http://ns.dataone.org/service/types/0.6.1 https://repository.dataone.org/software/cicore/tags/D1_SCHEMA_0_6_1/dataoneTypes.xsd">
     <identifier>common-unicode-supplementary-escaped-𐌔𐌕𐌖𐌗	common-unicode-supplementary-escaped-%F0%90%8C%94%F0%90%8C%95%F0%90%8C%96%F0%90%8C%97</identifier>
     <objectFormat>http://www.loc.gov/METS/</objectFormat>
     <size>922337203</size>
     <submitter>Robert P Waltz</submitter>
     <rightsHolder>DataONE</rightsHolder>
+    <accessPolicy>
+    	<allow><principal>user1</principal><permission>read</permission><resource>guid1</resource></allow>
+    </accessPolicy>
+    <replicationPolicy replicationAllowed="true" numberReplicas="2147483647">
+        <preferredMemberNode>mn1</preferredMemberNode>
+        <blockedMemberNode>mn2</blockedMemberNode>
+    </replicationPolicy>
     <obsoletes>AFC123</obsoletes>
     <obsoletedBy>AFC12352</obsoletedBy>
     <derivedFrom>AFC</derivedFrom>
@@ -36,11 +43,6 @@
     <describedBy>CFA</describedBy>
     <checksum algorithm="SHA-1">SGVsbG8gV29ybGQh</checksum>
     <embargoExpires>2006-05-04T18:13:51.0Z</embargoExpires>
-    <accessRule rule="allow" service="read" principal="mn1 "/>
-    <replicationPolicy replicationAllowed="true" numberReplicas="2147483647">
-        <preferredMemberNode>mn1</preferredMemberNode>
-        <blockedMemberNode>mn2</blockedMemberNode>
-    </replicationPolicy>
     <dateUploaded>2006-05-04T18:13:51.0Z</dateUploaded>
     <dateSysMetadataModified>2006-05-04T18:13:51.0Z</dateSysMetadataModified>
     <originMemberNode>mn1</originMemberNode>

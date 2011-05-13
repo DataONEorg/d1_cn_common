@@ -73,12 +73,12 @@ import static org.junit.Assert.*;
 
 public class ValidateSamplesTestCase {
 
-    static String systemMetadataSchemaLocation = "https://repository.dataone.org/software/cicore/tags/D1_SCHEMA_0_5_1/dataoneTypes.xsd";
-    static String systemObjectListSchemaLocation = "https://repository.dataone.org/software/cicore/tags/D1_SCHEMA_0_5_1/dataoneTypes.xsd";
-    static String systemLoggingSchemaLocation = "https://repository.dataone.org/software/cicore/tags/D1_SCHEMA_0_5_1/dataoneTypes.xsd";
-    static String systemNodeRegistrySchemaLocation = "https://repository.dataone.org/software/cicore/tags/D1_SCHEMA_0_5_1/dataoneTypes.xsd";
-    static String systemIdentifierSchemaLocation = "https://repository.dataone.org/software/cicore/tags/D1_SCHEMA_0_5_1/dataoneTypes.xsd";
-    static String systemChecksumSchemaLocation = "https://repository.dataone.org/software/cicore/tags/D1_SCHEMA_0_5_1/dataoneTypes.xsd";
+    static String systemMetadataSchemaLocation = "https://repository.dataone.org/software/cicore/tags/D1_SCHEMA_0_6_1/dataoneTypes.xsd";
+    static String systemObjectListSchemaLocation = "https://repository.dataone.org/software/cicore/tags/D1_SCHEMA_0_6_1/dataoneTypes.xsd";
+    static String systemLoggingSchemaLocation = "https://repository.dataone.org/software/cicore/tags/D1_SCHEMA_0_6_1/dataoneTypes.xsd";
+    static String systemNodeRegistrySchemaLocation = "https://repository.dataone.org/software/cicore/tags/D1_SCHEMA_0_6_1/dataoneTypes.xsd";
+    static String systemIdentifierSchemaLocation = "https://repository.dataone.org/software/cicore/tags/D1_SCHEMA_0_6_1/dataoneTypes.xsd";
+    static String systemChecksumSchemaLocation = "https://repository.dataone.org/software/cicore/tags/D1_SCHEMA_0_6_1/dataoneTypes.xsd";
     @Test
     public void fake() throws Exception {
         // parse an XML document into a DOM tree

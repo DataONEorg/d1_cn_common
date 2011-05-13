@@ -2,9 +2,12 @@
 package org.dataone.service.types;
 
 /** 
+ * Initially an enumerated list of strings that specify different types of identifiers.
+
+ * 
  * Schema fragment(s) for this class:
  * <pre>
- * &lt;xs:simpleType xmlns:ns="http://dataone.org/service/types/0.5.1" xmlns:xs="http://www.w3.org/2001/XMLSchema" name="IdentifierFormat">
+ * &lt;xs:simpleType xmlns:ns="http://ns.dataone.org/service/types/0.6.1" xmlns:xs="http://www.w3.org/2001/XMLSchema" name="IdentifierFormat">
  *   &lt;xs:restriction base="xs:string">
  *     &lt;xs:enumeration value="OID"/>
  *     &lt;xs:enumeration value="LSID"/>

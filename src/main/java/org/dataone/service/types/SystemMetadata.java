@@ -8,13 +8,17 @@ import java.util.List;
 /** 
  * Schema fragment(s) for this class:
  * <pre>
- * &lt;xs:complexType xmlns:ns="http://dataone.org/service/types/0.5.1" xmlns:xs="http://www.w3.org/2001/XMLSchema" name="SystemMetadata">
+ * &lt;xs:complexType xmlns:ns="http://ns.dataone.org/service/types/0.6.1" xmlns:xs="http://www.w3.org/2001/XMLSchema" name="SystemMetadata">
  *   &lt;xs:sequence>
  *     &lt;xs:element type="ns:Identifier" name="identifier" minOccurs="1" maxOccurs="1"/>
  *     &lt;xs:element type="ns:ObjectFormat" name="objectFormat"/>
  *     &lt;xs:element type="xs:long" name="size"/>
  *     &lt;xs:element type="ns:Principal" name="submitter"/>
  *     &lt;xs:element type="ns:Principal" name="rightsHolder"/>
+ *     &lt;xs:element type="ns:AccessPolicy" name="accessPolicy" minOccurs="0" maxOccurs="1">
+ *       &lt;!-- Reference to inner class AccessPolicy -->
+ *     &lt;/xs:element>
+ *     &lt;xs:element type="ns:ReplicationPolicy" name="replicationPolicy" minOccurs="0" maxOccurs="1"/>
  *     &lt;xs:element type="ns:Identifier" name="obsoletes" minOccurs="0" maxOccurs="unbounded"/>
  *     &lt;xs:element type="ns:Identifier" name="obsoletedBy" minOccurs="0" maxOccurs="unbounded"/>
  *     &lt;xs:element type="ns:Identifier" name="derivedFrom" minOccurs="0" maxOccurs="unbounded"/>
@@ -22,8 +26,6 @@ import java.util.List;
  *     &lt;xs:element type="ns:Identifier" name="describedBy" minOccurs="0" maxOccurs="unbounded"/>
  *     &lt;xs:element type="ns:Checksum" name="checksum" minOccurs="1" maxOccurs="1"/>
  *     &lt;xs:element type="xs:dateTime" name="embargoExpires" minOccurs="0"/>
- *     &lt;xs:element type="ns:AccessRule" name="accessRule" minOccurs="0" maxOccurs="unbounded"/>
- *     &lt;xs:element type="ns:ReplicationPolicy" name="replicationPolicy" minOccurs="0" maxOccurs="1"/>
  *     &lt;xs:element type="xs:dateTime" name="dateUploaded"/>
  *     &lt;xs:element type="xs:dateTime" name="dateSysMetadataModified"/>
  *     &lt;xs:element type="ns:NodeReference" name="originMemberNode"/>
@@ -40,6 +42,8 @@ public class SystemMetadata
     private long size;
     private Principal submitter;
     private Principal rightsHolder;
+    private AccessPolicy accessPolicy;
+    private ReplicationPolicy replicationPolicy;
     private List<Identifier> obsoleteList = new ArrayList<Identifier>();
     private List<Identifier> obsoletedByList = new ArrayList<Identifier>();
     private List<Identifier> derivedFromList = new ArrayList<Identifier>();
@@ -47,8 +51,6 @@ public class SystemMetadata
     private List<Identifier> describedByList = new ArrayList<Identifier>();
     private Checksum checksum;
     private Date embargoExpires;
-    private List<AccessRule> accessRuleList = new ArrayList<AccessRule>();
-    private ReplicationPolicy replicationPolicy;
     private Date dateUploaded;
     private Date dateSysMetadataModified;
     private NodeReference originMemberNode;
@@ -143,6 +145,42 @@ public class SystemMetadata
      */
     public void setRightsHolder(Principal rightsHolder) {
         this.rightsHolder = rightsHolder;
+    }
+
+    /** 
+     * Get the 'accessPolicy' element value.
+     * 
+     * @return value
+     */
+    public AccessPolicy getAccessPolicy() {
+        return accessPolicy;
+    }
+
+    /** 
+     * Set the 'accessPolicy' element value.
+     * 
+     * @param accessPolicy
+     */
+    public void setAccessPolicy(AccessPolicy accessPolicy) {
+        this.accessPolicy = accessPolicy;
+    }
+
+    /** 
+     * Get the 'replicationPolicy' element value.
+     * 
+     * @return value
+     */
+    public ReplicationPolicy getReplicationPolicy() {
+        return replicationPolicy;
+    }
+
+    /** 
+     * Set the 'replicationPolicy' element value.
+     * 
+     * @param replicationPolicy
+     */
+    public void setReplicationPolicy(ReplicationPolicy replicationPolicy) {
+        this.replicationPolicy = replicationPolicy;
     }
 
     /** 
@@ -432,74 +470,6 @@ public class SystemMetadata
     }
 
     /** 
-     * Get the list of 'accessRule' element items.
-     * 
-     * @return list
-     */
-    public List<AccessRule> getAccessRuleList() {
-        return accessRuleList;
-    }
-
-    /** 
-     * Set the list of 'accessRule' element items.
-     * 
-     * @param list
-     */
-    public void setAccessRuleList(List<AccessRule> list) {
-        accessRuleList = list;
-    }
-
-    /** 
-     * Get the number of 'accessRule' element items.
-     * @return count
-     */
-    public int sizeAccessRuleList() {
-        return accessRuleList.size();
-    }
-
-    /** 
-     * Add a 'accessRule' element item.
-     * @param item
-     */
-    public void addAccessRule(AccessRule item) {
-        accessRuleList.add(item);
-    }
-
-    /** 
-     * Get 'accessRule' element item by position.
-     * @return item
-     * @param index
-     */
-    public AccessRule getAccessRule(int index) {
-        return accessRuleList.get(index);
-    }
-
-    /** 
-     * Remove all 'accessRule' element items.
-     */
-    public void clearAccessRuleList() {
-        accessRuleList.clear();
-    }
-
-    /** 
-     * Get the 'replicationPolicy' element value.
-     * 
-     * @return value
-     */
-    public ReplicationPolicy getReplicationPolicy() {
-        return replicationPolicy;
-    }
-
-    /** 
-     * Set the 'replicationPolicy' element value.
-     * 
-     * @param replicationPolicy
-     */
-    public void setReplicationPolicy(ReplicationPolicy replicationPolicy) {
-        this.replicationPolicy = replicationPolicy;
-    }
-
-    /** 
      * Get the 'dateUploaded' element value.
      * 
      * @return value
@@ -619,5 +589,71 @@ public class SystemMetadata
      */
     public void clearReplicaList() {
         replicaList.clear();
+    }
+    /** 
+     * Schema fragment(s) for this class:
+     * <pre>
+     * &lt;xs:element xmlns:ns="http://ns.dataone.org/service/types/0.6.1" xmlns:xs="http://www.w3.org/2001/XMLSchema" type="ns:AccessPolicy" name="accessPolicy" minOccurs="0" maxOccurs="1"/>
+     * 
+     * &lt;xs:complexType xmlns:ns="http://ns.dataone.org/service/types/0.6.1" xmlns:xs="http://www.w3.org/2001/XMLSchema" name="AccessPolicy">
+     *   &lt;xs:sequence>
+     *     &lt;xs:element type="ns:AccessRule" name="allow" minOccurs="1" maxOccurs="unbounded"/>
+     *   &lt;/xs:sequence>
+     * &lt;/xs:complexType>
+     * </pre>
+     */
+    public static class AccessPolicy
+    {
+        private List<AccessRule> allowList = new ArrayList<AccessRule>();
+
+        /** 
+         * Get the list of 'allow' element items.
+         * 
+         * @return list
+         */
+        public List<AccessRule> getAllows() {
+            return allowList;
+        }
+
+        /** 
+         * Set the list of 'allow' element items.
+         * 
+         * @param list
+         */
+        public void setAllows(List<AccessRule> list) {
+            allowList = list;
+        }
+
+        /** 
+         * Get the number of 'allow' element items.
+         * @return count
+         */
+        public int sizeAllows() {
+            return allowList.size();
+        }
+
+        /** 
+         * Add a 'allow' element item.
+         * @param item
+         */
+        public void addAllow(AccessRule item) {
+            allowList.add(item);
+        }
+
+        /** 
+         * Get 'allow' element item by position.
+         * @return item
+         * @param index
+         */
+        public AccessRule getAllow(int index) {
+            return allowList.get(index);
+        }
+
+        /** 
+         * Remove all 'allow' element items.
+         */
+        public void clearAllows() {
+            allowList.clear();
+        }
     }
 }

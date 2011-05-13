@@ -2,9 +2,18 @@
 package org.dataone.service.types;
 
 /** 
+ * An :term:`identifier` (:term:`PID`) in the DataONE system. This is
+ equivalent to a Unicode value of printable characters, excluding
+ whitespace. All representations of identifiers must be encoded in 7-bit
+ ASCII or UTF-8.
+ Identifiers have a maximum length of 800 characters. Some discussion on this
+ is described in `ticket 577`_.
+ .. _ticket 577: https://redmine.dataone.org/issues/577
+
+ * 
  * Schema fragment(s) for this class:
  * <pre>
- * &lt;xs:complexType xmlns:ns="http://dataone.org/service/types/0.5.1" xmlns:xs="http://www.w3.org/2001/XMLSchema" name="Identifier">
+ * &lt;xs:complexType xmlns:ns="http://ns.dataone.org/service/types/0.6.1" xmlns:xs="http://www.w3.org/2001/XMLSchema" name="Identifier">
  *   &lt;xs:simpleContent>
  *     &lt;xs:extension base="xs:value"/>
  *   &lt;/xs:simpleContent>

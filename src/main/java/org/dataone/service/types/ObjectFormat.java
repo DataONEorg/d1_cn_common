@@ -4,7 +4,7 @@ package org.dataone.service.types;
 /** 
  * Schema fragment(s) for this class:
  * <pre>
- * &lt;xs:simpleType xmlns:ns="http://dataone.org/service/types/0.5.1" xmlns:xs="http://www.w3.org/2001/XMLSchema" name="ObjectFormat">
+ * &lt;xs:simpleType xmlns:ns="http://ns.dataone.org/service/types/0.6.1" xmlns:xs="http://www.w3.org/2001/XMLSchema" name="ObjectFormat">
  *   &lt;xs:restriction base="xs:string">
  *     &lt;xs:enumeration value="eml://ecoinformatics.org/eml-2.0.0"/>
  *     &lt;xs:enumeration value="eml://ecoinformatics.org/eml-2.0.1"/>
