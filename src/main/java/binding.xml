@@ -68,6 +68,15 @@
   <mapping class="org.dataone.service.types.Principal" name="principal" ns="http://ns.dataone.org/service/types/0.6.1">
     <structure map-as="d1:Principal"/>
   </mapping>
+  <mapping abstract="true" type-name="d1:Log" class="org.dataone.service.types.Log">
+    <structure map-as="d1:Slice"/>
+    <collection get-method="getLogEntryList" set-method="setLogEntryList" create-type="java.util.ArrayList">
+      <structure map-as="d1:LogEntry" name="logEntry"/>
+    </collection>
+  </mapping>
+  <mapping class="org.dataone.service.types.Log" name="log" ns="http://ns.dataone.org/service/types/0.6.1">
+    <structure map-as="d1:Log"/>
+  </mapping>
   <mapping abstract="true" type-name="d1:LogEntry" class="org.dataone.service.types.LogEntry">
     <structure map-as="d1:Identifier" get-method="getEntryId" set-method="setEntryId" name="entryId"/>
     <structure map-as="d1:Identifier" get-method="getIdentifier" set-method="setIdentifier" name="identifier"/>
@@ -265,11 +274,5 @@
   </mapping>
   <mapping class="org.dataone.service.types.SystemMetadata" name="systemMetadata" ns="http://ns.dataone.org/service/types/0.6.1">
     <structure map-as="d1:SystemMetadata"/>
-  </mapping>
-  <mapping class="org.dataone.service.types.Log" name="log" ns="http://ns.dataone.org/service/types/0.6.1">
-    <structure map-as="d1:Slice"/>
-    <collection get-method="getLogEntryList" set-method="setLogEntryList" create-type="java.util.ArrayList">
-      <structure map-as="d1:LogEntry" name="logEntry"/>
-    </collection>
   </mapping>
 </binding>

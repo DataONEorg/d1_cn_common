@@ -30,7 +30,7 @@
         <schema-type type-name="dateTime" java-class="java.util.Date"
             serializer="org.dataone.service.types.util.ServiceTypeUtil.serializeDateToUTC"
             deserializer="org.dataone.service.types.util.ServiceTypeUtil.deserializeDateToUTC"/>
-        <schema name="dataoneTypes.xsd" includes="checksum  componentList identifier log nodeList objectList objectLocationList principal systemMetadata AccessPolicy  AccessRule  Checksum  ChecksumAlgorithm  Component  ComponentList ComponentName  Environment  Event  Group  Identifier  IdentifierFormat  LogEntry  MonitorInfo MonitorList Node  NodeHealth  NodeList  NodeReference  NodeState  NodeType  ObjectFormat  ObjectInfo  ObjectList  ObjectLocation   ObjectLocationList  Permission  Person  Principal  PrincipalList  Replica  ReplicationPolicy  ReplicationStatus  Schedule  Service  ServiceMethod  Services  Slice  Status  Synchronization  SystemMetadata  X509Certificate" />
+        <schema name="dataoneTypes.xsd" includes="checksum  componentList identifier log nodeList objectList objectLocationList principal systemMetadata AccessPolicy  AccessRule  Checksum  ChecksumAlgorithm  Component  ComponentList ComponentName  Environment  Event  Group  Identifier  IdentifierFormat  Log  LogEntry  MonitorInfo MonitorList Node  NodeHealth  NodeList  NodeReference  NodeState  NodeType  ObjectFormat  ObjectInfo  ObjectList  ObjectLocation   ObjectLocationList  Permission  Person  Principal  PrincipalList  Replica  ReplicationPolicy  ReplicationStatus  Schedule  Service  ServiceMethod  Services  Slice  Status  Synchronization  SystemMetadata  X509Certificate" />
 
     </schema-set>
 </schema-set>
