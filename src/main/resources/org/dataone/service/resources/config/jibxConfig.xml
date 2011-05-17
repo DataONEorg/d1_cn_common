@@ -21,43 +21,16 @@
 
 -->
 
-<schema-set prefer-inline="true" generate-all="false" package="org.dataone.service.types" enumeration-type="java5" >
-     <class-decorator class="org.jibx.schema.codegen.extend.CollectionMethodsDecorator"/>
+<schema-set prefer-inline="false" generate-all="false" package="org.dataone.service.types" enumeration-type="java5" >
+    <class-decorator class="org.jibx.schema.codegen.extend.CollectionMethodsDecorator"/>
      <!-- Should add in the serializable decorator, we may want to use it at some point -->
 <!--     <class-decorator class="org.jibx.schema.codegen.extend.SerializableDecorator" /> -->
 
-<!--
-    <schema-set names="common.xsd" prefix="common" namespaces="http://dataone.org/service/types/common/0.5">
-        <schema name="common.xsd"  includes="NodeReference Principal ComponentName ComponentVersion ObjectFormat Checksum Identifier ChecksumAlgorithm Slice" />
-    </schema-set>
-    <schema-set names="identifier.xsd" prefix="d1" namespaces="http://dataone.org/service/types/Identifier/0.5">
-        <schema name="identifier.xsd" includes="identifier" />
-    </schema-set>
-    <schema-set names="checksum.xsd" prefix="d1" namespaces="http://dataone.org/service/types/Checksum/0.5">
-        <schema name="checksum.xsd" includes="checksum" />
-    </schema-set>
-
-    <schema-set names="systemmetadata.xsd" prefix="d1" namespaces="http://dataone.org/service/types/SystemMetadata/0.5">
-        <schema name="systemmetadata.xsd" includes="systemMetadata AccessRule ReplicationPolicy SystemMetadata Replica ReplicationStatus" />
-    </schema-set>
-    <schema-set names="logging.xsd" prefix="d1" namespaces="http://dataone.org/service/types/logging/0.5">
-        <schema name="logging.xsd" includes="log LogEntry Event"/>
-    </schema-set>
-    <schema-set names="objectlist.xsd" prefix="d1" namespaces="http://dataone.org/service/types/ObjectList/0.5">
-        <schema name="objectlist.xsd" includes="objectList ObjectList ObjectInfo" />
-    </schema-set>
-    <schema-set names="nodelist.xsd" prefix="d1" namespaces="http://dataone.org/service/types/NodeList/0.5">
-        <schema name="nodelist.xsd" includes="nodeList Node Environment NodeType Services Service ServiceMethod Synchronization Schedule NodeHealth NodeState" />
-    </schema-set>
-    <schema-set names="objectlocationlist.xsd" prefix="d1" namespaces="http://dataone.org/service/types/ObjectLocationList/0.5">
-        <schema name="objectlocationlist.xsd" includes="objectLocationList ObjectLocationList ObjectLocation" />
-    </schema-set> -->
     <schema-set names="dataoneTypes.xsd" prefix="d1" namespaces="http://ns.dataone.org/service/types/0.6.1">
-  <schema-type type-name="dateTime" java-class="java.util.Date"
-      serializer="org.dataone.service.types.util.ServiceTypeUtil.serializeDateToUTC"
-      deserializer="org.dataone.service.types.util.ServiceTypeUtil.deserializeDateToUTC"/>
-        <schema name="dataoneTypes.xsd" includes="identifier checksum  componentList nodeList objectList objectLocationList systemMetadata Identifier Checksum ObjectLocationList ObjectLocation  Node Environment NodeType Services Service ServiceMethod Synchronization Schedule NodeHealth NodeState ObjectList ObjectInfo log LogEntry Event AccessRule ReplicationPolicy SystemMetadata Replica ReplicationStatus NodeReference Component ComponentName ObjectFormat Principal PrincipalList Person IdentifierFormat ChecksumAlgorithm Slice X509Certificate">
+        <schema-type type-name="dateTime" java-class="java.util.Date"
+            serializer="org.dataone.service.types.util.ServiceTypeUtil.serializeDateToUTC"
+            deserializer="org.dataone.service.types.util.ServiceTypeUtil.deserializeDateToUTC"/>
+        <schema name="dataoneTypes.xsd" includes="checksum  componentList identifier log nodeList objectList objectLocationList principal systemMetadata AccessPolicy  AccessRule  Checksum  ChecksumAlgorithm  Component  ComponentList ComponentName  Environment  Event  Group  Identifier  IdentifierFormat  LogEntry  MonitorInfo MonitorList Node  NodeHealth  NodeList  NodeReference  NodeState  NodeType  ObjectFormat  ObjectInfo  ObjectList  ObjectLocation   ObjectLocationList  Permission  Person  Principal  PrincipalList  Replica  ReplicationPolicy  ReplicationStatus  Schedule  Service  ServiceMethod  Services  Slice  Status  Synchronization  SystemMetadata  X509Certificate" />
 
-        </schema>
     </schema-set>
 </schema-set>

@@ -109,6 +109,8 @@
         <replace file="${basedir}/src/main/java/binding.xml" token="getString" value="getValue" />
         <replace file="${basedir}/src/main/java/binding.xml" token="setString" value="setValue" />
 
+        <replace file="${basedir}/src/main/java/binding.xml" token="value style=&quot;text&quot; get-method=&quot;getPrincipal&quot; set-method=&quot;setPrincipal&quot;"
+            value="value style=&quot;text&quot; get-method=&quot;getValue&quot; set-method=&quot;setValue&quot;" />
 
         <replace file="${basedir}/src/main/java/binding.xml" token="ObjectInfos" value="ObjectInfoList" />
         <replace file="${basedir}/src/main/java/org/dataone/service/types/ObjectList.java" token="ObjectInfos" value="ObjectInfoList" />
@@ -126,6 +128,42 @@
         <replace file="${basedir}/src/main/java/org/dataone/service/types/Services.java" token="setServices" value="setServiceList" />
         <replace file="${basedir}/src/main/java/org/dataone/service/types/Services.java" token="sizeServices" value="sizeServiceList" />
         <replace file="${basedir}/src/main/java/org/dataone/service/types/Services.java" token="clearServices" value="clearServiceList" />
+
+        <replace file="${basedir}/src/main/java/binding.xml"  token="Allows" value="AllowList" />
+        <replace file="${basedir}/src/main/java/org/dataone/service/types/AccessPolicy.java"  token="Allows" value="AllowList" />
+
+        <replace file="${basedir}/src/main/java/binding.xml"  token="Principals" value="PrincipalList" />
+        <replace file="${basedir}/src/main/java/org/dataone/service/types/AccessRule.java"  token="Principals" value="PrincipalList" />
+
+        <replace file="${basedir}/src/main/java/binding.xml"  token="Permissions" value="PermissionList" />
+        <replace file="${basedir}/src/main/java/org/dataone/service/types/AccessRule.java"  token="Permissions" value="PermissionList" />
+
+        <replace file="${basedir}/src/main/java/binding.xml"  token="Resources" value="ResourceList" />
+        <replace file="${basedir}/src/main/java/org/dataone/service/types/AccessRule.java"  token="Resources" value="ResourceList" />
+
+        <replace file="${basedir}/src/main/java/binding.xml"  token="HasMembers" value="HasMemberList" />
+        <replace file="${basedir}/src/main/java/org/dataone/service/types/Group.java"  token="HasMembers" value="HasMemberList" />
+
+        <replace file="${basedir}/src/main/java/binding.xml"  token="MonitorInfos" value="MonitorInfoList" />
+        <replace file="${basedir}/src/main/java/org/dataone/service/types/MonitorList.java"  token="MonitorInfos" value="MonitorInfoList" />
+
+        <replace file="${basedir}/src/main/java/binding.xml"  token="GivenNames" value="GivenNameList" />
+        <replace file="${basedir}/src/main/java/org/dataone/service/types/Person.java"  token="GivenNames" value="GivenNameList" />
+
+        <replace file="${basedir}/src/main/java/binding.xml"  token="Emails" value="EmailList" />
+        <replace file="${basedir}/src/main/java/org/dataone/service/types/Person.java"  token="Emails" value="EmailList" />
+
+        <replace file="${basedir}/src/main/java/binding.xml"  token="IsMemberOfs" value="IsMemberOfList" />
+        <replace file="${basedir}/src/main/java/org/dataone/service/types/Person.java"  token="IsMemberOfs" value="IsMemberOfList" />
+
+        <replace file="${basedir}/src/main/java/binding.xml"  token="EquivalentIdentities" value="EquivalentIdentityList" />
+        <replace file="${basedir}/src/main/java/org/dataone/service/types/Person.java"  token="EquivalentIdentities" value="EquivalentIdentityList" />
+
+        <replace file="${basedir}/src/main/java/binding.xml"  token="Persons" value="PersonList" />
+        <replace file="${basedir}/src/main/java/org/dataone/service/types/PrincipalList.java"  token="Persons" value="PersonList" />
+
+        <replace file="${basedir}/src/main/java/binding.xml"  token="Groups" value="GroupList" />
+        <replace file="${basedir}/src/main/java/org/dataone/service/types/PrincipalList.java"  token="Groups" value="GroupList" />
 
         <replace file="${basedir}/src/main/java/binding.xml" token="Methods" value="MethodList" />
         <replace file="${basedir}/src/main/java/org/dataone/service/types/Service.java"   token="Methods" value="MethodList" />
@@ -165,7 +203,13 @@
                        replace="\1if \(objectFormat != null\) \{\2} else \{throw new NullPointerException\(&quot;ObjectFormat cannot be null!&quot;\);\}"
                        byline="true"
         />
-
+<!--
+        <replaceregexp file="${basedir}/src/main/java/binding.xml"
+                       match="&lt;mapping\s+class\=\&quot;org\.dataone\.service\.types\.Principal1.+mapping&gt;"
+                       replace=""
+                       flags="s"
+        /> 
+-->
       </target>
 
 
@@ -202,6 +246,28 @@
             <arg value="nodelist.xsd"/>
 -->
 
+        </java>
+
+    </target>
+
+   <!-- generate using default settings -->
+    <target name="bindgen">
+
+        <echo message="Running binding generation from schema"/>
+
+        <java classname="org.jibx.binding.generator.BindGen" fork="yes"
+               failonerror="true">
+            <classpath>
+              <pathelement path="${compile_classpath}"/>
+              <pathelement path="{java.class.path}" />
+            </classpath>
+
+            <arg value="-a" />
+            <arg value="-o" />
+            <arg value="-s" />
+            <arg value="${basedir}/src/main/java" />
+            <arg value="-t"/>
+            <arg value="${basedir}/target/main-target"/>
         </java>
 
     </target>

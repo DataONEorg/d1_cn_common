@@ -7,12 +7,10 @@ import java.util.List;
 /** 
  * Schema fragment(s) for this class:
  * <pre>
- * &lt;xs:complexType xmlns:d1="http://ns.dataone.org/service/types/0.6.1" xmlns:xs="http://www.w3.org/2001/XMLSchema" name="PrincipalList">
+ * &lt;xs:complexType xmlns:ns="http://ns.dataone.org/service/types/0.6.1" xmlns:xs="http://www.w3.org/2001/XMLSchema" name="PrincipalList">
  *   &lt;xs:choice>
- *     &lt;xs:element type="d1:Person" name="person" minOccurs="0" maxOccurs="unbounded"/>
- *     &lt;xs:element type="d1:Group" name="group" minOccurs="0" maxOccurs="unbounded">
- *       &lt;!-- Reference to inner class Group -->
- *     &lt;/xs:element>
+ *     &lt;xs:element type="ns:Person" name="person" minOccurs="0" maxOccurs="unbounded"/>
+ *     &lt;xs:element type="ns:Group" name="group" minOccurs="0" maxOccurs="unbounded"/>
  *   &lt;/xs:choice>
  * &lt;/xs:complexType>
  * </pre>
@@ -42,7 +40,7 @@ public class PrincipalList
     }
 
     /** 
-     * Check if Persons is current selection for choice.
+     * Check if PersonList is current selection for choice.
      * 
      * @return <code>true</code> if selection, <code>false</code> if not
      */
@@ -55,7 +53,7 @@ public class PrincipalList
      * 
      * @return list
      */
-    public List<Person> getPersons() {
+    public List<Person> getPersonList() {
         return personList;
     }
 
@@ -64,7 +62,7 @@ public class PrincipalList
      * 
      * @param list
      */
-    public void setPersons(List<Person> list) {
+    public void setPersonList(List<Person> list) {
         setChoiceSelect(PERSON_CHOICE);
         personList = list;
     }
@@ -73,7 +71,7 @@ public class PrincipalList
      * Get the number of 'person' element items.
      * @return count
      */
-    public int sizePersons() {
+    public int sizePersonList() {
         return personList.size();
     }
 
@@ -97,12 +95,12 @@ public class PrincipalList
     /** 
      * Remove all 'person' element items.
      */
-    public void clearPersons() {
+    public void clearPersonList() {
         personList.clear();
     }
 
     /** 
-     * Check if Groups is current selection for choice.
+     * Check if GroupList is current selection for choice.
      * 
      * @return <code>true</code> if selection, <code>false</code> if not
      */
@@ -115,7 +113,7 @@ public class PrincipalList
      * 
      * @return list
      */
-    public List<Group> getGroups() {
+    public List<Group> getGroupList() {
         return groupList;
     }
 
@@ -124,7 +122,7 @@ public class PrincipalList
      * 
      * @param list
      */
-    public void setGroups(List<Group> list) {
+    public void setGroupList(List<Group> list) {
         setChoiceSelect(GROUP_CHOICE);
         groupList = list;
     }
@@ -133,7 +131,7 @@ public class PrincipalList
      * Get the number of 'group' element items.
      * @return count
      */
-    public int sizeGroups() {
+    public int sizeGroupList() {
         return groupList.size();
     }
 
@@ -157,113 +155,7 @@ public class PrincipalList
     /** 
      * Remove all 'group' element items.
      */
-    public void clearGroups() {
+    public void clearGroupList() {
         groupList.clear();
-    }
-    /** 
-     * Schema fragment(s) for this class:
-     * <pre>
-     * &lt;xs:element xmlns:ns="http://ns.dataone.org/service/types/0.6.1" xmlns:xs="http://www.w3.org/2001/XMLSchema" type="ns:Group" name="group" minOccurs="0" maxOccurs="unbounded"/>
-     * 
-     * &lt;xs:complexType xmlns:ns="http://ns.dataone.org/service/types/0.6.1" xmlns:xs="http://www.w3.org/2001/XMLSchema" name="Group">
-     *   &lt;xs:sequence>
-     *     &lt;xs:element type="ns:Principal" name="principal" minOccurs="1" maxOccurs="1"/>
-     *     &lt;xs:element type="xs:string" name="groupName" minOccurs="1" maxOccurs="1"/>
-     *     &lt;xs:element type="ns:Principal" name="hasMember" minOccurs="0" maxOccurs="unbounded"/>
-     *   &lt;/xs:sequence>
-     * &lt;/xs:complexType>
-     * </pre>
-     */
-    public static class Group
-    {
-        private Principal principal;
-        private String groupName;
-        private List<Principal> hasMemberList = new ArrayList<Principal>();
-
-        /** 
-         * Get the 'principal' element value.
-         * 
-         * @return value
-         */
-        public Principal getPrincipal() {
-            return principal;
-        }
-
-        /** 
-         * Set the 'principal' element value.
-         * 
-         * @param principal
-         */
-        public void setPrincipal(Principal principal) {
-            this.principal = principal;
-        }
-
-        /** 
-         * Get the 'groupName' element value.
-         * 
-         * @return value
-         */
-        public String getGroupName() {
-            return groupName;
-        }
-
-        /** 
-         * Set the 'groupName' element value.
-         * 
-         * @param groupName
-         */
-        public void setGroupName(String groupName) {
-            this.groupName = groupName;
-        }
-
-        /** 
-         * Get the list of 'hasMember' element items.
-         * 
-         * @return list
-         */
-        public List<Principal> getHasMembers() {
-            return hasMemberList;
-        }
-
-        /** 
-         * Set the list of 'hasMember' element items.
-         * 
-         * @param list
-         */
-        public void setHasMembers(List<Principal> list) {
-            hasMemberList = list;
-        }
-
-        /** 
-         * Get the number of 'hasMember' element items.
-         * @return count
-         */
-        public int sizeHasMembers() {
-            return hasMemberList.size();
-        }
-
-        /** 
-         * Add a 'hasMember' element item.
-         * @param item
-         */
-        public void addHasMember(Principal item) {
-            hasMemberList.add(item);
-        }
-
-        /** 
-         * Get 'hasMember' element item by position.
-         * @return item
-         * @param index
-         */
-        public Principal getHasMember(int index) {
-            return hasMemberList.get(index);
-        }
-
-        /** 
-         * Remove all 'hasMember' element items.
-         */
-        public void clearHasMembers() {
-            hasMemberList.clear();
-        }
     }
 }

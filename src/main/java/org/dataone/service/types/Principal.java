@@ -9,9 +9,11 @@ package org.dataone.service.types;
  * 
  * Schema fragment(s) for this class:
  * <pre>
- * &lt;xs:simpleType xmlns:ns="http://ns.dataone.org/service/types/0.6.1" xmlns:xs="http://www.w3.org/2001/XMLSchema" name="Principal">
- *   &lt;xs:restriction base="xs:value"/>
- * &lt;/xs:simpleType>
+ * &lt;xs:complexType xmlns:ns="http://ns.dataone.org/service/types/0.6.1" xmlns:xs="http://www.w3.org/2001/XMLSchema" name="Principal">
+ *   &lt;xs:simpleContent>
+ *     &lt;xs:extension base="xs:value"/>
+ *   &lt;/xs:simpleContent>
+ * &lt;/xs:complexType>
  * </pre>
  */
 public class Principal
@@ -19,7 +21,7 @@ public class Principal
     private String value;
 
     /** 
-     * Get the 'Principal' simpleType value.
+     * Get the 'Principal' complexType value.
      * 
      * @return value
      */
@@ -28,7 +30,7 @@ public class Principal
     }
 
     /** 
-     * Set the 'Principal' simpleType value.
+     * Set the 'Principal' complexType value.
      * 
      * @param value
      */

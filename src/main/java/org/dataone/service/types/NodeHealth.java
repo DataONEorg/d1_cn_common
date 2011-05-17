@@ -1,8 +1,6 @@
 
 package org.dataone.service.types;
 
-import java.util.Date;
-
 /** 
  * The schedule on which MnSynchronization will run for a particular run
 
@@ -16,96 +14,48 @@ import java.util.Date;
  *   &lt;/xs:sequence>
  *   &lt;xs:attribute type="ns:NodeState" use="required" name="state"/>
  * &lt;/xs:complexType>
- * 
- * &lt;xs:complexType xmlns:ns="http://ns.dataone.org/service/types/0.6.1" xmlns:xs="http://www.w3.org/2001/XMLSchema" name="Ping">
- *   &lt;xs:attribute type="xs:boolean" name="success"/>
- *   &lt;xs:attribute type="xs:dateTime" name="lastSuccess"/>
- * &lt;/xs:complexType>
- * 
- * &lt;xs:complexType xmlns:ns="http://ns.dataone.org/service/types/0.6.1" xmlns:xs="http://www.w3.org/2001/XMLSchema" name="Status">
- *   &lt;xs:attribute type="xs:boolean" name="success"/>
- *   &lt;xs:attribute type="xs:dateTime" use="required" name="dateChecked"/>
- * &lt;/xs:complexType>
  * </pre>
  */
 public class NodeHealth
 {
-    private Boolean pingSuccess;
-    private Date pingLastSuccess;
-    private Boolean statusSuccess;
-    private Date statusDateChecked;
+    private Ping ping;
+    private Status status;
     private NodeState state;
 
     /** 
-     * Get the 'success' attribute value.
+     * Get the 'ping' element value.
      * 
      * @return value
      */
-    public Boolean getPingSuccess() {
-        return pingSuccess;
+    public Ping getPing() {
+        return ping;
     }
 
     /** 
-     * Set the 'success' attribute value.
+     * Set the 'ping' element value.
      * 
-     * @param pingSuccess
+     * @param ping
      */
-    public void setPingSuccess(Boolean pingSuccess) {
-        this.pingSuccess = pingSuccess;
+    public void setPing(Ping ping) {
+        this.ping = ping;
     }
 
     /** 
-     * Get the 'lastSuccess' attribute value.
-     * 
-     * @return value
-     */
-    public Date getPingLastSuccess() {
-        return pingLastSuccess;
-    }
-
-    /** 
-     * Set the 'lastSuccess' attribute value.
-     * 
-     * @param pingLastSuccess
-     */
-    public void setPingLastSuccess(Date pingLastSuccess) {
-        this.pingLastSuccess = pingLastSuccess;
-    }
-
-    /** 
-     * Get the 'success' attribute value.
+     * Get the 'status' element value.
      * 
      * @return value
      */
-    public Boolean getStatusSuccess() {
-        return statusSuccess;
+    public Status getStatus() {
+        return status;
     }
 
     /** 
-     * Set the 'success' attribute value.
+     * Set the 'status' element value.
      * 
-     * @param statusSuccess
+     * @param status
      */
-    public void setStatusSuccess(Boolean statusSuccess) {
-        this.statusSuccess = statusSuccess;
-    }
-
-    /** 
-     * Get the 'dateChecked' attribute value.
-     * 
-     * @return value
-     */
-    public Date getStatusDateChecked() {
-        return statusDateChecked;
-    }
-
-    /** 
-     * Set the 'dateChecked' attribute value.
-     * 
-     * @param statusDateChecked
-     */
-    public void setStatusDateChecked(Date statusDateChecked) {
-        this.statusDateChecked = statusDateChecked;
+    public void setStatus(Status status) {
+        this.status = status;
     }
 
     /** 

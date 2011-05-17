@@ -14,10 +14,6 @@ import java.util.List;
  *     &lt;xs:element type="ns:Identifier" name="resource" minOccurs="1" maxOccurs="unbounded"/>
  *   &lt;/xs:sequence>
  * &lt;/xs:complexType>
- * 
- * &lt;xs:simpleType xmlns:ns="http://ns.dataone.org/service/types/0.6.1" xmlns:xs="http://www.w3.org/2001/XMLSchema" name="Permission">
- *   &lt;!-- Reference to inner class Permission -->
- * &lt;/xs:simpleType>
  * </pre>
  */
 public class AccessRule
@@ -31,7 +27,7 @@ public class AccessRule
      * 
      * @return list
      */
-    public List<Principal> getPrincipals() {
+    public List<Principal> getPrincipalList() {
         return principalList;
     }
 
@@ -40,7 +36,7 @@ public class AccessRule
      * 
      * @param list
      */
-    public void setPrincipals(List<Principal> list) {
+    public void setPrincipalList(List<Principal> list) {
         principalList = list;
     }
 
@@ -48,7 +44,7 @@ public class AccessRule
      * Get the number of 'principal' element items.
      * @return count
      */
-    public int sizePrincipals() {
+    public int sizePrincipalList() {
         return principalList.size();
     }
 
@@ -72,7 +68,7 @@ public class AccessRule
     /** 
      * Remove all 'principal' element items.
      */
-    public void clearPrincipals() {
+    public void clearPrincipalList() {
         principalList.clear();
     }
 
@@ -81,7 +77,7 @@ public class AccessRule
      * 
      * @return list
      */
-    public List<Permission> getPermissions() {
+    public List<Permission> getPermissionList() {
         return permissionList;
     }
 
@@ -90,7 +86,7 @@ public class AccessRule
      * 
      * @param list
      */
-    public void setPermissions(List<Permission> list) {
+    public void setPermissionList(List<Permission> list) {
         permissionList = list;
     }
 
@@ -98,7 +94,7 @@ public class AccessRule
      * Get the number of 'permission' element items.
      * @return count
      */
-    public int sizePermissions() {
+    public int sizePermissionList() {
         return permissionList.size();
     }
 
@@ -122,7 +118,7 @@ public class AccessRule
     /** 
      * Remove all 'permission' element items.
      */
-    public void clearPermissions() {
+    public void clearPermissionList() {
         permissionList.clear();
     }
 
@@ -131,7 +127,7 @@ public class AccessRule
      * 
      * @return list
      */
-    public List<Identifier> getResources() {
+    public List<Identifier> getResourceList() {
         return resourceList;
     }
 
@@ -140,7 +136,7 @@ public class AccessRule
      * 
      * @param list
      */
-    public void setResources(List<Identifier> list) {
+    public void setResourceList(List<Identifier> list) {
         resourceList = list;
     }
 
@@ -148,7 +144,7 @@ public class AccessRule
      * Get the number of 'resource' element items.
      * @return count
      */
-    public int sizeResources() {
+    public int sizeResourceList() {
         return resourceList.size();
     }
 
@@ -172,51 +168,7 @@ public class AccessRule
     /** 
      * Remove all 'resource' element items.
      */
-    public void clearResources() {
+    public void clearResourceList() {
         resourceList.clear();
-    }
-    /** 
-     * A string value indicating the set of actions that can be performed on a
-    resource as specified in an access policy.  The set of permissions include
-    the ability to read a resource, modify a resource (write), and to change
-    the set of access control policies for a resource (changePermission).  In
-    addition, there is a permission that controls ability to execute a service
-    (execute). Permissions are cumulative, in that higher level permissions
-    include all of the priveledges of lower levels (e.g., given write access, one
-    also implicitly has read access).
-     * 
-     * Schema fragment(s) for this class:
-     * <pre>
-     * &lt;xs:simpleType xmlns:ns="http://ns.dataone.org/service/types/0.6.1" xmlns:xs="http://www.w3.org/2001/XMLSchema" name="Permission">
-     *   &lt;xs:restriction base="xs:string">
-     *     &lt;xs:enumeration value="read"/>
-     *     &lt;xs:enumeration value="write"/>
-     *     &lt;xs:enumeration value="changePermission"/>
-     *     &lt;xs:enumeration value="execute"/>
-     *   &lt;/xs:restriction>
-     * &lt;/xs:simpleType>
-     * </pre>
-     */
-    public static enum Permission {
-        READ("read"), WRITE("write"), CHANGE_PERMISSION("changePermission"), EXECUTE(
-                "execute");
-        private final String value;
-
-        private Permission(String value) {
-            this.value = value;
-        }
-
-        public String toString() {
-            return value;
-        }
-
-        public static Permission convert(String value) {
-            for (Permission inst : values()) {
-                if (inst.toString().equals(value)) {
-                    return inst;
-                }
-            }
-            return null;
-        }
     }
 }

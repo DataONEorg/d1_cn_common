@@ -15,9 +15,7 @@ import java.util.List;
  *     &lt;xs:element type="xs:long" name="size"/>
  *     &lt;xs:element type="ns:Principal" name="submitter"/>
  *     &lt;xs:element type="ns:Principal" name="rightsHolder"/>
- *     &lt;xs:element type="ns:AccessPolicy" name="accessPolicy" minOccurs="0" maxOccurs="1">
- *       &lt;!-- Reference to inner class AccessPolicy -->
- *     &lt;/xs:element>
+ *     &lt;xs:element type="ns:AccessPolicy" name="accessPolicy" minOccurs="0" maxOccurs="1"/>
  *     &lt;xs:element type="ns:ReplicationPolicy" name="replicationPolicy" minOccurs="0" maxOccurs="1"/>
  *     &lt;xs:element type="ns:Identifier" name="obsoletes" minOccurs="0" maxOccurs="unbounded"/>
  *     &lt;xs:element type="ns:Identifier" name="obsoletedBy" minOccurs="0" maxOccurs="unbounded"/>
@@ -589,71 +587,5 @@ public class SystemMetadata
      */
     public void clearReplicaList() {
         replicaList.clear();
-    }
-    /** 
-     * Schema fragment(s) for this class:
-     * <pre>
-     * &lt;xs:element xmlns:ns="http://ns.dataone.org/service/types/0.6.1" xmlns:xs="http://www.w3.org/2001/XMLSchema" type="ns:AccessPolicy" name="accessPolicy" minOccurs="0" maxOccurs="1"/>
-     * 
-     * &lt;xs:complexType xmlns:ns="http://ns.dataone.org/service/types/0.6.1" xmlns:xs="http://www.w3.org/2001/XMLSchema" name="AccessPolicy">
-     *   &lt;xs:sequence>
-     *     &lt;xs:element type="ns:AccessRule" name="allow" minOccurs="1" maxOccurs="unbounded"/>
-     *   &lt;/xs:sequence>
-     * &lt;/xs:complexType>
-     * </pre>
-     */
-    public static class AccessPolicy
-    {
-        private List<AccessRule> allowList = new ArrayList<AccessRule>();
-
-        /** 
-         * Get the list of 'allow' element items.
-         * 
-         * @return list
-         */
-        public List<AccessRule> getAllows() {
-            return allowList;
-        }
-
-        /** 
-         * Set the list of 'allow' element items.
-         * 
-         * @param list
-         */
-        public void setAllows(List<AccessRule> list) {
-            allowList = list;
-        }
-
-        /** 
-         * Get the number of 'allow' element items.
-         * @return count
-         */
-        public int sizeAllows() {
-            return allowList.size();
-        }
-
-        /** 
-         * Add a 'allow' element item.
-         * @param item
-         */
-        public void addAllow(AccessRule item) {
-            allowList.add(item);
-        }
-
-        /** 
-         * Get 'allow' element item by position.
-         * @return item
-         * @param index
-         */
-        public AccessRule getAllow(int index) {
-            return allowList.get(index);
-        }
-
-        /** 
-         * Remove all 'allow' element items.
-         */
-        public void clearAllows() {
-            allowList.clear();
-        }
     }
 }

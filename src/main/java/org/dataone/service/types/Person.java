@@ -51,7 +51,7 @@ public class Person
      * 
      * @return list
      */
-    public List<String> getGivenNames() {
+    public List<String> getGivenNameList() {
         return givenNameList;
     }
 
@@ -60,7 +60,7 @@ public class Person
      * 
      * @param list
      */
-    public void setGivenNames(List<String> list) {
+    public void setGivenNameList(List<String> list) {
         givenNameList = list;
     }
 
@@ -68,7 +68,7 @@ public class Person
      * Get the number of 'givenName' element items.
      * @return count
      */
-    public int sizeGivenNames() {
+    public int sizeGivenNameList() {
         return givenNameList.size();
     }
 
@@ -92,7 +92,7 @@ public class Person
     /** 
      * Remove all 'givenName' element items.
      */
-    public void clearGivenNames() {
+    public void clearGivenNameList() {
         givenNameList.clear();
     }
 
@@ -119,7 +119,7 @@ public class Person
      * 
      * @return list
      */
-    public List<String> getEmails() {
+    public List<String> getEmailList() {
         return emailList;
     }
 
@@ -128,7 +128,7 @@ public class Person
      * 
      * @param list
      */
-    public void setEmails(List<String> list) {
+    public void setEmailList(List<String> list) {
         emailList = list;
     }
 
@@ -136,7 +136,7 @@ public class Person
      * Get the number of 'email' element items.
      * @return count
      */
-    public int sizeEmails() {
+    public int sizeEmailList() {
         return emailList.size();
     }
 
@@ -160,7 +160,7 @@ public class Person
     /** 
      * Remove all 'email' element items.
      */
-    public void clearEmails() {
+    public void clearEmailList() {
         emailList.clear();
     }
 
@@ -169,7 +169,7 @@ public class Person
      * 
      * @return list
      */
-    public List<Principal> getIsMemberOfs() {
+    public List<Principal> getIsMemberOfList() {
         return isMemberOfList;
     }
 
@@ -178,7 +178,7 @@ public class Person
      * 
      * @param list
      */
-    public void setIsMemberOfs(List<Principal> list) {
+    public void setIsMemberOfList(List<Principal> list) {
         isMemberOfList = list;
     }
 
@@ -186,7 +186,7 @@ public class Person
      * Get the number of 'isMemberOf' element items.
      * @return count
      */
-    public int sizeIsMemberOfs() {
+    public int sizeIsMemberOfList() {
         return isMemberOfList.size();
     }
 
@@ -210,7 +210,7 @@ public class Person
     /** 
      * Remove all 'isMemberOf' element items.
      */
-    public void clearIsMemberOfs() {
+    public void clearIsMemberOfList() {
         isMemberOfList.clear();
     }
 
@@ -219,7 +219,7 @@ public class Person
      * 
      * @return list
      */
-    public List<Principal> getEquivalentIdentities() {
+    public List<Principal> getEquivalentIdentityList() {
         return equivalentIdentityList;
     }
 
@@ -228,7 +228,7 @@ public class Person
      * 
      * @param list
      */
-    public void setEquivalentIdentities(List<Principal> list) {
+    public void setEquivalentIdentityList(List<Principal> list) {
         equivalentIdentityList = list;
     }
 
@@ -236,7 +236,7 @@ public class Person
      * Get the number of 'equivalentIdentity' element items.
      * @return count
      */
-    public int sizeEquivalentIdentities() {
+    public int sizeEquivalentIdentityList() {
         return equivalentIdentityList.size();
     }
 
@@ -260,7 +260,7 @@ public class Person
     /** 
      * Remove all 'equivalentIdentity' element items.
      */
-    public void clearEquivalentIdentities() {
+    public void clearEquivalentIdentityList() {
         equivalentIdentityList.clear();
     }
 }
