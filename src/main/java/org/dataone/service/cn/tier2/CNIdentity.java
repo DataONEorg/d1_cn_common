@@ -31,6 +31,7 @@ import org.dataone.service.exceptions.ServiceFailure;
 import org.dataone.service.types.AuthToken;
 import org.dataone.service.types.Person;
 import org.dataone.service.types.Principal;
+import org.dataone.service.types.PrincipalList;
 
 /**
  * The DataONE CoordinatingNode Tier2 Identity interface.  This defines an
@@ -44,17 +45,15 @@ public interface CNIdentity {
     public Principal registerAccount(Person person) 
         throws ServiceFailure, IdentifierNotUnique, InvalidCredentials, NotImplemented, InvalidRequest;
     
-    
     public boolean verifyAccount(Principal principal) 
         throws ServiceFailure, NotAuthorized, NotImplemented, InvalidToken, InvalidRequest;
 
-    /* TODO: add when Types are updated.
     public PrincipalList getPrincipalInfo(Principal principal)
         throws ServiceFailure, InvalidToken, NotAuthorized, NotImplemented;
   
     public PrincipalList listPrincipals(String query, int start, int count)
         throws ServiceFailure, InvalidToken, NotAuthorized, NotImplemented;
-    */
+    
     
     // TODO: first param should be x509 cert
     public boolean mapIdentity(Principal primaryPrincipal, Principal secondaryPrincipal) 
@@ -68,11 +67,9 @@ public interface CNIdentity {
         throws ServiceFailure, InvalidToken, NotAuthorized, NotFound, NotImplemented,
             InvalidRequest, IdentifierNotUnique;
 
-    /* TODO: add when Types are updated.
-    public Identifier addGroupMembers(Principal groupName, PrincipalList members) 
+    public boolean addGroupMembers(Principal groupName, PrincipalList members) 
         throws ServiceFailure, InvalidToken, NotAuthorized, NotFound, NotImplemented, InvalidRequest;
     
-    public Identifier removeGroupMembers(Principal groupName, PrincipalList members) 
+    public boolean removeGroupMembers(Principal groupName, PrincipalList members) 
         throws ServiceFailure, InvalidToken, NotAuthorized, NotFound, NotImplemented, InvalidRequest;   
-    */
 }
