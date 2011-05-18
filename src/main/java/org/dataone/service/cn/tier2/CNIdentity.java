@@ -28,7 +28,6 @@ import org.dataone.service.exceptions.NotAuthorized;
 import org.dataone.service.exceptions.NotFound;
 import org.dataone.service.exceptions.NotImplemented;
 import org.dataone.service.exceptions.ServiceFailure;
-import org.dataone.service.types.AuthToken;
 import org.dataone.service.types.Person;
 import org.dataone.service.types.Session;
 import org.dataone.service.types.Subject;
