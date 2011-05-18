@@ -30,6 +30,7 @@ import org.dataone.service.exceptions.NotImplemented;
 import org.dataone.service.exceptions.ServiceFailure;
 import org.dataone.service.types.AuthToken;
 import org.dataone.service.types.Person;
+import org.dataone.service.types.Session;
 import org.dataone.service.types.Subject;
 import org.dataone.service.types.SubjectList;
 
@@ -42,34 +43,28 @@ import org.dataone.service.types.SubjectList;
  */
 public interface CNIdentity {
 
-    public Subject registerAccount(Person person) 
+    public Subject registerAccount(Session session, Person person) 
         throws ServiceFailure, IdentifierNotUnique, InvalidCredentials, NotImplemented, InvalidRequest;
     
-    public boolean verifyAccount(Subject subject) 
+    public boolean verifyAccount(Session session, Subject subject) 
         throws ServiceFailure, NotAuthorized, NotImplemented, InvalidToken, InvalidRequest;
 
-    public SubjectList getSubjectInfo(Subject subject)
+    public SubjectList getSubjectInfo(Session session, Subject subject)
         throws ServiceFailure, InvalidToken, NotAuthorized, NotImplemented;
   
-    public SubjectList listSubjects(String query, int start, int count)
+    public SubjectList listSubjects(Session session, String query, int start, int count)
         throws ServiceFailure, InvalidToken, NotAuthorized, NotImplemented;
-    
-    
-    // TODO: first param should be x509 cert
-    public boolean mapIdentity(Subject primarySubject, Subject secondarySubject) 
-        throws ServiceFailure, InvalidToken, NotAuthorized, NotFound, NotImplemented, InvalidRequest;
-
-    // TODO: discuss if we need two methods or can we jsut use single method with different behavior depending on the state of data?
-    public boolean confirmMapIdentity(AuthToken token1, AuthToken token2) 
+        
+    public boolean mapIdentity(Session session, Subject secondarySubject) 
         throws ServiceFailure, InvalidToken, NotAuthorized, NotFound, NotImplemented, InvalidRequest;
     
-    public boolean createGroup(Subject groupName) 
+    public boolean createGroup(Session session, Subject groupName) 
         throws ServiceFailure, InvalidToken, NotAuthorized, NotFound, NotImplemented,
             InvalidRequest, IdentifierNotUnique;
 
-    public boolean addGroupMembers(Subject groupName, SubjectList members) 
+    public boolean addGroupMembers(Session session, Subject groupName, SubjectList members) 
         throws ServiceFailure, InvalidToken, NotAuthorized, NotFound, NotImplemented, InvalidRequest;
     
-    public boolean removeGroupMembers(Subject groupName, SubjectList members) 
+    public boolean removeGroupMembers(Session session, Subject groupName, SubjectList members) 
         throws ServiceFailure, InvalidToken, NotAuthorized, NotFound, NotImplemented, InvalidRequest;   
 }
