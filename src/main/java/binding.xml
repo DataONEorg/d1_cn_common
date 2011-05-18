@@ -8,6 +8,7 @@
   <format label="d1:NodeType" type="org.dataone.service.types.NodeType" enum-value-method="toString"/>
   <format label="d1:ObjectFormat" type="org.dataone.service.types.ObjectFormat" enum-value-method="toString"/>
   <format label="d1:Permission" type="org.dataone.service.types.Permission" enum-value-method="toString"/>
+  <format label="d1:QueryType" type="org.dataone.service.types.QueryType"/>
   <format label="d1:ReplicationStatus" type="org.dataone.service.types.ReplicationStatus" enum-value-method="toString"/>
   <format label="d1:IdentifierFormat" type="org.dataone.service.types.IdentifierFormat"/>
   <mapping abstract="true" type-name="d1:NodeReference" class="org.dataone.service.types.NodeReference">

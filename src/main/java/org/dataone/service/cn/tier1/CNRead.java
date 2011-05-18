@@ -29,9 +29,12 @@ import org.dataone.service.exceptions.NotAuthorized;
 import org.dataone.service.exceptions.NotFound;
 import org.dataone.service.exceptions.NotImplemented;
 import org.dataone.service.exceptions.ServiceFailure;
+import org.dataone.service.exceptions.UnsupportedQueryType;
 import org.dataone.service.types.Checksum;
 import org.dataone.service.types.Identifier;
+import org.dataone.service.types.ObjectList;
 import org.dataone.service.types.ObjectLocationList;
+import org.dataone.service.types.QueryType;
 import org.dataone.service.types.SystemMetadata;
 
 /**
@@ -67,9 +70,7 @@ public interface CNRead
         throws InvalidToken, ServiceFailure, NotAuthorized, NotFound,
         InvalidRequest, NotImplemented;
     
-    /* TODO: Add when Types are updated.
-    public ObjectList search(QueryType query)
+    public ObjectList search(QueryType queryType, String query)
         throws InvalidToken, ServiceFailure, NotAuthorized, NotFound,
-        InvalidRequest, NotImplemented;
-    */
+        InvalidRequest, NotImplemented, UnsupportedQueryType;
 }

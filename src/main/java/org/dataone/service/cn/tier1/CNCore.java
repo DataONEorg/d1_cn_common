@@ -29,6 +29,7 @@ import org.dataone.service.exceptions.NotImplemented;
 import org.dataone.service.exceptions.ServiceFailure;
 import org.dataone.service.types.Event;
 import org.dataone.service.types.Identifier;
+import org.dataone.service.types.Log;
 import org.dataone.service.types.NodeList;
 import org.dataone.service.types.ObjectFormat;
 import org.joda.time.DateTime;
@@ -51,11 +52,9 @@ public interface CNCore
         throws InvalidRequest, ServiceFailure, NotFound, InsufficientResources,
         NotImplemented;
     
-    /* TODO: add when Types are updated.
-    public LogRecords getLogRecords(DateTime fromDate, DateTime toDate, Event event)
+    public Log getLogRecords(DateTime fromDate, DateTime toDate, Event event)
         throws InvalidToken, InvalidRequest, ServiceFailure, NotAuthorized,
         NotImplemented;
-    */
     
     public NodeList listNodes() throws NotImplemented, ServiceFailure;
 }
