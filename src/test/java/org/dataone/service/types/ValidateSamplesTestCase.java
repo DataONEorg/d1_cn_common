@@ -73,12 +73,12 @@ import static org.junit.Assert.*;
 
 public class ValidateSamplesTestCase {
 
-    static String systemMetadataSchemaLocation = "https://repository.dataone.org/software/cicore/tags/D1_SCHEMA_0_6_1/dataoneTypes.xsd";
-    static String systemObjectListSchemaLocation = "https://repository.dataone.org/software/cicore/tags/D1_SCHEMA_0_6_1/dataoneTypes.xsd";
-    static String systemLoggingSchemaLocation = "https://repository.dataone.org/software/cicore/tags/D1_SCHEMA_0_6_1/dataoneTypes.xsd";
-    static String systemNodeRegistrySchemaLocation = "https://repository.dataone.org/software/cicore/tags/D1_SCHEMA_0_6_1/dataoneTypes.xsd";
-    static String systemIdentifierSchemaLocation = "https://repository.dataone.org/software/cicore/tags/D1_SCHEMA_0_6_1/dataoneTypes.xsd";
-    static String systemChecksumSchemaLocation = "https://repository.dataone.org/software/cicore/tags/D1_SCHEMA_0_6_1/dataoneTypes.xsd";
+    static String systemMetadataSchemaLocation = "https://repository.dataone.org/software/cicore/branches/D1_SCHEMA_0_6_1/dataoneTypes.xsd";
+    static String systemObjectListSchemaLocation = "https://repository.dataone.org/software/cicore/branches/D1_SCHEMA_0_6_1/dataoneTypes.xsd";
+    static String systemLoggingSchemaLocation = "https://repository.dataone.org/software/cicore/branches/D1_SCHEMA_0_6_1/dataoneTypes.xsd";
+    static String systemNodeRegistrySchemaLocation = "https://repository.dataone.org/software/cicore/branches/D1_SCHEMA_0_6_1/dataoneTypes.xsd";
+    static String systemIdentifierSchemaLocation = "https://repository.dataone.org/software/cicore/branches/D1_SCHEMA_0_6_1/dataoneTypes.xsd";
+    static String systemChecksumSchemaLocation = "https://repository.dataone.org/software/cicore/branches/D1_SCHEMA_0_6_1/dataoneTypes.xsd";
     @Test
     public void fake() throws Exception {
         // parse an XML document into a DOM tree
@@ -310,10 +310,10 @@ public class ValidateSamplesTestCase {
 
         systemMetadata.setObjectFormat(ObjectFormat.CF_1_0);
         systemMetadata.setSize(1235431);
-        Principal submitter = new Principal();
+        Subject submitter = new Subject();
         submitter.setValue("Kermit de Frog");
         systemMetadata.setSubmitter(submitter);
-        Principal rightsHolder = new Principal();
+        Subject rightsHolder = new Subject();
         rightsHolder.setValue("DataONE");
         systemMetadata.setRightsHolder(rightsHolder);
         systemMetadata.setDateSysMetadataModified(new Date());
@@ -487,9 +487,9 @@ public class ValidateSamplesTestCase {
         memberNode.setValue("mn1");
         logEntry1.setMemberNode(memberNode);
 
-        Principal principal1 = new Principal();
-        principal1.setValue("Scooter");
-        logEntry1.setPrincipal(principal1);
+        Subject subject1 = new Subject();
+        subject1.setValue("Scooter");
+        logEntry1.setSubject(subject1);
 
         logEntry1.setUserAgent("Mozilla/4.0 (compatible; MSIE 6.0; Update a; AOL 6.0; Windows 98)");
         log.addLogEntry(logEntry1);
@@ -511,9 +511,9 @@ public class ValidateSamplesTestCase {
         memberNode2.setValue("mn1");
         logEntry2.setMemberNode(memberNode2);
 
-        Principal principal2 = new Principal();
-        principal2.setValue("Fozzie Bear");
-        logEntry2.setPrincipal(principal1);
+        Subject subject2 = new Subject();
+        subject2.setValue("Fozzie Bear");
+        logEntry2.setSubject(subject1);
 
         logEntry2.setUserAgent("Mozilla/4.0 (compatible; MSIE 6.0; Update a; AOL 6.0; Windows 98)");
         log.addLogEntry(logEntry2);

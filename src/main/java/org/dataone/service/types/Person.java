@@ -9,41 +9,41 @@ import java.util.List;
  * <pre>
  * &lt;xs:complexType xmlns:ns="http://ns.dataone.org/service/types/0.6.1" xmlns:xs="http://www.w3.org/2001/XMLSchema" name="Person">
  *   &lt;xs:sequence>
- *     &lt;xs:element type="ns:Principal" name="principal" minOccurs="1" maxOccurs="1"/>
+ *     &lt;xs:element type="ns:Subject" name="subject" minOccurs="1" maxOccurs="1"/>
  *     &lt;xs:element type="xs:string" name="givenName" minOccurs="1" maxOccurs="unbounded"/>
  *     &lt;xs:element type="xs:string" name="familyName" minOccurs="1" maxOccurs="1"/>
  *     &lt;xs:element type="xs:string" name="email" minOccurs="1" maxOccurs="unbounded"/>
- *     &lt;xs:element type="ns:Principal" name="isMemberOf" minOccurs="0" maxOccurs="unbounded"/>
- *     &lt;xs:element type="ns:Principal" name="equivalentIdentity" minOccurs="0" maxOccurs="unbounded"/>
+ *     &lt;xs:element type="ns:Subject" name="isMemberOf" minOccurs="0" maxOccurs="unbounded"/>
+ *     &lt;xs:element type="ns:Subject" name="equivalentIdentity" minOccurs="0" maxOccurs="unbounded"/>
  *   &lt;/xs:sequence>
  * &lt;/xs:complexType>
  * </pre>
  */
 public class Person
 {
-    private Principal principal;
+    private Subject subject;
     private List<String> givenNameList = new ArrayList<String>();
     private String familyName;
     private List<String> emailList = new ArrayList<String>();
-    private List<Principal> isMemberOfList = new ArrayList<Principal>();
-    private List<Principal> equivalentIdentityList = new ArrayList<Principal>();
+    private List<Subject> isMemberOfList = new ArrayList<Subject>();
+    private List<Subject> equivalentIdentityList = new ArrayList<Subject>();
 
     /** 
-     * Get the 'principal' element value.
+     * Get the 'subject' element value.
      * 
      * @return value
      */
-    public Principal getPrincipal() {
-        return principal;
+    public Subject getSubject() {
+        return subject;
     }
 
     /** 
-     * Set the 'principal' element value.
+     * Set the 'subject' element value.
      * 
-     * @param principal
+     * @param subject
      */
-    public void setPrincipal(Principal principal) {
-        this.principal = principal;
+    public void setSubject(Subject subject) {
+        this.subject = subject;
     }
 
     /** 
@@ -169,7 +169,7 @@ public class Person
      * 
      * @return list
      */
-    public List<Principal> getIsMemberOfList() {
+    public List<Subject> getIsMemberOfList() {
         return isMemberOfList;
     }
 
@@ -178,7 +178,7 @@ public class Person
      * 
      * @param list
      */
-    public void setIsMemberOfList(List<Principal> list) {
+    public void setIsMemberOfList(List<Subject> list) {
         isMemberOfList = list;
     }
 
@@ -194,7 +194,7 @@ public class Person
      * Add a 'isMemberOf' element item.
      * @param item
      */
-    public void addIsMemberOf(Principal item) {
+    public void addIsMemberOf(Subject item) {
         isMemberOfList.add(item);
     }
 
@@ -203,7 +203,7 @@ public class Person
      * @return item
      * @param index
      */
-    public Principal getIsMemberOf(int index) {
+    public Subject getIsMemberOf(int index) {
         return isMemberOfList.get(index);
     }
 
@@ -219,7 +219,7 @@ public class Person
      * 
      * @return list
      */
-    public List<Principal> getEquivalentIdentityList() {
+    public List<Subject> getEquivalentIdentityList() {
         return equivalentIdentityList;
     }
 
@@ -228,7 +228,7 @@ public class Person
      * 
      * @param list
      */
-    public void setEquivalentIdentityList(List<Principal> list) {
+    public void setEquivalentIdentityList(List<Subject> list) {
         equivalentIdentityList = list;
     }
 
@@ -244,7 +244,7 @@ public class Person
      * Add a 'equivalentIdentity' element item.
      * @param item
      */
-    public void addEquivalentIdentity(Principal item) {
+    public void addEquivalentIdentity(Subject item) {
         equivalentIdentityList.add(item);
     }
 
@@ -253,7 +253,7 @@ public class Person
      * @return item
      * @param index
      */
-    public Principal getEquivalentIdentity(int index) {
+    public Subject getEquivalentIdentity(int index) {
         return equivalentIdentityList.get(index);
     }
 

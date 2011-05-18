@@ -22,6 +22,7 @@ package org.dataone.service.cn;
 
 import java.security.cert.X509Extension;
 import java.util.List;
+
 import org.dataone.service.exceptions.AuthenticationTimeout;
 import org.dataone.service.exceptions.IdentifierNotUnique;
 import org.dataone.service.exceptions.InvalidCredentials;
@@ -31,11 +32,10 @@ import org.dataone.service.exceptions.NotAuthorized;
 import org.dataone.service.exceptions.NotFound;
 import org.dataone.service.exceptions.NotImplemented;
 import org.dataone.service.exceptions.ServiceFailure;
-import org.dataone.service.types.AccessRule;
 import org.dataone.service.types.AuthToken;
 import org.dataone.service.types.AuthType;
 import org.dataone.service.types.Identifier;
-import org.dataone.service.types.Principal;
+import org.dataone.service.types.Subject;
 
 /**
  * The DataONE Coordinating Node Authorization programmatic interface.  This defines an
@@ -57,13 +57,13 @@ public interface CoordinatingNodeAuthentication
     //public void logout(AuthToken token) 
     //    throws InvalidCredentials, AuthenticationTimeout;
   
-    public Identifier setOwner(AuthToken token, Identifier pid, Principal userId)
+    public Identifier setOwner(AuthToken token, Identifier pid, Subject userId)
             throws ServiceFailure, InvalidToken, NotAuthorized, NotFound, NotImplemented, InvalidRequest;
 
-     public Principal newAccount(String username, String password)
+     public Subject newAccount(String username, String password)
             throws ServiceFailure, IdentifierNotUnique, InvalidCredentials, NotImplemented, InvalidRequest;
 
-     public Principal newAccount(String username, String password, AuthType type)
+     public Subject newAccount(String username, String password, AuthType type)
             throws ServiceFailure, IdentifierNotUnique, InvalidCredentials, NotImplemented, InvalidRequest;
 
      public boolean verifyToken(AuthToken token)

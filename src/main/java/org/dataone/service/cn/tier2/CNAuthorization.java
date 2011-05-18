@@ -29,7 +29,7 @@ import org.dataone.service.exceptions.ServiceFailure;
 import org.dataone.service.types.AccessPolicy;
 import org.dataone.service.types.Event;
 import org.dataone.service.types.Identifier;
-import org.dataone.service.types.Principal;
+import org.dataone.service.types.Subject;
 
 /**
  * The DataONE CoordinatingNode Tier2 Authorization interface.  This defines an
@@ -46,6 +46,6 @@ public interface CNAuthorization {
     public boolean setAccess(Identifier pid, AccessPolicy accessPolicy)
             throws InvalidToken, ServiceFailure, NotFound, NotAuthorized, NotImplemented, InvalidRequest;
 
-    public Identifier setOwner(Identifier pid, Principal userId)
+    public Identifier setOwner(Identifier pid, Subject userId)
         throws InvalidToken, ServiceFailure, NotFound, NotAuthorized, NotImplemented, InvalidRequest;
 }

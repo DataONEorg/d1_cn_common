@@ -23,14 +23,14 @@
 
 <d1:systemMetadata xmlns:d1="http://ns.dataone.org/service/types/0.6.1"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:schemaLocation="http://ns.dataone.org/service/types/0.6.1 https://repository.dataone.org/software/cicore/tags/D1_SCHEMA_0_6_1/dataoneTypes.xsd">
+        xsi:schemaLocation="http://ns.dataone.org/service/types/0.6.1 https://repository.dataone.org/software/cicore/branches/D1_SCHEMA_0_6_1/dataoneTypes.xsd">
     <identifier>ABC123</identifier>
     <objectFormat>http://www.loc.gov/METS/</objectFormat>
     <size>922337203</size>
     <submitter>Robert P Waltz</submitter>
     <rightsHolder>DataONE</rightsHolder>
     <accessPolicy>
-    	<allow><principal>user1</principal><permission>read</permission><resource>guid1</resource></allow>
+    	<allow><subject>user1</subject><permission>read</permission><resource>guid1</resource></allow>
     </accessPolicy>
     <replicationPolicy replicationAllowed="true" numberReplicas="2147483647">
         <preferredMemberNode>mn1</preferredMemberNode>

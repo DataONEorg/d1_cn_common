@@ -14,17 +14,14 @@
   <mapping abstract="true" type-name="d1:NodeReference" class="org.dataone.service.types.NodeReference">
     <value style="text" get-method="getValue" set-method="setValue"/>
   </mapping>
-  <mapping abstract="true" type-name="d1:X509Certificate" class="org.dataone.service.types.X509Certificate">
-    <value style="text" get-method="getValue" set-method="setValue"/>
-  </mapping>
   <mapping abstract="true" type-name="d1:AccessPolicy" class="org.dataone.service.types.AccessPolicy">
     <collection get-method="getAllowList" set-method="setAllowList" create-type="java.util.ArrayList">
       <structure map-as="d1:AccessRule" name="allow"/>
     </collection>
   </mapping>
   <mapping abstract="true" type-name="d1:AccessRule" class="org.dataone.service.types.AccessRule">
-    <collection get-method="getPrincipalList" set-method="setPrincipalList" create-type="java.util.ArrayList">
-      <structure map-as="d1:Principal" name="principal"/>
+    <collection get-method="getSubjectList" set-method="setSubjectList" create-type="java.util.ArrayList">
+      <structure map-as="d1:Subject" name="subject"/>
     </collection>
     <collection get-method="getPermissionList" set-method="setPermissionList" create-type="java.util.ArrayList">
       <value style="element" name="permission" type="org.dataone.service.types.Permission" format="d1:Permission"/>
@@ -51,10 +48,10 @@
     <structure map-as="d1:ComponentList"/>
   </mapping>
   <mapping abstract="true" type-name="d1:Group" class="org.dataone.service.types.Group">
-    <structure map-as="d1:Principal" get-method="getPrincipal" set-method="setPrincipal" name="principal"/>
+    <structure map-as="d1:Subject" get-method="getSubject" set-method="setSubject" name="subject"/>
     <value style="element" name="groupName" get-method="getGroupName" set-method="setGroupName"/>
     <collection get-method="getHasMemberList" set-method="setHasMemberList" create-type="java.util.ArrayList">
-      <structure map-as="d1:Principal" name="hasMember"/>
+      <structure map-as="d1:Subject" name="hasMember"/>
     </collection>
   </mapping>
   <mapping abstract="true" type-name="d1:Identifier" class="org.dataone.service.types.Identifier">
@@ -62,12 +59,6 @@
   </mapping>
   <mapping class="org.dataone.service.types.Identifier" name="identifier" ns="http://ns.dataone.org/service/types/0.6.1">
     <structure map-as="d1:Identifier"/>
-  </mapping>
-  <mapping abstract="true" type-name="d1:Principal" class="org.dataone.service.types.Principal">
-    <value style="text" get-method="getValue" set-method="setValue"/>
-  </mapping>
-  <mapping class="org.dataone.service.types.Principal" name="principal" ns="http://ns.dataone.org/service/types/0.6.1">
-    <structure map-as="d1:Principal"/>
   </mapping>
   <mapping abstract="true" type-name="d1:Log" class="org.dataone.service.types.Log">
     <structure map-as="d1:Slice"/>
@@ -83,7 +74,7 @@
     <structure map-as="d1:Identifier" get-method="getIdentifier" set-method="setIdentifier" name="identifier"/>
     <value style="element" name="ipAddress" get-method="getIpAddress" set-method="setIpAddress"/>
     <value style="element" name="userAgent" get-method="getUserAgent" set-method="setUserAgent"/>
-    <structure map-as="d1:Principal" get-method="getPrincipal" set-method="setPrincipal" name="principal"/>
+    <structure map-as="d1:Subject" get-method="getSubject" set-method="setSubject" name="subject"/>
     <value style="element" name="event" get-method="getEvent" set-method="setEvent" format="d1:Event"/>
     <value style="element" name="dateLogged" get-method="getDateLogged" set-method="setDateLogged" serializer="org.dataone.service.types.util.ServiceTypeUtil.serializeDateToUTC" deserializer="org.dataone.service.types.util.ServiceTypeUtil.deserializeDateToUTC"/>
     <structure map-as="d1:NodeReference" get-method="getMemberNode" set-method="setMemberNode" name="memberNode"/>
@@ -155,7 +146,7 @@
     <structure map-as="d1:ObjectLocationList"/>
   </mapping>
   <mapping abstract="true" type-name="d1:Person" class="org.dataone.service.types.Person">
-    <structure map-as="d1:Principal" get-method="getPrincipal" set-method="setPrincipal" name="principal"/>
+    <structure map-as="d1:Subject" get-method="getSubject" set-method="setSubject" name="subject"/>
     <collection get-method="getGivenNameList" set-method="setGivenNameList" create-type="java.util.ArrayList">
       <value style="element" name="givenName" type="java.lang.String"/>
     </collection>
@@ -164,25 +155,15 @@
       <value style="element" name="email" type="java.lang.String"/>
     </collection>
     <collection get-method="getIsMemberOfList" set-method="setIsMemberOfList" create-type="java.util.ArrayList">
-      <structure map-as="d1:Principal" name="isMemberOf"/>
+      <structure map-as="d1:Subject" name="isMemberOf"/>
     </collection>
     <collection get-method="getEquivalentIdentityList" set-method="setEquivalentIdentityList" create-type="java.util.ArrayList">
-      <structure map-as="d1:Principal" name="equivalentIdentity"/>
+      <structure map-as="d1:Subject" name="equivalentIdentity"/>
     </collection>
   </mapping>
   <mapping abstract="true" type-name="d1:Ping" class="org.dataone.service.types.Ping">
     <value style="attribute" name="success" get-method="getSuccess" set-method="setSuccess" usage="optional"/>
     <value style="attribute" name="lastSuccess" get-method="getLastSuccess" set-method="setLastSuccess" usage="optional" serializer="org.dataone.service.types.util.ServiceTypeUtil.serializeDateToUTC" deserializer="org.dataone.service.types.util.ServiceTypeUtil.deserializeDateToUTC"/>
-  </mapping>
-  <mapping abstract="true" type-name="d1:PrincipalList" class="org.dataone.service.types.PrincipalList">
-    <structure usage="optional" ordered="false" choice="true">
-      <collection test-method="ifPerson" get-method="getPersonList" set-method="setPersonList" usage="optional" create-type="java.util.ArrayList">
-        <structure map-as="d1:Person" name="person"/>
-      </collection>
-      <collection test-method="ifGroup" get-method="getGroupList" set-method="setGroupList" usage="optional" create-type="java.util.ArrayList">
-        <structure map-as="d1:Group" name="group"/>
-      </collection>
-    </structure>
   </mapping>
   <mapping abstract="true" type-name="d1:Replica" class="org.dataone.service.types.Replica">
     <structure map-as="d1:NodeReference" get-method="getReplicaMemberNode" set-method="setReplicaMemberNode" name="replicaMemberNode"/>
@@ -217,6 +198,10 @@
       <structure map-as="d1:Service" name="service"/>
     </collection>
   </mapping>
+  <mapping abstract="true" type-name="d1:Session" class="org.dataone.service.types.Session">
+    <structure map-as="d1:Subject" get-method="getSubject" set-method="setSubject" name="subject"/>
+    <structure map-as="d1:SubjectList" get-method="getSubjectList" set-method="setSubjectList" usage="optional" name="subjectList"/>
+  </mapping>
   <mapping abstract="true" type-name="d1:Schedule" class="org.dataone.service.types.Schedule">
     <value style="attribute" name="hour" get-method="getHour" set-method="setHour"/>
     <value style="attribute" name="mday" get-method="getMday" set-method="setMday"/>
@@ -240,12 +225,28 @@
     <value style="element" name="lastHarvested" get-method="getLastHarvested" set-method="setLastHarvested" serializer="org.dataone.service.types.util.ServiceTypeUtil.serializeDateToUTC" deserializer="org.dataone.service.types.util.ServiceTypeUtil.deserializeDateToUTC"/>
     <value style="element" name="lastCompleteHarvest" get-method="getLastCompleteHarvest" set-method="setLastCompleteHarvest" serializer="org.dataone.service.types.util.ServiceTypeUtil.serializeDateToUTC" deserializer="org.dataone.service.types.util.ServiceTypeUtil.deserializeDateToUTC"/>
   </mapping>
+  <mapping abstract="true" type-name="d1:Subject" class="org.dataone.service.types.Subject">
+    <value style="text" get-method="getValue" set-method="setValue"/>
+  </mapping>
+  <mapping class="org.dataone.service.types.Subject" name="subject" ns="http://ns.dataone.org/service/types/0.6.1">
+    <structure map-as="d1:Subject"/>
+  </mapping>
+  <mapping abstract="true" type-name="d1:SubjectList" class="org.dataone.service.types.SubjectList">
+    <structure usage="optional" ordered="false" choice="true">
+      <collection test-method="ifPerson" get-method="getPersonList" set-method="setPersonList" usage="optional" create-type="java.util.ArrayList">
+        <structure map-as="d1:Person" name="person"/>
+      </collection>
+      <collection test-method="ifGroup" get-method="getGroupList" set-method="setGroupList" usage="optional" create-type="java.util.ArrayList">
+        <structure map-as="d1:Group" name="group"/>
+      </collection>
+    </structure>
+  </mapping>
   <mapping abstract="true" type-name="d1:SystemMetadata" class="org.dataone.service.types.SystemMetadata">
     <structure map-as="d1:Identifier" get-method="getIdentifier" set-method="setIdentifier" name="identifier"/>
     <value style="element" name="objectFormat" get-method="getObjectFormat" set-method="setObjectFormat" format="d1:ObjectFormat"/>
     <value style="element" name="size" get-method="getSize" set-method="setSize"/>
-    <structure map-as="d1:Principal" get-method="getSubmitter" set-method="setSubmitter" name="submitter"/>
-    <structure map-as="d1:Principal" get-method="getRightsHolder" set-method="setRightsHolder" name="rightsHolder"/>
+    <structure map-as="d1:Subject" get-method="getSubmitter" set-method="setSubmitter" name="submitter"/>
+    <structure map-as="d1:Subject" get-method="getRightsHolder" set-method="setRightsHolder" name="rightsHolder"/>
     <structure map-as="d1:AccessPolicy" get-method="getAccessPolicy" set-method="setAccessPolicy" usage="optional" name="accessPolicy"/>
     <structure map-as="d1:ReplicationPolicy" get-method="getReplicationPolicy" set-method="setReplicationPolicy" usage="optional" name="replicationPolicy"/>
     <collection get-method="getObsoleteList" set-method="setObsoleteList" create-type="java.util.ArrayList">

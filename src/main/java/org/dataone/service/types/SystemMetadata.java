@@ -13,8 +13,8 @@ import java.util.List;
  *     &lt;xs:element type="ns:Identifier" name="identifier" minOccurs="1" maxOccurs="1"/>
  *     &lt;xs:element type="ns:ObjectFormat" name="objectFormat"/>
  *     &lt;xs:element type="xs:long" name="size"/>
- *     &lt;xs:element type="ns:Principal" name="submitter"/>
- *     &lt;xs:element type="ns:Principal" name="rightsHolder"/>
+ *     &lt;xs:element type="ns:Subject" name="submitter"/>
+ *     &lt;xs:element type="ns:Subject" name="rightsHolder"/>
  *     &lt;xs:element type="ns:AccessPolicy" name="accessPolicy" minOccurs="0" maxOccurs="1"/>
  *     &lt;xs:element type="ns:ReplicationPolicy" name="replicationPolicy" minOccurs="0" maxOccurs="1"/>
  *     &lt;xs:element type="ns:Identifier" name="obsoletes" minOccurs="0" maxOccurs="unbounded"/>
@@ -38,8 +38,8 @@ public class SystemMetadata
     private Identifier identifier;
     private ObjectFormat objectFormat;
     private long size;
-    private Principal submitter;
-    private Principal rightsHolder;
+    private Subject submitter;
+    private Subject rightsHolder;
     private AccessPolicy accessPolicy;
     private ReplicationPolicy replicationPolicy;
     private List<Identifier> obsoleteList = new ArrayList<Identifier>();
@@ -114,7 +114,7 @@ public class SystemMetadata
      * 
      * @return value
      */
-    public Principal getSubmitter() {
+    public Subject getSubmitter() {
         return submitter;
     }
 
@@ -123,7 +123,7 @@ public class SystemMetadata
      * 
      * @param submitter
      */
-    public void setSubmitter(Principal submitter) {
+    public void setSubmitter(Subject submitter) {
         this.submitter = submitter;
     }
 
@@ -132,7 +132,7 @@ public class SystemMetadata
      * 
      * @return value
      */
-    public Principal getRightsHolder() {
+    public Subject getRightsHolder() {
         return rightsHolder;
     }
 
@@ -141,7 +141,7 @@ public class SystemMetadata
      * 
      * @param rightsHolder
      */
-    public void setRightsHolder(Principal rightsHolder) {
+    public void setRightsHolder(Subject rightsHolder) {
         this.rightsHolder = rightsHolder;
     }
 

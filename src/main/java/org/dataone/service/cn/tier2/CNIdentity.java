@@ -30,8 +30,8 @@ import org.dataone.service.exceptions.NotImplemented;
 import org.dataone.service.exceptions.ServiceFailure;
 import org.dataone.service.types.AuthToken;
 import org.dataone.service.types.Person;
-import org.dataone.service.types.Principal;
-import org.dataone.service.types.PrincipalList;
+import org.dataone.service.types.Subject;
+import org.dataone.service.types.SubjectList;
 
 /**
  * The DataONE CoordinatingNode Tier2 Identity interface.  This defines an
@@ -42,34 +42,34 @@ import org.dataone.service.types.PrincipalList;
  */
 public interface CNIdentity {
 
-    public Principal registerAccount(Person person) 
+    public Subject registerAccount(Person person) 
         throws ServiceFailure, IdentifierNotUnique, InvalidCredentials, NotImplemented, InvalidRequest;
     
-    public boolean verifyAccount(Principal principal) 
+    public boolean verifyAccount(Subject subject) 
         throws ServiceFailure, NotAuthorized, NotImplemented, InvalidToken, InvalidRequest;
 
-    public PrincipalList getPrincipalInfo(Principal principal)
+    public SubjectList getSubjectInfo(Subject subject)
         throws ServiceFailure, InvalidToken, NotAuthorized, NotImplemented;
   
-    public PrincipalList listPrincipals(String query, int start, int count)
+    public SubjectList listSubjects(String query, int start, int count)
         throws ServiceFailure, InvalidToken, NotAuthorized, NotImplemented;
     
     
     // TODO: first param should be x509 cert
-    public boolean mapIdentity(Principal primaryPrincipal, Principal secondaryPrincipal) 
+    public boolean mapIdentity(Subject primarySubject, Subject secondarySubject) 
         throws ServiceFailure, InvalidToken, NotAuthorized, NotFound, NotImplemented, InvalidRequest;
 
     // TODO: discuss if we need two methods or can we jsut use single method with different behavior depending on the state of data?
     public boolean confirmMapIdentity(AuthToken token1, AuthToken token2) 
         throws ServiceFailure, InvalidToken, NotAuthorized, NotFound, NotImplemented, InvalidRequest;
     
-    public boolean createGroup(Principal groupName) 
+    public boolean createGroup(Subject groupName) 
         throws ServiceFailure, InvalidToken, NotAuthorized, NotFound, NotImplemented,
             InvalidRequest, IdentifierNotUnique;
 
-    public boolean addGroupMembers(Principal groupName, PrincipalList members) 
+    public boolean addGroupMembers(Subject groupName, SubjectList members) 
         throws ServiceFailure, InvalidToken, NotAuthorized, NotFound, NotImplemented, InvalidRequest;
     
-    public boolean removeGroupMembers(Principal groupName, PrincipalList members) 
+    public boolean removeGroupMembers(Subject groupName, SubjectList members) 
         throws ServiceFailure, InvalidToken, NotAuthorized, NotFound, NotImplemented, InvalidRequest;   
 }

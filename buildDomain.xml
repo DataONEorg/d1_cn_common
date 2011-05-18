@@ -93,9 +93,9 @@
         <replace file="${basedir}/src/main/java/org/dataone/service/types/NodeReference.java" token="getString" value="getValue" />
         <replace file="${basedir}/src/main/java/org/dataone/service/types/NodeReference.java" token="setString" value="setValue" />
 
-        <replace file="${basedir}/src/main/java/org/dataone/service/types/Principal.java" token="string" value="value" />
-        <replace file="${basedir}/src/main/java/org/dataone/service/types/Principal.java" token="getString" value="getValue" />
-        <replace file="${basedir}/src/main/java/org/dataone/service/types/Principal.java" token="setString" value="setValue" />
+        <replace file="${basedir}/src/main/java/org/dataone/service/types/Subject.java" token="string" value="value" />
+        <replace file="${basedir}/src/main/java/org/dataone/service/types/Subject.java" token="getString" value="getValue" />
+        <replace file="${basedir}/src/main/java/org/dataone/service/types/Subject.java" token="setString" value="setValue" />
 
     	<replace file="${basedir}/src/main/java/org/dataone/service/types/X509Certificate.java" token="string" value="value" />
         <replace file="${basedir}/src/main/java/org/dataone/service/types/X509Certificate.java" token="getString" value="getValue" />
@@ -109,7 +109,7 @@
         <replace file="${basedir}/src/main/java/binding.xml" token="getString" value="getValue" />
         <replace file="${basedir}/src/main/java/binding.xml" token="setString" value="setValue" />
 
-        <replace file="${basedir}/src/main/java/binding.xml" token="value style=&quot;text&quot; get-method=&quot;getPrincipal&quot; set-method=&quot;setPrincipal&quot;"
+        <replace file="${basedir}/src/main/java/binding.xml" token="value style=&quot;text&quot; get-method=&quot;getSubject&quot; set-method=&quot;setSubject&quot;"
             value="value style=&quot;text&quot; get-method=&quot;getValue&quot; set-method=&quot;setValue&quot;" />
 
         <replace file="${basedir}/src/main/java/binding.xml" token="ObjectInfos" value="ObjectInfoList" />
@@ -132,8 +132,8 @@
         <replace file="${basedir}/src/main/java/binding.xml"  token="Allows" value="AllowList" />
         <replace file="${basedir}/src/main/java/org/dataone/service/types/AccessPolicy.java"  token="Allows" value="AllowList" />
 
-        <replace file="${basedir}/src/main/java/binding.xml"  token="Principals" value="PrincipalList" />
-        <replace file="${basedir}/src/main/java/org/dataone/service/types/AccessRule.java"  token="Principals" value="PrincipalList" />
+        <replace file="${basedir}/src/main/java/binding.xml"  token="Subjects" value="SubjectList" />
+        <replace file="${basedir}/src/main/java/org/dataone/service/types/AccessRule.java"  token="Subjects" value="SubjectList" />
 
         <replace file="${basedir}/src/main/java/binding.xml"  token="Permissions" value="PermissionList" />
         <replace file="${basedir}/src/main/java/org/dataone/service/types/AccessRule.java"  token="Permissions" value="PermissionList" />
@@ -160,10 +160,10 @@
         <replace file="${basedir}/src/main/java/org/dataone/service/types/Person.java"  token="EquivalentIdentities" value="EquivalentIdentityList" />
 
         <replace file="${basedir}/src/main/java/binding.xml"  token="Persons" value="PersonList" />
-        <replace file="${basedir}/src/main/java/org/dataone/service/types/PrincipalList.java"  token="Persons" value="PersonList" />
+        <replace file="${basedir}/src/main/java/org/dataone/service/types/SubjectList.java"  token="Persons" value="PersonList" />
 
         <replace file="${basedir}/src/main/java/binding.xml"  token="Groups" value="GroupList" />
-        <replace file="${basedir}/src/main/java/org/dataone/service/types/PrincipalList.java"  token="Groups" value="GroupList" />
+        <replace file="${basedir}/src/main/java/org/dataone/service/types/SubjectList.java"  token="Groups" value="GroupList" />
 
         <replace file="${basedir}/src/main/java/binding.xml" token="Methods" value="MethodList" />
         <replace file="${basedir}/src/main/java/org/dataone/service/types/Service.java"   token="Methods" value="MethodList" />
@@ -205,7 +205,7 @@
         />
 <!--
         <replaceregexp file="${basedir}/src/main/java/binding.xml"
-                       match="&lt;mapping\s+class\=\&quot;org\.dataone\.service\.types\.Principal1.+mapping&gt;"
+                       match="&lt;mapping\s+class\=\&quot;org\.dataone\.service\.types\.Subject1.+mapping&gt;"
                        replace=""
                        flags="s"
         /> 
@@ -230,7 +230,7 @@
             <arg value="-c" />
             <arg value="${basedir}/src/main/resources/org/dataone/service/resources/config/jibxConfig.xml" />
             <arg value="-s" />
-            <arg value="https://repository.dataone.org/software/cicore/tags/D1_SCHEMA_0_6_1/" />
+            <arg value="https://repository.dataone.org/software/cicore/branches/D1_SCHEMA_0_6_1/" />
  <!--           <arg value="https://repository.dataone.org/software/cicore/tags/D1_SCHEMA_0_5/" /> -->
  <!--           <arg value="https://repository.dataone.org/software/cicore/trunk/d1_schemas/" /> -->
             <arg value="-t"/>

@@ -9,7 +9,7 @@ import java.util.List;
  * <pre>
  * &lt;xs:complexType xmlns:ns="http://ns.dataone.org/service/types/0.6.1" xmlns:xs="http://www.w3.org/2001/XMLSchema" name="AccessRule">
  *   &lt;xs:sequence>
- *     &lt;xs:element type="ns:Principal" name="principal" minOccurs="1" maxOccurs="unbounded"/>
+ *     &lt;xs:element type="ns:Subject" name="subject" minOccurs="1" maxOccurs="unbounded"/>
  *     &lt;xs:element type="ns:Permission" name="permission" minOccurs="1" maxOccurs="unbounded"/>
  *     &lt;xs:element type="ns:Identifier" name="resource" minOccurs="1" maxOccurs="unbounded"/>
  *   &lt;/xs:sequence>
@@ -18,58 +18,58 @@ import java.util.List;
  */
 public class AccessRule
 {
-    private List<Principal> principalList = new ArrayList<Principal>();
+    private List<Subject> subjectList = new ArrayList<Subject>();
     private List<Permission> permissionList = new ArrayList<Permission>();
     private List<Identifier> resourceList = new ArrayList<Identifier>();
 
     /** 
-     * Get the list of 'principal' element items.
+     * Get the list of 'subject' element items.
      * 
      * @return list
      */
-    public List<Principal> getPrincipalList() {
-        return principalList;
+    public List<Subject> getSubjectList() {
+        return subjectList;
     }
 
     /** 
-     * Set the list of 'principal' element items.
+     * Set the list of 'subject' element items.
      * 
      * @param list
      */
-    public void setPrincipalList(List<Principal> list) {
-        principalList = list;
+    public void setSubjectList(List<Subject> list) {
+        subjectList = list;
     }
 
     /** 
-     * Get the number of 'principal' element items.
+     * Get the number of 'subject' element items.
      * @return count
      */
-    public int sizePrincipalList() {
-        return principalList.size();
+    public int sizeSubjectList() {
+        return subjectList.size();
     }
 
     /** 
-     * Add a 'principal' element item.
+     * Add a 'subject' element item.
      * @param item
      */
-    public void addPrincipal(Principal item) {
-        principalList.add(item);
+    public void addSubject(Subject item) {
+        subjectList.add(item);
     }
 
     /** 
-     * Get 'principal' element item by position.
+     * Get 'subject' element item by position.
      * @return item
      * @param index
      */
-    public Principal getPrincipal(int index) {
-        return principalList.get(index);
+    public Subject getSubject(int index) {
+        return subjectList.get(index);
     }
 
     /** 
-     * Remove all 'principal' element items.
+     * Remove all 'subject' element items.
      */
-    public void clearPrincipalList() {
-        principalList.clear();
+    public void clearSubjectList() {
+        subjectList.clear();
     }
 
     /** 

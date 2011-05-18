@@ -24,13 +24,13 @@
     <d1:log 
         xmlns:d1="http://ns.dataone.org/service/types/0.6.1"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:schemaLocation="http://ns.dataone.org/service/types/0.6.1 https://repository.dataone.org/software/cicore/tags/D1_SCHEMA_0_6_1//dataoneSchema.xsd" count="3" start="0" total="3">
+        xsi:schemaLocation="http://ns.dataone.org/service/types/0.6.1 https://repository.dataone.org/software/cicore/branches/D1_SCHEMA_0_6_1//dataoneSchema.xsd" count="3" start="0" total="3">
         <logEntry>
             <entryId>123</entryId>
             <identifier>ABC</identifier>
             <ipAddress>1.2.3.4</ipAddress>
             <userAgent>userAgent0</userAgent>
-            <principal>me</principal>
+            <subject>me</subject>
             <event>create</event>
             <dateLogged>2006-05-04T18:13:51.0Z</dateLogged>
             <memberNode>mn1</memberNode>
@@ -40,7 +40,7 @@
             <identifier>DEF</identifier>
             <ipAddress>0.1.0.2</ipAddress>
             <userAgent>userAgent1</userAgent>
-            <principal>you</principal>
+            <subject>you</subject>
             <event>create</event>
             <dateLogged>2006-05-04T18:13:51.0Z</dateLogged>
             <memberNode>mn1</memberNode>
@@ -50,7 +50,7 @@
             <identifier>GHI</identifier>
             <ipAddress>5.4.3.2</ipAddress>
             <userAgent>userAgent2</userAgent>
-            <principal>it</principal>
+            <subject>it</subject>
             <event>create</event>
             <dateLogged>2006-05-04T18:13:51.0Z</dateLogged>
             <memberNode>mn1</memberNode>

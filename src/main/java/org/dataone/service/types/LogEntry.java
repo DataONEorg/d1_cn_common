@@ -12,7 +12,7 @@ import java.util.Date;
  *     &lt;xs:element type="ns:Identifier" name="identifier" minOccurs="1" maxOccurs="1"/>
  *     &lt;xs:element type="xs:string" name="ipAddress" minOccurs="1" maxOccurs="1"/>
  *     &lt;xs:element type="xs:string" name="userAgent" minOccurs="1" maxOccurs="1"/>
- *     &lt;xs:element type="ns:Principal" name="principal" minOccurs="1" maxOccurs="1"/>
+ *     &lt;xs:element type="ns:Subject" name="subject" minOccurs="1" maxOccurs="1"/>
  *     &lt;xs:element type="ns:Event" name="event" minOccurs="1" maxOccurs="1"/>
  *     &lt;xs:element type="xs:dateTime" name="dateLogged" minOccurs="1" maxOccurs="1"/>
  *     &lt;xs:element type="ns:NodeReference" name="memberNode" minOccurs="1" maxOccurs="1"/>
@@ -26,7 +26,7 @@ public class LogEntry
     private Identifier identifier;
     private String ipAddress;
     private String userAgent;
-    private Principal principal;
+    private Subject subject;
     private Event event;
     private Date dateLogged;
     private NodeReference memberNode;
@@ -104,21 +104,21 @@ public class LogEntry
     }
 
     /** 
-     * Get the 'principal' element value.
+     * Get the 'subject' element value.
      * 
      * @return value
      */
-    public Principal getPrincipal() {
-        return principal;
+    public Subject getSubject() {
+        return subject;
     }
 
     /** 
-     * Set the 'principal' element value.
+     * Set the 'subject' element value.
      * 
-     * @param principal
+     * @param subject
      */
-    public void setPrincipal(Principal principal) {
-        this.principal = principal;
+    public void setSubject(Subject subject) {
+        this.subject = subject;
     }
 
     /** 
