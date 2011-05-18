@@ -18,13 +18,15 @@ import org.junit.Test;
 
 public class TestIdentifierEncoding 
 {
+	private static boolean verbose = true;
+	
 	private static String testUnicodeIdentifiersFile = "/org/dataone/service/encodingTestSet/testUnicodeStrings.utf8.txt";
 	private static HashMap<String,String> StandardTests = new HashMap<String,String>();
 	
 	@Before
 	public void generateStandardTests() {
 		if (StandardTests.size() == 0) {
-			log(" * * * * * * * Unicode Test Strings * * * * * * ");
+			verbose(" * * * * * * * Unicode Test Strings * * * * * * ");
 			
 			InputStream is = this.getClass().getResourceAsStream(testUnicodeIdentifiersFile);
 			Scanner s = new Scanner(is,"UTF-8");
@@ -34,16 +36,16 @@ public class TestIdentifierEncoding
 				while (s.hasNextLine()) 
 				{
 					String line = s.nextLine();
-					log(line);
+					verbose(line);
 					temp = line.split("\t");
 					if (temp.length > 1)
 						StandardTests.put(temp[0], temp[1]);
 				}
-				log("");
+				verbose("");
 			} finally {
 				s.close();
 			}
-			log("");
+			verbose("");
 		}
 	}
 	
@@ -51,7 +53,7 @@ public class TestIdentifierEncoding
 	@Test
 	public final void testEncodeUrlPathSegment()
 	{
-		log(" * * * * * * * testing URL Path Segment encoding * * * * * * ");
+		verbose(" * * * * * * * testing URL Path Segment encoding * * * * * * ");
 
 		SortedSet<String> ids = new TreeSet<String>(StandardTests.keySet());
 		Iterator<String> i = ids.iterator();
@@ -66,14 +68,14 @@ public class TestIdentifierEncoding
 							);
 			}
 		}
-		log("");
+		verbose("");
 	}
 
 	
 	@Test
 	public final void testEncodeUrlQuerySegment()
 	{
-		log(" * * * * * * * testing URL Query Segment encoding * * * * * * ");
+		verbose(" * * * * * * * testing URL Query Segment encoding * * * * * * ");
 		SortedSet<String> ids = new TreeSet<String>(StandardTests.keySet());
 		Iterator<String> i = ids.iterator();
 		while (i.hasNext())
@@ -87,14 +89,14 @@ public class TestIdentifierEncoding
 							);
 			}
 		}
-		log("");
+		verbose("");
 	}
 
 	
 	@Test
 	public final void testEncodeUrlFragment()
 	{
-		log(" * * * * * * * testing URL Fragment encoding * * * * * * ");
+		verbose(" * * * * * * * testing URL Fragment encoding * * * * * * ");
 		SortedSet<String> ids = new TreeSet<String>(StandardTests.keySet());
 		Iterator<String> i = ids.iterator();
 		while (i.hasNext())
@@ -108,13 +110,13 @@ public class TestIdentifierEncoding
 							);
 			}
 		}
-		log("");
+		verbose("");
 	}
 
 	@Test
 	public final void testDecodeString() throws UnsupportedEncodingException
 	{
-		log(" * * * * * * * testing Decoding * * * * * * ");
+		verbose(" * * * * * * * testing Decoding * * * * * * ");
 
 		SortedSet<String> ids = new TreeSet<String>(StandardTests.keySet());
 		Iterator<String> i = ids.iterator();
@@ -127,13 +129,13 @@ public class TestIdentifierEncoding
 						 EncodingUtilities.decodeString(encodedString)
 						 );
 		}
-		log("");
+		verbose("");
 	}
 
 //	@Test
 	public final void testDecodeStringAlternate() throws UnsupportedEncodingException
 	{
-		log(" * * * * * * * testing Decoding using URLDecoder * * * * * * ");
+		verbose(" * * * * * * * testing Decoding using URLDecoder * * * * * * ");
 
 		SortedSet<String> ids = new TreeSet<String>(StandardTests.keySet());
 		Iterator<String> i = ids.iterator();
@@ -146,14 +148,14 @@ public class TestIdentifierEncoding
 						 URLDecoder.decode(encodedString, "UTF-8")
 						 );
 		}
-		log("");
+		verbose("");
 	}
 
 	
 	@Test
 	public final void testEncodeDecode() throws UnsupportedEncodingException
 	{
-		log(" * * * * * * * testing Encode - Decode roundtrip  * * * * * * ");
+		verbose(" * * * * * * * testing Encode - Decode roundtrip  * * * * * * ");
 
 		SortedSet<String> ids = new TreeSet<String>(StandardTests.keySet());
 		Iterator<String> i = ids.iterator();
@@ -170,13 +172,13 @@ public class TestIdentifierEncoding
 				);
 			}
 		}	
-		log("");
+		verbose("");
 	}
 
 	@Test
 	public final void testEncodeDecodeAlternate() throws UnsupportedEncodingException
 	{
-		log(" * * * * * * * testing Encode - Decode roundtrip using URLDecoder * * * * * * ");
+		verbose(" * * * * * * * testing Encode - Decode roundtrip using URLDecoder * * * * * * ");
 
 		SortedSet<String> ids = new TreeSet<String>(StandardTests.keySet());
 		Iterator<String> i = ids.iterator();
@@ -193,7 +195,7 @@ public class TestIdentifierEncoding
 				);
 			}
 		}	
-		log("");
+		verbose("");
 	}
 
 	
@@ -202,13 +204,13 @@ public class TestIdentifierEncoding
 	@Test
 	public final void testDecodeError1() throws UnsupportedEncodingException
 	{
-		log(" * * * * * * * testing Decoding Error 1 * * * * * * ");
-		log("String to decode: testMalformedEscape-%3X");
+		verbose(" * * * * * * * testing Decoding Error 1 * * * * * * ");
+		verbose("String to decode: testMalformedEscape-%3X");
 		try {
 			String s = EncodingUtilities.decodeString("testMalformedEscape-%3X");
 		} catch (IllegalArgumentException iae) {
 			assertThat("Malformed hex error caught",iae, instanceOf(IllegalArgumentException.class));
-			log("caught the error (bad hex character)");
+			verbose("caught the error (bad hex character)");
 			return;
 		}
 		fail("did not catch malformed hex error (bad hex character)");
@@ -217,13 +219,13 @@ public class TestIdentifierEncoding
 	@Test
 	public final void testDecodeError2() throws UnsupportedEncodingException
 	{
-		log(" * * * * * * * testing Decoding Error 2 * * * * * * ");
-		log("String to decode: testMalformedEscape-%3");
+		verbose(" * * * * * * * testing Decoding Error 2 * * * * * * ");
+		verbose("String to decode: testMalformedEscape-%3");
 		try {
 			String s = EncodingUtilities.decodeString("testMalformedEscape-%3");
 		} catch (IllegalArgumentException iae) {
 			assertThat("Malformed hex error caught",iae, instanceOf(IllegalArgumentException.class));
-			log("caught the error (truncated hex pattern)");
+			verbose("caught the error (truncated hex pattern)");
 			return;
 		}
 		fail("did not catch malformed hex error (incomplete hex string)");
@@ -233,13 +235,13 @@ public class TestIdentifierEncoding
 	@Test
 	public final void testDecodeError3() throws UnsupportedEncodingException
 	{
-		log(" * * * * * * * testing Decoding Error 3 * * * * * * ");
-		log("String to decode: testMalformedEscape-%");
+		verbose(" * * * * * * * testing Decoding Error 3 * * * * * * ");
+		verbose("String to decode: testMalformedEscape-%");
 		try {
 			String s = EncodingUtilities.decodeString("testMalformedEscape-%");
 		} catch (IllegalArgumentException iae) {
 			assertThat("Malformed hex error caught",iae, instanceOf(IllegalArgumentException.class));
-			log("caught the error (truncated hex pattern)");
+			verbose("caught the error (truncated hex pattern)");
 			return;
 		}
 		fail("did not catch malformed hex error (incomplete hex string)");
@@ -248,26 +250,30 @@ public class TestIdentifierEncoding
 
 	private void runAssertion(String id, String expected, String got)
 	{
-		System.out.println("Identifier:    " + id);
-		System.out.println("    expect:    " + expected);
-		System.out.println("       got:    " + got);
-		System.out.println();
-
-		assertTrue("identifier: " + id, got.equals(expected));		
+		if (!got.equals(expected)) {
+			verbose("Identifier:    " + id);
+			verbose("    expect:    " + expected);
+			verbose("       got:    " + got);
+			verbose("");
+		}
+		assertEquals("identifier: " + id, expected, got);		
 	}
 
 	private void runDecodeAssertion(String id, String expected, String got)
 	{
-		System.out.println("Encoded Id:    " + id);
-		System.out.println("    expect:    " + expected);
-		System.out.println("       got:    " + got);
-		System.out.println();
-
-		assertTrue("identifier: " + id, got.equals(expected));		
-	}
-
-	
-	  private static void log(Object aObject){
-		  System.out.println(String.valueOf(aObject));
-	  }	  
+		if (!got.equals(expected)) {
+			verbose("Encoded Id:    " + id);
+			verbose("    expect:    " + expected);
+			verbose("       got:    " + got);
+			verbose("");
+		}
+		assertEquals("identifier: " + id, expected, got);		
+	} 
+	  
+	private static void verbose(Object aObject){
+		if (verbose) {
+			System.out.println(String.valueOf(aObject));
+		}		
+	}	 
+	  
 }
