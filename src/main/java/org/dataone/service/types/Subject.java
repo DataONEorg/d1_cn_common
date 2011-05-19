@@ -3,9 +3,9 @@ package org.dataone.service.types;
 
 /** 
  * Person (user), Group, or Organization, or System.The formal name identifiying a user or group from the DataONE 
- Identity Management Service. Thsubjectal is represented by a unique,
+ Identity Management Service. The subject is represented by a unique,
  persistent, non-reassignable identifier value that follows the same
- constraints as the Identifier.Used by :mod:`SystemMetadata`
+ constraints as Identifier.Used by :mod:`SystemMetadata`
  * 
  * Schema fragment(s) for this class:
  * <pre>
