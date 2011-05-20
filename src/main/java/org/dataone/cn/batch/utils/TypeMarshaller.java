@@ -69,7 +69,11 @@ public class TypeMarshaller {
     //
     // We may wish to throw exceptions based on the class of the object being marshalled
     // in the future
-    public static OutputStream marshalTypeToOutputStream(Object typeObject) throws JiBXException, FileNotFoundException, IOException {
+    /**
+     * @deprecated clients should typically make their own output streams
+     * @see the version that takes an output stream as a parameter
+     */
+    public static OutputStream marshalTypeToOutputStream(Object typeObject) throws JiBXException, IOException {
         IBindingFactory bfact = BindingDirectory.getFactory(typeObject.getClass());
 
         IMarshallingContext mctx = bfact.createMarshallingContext();
@@ -79,6 +83,13 @@ public class TypeMarshaller {
 
         return typeOutput;
     }
+    
+    public static void marshalTypeToOutputStream(Object typeObject, OutputStream os) throws JiBXException, IOException {
+        IBindingFactory bfact = BindingDirectory.getFactory(typeObject.getClass());
+        IMarshallingContext mctx = bfact.createMarshallingContext();
+        mctx.marshalDocument(typeObject, "UTF-8", null, os);
+    }
+    
     public static <T> T unmarshalTypeFromFile(Class<T> domainClass, String filenamePath) throws IOException, InstantiationException, IllegalAccessException, JiBXException {
         IBindingFactory bfact = BindingDirectory.getFactory(domainClass);
         IUnmarshallingContext uctx = bfact.createUnmarshallingContext();
