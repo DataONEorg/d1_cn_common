@@ -38,6 +38,7 @@ import org.dataone.service.types.MonitorList;
 import org.dataone.service.types.ObjectFormat;
 //import org.dataone.service.types.StatusResponse;
 import org.dataone.service.types.NodeList;
+import org.dataone.service.types.Subject;
 
 /**
  * The DataONE Member Node Tier 1 Core interface.  This defines an
@@ -89,6 +90,6 @@ public interface MNCore {
     /**
      * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/MN_APIs.html#MN_core.getCapabilities
      */
-    public NodeList getCapabilities() NotImplemented, NotAuthorized, 
+    public NodeList getCapabilities() throws NotImplemented, NotAuthorized, 
             ServiceFailure, InvalidRequest; 
 }
