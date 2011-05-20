@@ -161,6 +161,9 @@
       <structure map-as="d1:Subject" name="equivalentIdentity"/>
     </collection>
   </mapping>
+  <mapping class="org.dataone.service.types.Person" name="person" ns="http://ns.dataone.org/service/types/0.6.1">
+    <structure map-as="d1:Person"/>
+  </mapping>
   <mapping abstract="true" type-name="d1:Ping" class="org.dataone.service.types.Ping">
     <value style="attribute" name="success" get-method="getSuccess" set-method="setSuccess" usage="optional"/>
     <value style="attribute" name="lastSuccess" get-method="getLastSuccess" set-method="setLastSuccess" usage="optional" serializer="org.dataone.service.types.util.ServiceTypeUtil.serializeDateToUTC" deserializer="org.dataone.service.types.util.ServiceTypeUtil.deserializeDateToUTC"/>
