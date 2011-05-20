@@ -26,6 +26,14 @@ import org.dataone.service.exceptions.NotAuthorized;
 import org.dataone.service.exceptions.NotFound;
 import org.dataone.service.exceptions.NotImplemented;
 import org.dataone.service.exceptions.ServiceFailure;
+import org.dataone.service.exceptions.IdentifierNotUnique;
+import org.dataone.service.exceptions.UnsupportedType;
+import org.dataone.service.exceptions.InsufficientResources;
+import org.dataone.service.exceptions.InvalidSystemMetadata;
+
+import org.dataone.service.types.Identifier;
+import org.dataone.service.types.Session;
+import org.dataone.service.types.SystemMetadata;
 
 /**
  * The DataONE Member Node Tier 3 Storage interface.  This defines an
@@ -35,5 +43,30 @@ import org.dataone.service.exceptions.ServiceFailure;
  * @author Matthew Jones
  */
 public interface MNStorage {
+
+    /**
+     * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/MN_APIs.html#MN_storage.create
+     */
+    public Identifier create(Session cert, Identifier pid, InputStream object, 
+            SystemMetadata sysmeta) throws InvalidToken, ServiceFailure, 
+            NotAuthorized, IdentifierNotUnique, UnsupportedType, 
+            InsufficientResources, InvalidSystemMetadata, NotImplemented, 
+            InvalidRequest;
+
+    /**
+     * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/MN_APIs.html#MN_storage.update
+     */
+    public Identifier update(Session cert, Identifier pid, InputStream object, 
+            Identifier newPid, SystemMetadata sysmeta) throws InvalidToken, 
+            ServiceFailure, NotAuthorized, IdentifierNotUnique, UnsupportedType,
+            InsufficientResources, NotFound, InvalidSystemMetadata, 
+            NotImplemented, InvalidRequest;
+
+    /**
+     * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/MN_APIs.html#MN_storage.delete
+     */
+    public Identifier delete(Session cert, Identifier pid)
+            throws InvalidToken, ServiceFailure, NotAuthorized, NotFound,
+            NotImplemented, InvalidRequest;
 
 }
