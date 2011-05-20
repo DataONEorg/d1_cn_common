@@ -241,6 +241,9 @@
       </collection>
     </structure>
   </mapping>
+  <mapping class="org.dataone.service.types.SubjectList" name="subjectList" ns="http://ns.dataone.org/service/types/0.6.1">
+    <structure map-as="d1:SubjectList"/>
+  </mapping>
   <mapping abstract="true" type-name="d1:SystemMetadata" class="org.dataone.service.types.SystemMetadata">
     <structure map-as="d1:Identifier" get-method="getIdentifier" set-method="setIdentifier" name="identifier"/>
     <value style="element" name="objectFormat" get-method="getObjectFormat" set-method="setObjectFormat" format="d1:ObjectFormat"/>

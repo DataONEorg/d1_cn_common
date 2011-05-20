@@ -73,6 +73,8 @@ import static org.junit.Assert.*;
 
 public class ValidateSamplesTestCase {
 
+    static String datatypeSchemaLocation = "https://repository.dataone.org/software/cicore/branches/D1_SCHEMA_0_6_1/dataoneTypes.xsd";
+
     static String systemMetadataSchemaLocation = "https://repository.dataone.org/software/cicore/branches/D1_SCHEMA_0_6_1/dataoneTypes.xsd";
     static String systemObjectListSchemaLocation = "https://repository.dataone.org/software/cicore/branches/D1_SCHEMA_0_6_1/dataoneTypes.xsd";
     static String systemLoggingSchemaLocation = "https://repository.dataone.org/software/cicore/branches/D1_SCHEMA_0_6_1/dataoneTypes.xsd";
@@ -463,6 +465,42 @@ public class ValidateSamplesTestCase {
         return true;
     }
 
+    @Test
+    public void testSubjectListMarshalling() throws Exception {
+        System.out.println("Starting testing of testSubjectListMarshalling");
+        SubjectList subjectList = new SubjectList();
+        
+        // set the properties of SubjectList
+        String subjectValue = "cn=test1,dc=dataone,dc=org";
+        Subject subject = new Subject();
+        subject.setValue(subjectValue);
+        Person person = new Person();
+        person.setSubject(subject);
+        person.addGivenName("test");
+        person.setFamilyName("test");
+        person.addEmail("test@dataone.org");
+        subjectList.addPerson(person);
+        
+        IBindingFactory bfact =
+                BindingDirectory.getFactory(org.dataone.service.types.SubjectList.class);
+
+        IMarshallingContext mctx = bfact.createMarshallingContext();
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+
+        mctx.marshalDocument(subjectList, "UTF-8", null, baos);
+
+        System.out.println(baos.toString());
+        ByteArrayInputStream bais = new ByteArrayInputStream(baos.toByteArray());
+
+        IUnmarshallingContext uctx = bfact.createUnmarshallingContext();
+        
+        subjectList = (SubjectList) uctx.unmarshalDocument(bais, null);
+        assertTrue(subjectList != null);
+        assertTrue(subjectList.getPerson(0).getSubject().getValue().equals(subjectValue));
+        bais.reset();
+        assertTrue(validateExamples(datatypeSchemaLocation, bais));
+    }
+    
     public boolean testLoggingMarshalling(String externalLoggingObjects) throws Exception {
 
         Log log = new Log();
