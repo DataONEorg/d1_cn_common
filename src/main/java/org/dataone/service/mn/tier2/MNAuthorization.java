@@ -27,6 +27,11 @@ import org.dataone.service.exceptions.NotFound;
 import org.dataone.service.exceptions.NotImplemented;
 import org.dataone.service.exceptions.ServiceFailure;
 
+import org.dataone.service.types.Session;
+import org.dataone.service.types.Identifier;
+import org.dataone.service.types.Permission;
+import org.dataone.service.types.AccessPolicy;
+
 /**
  * The DataONE Member Node Tier 2 Authorization interface.  This defines an
  * implementation interface for Member Nodes that wish to build an
@@ -36,4 +41,17 @@ import org.dataone.service.exceptions.ServiceFailure;
  */
 public interface MNAuthorization {
 
+    /**
+     * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/MN_APIs.html#MN_auth.isAuthorized
+     */
+    public boolean isAuthorized(Session cert, Identifier pid, Permission action)
+            throws ServiceFailure, InvalidRequest, InvalidToken, NotFound, 
+                   NotAuthorized, NotImplemented;
+
+    /**
+     * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/MN_APIs.html#MN_auth.setAccess
+     */
+    public boolean setAccess(Session cert, Identifier pid, AccessPolicy accessPolicy)
+            throws InvalidToken, ServiceFailure, NotFound, NotAuthorized, 
+                   NotImplemented, InvalidRequest;
 }
