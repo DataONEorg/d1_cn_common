@@ -35,6 +35,8 @@ import org.dataone.service.types.Identifier;
 import org.dataone.service.types.Session;
 import org.dataone.service.types.SystemMetadata;
 
+import java.io.InputStream;
+
 /**
  * The DataONE Member Node Tier 3 Storage interface.  This defines an
  * implementation interface for Member Nodes that wish to build an
