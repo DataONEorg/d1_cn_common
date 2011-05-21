@@ -45,6 +45,9 @@ public interface CNIdentity {
     public Subject registerAccount(Session session, Person person) 
         throws ServiceFailure, IdentifierNotUnique, InvalidCredentials, NotImplemented, InvalidRequest;
     
+    public Subject updateAccount(Session session, Person person) 
+    	throws ServiceFailure, IdentifierNotUnique, InvalidCredentials, NotImplemented, InvalidRequest;
+    
     public boolean verifyAccount(Session session, Subject subject) 
         throws ServiceFailure, NotAuthorized, NotImplemented, InvalidToken, InvalidRequest;
 
