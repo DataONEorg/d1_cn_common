@@ -31,14 +31,15 @@ import org.dataone.service.exceptions.UnsupportedType;
 
 import org.dataone.service.types.Log;
 import org.dataone.service.types.Session;
-//import org.dataone.service.types.DateTime;
 import org.dataone.service.types.Event;
-//import org.dataone.service.types.ObjectStatistics;
 import org.dataone.service.types.MonitorList;
 import org.dataone.service.types.ObjectFormat;
-//import org.dataone.service.types.StatusResponse;
 import org.dataone.service.types.NodeList;
 import org.dataone.service.types.Subject;
+//import org.dataone.service.types.ObjectStatistics;
+//import org.dataone.service.types.StatusResponse;
+
+import java.util.Date;
 
 /**
  * The DataONE Member Node Tier 1 Core interface.  This defines an
@@ -55,13 +56,12 @@ public interface MNCore {
     public boolean ping() throws NotImplemented, ServiceFailure, NotAuthorized, 
            InvalidRequest, InsufficientResources, UnsupportedType;
 
-    /** TODO: Add DateTime class to types package
+    /** 
      * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/MN_APIs.html#MN_core.getLogRecords
-     *
-    public Log getLogRecords(Session cert, DateTime fromDate, DateTime toDate, 
+     */
+    public Log getLogRecords(Session cert, Date fromDate, Date toDate, 
             Event event, Integer start, Integer count) throws InvalidToken, 
             ServiceFailure, NotAuthorized, InvalidRequest, NotImplemented;
-    */
 
     /** TODO: Add ObjectStatistics class
      * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/MN_APIs.html#MN_core.getObjectStatistics

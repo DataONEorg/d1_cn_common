@@ -28,15 +28,16 @@ import org.dataone.service.exceptions.NotImplemented;
 import org.dataone.service.exceptions.ServiceFailure;
 
 import org.dataone.service.types.Session;
-//import org.dataone.service.types.OctetStream;
 import org.dataone.service.types.SystemMetadata;
 import org.dataone.service.types.DescribeResponse;
 import org.dataone.service.types.Identifier;
 import org.dataone.service.types.Checksum;
-//import org.dataone.service.types.DateTime;
 import org.dataone.service.types.ObjectList;
 import org.dataone.service.types.ObjectFormat;
+//import org.dataone.service.types.OctetStream;
 //import org.dataone.service.types.Exception;
+
+import java.util.Date;
 
 /**
  * The DataONE Member Node Tier 1 Read interface.  This defines an
@@ -76,14 +77,13 @@ public interface MNRead {
             String checksumAlgorithm) throws InvalidToken, ServiceFailure, 
             NotAuthorized, NotFound, InvalidRequest, NotImplemented;
 
-    /** TODO: Add DateTime class to types package
+    /** 
      * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/MN_APIs.html#MN_read.listObjects
-     *
-    public ObjectList listObjects(Session cert, DateTime startTime, 
-            DateTime endTime, ObjectFormat objectFormat, boolean replicaStatus,
+     */
+    public ObjectList listObjects(Session cert, Date startTime, 
+            Date endTime, ObjectFormat objectFormat, boolean replicaStatus,
             Integer start, Integer count) throws NotAuthorized, InvalidRequest,
             NotImplemented, ServiceFailure, InvalidToken;
-    */
 
     /** TODO: Add Exception class to types package
      * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/MN_APIs.html#MN_read.synchronizationFailed
