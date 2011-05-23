@@ -37,7 +37,7 @@ import org.dataone.service.types.ObjectFormat;
 //import org.dataone.service.types.OctetStream;
 //import org.dataone.service.types.Exception;
 
-import java.util.Date;
+import org.joda.time.DateTime;
 
 /**
  * The DataONE Member Node Tier 1 Read interface.  This defines an
@@ -80,8 +80,8 @@ public interface MNRead {
     /** 
      * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/MN_APIs.html#MN_read.listObjects
      */
-    public ObjectList listObjects(Session cert, Date startTime, 
-            Date endTime, ObjectFormat objectFormat, boolean replicaStatus,
+    public ObjectList listObjects(Session cert, DateTime startTime, 
+            DateTime endTime, ObjectFormat objectFormat, boolean replicaStatus,
             Integer start, Integer count) throws NotAuthorized, InvalidRequest,
             NotImplemented, ServiceFailure, InvalidToken;
 
