@@ -25,6 +25,7 @@ import org.dataone.service.types.Services;
  *  information including node capabilities, scheduling and so forth.
  *
  * @author waltz
+ * @deprecated
  */
 public interface CoordinatingNodeRegister {
 

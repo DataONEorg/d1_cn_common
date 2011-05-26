@@ -18,6 +18,7 @@ import org.dataone.service.types.ReplicationStatus;
 /**
  *
  * @author waltz
+ * @deprecated
  */
 public interface CoordinatingNodeDataReplication {
     public boolean setReplicationStatus(AuthToken token, Identifier pid, ReplicationStatus status)

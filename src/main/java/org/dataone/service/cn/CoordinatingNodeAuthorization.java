@@ -19,6 +19,7 @@ import org.dataone.service.types.Identifier;
 /**
  *
  * @author waltz
+ * @deprecated
  */
 public interface CoordinatingNodeAuthorization {
 

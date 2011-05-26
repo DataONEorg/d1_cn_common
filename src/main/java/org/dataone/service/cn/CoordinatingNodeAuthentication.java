@@ -43,6 +43,7 @@ import org.dataone.service.types.Subject;
  * implementation that is compliant with the DataONE service definitions.
  *
  * @author Matthew Jones
+ * @deprecated
  */
 public interface CoordinatingNodeAuthentication
 {
