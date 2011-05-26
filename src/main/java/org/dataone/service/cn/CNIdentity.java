@@ -85,6 +85,13 @@ public interface CNIdentity {
         NotImplemented, InvalidRequest;
     
     /**
+     * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CNIdentity.confirmMapIdentity
+     */
+    public boolean confirmMapIdentity(Session session, Subject subject) 
+        throws ServiceFailure, InvalidToken, NotAuthorized, NotFound, 
+        NotImplemented, InvalidRequest;
+    
+    /**
      * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CNIdentity.createGroup
      */
     public boolean createGroup(Session session, Subject groupName) 
