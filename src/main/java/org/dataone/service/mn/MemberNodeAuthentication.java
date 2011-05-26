@@ -16,6 +16,7 @@ import org.dataone.service.types.AuthType;
 /**
  *
  * @author waltz
+ * @deprecated
  */
 public interface MemberNodeAuthentication {
 

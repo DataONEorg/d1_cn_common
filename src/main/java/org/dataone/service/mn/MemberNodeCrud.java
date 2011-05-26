@@ -46,6 +46,7 @@ import org.dataone.service.types.Event;
  * implementation that is compliant with the DataONE service definitions.
  *
  * @author Matthew Jones
+ * @deprecated
  */
 public interface MemberNodeCrud {
     // For 0.3 milestone

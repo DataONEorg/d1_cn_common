@@ -33,6 +33,7 @@ import org.dataone.service.types.ObjectInfo;
  * implementation that is compliant with the DataONE service definitions.
  *
  * @author Matthew Jones
+ * @deprecated
  */
 public interface MemberNodeHealth 
 {   
