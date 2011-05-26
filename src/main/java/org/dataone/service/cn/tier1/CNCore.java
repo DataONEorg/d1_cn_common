@@ -32,6 +32,9 @@ import org.dataone.service.types.Identifier;
 import org.dataone.service.types.Log;
 import org.dataone.service.types.NodeList;
 import org.dataone.service.types.ObjectFormat;
+import org.dataone.service.types.Session;
+//import org.dataone.service.types.ObjectFormatList;
+
 import org.joda.time.DateTime;
 
 /**
@@ -43,18 +46,31 @@ import org.joda.time.DateTime;
  */
 public interface CNCore 
 {
-    /* TODO: add when Types are updated.
+
+    /** TODO: add when Types are updated.
+     * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CN_core.listFormats
+     *
     public ObjectFormatList listFormats()
         throws InvalidRequest, ServiceFailure, NotFound, InsufficientResources,
         NotImplemented;
-    */
+     */
+
+    /**
+     * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CN_core.getFormat
+     */
     public ObjectFormat getFormat(Identifier fmtid)
         throws InvalidRequest, ServiceFailure, NotFound, InsufficientResources,
         NotImplemented;
     
-    public Log getLogRecords(DateTime fromDate, DateTime toDate, Event event)
-        throws InvalidToken, InvalidRequest, ServiceFailure, NotAuthorized,
-        NotImplemented;
+    /**
+     * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CN_core.getLogRecords
+     */
+    public Log getLogRecords(Session cert, DateTime fromDate, DateTime toDate, 
+        Event event) throws InvalidToken, InvalidRequest, ServiceFailure, 
+        NotAuthorized, NotImplemented;
     
+    /**
+     * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CN_core.listNodes
+     */
     public NodeList listNodes() throws NotImplemented, ServiceFailure;
 }
