@@ -187,6 +187,16 @@
             <id>Jibx Maven Repository</id>
             <url>http://jibx.sourceforge.net/maven/</url>
         </repository>
+        <repository>
+            <id>dataone.org</id>
+            <url>http://dev-testing.dataone.org/maven</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
     </repositories>
     <dependencies>
         <dependency>
@@ -294,16 +304,14 @@
             <version>1.6.1</version>
         </dependency>
 -->
-
- <!--       
+       
         <dependency>
         	<groupId>org.dataone</groupId>
         	<artifactId>d1_test_resources</artifactId>
-        	<version>0.5.0</version>
+        	<version>0.6.1</version>
         	<type>jar</type>
         	<scope>runtime</scope>
         </dependency>
--->
     </dependencies>
     <licenses>
         <license>
