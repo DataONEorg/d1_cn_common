@@ -22,12 +22,12 @@ public class CommonResourcesTest {
 		assertTrue(1==1);
 	}
 	
-//	@Test
+	@Test
 	public final void testCommonResourcesAvailability() throws IOException
 	{
 		String resource = "/D1shared/selfTest/simpleDummyResource.txt";
 		InputStream is = this.getClass().getResourceAsStream(resource);
 		if (is == null)
-			fail("could not find resource: " + resource);
+			fail("could not find resource in d1_test_resouces package: " + resource);
 	}
 }
