@@ -78,7 +78,7 @@ public interface CNCore
     /** TODO: specify return type in CN API docs and reflect here.
      * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CNCore.registerSystemMetadata
      */
-     public void registerSystemMetaData(Session session, Identifier pid,
+     public boolean registerSystemMetaData(Session session, Identifier pid,
         SystemMetadata sysmeta) throws NotImplemented, NotAuthorized,
         ServiceFailure, InvalidRequest;
 }
