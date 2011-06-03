@@ -43,6 +43,8 @@ public class Constants {
     public static final String RESOURCE_META = "meta";
     /** API SESSION Resource which handles with user session operations */
     public static final String RESOURCE_SESSION = "session";
+    /** API FORMATS Resource which handles with object formats operations */
+    public static final String RESOURCE_FORMATS = "formats";
     /** API RESOLVE Resource which handles resolve operations */
     public static final String RESOURCE_RESOLVE = "resolve";
     /** API NODE Resource which handles node operations */

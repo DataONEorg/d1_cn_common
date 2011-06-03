@@ -6,7 +6,7 @@ import java.sql.Date;
 /** 
  * Schema fragment(s) for this class:
  * <pre>
- * &lt;xs:complexType xmlns:ns="http://ns.dataone.org/service/types/0.6.1" xmlns:xs="http://www.w3.org/2001/XMLSchema" name="MonitorInfo">
+ * &lt;xs:complexType xmlns:ns="http://ns.dataone.org/service/types/0.6.2" xmlns:xs="http://www.w3.org/2001/XMLSchema" name="MonitorInfo">
  *   &lt;xs:sequence>
  *     &lt;xs:element type="xs:date" name="date" minOccurs="1" maxOccurs="1"/>
  *     &lt;xs:element type="xs:int" name="count" minOccurs="1" maxOccurs="1"/>

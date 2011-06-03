@@ -2,21 +2,23 @@
 package org.dataone.service.types;
 
 /** 
- * Member Node identifier drawn from the DataONE :mod:`cn_register &lt;registry service&gt;`.
+ *  An ObjectFormatIdentifier is a value identifying
+ the object format. It must be unique in the containing ObjectFormatList.
+
  * 
  * Schema fragment(s) for this class:
  * <pre>
- * &lt;xs:simpleType xmlns:ns="http://ns.dataone.org/service/types/0.6.2" xmlns:xs="http://www.w3.org/2001/XMLSchema" name="NodeReference">
+ * &lt;xs:simpleType xmlns:ns="http://ns.dataone.org/service/types/0.6.2" xmlns:xs="http://www.w3.org/2001/XMLSchema" name="ObjectFormatIdentifier">
  *   &lt;xs:restriction base="xs:value"/>
  * &lt;/xs:simpleType>
  * </pre>
  */
-public class NodeReference
+public class ObjectFormatIdentifier
 {
     private String value;
 
     /** 
-     * Get the 'NodeReference' simpleType value.
+     * Get the 'ObjectFormatIdentifier' simpleType value.
      * 
      * @return value
      */
@@ -25,7 +27,7 @@ public class NodeReference
     }
 
     /** 
-     * Set the 'NodeReference' simpleType value.
+     * Set the 'ObjectFormatIdentifier' simpleType value.
      * 
      * @param value
      */

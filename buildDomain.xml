@@ -47,38 +47,7 @@
             description="generate the distribution" >
 
        <!-- XXX need to add in conversion for ChecksumAlgorithm -->
-        <replace file="${basedir}/src/main/java/org/dataone/service/types/ObjectFormat.java" token="EMLECOINFORMATICSORGEML200" value="EML_2_0_0"/>
-        <replace file="${basedir}/src/main/java/org/dataone/service/types/ObjectFormat.java" token="EMLECOINFORMATICSORGEML201" value="EML_2_0_1"/>
-        <replace file="${basedir}/src/main/java/org/dataone/service/types/ObjectFormat.java" token="EMLECOINFORMATICSORGEML210" value="EML_2_1_0"/>
-        <replace file="${basedir}/src/main/java/org/dataone/service/types/ObjectFormat.java" token="EMLECOINFORMATICSORGEML211" value="EML_2_1_1"/>
-        <replace file="${basedir}/src/main/java/org/dataone/service/types/ObjectFormat.java" token="FGDCST_D00111999" value="FGDC_STD_001_1_1999"/>
-        <replace file="${basedir}/src/main/java/org/dataone/service/types/ObjectFormat.java" token="FGDCST_D0011998" value="FGDC_STD_001_1998" />
-        <replace file="${basedir}/src/main/java/org/dataone/service/types/ObjectFormat.java" token="INCIT_S4532009" value="INCITS_453_2009" />
-        <replace file="${basedir}/src/main/java/org/dataone/service/types/ObjectFormat.java" token="HTTPWWWUNIDATAUCAREDUNAMESPACESNETCDFNCML22" value="NCML_2_2" />
-        <replace file="${basedir}/src/main/java/org/dataone/service/types/ObjectFormat.java" token="C_F10" value="CF_1_0" />
-        <replace file="${basedir}/src/main/java/org/dataone/service/types/ObjectFormat.java" token="C_F11" value="CF_1_1" />
-        <replace file="${basedir}/src/main/java/org/dataone/service/types/ObjectFormat.java" token="C_F12" value="CF_1_2" />
-        <replace file="${basedir}/src/main/java/org/dataone/service/types/ObjectFormat.java" token="C_F13" value="CF_1_3" />
-        <replace file="${basedir}/src/main/java/org/dataone/service/types/ObjectFormat.java" token="C_F14" value="CF_1_4" />
-        <replace file="${basedir}/src/main/java/org/dataone/service/types/ObjectFormat.java" token="HTTPWWWCUAHSIORGWATER_M_L10" value="WATER_ML_1_0" />
-        <replace file="${basedir}/src/main/java/org/dataone/service/types/ObjectFormat.java" token="HTTPWWWCUAHSIORGWATER_M_L11" value="WATER_ML_1_1" />
-        <replace file="${basedir}/src/main/java/org/dataone/service/types/ObjectFormat.java" token="NET_CD_F3" value="NET_CDF_3" />
-        <replace file="${basedir}/src/main/java/org/dataone/service/types/ObjectFormat.java" token="NET_CD_F4" value="NET_CDF_4" />
-        <replace file="${basedir}/src/main/java/org/dataone/service/types/ObjectFormat.java" token="HTTPRSTDWGORGDWCXSDSIMPLEDARWINCORE" value="SIMPLE_DARWIN_CORE" />
-        <replace file="${basedir}/src/main/java/org/dataone/service/types/ObjectFormat.java" token="HTTPDIGIRNETSCHEMACONCEPTUALDARWIN200310DARWIN2XSD" value="DARWIN_2" />
-
-        <replace file="${basedir}/src/main/java/org/dataone/service/types/ObjectFormat.java" token="TEXTPLAIN" value="TEXT_PLAIN" />
-        <replace file="${basedir}/src/main/java/org/dataone/service/types/ObjectFormat.java" token="TEXTCSV" value="TEXT_CSV" />
-        <replace file="${basedir}/src/main/java/org/dataone/service/types/ObjectFormat.java" token="IMAGEGIF" value="IMAGE_GIF" />
-        <replace file="${basedir}/src/main/java/org/dataone/service/types/ObjectFormat.java" token="IMAGEBMP" value="IMAGE_BMP" />
-        <replace file="${basedir}/src/main/java/org/dataone/service/types/ObjectFormat.java" token="IMAGEJP2" value="IMAGE_JP2" />
-        <replace file="${basedir}/src/main/java/org/dataone/service/types/ObjectFormat.java" token="IMAGEJPEG" value="IMAGE_JPEG" />
-        <replace file="${basedir}/src/main/java/org/dataone/service/types/ObjectFormat.java" token="IMAGEPNG" value="IMAGE_PNG" />
-        <replace file="${basedir}/src/main/java/org/dataone/service/types/ObjectFormat.java" token="IMAGESVGXML" value="IMAGE_SVGXML" />
-        <replace file="${basedir}/src/main/java/org/dataone/service/types/ObjectFormat.java" token="IMAGETIFF" value="IMAGE_TIFF" />
-        <replace file="${basedir}/src/main/java/org/dataone/service/types/ObjectFormat.java" token="HTTPWWWLOCGOV_METS" value="DSPACE_METS_SIP_1_0" />
-        <replace file="${basedir}/src/main/java/org/dataone/service/types/ObjectFormat.java" token="APPLICATIONOCTETSTREAM" value="OCTET_STREAM" />
-
+    	
         <replace file="${basedir}/src/main/java/org/dataone/service/types/ChecksumAlgorithm.java" token="SH_A1" value="SHA_1" />
         <replace file="${basedir}/src/main/java/org/dataone/service/types/ChecksumAlgorithm.java" token="SH_A224" value="SHA_224" />
         <replace file="${basedir}/src/main/java/org/dataone/service/types/ChecksumAlgorithm.java" token="SH_A256" value="SHA_256" />
@@ -97,7 +66,7 @@
         <replace file="${basedir}/src/main/java/org/dataone/service/types/Subject.java" token="getString" value="getValue" />
         <replace file="${basedir}/src/main/java/org/dataone/service/types/Subject.java" token="setString" value="setValue" />
 
-    	<replace file="${basedir}/src/main/java/org/dataone/service/types/X509Certificate.java" token="string" value="value" />
+    	  <replace file="${basedir}/src/main/java/org/dataone/service/types/X509Certificate.java" token="string" value="value" />
         <replace file="${basedir}/src/main/java/org/dataone/service/types/X509Certificate.java" token="getString" value="getValue" />
         <replace file="${basedir}/src/main/java/org/dataone/service/types/X509Certificate.java" token="setString" value="setValue" />
         	
@@ -105,6 +74,9 @@
         <replace file="${basedir}/src/main/java/org/dataone/service/types/Checksum.java" token="getString" value="getValue" />
         <replace file="${basedir}/src/main/java/org/dataone/service/types/Checksum.java" token="setString" value="setValue" />
 
+        <replace file="${basedir}/src/main/java/org/dataone/service/types/ObjectFormatIdentifier.java" token="string" value="value" />
+        <replace file="${basedir}/src/main/java/org/dataone/service/types/ObjectFormatIdentifier.java" token="getString" value="getValue" /> 
+        <replace file="${basedir}/src/main/java/org/dataone/service/types/ObjectFormatIdentifier.java" token="setString" value="setValue" />
 
         <replace file="${basedir}/src/main/java/binding.xml" token="getString" value="getValue" />
         <replace file="${basedir}/src/main/java/binding.xml" token="setString" value="setValue" />
@@ -195,9 +167,10 @@
         <replace file="${basedir}/src/main/java/binding.xml"  token="collection get-method=&quot;getReplicas" value="collection get-method=&quot;getReplicaList" />
         <replace file="${basedir}/src/main/java/binding.xml"  token="getReplicaList&quot; set-method=&quot;setReplicas" value="getReplicaList&quot; set-method=&quot;setReplicaList" />
         <replace file="${basedir}/src/main/java/org/dataone/service/types/SystemMetadata.java"   token="Replicas" value="ReplicaList" />
-
+        
+    	  <!--
         <replace file="${basedir}/src/main/java/org/dataone/service/types/ObjectFormat.java" token="return null" value="return ObjectFormat.OCTET_STREAM" />
-
+        -->
         <replaceregexp file="${basedir}/src/main/java/org/dataone/service/types/ObjectInfo.java"
                        match="(\s+)(this\.objectFormat \= objectFormat\;)"
                        replace="\1if \(objectFormat != null\) \{\2} else \{throw new NullPointerException\(&quot;ObjectFormat cannot be null!&quot;\);\}"
@@ -230,9 +203,10 @@
             <arg value="-c" />
             <arg value="${basedir}/src/main/resources/org/dataone/service/resources/config/jibxConfig.xml" />
             <arg value="-s" />
-            <arg value="https://repository.dataone.org/software/cicore/branches/D1_SCHEMA_0_6_1/" />
- <!--           <arg value="https://repository.dataone.org/software/cicore/tags/D1_SCHEMA_0_5/" /> -->
- <!--           <arg value="https://repository.dataone.org/software/cicore/trunk/d1_schemas/" /> -->
+            <arg value="https://repository.dataone.org/software/cicore/branches/D1_SCHEMA_0_6_2/" />
+ <!--       <arg value="https://repository.dataone.org/software/cicore/branches/D1_SCHEMA_0_6_1/" /> -->
+ <!--       <arg value="https://repository.dataone.org/software/cicore/tags/D1_SCHEMA_0_5/" /> -->
+ <!--       <arg value="https://repository.dataone.org/software/cicore/trunk/d1_schemas/" /> -->
             <arg value="-t"/>
             <arg value="${basedir}/src/main/java"/>
             <arg value="dataoneTypes.xsd" />

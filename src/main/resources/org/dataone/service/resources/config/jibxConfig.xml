@@ -26,11 +26,11 @@
      <!-- Should add in the serializable decorator, we may want to use it at some point -->
 <!--     <class-decorator class="org.jibx.schema.codegen.extend.SerializableDecorator" /> -->
 
-    <schema-set names="dataoneTypes.xsd" prefix="d1" namespaces="http://ns.dataone.org/service/types/0.6.1">
+    <schema-set names="dataoneTypes.xsd" prefix="d1" namespaces="http://ns.dataone.org/service/types/0.6.2">
         <schema-type type-name="dateTime" java-class="java.util.Date"
             serializer="org.dataone.service.types.util.ServiceTypeUtil.serializeDateToUTC"
             deserializer="org.dataone.service.types.util.ServiceTypeUtil.deserializeDateToUTC"/>
-        <schema name="dataoneTypes.xsd" includes="checksum  componentList identifier log nodeList objectList objectLocationList subject subjectList person systemMetadata AccessPolicy  AccessRule  Checksum  ChecksumAlgorithm  Component  ComponentList ComponentName  Environment  Event  Group  Identifier  IdentifierFormat  Log  LogEntry  MonitorInfo MonitorList Node  NodeHealth  NodeList  NodeReference  NodeState  NodeType  ObjectFormat  ObjectInfo  ObjectList  ObjectLocation   ObjectLocationList  Permission  Person  Session Subject  SubjectList QueryType  Replica  ReplicationPolicy  ReplicationStatus  Schedule  Service  ServiceMethod  Services  Slice  Status  Synchronization  SystemMetadata " />
+        <schema name="dataoneTypes.xsd" includes="checksum  componentList identifier log nodeList objectList objectLocationList objectFormatList subject subjectList person systemMetadata AccessPolicy  AccessRule  Checksum  ChecksumAlgorithm  Component  ComponentList ComponentName  Environment  Event  Group  Identifier  IdentifierFormat  Log  LogEntry  MonitorInfo MonitorList Node  NodeHealth  NodeList  NodeReference  NodeState  NodeType  ObjectFormat  ObjectFormatIdentifier ObjectFormatList ObjectInfo  ObjectList  ObjectLocation   ObjectLocationList  Permission  Person  Session Subject  SubjectList QueryType  Replica  ReplicationPolicy  ReplicationStatus  Schedule  Service  ServiceMethod  Services  Slice  Status  Synchronization  SystemMetadata " />
 
     </schema-set>
 </schema-set>

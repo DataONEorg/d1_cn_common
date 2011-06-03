@@ -6,7 +6,7 @@ import java.math.BigInteger;
 /** 
  * Schema fragment(s) for this class:
  * <pre>
- * &lt;xs:complexType xmlns:ns="http://ns.dataone.org/service/types/0.6.1" xmlns:xs="http://www.w3.org/2001/XMLSchema" name="ObjectLocation">
+ * &lt;xs:complexType xmlns:ns="http://ns.dataone.org/service/types/0.6.2" xmlns:xs="http://www.w3.org/2001/XMLSchema" name="ObjectLocation">
  *   &lt;xs:sequence>
  *     &lt;xs:element type="ns:Identifier" name="nodeIdentifier" minOccurs="1" maxOccurs="1"/>
  *     &lt;xs:element type="xs:string" name="baseURL" minOccurs="1" maxOccurs="1"/>

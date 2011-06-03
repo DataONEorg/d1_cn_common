@@ -1,17 +1,19 @@
-<binding xmlns:d1="http://ns.dataone.org/service/types/0.6.1" name="binding" package="org.dataone.service.types" trim-whitespace="true">
-  <namespace uri="http://ns.dataone.org/service/types/0.6.1" prefix="d1"/>
+<binding xmlns:d1="http://ns.dataone.org/service/types/0.6.2" name="binding" package="org.dataone.service.types" trim-whitespace="true">
+  <namespace uri="http://ns.dataone.org/service/types/0.6.2" prefix="d1"/>
   <format label="d1:ChecksumAlgorithm" type="org.dataone.service.types.ChecksumAlgorithm" enum-value-method="toString"/>
   <format label="d1:ComponentName" type="org.dataone.service.types.ComponentName" enum-value-method="toString"/>
   <format label="d1:Event" type="org.dataone.service.types.Event" enum-value-method="toString"/>
   <format label="d1:Environment" type="org.dataone.service.types.Environment" enum-value-method="toString"/>
   <format label="d1:NodeState" type="org.dataone.service.types.NodeState" enum-value-method="toString"/>
   <format label="d1:NodeType" type="org.dataone.service.types.NodeType" enum-value-method="toString"/>
-  <format label="d1:ObjectFormat" type="org.dataone.service.types.ObjectFormat" enum-value-method="toString"/>
   <format label="d1:Permission" type="org.dataone.service.types.Permission" enum-value-method="toString"/>
   <format label="d1:QueryType" type="org.dataone.service.types.QueryType"/>
   <format label="d1:ReplicationStatus" type="org.dataone.service.types.ReplicationStatus" enum-value-method="toString"/>
   <format label="d1:IdentifierFormat" type="org.dataone.service.types.IdentifierFormat"/>
   <mapping abstract="true" type-name="d1:NodeReference" class="org.dataone.service.types.NodeReference">
+    <value style="text" get-method="getValue" set-method="setValue"/>
+  </mapping>
+  <mapping abstract="true" type-name="d1:ObjectFormatIdentifier" class="org.dataone.service.types.ObjectFormatIdentifier">
     <value style="text" get-method="getValue" set-method="setValue"/>
   </mapping>
   <mapping abstract="true" type-name="d1:AccessPolicy" class="org.dataone.service.types.AccessPolicy">
@@ -34,7 +36,7 @@
     <value style="text" get-method="getValue" set-method="setValue"/>
     <value style="attribute" name="algorithm" get-method="getAlgorithm" set-method="setAlgorithm" format="d1:ChecksumAlgorithm"/>
   </mapping>
-  <mapping class="org.dataone.service.types.Checksum" name="checksum" ns="http://ns.dataone.org/service/types/0.6.1">
+  <mapping class="org.dataone.service.types.Checksum" name="checksum" ns="http://ns.dataone.org/service/types/0.6.2">
     <structure map-as="d1:Checksum"/>
   </mapping>
   <mapping abstract="true" type-name="d1:Component" class="org.dataone.service.types.Component">
@@ -44,7 +46,7 @@
   <mapping abstract="true" type-name="d1:ComponentList" class="org.dataone.service.types.ComponentList">
     <structure map-as="d1:Component" get-method="getComponent" set-method="setComponent" name="component"/>
   </mapping>
-  <mapping class="org.dataone.service.types.ComponentList" name="componentList" ns="http://ns.dataone.org/service/types/0.6.1">
+  <mapping class="org.dataone.service.types.ComponentList" name="componentList" ns="http://ns.dataone.org/service/types/0.6.2">
     <structure map-as="d1:ComponentList"/>
   </mapping>
   <mapping abstract="true" type-name="d1:Group" class="org.dataone.service.types.Group">
@@ -57,7 +59,7 @@
   <mapping abstract="true" type-name="d1:Identifier" class="org.dataone.service.types.Identifier">
     <value style="text" get-method="getValue" set-method="setValue"/>
   </mapping>
-  <mapping class="org.dataone.service.types.Identifier" name="identifier" ns="http://ns.dataone.org/service/types/0.6.1">
+  <mapping class="org.dataone.service.types.Identifier" name="identifier" ns="http://ns.dataone.org/service/types/0.6.2">
     <structure map-as="d1:Identifier"/>
   </mapping>
   <mapping abstract="true" type-name="d1:Log" class="org.dataone.service.types.Log">
@@ -66,7 +68,7 @@
       <structure map-as="d1:LogEntry" name="logEntry"/>
     </collection>
   </mapping>
-  <mapping class="org.dataone.service.types.Log" name="log" ns="http://ns.dataone.org/service/types/0.6.1">
+  <mapping class="org.dataone.service.types.Log" name="log" ns="http://ns.dataone.org/service/types/0.6.2">
     <structure map-as="d1:Log"/>
   </mapping>
   <mapping abstract="true" type-name="d1:LogEntry" class="org.dataone.service.types.LogEntry">
@@ -111,12 +113,25 @@
       <structure map-as="d1:Node" name="node"/>
     </collection>
   </mapping>
-  <mapping class="org.dataone.service.types.NodeList" name="nodeList" ns="http://ns.dataone.org/service/types/0.6.1">
+  <mapping class="org.dataone.service.types.NodeList" name="nodeList" ns="http://ns.dataone.org/service/types/0.6.2">
     <structure map-as="d1:NodeList"/>
+  </mapping>
+  <mapping abstract="true" type-name="d1:ObjectFormat" class="org.dataone.service.types.ObjectFormat">
+    <structure map-as="d1:ObjectFormatIdentifier" get-method="getFmtid" set-method="setFmtid" name="fmtid"/>
+    <value style="element" name="formatName" get-method="getFormatName" set-method="setFormatName"/>
+  </mapping>
+  <mapping abstract="true" type-name="d1:ObjectFormatList" class="org.dataone.service.types.ObjectFormatList">
+    <structure map-as="d1:Slice"/>
+    <collection get-method="getObjectFormats" set-method="setObjectFormats" create-type="java.util.ArrayList">
+      <structure map-as="d1:ObjectFormat" name="objectFormat"/>
+    </collection>
+  </mapping>
+  <mapping class="org.dataone.service.types.ObjectFormatList" name="objectFormatList" ns="http://ns.dataone.org/service/types/0.6.2">
+    <structure map-as="d1:ObjectFormatList"/>
   </mapping>
   <mapping abstract="true" type-name="d1:ObjectInfo" class="org.dataone.service.types.ObjectInfo">
     <structure map-as="d1:Identifier" get-method="getIdentifier" set-method="setIdentifier" name="identifier"/>
-    <value style="element" name="objectFormat" get-method="getObjectFormat" set-method="setObjectFormat" format="d1:ObjectFormat"/>
+    <structure map-as="d1:ObjectFormat" get-method="getObjectFormat" set-method="setObjectFormat" name="objectFormat"/>
     <structure map-as="d1:Checksum" get-method="getChecksum" set-method="setChecksum" name="checksum"/>
     <value style="element" name="dateSysMetadataModified" get-method="getDateSysMetadataModified" set-method="setDateSysMetadataModified" serializer="org.dataone.service.types.util.ServiceTypeUtil.serializeDateToUTC" deserializer="org.dataone.service.types.util.ServiceTypeUtil.deserializeDateToUTC"/>
     <value style="element" name="size" get-method="getSize" set-method="setSize"/>
@@ -127,7 +142,7 @@
       <structure map-as="d1:ObjectInfo" name="objectInfo"/>
     </collection>
   </mapping>
-  <mapping class="org.dataone.service.types.ObjectList" name="objectList" ns="http://ns.dataone.org/service/types/0.6.1">
+  <mapping class="org.dataone.service.types.ObjectList" name="objectList" ns="http://ns.dataone.org/service/types/0.6.2">
     <structure map-as="d1:ObjectList"/>
   </mapping>
   <mapping abstract="true" type-name="d1:ObjectLocation" class="org.dataone.service.types.ObjectLocation">
@@ -142,7 +157,7 @@
       <structure map-as="d1:ObjectLocation" name="objectLocation"/>
     </collection>
   </mapping>
-  <mapping class="org.dataone.service.types.ObjectLocationList" name="objectLocationList" ns="http://ns.dataone.org/service/types/0.6.1">
+  <mapping class="org.dataone.service.types.ObjectLocationList" name="objectLocationList" ns="http://ns.dataone.org/service/types/0.6.2">
     <structure map-as="d1:ObjectLocationList"/>
   </mapping>
   <mapping abstract="true" type-name="d1:Person" class="org.dataone.service.types.Person">
@@ -160,9 +175,6 @@
     <collection get-method="getEquivalentIdentityList" set-method="setEquivalentIdentityList" create-type="java.util.ArrayList">
       <structure map-as="d1:Subject" name="equivalentIdentity"/>
     </collection>
-  </mapping>
-  <mapping class="org.dataone.service.types.Person" name="person" ns="http://ns.dataone.org/service/types/0.6.1">
-    <structure map-as="d1:Person"/>
   </mapping>
   <mapping abstract="true" type-name="d1:Ping" class="org.dataone.service.types.Ping">
     <value style="attribute" name="success" get-method="getSuccess" set-method="setSuccess" usage="optional"/>
@@ -231,7 +243,7 @@
   <mapping abstract="true" type-name="d1:Subject" class="org.dataone.service.types.Subject">
     <value style="text" get-method="getValue" set-method="setValue"/>
   </mapping>
-  <mapping class="org.dataone.service.types.Subject" name="subject" ns="http://ns.dataone.org/service/types/0.6.1">
+  <mapping class="org.dataone.service.types.Subject" name="subject" ns="http://ns.dataone.org/service/types/0.6.2">
     <structure map-as="d1:Subject"/>
   </mapping>
   <mapping abstract="true" type-name="d1:SubjectList" class="org.dataone.service.types.SubjectList">
@@ -244,12 +256,12 @@
       </collection>
     </structure>
   </mapping>
-  <mapping class="org.dataone.service.types.SubjectList" name="subjectList" ns="http://ns.dataone.org/service/types/0.6.1">
+  <mapping class="org.dataone.service.types.SubjectList" name="subjectList" ns="http://ns.dataone.org/service/types/0.6.2">
     <structure map-as="d1:SubjectList"/>
   </mapping>
   <mapping abstract="true" type-name="d1:SystemMetadata" class="org.dataone.service.types.SystemMetadata">
     <structure map-as="d1:Identifier" get-method="getIdentifier" set-method="setIdentifier" name="identifier"/>
-    <value style="element" name="objectFormat" get-method="getObjectFormat" set-method="setObjectFormat" format="d1:ObjectFormat"/>
+    <structure map-as="d1:ObjectFormat" get-method="getObjectFormat" set-method="setObjectFormat" name="objectFormat"/>
     <value style="element" name="size" get-method="getSize" set-method="setSize"/>
     <structure map-as="d1:Subject" get-method="getSubmitter" set-method="setSubmitter" name="submitter"/>
     <structure map-as="d1:Subject" get-method="getRightsHolder" set-method="setRightsHolder" name="rightsHolder"/>
@@ -280,7 +292,7 @@
       <structure map-as="d1:Replica" name="replica"/>
     </collection>
   </mapping>
-  <mapping class="org.dataone.service.types.SystemMetadata" name="systemMetadata" ns="http://ns.dataone.org/service/types/0.6.1">
+  <mapping class="org.dataone.service.types.SystemMetadata" name="systemMetadata" ns="http://ns.dataone.org/service/types/0.6.2">
     <structure map-as="d1:SystemMetadata"/>
   </mapping>
 </binding>

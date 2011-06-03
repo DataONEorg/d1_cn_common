@@ -4,7 +4,7 @@ package org.dataone.service.types;
 /** 
  * Schema fragment(s) for this class:
  * <pre>
- * &lt;xs:simpleType xmlns:ns="http://ns.dataone.org/service/types/0.6.1" xmlns:xs="http://www.w3.org/2001/XMLSchema" name="NodeState">
+ * &lt;xs:simpleType xmlns:ns="http://ns.dataone.org/service/types/0.6.2" xmlns:xs="http://www.w3.org/2001/XMLSchema" name="NodeState">
  *   &lt;xs:restriction base="xs:string">
  *     &lt;xs:enumeration value="up"/>
  *     &lt;xs:enumeration value="down"/>
