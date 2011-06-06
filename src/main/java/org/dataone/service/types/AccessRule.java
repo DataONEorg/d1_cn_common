@@ -11,7 +11,6 @@ import java.util.List;
  *   &lt;xs:sequence>
  *     &lt;xs:element type="ns:Subject" name="subject" minOccurs="1" maxOccurs="unbounded"/>
  *     &lt;xs:element type="ns:Permission" name="permission" minOccurs="1" maxOccurs="unbounded"/>
- *     &lt;xs:element type="ns:Identifier" name="resource" minOccurs="1" maxOccurs="unbounded"/>
  *   &lt;/xs:sequence>
  * &lt;/xs:complexType>
  * </pre>
@@ -20,7 +19,6 @@ public class AccessRule
 {
     private List<Subject> subjectList = new ArrayList<Subject>();
     private List<Permission> permissionList = new ArrayList<Permission>();
-    private List<Identifier> resourceList = new ArrayList<Identifier>();
 
     /** 
      * Get the list of 'subject' element items.
@@ -120,55 +118,5 @@ public class AccessRule
      */
     public void clearPermissionList() {
         permissionList.clear();
-    }
-
-    /** 
-     * Get the list of 'resource' element items.
-     * 
-     * @return list
-     */
-    public List<Identifier> getResourceList() {
-        return resourceList;
-    }
-
-    /** 
-     * Set the list of 'resource' element items.
-     * 
-     * @param list
-     */
-    public void setResourceList(List<Identifier> list) {
-        resourceList = list;
-    }
-
-    /** 
-     * Get the number of 'resource' element items.
-     * @return count
-     */
-    public int sizeResourceList() {
-        return resourceList.size();
-    }
-
-    /** 
-     * Add a 'resource' element item.
-     * @param item
-     */
-    public void addResource(Identifier item) {
-        resourceList.add(item);
-    }
-
-    /** 
-     * Get 'resource' element item by position.
-     * @return item
-     * @param index
-     */
-    public Identifier getResource(int index) {
-        return resourceList.get(index);
-    }
-
-    /** 
-     * Remove all 'resource' element items.
-     */
-    public void clearResourceList() {
-        resourceList.clear();
     }
 }

@@ -28,9 +28,6 @@
     <collection get-method="getPermissionList" set-method="setPermissionList" create-type="java.util.ArrayList">
       <value style="element" name="permission" type="org.dataone.service.types.Permission" format="d1:Permission"/>
     </collection>
-    <collection get-method="getResourceList" set-method="setResourceList" create-type="java.util.ArrayList">
-      <structure map-as="d1:Identifier" name="resource"/>
-    </collection>
   </mapping>
   <mapping abstract="true" type-name="d1:Checksum" class="org.dataone.service.types.Checksum">
     <value style="text" get-method="getValue" set-method="setValue"/>
