@@ -25,6 +25,7 @@ import java.util.HashMap;
 
 import org.apache.log4j.Logger;
 
+import org.dataone.service.exceptions.NotFound;
 import org.dataone.service.exceptions.ServiceFailure;
 import org.dataone.service.types.ObjectFormat;
 import org.dataone.service.types.ObjectFormatIdentifier;
@@ -43,14 +44,13 @@ public class ObjectFormatDiskCache {
   private Logger logger = Logger.getLogger(ObjectFormatDiskCache.class);
   
   /* The instance of the object format service */
-  public ObjectFormatDiskCache objectFormatCache = null;
+  private static ObjectFormatDiskCache objectFormatCache = null;
   
   /* The list of object formats */
-  public ObjectFormatList objectFormatList = null;
+  private ObjectFormatList objectFormatList = null;
   
   /* the searchable map of object formats */
-  public HashMap<String, ObjectFormat> objectFormatMap = 
-    new HashMap<String, ObjectFormat>();
+  private HashMap<String, ObjectFormat> objectFormatMap;
   
   /* the package path of the cached object format list*/ 
   private String objectFormatFilePath = "/org/dataone/service/resources/" +
@@ -81,7 +81,7 @@ public class ObjectFormatDiskCache {
    *
    * @return objectFormatCache - The instance of the object format cache
    */
-  public ObjectFormatDiskCache getInstance(){
+  public synchronized static ObjectFormatDiskCache getInstance(){
     
     if ( objectFormatCache == null ) {
       
@@ -117,12 +117,27 @@ public class ObjectFormatDiskCache {
     for (int i = 0; i < listSize; i++ ) {
       
       ObjectFormat objectFormat = 
-        this.objectFormatList.getObjectFormat(i);
-      String identifier = objectFormat.getFmtid().toString();
-      this.objectFormatMap.put(identifier, objectFormat);
+        objectFormatList.getObjectFormat(i);
+      String identifier = objectFormat.getFmtid().getValue();
+      getObjectFormatMap().put(identifier, objectFormat);
       
     }
     
+  }
+   
+  /*
+   * Return the hash containing the fmtid and format mapping
+   * 
+   * @return objectFormatMap - the hash of fmtid/format pairs
+   */
+  private HashMap<String, ObjectFormat> getObjectFormatMap() {
+  	
+  	if ( objectFormatMap == null ) {
+  		objectFormatMap = new HashMap<String, ObjectFormat>();
+  		
+  	}
+  	return objectFormatMap;
+  	
   }
   
   /**
@@ -130,9 +145,9 @@ public class ObjectFormatDiskCache {
    * 
    * @return objectFormatList - the list of object formats
    */
-  public ObjectFormatList listFormats() {
+  public static ObjectFormatList listFormats() {
     
-    return this.objectFormatList;
+    return getInstance().objectFormatList;
     
   }
   
@@ -142,10 +157,19 @@ public class ObjectFormatDiskCache {
    * @param format - the object format identifier
    * @return objectFormat - the ObjectFormat represented by the format identifier
    */
-  public ObjectFormat getFormat(ObjectFormatIdentifier fmtid) {
+  public static ObjectFormat getFormat(ObjectFormatIdentifier fmtid) 
+    throws NotFound {
     
     ObjectFormat objectFormat = null;
-    objectFormat = this.objectFormatMap.get(fmtid);
+    String fmtidStr = fmtid.getValue();
+    objectFormat = getInstance().getObjectFormatMap().get(fmtidStr);
+    
+    if ( objectFormat == null ) {
+      
+    	throw new NotFound("4848", "The format specified by " + fmtid.getValue() + 
+    			               " does not exist at this node.");
+    }
+
     
     return objectFormat;
     
