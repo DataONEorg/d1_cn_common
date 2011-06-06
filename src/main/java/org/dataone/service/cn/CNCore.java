@@ -32,6 +32,8 @@ import org.dataone.service.exceptions.ServiceFailure;
 import org.dataone.service.types.ObjectFormat;
 import org.dataone.service.types.Identifier;
 import org.dataone.service.types.Log;
+import org.dataone.service.types.ObjectFormatIdentifier;
+import org.dataone.service.types.ObjectFormatList;
 import org.dataone.service.types.Session;
 import org.dataone.service.types.Event;
 import org.dataone.service.types.NodeList;
@@ -49,17 +51,17 @@ import org.joda.time.DateTime;
 public interface CNCore 
 {
 
-    /** TODO: add when Types are updated.
+    /** 
      * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CNCore.listFormats
-    public ObjectFormatList listFormats()
+     */
+		public ObjectFormatList listFormats()
         throws InvalidRequest, ServiceFailure, NotFound, InsufficientResources,
         NotImplemented;
-     */
 
     /**
      * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CNCore.getFormat
      */
-    public ObjectFormat getFormat(Identifier fmtid)
+    public ObjectFormat getFormat(ObjectFormatIdentifier fmtid)
         throws InvalidRequest, ServiceFailure, NotFound, InsufficientResources,
         NotImplemented;
     
