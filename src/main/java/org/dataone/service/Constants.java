@@ -55,6 +55,14 @@ public class Constants {
     public static final String RESOURCE_LOG = "log";
     /** API checksum resource*/
     public static final String RESOURCE_CHECKSUM = "checksum";
+    /** API NODE Resource which handles monitor ping operations */
+    public static final String RESOURCE_MONITOR_PING = "monitor/ping";
+    /** API NODE Resource which handles monitor object operations */
+    public static final String RESOURCE_MONITOR_OBJECT = "monitor/object";
+    /** API NODE Resource which handles monitor event operations */
+    public static final String RESOURCE_MONITOR_EVENT = "monitor/event";
+    /** API NODE Resource which handles monitor status operations */
+    public static final String RESOURCE_MONITOR_STATUS = "monitor/status";
     /** Temporary file directory */
     public static final String TEMP_DIR = "/tmp";
 }
