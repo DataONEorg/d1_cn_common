@@ -20,6 +20,8 @@
 
 package org.dataone.service.cn;
 
+import java.util.Date;
+
 import org.dataone.service.exceptions.InsufficientResources;
 import org.dataone.service.exceptions.InvalidRequest;
 import org.dataone.service.exceptions.InvalidToken;
@@ -38,8 +40,6 @@ import org.dataone.service.types.Session;
 import org.dataone.service.types.Event;
 import org.dataone.service.types.NodeList;
 import org.dataone.service.types.SystemMetadata;
-
-import org.joda.time.DateTime;
 
 /**
  * The DataONE CoordinatingNode Tier1 Core interface.  This defines an
@@ -68,7 +68,7 @@ public interface CNCore
     /**
      * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CNCore.getLogRecords
      */
-    public Log getLogRecords(Session session, DateTime fromDate, DateTime toDate, 
+    public Log getLogRecords(Session session, Date fromDate, Date toDate, 
         Event event) throws InvalidToken, InvalidRequest, ServiceFailure, 
         NotAuthorized, NotImplemented;
     
