@@ -9,6 +9,6 @@
 -->
 
 <d1:checksum  xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
-   xmlns:d1='http://ns.dataone.org/service/types/0.6.1'
-   xsi:schemaLocation='http://ns.dataone.org/service/types/0.6.1 https://repository.dataone.org/software/cicore/branches/D1_SCHEMA_0_6_1/dataoneTypes.xsd'
+   xmlns:d1='http://ns.dataone.org/service/types/0.6.2'
+   xsi:schemaLocation='http://ns.dataone.org/service/types/0.6.2 https://repository.dataone.org/software/cicore/branches/D1_SCHEMA_0_6_2/dataoneTypes.xsd'
    algorithm="SHA-1">SGVsbG8gV29ybGQh</d1:checksum>

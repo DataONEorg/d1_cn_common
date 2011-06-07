@@ -21,20 +21,26 @@
 
 -->
 
-<d1:objectList xmlns:d1="http://ns.dataone.org/service/types/0.6.1"
+<d1:objectList xmlns:d1="http://ns.dataone.org/service/types/0.6.2"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:schemaLocation="http://ns.dataone.org/service/types/0.6.1 https://repository.dataone.org/software/cicore/branches/D1_SCHEMA_0_6_1//dataoneSchema.xsd"
+        xsi:schemaLocation="http://ns.dataone.org/service/types/0.6.2 https://repository.dataone.org/software/cicore/branches/D1_SCHEMA_0_6_2/dataoneSchema.xsd"
  count="2" start="0" total="2">
     <objectInfo>
         <identifier>ABC123</identifier>
-        <objectFormat>eml://ecoinformatics.org/eml-2.0.0</objectFormat>
+    <objectFormat>
+        <fmtid>eml://ecoinformatics.org/eml-2.0.0</fmtid>
+        <formatName>Metadata Encoding and Transmission Standard, version 1</formatName>
+    </objectFormat>
         <checksum algorithm="SHA-1">SGVsbG8gV29ybGQh</checksum>
         <dateSysMetadataModified>2006-05-04T18:13:51.0Z</dateSysMetadataModified>
         <size>922337203</size>
     </objectInfo>
     <objectInfo>
         <identifier>ABC456</identifier>
-        <objectFormat>eml://ecoinformatics.org/eml-2.0.0</objectFormat>
+    <objectFormat>
+        <fmtid>eml://ecoinformatics.org/eml-2.0.0</fmtid>
+        <formatName>Metadata Encoding and Transmission Standard, version 1</formatName>
+    </objectFormat>
         <checksum algorithm="SHA-1">V29ybGQgSGVsbG8h</checksum>
         <dateSysMetadataModified>2006-05-05T18:13:51.0Z</dateSysMetadataModified>
         <size>922337203</size>
