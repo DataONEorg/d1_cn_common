@@ -20,17 +20,20 @@
 
 package org.dataone.service.cn;
 
+import java.io.InputStream;
 import java.util.Date;
 
+import org.dataone.service.exceptions.IdentifierNotUnique;
 import org.dataone.service.exceptions.InsufficientResources;
 import org.dataone.service.exceptions.InvalidRequest;
+import org.dataone.service.exceptions.InvalidSystemMetadata;
 import org.dataone.service.exceptions.InvalidToken;
 import org.dataone.service.exceptions.NotAuthorized;
 import org.dataone.service.exceptions.NotFound;
 import org.dataone.service.exceptions.NotImplemented;
 import org.dataone.service.exceptions.ServiceFailure;
+import org.dataone.service.exceptions.UnsupportedType;
 
-//import org.dataone.service.types.ObjectFormatList;
 import org.dataone.service.types.ObjectFormat;
 import org.dataone.service.types.Identifier;
 import org.dataone.service.types.Log;
@@ -77,7 +80,23 @@ public interface CNCore
      */
     public NodeList listNodes() throws NotImplemented, ServiceFailure;
 
-    /** TODO: specify return type in CN API docs and reflect here.
+    /**
+     * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CNCore.reserveIdentifier
+     */
+    public Identifier reserveIdentifier(Session session, Identifier pid, String scope, String format) 
+    	throws InvalidToken, ServiceFailure, 
+            NotAuthorized, IdentifierNotUnique, NotImplemented, InvalidRequest;
+    
+    /**
+     * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CNCore.create
+     */
+    public Identifier create(Session session, Identifier pid, InputStream object, 
+            SystemMetadata sysmeta) throws InvalidToken, ServiceFailure, 
+            NotAuthorized, IdentifierNotUnique, UnsupportedType, 
+            InsufficientResources, InvalidSystemMetadata, NotImplemented, 
+            InvalidRequest;
+    
+    /** 
      * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CNCore.registerSystemMetadata
      */
      public boolean registerSystemMetaData(Session session, Identifier pid,
