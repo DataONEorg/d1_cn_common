@@ -20,6 +20,7 @@
 
 package org.dataone.service.mn.tier1;
 
+import java.io.InputStream;
 import java.util.Date;
 
 import org.dataone.service.exceptions.InvalidRequest;
@@ -36,8 +37,6 @@ import org.dataone.service.types.Identifier;
 import org.dataone.service.types.Checksum;
 import org.dataone.service.types.ObjectList;
 import org.dataone.service.types.ObjectFormat;
-//import org.dataone.service.types.OctetStream;
-//import org.dataone.service.types.Exception;
 
 //import org.joda.time.DateTime;
 
@@ -50,13 +49,15 @@ import org.dataone.service.types.ObjectFormat;
  */
 public interface MNRead {
 
-    /** TODO: Add OctetStream class?
+    /**
+     * InputStream is the Java native version of D1's OctetStream
      * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/MN_APIs.html#MN_read.listObjects
      *
-    public OctetStream get(Session cert, Identifier pid)
+     */
+    public InputStream get(Session cert, Identifier pid)
             throws InvalidToken, ServiceFailure, NotAuthorized, NotFound, 
                    NotImplemented, InvalidRequest;
-     */
+
 
     /**
      * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/MN_APIs.html#MN_read.getSystemMetadata
@@ -88,9 +89,10 @@ public interface MNRead {
             NotImplemented, ServiceFailure, InvalidToken;
 
     /** TODO: Add Exception class to types package
+     *  XXX: BaseException should do, it provides its own serializer -rpw
      * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/MN_APIs.html#MN_read.synchronizationFailed
      *
-    public void synchronizationFailed(Session cert, Exception message)
+    public void synchronizationFailed(Session cert, BaseException message)
             throws NotImplemented, ServiceFailure, NotAuthorized, InvalidRequest;
     */
 

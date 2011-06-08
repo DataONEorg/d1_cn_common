@@ -49,13 +49,16 @@ import org.dataone.service.types.QueryType;
  */
 public interface CNRead 
 {
-    /** TODO: add OctetStream class to types.
+    /**
+     * InputStream is the Java native version of D1's OctetStream
      * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CNRead.get
      *
-    public OctetStream get(Session session, Identifier pid)
+     *
+     */
+    public InputStream get(Session session, Identifier pid)
         throws InvalidRequest, InvalidToken, ServiceFailure, NotAuthorized, 
         NotFound, NotImplemented;
-     */
+
     
     /**
      * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CNRead.getSystemMetadata
