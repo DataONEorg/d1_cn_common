@@ -30,16 +30,12 @@ import org.dataone.service.exceptions.InvalidRequest;
 import org.dataone.service.exceptions.InvalidSystemMetadata;
 import org.dataone.service.exceptions.InvalidToken;
 import org.dataone.service.exceptions.NotAuthorized;
-import org.dataone.service.exceptions.NotFound;
 import org.dataone.service.exceptions.NotImplemented;
 import org.dataone.service.exceptions.ServiceFailure;
 import org.dataone.service.exceptions.UnsupportedType;
 
-import org.dataone.service.types.ObjectFormat;
 import org.dataone.service.types.Identifier;
 import org.dataone.service.types.Log;
-import org.dataone.service.types.ObjectFormatIdentifier;
-import org.dataone.service.types.ObjectFormatList;
 import org.dataone.service.types.Session;
 import org.dataone.service.types.Event;
 import org.dataone.service.types.NodeList;
