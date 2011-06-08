@@ -18,33 +18,32 @@
  * limitations under the License.
  */
 
-package org.dataone.service;
+package org.dataone.service.impl;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
 
 import org.apache.log4j.Logger;
-
+import org.dataone.cn.batch.utils.TypeMarshaller;
+import org.dataone.service.ObjectFormatService;
+import org.dataone.service.exceptions.InsufficientResources;
+import org.dataone.service.exceptions.InvalidRequest;
 import org.dataone.service.exceptions.NotFound;
+import org.dataone.service.exceptions.NotImplemented;
 import org.dataone.service.exceptions.ServiceFailure;
 import org.dataone.service.types.ObjectFormat;
 import org.dataone.service.types.ObjectFormatIdentifier;
 import org.dataone.service.types.ObjectFormatList;
-import org.dataone.service.types.util.ServiceTypeUtil;
 import org.jibx.runtime.JiBXException;
 
-/**
- *  The ObjectFormatDiskCache provides a default list of object formats.
- *  This includes schema types, mime types, and other
- *  information related to a particular format.  
- */
-public class ObjectFormatDiskCache {
-  
+public class ObjectFormatServiceImpl implements ObjectFormatService {
+
   /* The instance of the logging class */
-  private Logger logger = Logger.getLogger(ObjectFormatDiskCache.class);
+  private Logger logger;
   
   /* The instance of the object format service */
-  private static ObjectFormatDiskCache objectFormatCache = null;
+  private static ObjectFormatServiceImpl instance = null;
   
   /* The list of object formats */
   private ObjectFormatList objectFormatList = null;
@@ -60,71 +59,143 @@ public class ObjectFormatDiskCache {
    * Constructor: Creates an instance of the object format service. Since
    * this uses a singleton pattern, use getInstance() to gain the instance.
    */
-  public ObjectFormatDiskCache() {
+  public ObjectFormatServiceImpl() throws ServiceFailure {
     
+  	logger = Logger.getLogger(ObjectFormatServiceImpl.class);
+  	
     try {
       
     	// create the in-memory list of object formats
-      populateObjectFormatList();
+      getCachedList();
       
     } catch (ServiceFailure se) {
-      logger.debug("There was a problem creating the ObjectFormatDiskCache. " +
+      logger.debug("There was a problem creating the ObjectFormatServiceImpl. " +
                        "The error message was: " + se.getMessage());
+      throw se;
       
     }
     
   }
-  
+
   /**
-   *  Get the instance of the ObjectFormatDiskCache that has been instantiated,
+   *  Get the instance of the ObjectFormatServiceImpl that has been instantiated,
    *  or instantiate one if it has not been already.
    *
-   * @return objectFormatCache - The instance of the object format cache
+   * @return ObjectFormatServiceImpl - The instance of the object format service
+   * @throws ServiceFailure 
    */
-  public synchronized static ObjectFormatDiskCache getInstance(){
+  public static synchronized ObjectFormatServiceImpl getInstance() 
+    throws ServiceFailure {
     
-    if ( objectFormatCache == null ) {
-      
-      objectFormatCache = new ObjectFormatDiskCache();
+    if ( instance == null ) {
+      instance = new ObjectFormatServiceImpl();
       
     }
-    return objectFormatCache;
+    return instance;
+    
   }
   
   /**
-   * Populate the ObjectFormatDiskCache's objectFormatList from the cached list.
+   * List the object formats registered with the object format service.
    * 
-   * @throws ServiceFailure
+   * @return objectFormatList - the list of object formats
    */
-  private void populateObjectFormatList() throws ServiceFailure {
+	public ObjectFormatList listFormats() 
+	  throws InvalidRequest, ServiceFailure,
+	  NotFound, InsufficientResources, NotImplemented {
     
-    try {
+		return objectFormatList;
+
+  }
+
+  /**
+   * Get the object format based on the given identifier.
+   * 
+   * @param fmtid - the object format identifier
+   * @return objectFormat - the ObjectFormat represented by the format identifier
+   * @throws InvalidRequest 
+   * @throws ServiceFailure 
+   * @throws NotFound 
+   * @throws InsufficientResources 
+   * @throws NotImplemented 
+   */
+	@Override
+	public ObjectFormat getFormat(ObjectFormatIdentifier fmtid)
+	  throws InvalidRequest, ServiceFailure, NotFound, InsufficientResources,
+	  NotImplemented {
+    
+		ObjectFormat objectFormat = null;
+    String fmtidStr = fmtid.getValue();
+    objectFormat = getObjectFormatMap().get(fmtidStr);
+    
+    if ( objectFormat == null ) {
       
-    	getCachedList();
-      
-    } catch ( ServiceFailure sfe ) {
-      
-      String message = "There was a problem finding the coordinating node " +
-                       "URL in the properties file.  The message was: "     +
-                       sfe.getMessage();
-      logger.error(message);
-      throw sfe;
+    	throw new NotFound("4848", "The format specified by " + fmtid.getValue() + 
+    			               " does not exist at this node.");
     }
 
-    // index the object format list based on the format identifier
-    int listSize = this.objectFormatList.sizeObjectFormats();
     
-    for (int i = 0; i < listSize; i++ ) {
+    return objectFormat;
+	}
+	
+  /**
+   * Get the object format list from the cached file on disk
+   * 
+   * @return objectFormatList - the cached object format list
+   */
+  private void getCachedList()
+    throws ServiceFailure {
+            
+    // get the object format list from disk and parse it
+    try {
+      InputStream inputStream = 
+    	this.getClass().getResourceAsStream(objectFormatFilePath);
+            
+    	objectFormatList = 
+    		TypeMarshaller.unmarshalTypeFromStream(ObjectFormatList.class, inputStream);
+    	
+      // index the object format list based on the format identifier
+      int listSize = this.objectFormatList.sizeObjectFormats();
       
-      ObjectFormat objectFormat = 
-        objectFormatList.getObjectFormat(i);
-      String identifier = objectFormat.getFmtid().getValue();
-      getObjectFormatMap().put(identifier, objectFormat);
+      for (int i = 0; i < listSize; i++ ) {
+        
+        ObjectFormat objectFormat = 
+          objectFormatList.getObjectFormat(i);
+        String identifier = objectFormat.getFmtid().getValue();
+        getObjectFormatMap().put(identifier, objectFormat);
+        
+      }
+
+    } catch (JiBXException jibxe) {
       
-    }
-    
+    	String message = "The object format list could not be deserialized. " +
+    	"The error message was: " + jibxe.getMessage();
+        logger.error(message);
+        throw new ServiceFailure("4841", message);
+             
+    } catch (IOException ioe) {
+    	String message = "The object format list could not be read. " +
+    	"The error message was: " + ioe.getMessage();
+        logger.error(message);
+        throw new ServiceFailure("4841", message);
+ 
+    } catch (InstantiationException ie) {
+    	String message = "The object format list could not be instantiated. " +
+    	"The error message was: " + ie.getMessage();
+        logger.error(message);
+        throw new ServiceFailure("4841", message);
+
+    } catch (IllegalAccessException iae) {
+    	String message = "The object format list could not be accessed. " +
+    	"The error message was: " + iae.getMessage();
+        logger.error(message);
+        throw new ServiceFailure("4841", message);
+ 
+    }   
+    return;
+  
   }
-   
+ 
   /*
    * Return the hash containing the fmtid and format mapping
    * 
@@ -139,78 +210,6 @@ public class ObjectFormatDiskCache {
   	return objectFormatMap;
   	
   }
-  
-  /**
-   * List the object formats registered with the object format service.
-   * 
-   * @return objectFormatList - the list of object formats
-   */
-  public static ObjectFormatList listFormats() {
-    
-    return getInstance().objectFormatList;
-    
-  }
-  
-  /**
-   * Get the object format based on the given identifier.
-   * 
-   * @param format - the object format identifier
-   * @return objectFormat - the ObjectFormat represented by the format identifier
-   */
-  public static ObjectFormat getFormat(ObjectFormatIdentifier fmtid) 
-    throws NotFound {
-    
-    ObjectFormat objectFormat = null;
-    String fmtidStr = fmtid.getValue();
-    objectFormat = getInstance().getObjectFormatMap().get(fmtidStr);
-    
-    if ( objectFormat == null ) {
-      
-    	throw new NotFound("4848", "The format specified by " + fmtid.getValue() + 
-    			               " does not exist at this node.");
-    }
 
-    
-    return objectFormat;
-    
-  }
-  
-  /**
-   * Get the object format list from the cached file on disk
-   * 
-   * @return objectFormatList - the cached object format list
-   */
-  private void getCachedList()
-    throws ServiceFailure {
-            
-    // get the object format list from disk and parse it
-    try {
-      InputStream inputStream = 
-    	this.getClass().getResourceAsStream(objectFormatFilePath);
-            
-      this.objectFormatList = (ObjectFormatList)
-    	  ServiceTypeUtil.deserializeServiceType(ObjectFormatList.class, inputStream);
-    } catch (JiBXException jibxe) {
-      
-    	String message = "The object format list could not be deserialized. " +
-    	"The error message was: " + jibxe.getMessage();
-        logger.error(message);
-        jibxe.printStackTrace();
-        throw new ServiceFailure("4841", message);
-
-    } catch (Exception e) {
-        
-    	// deal with other exceptions if the resource isn't readable
-    	String message = "The object format list could not be created. " +
-    	"The error message was: " + e.getMessage();
-        logger.error(message);
-        throw new ServiceFailure("4841", message);
-        
-      
-    }
-    
-    return;
-  
-  }
 
 }

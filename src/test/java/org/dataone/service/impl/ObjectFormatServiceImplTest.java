@@ -20,12 +20,16 @@
  * $Id$
  */
 
-package org.dataone.service;
+package org.dataone.service.impl;
 
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import org.dataone.service.exceptions.InsufficientResources;
+import org.dataone.service.exceptions.InvalidRequest;
 import org.dataone.service.exceptions.NotFound;
+import org.dataone.service.exceptions.NotImplemented;
+import org.dataone.service.exceptions.ServiceFailure;
 import org.dataone.service.types.ObjectFormatIdentifier;
 import org.dataone.service.types.ObjectFormatList;
 
@@ -37,7 +41,7 @@ import org.junit.Test;
  * @author cjones
  *
  */
-public class ObjectFormatDiskCacheTest {
+public class ObjectFormatServiceImplTest {
 
 	@Test
   public void testHarnessCheck() {
@@ -52,8 +56,29 @@ public class ObjectFormatDiskCacheTest {
   public void testListFormats() {
   	
   	int formatsCount = 31;
-  	ObjectFormatList objectFormatList = ObjectFormatDiskCache.listFormats();
-  	assertTrue(objectFormatList.getTotal() >= formatsCount);
+  	ObjectFormatList objectFormatList;
+    
+  	try {
+	    objectFormatList = ObjectFormatServiceImpl.getInstance().listFormats();
+	  	assertTrue(objectFormatList.getTotal() >= formatsCount);
+    
+    } catch (InvalidRequest e) {
+	    // TODO Auto-generated catch block
+      fail("The request was invalid: " + e.getMessage());
+      
+    } catch (ServiceFailure e) {
+      fail("The service failed: " + e.getMessage());
+ 
+    } catch (NotFound e) {
+      fail("The list was not found: " + e.getMessage());
+
+    } catch (InsufficientResources e) {
+      fail("There were insufficient resources: " + e.getMessage());
+
+    } catch (NotImplemented e) {
+      fail("The service is not implemented: " + e.getMessage());
+
+    }
   	
   }
   
@@ -67,23 +92,29 @@ public class ObjectFormatDiskCacheTest {
   	ObjectFormatIdentifier fmtid = new ObjectFormatIdentifier();
   	fmtid.setValue(knownFormat);
     
-  	try {
-	    
-			String result = 
-				ObjectFormatDiskCache.getFormat(fmtid).getFmtid().getValue();
-	  	System.out.println("Expected result: " + knownFormat);
-	  	System.out.println("Found    result: " + result);
-	  	assertTrue(result.equals(knownFormat));
-  
-    } catch (NullPointerException npe) {
-	  
-	    fail("The returned format was null: " + npe.getMessage());
-    
-    } catch (NotFound nfe) {
+		String result;
+    try {
+	    result = ObjectFormatServiceImpl.getInstance().getFormat(fmtid).getFmtid().getValue();
+		  assertTrue(result.equals(knownFormat));
+
+    } catch (InvalidRequest e) {
+	    // TODO Auto-generated catch block
+      fail("The request was invalid: " + e.getMessage());
       
-    	fail("The format " + knownFormat + " was not found.");
-    	
+    } catch (ServiceFailure e) {
+      fail("The service failed: " + e.getMessage());
+ 
+    } catch (NotFound e) {
+      fail("The list was not found: " + e.getMessage());
+
+    } catch (InsufficientResources e) {
+      fail("There were insufficient resources: " + e.getMessage());
+
+    } catch (NotImplemented e) {
+      fail("The service is not implemented: " + e.getMessage());
+
     }
+  
   	
   }
   
@@ -97,16 +128,15 @@ public class ObjectFormatDiskCacheTest {
   	ObjectFormatIdentifier fmtid = new ObjectFormatIdentifier();
   	fmtid.setValue(badFormat);
 
-  	try {
-  		
-	    String result = 
-	    	ObjectFormatDiskCache.getFormat(fmtid).getFmtid().getValue();
+	    try {
+	      String result = 
+	      	ObjectFormatServiceImpl.getInstance().getFormat(fmtid).getFmtid().getValue();
       
-  	} catch (Exception e) {
-	    
-  		assertTrue(e instanceof NotFound);
-  	}
-  	
+	    } catch (Exception e) {
+        assertTrue(e instanceof NotFound);
+        
+      }
+        	
   }
   
 }

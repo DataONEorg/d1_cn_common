@@ -19,7 +19,7 @@
  */
 package org.dataone.service.types;
 
-import org.dataone.service.ObjectFormatDiskCache;
+import org.dataone.service.impl.ObjectFormatServiceImpl;
 import java.text.SimpleDateFormat;
 import java.text.DateFormat;
 
@@ -312,12 +312,12 @@ public class ValidateSamplesTestCase {
 //        ObjectFormat objectFormat;
         ObjectFormatIdentifier fmtid = new ObjectFormatIdentifier();
         fmtid.setValue("CF-1.0");
-        ObjectFormat thisOF = ObjectFormatDiskCache.getFormat(fmtid);
+        ObjectFormat thisOF = ObjectFormatServiceImpl.getInstance().getFormat(fmtid);
         assertNotNull(thisOF);
         assertNotNull(thisOF.getFmtid());
         assertNotNull(thisOF.getFormatName());
         System.out.println(thisOF.getFmtid().getValue() + " = " + thisOF.getFormatName());
-        systemMetadata.setObjectFormat(ObjectFormatDiskCache.getFormat(fmtid));
+        systemMetadata.setObjectFormat(ObjectFormatServiceImpl.getInstance().getFormat(fmtid));
         systemMetadata.setSize(1235431);
         Subject submitter = new Subject();
         submitter.setValue("Kermit de Frog");
@@ -401,7 +401,7 @@ public class ValidateSamplesTestCase {
         objectInfo1.setIdentifier(identifier1);
         ObjectFormatIdentifier fmtid = new ObjectFormatIdentifier();
         fmtid.setValue("CF-1.0");
-        objectInfo1.setObjectFormat(ObjectFormatDiskCache.getFormat(fmtid));
+        objectInfo1.setObjectFormat(ObjectFormatServiceImpl.getInstance().getFormat(fmtid));
         Checksum checksum1 = new Checksum();
         checksum1.setValue("V29ybGQgSGVsbG8h");
         checksum1.setAlgorithm(ChecksumAlgorithm.SHA_1);
@@ -416,7 +416,7 @@ public class ValidateSamplesTestCase {
         objectInfo2.setIdentifier(identifier1);
         ObjectFormatIdentifier fmtid2 = new ObjectFormatIdentifier();
         fmtid2.setValue("http://digir.net/schema/conceptual/darwin/2003/1.0/darwin2.xsd");
-        objectInfo2.setObjectFormat(ObjectFormatDiskCache.getFormat(fmtid2));
+        objectInfo2.setObjectFormat(ObjectFormatServiceImpl.getInstance().getFormat(fmtid2));
         Checksum checksum2 = new Checksum();
         checksum2.setValue("V29ybGQgSGVsaF89");
         checksum2.setAlgorithm(ChecksumAlgorithm.MD5);
@@ -431,7 +431,7 @@ public class ValidateSamplesTestCase {
         objectInfo3.setIdentifier(identifier1);
         ObjectFormatIdentifier fmtid3 = new ObjectFormatIdentifier();
         fmtid3.setValue("FGDC-STD-001-1998");
-        objectInfo3.setObjectFormat(ObjectFormatDiskCache.getFormat(fmtid3));
+        objectInfo3.setObjectFormat(ObjectFormatServiceImpl.getInstance().getFormat(fmtid3));
         Checksum checksum3 = new Checksum();
         checksum3.setValue("V29ybGQgSGVsaF89ybGE8987adf3");
         checksum3.setAlgorithm(ChecksumAlgorithm.SHA_512);
