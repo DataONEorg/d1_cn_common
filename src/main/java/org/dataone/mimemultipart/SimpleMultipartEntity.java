@@ -39,6 +39,8 @@ import org.apache.http.entity.mime.content.InputStreamBody;
 import org.apache.http.entity.mime.content.StringBody;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.dataone.service.Constants;
+import org.dataone.service.types.util.ServiceTypeUtil;
+import org.jibx.runtime.JiBXException;
 
 /**
  * @author berkley, nahf
@@ -98,6 +100,33 @@ public class SimpleMultipartEntity extends MultipartEntity
 		}
 		
 		FileBody fBody = new FileBody(outputFile);
+		addPart(name, fBody);
+    }
+    
+    /**
+     * The DataONE object (serializable datatype) passed in
+     * is serialized as the specified type to file.  Then added
+     * as a file part.
+     * 
+     * @param name
+     * @param serializableD1Object - the dataone serializable object to add 
+     * @param type - class of the serializable dataone datatype
+     * @throws IOException 
+     * @throws JiBXException 
+     */
+    public void addFilePart(String name, Object serializableD1Object, Class type) 
+    throws IOException, JiBXException
+    {
+    	// create temp file
+    	File outputFile = generateTempFile();
+    
+    	FileOutputStream fileOut = new FileOutputStream(outputFile);
+    	ServiceTypeUtil.serializeServiceType(type, serializableD1Object, fileOut);
+    	fileOut.flush();
+    	fileOut.close();
+    	
+    	// create the new file body
+    	FileBody fBody = new FileBody(outputFile);
 		addPart(name, fBody);
     }
    

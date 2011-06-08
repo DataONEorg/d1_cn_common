@@ -37,6 +37,12 @@ public class Constants {
     public static final String HEAD = "HEAD";
     /** HTTP Verb DELETE */
     public static final String DELETE = "DELETE";
+    /** API ACCESS Resource which handles access operations */
+    public static final String RESOURCE_ACCESS = "accessRules";
+    /** API AUTHORIZATION Resource which handles authorization checks */
+    public static final String RESOURCE_AUTHORIZATION = "isAuthorized";
+    /** API REPLICATE Resource which handles authorization checks */
+    public static final String RESOURCE_REPLICATE = "replicate";
     /** API OBJECTS Resource which handles with document operations */
     public static final String RESOURCE_OBJECTS = "object";
     /** API META Resource which handles SystemMetadata operations */
