@@ -59,7 +59,7 @@ public class ObjectFormatServiceImpl implements ObjectFormatService {
    * Constructor: Creates an instance of the object format service. Since
    * this uses a singleton pattern, use getInstance() to gain the instance.
    */
-  public ObjectFormatServiceImpl() throws ServiceFailure {
+  public ObjectFormatServiceImpl() {
     
   	logger = Logger.getLogger(ObjectFormatServiceImpl.class);
   	
@@ -71,7 +71,6 @@ public class ObjectFormatServiceImpl implements ObjectFormatService {
     } catch (ServiceFailure se) {
       logger.debug("There was a problem creating the ObjectFormatServiceImpl. " +
                        "The error message was: " + se.getMessage());
-      throw se;
       
     }
     
@@ -84,8 +83,7 @@ public class ObjectFormatServiceImpl implements ObjectFormatService {
    * @return ObjectFormatServiceImpl - The instance of the object format service
    * @throws ServiceFailure 
    */
-  public static synchronized ObjectFormatServiceImpl getInstance() 
-    throws ServiceFailure {
+  public static synchronized ObjectFormatServiceImpl getInstance() {
     
     if ( instance == null ) {
       instance = new ObjectFormatServiceImpl();
