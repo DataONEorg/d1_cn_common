@@ -67,6 +67,6 @@ public interface CNAuthorization {
      * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CNAuthorization.setAccessPolicy
      */
     public boolean setAccessPolicy(Session session, Identifier pid, 
-        AccessPolicy policy) throws NotImplemented, NotAuthorized, 
-        ServiceFailure, InvalidRequest;
+        AccessPolicy policy) throws InvalidToken, NotFound, NotImplemented, 
+        NotAuthorized, ServiceFailure, InvalidRequest;
 }
