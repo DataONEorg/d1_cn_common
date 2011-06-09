@@ -68,7 +68,7 @@ public interface CNIdentity {
      * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CNIdentity.getSubjectInfo
      */
     public SubjectList getSubjectInfo(Session session, Subject subject)
-        throws ServiceFailure, InvalidToken; //NotAuthorized, NotImplemented;
+        throws ServiceFailure, InvalidToken, NotAuthorized, NotImplemented;
   
     /**
      * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CNIdentity.listSubjects
