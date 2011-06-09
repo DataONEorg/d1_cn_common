@@ -26,7 +26,6 @@ import java.util.HashMap;
 
 import org.apache.log4j.Logger;
 import org.dataone.cn.batch.utils.TypeMarshaller;
-import org.dataone.service.ObjectFormatService;
 import org.dataone.service.exceptions.InsufficientResources;
 import org.dataone.service.exceptions.InvalidRequest;
 import org.dataone.service.exceptions.NotFound;
@@ -37,7 +36,7 @@ import org.dataone.service.types.ObjectFormatIdentifier;
 import org.dataone.service.types.ObjectFormatList;
 import org.jibx.runtime.JiBXException;
 
-public class ObjectFormatServiceImpl implements ObjectFormatService {
+public class ObjectFormatServiceImpl {
 
   /* The instance of the logging class */
   private Logger logger;
@@ -117,7 +116,6 @@ public class ObjectFormatServiceImpl implements ObjectFormatService {
    * @throws InsufficientResources 
    * @throws NotImplemented 
    */
-	@Override
 	public ObjectFormat getFormat(ObjectFormatIdentifier fmtid)
 	  throws InvalidRequest, ServiceFailure, NotFound, InsufficientResources,
 	  NotImplemented {
