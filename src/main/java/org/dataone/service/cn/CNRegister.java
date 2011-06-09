@@ -26,10 +26,12 @@ import org.dataone.service.exceptions.NotAuthorized;
 import org.dataone.service.exceptions.NotFound;
 import org.dataone.service.exceptions.NotImplemented;
 import org.dataone.service.exceptions.ServiceFailure;
+import org.dataone.service.exceptions.IdentifierNotUnique;
 
 import org.dataone.service.types.Session;
 import org.dataone.service.types.Identifier;
-//import org.dataone.service.types.Capabilities;
+import org.dataone.service.types.Node;
+import org.dataone.service.types.NodeReference;
 
 /**
  * The DataONE CoordinatingNode Tier2 Registration interface.  This defines an
@@ -40,18 +42,17 @@ import org.dataone.service.types.Identifier;
  */
 public interface CNRegister {
 
-    /** TODO: uncomment when Capabilities type is added
+    /** 
      * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CNRegister.addNodeCapabilities
-     *
-    public boolean addNodeCapabilities(Session session, Identifier pid, 
-        Capabilities capabilities) throws NotImplemented, NotAuthorized, 
-        ServiceFailure, InvalidRequest;
      */
+    public boolean addNodeCapabilities(Session session, NodeReference nodeid, 
+        Node node) throws NotImplemented, NotAuthorized, 
+        ServiceFailure, InvalidRequest, NotFound;
 
-    /** TODO: uncomment when Capabilities type is added
+    /** 
      * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CNRegister.register
-     *
-    public Identifier register(Session session, Capabilities capabilities) 
-        throws NotImplemented, NotAuthorized, ServiceFailure, InvalidRequest;
      */
+    public Identifier register(Session session, Node node) 
+        throws NotImplemented, NotAuthorized, ServiceFailure, InvalidRequest, 
+        IdentifierNotUnique;
 }

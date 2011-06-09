@@ -82,7 +82,7 @@ public interface CNCore extends ObjectFormatService
     /** 
      * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CNCore.registerSystemMetadata
      */
-     public boolean registerSystemMetaData(Session session, Identifier pid,
+     public boolean registerSystemMetadata(Session session, Identifier pid,
         SystemMetadata sysmeta) throws NotImplemented, NotAuthorized,
-        ServiceFailure, InvalidRequest;
+        ServiceFailure, InvalidRequest, InvalidSystemMetadata;
 }
