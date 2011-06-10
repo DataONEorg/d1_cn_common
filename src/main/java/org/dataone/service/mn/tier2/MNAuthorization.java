@@ -51,7 +51,7 @@ public interface MNAuthorization {
     /**
      * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/MN_APIs.html#MN_auth.setAccess
      */
-    public boolean setAccess(Session cert, Identifier pid, AccessPolicy accessPolicy)
+    public boolean setAccessPolicy(Session cert, Identifier pid, AccessPolicy accessPolicy)
             throws InvalidToken, ServiceFailure, NotFound, NotAuthorized, 
                    NotImplemented, InvalidRequest;
 }
