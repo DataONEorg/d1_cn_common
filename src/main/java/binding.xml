@@ -295,4 +295,10 @@
   <mapping class="org.dataone.service.types.SystemMetadata" name="systemMetadata" ns="http://ns.dataone.org/service/types/0.6.2">
     <structure map-as="d1:SystemMetadata"/>
   </mapping>
+  <mapping abstract="true" type-name="d1:SuccessFlag" class="org.dataone.service.types.SuccessFlag">
+    <value style="text" get-method="isBoolean" set-method="setBoolean"/>
+  </mapping>
+  <mapping class="org.dataone.service.types.SuccessFlag" name="successFlag" ns="http://ns.dataone.org/service/types/0.6.2">
+    <structure map-as="d1:SuccessFlag"/>
+  </mapping>
 </binding>
