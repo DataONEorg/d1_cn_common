@@ -27,7 +27,8 @@
     <identifier>ABC123</identifier>
     <objectFormat>
         <fmtid>http://www.loc.gov/METS/</fmtid>
-        <formatName>Metadata Encoding and Transmission Standard, version 1</formatName>
+        <formatName>Metadata Encoding and Transmission Standard, version 1</formatName>        
+        <isScienceMetadata>true</isScienceMetadata>
     </objectFormat>
     <size>922337203</size>
     <submitter>Robert P Waltz</submitter>
