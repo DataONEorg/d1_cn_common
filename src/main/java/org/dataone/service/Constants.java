@@ -37,38 +37,67 @@ public class Constants {
     public static final String HEAD = "HEAD";
     /** HTTP Verb DELETE */
     public static final String DELETE = "DELETE";
-    /** API ACCESS Resource which handles access operations */
-    public static final String RESOURCE_ACCESS = "accessRules";
-    /** API AUTHORIZATION Resource which handles authorization checks */
-    public static final String RESOURCE_AUTHORIZATION = "isAuthorized";
-    /** API REPLICATE Resource which handles authorization checks */
-    public static final String RESOURCE_REPLICATE = "replicate";
-    /** API OBJECTS Resource which handles with document operations */
-    public static final String RESOURCE_OBJECTS = "object";
-    /** API META Resource which handles SystemMetadata operations */
+    
+
+    /** Common API resource which handles SystemMetadata operations */
     public static final String RESOURCE_META = "meta";
-    /** API SESSION Resource which handles with user session operations */
-    public static final String RESOURCE_SESSION = "session";
-    /** API FORMATS Resource which handles with object formats operations */
-    public static final String RESOURCE_FORMATS = "formats";
-    /** API RESOLVE Resource which handles resolve operations */
-    public static final String RESOURCE_RESOLVE = "resolve";
-    /** API NODE Resource which handles node operations */
+    /** Common API resource which handles node operations */
     public static final String RESOURCE_NODE = "node";
-    /** API IDENTIFIER Resource which controls object identifier operations */
-    public static final String RESOURCE_IDENTIFIER = "identifier";
-    /** API LOG controls logging events */
+    /** Common API resource which handles document operations */
+    public static final String RESOURCE_OBJECTS = "object";
+    
+    /** AUTHORIZATION API resource which handles access operations */
+    public static final String RESOURCE_ACCESS = "accessRules";
+    /** AUTHORIZATION API Resource which handles authorization checks */
+    public static final String RESOURCE_AUTHORIZATION = "isAuthorized";
+    /** AUTHORIZATION API Resource which handles owner checks */
+    public static final String RESOURCE_OWNER = "owner";
+    
+    /** CORE API Resource which handles object formats operations */
+    public static final String RESOURCE_FORMATS = "formats";
+    /** CORE API resource which handles logging operations */
     public static final String RESOURCE_LOG = "log";
-    /** API checksum resource*/
-    public static final String RESOURCE_CHECKSUM = "checksum";
-    /** API NODE Resource which handles monitor ping operations */
+    
+    /** CORE API resource which handles ping monitoring operations */
     public static final String RESOURCE_MONITOR_PING = "monitor/ping";
-    /** API NODE Resource which handles monitor object operations */
+    /** CORE API resource which handles object monitoring operations */
     public static final String RESOURCE_MONITOR_OBJECT = "monitor/object";
-    /** API NODE Resource which handles monitor event operations */
+    /** CORE API resource which handles event monitoring operations */
     public static final String RESOURCE_MONITOR_EVENT = "monitor/event";
-    /** API NODE Resource which handles monitor status operations */
+    /** CORE API resource which handles status monitoring operations */
     public static final String RESOURCE_MONITOR_STATUS = "monitor/status";
+    
+    /** CORE API resource which handles identifier reserving operations */
+    public static final String RESOURCE_RESERVE = "reserve";
+    
+    
+    /** IDENTITY API resource which handles account operations */
+    public static final String RESOURCE_ACCOUNTS = "accounts";
+    /** IDENTITY API resource which handles account-mapping operations */
+    public static final String RESOURCE_ACCOUNT_MAPPING = "accounts/map";
+    /** IDENTITY API resource which handles group-related operations */
+    public static final String RESOURCE_GROUPS = "groups";
+    
+    /** READ API resource which handles relationship assertion operations */
+    public static final String RESOURCE_RELATIONSHIP = "assertRelation";
+    /** READ API resource which handles checksum operations*/
+    public static final String RESOURCE_CHECKSUM = "checksum";
+    /** READ API resource which handles synchronization error operations*/
+    public static final String RESOURCE_ERROR = "error";
+    /** READ API resource which handles resolve operations*/
+    public static final String RESOURCE_RESOLVE = "resolve";   
+    
+    
+    /** REPLICATE API resource which handles authorization checks */
+    public static final String RESOURCE_POLICY = "meta/policy";
+    /** REPLICATE API resource which handles authorization checks */
+    public static final String RESOURCE_META_REPLICATE = "meta/replication";
+    /** REPLICATE API resource which handles authorization checks */
+    public static final String RESOURCE_REPLICATE = "replicate";
+    /** REPLICATE API resource which handles authorization checks */
+    public static final String RESOURCE_NOTIFY = "notify";
+    
+   
     /** Temporary file directory */
     public static final String TEMP_DIR = "/tmp";
 }
