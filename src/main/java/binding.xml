@@ -296,7 +296,7 @@
     <structure map-as="d1:SystemMetadata"/>
   </mapping>
   <mapping abstract="true" type-name="d1:SuccessFlag" class="org.dataone.service.types.SuccessFlag">
-    <value style="text" get-method="isBoolean" set-method="setBoolean"/>
+    <value style="attribute" name="value" get-method="getValue" set-method="setValue" usage="optional"/>
   </mapping>
   <mapping class="org.dataone.service.types.SuccessFlag" name="successFlag" ns="http://ns.dataone.org/service/types/0.6.2">
     <structure map-as="d1:SuccessFlag"/>
