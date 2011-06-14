@@ -15,6 +15,7 @@ package org.dataone.service.types;
  *   &lt;xs:sequence>
  *     &lt;xs:element type="ns:ObjectFormatIdentifier" name="fmtid" minOccurs="1" maxOccurs="1"/>
  *     &lt;xs:element type="xs:string" name="formatName" minOccurs="1" maxOccurs="1"/>
+ *     &lt;xs:element type="xs:boolean" name="isScienceMetadata" minOccurs="1" maxOccurs="1"/>
  *   &lt;/xs:sequence>
  * &lt;/xs:complexType>
  * </pre>
@@ -23,6 +24,7 @@ public class ObjectFormat
 {
     private ObjectFormatIdentifier fmtid;
     private String formatName;
+    private boolean isScienceMetadata;
 
     /** 
      * Get the 'fmtid' element value. 
@@ -74,5 +76,33 @@ public class ObjectFormat
      */
     public void setFormatName(String formatName) {
         this.formatName = formatName;
+    }
+
+    /** 
+     * Get the 'isScienceMetadata' element value. 
+                A boolean field indicating whether or not this format is science
+                metadata describing a science data object.  If the format is a
+                self-describing data format that includes science metadata, then 
+                the field should also be set to true.
+              
+     * 
+     * @return value
+     */
+    public boolean isIsScienceMetadata() {
+        return isScienceMetadata;
+    }
+
+    /** 
+     * Set the 'isScienceMetadata' element value. 
+                A boolean field indicating whether or not this format is science
+                metadata describing a science data object.  If the format is a
+                self-describing data format that includes science metadata, then 
+                the field should also be set to true.
+              
+     * 
+     * @param isScienceMetadata
+     */
+    public void setIsScienceMetadata(boolean isScienceMetadata) {
+        this.isScienceMetadata = isScienceMetadata;
     }
 }
