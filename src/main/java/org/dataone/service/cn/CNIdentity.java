@@ -73,8 +73,8 @@ public interface CNIdentity {
     /**
      * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CNIdentity.listSubjects
      */
-    public SubjectList listSubjects(Session session, String query, int start, 
-        int count) throws ServiceFailure, InvalidToken, NotAuthorized, 
+    public SubjectList listSubjects(Session session, String query, Integer start, 
+        Integer count) throws ServiceFailure, InvalidToken, NotAuthorized, 
         NotImplemented;
         
     /**
