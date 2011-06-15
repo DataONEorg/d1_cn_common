@@ -53,21 +53,22 @@ public class NodeListParser
         }
         
         Hashtable<String, String> baseUrlMap = new Hashtable<String, String>();
-        // build the XML parser
-        Schema schema = createXsdSchema(xsdUrlString, useSchema);
-        Validator v = schema.newValidator();
+        // -------------build the XML parser and use it
         DocumentBuilder parser = createNSDOMParser();
-
-        // ----------- parse the nodelist into DOM-style document
-       
         Document document = parser.parse(new InputSource(nodeListStream));
-        v.validate(new DOMSource(document));
+        
+        
+        // ----------- validate the document against the schema
+        if (useSchema) {
+        	Schema schema = createXsdSchema(xsdUrlString, useSchema);
+        	Validator v = schema.newValidator();
+        	v.validate(new DOMSource(document));
+        }
         
         // ---------- compile the XPath expression that selects nodes
         XPathFactory xFactory = XPathFactory.newInstance();
         Object result;
         XPath xpath = xFactory.newXPath();
-        //              XPathExpression expr = xpath.compile("//node[@environment = '" + this.targetEnvironment + "']");
         XPathExpression expr = xpath.compile("//node");
         result = expr.evaluate(document, XPathConstants.NODESET);
         org.w3c.dom.NodeList targetNodes = (org.w3c.dom.NodeList) result;

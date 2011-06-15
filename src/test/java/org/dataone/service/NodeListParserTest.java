@@ -43,7 +43,37 @@ public class NodeListParserTest
         }
         catch(Exception e)
         {
-            fail("unexpected exception in testParseNodeListFile: " + e.getMessage());
+        	e.printStackTrace();
+        	fail("unexpected exception in testParseNodeListFile: " + e.getMessage());
+        }
+    }
+    
+    @Test
+    /**
+     * tests NodeListParser.parseNodeListFile()
+     */
+    public final void testParseNodeListFileNoSchemaValidation()
+    {
+        try
+        {
+
+            InputStream is = this.getClass().getResourceAsStream("/org/dataone/service/samples/nodeListSample2.xml");
+            String nodeDoc = IOUtils.toString(is);
+            
+            assertTrue("Node document null.", (nodeDoc != null));
+            assertTrue("Node document has 0 content", nodeDoc.length() > 0);
+            System.out.println(nodeDoc);
+            
+            InputStream ndIs = IOUtils.toInputStream(nodeDoc);
+            Map<String, String> m = NodeListParser.parseNodeListFile(ndIs,null,false);
+
+            assertTrue("knb-mn key", m.containsKey("d1m2"));
+            assertTrue("knb-mn value", m.get("d1m2").equals("http://knb-mn.ecoinformatics.org/knb/d1/"));
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+        	fail("unexpected exception in testParseNodeListFile: " + e.getMessage());
         }
     }
 }
