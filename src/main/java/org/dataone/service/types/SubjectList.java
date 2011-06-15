@@ -8,45 +8,17 @@ import java.util.List;
  * Schema fragment(s) for this class:
  * <pre>
  * &lt;xs:complexType xmlns:ns="http://ns.dataone.org/service/types/0.6.2" xmlns:xs="http://www.w3.org/2001/XMLSchema" name="SubjectList">
- *   &lt;xs:choice>
+ *   &lt;xs:sequence>
  *     &lt;xs:element type="ns:Person" name="person" minOccurs="0" maxOccurs="unbounded"/>
  *     &lt;xs:element type="ns:Group" name="group" minOccurs="0" maxOccurs="unbounded"/>
- *   &lt;/xs:choice>
+ *   &lt;/xs:sequence>
  * &lt;/xs:complexType>
  * </pre>
  */
 public class SubjectList
 {
-    private int choiceSelect = -1;
-    private static final int PERSON_CHOICE = 0;
-    private static final int GROUP_CHOICE = 1;
     private List<Person> personList = new ArrayList<Person>();
     private List<Group> groupList = new ArrayList<Group>();
-
-    private void setChoiceSelect(int choice) {
-        if (choiceSelect == -1) {
-            choiceSelect = choice;
-        } else if (choiceSelect != choice) {
-            throw new IllegalStateException(
-                    "Need to call clearChoiceSelect() before changing existing choice");
-        }
-    }
-
-    /** 
-     * Clear the choice selection.
-     */
-    public void clearChoiceSelect() {
-        choiceSelect = -1;
-    }
-
-    /** 
-     * Check if PersonList is current selection for choice.
-     * 
-     * @return <code>true</code> if selection, <code>false</code> if not
-     */
-    public boolean ifPerson() {
-        return choiceSelect == PERSON_CHOICE;
-    }
 
     /** 
      * Get the list of 'person' element items.
@@ -63,7 +35,6 @@ public class SubjectList
      * @param list
      */
     public void setPersonList(List<Person> list) {
-        setChoiceSelect(PERSON_CHOICE);
         personList = list;
     }
 
@@ -100,15 +71,6 @@ public class SubjectList
     }
 
     /** 
-     * Check if GroupList is current selection for choice.
-     * 
-     * @return <code>true</code> if selection, <code>false</code> if not
-     */
-    public boolean ifGroup() {
-        return choiceSelect == GROUP_CHOICE;
-    }
-
-    /** 
      * Get the list of 'group' element items.
      * 
      * @return list
@@ -123,7 +85,6 @@ public class SubjectList
      * @param list
      */
     public void setGroupList(List<Group> list) {
-        setChoiceSelect(GROUP_CHOICE);
         groupList = list;
     }
 

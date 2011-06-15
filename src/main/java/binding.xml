@@ -251,14 +251,12 @@
     <structure map-as="d1:Subject"/>
   </mapping>
   <mapping abstract="true" type-name="d1:SubjectList" class="org.dataone.service.types.SubjectList">
-    <structure usage="optional" ordered="false" choice="true">
-      <collection test-method="ifPerson" get-method="getPersonList" set-method="setPersonList" usage="optional" create-type="java.util.ArrayList">
-        <structure map-as="d1:Person" name="person"/>
-      </collection>
-      <collection test-method="ifGroup" get-method="getGroupList" set-method="setGroupList" usage="optional" create-type="java.util.ArrayList">
-        <structure map-as="d1:Group" name="group"/>
-      </collection>
-    </structure>
+    <collection get-method="getPersonList" set-method="setPersonList" create-type="java.util.ArrayList">
+      <structure map-as="d1:Person" name="person"/>
+    </collection>
+    <collection get-method="getGroupList" set-method="setGroupList" create-type="java.util.ArrayList">
+      <structure map-as="d1:Group" name="group"/>
+    </collection>
   </mapping>
   <mapping class="org.dataone.service.types.SubjectList" name="subjectList" ns="http://ns.dataone.org/service/types/0.6.2">
     <structure map-as="d1:SubjectList"/>
