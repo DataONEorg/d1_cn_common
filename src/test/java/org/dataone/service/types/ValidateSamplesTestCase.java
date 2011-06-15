@@ -73,15 +73,16 @@ import org.xml.sax.SAXParseException;
 import static org.junit.Assert.*;
 
 public class ValidateSamplesTestCase {
+//    static final String datatypeSchemaTagUrl = "file:///home/rwaltz/Documents/Projects/branches/D1_SCHEMA_0_6_2/";
+    static final String datatypeSchemaTagUrl = "https://repository.dataone.org/software/cicore/branches/D1_SCHEMA_0_6_2/";
+    static String datatypeSchemaLocation = datatypeSchemaTagUrl + "dataoneTypes.xsd";
 
-    static String datatypeSchemaLocation = "https://repository.dataone.org/software/cicore/branches/D1_SCHEMA_0_6_2/dataoneTypes.xsd";
-
-    static String systemMetadataSchemaLocation = "https://repository.dataone.org/software/cicore/branches/D1_SCHEMA_0_6_2/dataoneTypes.xsd";
-    static String systemObjectListSchemaLocation = "https://repository.dataone.org/software/cicore/branches/D1_SCHEMA_0_6_2/dataoneTypes.xsd";
-    static String systemLoggingSchemaLocation = "https://repository.dataone.org/software/cicore/branches/D1_SCHEMA_0_6_2/dataoneTypes.xsd";
-    static String systemNodeRegistrySchemaLocation = "https://repository.dataone.org/software/cicore/branches/D1_SCHEMA_0_6_2/dataoneTypes.xsd";
-    static String systemIdentifierSchemaLocation = "https://repository.dataone.org/software/cicore/branches/D1_SCHEMA_0_6_2/dataoneTypes.xsd";
-    static String systemChecksumSchemaLocation = "https://repository.dataone.org/software/cicore/branches/D1_SCHEMA_0_6_2/dataoneTypes.xsd";
+    static String systemMetadataSchemaLocation = datatypeSchemaTagUrl + "dataoneTypes.xsd";
+    static String systemObjectListSchemaLocation = datatypeSchemaTagUrl + "dataoneTypes.xsd";
+    static String systemLoggingSchemaLocation = datatypeSchemaTagUrl + "dataoneTypes.xsd";
+    static String systemNodeRegistrySchemaLocation = datatypeSchemaTagUrl + "dataoneTypes.xsd";
+    static String systemIdentifierSchemaLocation = datatypeSchemaTagUrl + "dataoneTypes.xsd";
+    static String systemChecksumSchemaLocation = datatypeSchemaTagUrl + "dataoneTypes.xsd";
     @Test
     public void fake() throws Exception {
         // parse an XML document into a DOM tree

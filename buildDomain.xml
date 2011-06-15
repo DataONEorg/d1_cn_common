@@ -203,7 +203,8 @@
             <arg value="-c" />
             <arg value="${basedir}/src/main/resources/org/dataone/service/resources/config/jibxConfig.xml" />
             <arg value="-s" />
-            <arg value="https://repository.dataone.org/software/cicore/branches/D1_SCHEMA_0_6_2/" />
+ <!--           <arg value="https://repository.dataone.org/software/cicore/branches/D1_SCHEMA_0_6_2/" /> -->
+            <arg value="file:////home/rwaltz/Documents/Projects/branches/D1_SCHEMA_0_6_2/" />
  <!--       <arg value="https://repository.dataone.org/software/cicore/branches/D1_SCHEMA_0_6_1/" /> -->
  <!--       <arg value="https://repository.dataone.org/software/cicore/tags/D1_SCHEMA_0_5/" /> -->
  <!--       <arg value="https://repository.dataone.org/software/cicore/trunk/d1_schemas/" /> -->

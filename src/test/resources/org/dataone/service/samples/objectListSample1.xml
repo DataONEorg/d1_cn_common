@@ -30,7 +30,7 @@
     <objectFormat>
         <fmtid>eml://ecoinformatics.org/eml-2.0.0</fmtid>
         <formatName>Metadata Encoding and Transmission Standard, version 1</formatName>
-        <isScienceMetadata>true</isScienceMetadata>
+        <scienceMetadata>true</scienceMetadata>
     </objectFormat>
         <checksum algorithm="SHA-1">SGVsbG8gV29ybGQh</checksum>
         <dateSysMetadataModified>2006-05-04T18:13:51.0Z</dateSysMetadataModified>
@@ -41,7 +41,7 @@
     <objectFormat>
         <fmtid>eml://ecoinformatics.org/eml-2.0.0</fmtid>
         <formatName>Metadata Encoding and Transmission Standard, version 1</formatName>
-        <isScienceMetadata>true</isScienceMetadata>        
+        <scienceMetadata>true</scienceMetadata>        
     </objectFormat>
         <checksum algorithm="SHA-1">V29ybGQgSGVsbG8h</checksum>
         <dateSysMetadataModified>2006-05-05T18:13:51.0Z</dateSysMetadataModified>
