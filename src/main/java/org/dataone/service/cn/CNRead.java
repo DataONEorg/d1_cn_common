@@ -74,13 +74,6 @@ public interface CNRead
         throws InvalidRequest, InvalidToken, ServiceFailure, NotAuthorized, 
         NotFound, NotImplemented;
     
-    /** TODO: 
-     * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CNRead.reserveIdentifier
-     *
-    public Identifier reserveIdentifier(Session session, Identifier pid, 
-        String scope, String format) throws InvalidToken, ServiceFailure, 
-        NotAuthorized, InvalidRequest, IdentifierNotUnique, NotImplemented;
-     */
         
     /**
      * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CNRead.assertRelation
