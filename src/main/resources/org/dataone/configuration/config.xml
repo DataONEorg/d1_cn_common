@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- Apache Commons Configuration -->
+<configuration>
+	<!-- include System properties -->
+	<system/>
+	<!-- include properties files like so in other projects -->
+	<!--  
+	<properties fileName="something.properties"/>
+	<properties fileName="somethingElse.properties"/>
+	-->
+</configuration>
