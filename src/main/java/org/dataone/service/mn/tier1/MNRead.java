@@ -29,6 +29,7 @@ import org.dataone.service.exceptions.NotAuthorized;
 import org.dataone.service.exceptions.NotFound;
 import org.dataone.service.exceptions.NotImplemented;
 import org.dataone.service.exceptions.ServiceFailure;
+import org.dataone.service.exceptions.SynchronizationFailed;
 
 import org.dataone.service.types.Session;
 import org.dataone.service.types.SystemMetadata;
@@ -88,12 +89,11 @@ public interface MNRead {
             Integer start, Integer count) throws NotAuthorized, InvalidRequest,
             NotImplemented, ServiceFailure, InvalidToken;
 
-    /** TODO: Add Exception class to types package
-     *  XXX: BaseException should do, it provides its own serializer -rpw
+    /** 
      * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/MN_APIs.html#MN_read.synchronizationFailed
-     *
-    public void synchronizationFailed(Session cert, BaseException message)
+     */
+    public void synchronizationFailed(Session cert, SynchronizationFailed message)
             throws NotImplemented, ServiceFailure, NotAuthorized, InvalidRequest;
-    */
+    
 
 }
