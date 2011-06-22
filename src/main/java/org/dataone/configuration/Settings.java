@@ -3,6 +3,7 @@ package org.dataone.configuration;
 import java.net.URL;
 import java.util.Enumeration;
 
+import org.apache.commons.configuration.AbstractConfiguration;
 import org.apache.commons.configuration.CompositeConfiguration;
 import org.apache.commons.configuration.Configuration;
 import org.apache.commons.configuration.ConfigurationFactory;
@@ -24,6 +25,8 @@ public class Settings {
     public static Configuration getConfiguration() {
         if (configuration == null) {
         	try {
+        		// allow commas in the values
+        		AbstractConfiguration.setDefaultListDelimiter(';');
         		// default to include all the configurations in config.xml, but can be extended
             	configuration = new CompositeConfiguration();
 
