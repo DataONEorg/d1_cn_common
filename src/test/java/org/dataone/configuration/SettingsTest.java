@@ -55,24 +55,39 @@ public class SettingsTest {
 		assertTrue("Can read the new system property",returnedValue.equals(propValue));
 	}
 	
+	/**
+	 * Test lookup from default properties file
+	 */
 	@Test
-	public void testDefault() throws Exception {
+	public void testDefault() {
 		String foo = Settings.getConfiguration().getString("test.foo");
 		assertEquals("default", foo);
 	
 	}
 	
+	/**
+	 * Test looking up an overridden value
+	 */
 	@Test
-	public void testUser() throws Exception {
+	public void testUser() {
 		String bar = Settings.getConfiguration().getString("test.bar");
 		assertEquals("user", bar);
 	
 	}
 	
+	/**
+	 * Include an optional properties file using System property:
+	 * -Doptional.properties.filename=optional.properties
+	 * @throws Exception
+	 */
 	@Test
-	public void testOptional() throws Exception {
+	public void testOptional() {
 		String bang = Settings.getConfiguration().getString("test.bang");
-		assertNull(bang);
+		if (System.getProperty("optional.properties.filename") == null) {
+			assertNull(bang);
+		} else {
+			assertEquals("optional", bang);
+		}
 	
 	}
 }

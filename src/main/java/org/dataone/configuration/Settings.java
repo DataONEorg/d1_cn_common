@@ -8,7 +8,7 @@ import org.apache.commons.configuration.AbstractConfiguration;
 import org.apache.commons.configuration.CompositeConfiguration;
 import org.apache.commons.configuration.Configuration;
 import org.apache.commons.configuration.ConfigurationException;
-import org.apache.commons.configuration.ConfigurationFactory;
+import org.apache.commons.configuration.DefaultConfigurationBuilder;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -26,8 +26,9 @@ public class Settings {
     }
         
     /**
-     * Get a Configuration interface  
-     * @return the value of that property
+     * Get a Configuration interface that combines all resources found in:
+     * 	org/dataone/configuration/config.xml
+     * @return an aggregate Configuration for all properties loaded
      */
     public static Configuration getConfiguration() {
         if (configuration == null) {
@@ -42,8 +43,8 @@ public class Settings {
 				while (configURLs.hasMoreElements()) {
 	        		URL configURL = configURLs.nextElement();
 	        		log.debug("Loading configuration: " + configURL);
-	        		ConfigurationFactory factory = new ConfigurationFactory();
-	        		factory.setConfigurationURL(configURL);
+	        		DefaultConfigurationBuilder factory = new DefaultConfigurationBuilder();
+	        		factory.setURL(configURL);
 	    			Configuration config = null;
 					try {
 						config = factory.getConfiguration();

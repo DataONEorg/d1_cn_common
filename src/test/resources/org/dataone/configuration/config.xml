@@ -5,9 +5,9 @@
 	<!-- include System properties -->
 	<system/>
 	<!-- test variable interpolation (if supplied) -->
-	<!--  
+	
 	<properties fileName="${optional.properties.filename}" optional="true"/>
-	-->
+	
 	<!-- override some defaults properties -->
 	<properties fileName="user.properties"/>
 	<!-- default properties -->
