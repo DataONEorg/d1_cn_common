@@ -31,6 +31,14 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
+                <executions>
+                	<!-- make a test resources jar -->
+					<execution>
+						<goals>
+							<goal>test-jar</goal>
+						</goals>
+					</execution>
+		       </executions>                
             </plugin>
 
             <!-- take out the placeholder -->
