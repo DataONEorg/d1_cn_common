@@ -1,5 +1,7 @@
 package org.dataone.configuration;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
@@ -51,5 +53,26 @@ public class SettingsTest {
 		String returnedValue = config.getString(propKey);
 		System.out.println(propKey + " = " + returnedValue);
 		assertTrue("Can read the new system property",returnedValue.equals(propValue));
+	}
+	
+	@Test
+	public void testDefault() throws Exception {
+		String foo = Settings.getConfiguration().getString("test.foo");
+		assertEquals("default", foo);
+	
+	}
+	
+	@Test
+	public void testUser() throws Exception {
+		String bar = Settings.getConfiguration().getString("test.bar");
+		assertEquals("user", bar);
+	
+	}
+	
+	@Test
+	public void testOptional() throws Exception {
+		String bang = Settings.getConfiguration().getString("test.bang");
+		assertNull(bang);
+	
 	}
 }
