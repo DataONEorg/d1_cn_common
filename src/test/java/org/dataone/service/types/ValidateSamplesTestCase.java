@@ -629,12 +629,6 @@ public class ValidateSamplesTestCase {
         service.setVersion("0.5");
         service.setAvailable(true);
 
-        ServiceMethod serviceMethod = new ServiceMethod();
-        serviceMethod.setName("get");
-        serviceMethod.setRest("/object/{GUID}");
-        serviceMethod.setImplemented(true);
-
-
         services.addService(service);
         node.setServices(services);
         Synchronization synchronize = new Synchronization();

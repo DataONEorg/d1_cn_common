@@ -27,7 +27,7 @@
     <!-- This instance document was generated for testing purposes
          It contains no useful information.
     -->
-	<node replicate="true" type="mn" environment="dev" synchronize="true">
+	<node replicate="true" type="mn" synchronize="true">
 		<identifier>example_daac_mn_id</identifier>
 		<name>example_daac_mn</name>
 		<description>description of the node.  This is daac</description>
@@ -35,8 +35,6 @@
 		<services>
 			<service version="0.5" available="true">
 				<name>mn_crud</name>
-				<method name="get" rest="object/${GUID}" implemented="true" />
-				<method name="getSystemMetadata" rest="meta/${GUID}" implemented="true" />
 				</service>
 			</services>
 		<synchronization>
@@ -49,7 +47,7 @@
 			<status dateChecked="2010-08-23T11:11:11.123456" success="false"/>
 		</health>
 	</node>
-	<node replicate="true" type="mn" environment="prod" synchronize="true">
+	<node replicate="true" type="mn" synchronize="true">
 		<identifier>knb_mn_id</identifier>
 		<name>example_knb_mn_entry</name>
 		<description>a node full of goodness</description>
@@ -57,15 +55,12 @@
 		<services>
 			<service version="0.4" available="true">
 				<name>mn_crud</name>
-				<method name="get" rest="object/${GUID}" implemented="true"/>
-				<method name="getSystemMetadata" rest="meta/${GUID}" implemented="true"/>
-				</service>
+			</service>
 			<service version="0.4" available="true">
 				<name>mn_replication</name>
-				<method name="listObjects" rest="GET object" implemented="true"/>
-				</service>
+			</service>
 
-			</services>
+		</services>
 
 		<synchronization >
 			<schedule sec="0" min="0,30" hour="12" mon="*" mday="*" wday="*" year="*"/>

@@ -3,7 +3,6 @@
   <format label="d1:ChecksumAlgorithm" type="org.dataone.service.types.ChecksumAlgorithm" enum-value-method="toString"/>
   <format label="d1:ComponentName" type="org.dataone.service.types.ComponentName" enum-value-method="toString"/>
   <format label="d1:Event" type="org.dataone.service.types.Event" enum-value-method="toString"/>
-  <format label="d1:Environment" type="org.dataone.service.types.Environment" enum-value-method="toString"/>
   <format label="d1:NodeState" type="org.dataone.service.types.NodeState" enum-value-method="toString"/>
   <format label="d1:NodeType" type="org.dataone.service.types.NodeType" enum-value-method="toString"/>
   <format label="d1:Permission" type="org.dataone.service.types.Permission" enum-value-method="toString"/>
@@ -98,7 +97,6 @@
     <value style="attribute" name="replicate" get-method="isReplicate" set-method="setReplicate"/>
     <value style="attribute" name="synchronize" get-method="isSynchronize" set-method="setSynchronize"/>
     <value style="attribute" name="type" get-method="getType" set-method="setType" format="d1:NodeType"/>
-    <value style="attribute" name="environment" get-method="getEnvironment" set-method="setEnvironment" usage="optional" format="d1:Environment"/>
   </mapping>
   <mapping abstract="true" type-name="d1:NodeHealth" class="org.dataone.service.types.NodeHealth">
     <structure map-as="d1:Ping" get-method="getPing" set-method="setPing" name="ping"/>
@@ -201,16 +199,8 @@
   </mapping>
   <mapping abstract="true" type-name="d1:Service" class="org.dataone.service.types.Service">
     <value style="element" name="name" get-method="getName" set-method="setName"/>
-    <collection get-method="getMethodList" set-method="setMethodList" create-type="java.util.ArrayList">
-      <structure map-as="d1:ServiceMethod" name="method"/>
-    </collection>
     <value style="attribute" name="version" get-method="getVersion" set-method="setVersion"/>
     <value style="attribute" name="available" get-method="getAvailable" set-method="setAvailable" usage="optional"/>
-  </mapping>
-  <mapping abstract="true" type-name="d1:ServiceMethod" class="org.dataone.service.types.ServiceMethod">
-    <value style="attribute" name="name" get-method="getName" set-method="setName" usage="optional"/>
-    <value style="attribute" name="rest" get-method="getRest" set-method="setRest"/>
-    <value style="attribute" name="implemented" get-method="isImplemented" set-method="setImplemented"/>
   </mapping>
   <mapping abstract="true" type-name="d1:Services" class="org.dataone.service.types.Services">
     <collection get-method="getServiceList" set-method="setServiceList" create-type="java.util.ArrayList">
@@ -296,11 +286,5 @@
   </mapping>
   <mapping class="org.dataone.service.types.SystemMetadata" name="systemMetadata" ns="http://ns.dataone.org/service/types/0.6.2">
     <structure map-as="d1:SystemMetadata"/>
-  </mapping>
-  <mapping abstract="true" type-name="d1:SuccessFlag" class="org.dataone.service.types.SuccessFlag">
-    <value style="attribute" name="value" get-method="getValue" set-method="setValue" usage="optional"/>
-  </mapping>
-  <mapping class="org.dataone.service.types.SuccessFlag" name="successFlag" ns="http://ns.dataone.org/service/types/0.6.2">
-    <structure map-as="d1:SuccessFlag"/>
   </mapping>
 </binding>

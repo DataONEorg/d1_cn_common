@@ -21,7 +21,6 @@ package org.dataone.service.types;
  *   &lt;xs:attribute type="xs:boolean" use="required" name="replicate"/>
  *   &lt;xs:attribute type="xs:boolean" use="required" name="synchronize"/>
  *   &lt;xs:attribute type="ns:NodeType" use="required" name="type"/>
- *   &lt;xs:attribute type="ns:Environment" use="optional" name="environment"/>
  * &lt;/xs:complexType>
  * </pre>
  */
@@ -37,7 +36,6 @@ public class Node
     private boolean replicate;
     private boolean synchronize;
     private NodeType type;
-    private Environment environment;
 
     /** 
      * Get the 'identifier' element value. A unique identifier for the node. This may initially be the same as the
@@ -237,23 +235,5 @@ public class Node
      */
     public void setType(NodeType type) {
         this.type = type;
-    }
-
-    /** 
-     * Get the 'environment' attribute value.
-     * 
-     * @return value
-     */
-    public Environment getEnvironment() {
-        return environment;
-    }
-
-    /** 
-     * Set the 'environment' attribute value.
-     * 
-     * @param environment
-     */
-    public void setEnvironment(Environment environment) {
-        this.environment = environment;
     }
 }

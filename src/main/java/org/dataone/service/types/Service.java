@@ -1,9 +1,6 @@
 
 package org.dataone.service.types;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /** 
  * Name and version of a DataONE software stack component are
  equivalent to the statusresponselist.xsd name and version. 
@@ -19,7 +16,6 @@ import java.util.List;
  * &lt;xs:complexType xmlns:ns="http://ns.dataone.org/service/types/0.6.2" xmlns:xs="http://www.w3.org/2001/XMLSchema" name="Service">
  *   &lt;xs:sequence>
  *     &lt;xs:element type="xs:string" name="name" minOccurs="1" maxOccurs="1"/>
- *     &lt;xs:element type="ns:ServiceMethod" name="method" minOccurs="0" maxOccurs="unbounded"/>
  *   &lt;/xs:sequence>
  *   &lt;xs:attribute type="xs:string" use="required" name="version"/>
  *   &lt;xs:attribute type="xs:boolean" name="available"/>
@@ -29,7 +25,6 @@ import java.util.List;
 public class Service
 {
     private String name;
-    private List<ServiceMethod> methodList = new ArrayList<ServiceMethod>();
     private String version;
     private Boolean available;
 
@@ -49,56 +44,6 @@ public class Service
      */
     public void setName(String name) {
         this.name = name;
-    }
-
-    /** 
-     * Get the list of 'method' element items.
-     * 
-     * @return list
-     */
-    public List<ServiceMethod> getMethodList() {
-        return methodList;
-    }
-
-    /** 
-     * Set the list of 'method' element items.
-     * 
-     * @param list
-     */
-    public void setMethodList(List<ServiceMethod> list) {
-        methodList = list;
-    }
-
-    /** 
-     * Get the number of 'method' element items.
-     * @return count
-     */
-    public int sizeMethodList() {
-        return methodList.size();
-    }
-
-    /** 
-     * Add a 'method' element item.
-     * @param item
-     */
-    public void addMethod(ServiceMethod item) {
-        methodList.add(item);
-    }
-
-    /** 
-     * Get 'method' element item by position.
-     * @return item
-     * @param index
-     */
-    public ServiceMethod getMethod(int index) {
-        return methodList.get(index);
-    }
-
-    /** 
-     * Remove all 'method' element items.
-     */
-    public void clearMethodList() {
-        methodList.clear();
     }
 
     /** 

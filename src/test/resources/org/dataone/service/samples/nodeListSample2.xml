@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <d1:nodeList xmlns:d1="http://ns.dataone.org/service/types/0.6.2">
 
-    <node replicate="true" synchronize="true" type="mn" environment="prod">
+    <node replicate="true" synchronize="true" type="mn">
         <identifier>d1m1</identifier>
         <name>dryad</name>
         <description>Production Member node with Dryad Data</description>
@@ -9,9 +9,6 @@
         <services>
             <service version="0.5" available="true">
                 <name>mn_crud</name>
-                <method name="get" rest="object/${GUID}" implemented="true"/>
-                <method name="getSystemMetadata" rest="meta/${GUID}" implemented="true"/>
-                <method name="resolve" rest="resolve/${GUID}" implemented="true"/>
             </service>
         </services>
         <synchronization>
@@ -24,7 +21,7 @@
             <status success="false" dateChecked="1900-01-01T00:00:00Z"/>
         </health>
     </node>
-    <node replicate="true" synchronize="true" type="mn" environment="prod">
+    <node replicate="true" synchronize="true" type="mn">
         <identifier>d1m2</identifier>
         <name>knb</name>
         <description>Production Member node with KNB Data</description>
@@ -32,9 +29,6 @@
         <services>
             <service version="0.5" available="true">
                 <name>mn_crud</name>
-                <method name="get" rest="object/${GUID}" implemented="true"/>
-                <method name="getSystemMetadata" rest="meta/${GUID}" implemented="true"/>
-                <method name="resolve" rest="resolve/${GUID}" implemented="true"/>
             </service>
         </services>
         <synchronization>
@@ -47,7 +41,7 @@
             <status success="false" dateChecked="1900-01-01T00:00:00Z"/>
         </health>
     </node>
-    <node replicate="true" synchronize="true" type="mn" environment="prod">
+    <node replicate="true" synchronize="true" type="mn">
         <identifier>d1m3</identifier>
         <name>ornldaac</name>
         <description>Production Member node with DAAC Data</description>
@@ -55,9 +49,6 @@
         <services>
             <service version="0.5" available="true">
                 <name>mn_crud</name>
-                <method name="get" rest="object/${GUID}" implemented="true"/>
-                <method name="getSystemMetadata" rest="meta/${GUID}" implemented="true"/>
-                <method name="resolve" rest="resolve/${GUID}" implemented="true"/>
             </service>
         </services>
         <synchronization>
@@ -70,7 +61,7 @@
             <status success="false" dateChecked="1900-01-01T00:00:00Z"/>
         </health>
     </node>
-    <node replicate="false" synchronize="true" type="mn" environment="prod">
+    <node replicate="false" synchronize="true" type="mn">
         <identifier>d1tg</identifier>
         <name>TeraGrid</name>
         <description>TeraGrid Production Member node running Metacat</description>
@@ -78,9 +69,6 @@
         <services>
             <service version="0.5" available="true">
                 <name>mn_crud</name>
-                <method name="get" rest="object/${GUID}" implemented="true"/>
-                <method name="getSystemMetadata" rest="meta/${GUID}" implemented="true"/>
-                <method name="resolve" rest="resolve/${GUID}" implemented="true"/>
             </service>
         </services>
         <synchronization>
@@ -93,7 +81,7 @@
             <status success="false" dateChecked="1900-01-01T00:00:00Z"/>
         </health>
     </node>
-    <node replicate="true" synchronize="false" type="cn" environment="prod">
+    <node replicate="true" synchronize="false" type="cn">
         <identifier>d1c0</identifier>
         <name>cn</name>
         <description>Production Coordinating Node</description>
@@ -101,13 +89,10 @@
         <services>
             <service version="0.5" available="true">
                 <name>cn_crud</name>
-                <method name="get" rest="object/${GUID}" implemented="true"/>
-                <method name="getSystemMetadata" rest="meta/${GUID}" implemented="true"/>
-                <method name="resolve" rest="resolve/${GUID}" implemented="true"/>
             </service>
         </services>
     </node>
-    <node replicate="true" synchronize="false" type="cn" environment="prod">
+    <node replicate="true" synchronize="false" type="cn">
         <identifier>d1c1</identifier>
         <name>cn-unm-1</name>
         <description>Production Coordinating node at University of New Mexico</description>
@@ -115,9 +100,6 @@
         <services>
             <service version="0.5" available="true">
                 <name>cn_crud</name>
-                <method name="get" rest="object/${GUID}" implemented="true"/>
-                <method name="getSystemMetadata" rest="meta/${GUID}" implemented="true"/>
-                <method name="resolve" rest="resolve/${GUID}" implemented="true"/>
             </service>
         </services>
         <health state="up">
@@ -125,7 +107,7 @@
             <status success="false" dateChecked="1900-01-01T00:00:00Z"/>
         </health>
     </node>
-    <node replicate="true" synchronize="false" type="cn" environment="prod">
+    <node replicate="true" synchronize="false" type="cn">
         <identifier>d1c2</identifier>
         <name>cn-ucsb-1</name>
         <description>Production Coordinating node at University of California Santa Barbara</description>
@@ -133,9 +115,6 @@
         <services>
             <service version="0.5" available="true">
                 <name>cn_crud</name>
-                <method name="get" rest="object/${GUID}" implemented="true"/>
-                <method name="getSystemMetadata" rest="meta/${GUID}" implemented="true"/>
-                <method name="resolve" rest="resolve/${GUID}" implemented="true"/>
             </service>
         </services>
         <health state="up">
@@ -143,7 +122,7 @@
             <status success="false" dateChecked="1900-01-01T00:00:00Z"/>
         </health>
     </node>
-    <node replicate="true" synchronize="false" type="cn" environment="prod">
+    <node replicate="true" synchronize="false" type="cn">
         <identifier>d1c3</identifier>
         <name>cn-orc-1</name>
         <description>Production Coordinating node at Oak Ridge National Laboratories UTK Campus</description>
@@ -151,9 +130,6 @@
         <services>
             <service version="0.5" available="true">
                 <name>cn_crud</name>
-                <method name="get" rest="object/${GUID}" implemented="true"/>
-                <method name="getSystemMetadata" rest="meta/${GUID}" implemented="true"/>
-                <method name="resolve" rest="resolve/${GUID}" implemented="true"/>
             </service>
         </services>
         <health state="up">
@@ -161,7 +137,7 @@
             <status success="false" dateChecked="1900-01-01T00:00:00Z"/>
         </health>
     </node>
-    <node replicate="true" synchronize="true" type="mn" environment="dev">
+    <node replicate="true" synchronize="true" type="mn">
         <identifier>s1m1</identifier>
         <name>knb</name>
         <description>Dynamic Development Member Node 1</description>
@@ -169,9 +145,6 @@
         <services>
             <service version="0.5" available="true">
                 <name>mn_crud</name>
-                <method name="get" rest="object/${GUID}" implemented="true"/>
-                <method name="getSystemMetadata" rest="meta/${GUID}" implemented="true"/>
-                <method name="resolve" rest="resolve/${GUID}" implemented="true"/>
             </service>
         </services>
         <synchronization>
@@ -184,7 +157,7 @@
             <status success="false" dateChecked="1900-01-01T00:00:00Z"/>
         </health>
     </node>
-    <node replicate="true" synchronize="true" type="mn" environment="dev">
+    <node replicate="true" synchronize="true" type="mn">
         <identifier>s1m2</identifier>
         <name>dryad</name>
         <description>Dynamic Development Member Node 2</description>
@@ -192,9 +165,6 @@
         <services>
             <service version="0.5" available="true">
                 <name>mn_crud</name>
-                <method name="get" rest="object/${GUID}" implemented="true"/>
-                <method name="getSystemMetadata" rest="meta/${GUID}" implemented="true"/>
-                <method name="resolve" rest="resolve/${GUID}" implemented="true"/>
             </service>
         </services>
         <synchronization>
@@ -207,7 +177,7 @@
             <status success="false" dateChecked="1900-01-01T00:00:00Z"/>
         </health>
     </node>
-    <node replicate="true" synchronize="true" type="cn" environment="dev">
+    <node replicate="true" synchronize="true" type="cn">
         <identifier>c1c1</identifier>
         <name>cn_rpw_orc</name>
         <description>Development Coordinating Node 1</description>
@@ -215,9 +185,6 @@
         <services>
             <service version="0.5" available="true">
                 <name>cn_crud</name>
-                <method name="get" rest="object/${GUID}" implemented="true"/>
-                <method name="getSystemMetadata" rest="meta/${GUID}" implemented="true"/>
-                <method name="resolve" rest="resolve/${GUID}" implemented="true"/>
             </service>
         </services>
         <health state="up">
@@ -225,7 +192,7 @@
             <status success="false" dateChecked="1900-01-01T00:00:00Z"/>
         </health>
     </node>
-    <node replicate="true" synchronize="true" type="cn" environment="dev">
+    <node replicate="true" synchronize="true" type="cn">
         <identifier>c1c2</identifier>
         <name>cn_rpw_unm</name>
         <description>Development Coordinating Node 2</description>
@@ -233,9 +200,6 @@
         <services>
             <service version="0.5" available="true">
                 <name>cn_crud</name>
-                <method name="get" rest="object/${GUID}" implemented="true"/>
-                <method name="getSystemMetadata" rest="meta/${GUID}" implemented="true"/>
-                <method name="resolve" rest="resolve/${GUID}" implemented="true"/>
             </service>
         </services>
         <health state="up">
@@ -243,7 +207,7 @@
             <status success="false" dateChecked="1900-01-01T00:00:00Z"/>
         </health>
     </node>
-    <node replicate="true" synchronize="true" type="cn" environment="dev">
+    <node replicate="true" synchronize="true" type="cn">
         <identifier>c3p0</identifier>
         <name>cn_dev</name>
         <description>Development Protocol Coordinating Node</description>
@@ -251,9 +215,6 @@
         <services>
             <service version="0.5" available="true">
                 <name>cn_crud</name>
-                <method name="get" rest="object/${GUID}" implemented="true"/>
-                <method name="getSystemMetadata" rest="meta/${GUID}" implemented="true"/>
-                <method name="resolve" rest="resolve/${GUID}" implemented="true"/>
             </service>
         </services>
         <synchronization>
@@ -266,7 +227,7 @@
             <status success="false" dateChecked="1900-01-01T00:00:00Z"/>
         </health>
     </node>
-    <node replicate="true" synchronize="true" type="mn" environment="dev">
+    <node replicate="true" synchronize="true" type="mn">
         <identifier>r2d2</identifier>
         <name>dryad</name>
         <description>Development AstroMech Member Node</description>
@@ -274,9 +235,6 @@
         <services>
             <service version="0.5" available="true">
                 <name>mn_crud</name>
-                <method name="get" rest="object/${GUID}" implemented="true"/>
-                <method name="getSystemMetadata" rest="meta/${GUID}" implemented="true"/>
-                <method name="resolve" rest="resolve/${GUID}" implemented="true"/>
             </service>
         </services>
         <synchronization>
@@ -289,7 +247,7 @@
             <status success="false" dateChecked="1900-01-01T00:00:00Z"/>
         </health>
     </node>
-    <node replicate="true" synchronize="true" type="mn" environment="dev">
+    <node replicate="true" synchronize="true" type="mn">
         <identifier>m0t1</identifier>
         <name>knb</name>
         <description>Development Member node</description>
@@ -297,9 +255,6 @@
         <services>
             <service version="0.5" available="true">
                 <name>mn_crud</name>
-                <method name="get" rest="object/${GUID}" implemented="true"/>
-                <method name="getSystemMetadata" rest="meta/${GUID}" implemented="true"/>
-                <method name="resolve" rest="resolve/${GUID}" implemented="true"/>
             </service>
         </services>
         <synchronization>
