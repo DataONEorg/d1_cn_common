@@ -1,14 +1,21 @@
 package org.dataone.configuration;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.Enumeration;
 
 import org.apache.commons.configuration.AbstractConfiguration;
 import org.apache.commons.configuration.CompositeConfiguration;
 import org.apache.commons.configuration.Configuration;
+import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.ConfigurationFactory;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 public class Settings {
+	
+	private static Log log = LogFactory.getLog(Settings.class);
+	
     private static CompositeConfiguration configuration = null;
 
     /**
@@ -24,25 +31,31 @@ public class Settings {
      */
     public static Configuration getConfiguration() {
         if (configuration == null) {
-        	try {
-        		// allow commas in the values
-        		AbstractConfiguration.setDefaultListDelimiter(';');
-        		// default to include all the configurations in config.xml, but can be extended
-            	configuration = new CompositeConfiguration();
-
-            	Enumeration<URL> configURLs = Settings.class.getClassLoader().getResources("org/dataone/configuration/config.xml");
-            	while (configURLs.hasMoreElements()) {
-            		URL configURL = configURLs.nextElement();
-            		ConfigurationFactory factory = new ConfigurationFactory();
-            		factory.setConfigurationURL(configURL);
-        			Configuration config = factory.getConfiguration();
-        			configuration.addConfiguration(config);
-            	}
-            	
-    		} catch (Exception e) {
-    			// TODO Auto-generated catch block
-    			e.printStackTrace();
-    		}
+    		// allow commas in the values
+    		AbstractConfiguration.setDefaultListDelimiter(';');
+    		// default to include all the configurations in config.xml, but can be extended
+        	configuration = new CompositeConfiguration();
+        	String configResourceName = "org/dataone/configuration/config.xml";
+        	Enumeration<URL> configURLs = null;
+			try {
+				configURLs = Settings.class.getClassLoader().getResources(configResourceName);
+				while (configURLs.hasMoreElements()) {
+	        		URL configURL = configURLs.nextElement();
+	        		log.debug("Loading configuration: " + configURL);
+	        		ConfigurationFactory factory = new ConfigurationFactory();
+	        		factory.setConfigurationURL(configURL);
+	    			Configuration config = null;
+					try {
+						config = factory.getConfiguration();
+		    			configuration.addConfiguration(config);
+					} catch (ConfigurationException e) {
+						log.error("Problem loading configuration: " + configURL, e);
+					}
+	        	}
+			} catch (IOException e) {
+				log.error("No configuration resources found for: " + configResourceName, e);
+			}	
+    		
         }
         return configuration;
     }
