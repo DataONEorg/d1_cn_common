@@ -4,6 +4,8 @@ package org.dataone.service.types;
 import java.util.Date;
 
 /** 
+ * Represents a single log entry resulting from the action of a single event.
+ * 
  * Schema fragment(s) for this class:
  * <pre>
  * &lt;xs:complexType xmlns:ns="http://ns.dataone.org/service/types/0.6.2" xmlns:xs="http://www.w3.org/2001/XMLSchema" name="LogEntry">

@@ -25,7 +25,9 @@ public class ReplicationPolicy
     private Integer numberReplicas;
 
     /** 
-     * Get the list of 'preferredMemberNode' element items.
+     * Get the list of 'preferredMemberNode' element items. Nodes listed here have preference over other nodes for 
+                      replication targets.
+                  
      * 
      * @return list
      */
@@ -34,7 +36,9 @@ public class ReplicationPolicy
     }
 
     /** 
-     * Set the list of 'preferredMemberNode' element items.
+     * Set the list of 'preferredMemberNode' element items. Nodes listed here have preference over other nodes for 
+                      replication targets.
+                  
      * 
      * @param list
      */
@@ -75,7 +79,11 @@ public class ReplicationPolicy
     }
 
     /** 
-     * Get the list of 'blockedMemberNode' element items.
+     * Get the list of 'blockedMemberNode' element items. The object MUST never be replicated to nodes 
+                          listed as blockedMemberNodeList. Where there is a conflict between 
+                          a requiredMemberNode and a blockedMemberNode entry, the 
+                          blockedMemberNode entry prevails.
+                      
      * 
      * @return list
      */
@@ -84,7 +92,11 @@ public class ReplicationPolicy
     }
 
     /** 
-     * Set the list of 'blockedMemberNode' element items.
+     * Set the list of 'blockedMemberNode' element items. The object MUST never be replicated to nodes 
+                          listed as blockedMemberNodeList. Where there is a conflict between 
+                          a requiredMemberNode and a blockedMemberNode entry, the 
+                          blockedMemberNode entry prevails.
+                      
      * 
      * @param list
      */

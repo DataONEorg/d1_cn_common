@@ -8,7 +8,7 @@ import java.math.BigInteger;
  * <pre>
  * &lt;xs:complexType xmlns:ns="http://ns.dataone.org/service/types/0.6.2" xmlns:xs="http://www.w3.org/2001/XMLSchema" name="ObjectLocation">
  *   &lt;xs:sequence>
- *     &lt;xs:element type="ns:Identifier" name="nodeIdentifier" minOccurs="1" maxOccurs="1"/>
+ *     &lt;xs:element type="ns:NodeReference" name="nodeIdentifier" minOccurs="1" maxOccurs="1"/>
  *     &lt;xs:element type="xs:string" name="baseURL" minOccurs="1" maxOccurs="1"/>
  *     &lt;xs:element type="xs:string" name="url" minOccurs="1" maxOccurs="1"/>
  *     &lt;xs:element type="xs:integer" name="preference" minOccurs="0" maxOccurs="1"/>
@@ -18,7 +18,7 @@ import java.math.BigInteger;
  */
 public class ObjectLocation
 {
-    private Identifier nodeIdentifier;
+    private NodeReference nodeIdentifier;
     private String baseURL;
     private String url;
     private BigInteger preference;
@@ -30,7 +30,7 @@ public class ObjectLocation
      * 
      * @return value
      */
-    public Identifier getNodeIdentifier() {
+    public NodeReference getNodeIdentifier() {
         return nodeIdentifier;
     }
 
@@ -41,7 +41,7 @@ public class ObjectLocation
      * 
      * @param nodeIdentifier
      */
-    public void setNodeIdentifier(Identifier nodeIdentifier) {
+    public void setNodeIdentifier(NodeReference nodeIdentifier) {
         this.nodeIdentifier = nodeIdentifier;
     }
 

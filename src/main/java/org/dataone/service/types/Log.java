@@ -5,6 +5,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /** 
+ * Represents a collection of LogEntry elements, used to transfer log information between DataONE components. 
+
+ * 
  * Schema fragment(s) for this class:
  * <pre>
  * &lt;xs:complexType xmlns:ns="http://ns.dataone.org/service/types/0.6.2" xmlns:xs="http://www.w3.org/2001/XMLSchema" name="Log">

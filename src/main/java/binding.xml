@@ -145,7 +145,7 @@
     <structure map-as="d1:ObjectList"/>
   </mapping>
   <mapping abstract="true" type-name="d1:ObjectLocation" class="org.dataone.service.types.ObjectLocation">
-    <structure map-as="d1:Identifier" get-method="getNodeIdentifier" set-method="setNodeIdentifier" name="nodeIdentifier"/>
+    <structure map-as="d1:NodeReference" get-method="getNodeIdentifier" set-method="setNodeIdentifier" name="nodeIdentifier"/>
     <value style="element" name="baseURL" get-method="getBaseURL" set-method="setBaseURL"/>
     <value style="element" name="url" get-method="getUrl" set-method="setUrl"/>
     <value style="element" name="preference" get-method="getPreference" set-method="setPreference" usage="optional"/>
