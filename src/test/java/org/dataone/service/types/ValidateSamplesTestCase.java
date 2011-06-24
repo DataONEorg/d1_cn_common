@@ -73,8 +73,8 @@ import org.xml.sax.SAXParseException;
 import static org.junit.Assert.*;
 
 public class ValidateSamplesTestCase {
-//    static final String datatypeSchemaTagUrl = "file:///home/rwaltz/Documents/Projects/branches/D1_SCHEMA_0_6_2/";
-    static final String datatypeSchemaTagUrl = "https://repository.dataone.org/software/cicore/branches/D1_SCHEMA_0_6_2/";
+//    static final String datatypeSchemaTagUrl = "file:///home/rwaltz/Documents/Projects/trunk/d1_schemas/";
+    static final String datatypeSchemaTagUrl = "https://repository.dataone.org/software/cicore/trunk/d1_schemas/";
     static String datatypeSchemaLocation = datatypeSchemaTagUrl + "dataoneTypes.xsd";
 
     static String systemMetadataSchemaLocation = datatypeSchemaTagUrl + "dataoneTypes.xsd";

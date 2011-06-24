@@ -32,7 +32,7 @@ import org.xml.sax.SAXException;
  */
 public class NodeListParser
 {
-    private static String nodelistSchemaLocation = "https://repository.dataone.org/software/cicore/branches/D1_SCHEMA_0_6_2/dataoneTypes.xsd";
+    private static String nodelistSchemaLocation = "https://repository.dataone.org/software/cicore/trunk/d1_schemas/dataoneTypes.xsd";
     
     public static Map<String, String> parseNodeListFile(InputStream nodeListStream)
         throws SAXException, IOException, XPathExpressionException, ParserConfigurationException

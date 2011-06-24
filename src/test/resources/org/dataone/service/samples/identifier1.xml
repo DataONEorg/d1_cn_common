@@ -10,5 +10,5 @@
 
 <d1:identifier  xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
    xmlns:d1='http://ns.dataone.org/service/types/0.6.2'
-   xsi:schemaLocation='http://ns.dataone.org/service/types/0.6.2 https://repository.dataone.org/software/cicore/branches/D1_SCHEMA_0_6_2/dataoneTypes.xsd'>
+   xsi:schemaLocation='http://ns.dataone.org/service/types/0.6.2 https://repository.dataone.org/software/cicore/trunk/d1_schemas/dataoneTypes.xsd'>
  ABC123</d1:identifier>
