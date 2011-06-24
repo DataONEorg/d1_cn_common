@@ -24,7 +24,7 @@
     <d1:log 
         xmlns:d1="http://ns.dataone.org/service/types/0.6.2"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:schemaLocation="http://ns.dataone.org/service/types/0.6.2 https://repository.dataone.org/software/cicore/trunk/d1_schemas/dataoneSchema.xsd" count="3" start="0" total="3">
+        xsi:schemaLocation="http://ns.dataone.org/service/types/0.6.2 https://repository.dataone.org/software/cicore/trunk/d1_schemas/dataoneTypes.xsd" count="3" start="0" total="3">
         <logEntry>
             <entryId>123</entryId>
             <identifier>ABC</identifier>

@@ -23,7 +23,7 @@
 
 <d1:objectList xmlns:d1="http://ns.dataone.org/service/types/0.6.2"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:schemaLocation="http://ns.dataone.org/service/types/0.6.2 https://repository.dataone.org/software/cicore/trunk/d1_schemas/dataoneSchema.xsd"
+        xsi:schemaLocation="http://ns.dataone.org/service/types/0.6.2 https://repository.dataone.org/software/cicore/trunk/d1_schemas/dataoneTypes.xsd"
  count="2" start="0" total="2">
     <objectInfo>
         <identifier>ABC123</identifier>
