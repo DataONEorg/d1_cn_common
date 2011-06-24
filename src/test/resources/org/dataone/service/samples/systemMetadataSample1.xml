@@ -23,7 +23,7 @@
 
 <d1:systemMetadata xmlns:d1="http://ns.dataone.org/service/types/0.6.2"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:schemaLocation="http://ns.dataone.org/service/types/0.6.2 https://repository.dataone.org/software/cicore/trunk/d1_schemas/dataoneTypes.xsd">
+        xsi:schemaLocation="http://ns.dataone.org/service/types/0.6.2 https://repository.dataone.org/software/cicore/tags/D1_SCHEMA_0_6_2/dataoneTypes.xsd">
     <identifier>ABC123</identifier>
     <objectFormat>
         <fmtid>http://www.loc.gov/METS/</fmtid>
