@@ -27,10 +27,10 @@ import org.dataone.service.exceptions.NotFound;
 import org.dataone.service.exceptions.NotImplemented;
 import org.dataone.service.exceptions.ServiceFailure;
 
+import org.dataone.service.types.Permission;
 import org.dataone.service.types.Session;
 import org.dataone.service.types.Identifier;
 import org.dataone.service.types.Subject;
-import org.dataone.service.types.Event;
 import org.dataone.service.types.AccessPolicy;
 
 /**
@@ -52,7 +52,7 @@ public interface CNAuthorization {
     /**
      * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CNAuthorization.isAuthorized
      */
-    public boolean isAuthorized(Session session, Identifier pid, Event operation)
+    public boolean isAuthorized(Session session, Identifier pid, Permission permission)
         throws ServiceFailure, InvalidToken, NotFound, NotAuthorized, 
         NotImplemented, InvalidRequest;
 
