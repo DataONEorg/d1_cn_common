@@ -71,7 +71,7 @@ public interface CNCore
      * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CNCore.getLogRecords
      */
     public Log getLogRecords(Session session, Date fromDate, Date toDate, 
-        Event event) throws InvalidToken, InvalidRequest, ServiceFailure, 
+        Event event, Integer start, Integer count) throws InvalidToken, InvalidRequest, ServiceFailure, 
         NotAuthorized, NotImplemented;
     
     /**
