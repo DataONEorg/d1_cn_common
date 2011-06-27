@@ -61,5 +61,5 @@ public interface CNReplication {
      */
     public boolean setReplicationPolicy(Session session, Identifier pid, 
         ReplicationPolicy policy) throws NotImplemented, NotFound, NotAuthorized, 
-        ServiceFailure, InvalidRequest;
+        ServiceFailure, InvalidRequest, InvalidToken;
 }
