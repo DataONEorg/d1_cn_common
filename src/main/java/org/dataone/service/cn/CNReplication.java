@@ -60,6 +60,6 @@ public interface CNReplication {
      * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CNReplication.setReplicationPolicy
      */
     public boolean setReplicationPolicy(Session session, Identifier pid, 
-        ReplicationPolicy policy) throws NotImplemented, NotAuthorized, 
+        ReplicationPolicy policy) throws NotImplemented, NotFound, NotAuthorized, 
         ServiceFailure, InvalidRequest;
 }
