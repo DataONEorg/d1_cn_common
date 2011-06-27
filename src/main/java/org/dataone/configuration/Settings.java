@@ -9,6 +9,8 @@ import org.apache.commons.configuration.CompositeConfiguration;
 import org.apache.commons.configuration.Configuration;
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.DefaultConfigurationBuilder;
+import org.apache.commons.configuration.PropertiesConfiguration;
+import org.apache.commons.configuration.SystemConfiguration;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -36,6 +38,22 @@ public class Settings {
     		AbstractConfiguration.setDefaultListDelimiter(';');
     		// default to include all the configurations in config.xml, but can be extended
         	configuration = new CompositeConfiguration();
+        	configuration.addConfiguration(new SystemConfiguration());
+        	
+        	String propsFile = configuration.getString("opt.overriding.properties.filename");
+			if (propsFile != null && propsFile.trim().length() > 0) {
+				System.out.println("overriding properties file detected: " + propsFile);
+				log.debug("overriding properties file detected: " + propsFile);
+        	
+				URL url = Settings.class.getClassLoader().getResource(propsFile);
+				try {
+					configuration.addConfiguration(new PropertiesConfiguration(url));
+				} catch (ConfigurationException e) {
+					System.out.println("configuration exception on optional configuration: " + url + ": " + e.getMessage());
+					log.error("ConfigurationException encountered while loading configuration: " + url, e);
+				}
+			} 
+        	
         	String configResourceName = "org/dataone/configuration/config.xml";
         	Enumeration<URL> configURLs = null;
 			try {
@@ -59,6 +77,12 @@ public class Settings {
     		
         }
         return configuration;
+    }
+    
+    
+    public static Configuration getResetConfiguration() {
+    	configuration = null;
+    	return getConfiguration();
     }
     
 }

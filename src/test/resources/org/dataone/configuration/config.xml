@@ -3,10 +3,10 @@
 <configuration>
 	<!-- configuration entries override those below them -->
 	<!-- include System properties -->
-	<system/>
+<!-- 	<system/> -->
 	<!-- test variable interpolation (if supplied) -->
 	
-	<properties fileName="${optional.properties.filename}" optional="true"/>
+<!-- 	<properties fileName="${optional.properties.filename}" optional="true"/> -->
 	
 	<!-- override some defaults properties -->
 	<properties fileName="user.properties"/>
