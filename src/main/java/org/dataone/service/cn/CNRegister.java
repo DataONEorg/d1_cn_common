@@ -43,9 +43,9 @@ import org.dataone.service.types.NodeReference;
 public interface CNRegister {
 
     /** 
-     * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CNRegister.addNodeCapabilities
+     * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CNRegister.updateNodeCapabilities
      */
-    public boolean addNodeCapabilities(Session session, NodeReference nodeid, 
+    public boolean updateNodeCapabilities(Session session, NodeReference nodeid, 
         Node node) throws NotImplemented, NotAuthorized, 
         ServiceFailure, InvalidRequest, NotFound;
 
