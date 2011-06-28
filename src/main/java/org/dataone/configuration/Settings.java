@@ -19,6 +19,10 @@ public class Settings {
 	private static Log log = LogFactory.getLog(Settings.class);
 	
     private static CompositeConfiguration configuration = null;
+    
+    public static String OPTIONAL_PROPERTY_PROPERTIES_FILENAME = "opt.overriding.properties.filename";
+    public static String OPTIONAL_PROPERTY_CONTEXT_LABEL = "opt.context.label";
+    public static String STD_CONFIG_PATH = "org/dataone/configuration";
 
     /**
      * A private constructor to be sure no instances are created.
@@ -28,19 +32,36 @@ public class Settings {
     }
         
     /**
-     * Get a Configuration interface that combines all resources found in:
-     * 	org/dataone/configuration/config.xml
+     * Get a Configuration interface that combines all resources
+     * found under all of the org.dataone.configuration/config.xml
+     * files from all application packages.  
+     * 
+     * In the case of property key collision, those from configurations
+     * loaded first override those loaded later.  So, recommend creating
+     * keys with a package-specific prefix to avoid unnecessary 
+     * collisions.
+     * 
+     * System properties are always loaded first, followed by those
+     * properties in an optional file (specified with the system
+     * property "opt.overriding.properties.filename"), followed by
+     * context-specific default properties files.
+     * 
+     * 
      * @return an aggregate Configuration for all properties loaded
      */
     public static Configuration getConfiguration() {
         if (configuration == null) {
-    		// allow commas in the values
+        	
+    		// allow commas in the property values
     		AbstractConfiguration.setDefaultListDelimiter(';');
-    		// default to include all the configurations in config.xml, but can be extended
+    		
         	configuration = new CompositeConfiguration();
+        	
+        	// set up first two configurations to implement passing in
+        	// the optional properties file
         	configuration.addConfiguration(new SystemConfiguration());
         	
-        	String propsFile = configuration.getString("opt.overriding.properties.filename");
+        	String propsFile = configuration.getString(OPTIONAL_PROPERTY_PROPERTIES_FILENAME);
 			if (propsFile != null && propsFile.trim().length() > 0) {
 				System.out.println("overriding properties file detected: " + propsFile);
 				log.debug("overriding properties file detected: " + propsFile);
@@ -54,7 +75,28 @@ public class Settings {
 				}
 			} 
         	
-        	String configResourceName = "org/dataone/configuration/config.xml";
+			// TODO: find a better way to set the default context - we don't want to put config files
+			// in d1_common_java (too many rebuilds), but then we shouldn't really be setting the 
+			// default context here - it needs to be managed in the same package that holds
+			// the context files.  Yes?
+			
+			String context = configuration.getString(OPTIONAL_PROPERTY_CONTEXT_LABEL);
+			if (context == null) {
+				context = "LOCAL";
+			}
+			URL url = Settings.class.getClassLoader().getResource(STD_CONFIG_PATH + "/default." + context + ".test.properties");
+			if (url != null ) {
+				try {
+					configuration.addConfiguration(new PropertiesConfiguration(url));
+				} catch (ConfigurationException e) {
+					System.out.println("configuration exception on optional context: " + url + ": " + e.getMessage());
+					log.error("ConfigurationException encountered while loading configuration: " + url, e);
+				}
+			}
+			
+			
+			// default to include all the configurations at config.xml, but can be extended
+        	String configResourceName = STD_CONFIG_PATH + "/config.xml";
         	Enumeration<URL> configURLs = null;
 			try {
 				configURLs = Settings.class.getClassLoader().getResources(configResourceName);
@@ -83,7 +125,6 @@ public class Settings {
     public static Configuration getResetConfiguration() {
     	configuration = null;
     	return getConfiguration();
-    }
-    
+    }    
 }
 
