@@ -188,4 +188,26 @@ public class SimpleMultipartEntity extends MultipartEntity
 		return outputFile;
     }
     
+    
+    /**
+     * calling this method attempts to delete the client-side 
+     * temp files from the system.  Safest if called after
+     * response received from the request.
+     * @return boolean
+     * 	      [false] if not all files were deleted
+     *        [true]  otherwise
+     */
+    public boolean cleanupTempFiles() {
+    	boolean areAllFilesGone = true;
+    	for (String f: tempfileNames) {
+    		File fileToDelete = new File(f);
+    		if (fileToDelete.exists()) {
+    			if (!fileToDelete.delete()) {
+    				areAllFilesGone = false;
+    			}
+    		}
+    	}
+    	return areAllFilesGone;
+    }
+    
 }

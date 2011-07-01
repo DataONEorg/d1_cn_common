@@ -11,6 +11,9 @@ import java.util.Date;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.methods.HttpEntityEnclosingRequestBase;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
 import org.dataone.service.Constants;
 import org.junit.Test;
 
@@ -29,17 +32,41 @@ public class TestSimpleMultipartEntity {
 		smpe.addFilePart("isTestPart", is);
 		File t = new File(smpe.getLastTempfile());
 		assertEquals("tempfile length is equal to input", content.length(),t.length());
+		smpe.cleanupTempFiles();
+	}
+	
+	
+	@Test
+	public void testFileCleanup() throws ClientProtocolException, IOException 
+	{
+		SimpleMultipartEntity smpe = new SimpleMultipartEntity();
+		String content = "this is a very short test input stream.";
+		smpe.addFilePart("isTestPart", content);
+		File t = new File(smpe.getLastTempfile());
+		assertEquals("tempfile length is equal to input", content.length(),t.length());
+		
+		smpe.cleanupTempFiles();
+		assertFalse("temp file should be cleanedup", t.exists());
+	}
+	
+	
+	private HttpResponse doPost(String url, SimpleMultipartEntity smpe) 
+	throws ClientProtocolException, IOException 
+	{
+		HttpEntityEnclosingRequestBase req = new HttpPost(url);
+		req.setEntity(smpe);
+		DefaultHttpClient httpClient = new DefaultHttpClient();
+		return httpClient.execute(req);
 	}
 	
 	@Test
 	public void echoTestAddParamPart() throws ClientProtocolException, IOException 
-	{
-		MultipartRequestHandler mprh = new MultipartRequestHandler(echoAndParseServiceUrl,Constants.POST);
+	{	
+		SimpleMultipartEntity smpe = new SimpleMultipartEntity();
+		smpe.addParamPart("testOne", "bizbazbuzzzz");
+		smpe.addParamPart("testTwo", "flip-flap-flop");
 		
-		mprh.addParamPart("testOne", "bizbazbuzzzz");
-		mprh.addParamPart("testTwo", "flip-flap-flop");
-		
-		HttpResponse res = mprh.executeRequest();
+		HttpResponse res = doPost(echoAndParseServiceUrl,smpe);
 		int code = res.getStatusLine().getStatusCode();
 		InputStream content = res.getEntity().getContent();
 		String echoed = IOUtils.toString(content);
@@ -52,8 +79,9 @@ public class TestSimpleMultipartEntity {
 	@Test
 	public void echoTestAddFilePart_File() throws ClientProtocolException, IOException 
 	{
-		MultipartRequestHandler mprh = new MultipartRequestHandler(echoAndParseServiceUrl,Constants.POST);
-		mprh.addParamPart("testOne", "bizbazbuzzzz");
+		SimpleMultipartEntity smpe = new SimpleMultipartEntity();
+		
+		smpe.addParamPart("testOne", "bizbazbuzzzz");
 		
 		Date d = new Date();
 		File tmpDir = new File(Constants.TEMP_DIR);
@@ -62,10 +90,9 @@ public class TestSimpleMultipartEntity {
 		fw.write("flip-flap-flop");
 		fw.flush();
 		fw.close();
+		smpe.addFilePart("testTwo", outputFile);
 		
-		mprh.addFilePart("testTwo", outputFile);
-		
-		HttpResponse res = mprh.executeRequest();
+		HttpResponse res = doPost(echoAndParseServiceUrl,smpe);
 		int code = res.getStatusLine().getStatusCode();
 		InputStream content = res.getEntity().getContent();
 		String echoed = IOUtils.toString(content);
@@ -78,13 +105,13 @@ public class TestSimpleMultipartEntity {
 	@Test
 	public void echoTestAddFilePart_Stream() throws ClientProtocolException, IOException 
 	{
-		MultipartRequestHandler mprh = new MultipartRequestHandler(echoAndParseServiceUrl,Constants.POST);
-		mprh.addParamPart("testOne", "bizbazbuzzzz");
+		SimpleMultipartEntity smpe = new SimpleMultipartEntity();
+		smpe.addParamPart("testOne", "bizbazbuzzzz");
 
 		InputStream is = IOUtils.toInputStream("flip-flap-flop");
-		mprh.addFilePart("testTwo", is);
+		smpe.addFilePart("testTwo", is);
 		
-		HttpResponse res = mprh.executeRequest();
+		HttpResponse res = doPost(echoAndParseServiceUrl,smpe);
 		int code = res.getStatusLine().getStatusCode();
 		InputStream content = res.getEntity().getContent();
 		String echoed = IOUtils.toString(content);
@@ -97,12 +124,12 @@ public class TestSimpleMultipartEntity {
 	@Test
 	public void echoTestAddFilePart_String() throws ClientProtocolException, IOException 
 	{
-		MultipartRequestHandler mprh = new MultipartRequestHandler(echoAndParseServiceUrl,Constants.POST);
-		mprh.addParamPart("testOne", "bizbazbuzzzz");
+		SimpleMultipartEntity smpe = new SimpleMultipartEntity();
+		smpe.addParamPart("testOne", "bizbazbuzzzz");
 		
-		mprh.addFilePart("testTwo","flip-flap-flop");
+		smpe.addFilePart("testTwo","flip-flap-flop");
 		
-		HttpResponse res = mprh.executeRequest();
+		HttpResponse res = doPost(echoAndParseServiceUrl,smpe);
 		int code = res.getStatusLine().getStatusCode();
 		InputStream content = res.getEntity().getContent();
 		String echoed = IOUtils.toString(content);
@@ -111,4 +138,7 @@ public class TestSimpleMultipartEntity {
 		assertTrue("message parsed",echoed.contains("request.REQUEST[ testOne ] = bizbazbuzzzz"));
 		assertTrue("message parsed",echoed.contains("request.FILES=<MultiValueDict: {u'testTwo': [<InMemoryUploadedFile: mmp.output."));
 	}
+	
+	
+
 }
