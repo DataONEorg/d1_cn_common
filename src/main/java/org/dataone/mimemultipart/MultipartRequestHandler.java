@@ -24,6 +24,7 @@ package org.dataone.mimemultipart;
 import java.io.*;
 import java.nio.charset.Charset;
 import java.util.Date;
+import java.util.Vector;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpResponse;
@@ -46,7 +47,8 @@ import org.dataone.service.Constants;
  */
 public class MultipartRequestHandler
 {
-
+	private Vector<String> tempfileNames = new Vector<String>();
+	
 	DefaultHttpClient httpclient;
     HttpEntityEnclosingRequestBase request;  // superclass of HttpPost and HttpGet 
     MultipartEntity entity;
@@ -180,17 +182,42 @@ public class MultipartRequestHandler
         HttpResponse response = httpclient.execute(request);
         System.out.println("Response from MultipartRequestHandler.executeRequest: " + 
                 response.getStatusLine());
+        cleanupTempFiles();
         return response;
     }
          
     
-    private static File generateTempFile()
+    private File generateTempFile()
     {
     	Date d = new Date();
 		File tmpDir = new File(Constants.TEMP_DIR);
 		File outputFile = new File(tmpDir, "mmp.output." + d.getTime());
+		String afp = outputFile.getAbsolutePath();
+		tempfileNames.add(afp);
 		System.out.println("temp outputFile is: " + outputFile.getAbsolutePath());
 		return outputFile;
     }
+    
+    /**
+     * calling this method attempts to delete the client-side 
+     * temp files from the system.  Safest if called after
+     * response received from the request.
+     * @return boolean
+     * 	      [false] if not all files were deleted
+     *        [true]  otherwise
+     */
+    public boolean cleanupTempFiles() {
+    	boolean areAllFilesGone = true;
+    	for (String f: tempfileNames) {
+    		File fileToDelete = new File(f);
+    		if (fileToDelete.exists()) {
+    			if (!fileToDelete.delete()) {
+    				areAllFilesGone = false;
+    			}
+    		}
+    	}
+    	return areAllFilesGone;
+    }
+    
     
 }
