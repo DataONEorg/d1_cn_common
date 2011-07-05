@@ -53,7 +53,8 @@ public interface MNCore {
     /**
      * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/MN_APIs.html#MN_core.ping
      */
-    public boolean ping() throws NotImplemented, ServiceFailure, NotAuthorized, 
+    public boolean ping() 
+    throws NotImplemented, ServiceFailure, NotAuthorized, 
            InvalidRequest, InsufficientResources, UnsupportedType;
 
     /** 
@@ -74,8 +75,9 @@ public interface MNCore {
     /**
      * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/MN_APIs.html#MN_core.getOperationStatistics
      */
-    public MonitorList getOperationStatistics(Session cert, Integer period, 
-            Subject requestor, Event event, ObjectFormat format) throws 
+    public MonitorList getOperationStatistics(Session cert, String startTime,
+    		String endTime, Subject requestor, Event event, ObjectFormat format) 
+    throws 
             NotImplemented, ServiceFailure, NotAuthorized, InvalidRequest, 
             InsufficientResources, UnsupportedType;
 
