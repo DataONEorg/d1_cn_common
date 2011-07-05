@@ -32,10 +32,10 @@ import org.dataone.service.exceptions.UnsupportedType;
 
 import org.dataone.service.types.Log;
 import org.dataone.service.types.Node;
+import org.dataone.service.types.ObjectFormatIdentifier;
 import org.dataone.service.types.Session;
 import org.dataone.service.types.Event;
 import org.dataone.service.types.MonitorList;
-import org.dataone.service.types.ObjectFormat;
 import org.dataone.service.types.Subject;
 //import org.dataone.service.types.ObjectStatistics;
 //import org.dataone.service.types.StatusResponse;
@@ -54,44 +54,46 @@ public interface MNCore {
      * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/MN_APIs.html#MN_core.ping
      */
     public boolean ping() 
-    throws NotImplemented, ServiceFailure, NotAuthorized, 
-           InvalidRequest, InsufficientResources, UnsupportedType;
+    throws InvalidRequest, NotAuthorized, NotImplemented, ServiceFailure,
+           InsufficientResources, UnsupportedType;
 
     /** 
      * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/MN_APIs.html#MN_core.getLogRecords
      */
     public Log getLogRecords(Session cert, Date fromDate, Date toDate, 
-            Event event, Integer start, Integer count) throws InvalidToken, 
-            ServiceFailure, NotAuthorized, InvalidRequest, NotImplemented;
+           Event event, Integer start, Integer count) 
+    throws InvalidRequest, InvalidToken, NotAuthorized, NotImplemented, ServiceFailure;
 
     /** TODO: Add ObjectStatistics class
      * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/MN_APIs.html#MN_core.getObjectStatistics
      *
     public ObjectStatistics getObjectStatistics(String format, String pid) 
-            throws NotImplemented, ServiceFailure, NotAuthorized, 
-            InvalidRequest, InsufficientResources, UnsupportedType;
+    throws InvalidRequest, NotAuthorized, NotImplemented, ServiceFailure,
+           InsufficientResources, UnsupportedType;
     */
 
     /**
      * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/MN_APIs.html#MN_core.getOperationStatistics
      */
-    public MonitorList getOperationStatistics(Session cert, String startTime,
-    		String endTime, Subject requestor, Event event, ObjectFormat format) 
-    throws 
-            NotImplemented, ServiceFailure, NotAuthorized, InvalidRequest, 
-            InsufficientResources, UnsupportedType;
+    public MonitorList getOperationStatistics(Session cert, Date startTime,
+    		Date endTime, Subject requestor, Event event, ObjectFormatIdentifier formatId) 
+    throws InvalidRequest, InvalidToken, NotAuthorized, NotImplemented, ServiceFailure,
+    	   InsufficientResources, UnsupportedType;
+
 
     /** TODO: Add StatusResponse class
      * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/MN_APIs.html#MN_core.getStatus
      *
-    public StatusResponse getStatus() throws NotImplemented, ServiceFailure, 
-            NotAuthorized, InvalidRequest, InsufficientResources, 
-            UnsupportedType;
+    public StatusResponse getStatus() 
+    throws InvalidRequest, NotAuthorized, NotImplemented, ServiceFailure,
+    	   InsufficientResources, UnsupportedType;
+
     */
 
     /**
      * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/MN_APIs.html#MN_core.getCapabilities
      */
-    public Node getCapabilities() throws NotImplemented, NotAuthorized, 
-            ServiceFailure, InvalidRequest; 
+    public Node getCapabilities() 
+    throws InvalidRequest, NotAuthorized, NotImplemented, ServiceFailure;
+
 }
