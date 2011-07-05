@@ -100,4 +100,8 @@ public class Constants {
    
     /** Temporary file directory */
     public static final String TEMP_DIR = "/tmp";
+    
+    /** Authorization section */
+    public static final String PUBLIC_SUBJECT = "public";
+    
 }
