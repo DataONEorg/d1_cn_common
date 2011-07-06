@@ -67,6 +67,7 @@ public class TestSimpleMultipartEntity {
 		smpe.addParamPart("testTwo", "flip-flap-flop");
 		
 		HttpResponse res = doPost(echoAndParseServiceUrl,smpe);
+		smpe.cleanupTempFiles();
 		int code = res.getStatusLine().getStatusCode();
 		InputStream content = res.getEntity().getContent();
 		String echoed = IOUtils.toString(content);
@@ -93,6 +94,7 @@ public class TestSimpleMultipartEntity {
 		smpe.addFilePart("testTwo", outputFile);
 		
 		HttpResponse res = doPost(echoAndParseServiceUrl,smpe);
+		smpe.cleanupTempFiles();
 		int code = res.getStatusLine().getStatusCode();
 		InputStream content = res.getEntity().getContent();
 		String echoed = IOUtils.toString(content);
@@ -130,6 +132,7 @@ public class TestSimpleMultipartEntity {
 		smpe.addFilePart("testTwo","flip-flap-flop");
 		
 		HttpResponse res = doPost(echoAndParseServiceUrl,smpe);
+		smpe.cleanupTempFiles();
 		int code = res.getStatusLine().getStatusCode();
 		InputStream content = res.getEntity().getContent();
 		String echoed = IOUtils.toString(content);
