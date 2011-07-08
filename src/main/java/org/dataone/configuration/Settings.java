@@ -1,6 +1,8 @@
 package org.dataone.configuration;
 
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.net.URL;
 import java.util.Enumeration;
 
@@ -20,8 +22,6 @@ public class Settings {
 	
     private static CompositeConfiguration configuration = null;
     
-    public static String OPTIONAL_PROPERTY_PROPERTIES_FILENAME = "opt.overriding.properties.filename";
-    public static String OPTIONAL_PROPERTY_CONTEXT_LABEL = "opt.context.label";
     public static String STD_CONFIG_PATH = "org/dataone/configuration";
 
     /**
@@ -48,6 +48,9 @@ public class Settings {
      * 
      * 
      * @return an aggregate Configuration for all properties loaded
+     * @throws NoSuchMethodException 
+     * @throws IllegalAccessException 
+     * @throws InvocationTargetException 
      */
     public static Configuration getConfiguration() {
         if (configuration == null) {
@@ -57,7 +60,33 @@ public class Settings {
     		
         	configuration = new CompositeConfiguration();
         	
-        	// set up first two configurations to implement passing in
+        	// ---------   check for and load settings from test settings class ------------- //
+			try {
+				ClassLoader myClassLoader = ClassLoader.getSystemClassLoader();
+	        	Class<?> testSettings;
+				testSettings = myClassLoader.loadClass("org.dataone.configuration.TestSettings");
+     	
+				try {
+					Method getTestConfigurations = testSettings.getMethod("getConfiguration", null);
+					configuration = (CompositeConfiguration) getTestConfigurations.invoke(null, null);
+
+					
+					// problems loading configurations when in test situation are not
+					// recoverable, because we do not want to revert to non-test (production)
+					// context if we can't load test configurations.
+				} catch (Exception e) {
+					log.error("Problem loading TestSettings. Returning empty Config object. " + 
+							e.getClass().getSimpleName() + ": " + e.getMessage() );
+					return new CompositeConfiguration();
+				}
+
+			} catch (ClassNotFoundException e) {
+				log.debug("TestSettings not found: assume production context");
+				// do nothing, because will only find if d1_integration in classpath 
+			}
+			
+			
+/*        	// set up first two configurations to implement passing in
         	// the optional properties file
         	configuration.addConfiguration(new SystemConfiguration());
         	
@@ -93,7 +122,7 @@ public class Settings {
 					log.error("ConfigurationException encountered while loading configuration: " + url, e);
 				}
 			}
-			
+	*/		
 			
 			// default to include all the configurations at config.xml, but can be extended
         	String configResourceName = STD_CONFIG_PATH + "/config.xml";
