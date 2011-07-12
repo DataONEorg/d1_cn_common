@@ -21,7 +21,6 @@
 package org.dataone.service.cn;
 
 import org.dataone.service.exceptions.InvalidRequest;
-import org.dataone.service.exceptions.InvalidToken;
 import org.dataone.service.exceptions.NotAuthorized;
 import org.dataone.service.exceptions.NotFound;
 import org.dataone.service.exceptions.NotImplemented;
@@ -29,7 +28,6 @@ import org.dataone.service.exceptions.ServiceFailure;
 import org.dataone.service.exceptions.IdentifierNotUnique;
 
 import org.dataone.service.types.Session;
-import org.dataone.service.types.Identifier;
 import org.dataone.service.types.Node;
 import org.dataone.service.types.NodeReference;
 
@@ -52,7 +50,7 @@ public interface CNRegister {
     /** 
      * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CNRegister.register
      */
-    public Identifier register(Session session, Node node) 
+    public NodeReference register(Session session, Node node)
         throws NotImplemented, NotAuthorized, ServiceFailure, InvalidRequest, 
         IdentifierNotUnique;
 }
