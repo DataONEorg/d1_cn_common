@@ -59,8 +59,14 @@ public class Settings {
     		AbstractConfiguration.setDefaultListDelimiter(';');
     		
         	configuration = new CompositeConfiguration();
-        	
-        	configuration = loadTestConfigurations(configuration);
+        	      	
+        	try {
+				configuration = loadTestConfigurations(configuration);
+			} catch (ConfigurationException e1) {
+				// if problems with TestSettings, need to stop loading regular
+				// configurations, and cause downstream failures.
+				return new CompositeConfiguration();
+			}
         	
 			// default to include all the configurations at config.xml, but can be extended
         	String configResourceName = STD_CONFIG_PATH + "/config.xml";
@@ -100,15 +106,16 @@ public class Settings {
      * Looks for an org.dataone.configuration.TestSettings class, and loads
      * the properties at the front of the composite configuration, effectively
      * overriding any later values loaded.
+     * If TestSettings class not found, assumes not a testing application, so 
+     * does not throw an exception
      * 
-     * Will return an empty Configuration if errors contained there-in, 
-     * or application is not in test environment  ( TestSettings.class not found)
-     * @param configuration
-     * @return
+     * @return Configuration object containing the test configurations.
+     * @throws ConfigurationException
      */
-    private static CompositeConfiguration loadTestConfigurations(CompositeConfiguration configuration) {
+    private static CompositeConfiguration loadTestConfigurations(CompositeConfiguration configuration) 
+    throws ConfigurationException 
+    {
    
-    	CompositeConfiguration testConfig = null;
 		try {
 			ClassLoader myClassLoader = ClassLoader.getSystemClassLoader();
         	Class<?> testSettings;
@@ -117,17 +124,16 @@ public class Settings {
 			try {
 				Method getTestConfigurations = testSettings.getMethod("getConfiguration", null);
 				configuration = (CompositeConfiguration) getTestConfigurations.invoke(null, null);
-
 				
 			// problems loading configurations when in test situation are not
 			// recoverable, because we do not want to revert to non-test (production)
 			// context if we can't load test configurations.
 			} catch (Exception e) {
 				e.printStackTrace();
-				log.error("Problem loading TestSettings. Returning empty Config object. " + 
-						e.getClass().getSimpleName() + ": " + e.getMessage() );
-
-				setNullContext(configuration);
+				String message = "General Problem loading TestSettings. " + 
+					e.getClass().getSimpleName() + ": " + e.getMessage();
+				log.error(message);
+				throw new ConfigurationException(message);
 			}
 
 		} catch (ClassNotFoundException e) {
@@ -136,10 +142,6 @@ public class Settings {
 		}		
 		
 		return configuration;
-    }
-    
-    private static void setNullContext(Configuration configuration) {
-    	configuration.setProperty("D1Client.CN_URL", "");
     }
 }
 
