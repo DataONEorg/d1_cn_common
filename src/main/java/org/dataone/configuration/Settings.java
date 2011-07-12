@@ -129,10 +129,10 @@ public class Settings {
 			// recoverable, because we do not want to revert to non-test (production)
 			// context if we can't load test configurations.
 			} catch (Exception e) {
-				e.printStackTrace();
+
 				String message = "General Problem loading TestSettings. " + 
 					e.getClass().getSimpleName() + ": " + e.getMessage();
-				log.error(message);
+				log.error(message,e);
 				throw new ConfigurationException(message);
 			}
 
