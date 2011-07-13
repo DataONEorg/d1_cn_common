@@ -134,17 +134,6 @@ public class ServiceTypeUtil {
 
     }
 
-    /**
-     * convert a date to GMT
-     *
-     * @param d
-     * @return dateTime string that is ISO 8601 compliant
-     */
-    public static String serializeDateToZ(Date d) {
-        DateTime dt = new DateTime(d);
-        DateTime dtUTC = dt.withZone(DateTimeZone.UTC);
-        return zFmt.print(dtUTC);
-    }
 
     /**
      * convert a String to GMT date
