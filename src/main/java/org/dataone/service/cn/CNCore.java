@@ -87,6 +87,13 @@ public interface CNCore
             NotAuthorized, IdentifierNotUnique, NotImplemented, InvalidRequest;
     
     /**
+     * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CNCore.hasReservation
+     */
+    public boolean hasReservation(Session session, Identifier pid) 
+    	throws InvalidToken, ServiceFailure,  NotFound,
+            NotAuthorized, IdentifierNotUnique, NotImplemented, InvalidRequest;
+    
+    /**
      * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CNCore.create
      */
     public Identifier create(Session session, Identifier pid, InputStream object, 
