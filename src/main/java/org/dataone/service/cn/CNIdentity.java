@@ -94,7 +94,7 @@ public interface CNIdentity {
     /**
      * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CNIdentity.createGroup
      */
-    public boolean createGroup(Session session, Subject groupName) 
+    public Subject createGroup(Session session, Subject groupName) 
         throws ServiceFailure, InvalidToken, NotAuthorized, NotFound, 
         NotImplemented, InvalidRequest, IdentifierNotUnique;
 
