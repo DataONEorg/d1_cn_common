@@ -117,8 +117,10 @@ public class Settings {
     {
    
 		try {
-			ClassLoader myClassLoader = ClassLoader.getSystemClassLoader();
-        	Class<?> testSettings;
+//			ClassLoader myClassLoader = ClassLoader.getSystemClassLoader();
+			ClassLoader myClassLoader = Thread.currentThread().getContextClassLoader();
+			log.debug("ClassLoader type: " + myClassLoader.getClass().getSimpleName());
+			Class<?> testSettings;
 			testSettings = myClassLoader.loadClass("org.dataone.configuration.TestSettings");
  	
 			try {
