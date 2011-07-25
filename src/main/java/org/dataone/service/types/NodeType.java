@@ -21,13 +21,13 @@ public enum NodeType {
         this.value = value;
     }
 
-    public String toString() {
+    public String xmlValue() {
         return value;
     }
 
     public static NodeType convert(String value) {
         for (NodeType inst : values()) {
-            if (inst.toString().equals(value)) {
+            if (inst.xmlValue().equals(value)) {
                 return inst;
             }
         }

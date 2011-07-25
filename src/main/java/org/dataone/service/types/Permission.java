@@ -32,13 +32,13 @@ public enum Permission {
         this.value = value;
     }
 
-    public String toString() {
+    public String xmlValue() {
         return value;
     }
 
     public static Permission convert(String value) {
         for (Permission inst : values()) {
-            if (inst.toString().equals(value)) {
+            if (inst.xmlValue().equals(value)) {
                 return inst;
             }
         }

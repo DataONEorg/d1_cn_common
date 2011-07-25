@@ -10,7 +10,7 @@
     <url>http://dataone.org</url>
     <description>DataONE Common Code with Service Interface Definitions</description>
     <properties>
-        <org.jibx.version>1.2.2</org.jibx.version>
+        <org.jibx.version>1.2.3</org.jibx.version>
     </properties>
     <build>
         <defaultGoal>test</defaultGoal>
@@ -33,12 +33,12 @@
                 <artifactId>maven-jar-plugin</artifactId>
                 <executions>
                 	<!-- make a test resources jar -->
-					<execution>
-						<goals>
-							<goal>test-jar</goal>
-						</goals>
-					</execution>
-		       </executions>                
+                    <execution>
+                        <goals>
+                            <goal>test-jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
 
             <!-- take out the placeholder -->
@@ -49,22 +49,6 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-antrun-plugin</artifactId>
                 <executions>
-                    <!--
-                    <execution>
-                        <id>ant-initialize</id>
-                        <phase>initialize</phase>
-                        <configuration>
-                            <tasks>
-                                <property name="compile_classpath" refid="maven.compile.classpath"/>
-                                <property name="runtime_classpath" refid="maven.runtime.classpath"/>
-                                <ant antfile="buildDomain.xml" target="hello"/>
-                            </tasks>
-                        </configuration>
-                        <goals>
-                            <goal>run</goal>
-                        </goals>
-                    </execution>
-                    -->
                     <execution>
                         <id>ant-generate-jibx</id>
                         <phase>generate-sources</phase>
@@ -93,22 +77,7 @@
                             <goal>run</goal>
                         </goals>
                     </execution>
-<!--
-                    <execution>
-                        <id>ant-bind-jibx</id>
-                        <phase>compile</phase>
-                        <configuration>
-                            <tasks>
-                                <property name="compile_classpath" refid="maven.compile.classpath"/>
-                                <property name="runtime_classpath" refid="maven.runtime.classpath"/>
-                                <ant antfile="buildDomain.xml" target="bindgen"/>
-                            </tasks>
-                        </configuration>
-                        <goals>
-                            <goal>run</goal>
-                        </goals>
-                    </execution>
--->
+
                 </executions>
                 <dependencies>
                     <dependency>
@@ -147,24 +116,11 @@
                 <artifactId>maven-jibx-plugin</artifactId>
                 <version>${org.jibx.version}</version>
                 <configuration>
-                    <multi-module>true</multi-module>
+                    <bindingDirectory>src/main/java</bindingDirectory>
+                    <verbose>true</verbose>
                 </configuration>
                 <executions>
                     <execution>
-                        <id>bind-jibx</id>
-                        <configuration>
-                            <directory>/src/main/java</directory>
-                            <includes>
-                                <includes>binding.xml</includes>
-                            </includes>
-                            <verbose>true</verbose>
-                        </configuration> 
-<!--                        <configuration>
-                            <bindingDirectory>src/main/java</bindingDirectory>
-                            <include>*.xml</include>
-                            <verbose>true</verbose>
-                        </configuration> -->
-                        <phase>compile</phase>
                         <goals>
                             <goal>bind</goal>
                         </goals>
@@ -265,18 +221,18 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-           <groupId>org.apache.maven.plugins</groupId>
-           <artifactId>maven-jar-plugin</artifactId>
-           <version>2.3.1</version>
-           <type>maven-plugin</type>
-           <scope>compile</scope>
-           <exclusions>
-               <exclusion>
-                   <groupId>commons-lang</groupId>
-                   <artifactId>commons-lang</artifactId>
-               </exclusion>
-           </exclusions>
-       </dependency>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-jar-plugin</artifactId>
+            <version>2.3.1</version>
+            <type>maven-plugin</type>
+            <scope>compile</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>commons-lang</groupId>
+                    <artifactId>commons-lang</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
         <dependency>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-clean-plugin</artifactId>
@@ -305,10 +261,10 @@
         </dependency>
         
         <dependency>
-			<groupId>commons-configuration</groupId>
-			<artifactId>commons-configuration</artifactId>
-			<version>1.6</version>
-		</dependency>
+            <groupId>commons-configuration</groupId>
+            <artifactId>commons-configuration</artifactId>
+            <version>1.6</version>
+        </dependency>
         
         <dependency>
             <groupId>org.apache.tomcat</groupId>
@@ -326,11 +282,11 @@
 -->
        
         <dependency>
-        	<groupId>org.dataone</groupId>
-        	<artifactId>d1_test_resources</artifactId>
-        	<version>0.6.1</version>
-        	<type>jar</type>
-        	<scope>runtime</scope>
+            <groupId>org.dataone</groupId>
+            <artifactId>d1_test_resources</artifactId>
+            <version>0.6.1</version>
+            <type>jar</type>
+            <scope>runtime</scope>
         </dependency>
     </dependencies>
     <licenses>

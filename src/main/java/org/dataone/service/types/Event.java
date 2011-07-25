@@ -28,13 +28,13 @@ public enum Event {
         this.value = value;
     }
 
-    public String toString() {
+    public String xmlValue() {
         return value;
     }
 
     public static Event convert(String value) {
         for (Event inst : values()) {
-            if (inst.toString().equals(value)) {
+            if (inst.xmlValue().equals(value)) {
                 return inst;
             }
         }

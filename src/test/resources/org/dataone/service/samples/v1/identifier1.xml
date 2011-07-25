@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : identifier1.xml
+    Created on : November 16, 2010, 2:13 PM
+    Author     : waltz
+    Description:
+        Purpose of the document follows.
+-->
+
+<d1:identifier  xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
+   xmlns:d1='http://ns.dataone.org/service/types/v1'>
+ ABC123</d1:identifier>

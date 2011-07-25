@@ -35,7 +35,7 @@ public class ObjectFormatList extends Slice
      * 
      * @return list
      */
-    public List<ObjectFormat> getObjectFormats() {
+    public List<ObjectFormat> getObjectFormatList() {
         return objectFormatList;
     }
 
@@ -44,7 +44,7 @@ public class ObjectFormatList extends Slice
      * 
      * @param list
      */
-    public void setObjectFormats(List<ObjectFormat> list) {
+    public void setObjectFormatList(List<ObjectFormat> list) {
         objectFormatList = list;
     }
 
@@ -52,7 +52,7 @@ public class ObjectFormatList extends Slice
      * Get the number of 'objectFormat' element items.
      * @return count
      */
-    public int sizeObjectFormats() {
+    public int sizeObjectFormatList() {
         return objectFormatList.size();
     }
 
@@ -76,7 +76,7 @@ public class ObjectFormatList extends Slice
     /** 
      * Remove all 'objectFormat' element items.
      */
-    public void clearObjectFormats() {
+    public void clearObjectFormatList() {
         objectFormatList.clear();
     }
 }

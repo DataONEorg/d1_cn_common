@@ -25,7 +25,7 @@ import java.io.InputStream;
 import java.util.HashMap;
 
 import org.apache.log4j.Logger;
-import org.dataone.cn.batch.utils.TypeMarshaller;
+import org.dataone.service.types.util.TypeMarshaller;
 import org.dataone.service.exceptions.InsufficientResources;
 import org.dataone.service.exceptions.InvalidRequest;
 import org.dataone.service.exceptions.NotFound;
@@ -151,7 +151,7 @@ public class ObjectFormatServiceImpl {
     		TypeMarshaller.unmarshalTypeFromStream(ObjectFormatList.class, inputStream);
     	
       // index the object format list based on the format identifier
-      int listSize = this.objectFormatList.sizeObjectFormats();
+      int listSize = this.objectFormatList.sizeObjectFormatList();
       
       for (int i = 0; i < listSize; i++ ) {
         

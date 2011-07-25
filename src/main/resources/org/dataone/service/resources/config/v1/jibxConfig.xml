@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    This work was created by participants in the DataONE project, and is
+    jointly copyrighted by participating institutions in DataONE. For
+    more information on DataONE, see our web site at http://dataone.org.
+
+      Copyright ${year}
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+
+<schema-set prefer-inline="false" generate-all="true" package="org.dataone.service.types.v1" enumeration-type="java5" >
+    <class-decorator class="org.jibx.schema.codegen.extend.CollectionMethodsDecorator"/>
+     <!-- Should add in the serializable decorator, we may want to use it at some point -->
+     <class-decorator class="org.jibx.schema.codegen.extend.SerializableDecorator" />
+
+    <schema-set names="dataoneTypes.xsd" prefix="d1" namespaces="http://ns.dataone.org/service/types/v1">
+        <schema-type type-name="dateTime" java-class="java.util.Date"
+            serializer="org.dataone.service.types.util.ServiceTypeUtil.serializeDateToUTC"
+            deserializer="org.dataone.service.types.util.ServiceTypeUtil.deserializeDateToUTC"/>
+       <!-- <schema name="dataoneTypes.xsd" includes="checksum  componentList identifier log nodeList objectList objectLocationList objectFormat objectFormatList person subject subjectList systemMetadata AccessPolicy  AccessRule  Checksum  ChecksumAlgorithm  Component  ComponentList ComponentName Event  Group  Identifier  IdentifierFormat  Log  LogEntry  MonitorInfo MonitorList Node  NodeHealth  NodeList  NodeReference  NodeState  NodeType  ObjectFormat  ObjectFormatIdentifier ObjectFormatList ObjectInfo  ObjectList  ObjectLocation   ObjectLocationList  Permission  Person  Session Subject  SubjectList QueryType  Replica  ReplicationPolicy  ReplicationStatus  Schedule  Service  Services  Slice  Status  Synchronization  SystemMetadata" /> -->
+            <schema name="dataoneTypes.xsd" includes="ObjectFormatIdentifier NodeReference" >
+                <simpleType name="ObjectFormatIdentifier">
+                    <restriction value-name="value" />
+                </simpleType>
+                <simpleType name="NodeReference">
+                    <restriction value-name="value" />
+                </simpleType>
+                <complexType name="Identifier">
+                    <simpleContent>
+                        <extension value-name="value" />
+                    </simpleContent>
+                </complexType>
+                <complexType name="Subject">
+                    <simpleContent>
+                        <extension value-name="value" />
+                    </simpleContent>
+                </complexType>
+                <complexType name="Checksum">
+                    <simpleContent>
+                        <extension value-name="value" />
+                    </simpleContent>
+                </complexType>
+            </schema>
+    </schema-set>
+</schema-set>
