@@ -36,6 +36,7 @@ import org.dataone.service.types.SystemMetadata;
  * processing (substring, indexOf) without having to put the string into
  * memory.
  */
+@Deprecated
 public class StreamUtil
 {   
     /**

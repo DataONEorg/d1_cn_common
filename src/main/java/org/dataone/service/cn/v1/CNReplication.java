@@ -18,7 +18,7 @@
  * limitations under the License.
  */
 
-package org.dataone.service.cn;
+package org.dataone.service.cn.v1;
 
 import org.dataone.service.exceptions.InvalidRequest;
 import org.dataone.service.exceptions.InvalidToken;
@@ -27,11 +27,10 @@ import org.dataone.service.exceptions.NotFound;
 import org.dataone.service.exceptions.NotImplemented;
 import org.dataone.service.exceptions.ServiceFailure;
 
-import org.dataone.service.types.Session;
-import org.dataone.service.types.Identifier;
-import org.dataone.service.types.ReplicationStatus;
-//import org.dataone.service.types.ReplicaMetadata;
-import org.dataone.service.types.ReplicationPolicy;
+import org.dataone.service.types.v1.Session;
+import org.dataone.service.types.v1.Identifier;
+import org.dataone.service.types.v1.ReplicationStatus;
+import org.dataone.service.types.v1.ReplicationPolicy;
 
 /**
  * The DataONE CoordinatingNode Tier3 Replication interface.  This defines an
@@ -40,7 +39,6 @@ import org.dataone.service.types.ReplicationPolicy;
  *
  * @author Matthew Jones
  */
-@Deprecated
 public interface CNReplication {
 
     /**

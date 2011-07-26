@@ -39,6 +39,7 @@ import org.dataone.service.types.AccessPolicy;
  *
  * @author Matthew Jones
  */
+@Deprecated
 public interface MNAuthorization {
 
     /**

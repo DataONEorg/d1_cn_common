@@ -18,7 +18,7 @@
  * limitations under the License.
  */
 
-package org.dataone.service.impl;
+package org.dataone.service.types.v1.util;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -31,12 +31,11 @@ import org.dataone.service.exceptions.InvalidRequest;
 import org.dataone.service.exceptions.NotFound;
 import org.dataone.service.exceptions.NotImplemented;
 import org.dataone.service.exceptions.ServiceFailure;
-import org.dataone.service.types.ObjectFormat;
-import org.dataone.service.types.ObjectFormatIdentifier;
-import org.dataone.service.types.ObjectFormatList;
+import org.dataone.service.types.v1.ObjectFormat;
+import org.dataone.service.types.v1.ObjectFormatIdentifier;
+import org.dataone.service.types.v1.ObjectFormatList;
 import org.jibx.runtime.JiBXException;
 
-@Deprecated
 public class ObjectFormatServiceImpl {
 
   /* The instance of the logging class */
@@ -53,7 +52,7 @@ public class ObjectFormatServiceImpl {
   
   /* the package path of the cached object format list*/ 
   private String objectFormatFilePath = "/org/dataone/service/resources/" +
-                                        "config/objectFormatList.xml";
+                                        "config/v1/objectFormatList.xml";
 
   /*
    * Constructor: Creates an instance of the object format service. Since

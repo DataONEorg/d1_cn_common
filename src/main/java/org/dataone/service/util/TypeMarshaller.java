@@ -22,9 +22,8 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.dataone.service.types.util;
+package org.dataone.service.util;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -62,26 +61,6 @@ public class TypeMarshaller {
             logger.error(ex.getMessage(), ex);
         }
         return outputFile;
-    }
-    // Not to be used with large objects! Other than ObjectList or NodeList, its probably ok to use
-    // with most other Dataone Types.  Possible that SystemMetadata objects may become
-    // too large at some point as well.
-    //
-    // We may wish to throw exceptions based on the class of the object being marshalled
-    // in the future
-    /**
-     * @deprecated clients should typically make their own output streams
-     * @see the version that takes an output stream as a parameter
-     */
-    public static OutputStream marshalTypeToOutputStream(Object typeObject) throws JiBXException, IOException {
-        IBindingFactory bfact = BindingDirectory.getFactory(typeObject.getClass());
-
-        IMarshallingContext mctx = bfact.createMarshallingContext();
-        ByteArrayOutputStream typeOutput = new ByteArrayOutputStream();
-
-        mctx.marshalDocument(typeObject, "UTF-8", null, typeOutput);
-
-        return typeOutput;
     }
     
     public static void marshalTypeToOutputStream(Object typeObject, OutputStream os) throws JiBXException, IOException {

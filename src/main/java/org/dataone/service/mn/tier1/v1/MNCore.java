@@ -18,7 +18,7 @@
  * limitations under the License.
  */
 
-package org.dataone.service.mn.tier1;
+package org.dataone.service.mn.tier1.v1;
 
 import java.util.Date;
 
@@ -30,15 +30,14 @@ import org.dataone.service.exceptions.ServiceFailure;
 import org.dataone.service.exceptions.InsufficientResources;
 import org.dataone.service.exceptions.UnsupportedType;
 
-import org.dataone.service.types.Log;
-import org.dataone.service.types.Node;
-import org.dataone.service.types.ObjectFormatIdentifier;
-import org.dataone.service.types.Session;
-import org.dataone.service.types.Event;
-import org.dataone.service.types.MonitorList;
-import org.dataone.service.types.Subject;
-//import org.dataone.service.types.ObjectStatistics;
-//import org.dataone.service.types.StatusResponse;
+import org.dataone.service.types.v1.Log;
+import org.dataone.service.types.v1.Node;
+import org.dataone.service.types.v1.ObjectFormatIdentifier;
+import org.dataone.service.types.v1.Session;
+import org.dataone.service.types.v1.Event;
+import org.dataone.service.types.v1.MonitorList;
+import org.dataone.service.types.v1.Subject;
+
 
 
 /**
@@ -48,7 +47,6 @@ import org.dataone.service.types.Subject;
  *
  * @author Matthew Jones
  */
-@Deprecated
 public interface MNCore {
 
     /**

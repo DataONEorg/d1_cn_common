@@ -1,0 +1,111 @@
+/**
+ * This work was created by participants in the DataONE project, and is
+ * jointly copyrighted by participating institutions in DataONE. For
+ * more information on DataONE, see our web site at http://dataone.org.
+ *
+ *   Copyright ${year}
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package org.dataone.service.types.v1;
+
+import org.dataone.service.types.*;
+import java.util.Date;
+
+/**
+ * The DataONE Type to represent the metadata returned from a 'describe' request.
+ * Describe provides a lighter weight mechanism than MN_crud.getSystemMetadata()
+ * for a client to determine basic properties of the referenced object.
+ * The response should indicate properties that are typically returned in a
+ * HTTP HEAD request: the date late modified, the size of the object,
+ * the type of the object (the SystemMetadata.objectFormat).
+ *
+ *
+ * It is not serializable
+ *
+ * Example of a HEAD response on object “ABC123”:
+ *
+ * curl -I http://mn1.dataone.org/mn/object/ABC123
+ *
+ * HTTP/1.1 200 OK
+ * Last-Modified: Wed, 16 Dec 2009 13:58:34 GMT
+ * Content-Length: 10400
+ * Content-Type: application/octet-stream
+ * DataONE-ObjectFormat: eml://ecoinformatics.org/eml-2.0.1
+ * DataONE-Checksum: SHA-1,2e01e17467891f7c933dbaa00e1459d23db3fe4f
+ *
+ *
+ * @author Matthew Jones
+ */
+public class DescribeResponse 
+{
+    private ObjectFormat dataONE_ObjectFormat;
+    private long content_Length;
+    private Date last_Modified;
+    private Checksum dataONE_Checksum;
+
+    /**
+     * instantiate a DescribeResponse object
+     *
+     * @author Robert Waltz
+     * @param format value of the SystemMetadata.objectFormat entry available in the SystemMetadata.
+     * @param content_length Size of the object in bytes, the value of SystemMetadata.size from SystemMetadata.
+     * @param last_modified  DateTime value that indicates when the system metadata associated with the object was last modified, i.e. the value of SystemMetadata.dateSysMetadataModified for the object.
+     * @param checksum The algorithm (SystemMetadata.algorithm) and Checksum (SystemMetadata.checksum) of the object being examined, drawn from the SystemMetadata. The algorithm and checksum are separated by a single comma with the algorithm first.
+     */
+    public DescribeResponse(ObjectFormat format, long content_length, Date last_modified, Checksum checksum) {
+        this.dataONE_ObjectFormat = format;
+        this.content_Length = content_length;
+        this.last_Modified = last_modified;
+        this.dataONE_Checksum = checksum;
+    }
+
+    /**
+     * get the Size of the object in bytes, the value of SystemMetadata.size from SystemMetadata.
+     *
+     * @return Size of the object in bytes
+     */
+    public long getContent_Length() {
+        return content_Length;
+    }
+
+    /**
+     * get The algorithm (SystemMetadata.algorithm) and Checksum (SystemMetadata.checksum) of the object being examined, drawn from the SystemMetadata. The algorithm and checksum are separated by a single comma with the algorithm first.
+     *
+     * @return Checksum of the object
+     */
+    public Checksum getDataONE_Checksum() {
+        return dataONE_Checksum;
+    }
+
+    /**
+     * get The value of the SystemMetadata.objectFormat entry available in the SystemMetadata.
+     *
+     * @return objectFormat of the object
+     */
+    public ObjectFormat getDataONE_ObjectFormat() {
+        return dataONE_ObjectFormat;
+    }
+
+    /**
+     * get DateTime value that indicates when the system metadata associated with the object was last modified, i.e. the value of SystemMetadata.dateSysMetadataModified for the object.
+     *
+     * @return last modified date of object
+     */
+    public Date getLast_Modified() {
+        return last_Modified;
+    }
+    
+
+}

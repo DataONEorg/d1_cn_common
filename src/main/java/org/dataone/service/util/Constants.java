@@ -19,13 +19,14 @@
  * 
  * $Id$
  */
-package org.dataone.service;
+package org.dataone.service.util;
+
+import org.dataone.service.*;
 
 /**
  * @author berkley
  * A class to contain constants used in clients 
  */
-@Deprecated
 public class Constants {
 
     /** HTTP Verb GET */

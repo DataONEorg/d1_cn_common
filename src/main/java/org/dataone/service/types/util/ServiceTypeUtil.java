@@ -46,6 +46,7 @@ import org.joda.time.format.DateTimeFormatter;
  * @author berkley
  * Service Type utility methods
  */
+@Deprecated
 public class ServiceTypeUtil {
 
     static final DateTimeFormatter fmt = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss.SSSZZ");

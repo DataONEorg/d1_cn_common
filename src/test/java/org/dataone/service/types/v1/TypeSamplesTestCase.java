@@ -19,7 +19,7 @@
  */
 package org.dataone.service.types.v1;
 
-import org.dataone.service.impl.v1.ObjectFormatServiceImpl;
+import org.dataone.service.types.v1.util.ObjectFormatServiceImpl;
 import java.text.SimpleDateFormat;
 import java.text.DateFormat;
 
@@ -70,7 +70,7 @@ import org.xml.sax.SAXParseException;
 
 import static org.junit.Assert.*;
 
-public class ValidateSamplesTestCase {
+public class TypeSamplesTestCase {
 //    static final String datatypeSchemaTagUrl = "file:///home/rwaltz/Documents/Projects/tags/D1_SCHEMA_0_6_2/";
     static final String datatypeSchemaTagUrl = "https://repository.dataone.org/software/cicore/trunk/d1_schemas/";
     static String datatypeSchemaLocation = datatypeSchemaTagUrl + "dataoneTypes.xsd";

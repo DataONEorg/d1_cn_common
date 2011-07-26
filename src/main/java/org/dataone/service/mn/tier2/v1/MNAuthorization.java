@@ -17,38 +17,41 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.dataone.service.mn;
 
-import java.security.Permission;
+package org.dataone.service.mn.tier2.v1;
+
 import org.dataone.service.exceptions.InvalidRequest;
 import org.dataone.service.exceptions.InvalidToken;
 import org.dataone.service.exceptions.NotAuthorized;
 import org.dataone.service.exceptions.NotFound;
 import org.dataone.service.exceptions.NotImplemented;
 import org.dataone.service.exceptions.ServiceFailure;
-import org.dataone.service.types.AccessPolicy;
-import org.dataone.service.types.AuthToken;
-import org.dataone.service.types.Identifier;
+
+import org.dataone.service.types.v1.Session;
+import org.dataone.service.types.v1.Identifier;
+import org.dataone.service.types.v1.Permission;
+import org.dataone.service.types.v1.AccessPolicy;
 
 /**
- * The DataONE MemberNode Authorization programmatic interface.  This defines an
+ * The DataONE Member Node Tier 2 Authorization interface.  This defines an
  * implementation interface for Member Nodes that wish to build an
  * implementation that is compliant with the DataONE service definitions.
  *
  * @author Matthew Jones
- * @deprecated
  */
-public interface MemberNodeAuthorization {
+public interface MNAuthorization {
 
-    public boolean isAuthorized(AuthToken token, Identifier guid, Permission action)
-            throws ServiceFailure, InvalidRequest, InvalidToken, NotFound, NotAuthorized, NotImplemented;
-    // this is the signature that setAccess should have in the future
+    /**
+     * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/MN_APIs.html#MN_auth.isAuthorized
+     */
+    public boolean isAuthorized(Session cert, Identifier pid, Permission action)
+            throws ServiceFailure, InvalidRequest, InvalidToken, NotFound, 
+                   NotAuthorized, NotImplemented;
 
-    public boolean setAccess(AuthToken token, Identifier pid, AccessPolicy accessPolicy)
-            throws InvalidToken, ServiceFailure, NotFound, NotAuthorized, NotImplemented, InvalidRequest;
-
-    // this is the signature that setAcess has now, should be deprecated in future
-    public void setAccess(AuthToken token, Identifier pid, String principal, String permission,
-            String permissionType, String permissionOrder)
-            throws InvalidToken, ServiceFailure, NotFound, NotAuthorized, NotImplemented, InvalidRequest;
+    /**
+     * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/MN_APIs.html#MN_auth.setAccess
+     */
+    public boolean setAccessPolicy(Session cert, Identifier pid, AccessPolicy accessPolicy)
+            throws InvalidToken, ServiceFailure, NotFound, NotAuthorized, 
+                   NotImplemented, InvalidRequest;
 }

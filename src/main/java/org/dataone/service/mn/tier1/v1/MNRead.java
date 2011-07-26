@@ -18,7 +18,7 @@
  * limitations under the License.
  */
 
-package org.dataone.service.mn.tier1;
+package org.dataone.service.mn.tier1.v1;
 
 import java.io.InputStream;
 import java.util.Date;
@@ -31,16 +31,15 @@ import org.dataone.service.exceptions.NotImplemented;
 import org.dataone.service.exceptions.ServiceFailure;
 import org.dataone.service.exceptions.SynchronizationFailed;
 
-import org.dataone.service.types.ObjectFormatIdentifier;
-import org.dataone.service.types.Session;
-import org.dataone.service.types.SystemMetadata;
-import org.dataone.service.types.DescribeResponse;
-import org.dataone.service.types.Identifier;
-import org.dataone.service.types.Checksum;
-import org.dataone.service.types.ObjectList;
-import org.dataone.service.types.ObjectFormat;
+import org.dataone.service.types.v1.ObjectFormatIdentifier;
+import org.dataone.service.types.v1.Session;
+import org.dataone.service.types.v1.SystemMetadata;
+// this is the one type that must be manually copied when creating a new version
+import org.dataone.service.types.v1.DescribeResponse;
+import org.dataone.service.types.v1.Identifier;
+import org.dataone.service.types.v1.Checksum;
+import org.dataone.service.types.v1.ObjectList;
 
-//import org.joda.time.DateTime;
 
 /**
  * The DataONE Member Node Tier 1 Read interface.  This defines an
@@ -49,7 +48,6 @@ import org.dataone.service.types.ObjectFormat;
  *
  * @author Matthew Jones
  */
-@Deprecated
 public interface MNRead {
 
     /**

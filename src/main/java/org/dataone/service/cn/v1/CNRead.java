@@ -18,26 +18,24 @@
  * limitations under the License.
  */
 
-package org.dataone.service.cn;
+package org.dataone.service.cn.v1;
 
 import java.io.InputStream;
 
-import org.dataone.service.exceptions.IdentifierNotUnique;
 import org.dataone.service.exceptions.InvalidRequest;
 import org.dataone.service.exceptions.InvalidToken;
 import org.dataone.service.exceptions.NotAuthorized;
 import org.dataone.service.exceptions.NotFound;
 import org.dataone.service.exceptions.NotImplemented;
 import org.dataone.service.exceptions.ServiceFailure;
-import org.dataone.service.exceptions.UnsupportedQueryType;
 
-import org.dataone.service.types.Session;
-import org.dataone.service.types.Identifier;
-import org.dataone.service.types.SystemMetadata;
-import org.dataone.service.types.ObjectLocationList;
-import org.dataone.service.types.Checksum;
-import org.dataone.service.types.ObjectList;
-import org.dataone.service.types.QueryType;
+import org.dataone.service.types.v1.Session;
+import org.dataone.service.types.v1.Identifier;
+import org.dataone.service.types.v1.SystemMetadata;
+import org.dataone.service.types.v1.ObjectLocationList;
+import org.dataone.service.types.v1.Checksum;
+import org.dataone.service.types.v1.ObjectList;
+import org.dataone.service.types.v1.QueryType;
 //import org.dataone.service.types.OctetStream;
 
 /**
@@ -47,7 +45,6 @@ import org.dataone.service.types.QueryType;
  *
  * @author Matthew Jones
  */
-@Deprecated
 public interface CNRead 
 {
     /**

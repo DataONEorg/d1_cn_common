@@ -18,7 +18,7 @@
  * limitations under the License.
  */
 
-package org.dataone.service.mn.tier3;
+package org.dataone.service.mn.tier3.v1;
 
 import org.dataone.service.exceptions.InvalidRequest;
 import org.dataone.service.exceptions.InvalidToken;
@@ -31,9 +31,9 @@ import org.dataone.service.exceptions.UnsupportedType;
 import org.dataone.service.exceptions.InsufficientResources;
 import org.dataone.service.exceptions.InvalidSystemMetadata;
 
-import org.dataone.service.types.Identifier;
-import org.dataone.service.types.Session;
-import org.dataone.service.types.SystemMetadata;
+import org.dataone.service.types.v1.Identifier;
+import org.dataone.service.types.v1.Session;
+import org.dataone.service.types.v1.SystemMetadata;
 
 import java.io.InputStream;
 
@@ -44,7 +44,6 @@ import java.io.InputStream;
  *
  * @author Matthew Jones
  */
-@Deprecated
 public interface MNStorage {
 
     /**

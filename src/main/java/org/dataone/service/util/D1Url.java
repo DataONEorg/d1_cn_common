@@ -1,10 +1,8 @@
-package org.dataone.service;
+package org.dataone.service.util;
 
 import java.util.Date;
 import java.util.Vector;
-import org.dataone.service.types.util.ServiceTypeUtil;
 
-@Deprecated
 public class D1Url {
 
     private String url;
@@ -89,7 +87,7 @@ public class D1Url {
         if (dateLocalTime != null) {
             // XXX should be using serializeDatetoUTC, but MNs at this point are not
             // fully ISO 8601 compliant, and this should work...
-            String dateString = ServiceTypeUtil.serializeDateToUTC(dateLocalTime);
+            String dateString = DateTimeMarshaller.serializeDateToUTC(dateLocalTime);
             paramV.add(EncodingUtilities.encodeUrlQuerySegment(trimAndValidateString(key)) + "="
                     + EncodingUtilities.encodeUrlQuerySegment(trimAndValidateString(dateString)));
         }

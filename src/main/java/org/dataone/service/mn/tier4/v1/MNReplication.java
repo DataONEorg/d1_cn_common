@@ -18,35 +18,33 @@
  * limitations under the License.
  */
 
-package org.dataone.service.cn;
-
-import java.util.Date;
-import java.util.Map;
-
+package org.dataone.service.mn.tier4.v1;
 
 import org.dataone.service.exceptions.InvalidRequest;
 import org.dataone.service.exceptions.NotAuthorized;
-import org.dataone.service.types.AuthToken;
-import org.dataone.service.types.ObjectList;
-import org.dataone.service.types.Log;
+import org.dataone.service.exceptions.NotImplemented;
+import org.dataone.service.exceptions.ServiceFailure;
+import org.dataone.service.exceptions.InsufficientResources;
+import org.dataone.service.exceptions.UnsupportedType;
+
+import org.dataone.service.types.v1.Session;
+import org.dataone.service.types.v1.SystemMetadata;
+import org.dataone.service.types.v1.NodeReference;
 
 /**
- * The DataONE CoordinatingNode CRUD programmatic interface.  This defines an
- * implementation interface for Coordinating Nodes that wish to build an
+ * The DataONE Member Node Tier 4 Replication interface.  This defines an
+ * implementation interface for Member Nodes that wish to build an
  * implementation that is compliant with the DataONE service definitions.
  *
  * @author Matthew Jones
- * @deprecated
  */
-public interface CoordinatingNodeQuery 
-{
-    // until we define a dataone query type, (some kind of triplestores tied with
-    // nested boolean logic structure?) we should just pass a Map
-    // since it is a lot easier to manipulate and comforms to
-    // the parameter map that will contain the query fields from the Request
-    public ObjectList search(AuthToken token, Map query)
-        throws NotAuthorized, InvalidRequest;
-    public Log getLogRecords(AuthToken token, 
-            Date fromDate, Date toDate)
-        throws NotAuthorized, InvalidRequest;
+public interface MNReplication {
+
+    /**
+     * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/MN_APIs.html#MN_replication.replicate
+     */
+    public boolean replicate(Session cert, SystemMetadata sysmeta, 
+            NodeReference sourceNode) throws NotImplemented, ServiceFailure,
+            NotAuthorized, InvalidRequest, InsufficientResources, UnsupportedType;
+
 }

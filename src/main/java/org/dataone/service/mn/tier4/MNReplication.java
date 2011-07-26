@@ -38,6 +38,7 @@ import org.dataone.service.types.NodeReference;
  *
  * @author Matthew Jones
  */
+@Deprecated
 public interface MNReplication {
 
     /**

@@ -18,7 +18,7 @@
  * limitations under the License.
  */
 
-package org.dataone.service.cn;
+package org.dataone.service.cn.v1;
 
 import org.dataone.service.exceptions.InvalidRequest;
 import org.dataone.service.exceptions.InvalidToken;
@@ -27,11 +27,11 @@ import org.dataone.service.exceptions.NotFound;
 import org.dataone.service.exceptions.NotImplemented;
 import org.dataone.service.exceptions.ServiceFailure;
 
-import org.dataone.service.types.Permission;
-import org.dataone.service.types.Session;
-import org.dataone.service.types.Identifier;
-import org.dataone.service.types.Subject;
-import org.dataone.service.types.AccessPolicy;
+import org.dataone.service.types.v1.Permission;
+import org.dataone.service.types.v1.Session;
+import org.dataone.service.types.v1.Identifier;
+import org.dataone.service.types.v1.Subject;
+import org.dataone.service.types.v1.AccessPolicy;
 
 /**
  * The DataONE CoordinatingNode Tier2 Authorization interface.  This defines an
@@ -40,7 +40,6 @@ import org.dataone.service.types.AccessPolicy;
  *
  * @author Matthew Jones
  */
-@Deprecated
 public interface CNAuthorization {
 
     /**

@@ -17,29 +17,40 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.dataone.service.mn;
 
-import java.util.Date;
+package org.dataone.service.cn.v1;
+
 import org.dataone.service.exceptions.InvalidRequest;
-import org.dataone.service.exceptions.InvalidToken;
 import org.dataone.service.exceptions.NotAuthorized;
+import org.dataone.service.exceptions.NotFound;
 import org.dataone.service.exceptions.NotImplemented;
 import org.dataone.service.exceptions.ServiceFailure;
-import org.dataone.service.types.AuthToken;
-import org.dataone.service.types.ObjectFormat;
-import org.dataone.service.types.ObjectList;
+import org.dataone.service.exceptions.IdentifierNotUnique;
+
+import org.dataone.service.types.v1.Session;
+import org.dataone.service.types.v1.Node;
+import org.dataone.service.types.v1.NodeReference;
 
 /**
- * The DataONE MemberNode Replication programmatic interface.  This defines an
- * implementation interface for Member Nodes that wish to build an
+ * The DataONE CoordinatingNode Tier2 Registration interface.  This defines an
+ * implementation interface for Coordinating Nodes that wish to build an
  * implementation that is compliant with the DataONE service definitions.
  *
  * @author Matthew Jones
- * @deprecated
  */
-public interface MemberNodeReplication {
+public interface CNRegister {
 
-    public ObjectList listObjects(AuthToken token, Date startTime, Date endTime,
-            ObjectFormat objectFormat, Boolean replicaStatus, Integer start, Integer count)
-            throws NotAuthorized, InvalidRequest, NotImplemented, ServiceFailure, InvalidToken;
+    /** 
+     * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CNRegister.updateNodeCapabilities
+     */
+    public boolean updateNodeCapabilities(Session session, NodeReference nodeid, 
+        Node node) throws NotImplemented, NotAuthorized, 
+        ServiceFailure, InvalidRequest, NotFound;
+
+    /** 
+     * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CNRegister.register
+     */
+    public NodeReference register(Session session, Node node)
+        throws NotImplemented, NotAuthorized, ServiceFailure, InvalidRequest, 
+        IdentifierNotUnique;
 }

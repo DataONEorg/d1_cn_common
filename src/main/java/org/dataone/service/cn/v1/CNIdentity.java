@@ -18,7 +18,7 @@
  * limitations under the License.
  */
 
-package org.dataone.service.cn;
+package org.dataone.service.cn.v1;
 
 import org.dataone.service.exceptions.IdentifierNotUnique;
 import org.dataone.service.exceptions.InvalidCredentials;
@@ -29,10 +29,10 @@ import org.dataone.service.exceptions.NotFound;
 import org.dataone.service.exceptions.NotImplemented;
 import org.dataone.service.exceptions.ServiceFailure;
 
-import org.dataone.service.types.Person;
-import org.dataone.service.types.Session;
-import org.dataone.service.types.Subject;
-import org.dataone.service.types.SubjectList;
+import org.dataone.service.types.v1.Person;
+import org.dataone.service.types.v1.Session;
+import org.dataone.service.types.v1.Subject;
+import org.dataone.service.types.v1.SubjectList;
 
 /**
  * The DataONE CoordinatingNode Tier2 Identity interface.  This defines an
@@ -41,7 +41,6 @@ import org.dataone.service.types.SubjectList;
  *
  * @author Matthew Jones
  */
-@Deprecated
 public interface CNIdentity {
 
     /**

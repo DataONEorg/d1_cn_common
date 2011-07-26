@@ -7,7 +7,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import org.dataone.service.types.Node;
 import org.dataone.service.types.NodeList;
-import org.dataone.service.types.util.TypeMarshaller;
+import org.dataone.service.util.TypeMarshaller;
 import org.jibx.runtime.JiBXException;
 
 
@@ -17,6 +17,7 @@ import org.jibx.runtime.JiBXException;
  *
  * Convenience method of transferring nodeId and nodeBaseURL into a HashMap
  */
+@Deprecated
 public class NodeListParser
 {
     
@@ -32,5 +33,17 @@ public class NodeListParser
         }
         return baseUrlMap;
     }
- 
+    @Deprecated
+     public static Map<String, String> parseNodeListFile(InputStream nodeListStream, Object object, boolean valid)
+        throws InstantiationException, IllegalAccessException, JiBXException, IOException
+    {
+       // method originally used Hashtable. I've substituted ConcurrentHashMap to
+       // allow for thread safe operations and to increase performance
+       ConcurrentHashMap<String, String> baseUrlMap = new ConcurrentHashMap<String, String>();
+        NodeList nodeList = TypeMarshaller.unmarshalTypeFromStream(NodeList.class, nodeListStream);
+        for (Node node : nodeList.getNodeList()) {
+            baseUrlMap.put(node.getIdentifier().getValue(), node.getBaseURL());
+        }
+        return baseUrlMap;
+    }
 }

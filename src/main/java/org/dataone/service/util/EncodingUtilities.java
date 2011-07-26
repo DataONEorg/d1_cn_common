@@ -1,5 +1,6 @@
-package org.dataone.service;
+package org.dataone.service.util;
 
+import org.dataone.service.*;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
@@ -66,7 +67,7 @@ import java.util.BitSet;
  http://www.utf8-chartable.de/unicode-utf8-table.pl
 
  */
-@Deprecated
+
 public class EncodingUtilities {
 
 
