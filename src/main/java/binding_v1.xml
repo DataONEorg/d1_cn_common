@@ -274,12 +274,8 @@
     <structure map-as="d1:Subject" get-method="getRightsHolder" set-method="setRightsHolder" name="rightsHolder"/>
     <structure map-as="d1:AccessPolicy" get-method="getAccessPolicy" set-method="setAccessPolicy" usage="optional" name="accessPolicy"/>
     <structure map-as="d1:ReplicationPolicy" get-method="getReplicationPolicy" set-method="setReplicationPolicy" usage="optional" name="replicationPolicy"/>
-    <collection get-method="getObsoleteList" set-method="setObsoleteList" usage="optional" create-type="java.util.ArrayList">
-      <structure map-as="d1:Identifier" name="obsoletes"/>
-    </collection>
-    <collection get-method="getObsoletedByList" set-method="setObsoletedByList" usage="optional" create-type="java.util.ArrayList">
-      <structure map-as="d1:Identifier" name="obsoletedBy"/>
-    </collection>
+    <structure map-as="d1:Identifier" get-method="getObsoletes" set-method="setObsoletes" usage="optional" name="obsoletes"/>
+    <structure map-as="d1:Identifier" get-method="getObsoletedBy" set-method="setObsoletedBy" usage="optional" name="obsoletedBy"/>
     <collection get-method="getResourceMapList" set-method="setResourceMapList" usage="optional" create-type="java.util.ArrayList">
       <structure map-as="d1:Identifier" name="resourceMap"/>
     </collection>

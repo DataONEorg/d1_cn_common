@@ -11,16 +11,16 @@ import java.util.List;
  * <pre>
  * &lt;xs:complexType xmlns:ns="http://ns.dataone.org/service/types/v1" xmlns:xs="http://www.w3.org/2001/XMLSchema" name="SystemMetadata">
  *   &lt;xs:sequence>
- *     &lt;xs:element type="ns:Identifier" name="identifier" minOccurs="1" maxOccurs="1"/>
+ *     &lt;xs:element type="ns:Identifier" name="identifier"/>
  *     &lt;xs:element type="ns:ObjectFormat" name="objectFormat"/>
  *     &lt;xs:element type="xs:long" name="size"/>
- *     &lt;xs:element type="ns:Checksum" name="checksum" minOccurs="1" maxOccurs="1"/>
+ *     &lt;xs:element type="ns:Checksum" name="checksum"/>
  *     &lt;xs:element type="ns:Subject" name="submitter"/>
  *     &lt;xs:element type="ns:Subject" name="rightsHolder"/>
  *     &lt;xs:element type="ns:AccessPolicy" name="accessPolicy" minOccurs="0" maxOccurs="1"/>
  *     &lt;xs:element type="ns:ReplicationPolicy" name="replicationPolicy" minOccurs="0" maxOccurs="1"/>
- *     &lt;xs:element type="ns:Identifier" name="obsoletes" minOccurs="0" maxOccurs="unbounded"/>
- *     &lt;xs:element type="ns:Identifier" name="obsoletedBy" minOccurs="0" maxOccurs="unbounded"/>
+ *     &lt;xs:element type="ns:Identifier" name="obsoletes" minOccurs="0" maxOccurs="1"/>
+ *     &lt;xs:element type="ns:Identifier" name="obsoletedBy" minOccurs="0" maxOccurs="1"/>
  *     &lt;xs:element type="ns:Identifier" name="resourceMap" minOccurs="0" maxOccurs="unbounded"/>
  *     &lt;xs:element type="xs:dateTime" name="dateUploaded"/>
  *     &lt;xs:element type="xs:dateTime" name="dateSysMetadataModified"/>
@@ -41,8 +41,8 @@ public class SystemMetadata implements Serializable
     private Subject rightsHolder;
     private AccessPolicy accessPolicy;
     private ReplicationPolicy replicationPolicy;
-    private List<Identifier> obsoleteList = new ArrayList<Identifier>();
-    private List<Identifier> obsoletedByList = new ArrayList<Identifier>();
+    private Identifier obsoletes;
+    private Identifier obsoletedBy;
     private List<Identifier> resourceMapList = new ArrayList<Identifier>();
     private Date dateUploaded;
     private Date dateSysMetadataModified;
@@ -195,103 +195,39 @@ public class SystemMetadata implements Serializable
     }
 
     /** 
-     * Get the list of 'obsoletes' element items.
+     * Get the 'obsoletes' element value.
      * 
-     * @return list
+     * @return value
      */
-    public List<Identifier> getObsoleteList() {
-        return obsoleteList;
+    public Identifier getObsoletes() {
+        return obsoletes;
     }
 
     /** 
-     * Set the list of 'obsoletes' element items.
+     * Set the 'obsoletes' element value.
      * 
-     * @param list
+     * @param obsoletes
      */
-    public void setObsoleteList(List<Identifier> list) {
-        obsoleteList = list;
+    public void setObsoletes(Identifier obsoletes) {
+        this.obsoletes = obsoletes;
     }
 
     /** 
-     * Get the number of 'obsoletes' element items.
-     * @return count
-     */
-    public int sizeObsoleteList() {
-        return obsoleteList.size();
-    }
-
-    /** 
-     * Add a 'obsoletes' element item.
-     * @param item
-     */
-    public void addObsolete(Identifier item) {
-        obsoleteList.add(item);
-    }
-
-    /** 
-     * Get 'obsoletes' element item by position.
-     * @return item
-     * @param index
-     */
-    public Identifier getObsolete(int index) {
-        return obsoleteList.get(index);
-    }
-
-    /** 
-     * Remove all 'obsoletes' element items.
-     */
-    public void clearObsoleteList() {
-        obsoleteList.clear();
-    }
-
-    /** 
-     * Get the list of 'obsoletedBy' element items.
+     * Get the 'obsoletedBy' element value.
      * 
-     * @return list
+     * @return value
      */
-    public List<Identifier> getObsoletedByList() {
-        return obsoletedByList;
+    public Identifier getObsoletedBy() {
+        return obsoletedBy;
     }
 
     /** 
-     * Set the list of 'obsoletedBy' element items.
+     * Set the 'obsoletedBy' element value.
      * 
-     * @param list
+     * @param obsoletedBy
      */
-    public void setObsoletedByList(List<Identifier> list) {
-        obsoletedByList = list;
-    }
-
-    /** 
-     * Get the number of 'obsoletedBy' element items.
-     * @return count
-     */
-    public int sizeObsoletedByList() {
-        return obsoletedByList.size();
-    }
-
-    /** 
-     * Add a 'obsoletedBy' element item.
-     * @param item
-     */
-    public void addObsoletedBy(Identifier item) {
-        obsoletedByList.add(item);
-    }
-
-    /** 
-     * Get 'obsoletedBy' element item by position.
-     * @return item
-     * @param index
-     */
-    public Identifier getObsoletedBy(int index) {
-        return obsoletedByList.get(index);
-    }
-
-    /** 
-     * Remove all 'obsoletedBy' element items.
-     */
-    public void clearObsoletedByList() {
-        obsoletedByList.clear();
+    public void setObsoletedBy(Identifier obsoletedBy) {
+        this.obsoletedBy = obsoletedBy;
     }
 
     /** 
