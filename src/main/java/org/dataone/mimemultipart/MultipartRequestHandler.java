@@ -38,7 +38,7 @@ import org.apache.http.entity.mime.content.FileBody;
 import org.apache.http.entity.mime.content.InputStreamBody;
 import org.apache.http.entity.mime.content.StringBody;
 import org.apache.http.impl.client.DefaultHttpClient;
-import org.dataone.service.Constants;
+import org.dataone.service.util.Constants;
 
 /**
  * @author berkley

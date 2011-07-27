@@ -38,8 +38,8 @@ import org.apache.http.entity.mime.content.FileBody;
 import org.apache.http.entity.mime.content.InputStreamBody;
 import org.apache.http.entity.mime.content.StringBody;
 import org.apache.http.impl.client.DefaultHttpClient;
-import org.dataone.service.Constants;
-import org.dataone.service.types.util.ServiceTypeUtil;
+import org.dataone.service.util.Constants;
+import org.dataone.service.util.TypeMarshaller;
 import org.jibx.runtime.JiBXException;
 
 /**
@@ -121,7 +121,8 @@ public class SimpleMultipartEntity extends MultipartEntity
     	File outputFile = generateTempFile();
     
     	FileOutputStream fileOut = new FileOutputStream(outputFile);
-    	ServiceTypeUtil.serializeServiceType(type, serializableD1Object, fileOut);
+    	
+        TypeMarshaller.marshalTypeToOutputStream(serializableD1Object, fileOut);
     	fileOut.flush();
     	fileOut.close();
     	
