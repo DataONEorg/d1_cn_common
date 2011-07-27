@@ -9,9 +9,6 @@
   <format label="d1:QueryType" type="org.dataone.service.types.v1.QueryType"/>
   <format label="d1:ReplicationStatus" type="org.dataone.service.types.v1.ReplicationStatus" enum-value-method="xmlValue"/>
   <format label="d1:IdentifierFormat" type="org.dataone.service.types.v1.IdentifierFormat"/>
-  <mapping abstract="true" type-name="d1:NodeReference" class="org.dataone.service.types.v1.NodeReference">
-    <value style="text" get-method="getValue" set-method="setValue"/>
-  </mapping>
   <mapping abstract="true" type-name="d1:ObjectFormatIdentifier" class="org.dataone.service.types.v1.ObjectFormatIdentifier">
     <value style="text" get-method="getValue" set-method="setValue"/>
   </mapping>
@@ -116,6 +113,12 @@
   </mapping>
   <mapping class="org.dataone.service.types.v1.NodeList" name="nodeList" ns="http://ns.dataone.org/service/types/v1">
     <structure map-as="d1:NodeList"/>
+  </mapping>
+  <mapping abstract="true" type-name="d1:NodeReference" class="org.dataone.service.types.v1.NodeReference">
+    <value style="text" get-method="getValue" set-method="setValue"/>
+  </mapping>
+  <mapping class="org.dataone.service.types.v1.NodeReference" name="nodeReference" ns="http://ns.dataone.org/service/types/v1">
+    <structure map-as="d1:NodeReference"/>
   </mapping>
   <mapping abstract="true" type-name="d1:ObjectFormat" class="org.dataone.service.types.v1.ObjectFormat">
     <structure map-as="d1:ObjectFormatIdentifier" get-method="getFmtid" set-method="setFmtid" name="fmtid"/>

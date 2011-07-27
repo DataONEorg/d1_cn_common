@@ -8,9 +8,11 @@ import java.io.Serializable;
  * 
  * Schema fragment(s) for this class:
  * <pre>
- * &lt;xs:simpleType xmlns:ns="http://ns.dataone.org/service/types/v1" xmlns:xs="http://www.w3.org/2001/XMLSchema" name="NodeReference">
- *   &lt;xs:restriction base="xs:string"/>
- * &lt;/xs:simpleType>
+ * &lt;xs:complexType xmlns:ns="http://ns.dataone.org/service/types/v1" xmlns:xs="http://www.w3.org/2001/XMLSchema" name="NodeReference">
+ *   &lt;xs:simpleContent>
+ *     &lt;xs:extension base="xs:string"/>
+ *   &lt;/xs:simpleContent>
+ * &lt;/xs:complexType>
  * </pre>
  */
 public class NodeReference implements Serializable
@@ -18,7 +20,7 @@ public class NodeReference implements Serializable
     private String value;
 
     /** 
-     * Get the 'NodeReference' simpleType value.
+     * Get the 'NodeReference' complexType value.
      * 
      * @return value
      */
@@ -27,7 +29,7 @@ public class NodeReference implements Serializable
     }
 
     /** 
-     * Set the 'NodeReference' simpleType value.
+     * Set the 'NodeReference' complexType value.
      * 
      * @param value
      */

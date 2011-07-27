@@ -35,9 +35,11 @@
                 <simpleType name="ObjectFormatIdentifier">
                     <restriction value-name="value" />
                 </simpleType>
-                <simpleType name="NodeReference">
-                    <restriction value-name="value" />
-                </simpleType>
+                <complexType name="NodeReference">
+                   <simpleContent>
+                        <extension value-name="value" />
+                    </simpleContent>
+                </complexType>
                 <complexType name="Identifier">
                     <simpleContent>
                         <extension value-name="value" />
