@@ -12,11 +12,13 @@ import java.util.Scanner;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
+import org.apache.log4j.Logger;
 import org.junit.Before;
 import org.junit.Test;
 
 public class IdentifierEncodingTestCase 
 {
+	private static Logger logger = Logger.getLogger(IdentifierEncodingTestCase.class);
 	private static boolean verbose = true;
 	
 	private static String testUnicodeIdentifiersFile = "/org/dataone/service/encodingTestSet/testUnicodeStrings.utf8.txt";
@@ -25,7 +27,7 @@ public class IdentifierEncodingTestCase
 	@Before
 	public void generateStandardTests() {
 		if (StandardTests.size() == 0) {
-			verbose(" * * * * * * * Unicode Test Strings * * * * * * ");
+			logger.info(" * * * * * * * Unicode Test Strings * * * * * * ");
 			
 			InputStream is = this.getClass().getResourceAsStream(testUnicodeIdentifiersFile);
 			Scanner s = new Scanner(is,"UTF-8");
@@ -35,16 +37,16 @@ public class IdentifierEncodingTestCase
 				while (s.hasNextLine()) 
 				{
 					String line = s.nextLine();
-					verbose(line);
+					logger.info(line);
 					temp = line.split("\t");
 					if (temp.length > 1)
 						StandardTests.put(temp[0], temp[1]);
 				}
-				verbose("");
+				logger.info("");
 			} finally {
 				s.close();
 			}
-			verbose("");
+			logger.info("");
 		}
 	}
 	
@@ -52,7 +54,7 @@ public class IdentifierEncodingTestCase
 	@Test
 	public final void testEncodeUrlPathSegment()
 	{
-		verbose(" * * * * * * * testing URL Path Segment encoding * * * * * * ");
+		logger.info(" * * * * * * * testing URL Path Segment encoding * * * * * * ");
 
 		SortedSet<String> ids = new TreeSet<String>(StandardTests.keySet());
 		Iterator<String> i = ids.iterator();
@@ -67,14 +69,14 @@ public class IdentifierEncodingTestCase
 							);
 			}
 		}
-		verbose("");
+		logger.info("");
 	}
 
 	
 	@Test
 	public final void testEncodeUrlQuerySegment()
 	{
-		verbose(" * * * * * * * testing URL Query Segment encoding * * * * * * ");
+		logger.info(" * * * * * * * testing URL Query Segment encoding * * * * * * ");
 		SortedSet<String> ids = new TreeSet<String>(StandardTests.keySet());
 		Iterator<String> i = ids.iterator();
 		while (i.hasNext())
@@ -88,14 +90,14 @@ public class IdentifierEncodingTestCase
 							);
 			}
 		}
-		verbose("");
+		logger.info("");
 	}
 
 	
 	@Test
 	public final void testEncodeUrlFragment()
 	{
-		verbose(" * * * * * * * testing URL Fragment encoding * * * * * * ");
+		logger.info(" * * * * * * * testing URL Fragment encoding * * * * * * ");
 		SortedSet<String> ids = new TreeSet<String>(StandardTests.keySet());
 		Iterator<String> i = ids.iterator();
 		while (i.hasNext())
@@ -109,13 +111,13 @@ public class IdentifierEncodingTestCase
 							);
 			}
 		}
-		verbose("");
+		logger.info("");
 	}
 
 	@Test
 	public final void testDecodeString() throws UnsupportedEncodingException
 	{
-		verbose(" * * * * * * * testing Decoding * * * * * * ");
+		logger.info(" * * * * * * * testing Decoding * * * * * * ");
 
 		SortedSet<String> ids = new TreeSet<String>(StandardTests.keySet());
 		Iterator<String> i = ids.iterator();
@@ -128,13 +130,13 @@ public class IdentifierEncodingTestCase
 						 EncodingUtilities.decodeString(encodedString)
 						 );
 		}
-		verbose("");
+		logger.info("");
 	}
 
 //	@Test
 	public final void testDecodeStringAlternate() throws UnsupportedEncodingException
 	{
-		verbose(" * * * * * * * testing Decoding using URLDecoder * * * * * * ");
+		logger.info(" * * * * * * * testing Decoding using URLDecoder * * * * * * ");
 
 		SortedSet<String> ids = new TreeSet<String>(StandardTests.keySet());
 		Iterator<String> i = ids.iterator();
@@ -147,14 +149,14 @@ public class IdentifierEncodingTestCase
 						 URLDecoder.decode(encodedString, "UTF-8")
 						 );
 		}
-		verbose("");
+		logger.info("");
 	}
 
 	
 	@Test
 	public final void testEncodeDecode() throws UnsupportedEncodingException
 	{
-		verbose(" * * * * * * * testing Encode - Decode roundtrip  * * * * * * ");
+		logger.info(" * * * * * * * testing Encode - Decode roundtrip  * * * * * * ");
 
 		SortedSet<String> ids = new TreeSet<String>(StandardTests.keySet());
 		Iterator<String> i = ids.iterator();
@@ -171,13 +173,13 @@ public class IdentifierEncodingTestCase
 				);
 			}
 		}	
-		verbose("");
+		logger.info("");
 	}
 
 	@Test
 	public final void testEncodeDecodeAlternate() throws UnsupportedEncodingException
 	{
-		verbose(" * * * * * * * testing Encode - Decode roundtrip using URLDecoder * * * * * * ");
+		logger.info(" * * * * * * * testing Encode - Decode roundtrip using URLDecoder * * * * * * ");
 
 		SortedSet<String> ids = new TreeSet<String>(StandardTests.keySet());
 		Iterator<String> i = ids.iterator();
@@ -194,7 +196,7 @@ public class IdentifierEncodingTestCase
 				);
 			}
 		}	
-		verbose("");
+		logger.info("");
 	}
 
 	
@@ -203,13 +205,13 @@ public class IdentifierEncodingTestCase
 	@Test
 	public final void testDecodeError1() throws UnsupportedEncodingException
 	{
-		verbose(" * * * * * * * testing Decoding Error 1 * * * * * * ");
-		verbose("String to decode: testMalformedEscape-%3X");
+		logger.info(" * * * * * * * testing Decoding Error 1 * * * * * * ");
+		logger.info("String to decode: testMalformedEscape-%3X");
 		try {
 			String s = EncodingUtilities.decodeString("testMalformedEscape-%3X");
 		} catch (IllegalArgumentException iae) {
 			assertThat("Malformed hex error caught",iae, instanceOf(IllegalArgumentException.class));
-			verbose("caught the error (bad hex character)");
+			logger.info("caught the error (bad hex character)");
 			return;
 		}
 		fail("did not catch malformed hex error (bad hex character)");
@@ -218,13 +220,13 @@ public class IdentifierEncodingTestCase
 	@Test
 	public final void testDecodeError2() throws UnsupportedEncodingException
 	{
-		verbose(" * * * * * * * testing Decoding Error 2 * * * * * * ");
-		verbose("String to decode: testMalformedEscape-%3");
+		logger.info(" * * * * * * * testing Decoding Error 2 * * * * * * ");
+		logger.info("String to decode: testMalformedEscape-%3");
 		try {
 			String s = EncodingUtilities.decodeString("testMalformedEscape-%3");
 		} catch (IllegalArgumentException iae) {
 			assertThat("Malformed hex error caught",iae, instanceOf(IllegalArgumentException.class));
-			verbose("caught the error (truncated hex pattern)");
+			logger.info("caught the error (truncated hex pattern)");
 			return;
 		}
 		fail("did not catch malformed hex error (incomplete hex string)");
@@ -234,13 +236,13 @@ public class IdentifierEncodingTestCase
 	@Test
 	public final void testDecodeError3() throws UnsupportedEncodingException
 	{
-		verbose(" * * * * * * * testing Decoding Error 3 * * * * * * ");
-		verbose("String to decode: testMalformedEscape-%");
+		logger.info(" * * * * * * * testing Decoding Error 3 * * * * * * ");
+		logger.info("String to decode: testMalformedEscape-%");
 		try {
 			String s = EncodingUtilities.decodeString("testMalformedEscape-%");
 		} catch (IllegalArgumentException iae) {
 			assertThat("Malformed hex error caught",iae, instanceOf(IllegalArgumentException.class));
-			verbose("caught the error (truncated hex pattern)");
+			logger.info("caught the error (truncated hex pattern)");
 			return;
 		}
 		fail("did not catch malformed hex error (incomplete hex string)");
@@ -250,10 +252,10 @@ public class IdentifierEncodingTestCase
 	private void runAssertion(String id, String expected, String got)
 	{
 		if (!got.equals(expected)) {
-			verbose("Identifier:    " + id);
-			verbose("    expect:    " + expected);
-			verbose("       got:    " + got);
-			verbose("");
+			logger.info("Identifier:    " + id);
+			logger.info("    expect:    " + expected);
+			logger.info("       got:    " + got);
+			logger.info("");
 		}
 		assertEquals("identifier: " + id, expected, got);		
 	}
@@ -261,18 +263,11 @@ public class IdentifierEncodingTestCase
 	private void runDecodeAssertion(String id, String expected, String got)
 	{
 		if (!got.equals(expected)) {
-			verbose("Encoded Id:    " + id);
-			verbose("    expect:    " + expected);
-			verbose("       got:    " + got);
-			verbose("");
+			logger.info("Encoded Id:    " + id);
+			logger.info("    expect:    " + expected);
+			logger.info("       got:    " + got);
+			logger.info("");
 		}
 		assertEquals("identifier: " + id, expected, got);		
-	} 
-	  
-	private static void verbose(Object aObject){
-		if (verbose) {
-			System.out.println(String.valueOf(aObject));
-		}		
-	}	 
-	  
+	}	   
 }

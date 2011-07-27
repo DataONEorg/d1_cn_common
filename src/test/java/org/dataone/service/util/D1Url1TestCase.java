@@ -6,10 +6,12 @@ import static org.junit.Assert.fail;
 
 import java.util.Date;
 
+import org.apache.log4j.Logger;
 import org.junit.Test;
 
 
 public class D1Url1TestCase {
+	private static Logger logger = Logger.getLogger(D1Url1TestCase.class);
 	private static String testBaseUrl = "http://foo.com/";
 	private static String testBaseUrlNoEndingSlash = "http://foo.com";
 	private static String testResource = "myResource";
@@ -85,8 +87,8 @@ public class D1Url1TestCase {
 		Date d = new Date();
 		url.addDateParamPair("p1",d);
 		String expected = testBaseUrl + testResource + "?p1=";
-		System.out.println("Expected begins with: " + expected);
-		System.out.println("              actual: " + url.toString());
+		logger.info("Expected begins with: " + expected);
+		logger.info("              actual: " + url.toString());
 		assertTrue("dates match", url.toString().startsWith(expected) );
 	}
 

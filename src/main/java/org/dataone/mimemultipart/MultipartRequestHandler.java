@@ -42,6 +42,7 @@ import org.apache.http.entity.mime.MultipartEntity;
 import org.apache.http.entity.mime.content.FileBody;
 import org.apache.http.entity.mime.content.StringBody;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.log4j.Logger;
 import org.dataone.service.util.Constants;
 
 /**
@@ -51,6 +52,8 @@ import org.dataone.service.util.Constants;
  */
 public class MultipartRequestHandler
 {
+	private static Logger logger = Logger.getLogger(MultipartRequestHandler.class);
+	
 	private Vector<String> tempfileNames = new Vector<String>();
 	
 	DefaultHttpClient httpclient;
@@ -184,7 +187,7 @@ public class MultipartRequestHandler
         throws ClientProtocolException, IOException
     {
         HttpResponse response = httpclient.execute(request);
-        System.out.println("Response from MultipartRequestHandler.executeRequest: " + 
+        logger.info("Response from MultipartRequestHandler.executeRequest: " + 
                 response.getStatusLine());
         cleanupTempFiles();
         return response;
@@ -198,7 +201,7 @@ public class MultipartRequestHandler
 		File outputFile = new File(tmpDir, "mmp.output." + d.getTime());
 		String afp = outputFile.getAbsolutePath();
 		tempfileNames.add(afp);
-		System.out.println("temp outputFile is: " + outputFile.getAbsolutePath());
+		logger.info("temp outputFile is: " + outputFile.getAbsolutePath());
 		return outputFile;
     }
     

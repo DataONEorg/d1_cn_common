@@ -19,32 +19,26 @@
  */
 package org.dataone.service.types.v1;
 
-import org.dataone.service.types.v1.util.ObjectFormatServiceImpl;
-import java.text.SimpleDateFormat;
-import java.text.DateFormat;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-
-
-import org.junit.*;
-
-
 import java.io.InputStream;
 import java.io.StringWriter;
 import java.net.URL;
 import java.net.URLConnection;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-
 import java.util.Date;
 import java.util.List;
 
 import javax.xml.XMLConstants;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Source;
 import javax.xml.transform.Transformer;
@@ -52,26 +46,27 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
-import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.Schema;
+import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.Validator;
 
-
+import org.apache.log4j.Logger;
+import org.dataone.service.types.v1.util.ObjectFormatServiceImpl;
 import org.jibx.runtime.BindingDirectory;
 import org.jibx.runtime.IBindingFactory;
 import org.jibx.runtime.IMarshallingContext;
 import org.jibx.runtime.IUnmarshallingContext;
-
-
+import org.junit.Test;
 import org.w3c.dom.Document;
 import org.xml.sax.ErrorHandler;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 
-import static org.junit.Assert.*;
-
 public class TypeSamplesTestCase {
-//    static final String datatypeSchemaTagUrl = "file:///home/rwaltz/Documents/Projects/tags/D1_SCHEMA_0_6_2/";
+	private static Logger logger = Logger.getLogger(TypeSamplesTestCase.class);
+	
+	
+	//    static final String datatypeSchemaTagUrl = "file:///home/rwaltz/Documents/Projects/tags/D1_SCHEMA_0_6_2/";
     static final String datatypeSchemaTagUrl = "https://repository.dataone.org/software/cicore/trunk/d1_schemas/";
     static String datatypeSchemaLocation = datatypeSchemaTagUrl + "dataoneTypes.xsd";
 
@@ -187,9 +182,9 @@ public class TypeSamplesTestCase {
         URLConnection xsdUrlConnection = xsdUrl.openConnection();
         InputStream xsdUrlStream = xsdUrlConnection.getInputStream();
         if (xsdUrlStream == null) {
-            System.out.println(xsdUrlString + " InputStream is null");
+            logger.info(xsdUrlString + " InputStream is null");
         } else {
-            System.out.println("Validate: " + xsdUrlString);
+            logger.info("Validate: " + xsdUrlString);
         }
 
 
@@ -208,7 +203,7 @@ public class TypeSamplesTestCase {
         parser = documentBuilderFactory.newDocumentBuilder();
         // load in the file to validate
         document = parser.parse(xmlInputStream);
-        System.out.println(document.getDocumentElement().getNodeName());
+        logger.info(document.getDocumentElement().getNodeName());
         // create a Validator instance, which can be used to validate an instance document
 
         ValidateXmlDocument validateXmlDocument = new ValidateXmlDocument(schema);
@@ -266,7 +261,7 @@ public class TypeSamplesTestCase {
 
         public boolean validate(Document document) throws SAXException, Exception {
 
-            System.out.print(toString(document));
+            logger.info(toString(document));
 
 
             DOMSource domSource = new DOMSource(document);
@@ -301,7 +296,7 @@ public class TypeSamplesTestCase {
     }
     @Test
     public void testSimpleSystemMetadataMarshalling() throws Exception {
-        System.out.println("Starting testing of testSimpleSystemMetadataMarshalling");
+        logger.info("Starting testing of testSimpleSystemMetadataMarshalling");
         SystemMetadata systemMetadata = new SystemMetadata();
 
         Identifier identifier = new Identifier();
@@ -315,7 +310,7 @@ public class TypeSamplesTestCase {
         assertNotNull(thisOF);
         assertNotNull(thisOF.getFmtid());
         assertNotNull(thisOF.getFormatName());
-        System.out.println(thisOF.getFmtid().getValue() + " = " + thisOF.getFormatName());
+        logger.info(thisOF.getFmtid().getValue() + " = " + thisOF.getFormatName());
         systemMetadata.setObjectFormat(ObjectFormatServiceImpl.getInstance().getFormat(fmtid));
         systemMetadata.setSize(1235431);
         Subject submitter = new Subject();
@@ -348,7 +343,7 @@ public class TypeSamplesTestCase {
 
         //       InputStream inputStream = this.getClass().getResourceAsStream(xmlDocument);
 
-        System.out.println(testSytemMetadataOutput.toString());
+        logger.info(testSytemMetadataOutput.toString());
         ByteArrayInputStream testSystemMetadataInput = new ByteArrayInputStream(testSytemMetadataOutput.toByteArray());
 
         //       BindingDirectory.getFactory("binding", "org.dataone.service.types");
@@ -362,7 +357,7 @@ public class TypeSamplesTestCase {
     }
 
     public boolean testSystemMetadataMarshalling(String externalSystemMetadata) throws Exception {
-        System.out.println("Starting testing of testSystemMetadataMarshalling");
+        logger.info("Starting testing of testSystemMetadataMarshalling");
         SystemMetadata systemMetadata = new SystemMetadata();
         IBindingFactory bfact =
                 BindingDirectory.getFactory(org.dataone.service.types.v1.SystemMetadata.class);
@@ -375,7 +370,7 @@ public class TypeSamplesTestCase {
             systemMetadata = (SystemMetadata) uctx.unmarshalDocument(inputStream, null);
             ByteArrayOutputStream testSytemMetadataOutput = new ByteArrayOutputStream();
             mctx.marshalDocument(systemMetadata, "UTF-8", null, testSytemMetadataOutput);
-            System.out.println(testSytemMetadataOutput.toString());
+            logger.info(testSytemMetadataOutput.toString());
             assertTrue(validateExamples(systemMetadataSchemaLocation,new ByteArrayInputStream(testSytemMetadataOutput.toByteArray())));
 
         } finally {
@@ -479,7 +474,7 @@ public class TypeSamplesTestCase {
 
     @Test
     public void testSubjectListMarshalling() throws Exception {
-        System.out.println("Starting testing of testSubjectListMarshalling");
+        logger.info("Starting testing of testSubjectListMarshalling");
         SubjectList subjectList = new SubjectList();
         
         // set the properties of SubjectList
@@ -501,7 +496,7 @@ public class TypeSamplesTestCase {
 
         mctx.marshalDocument(subjectList, "UTF-8", null, baos);
 
-        System.out.println(baos.toString());
+        logger.info(baos.toString());
         ByteArrayInputStream bais = new ByteArrayInputStream(baos.toByteArray());
 
         IUnmarshallingContext uctx = bfact.createUnmarshallingContext();
@@ -657,7 +652,7 @@ public class TypeSamplesTestCase {
 
         byte[] nodeRegistryTestOutput = testOutput.toByteArray();
         String nodeRegistryStringOutput = new String(nodeRegistryTestOutput);
-        System.out.println(nodeRegistryStringOutput);
+        logger.info(nodeRegistryStringOutput);
         ByteArrayInputStream testInput = new ByteArrayInputStream(nodeRegistryTestOutput);
 
         //       BindingDirectory.getFactory("binding", "org.dataone.service.types");
@@ -700,7 +695,7 @@ public class TypeSamplesTestCase {
 
         byte[] identifierTestOutput = testOutput.toByteArray();
         String identifierStringOutput = new String(identifierTestOutput);
-        System.out.println(identifierStringOutput);
+        logger.info(identifierStringOutput);
         ByteArrayInputStream testInput = new ByteArrayInputStream(identifierTestOutput);
 
         IUnmarshallingContext uctx = bfact.createUnmarshallingContext();
@@ -744,7 +739,7 @@ public class TypeSamplesTestCase {
 
         byte[] checksumTestOutput = testOutput.toByteArray();
         String checksumStringOutput = new String(checksumTestOutput);
-        System.out.println(checksumStringOutput);
+        logger.info(checksumStringOutput);
         ByteArrayInputStream testInput = new ByteArrayInputStream(checksumTestOutput);
 
         IUnmarshallingContext uctx = bfact.createUnmarshallingContext();

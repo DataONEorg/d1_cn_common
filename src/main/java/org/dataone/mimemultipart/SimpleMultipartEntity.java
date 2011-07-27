@@ -31,6 +31,8 @@ import java.nio.charset.Charset;
 import java.util.Date;
 import java.util.Vector;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.http.entity.mime.MultipartEntity;
 import org.apache.http.entity.mime.content.FileBody;
 import org.apache.http.entity.mime.content.StringBody;
@@ -44,6 +46,8 @@ import org.jibx.runtime.JiBXException;
  */
 public class SimpleMultipartEntity extends MultipartEntity
 {
+	private static Log log = LogFactory.getLog(SimpleMultipartEntity.class);
+	
 	private Vector<String> tempfileNames = new Vector<String>();
     /**
      * add a file part to the MMP
@@ -91,7 +95,7 @@ public class SimpleMultipartEntity extends MultipartEntity
 		} finally {
 			os.flush();
 			os.close();
-			System.out.println("     bytes written: " + total);
+			log.debug("     bytes written: " + total);
 			
 		}
 		
@@ -181,7 +185,7 @@ public class SimpleMultipartEntity extends MultipartEntity
 		File outputFile = new File(tmpDir, "mmp.output." + d.getTime());
 		String afp = outputFile.getAbsolutePath();
 		tempfileNames.add(afp);
-		System.out.println("temp outputFile is: " + outputFile.getAbsolutePath());
+		log.info("temp outputFile is: " + outputFile.getAbsolutePath());
 		return outputFile;
     }
     

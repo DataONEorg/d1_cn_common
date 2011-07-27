@@ -22,7 +22,8 @@ package org.dataone.service.exceptions;
 
 import java.util.TreeMap;
 
-import org.dataone.service.types.Identifier;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
@@ -33,7 +34,8 @@ import junit.framework.TestSuite;
  */
 public class BaseExceptionTest extends TestCase
 {
-    private String msg = "The specified object does not exist on this node.";
+	private static Log log = LogFactory.getLog(BaseExceptionTest.class);
+	private String msg = "The specified object does not exist on this node.";
     private TreeMap<String, String> trace = new TreeMap<String, String>();
     private BaseException e = null;
     
@@ -69,7 +71,7 @@ public class BaseExceptionTest extends TestCase
     public void testSerializeXML()
     {   
         String xml = e.serialize(BaseException.FMT_XML);
-        System.out.println(xml);
+        log.info(xml);
         
         assertNotNull(xml);
         assertTrue(xml.indexOf("<error") != -1);
@@ -89,7 +91,7 @@ public class BaseExceptionTest extends TestCase
     public void testSerializeJSON()
     {   
         String json = e.serialize(BaseException.FMT_JSON);
-        System.out.println(json);
+        log.info(json);
         
         assertNotNull(json);
         assertTrue(json.indexOf("'errorCode': 404") != -1);
@@ -106,7 +108,7 @@ public class BaseExceptionTest extends TestCase
     public void testSerializeHTML()
     {   
         String html = e.serialize(BaseException.FMT_HTML);
-        System.out.println(html);
+        log.info(html);
         
         assertNotNull(html);
         assertTrue(html.indexOf("<html>") != -1);
@@ -129,7 +131,7 @@ public class BaseExceptionTest extends TestCase
         NotFound e = new NotFound( "14001", "some description");
         assertNotNull(e);    
         String xml = e.serialize(BaseException.FMT_XML);
-        System.out.println(xml);
+        log.info(xml);
         
         assertNotNull(xml);
         assertTrue(xml.indexOf("<error") != -1);

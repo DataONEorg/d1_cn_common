@@ -9,6 +9,8 @@ import java.io.InputStream;
 import java.util.Date;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.dataone.service.util.Constants;
@@ -16,7 +18,7 @@ import org.junit.Test;
 
 
 public class testMultipartTransmission {
-
+	private static Log log = LogFactory.getLog(testMultipartTransmission.class);
 	private static final String echoServiceUrl = "http://dev-testing.dataone.org/testsvc/echo";
 	private static final String echoAndParseServiceUrl = "http://dev-testing.dataone.org/testsvc/echomm";
 	
@@ -32,8 +34,8 @@ public class testMultipartTransmission {
 		int code = res.getStatusLine().getStatusCode();
 		InputStream content = res.getEntity().getContent();
 		String echoed = IOUtils.toString(content);
-		System.out.println("Echoed content:");
-		System.out.println(echoed);
+		log.info("Echoed content:");
+		log.info(echoed);
 		assertTrue("message parsed",echoed.contains("request.REQUEST[ testOne ] = bizbazbuzzzz"));
 		assertTrue("message parsed",echoed.contains("request.REQUEST[ testTwo ] = flip-flap-flop"));
 	}
@@ -58,8 +60,8 @@ public class testMultipartTransmission {
 		int code = res.getStatusLine().getStatusCode();
 		InputStream content = res.getEntity().getContent();
 		String echoed = IOUtils.toString(content);
-		System.out.println("Echoed content:");
-		System.out.println(echoed);
+		log.info("Echoed content:");
+		log.info(echoed);
 		assertTrue("message parsed",echoed.contains("request.REQUEST[ testOne ] = bizbazbuzzzz"));
 		assertTrue("message parsed",echoed.contains("request.FILES=<MultiValueDict: {u'testTwo': [<InMemoryUploadedFile: mmp.output."));
 	}
@@ -77,8 +79,8 @@ public class testMultipartTransmission {
 		int code = res.getStatusLine().getStatusCode();
 		InputStream content = res.getEntity().getContent();
 		String echoed = IOUtils.toString(content);
-		System.out.println("Echoed content:");
-		System.out.println(echoed);
+		log.info("Echoed content:");
+		log.info(echoed);
 		assertTrue("message parsed",echoed.contains("request.REQUEST[ testOne ] = bizbazbuzzzz"));
 		assertTrue("message parsed",echoed.contains("request.FILES=<MultiValueDict: {u'testTwo': [<InMemoryUploadedFile: mmp.output."));
 	}
@@ -95,8 +97,8 @@ public class testMultipartTransmission {
 		int code = res.getStatusLine().getStatusCode();
 		InputStream content = res.getEntity().getContent();
 		String echoed = IOUtils.toString(content);
-		System.out.println("Echoed content:");
-		System.out.println(echoed);
+		log.info("Echoed content:");
+		log.info(echoed);
 		assertTrue("message parsed",echoed.contains("request.REQUEST[ testOne ] = bizbazbuzzzz"));
 		assertTrue("message parsed",echoed.contains("request.FILES=<MultiValueDict: {u'testTwo': [<InMemoryUploadedFile: mmp.output."));
 	}

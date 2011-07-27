@@ -7,6 +7,8 @@ import java.io.InputStream;
 import java.util.Map;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.junit.Test;
 
 
@@ -17,7 +19,7 @@ import org.junit.Test;
  */
 public class NodelistUtilTestCase
 {
-    
+	private static Log log = LogFactory.getLog(NodelistUtilTestCase.class); 
     @Test
     /**
      * tests NodeListParser.parseNodeListFile()
@@ -32,7 +34,7 @@ public class NodelistUtilTestCase
             
             assertTrue("Node document null.", (nodeDoc != null));
             assertTrue("Node document has 0 content", nodeDoc.length() > 0);
-            System.out.println(nodeDoc);
+            log.info(nodeDoc);
             
             InputStream ndIs = IOUtils.toInputStream(nodeDoc);
             Map<String, String> m = NodelistUtil.mapNodeList(ndIs);
