@@ -9,7 +9,7 @@ import java.util.Map;
 
 import org.apache.commons.io.IOUtils;
 import org.junit.Test;
-
+import org.apache.commons.logging.LogFactory;
 
 /**
  * test the NodeListParser class
@@ -18,7 +18,7 @@ import org.junit.Test;
  */
 public class NodeListParserTest 
 {
-    
+    private static org.apache.commons.logging.Log logger = LogFactory.getLog(NodeListParserTest.class);
     @Test
     /**
      * tests NodeListParser.parseNodeListFile()
@@ -33,7 +33,7 @@ public class NodeListParserTest
             
             assertTrue("Node document null.", (nodeDoc != null));
             assertTrue("Node document has 0 content", nodeDoc.length() > 0);
-            System.out.println(nodeDoc);
+            logger.info(nodeDoc);
             
             InputStream ndIs = IOUtils.toInputStream(nodeDoc);
             Map<String, String> m = NodeListParser.parseNodeListFile(ndIs);

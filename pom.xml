@@ -117,7 +117,7 @@
                 <version>${org.jibx.version}</version>
                 <configuration>
                     <bindingDirectory>src/main/java</bindingDirectory>
-                    <verbose>true</verbose>
+                    <verbose>false</verbose>
                 </configuration>
                 <executions>
                     <execution>
