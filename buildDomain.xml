@@ -56,7 +56,7 @@
         <replace file="${basedir}/src/main/java/org/dataone/service/types/ChecksumAlgorithm.java" token="M_D5" value="MD5" />
         
         <replace file="${basedir}/src/main/java/org/dataone/service/types/Identifier.java" token="string" value="value" />
-        <replace file="${basedir}/src/main/java/org/dataone/service/types/Identifier.java" token="getString" value="getValue" /> 
+        <replace file="${basedir}/src/main/java/org/dataone/service/types/Identifier.java" token="getString" value="getValue" />
         <replace file="${basedir}/src/main/java/org/dataone/service/types/Identifier.java" token="setString" value="setValue" />
         <replace file="${basedir}/src/main/java/org/dataone/service/types/NodeReference.java" token="string" value="value" />
         <replace file="${basedir}/src/main/java/org/dataone/service/types/NodeReference.java" token="getString" value="getValue" />
@@ -66,7 +66,7 @@
         <replace file="${basedir}/src/main/java/org/dataone/service/types/Subject.java" token="getString" value="getValue" />
         <replace file="${basedir}/src/main/java/org/dataone/service/types/Subject.java" token="setString" value="setValue" />
 
-    	  <replace file="${basedir}/src/main/java/org/dataone/service/types/X509Certificate.java" token="string" value="value" />
+        <replace file="${basedir}/src/main/java/org/dataone/service/types/X509Certificate.java" token="string" value="value" />
         <replace file="${basedir}/src/main/java/org/dataone/service/types/X509Certificate.java" token="getString" value="getValue" />
         <replace file="${basedir}/src/main/java/org/dataone/service/types/X509Certificate.java" token="setString" value="setValue" />
         	
@@ -75,7 +75,7 @@
         <replace file="${basedir}/src/main/java/org/dataone/service/types/Checksum.java" token="setString" value="setValue" />
 
         <replace file="${basedir}/src/main/java/org/dataone/service/types/ObjectFormatIdentifier.java" token="string" value="value" />
-        <replace file="${basedir}/src/main/java/org/dataone/service/types/ObjectFormatIdentifier.java" token="getString" value="getValue" /> 
+        <replace file="${basedir}/src/main/java/org/dataone/service/types/ObjectFormatIdentifier.java" token="getString" value="getValue" />
         <replace file="${basedir}/src/main/java/org/dataone/service/types/ObjectFormatIdentifier.java" token="setString" value="setValue" />
 
         <replace file="${basedir}/src/main/java/binding_v0.xml" token="getString" value="getValue" />
@@ -200,7 +200,7 @@
                        byline="true"
         />
 
-      </target>
+    </target>
 
 
 
@@ -213,8 +213,8 @@
         <java classname="org.jibx.schema.codegen.CodeGen" fork="yes"
                failonerror="true">
             <classpath>
-               <pathelement path="${compile_classpath}"/>
-               <pathelement path="{java.class.path}" />
+                <pathelement path="${compile_classpath}"/>
+                <pathelement path="{java.class.path}" />
             </classpath>
             <arg value="-b" />
             <arg value="binding_v0.xml" />
@@ -230,8 +230,8 @@
         <java classname="org.jibx.schema.codegen.CodeGen" fork="yes"
                failonerror="true">
             <classpath>
-               <pathelement path="${compile_classpath}"/>
-               <pathelement path="{java.class.path}" />
+                <pathelement path="${compile_classpath}"/>
+                <pathelement path="{java.class.path}" />
             </classpath>
 
             <arg value="-b" />
@@ -239,8 +239,7 @@
             <arg value="-c" />
             <arg value="${basedir}/src/main/resources/org/dataone/service/resources/config/v1/jibxConfig.xml" />
             <arg value="-s" />
-           <arg value="https://repository.dataone.org/software/cicore/trunk/d1_schemas/" />
-   <!--        <arg value="/home/rwaltz/Projects/AllSoftware/d1_schemas/" /> -->
+            <arg value="https://repository.dataone.org/software/cicore/tags/D1_SCHEMA_0_6_3/" />
             <arg value="-p" />
             <arg value="org.dataone.service.types.v1" />
             <arg value="-t"/>
