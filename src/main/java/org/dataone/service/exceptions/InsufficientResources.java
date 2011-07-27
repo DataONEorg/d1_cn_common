@@ -45,8 +45,8 @@ public class InsufficientResources extends BaseException {
     }
     
     public InsufficientResources(String detailCode, String description, 
-    		Identifier pid,
+    		String pidString,
             TreeMap<String, String> trace_information) {
-        super(errorCode, detailCode, pid, description, trace_information);
+        super(errorCode, detailCode, pidString, description, trace_information);
     }
 }

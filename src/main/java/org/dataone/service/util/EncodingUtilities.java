@@ -1,6 +1,5 @@
 package org.dataone.service.util;
 
-import org.dataone.service.*;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;

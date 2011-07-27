@@ -21,7 +21,6 @@
  */
 package org.dataone.service.util;
 
-import org.dataone.service.*;
 
 /**
  * @author berkley

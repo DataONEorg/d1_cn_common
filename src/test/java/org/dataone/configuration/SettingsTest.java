@@ -2,15 +2,12 @@ package org.dataone.configuration;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 
-import org.apache.commons.configuration.CompositeConfiguration;
 import org.apache.commons.configuration.Configuration;
-import org.apache.commons.configuration.SystemConfiguration;
+import org.apache.commons.configuration.ConfigurationException;
 import org.junit.Test;
-import org.junit.Ignore;
 
 
 public class SettingsTest {

@@ -23,7 +23,7 @@ package org.dataone.service.exceptions;
 import java.io.StringWriter;
 import java.util.Set;
 import java.util.TreeMap;
-import java.util.logging.Level;
+
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -33,8 +33,8 @@ import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
+
 import org.apache.log4j.Logger;
-import org.dataone.service.types.Identifier;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -58,7 +58,7 @@ public class BaseException extends Exception {
     private String detail_code;
     
     /** The optional PID associated with this exception. */
-    private Identifier pid;
+    private String pidString;
     
     /** Additional trace-level debugging information, as name-value pairs. */
     private TreeMap<String, String> trace_information;
@@ -108,14 +108,14 @@ public class BaseException extends Exception {
      * 
      * @param code the code used to classify the exception
      * @param detail_code the detailed code for this exception
-     * @param pid: the identifier associated with the exception, and usually with the request
+     * @param pidString: the identifier associated with the exception, and usually with the request
      * @param description the description of this exception
      * @param trace_information containing a Map of key/value pairs
      */
-    protected BaseException(int code, String detail_code, Identifier pid, String description, 
+    protected BaseException(int code, String detail_code, String pidString, String description, 
             TreeMap<String, String> trace_information) {
         this(code, detail_code, description);
-        this.setPid(pid);
+        this.setPid(pidString);
         if (trace_information == null)
         	this.trace_information = new TreeMap<String, String>();
         else 
@@ -166,12 +166,12 @@ public class BaseException extends Exception {
         return detail_code;
     }
 
-    public Identifier getPid() {
-    	return pid;
+    public String getPid() {
+    	return pidString;
     }
     
-    public void setPid(Identifier p) {
-    	this.pid = p;
+    public void setPid(String p) {
+    	this.pidString = p;
     }
     
     /**
@@ -251,7 +251,7 @@ public class BaseException extends Exception {
         errorNode.setAttribute("detailCode", getDetail_code());
         errorNode.setAttribute("errorCode", Integer.toString(getCode()));
         if (getPid() != null)
-        	errorNode.setAttribute("pid", getPid().getValue());
+        	errorNode.setAttribute("pid", getPid());
         Element description = dom.createElement("description");
         description.setTextContent(getDescription());
         
@@ -290,7 +290,7 @@ public class BaseException extends Exception {
         sb.append("{'errorCode': ").append(getCode()).append(",\n");
         sb.append(" 'detailCode': ").append(getDetail_code()).append(",\n");
         if (getPid() != null)
-        	sb.append(" 'pid': '").append(getPid().getValue()).append("',\n");
+        	sb.append(" 'pid': '").append(getPid()).append("',\n");
         sb.append(" 'description': '").append(getDescription()).append("',\n");
         sb.append(" 'traceInformation': {\n");
         for (String key : this.getTraceKeySet()) {
