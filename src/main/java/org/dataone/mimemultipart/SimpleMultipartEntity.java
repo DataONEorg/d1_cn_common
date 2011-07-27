@@ -114,7 +114,7 @@ public class SimpleMultipartEntity extends MultipartEntity
      * @throws IOException 
      * @throws JiBXException 
      */
-    public void addFilePart(String name, Object serializableD1Object, Class type) 
+    public void addFilePart(String name, Object serializableD1Object) 
     throws IOException, JiBXException
     {
     	// create temp file
@@ -130,7 +130,15 @@ public class SimpleMultipartEntity extends MultipartEntity
     	FileBody fBody = new FileBody(outputFile);
 		addPart(name, fBody);
     }
-   
+
+    @Deprecated
+    public void addFilePart(String name, Object serializableD1Object, Class type) 
+    throws IOException, JiBXException
+    {
+    	addFilePart(name, serializableD1Object);
+    }
+    
+    
     /**
      * This method generates a temp files for sending, containing
      * the value parameter.  Encoding is in UTF-8.
