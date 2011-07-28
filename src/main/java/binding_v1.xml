@@ -101,6 +101,9 @@
     <value style="attribute" name="synchronize" get-method="isSynchronize" set-method="setSynchronize"/>
     <value style="attribute" name="type" get-method="getType" set-method="setType" format="d1:NodeType"/>
   </mapping>
+  <mapping class="org.dataone.service.types.v1.Node" name="node" ns="http://ns.dataone.org/service/types/v1">
+    <structure map-as="d1:Node"/>
+  </mapping>
   <mapping abstract="true" type-name="d1:NodeHealth" class="org.dataone.service.types.v1.NodeHealth">
     <structure map-as="d1:Ping" get-method="getPing" set-method="setPing" name="ping"/>
     <structure map-as="d1:Status" get-method="getStatus" set-method="setStatus" name="status"/>

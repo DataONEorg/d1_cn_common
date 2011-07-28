@@ -5,8 +5,8 @@ import java.io.Serializable;
 
 /** 
  * The controlled list of events that are logged, 
- which will include 'CREATE', 'UPDATE', 'DELETE', 'READ', 'REPLICATE', and
- 'SYNCHRONIZATION_FAILED' events.
+ which will include 'CREATE', 'UPDATE', 'DELETE', 'READ', 'REPLICATE',
+ 'SYNCHRONIZATION_FAILED' and 'REPLICATION_FAILED' events.
  * 
  * Schema fragment(s) for this class:
  * <pre>
@@ -18,13 +18,15 @@ import java.io.Serializable;
  *     &lt;xs:enumeration value="delete"/>
  *     &lt;xs:enumeration value="replicate"/>
  *     &lt;xs:enumeration value="synchronization_failed"/>
+ *     &lt;xs:enumeration value="replication_failed"/>
  *   &lt;/xs:restriction>
  * &lt;/xs:simpleType>
  * </pre>
  */
 public enum Event implements Serializable {
     CREATE("create"), READ("read"), UPDATE("update"), DELETE("delete"), REPLICATE(
-            "replicate"), SYNCHRONIZATION_FAILED("synchronization_failed");
+            "replicate"), SYNCHRONIZATION_FAILED("synchronization_failed"), REPLICATION_FAILED(
+            "replication_failed");
     private final String value;
 
     private Event(String value) {
