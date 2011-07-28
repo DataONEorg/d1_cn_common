@@ -12,7 +12,7 @@ import org.junit.Ignore;
 public class ExceptionUtilTestCase {
 
 	@Before
-	public static void setUpBeforeClass() throws Exception {
+	public void setUpBeforeClass() throws Exception {
 		String nonErrorString = "fa la la la la";
 		StringInputStream nonErrorStream = new StringInputStream(nonErrorString);
 		
