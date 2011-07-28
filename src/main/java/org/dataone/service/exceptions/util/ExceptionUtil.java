@@ -29,6 +29,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
+import java.rmi.ServerException;
 import java.util.HashMap;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -80,7 +81,7 @@ public class ExceptionUtil {
 	protected static Log log = LogFactory.getLog(ExceptionUtil.class);
 
 
-	public InputStream filterErrors(HttpResponse res) 
+	public static InputStream filterErrors(HttpResponse res) 
 	throws AuthenticationTimeout, IdentifierNotUnique, InsufficientResources, 
 	InvalidCredentials, InvalidRequest, InvalidSystemMetadata, InvalidToken, 
 	NotAuthorized, NotFound, NotImplemented, ServiceFailure, 
@@ -116,12 +117,12 @@ public class ExceptionUtil {
 
 
 	
-	public InputStream filterErrors(InputStream is, boolean isException, String contentType)
+	public static InputStream filterErrors(InputStream is, boolean isException, String contentType)
 	throws AuthenticationTimeout, IdentifierNotUnique, InsufficientResources, 
 	InvalidCredentials, InvalidRequest, InvalidSystemMetadata, InvalidToken, 
 	NotAuthorized, NotFound, NotImplemented, ServiceFailure, 
 	UnsupportedMetadataType, UnsupportedQueryType, UnsupportedType,
-	IllegalStateException, IOException, HttpException 
+	IllegalStateException, IOException 
 	{
 		if (isException) {
 			deserializeAndThrowException(is,null,null,contentType);
@@ -152,7 +153,7 @@ public class ExceptionUtil {
 	 * @throws HttpException 
 	 */
  
-	public void deserializeAndThrowException(HttpResponse response)
+	public static void deserializeAndThrowException(HttpResponse response)
 	throws NotFound, InvalidToken, ServiceFailure, NotAuthorized,
 	NotFound, IdentifierNotUnique, UnsupportedType,
 	InsufficientResources, InvalidSystemMetadata, NotImplemented,
@@ -179,17 +180,17 @@ public class ExceptionUtil {
 	}
 	
 	
-	public void deserializeAndThrowException(InputStream is, Integer statusCode, String reason, String contentType)
+	public static void deserializeAndThrowException(InputStream is, Integer statusCode, String reason, String contentType)
     throws NotFound, InvalidToken, ServiceFailure, NotAuthorized,
 	NotFound, IdentifierNotUnique, UnsupportedType,
 	InsufficientResources, InvalidSystemMetadata, NotImplemented,
-	InvalidCredentials, InvalidRequest, IOException, AuthenticationTimeout, UnsupportedMetadataType, HttpException {
+	InvalidCredentials, InvalidRequest, IOException, AuthenticationTimeout, UnsupportedMetadataType {
     	
   
-    	if (contentType == null)  contentType = "unset";
+    	if (contentType == null)  contentType = "unset";   	
+    	if (statusCode == null)  statusCode = new Integer(-1);
+    	
     	ErrorElements ee = null;
-    	
-    	
     	if (contentType.contains("xml"))
     		ee = deserializeXml(is, statusCode);
     	else if (contentType.contains("html"))
@@ -209,7 +210,8 @@ public class ExceptionUtil {
  
     	String exceptionName = ee.getName();
     	if (exceptionName == null) 
-    		throw new HttpException(reason + ": " + ee.getDescription());
+    		throw new ServerException(reason + ": " + ee.getDescription());
+ //   		throw new HttpException(reason + ": " + ee.getDescription());
     	
     	
 		// last updated 27-Jan-2011
@@ -245,7 +247,7 @@ public class ExceptionUtil {
     	
 
     	
-    private ErrorElements deserializeHtml(InputStream responseStream, int statusCode) 
+    private static ErrorElements deserializeHtml(InputStream responseStream, int statusCode) 
     throws IllegalStateException, IOException 
     {
     	ErrorElements ee = new ErrorElements();
@@ -258,7 +260,7 @@ public class ExceptionUtil {
     }
 
     
-    private ErrorElements deserializeJson(InputStream responseStream, int statusCode)
+    private static ErrorElements deserializeJson(InputStream responseStream, int statusCode)
     throws IllegalStateException, IOException 
     {
     	ErrorElements ee = new ErrorElements();
@@ -271,7 +273,7 @@ public class ExceptionUtil {
     }
   
     
-    private ErrorElements deserializeCsv(InputStream responseStream, int statusCode)
+    private static ErrorElements deserializeCsv(InputStream responseStream, int statusCode)
     throws IllegalStateException, IOException 
     {
     	ErrorElements ee = new ErrorElements();
@@ -284,7 +286,7 @@ public class ExceptionUtil {
     }
 
     
-    private ErrorElements deserializeTextPlain(InputStream responseStream, int statusCode) 
+    private static ErrorElements deserializeTextPlain(InputStream responseStream, int statusCode) 
     throws IllegalStateException, IOException 
     {  	   	
     	ErrorElements ee = new ErrorElements();
@@ -297,7 +299,7 @@ public class ExceptionUtil {
     }
 
     
-    private ErrorElements deserializeXml(InputStream responseStream, int statusCode) 
+    private static ErrorElements deserializeXml(InputStream responseStream, int statusCode) 
     throws IllegalStateException, IOException
     {
     	ErrorElements ee = new ErrorElements();
@@ -371,7 +373,7 @@ public class ExceptionUtil {
     /**
      * helper method for deserializeAndThrowException.  Used for problems parsing errorStream as XML
      */
-    private String deserializeNonXMLErrorStream(BufferedInputStream errorStream, Exception e) 
+    private static String deserializeNonXMLErrorStream(BufferedInputStream errorStream, Exception e) 
     {
     	String errorString = null;
     	try {
@@ -389,7 +391,7 @@ public class ExceptionUtil {
 	 * Take a xml element and the tag name, return the text content of the child
 	 * element.
 	 */
-	protected String getTextValue(Element e, String tag) {
+	protected static String getTextValue(Element e, String tag) {
 		String text = null;
 		NodeList nl = e.getElementsByTagName(tag);
 		if (nl != null && nl.getLength() > 0) {
@@ -411,7 +413,7 @@ public class ExceptionUtil {
 	 * @param attName
 	 * @return
 	 */
-	protected int getIntAttribute(Element e, String attName)
+	protected static int getIntAttribute(Element e, String attName)
 	throws NumberFormatException {
             if (e.hasAttribute(attName)) {
 		String attText = e.getAttribute(attName);
@@ -435,7 +437,7 @@ public class ExceptionUtil {
 	 * @throws ServiceFailure
 	 */
 	@SuppressWarnings("rawtypes")
-	protected <T> T deserializeServiceType(Class<T> domainClass, InputStream is)
+	protected static <T> T deserializeServiceType(Class<T> domainClass, InputStream is)
 	throws ServiceFailure
 	{
 		try {
@@ -454,26 +456,6 @@ public class ExceptionUtil {
                     "Could not deserialize the " + domainClass.getCanonicalName() + ": " + e.getMessage());
 		}
 	}
-
-	
-	protected Identifier parseResponseForIdentifer(HttpResponse resp) throws ServiceFailure {
-
-		Identifier id = null;
-		try {
-			InputStream is = resp.getEntity().getContent();
-			Header type = resp.getEntity().getContentType();
-			log.info("Response content-type: "+ type.getValue());
-			if (is != null) {
-				id = deserializeServiceType(Identifier.class, is);
-			} else {
-				throw new IOException("Unexpected empty inputStream for the request");
-			}
-		}
-		catch (IOException e) {
-			throw new ServiceFailure("1000","IOException in processing: " + e.getMessage());
-		}	
-		return id;
-	}
 	
 	
 	/**
@@ -483,7 +465,7 @@ public class ExceptionUtil {
 	 * @author rnahf
 	 *
 	 */
-	public class ErrorElements {
+	public static class ErrorElements {
 		private int code;
 		private String name;
 		private String detailCode;
