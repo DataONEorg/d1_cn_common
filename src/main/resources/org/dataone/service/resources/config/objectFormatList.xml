@@ -384,6 +384,11 @@
     <scienceMetadata>false</scienceMetadata>
   </objectFormat>
   <objectFormat>
+    <fmtid>http://www.openarchives.org/ore/terms</fmtid>
+    <formatName>Object Reuse and Exchange Vocabulary</formatName>
+    <scienceMetadata>false</scienceMetadata>
+  </objectFormat>
+  <objectFormat>
    <fmtid>application/pdf</fmtid>
    <formatName>Portable Document Format</formatName>
    <scienceMetadata>false</scienceMetadata>
