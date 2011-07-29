@@ -385,7 +385,7 @@
   </objectFormat>
   <objectFormat>
    <fmtid>application/pdf</fmtid>
-   <formatName>PDF</formatName>
+   <formatName>Portable Document Format</formatName>
    <scienceMetadata>false</scienceMetadata>
   </objectFormat>
 </d1:objectFormatList>
