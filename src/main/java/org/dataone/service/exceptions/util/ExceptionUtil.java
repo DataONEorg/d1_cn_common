@@ -73,31 +73,99 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 /**
- * This class wraps the RestClient, adding uniform exception deserialization
- * (subclassing the RestClient was impractical due to differences in method signatures)
+ * This class contains static methods for filtering serialized errors
+ * out of the input stream, and throwing the appropriate dataone exception.
+ * The basis for determining the type of dataone exception is through the
+ * contents of the name field.  All other exceptions (IOException, for example)
+ * are recast to ServiceFailure.
+ * 
+ * If the message content cannot be parsed into a dataone exception, the content
+ * of the message body will be transcribed into the description field of the
+ * returned ServiceFailure.  Thus all exceptions will be recast to DataONE 
+ * exceptions, and only the ServiceFailure need to be reviewed more carefully
+ * for root causes.  
+ * 
+ * A filtered input stream can be reasonably assured to contain only the expected 
+ * non-exceptional content requested.
+ * 
  */
 public class ExceptionUtil {
 	
 	protected static Log log = LogFactory.getLog(ExceptionUtil.class);
 
-
-	public static InputStream filterErrors(HttpResponse res) 
+	/**
+	 * Given an HttpResponse, filters any exception to the error handler
+	 * and returns the (non-exception) content to the input stream.
+	 * The http status code is used to determine if the content is to
+	 * be considered an exception, and the deserialization handler is
+	 * determined by the contentType declaration in the http headers.
+	 * 
+	 * @param response - the http response
+	 * @return  an input stream of filtered content.
+	 * @throws AuthenticationTimeout
+	 * @throws IdentifierNotUnique
+	 * @throws InsufficientResources
+	 * @throws InvalidCredentials
+	 * @throws InvalidRequest
+	 * @throws InvalidSystemMetadata
+	 * @throws InvalidToken
+	 * @throws NotAuthorized
+	 * @throws NotFound
+	 * @throws NotImplemented
+	 * @throws ServiceFailure
+	 * @throws UnsupportedMetadataType
+	 * @throws UnsupportedQueryType
+	 * @throws UnsupportedType
+	 * @throws IllegalStateException
+	 * @throws IOException
+	 * @throws HttpException
+	 */
+	public static InputStream filterErrors(HttpResponse response) 
 	throws AuthenticationTimeout, IdentifierNotUnique, InsufficientResources, 
 	InvalidCredentials, InvalidRequest, InvalidSystemMetadata, InvalidToken, 
 	NotAuthorized, NotFound, NotImplemented, ServiceFailure, 
 	UnsupportedMetadataType, UnsupportedQueryType, UnsupportedType,
 	IllegalStateException, IOException, HttpException 
 	{
-		int code = res.getStatusLine().getStatusCode();
+		int code = response.getStatusLine().getStatusCode();
 		log.info("response httpCode: " + code);
-		log.debug(IOUtils.toString(res.getEntity().getContent()));
+		log.debug(IOUtils.toString(response.getEntity().getContent()));
 		if (code != HttpURLConnection.HTTP_OK) {
 			// error, so throw exception
-			deserializeAndThrowException(res);
+			deserializeAndThrowException(response);
 		}		
-		return res.getEntity().getContent();
+		return response.getEntity().getContent();
 	}
 
+	/**
+	 * Given an HttpResponse, filters any exception to the error handler
+	 * and returns the http Headers array.
+	 * 
+	 * The http status code is used to determine if the content is to
+	 * be considered an exception, and the deserialization handler is
+	 * determined by the contentType declaration in the http headers.
+	 * 
+	 * @param res
+	 * @return
+	 * @throws AuthenticationTimeout
+	 * @throws IdentifierNotUnique
+	 * @throws InsufficientResources
+	 * @throws InvalidCredentials
+	 * @throws InvalidRequest
+	 * @throws InvalidSystemMetadata
+	 * @throws InvalidToken
+	 * @throws NotAuthorized
+	 * @throws NotFound
+	 * @throws NotImplemented
+	 * @throws ServiceFailure
+	 * @throws UnsupportedMetadataType
+	 * @throws UnsupportedQueryType
+	 * @throws UnsupportedType
+	 * @throws IllegalStateException
+	 * @throws IOException
+	 * @throws HttpException
+	 */
+	
 	public Header[] filterErrorsHeader(HttpResponse res) 
 	throws AuthenticationTimeout, IdentifierNotUnique, InsufficientResources, 
 	InvalidCredentials, InvalidRequest, InvalidSystemMetadata, InvalidToken, 
@@ -116,8 +184,31 @@ public class ExceptionUtil {
 	}	
 
 
-	
-	public static InputStream filterErrors(InputStream is, boolean isException, String contentType)
+	/**
+	 * A convenience method for deserializeAndThrowException(InputStream, null, null, contentType)
+	 * 
+	 * @param responseStream - the input stream to pull error content from
+	 * @param isException
+	 * @param contentType - 
+	 * @return
+	 * @throws AuthenticationTimeout
+	 * @throws IdentifierNotUnique
+	 * @throws InsufficientResources
+	 * @throws InvalidCredentials
+	 * @throws InvalidRequest
+	 * @throws InvalidSystemMetadata
+	 * @throws InvalidToken
+	 * @throws NotAuthorized
+	 * @throws NotFound
+	 * @throws NotImplemented
+	 * @throws ServiceFailure
+	 * @throws UnsupportedMetadataType
+	 * @throws UnsupportedQueryType
+	 * @throws UnsupportedType
+	 * @throws IllegalStateException
+	 * @throws IOException
+	 */
+	public static InputStream filterErrors(InputStream responseStream, boolean isException, String contentType)
 	throws AuthenticationTimeout, IdentifierNotUnique, InsufficientResources, 
 	InvalidCredentials, InvalidRequest, InvalidSystemMetadata, InvalidToken, 
 	NotAuthorized, NotFound, NotImplemented, ServiceFailure, 
@@ -125,14 +216,16 @@ public class ExceptionUtil {
 	IllegalStateException, IOException 
 	{
 		if (isException) {
-			deserializeAndThrowException(is,null,null,contentType);
+			deserializeAndThrowException(responseStream,null,null,contentType);
 		}
-		return is;
+		return responseStream;
 	}
     
 	
 	
 	/**
+	 * A direct call to serialize the httpReponse as an exception.
+	 * Otherwise, identical behavior as filterErrors(httpResponse) method.
 	 * 
 	 * @param response
 	 * @throws NotFound
@@ -179,8 +272,60 @@ public class ExceptionUtil {
     	deserializeAndThrowException(responseStream, statusCode, statusReason, contentType);
 	}
 	
+	/**
+	 * convenience method for deserializing the response input stream to exception, where contentType
+	 * is known to be xml.  If content not xml, a ServiceFailure is thrown with the message
+	 * body accessible via getDescription() method.
+	 * @param responseStream
+	 * @throws NotFound
+	 * @throws InvalidToken
+	 * @throws ServiceFailure
+	 * @throws NotAuthorized
+	 * @throws NotFound
+	 * @throws IdentifierNotUnique
+	 * @throws UnsupportedType
+	 * @throws InsufficientResources
+	 * @throws InvalidSystemMetadata
+	 * @throws NotImplemented
+	 * @throws InvalidCredentials
+	 * @throws InvalidRequest
+	 * @throws IOException
+	 * @throws AuthenticationTimeout
+	 * @throws UnsupportedMetadataType
+	 */
+	public static void deserializeXMLAndThrowException(InputStream responseStream)
+    throws NotFound, InvalidToken, ServiceFailure, NotAuthorized,
+	NotFound, IdentifierNotUnique, UnsupportedType,
+	InsufficientResources, InvalidSystemMetadata, NotImplemented,
+	InvalidCredentials, InvalidRequest, IOException, AuthenticationTimeout, UnsupportedMetadataType {
+		deserializeAndThrowException(responseStream,null,null,"xml");	
+	}
 	
-	public static void deserializeAndThrowException(InputStream is, Integer statusCode, String reason, String contentType)
+	
+	
+	/**
+	 * A direct call to to serialize the input stream as an exception. 
+	 * @param responseStream
+	 * @param statusCode - optional, used mainly with httpResponses
+	 * @param reason - optional, used mainly with httpResponses
+	 * @param contentType - used to tell how to deserialize, set to "xml"
+	 * @throws NotFound
+	 * @throws InvalidToken
+	 * @throws ServiceFailure
+	 * @throws NotAuthorized
+	 * @throws NotFound
+	 * @throws IdentifierNotUnique
+	 * @throws UnsupportedType
+	 * @throws InsufficientResources
+	 * @throws InvalidSystemMetadata
+	 * @throws NotImplemented
+	 * @throws InvalidCredentials
+	 * @throws InvalidRequest
+	 * @throws IOException
+	 * @throws AuthenticationTimeout
+	 * @throws UnsupportedMetadataType
+	 */
+	public static void deserializeAndThrowException(InputStream responseStream, Integer statusCode, String reason, String contentType)
     throws NotFound, InvalidToken, ServiceFailure, NotAuthorized,
 	NotFound, IdentifierNotUnique, UnsupportedType,
 	InsufficientResources, InvalidSystemMetadata, NotImplemented,
@@ -192,20 +337,20 @@ public class ExceptionUtil {
     	
     	ErrorElements ee = null;
     	if (contentType.contains("xml"))
-    		ee = deserializeXml(is, statusCode);
+    		ee = deserializeXml(responseStream, statusCode);
     	else if (contentType.contains("html"))
-    		ee = deserializeHtml(is, statusCode);
+    		ee = deserializeHtml(responseStream, statusCode);
     	else if (contentType.contains("json"))
-    		ee = deserializeJson(is, statusCode);
+    		ee = deserializeJson(responseStream, statusCode);
        	else if (contentType.contains("csv"))
-    		ee = deserializeCsv(is, statusCode);
+    		ee = deserializeCsv(responseStream, statusCode);
       	else if (contentType.contains("text/plain"))
-    		ee = deserializeTextPlain(is, statusCode);
+    		ee = deserializeTextPlain(responseStream, statusCode);
      	else if (contentType.equals("unset"))
-    		ee = deserializeTextPlain(is, statusCode);
+    		ee = deserializeTextPlain(responseStream, statusCode);
     	else 
     		// attempt the default...
-    		ee = deserializeTextPlain(is, statusCode);
+    		ee = deserializeTextPlain(responseStream, statusCode);
     	
  
     	String exceptionName = ee.getName();
