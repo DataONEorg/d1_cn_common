@@ -28,11 +28,11 @@
   Node listed in the metacat properties file or from a cached version in
   the metacat database, it will revert to this file.
  -->
-<d1:objectFormatList count="59" start="0" total="59"
-  xmlns:d1="http://ns.dataone.org/service/types/v1"
+<d1:objectFormatList count="67" start="0" total="67"
+  xmlns:d1="http://ns.dataone.org/service/types/0.6.3" 
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://ns.dataone.org/service/types/v1 dataoneTypes.xsd">
-    <objectFormat>
+  xsi:schemaLocation="http://ns.dataone.org/service/types/0.6.3 dataoneTypes.xsd">
+  <objectFormat>
     <fmtid>-//ecoinformatics.org//eml-access-2.0.0beta4//EN</fmtid>
     <formatName>Ecological Metadata Language, Access module, version 2.0.0beta4</formatName>
     <scienceMetadata>true</scienceMetadata>
@@ -352,5 +352,45 @@
     <fmtid>application/octet-stream</fmtid>
     <formatName>Octet Stream</formatName>
     <scienceMetadata>false</scienceMetadata>
+  </objectFormat>
+  <objectFormat>
+    <fmtid>http://www.w3.org/2005/Atom</fmtid>
+    <formatName>ATOM-1.0</formatName>
+    <scienceMetadata>false</scienceMetadata>
+  </objectFormat>
+  <objectFormat>
+    <fmtid>text/n3</fmtid>
+    <formatName>N3</formatName>
+    <scienceMetadata>false</scienceMetadata>
+  </objectFormat>
+  <objectFormat>
+    <fmtid>text/turtle</fmtid>
+    <formatName>TURTLE</formatName>
+    <scienceMetadata>false</scienceMetadata>
+  </objectFormat>
+  <objectFormat>
+    <fmtid>http://www.w3.org/TR/rdf-testcases/#ntriples</fmtid>
+    <formatName>N-TRIPLE</formatName>
+    <scienceMetadata>false</scienceMetadata>
+  </objectFormat>
+  <objectFormat>
+    <fmtid>http://www.w3.org/TR/rdf-syntax-grammar</fmtid>
+    <formatName>RDF/XML</formatName>
+    <scienceMetadata>false</scienceMetadata>
+  </objectFormat>
+  <objectFormat>
+    <fmtid>http://www.w3.org/TR/rdfa-syntax</fmtid>
+    <formatName>RDFa</formatName>
+    <scienceMetadata>false</scienceMetadata>
+  </objectFormat>
+  <objectFormat>
+    <fmtid>http://www.openarchives.org/ore/terms</fmtid>
+    <formatName>Object Reuse and Exchange Vocabulary</formatName>
+    <scienceMetadata>false</scienceMetadata>
+  </objectFormat>
+  <objectFormat>
+   <fmtid>application/pdf</fmtid>
+   <formatName>Portable Document Format</formatName>
+   <scienceMetadata>false</scienceMetadata>
   </objectFormat>
 </d1:objectFormatList>
