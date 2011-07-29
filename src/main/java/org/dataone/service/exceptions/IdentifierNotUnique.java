@@ -50,4 +50,11 @@ public class IdentifierNotUnique extends BaseException {
             TreeMap<String, String> trace_information) {
         super(errorCode, detailCode, pidString, description, trace_information);
     }
+    
+    public IdentifierNotUnique(String detailCode, String description, 
+    		String pidString, String nodeIdString,
+        TreeMap<String, String> trace_information) {
+        super(errorCode, detailCode, pidString, nodeIdString, description, 
+          trace_information);
+    }
 }

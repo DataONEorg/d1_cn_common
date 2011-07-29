@@ -49,4 +49,11 @@ public class InvalidRequest extends BaseException {
             TreeMap<String, String> trace_information) {
         super(errorCode, detailCode, pidString, description, trace_information);
     }
+    
+    public InvalidRequest(String detailCode, String description, 
+    		String pidString, String nodeIdString,
+        TreeMap<String, String> trace_information) {
+        super(errorCode, detailCode, pidString, nodeIdString, description, 
+          trace_information);
+    }
 }

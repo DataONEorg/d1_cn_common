@@ -43,13 +43,20 @@ public class SynchronizationFailed extends BaseException {
     }
 
     public SynchronizationFailed(String detailCode, String description, 
-            TreeMap<String, String> trace_information) {
+        TreeMap<String, String> trace_information) {
         super(errorCode, detailCode, description, trace_information);
     }
     
     public SynchronizationFailed(String detailCode, String description, 
     		String pidString,
-            TreeMap<String, String> trace_information) {
+        TreeMap<String, String> trace_information) {
         super(errorCode, detailCode, pidString, description, trace_information);
+    }
+    
+    public SynchronizationFailed(String detailCode, String description, 
+    		String pidString, String nodeIdString,
+        TreeMap<String, String> trace_information) {
+        super(errorCode, detailCode, pidString, nodeIdString, description, 
+          trace_information);
     }
 }
