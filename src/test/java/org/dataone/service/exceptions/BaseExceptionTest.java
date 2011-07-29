@@ -60,8 +60,9 @@ public class BaseExceptionTest extends TestCase
     /** Common setup code for all of the tests. */
     public void setUp() {
         trace.put("identifier", "123XYZ");
+        trace.put("nodeId", "3cp0");
         trace.put("method", "mn.get");
-        e = new BaseException(404, "14001", "myD", msg, trace);
+        e = new BaseException(404, "14001", "myD", "c3p0", msg, trace);
         assertNotNull(e);    
     }
     
