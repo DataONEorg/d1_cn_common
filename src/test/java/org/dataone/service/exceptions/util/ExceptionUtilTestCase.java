@@ -9,6 +9,7 @@ import org.apache.commons.io.IOUtils;
 import org.apache.tools.ant.filters.StringInputStream;
 import org.dataone.service.exceptions.BaseException;
 import org.dataone.service.exceptions.NotFound;
+import org.dataone.service.exceptions.ServiceFailure;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.Ignore;
@@ -60,7 +61,7 @@ public class ExceptionUtilTestCase {
 		}		
 	}
 	
-	@Ignore("still needs work")
+//	@Ignore("still needs work")
 	@Test
 	public void testFilterErrors_IS_jsonError() {
 		String setDetailCode = "12345";
@@ -70,9 +71,8 @@ public class ExceptionUtilTestCase {
 		try {
 			InputStream is = ExceptionUtil.filterErrors(xmlErrorStream, true, "json");
 			fail("should throw exception");
-		} catch (NotFound e) {
-			assertEquals(setDetailCode,e.getDetail_code());
-			assertEquals(setDescription,e.getDescription());
+		} catch (ServiceFailure e) {
+			assertTrue("expected message returned", e.getDescription().contains("parser for deserializing JSON not written yet"));
 		} catch (BaseException e) {	
 			fail("shouldn't throw this exception: " + e.getClass().getSimpleName());
 		} catch (IllegalStateException e) {

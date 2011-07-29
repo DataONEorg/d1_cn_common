@@ -210,7 +210,8 @@ public class ExceptionUtil {
  
     	String exceptionName = ee.getName();
     	if (exceptionName == null) 
-    		throw new ServerException(reason + ": " + ee.getDescription());
+ //   		throw new ServerException(reason + ": " + ee.getDescription());
+    		throw new ServiceFailure(ee.getDetailCode(), ee.getDescription(), ee.getPid(), null);
  //   		throw new HttpException(reason + ": " + ee.getDescription());
     	
     	
