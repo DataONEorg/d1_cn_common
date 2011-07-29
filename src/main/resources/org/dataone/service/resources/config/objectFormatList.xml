@@ -28,7 +28,7 @@
   Node listed in the metacat properties file or from a cached version in
   the metacat database, it will revert to this file.
  -->
-<d1:objectFormatList count="59" start="0" total="66"
+<d1:objectFormatList count="67" start="0" total="67"
   xmlns:d1="http://ns.dataone.org/service/types/0.6.2" 
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://ns.dataone.org/service/types/0.6.2 dataoneTypes.xsd">
