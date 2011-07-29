@@ -60,6 +60,9 @@ public class BaseException extends Exception {
     /** The optional PID associated with this exception. */
     private String pidString;
     
+    /** The optional nodeId associated with this exception */
+    private String nodeIdString;
+    
     /** Additional trace-level debugging information, as name-value pairs. */
     private TreeMap<String, String> trace_information;
 
@@ -101,6 +104,31 @@ public class BaseException extends Exception {
         }
     }
   
+    /**
+     * Construct a BaseException with the given code, detail code, pid, nodeId,
+     * description, and trace_information.
+     * 
+     * @param code the code used to classify the exception
+     * @param detail_code the detailed code for this exception
+     * @param pidString: the identifier associated with the exception, and usually with the request
+     * @param nodeIdString the node identifier associated with the exception
+     * @param description the description of this exception
+     * @param trace_information containing a Map of key/value pairs
+     */
+    protected BaseException(int code, String detail_code, String pidString, 
+    		String nodeIdString, String description, 
+    		TreeMap<String, String> trace_information) {
+        this(code, detail_code, description);
+        this.setPid(pidString);
+        if (nodeIdString != null) {
+        	this.setNodeId(nodeIdString);
+        	
+        }
+        if (trace_information == null)
+        	this.trace_information = new TreeMap<String, String>();
+        else 
+        	this.trace_information = trace_information;
+    }
     
     /**
      * Construct a BaseException with the given code, detail code, description,
@@ -174,6 +202,23 @@ public class BaseException extends Exception {
     	this.pidString = p;
     }
     
+    /** 
+     * Set the node Id string
+     * @param nodeIdString
+     */
+    public void setNodeId(String nodeIdString) {
+    	this.nodeIdString = nodeIdString;
+    	
+    }
+    
+    /**
+     * Get the node Id string
+     * @return nodeIdString - the identifier of the node that raised the exception
+     */
+    public String getNodeId() {
+    	return this.nodeIdString;
+    	
+    }
     /**
      * @return the description
      */
