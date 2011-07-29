@@ -21,11 +21,10 @@ import java.util.List;
  *     &lt;xs:element type="ns:ReplicationPolicy" name="replicationPolicy" minOccurs="0" maxOccurs="1"/>
  *     &lt;xs:element type="ns:Identifier" name="obsoletes" minOccurs="0" maxOccurs="1"/>
  *     &lt;xs:element type="ns:Identifier" name="obsoletedBy" minOccurs="0" maxOccurs="1"/>
- *     &lt;xs:element type="ns:Identifier" name="resourceMap" minOccurs="0" maxOccurs="unbounded"/>
  *     &lt;xs:element type="xs:dateTime" name="dateUploaded"/>
  *     &lt;xs:element type="xs:dateTime" name="dateSysMetadataModified"/>
- *     &lt;xs:element type="ns:NodeReference" name="originMemberNode"/>
- *     &lt;xs:element type="ns:NodeReference" name="authoritativeMemberNode"/>
+ *     &lt;xs:element type="ns:NodeReference" name="originMemberNode" minOccurs="0" maxOccurs="1"/>
+ *     &lt;xs:element type="ns:NodeReference" name="authoritativeMemberNode" minOccurs="0" maxOccurs="1"/>
  *     &lt;xs:element type="ns:Replica" name="replica" minOccurs="0" maxOccurs="unbounded"/>
  *   &lt;/xs:sequence>
  * &lt;/xs:complexType>
@@ -43,7 +42,6 @@ public class SystemMetadata implements Serializable
     private ReplicationPolicy replicationPolicy;
     private Identifier obsoletes;
     private Identifier obsoletedBy;
-    private List<Identifier> resourceMapList = new ArrayList<Identifier>();
     private Date dateUploaded;
     private Date dateSysMetadataModified;
     private NodeReference originMemberNode;
@@ -228,56 +226,6 @@ public class SystemMetadata implements Serializable
      */
     public void setObsoletedBy(Identifier obsoletedBy) {
         this.obsoletedBy = obsoletedBy;
-    }
-
-    /** 
-     * Get the list of 'resourceMap' element items.
-     * 
-     * @return list
-     */
-    public List<Identifier> getResourceMapList() {
-        return resourceMapList;
-    }
-
-    /** 
-     * Set the list of 'resourceMap' element items.
-     * 
-     * @param list
-     */
-    public void setResourceMapList(List<Identifier> list) {
-        resourceMapList = list;
-    }
-
-    /** 
-     * Get the number of 'resourceMap' element items.
-     * @return count
-     */
-    public int sizeResourceMapList() {
-        return resourceMapList.size();
-    }
-
-    /** 
-     * Add a 'resourceMap' element item.
-     * @param item
-     */
-    public void addResourceMap(Identifier item) {
-        resourceMapList.add(item);
-    }
-
-    /** 
-     * Get 'resourceMap' element item by position.
-     * @return item
-     * @param index
-     */
-    public Identifier getResourceMap(int index) {
-        return resourceMapList.get(index);
-    }
-
-    /** 
-     * Remove all 'resourceMap' element items.
-     */
-    public void clearResourceMapList() {
-        resourceMapList.clear();
     }
 
     /** 

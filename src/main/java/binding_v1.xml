@@ -282,13 +282,10 @@
     <structure map-as="d1:ReplicationPolicy" get-method="getReplicationPolicy" set-method="setReplicationPolicy" usage="optional" name="replicationPolicy"/>
     <structure map-as="d1:Identifier" get-method="getObsoletes" set-method="setObsoletes" usage="optional" name="obsoletes"/>
     <structure map-as="d1:Identifier" get-method="getObsoletedBy" set-method="setObsoletedBy" usage="optional" name="obsoletedBy"/>
-    <collection get-method="getResourceMapList" set-method="setResourceMapList" usage="optional" create-type="java.util.ArrayList">
-      <structure map-as="d1:Identifier" name="resourceMap"/>
-    </collection>
     <value style="element" name="dateUploaded" get-method="getDateUploaded" set-method="setDateUploaded" serializer="org.dataone.service.types.util.ServiceTypeUtil.serializeDateToUTC" deserializer="org.dataone.service.types.util.ServiceTypeUtil.deserializeDateToUTC"/>
     <value style="element" name="dateSysMetadataModified" get-method="getDateSysMetadataModified" set-method="setDateSysMetadataModified" serializer="org.dataone.service.types.util.ServiceTypeUtil.serializeDateToUTC" deserializer="org.dataone.service.types.util.ServiceTypeUtil.deserializeDateToUTC"/>
-    <structure map-as="d1:NodeReference" get-method="getOriginMemberNode" set-method="setOriginMemberNode" name="originMemberNode"/>
-    <structure map-as="d1:NodeReference" get-method="getAuthoritativeMemberNode" set-method="setAuthoritativeMemberNode" name="authoritativeMemberNode"/>
+    <structure map-as="d1:NodeReference" get-method="getOriginMemberNode" set-method="setOriginMemberNode" usage="optional" name="originMemberNode"/>
+    <structure map-as="d1:NodeReference" get-method="getAuthoritativeMemberNode" set-method="setAuthoritativeMemberNode" usage="optional" name="authoritativeMemberNode"/>
     <collection get-method="getReplicaList" set-method="setReplicaList" usage="optional" create-type="java.util.ArrayList">
       <structure map-as="d1:Replica" name="replica"/>
     </collection>
