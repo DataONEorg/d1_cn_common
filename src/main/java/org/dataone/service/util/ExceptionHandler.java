@@ -353,7 +353,7 @@ public class ExceptionHandler {
      * @throws IOException
      */
 
-    public static <T> T deserializeXml(InputStream errorStream) throws ParserConfigurationException, SAXException, IOException {
+    public static <T>Throwable deserializeXml(InputStream errorStream) throws ParserConfigurationException, SAXException, IOException {
 
         TreeMap<String, String> trace_information = new TreeMap<String, String>();
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
@@ -386,40 +386,40 @@ public class ExceptionHandler {
         // traceInformation should be empty if not known or not supplied
         if (!name.isEmpty()) {
             if (name.equals("AuthenticationTimeout")) {
-                return (T) new AuthenticationTimeout(detailCode, description, pid, trace_information);
+                return  new AuthenticationTimeout(detailCode, description, pid, trace_information);
             } else if (name.equals("IdentifierNotUnique")) {
-                return (T) new IdentifierNotUnique(detailCode, description, pid, trace_information);
+                return  new IdentifierNotUnique(detailCode, description, pid, trace_information);
             } else if (name.equals("InsufficientResources")) {
-                return (T) new InsufficientResources(detailCode, description, pid, trace_information);
+                return  new InsufficientResources(detailCode, description, pid, trace_information);
             } else if (name.equals("InvalidCredentials")) {
-                return (T) new InvalidCredentials(detailCode, description, pid, trace_information);
+                return  new InvalidCredentials(detailCode, description, pid, trace_information);
             } else if (name.equals("InvalidRequest")) {
-                return (T) new InvalidRequest(detailCode, description, pid, trace_information);
+                return  new InvalidRequest(detailCode, description, pid, trace_information);
             } else if (name.equals("InvalidSystemMetadata")) {
-                return (T) new InvalidSystemMetadata(detailCode, description, pid, trace_information);
+                return  new InvalidSystemMetadata(detailCode, description, pid, trace_information);
             } else if (name.equals("InvalidToken")) {
-                return (T) new InvalidToken(detailCode, description, pid, trace_information);
+                return  new InvalidToken(detailCode, description, pid, trace_information);
             } else if (name.equals("NotAuthorized")) {
-                return (T) new NotAuthorized(detailCode, description, pid, trace_information);
+                return  new NotAuthorized(detailCode, description, pid, trace_information);
             } else if (name.equals("NotFound")) {
-                return (T) new NotFound(detailCode, description, pid, trace_information);
+                return  new NotFound(detailCode, description, pid, trace_information);
             } else if (name.equals("NotImplemented")) {
-                return (T) new NotImplemented(detailCode, description, pid, trace_information);
+                return  new NotImplemented(detailCode, description, pid, trace_information);
             } else if (name.equals("ServiceFailure")) {
-                return (T) new ServiceFailure(detailCode, description, pid, trace_information);
+                return  new ServiceFailure(detailCode, description, pid, trace_information);
             } else if (name.equals("UnsupportedMetadataType")) {
-                return (T) new UnsupportedMetadataType(detailCode, description, pid, trace_information);
+                return  new UnsupportedMetadataType(detailCode, description, pid, trace_information);
             } else if (name.equals("UnsupportedQueryType")) {
-                return (T) new UnsupportedQueryType(detailCode, description, pid, trace_information);
+                return  new UnsupportedQueryType(detailCode, description, pid, trace_information);
             } else if (name.equals("UnsupportedType")) {
-                return (T) new UnsupportedType(detailCode, description, pid, trace_information);
+                return  new UnsupportedType(detailCode, description, pid, trace_information);
             } else if (name.equals("SynchronizationFailed")) {
-                return (T) new SynchronizationFailed(detailCode, description, pid, trace_information);
+                return  new SynchronizationFailed(detailCode, description, pid, trace_information);
             } else {
-                return (T) new ServiceFailure(detailCode, description, pid, trace_information);
+                return  new ServiceFailure(detailCode, description, pid, trace_information);
             }
         } else {
-            return (T) new ServiceFailure(detailCode, description, pid, trace_information);
+            return  new ServiceFailure(detailCode, description, pid, trace_information);
         }
     }
 
