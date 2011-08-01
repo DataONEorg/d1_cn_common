@@ -10,6 +10,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import javax.xml.parsers.ParserConfigurationException;
 import org.apache.commons.io.IOUtils;
+import org.apache.http.ProtocolVersion;
+import org.apache.http.entity.ByteArrayEntity;
+import org.apache.http.message.BasicHeader;
+import org.apache.http.message.BasicHttpResponse;
+import org.apache.http.message.BasicStatusLine;
 import org.dataone.service.exceptions.AuthenticationTimeout;
 import org.dataone.service.exceptions.BaseException;
 import org.dataone.service.exceptions.IdentifierNotUnique;
@@ -57,8 +62,6 @@ public class ExceptionHandlerTestCase {
             fail("shouldn't throw exception");
         } catch (IOException e) {
             fail("shouldn't throw exception");
-        } catch (Throwable e) {
-            fail("shouldn't throw exception");
         }
     }
 
@@ -79,8 +82,6 @@ public class ExceptionHandlerTestCase {
         } catch (IllegalStateException e) {
             fail("shouldn't throw this exception: " + e.getClass().getSimpleName());
         } catch (IOException e) {
-            fail("shouldn't throw this exception: " + e.getClass().getSimpleName());
-        } catch (Throwable e) {
             fail("shouldn't throw this exception: " + e.getClass().getSimpleName());
         }
     }
@@ -104,20 +105,20 @@ public class ExceptionHandlerTestCase {
             fail("shouldn't throw this exception: " + e.getClass().getSimpleName());
         } catch (IOException e) {
             fail("shouldn't throw this exception: " + e.getClass().getSimpleName());
-        } catch (Throwable e) {
-            fail("shouldn't throw this exception: " + e.getClass().getSimpleName());
         }
     }
 
     @Test
     public void testDeserializeAndThrowException() {
 
+        Integer errorCode = new Integer(404);
+        String errorReason = "Not Found";
         String contentType = "xml";
         String setDescription = "a description";
         NotFound nfe = new NotFound("123", setDescription);
         StringInputStream xmlErrorStream = new StringInputStream(nfe.serialize(BaseException.FMT_XML));
         try {
-            ExceptionHandler.deserializeAndThrowException(xmlErrorStream, contentType);
+            ExceptionHandler.deserializeAndThrowException(xmlErrorStream, contentType, errorCode, errorReason);
             fail("should throw exception");
         } catch (NotFound e) {
             assertEquals(setDescription, e.getDescription());
@@ -125,13 +126,38 @@ public class ExceptionHandlerTestCase {
             fail("shouldn't throw this exception: " + e.getClass().getSimpleName());
         } catch (IllegalStateException e) {
             fail("shouldn't throw this exception: " + e.getClass().getSimpleName());
-        } catch (IOException e) {
-            fail("shouldn't throw this exception: " + e.getClass().getSimpleName());
-        } catch (Throwable e) {
-            fail("shouldn't throw this exception: " + e.getClass().getSimpleName());
         }
 
 
+    }
+
+    @Test
+    public void filterErrorsTest() throws IOException {
+
+        String errorString = "<?xml version='1.0' encoding='UTF-8'?>"
+                + "<error name='NotFound' "
+                + " errorCode='404' detailCode='1020' "
+                + " pid='123XYZ' nodeId='c3p0'> "
+                + " <description>The specified object does not exist on this node.</description> "
+                + " <traceInformation> "
+                + "   <value key='1'>some stuff goes here </value> "
+                + "   <value key='2'>some other stuff goes here </value> "
+                + " </traceInformation> "
+                + " </error>";
+        ByteArrayEntity testInputStream = new ByteArrayEntity(errorString.getBytes());
+        BasicStatusLine basicStatusLine = new BasicStatusLine(new ProtocolVersion("HTTP", 1, 1), 404, "NotFound");
+        BasicHttpResponse basicHttpResponse = new BasicHttpResponse(basicStatusLine);
+        BasicHeader basicHeader = new BasicHeader("content-type", "text/xml");
+        basicHttpResponse.setEntity(testInputStream);
+        basicHttpResponse.addHeader(basicHeader);
+        try
+         {
+            ExceptionHandler.filterErrors(basicHttpResponse);
+        } catch (NotFound e) {
+            assertEquals("The specified object does not exist on this node.", e.getDescription());
+        } catch (Exception e) {
+            fail("shouldn't throw this exception: " + e.getClass().getSimpleName() + " " + e.getMessage());
+        }
     }
 
     @Test
@@ -139,14 +165,16 @@ public class ExceptionHandlerTestCase {
             IdentifierNotUnique, InsufficientResources, InvalidCredentials, InvalidRequest,
             InvalidSystemMetadata, InvalidToken, NotAuthorized, NotFound, NotImplemented,
             ServiceFailure, UnsupportedMetadataType, UnsupportedType, SynchronizationFailed,
-            Throwable {
+            BaseException {
         boolean success = false;
         try {
+            Integer errorCode = new Integer(408);
+            String errorReason = "AuthenticationTimeout";
             AuthenticationTimeout authTimeout = new AuthenticationTimeout("100", "test AuthenticationTimeout");
             String exceptTestSerial = authTimeout.serialize(BaseException.FMT_XML);
             ByteArrayInputStream inputStream = new ByteArrayInputStream(exceptTestSerial.getBytes());
 
-            ExceptionHandler.deserializeAndThrowException(inputStream, "text/xml");
+            ExceptionHandler.deserializeAndThrowException(inputStream, "text/xml", errorCode, errorReason);
         } catch (AuthenticationTimeout ex) {
             success = true;
         }
@@ -158,14 +186,16 @@ public class ExceptionHandlerTestCase {
             AuthenticationTimeout, InsufficientResources, InvalidCredentials, InvalidRequest,
             InvalidSystemMetadata, InvalidToken, NotAuthorized, NotFound, NotImplemented,
             ServiceFailure, UnsupportedMetadataType, UnsupportedType, SynchronizationFailed,
-            Throwable {
+            BaseException {
         boolean success = false;
         try {
+            Integer errorCode = new Integer(409);
+            String errorReason = "IdentifierNotUnique";
             IdentifierNotUnique exceptTest = new IdentifierNotUnique("100", "test IdentifierNotUnique");
             String exceptTestSerial = exceptTest.serialize(BaseException.FMT_XML);
             ByteArrayInputStream inputStream = new ByteArrayInputStream(exceptTestSerial.getBytes());
 
-            ExceptionHandler.deserializeAndThrowException(inputStream, "text/xml");
+            ExceptionHandler.deserializeAndThrowException(inputStream, "text/xml", errorCode, errorReason);
         } catch (IdentifierNotUnique ex) {
             success = true;
         }
@@ -177,14 +207,16 @@ public class ExceptionHandlerTestCase {
             AuthenticationTimeout, IdentifierNotUnique, InvalidCredentials, InvalidRequest,
             InvalidSystemMetadata, InvalidToken, NotAuthorized, NotFound, NotImplemented,
             ServiceFailure, UnsupportedMetadataType, UnsupportedType, SynchronizationFailed,
-            Throwable {
+            BaseException {
         boolean success = false;
         try {
+            Integer errorCode = new Integer(413);
+            String errorReason = "InsufficientResources";
             InsufficientResources exceptTest = new InsufficientResources("100", "test IdentifierNotUnique");
             String exceptTestSerial = exceptTest.serialize(BaseException.FMT_XML);
             ByteArrayInputStream inputStream = new ByteArrayInputStream(exceptTestSerial.getBytes());
 
-            ExceptionHandler.deserializeAndThrowException(inputStream, "text/xml");
+            ExceptionHandler.deserializeAndThrowException(inputStream, "text/xml", errorCode, errorReason);
         } catch (InsufficientResources ex) {
             success = true;
         }
@@ -196,14 +228,16 @@ public class ExceptionHandlerTestCase {
             AuthenticationTimeout, IdentifierNotUnique, InsufficientResources, InvalidRequest,
             InvalidSystemMetadata, InvalidToken, NotAuthorized, NotFound, NotImplemented,
             ServiceFailure, UnsupportedMetadataType, UnsupportedType, SynchronizationFailed,
-            Throwable {
+            BaseException {
         boolean success = false;
         try {
+            Integer errorCode = new Integer(401);
+            String errorReason = "InvalidCredentials";
             InvalidCredentials exceptTest = new InvalidCredentials("100", "test IdentifierNotUnique");
             String exceptTestSerial = exceptTest.serialize(BaseException.FMT_XML);
             ByteArrayInputStream inputStream = new ByteArrayInputStream(exceptTestSerial.getBytes());
 
-            ExceptionHandler.deserializeAndThrowException(inputStream, "text/xml");
+            ExceptionHandler.deserializeAndThrowException(inputStream, "text/xml", errorCode, errorReason);
         } catch (InvalidCredentials ex) {
             success = true;
         }
@@ -215,14 +249,16 @@ public class ExceptionHandlerTestCase {
             AuthenticationTimeout, IdentifierNotUnique, InsufficientResources, InvalidCredentials,
             InvalidSystemMetadata, InvalidToken, NotAuthorized, NotFound, NotImplemented,
             ServiceFailure, UnsupportedMetadataType, UnsupportedType, SynchronizationFailed,
-            Throwable {
+            BaseException {
         boolean success = false;
         try {
+            Integer errorCode = new Integer(400);
+            String errorReason = "InvalidRequest";
             InvalidRequest exceptTest = new InvalidRequest("100", "test IdentifierNotUnique");
             String exceptTestSerial = exceptTest.serialize(BaseException.FMT_XML);
             ByteArrayInputStream inputStream = new ByteArrayInputStream(exceptTestSerial.getBytes());
 
-            ExceptionHandler.deserializeAndThrowException(inputStream, "text/xml");
+            ExceptionHandler.deserializeAndThrowException(inputStream, "text/xml", errorCode, errorReason);
         } catch (InvalidRequest ex) {
             success = true;
         }
@@ -234,14 +270,16 @@ public class ExceptionHandlerTestCase {
             AuthenticationTimeout, IdentifierNotUnique, InsufficientResources, InvalidCredentials,
             InvalidRequest, InvalidToken, NotAuthorized, NotFound, NotImplemented,
             ServiceFailure, UnsupportedMetadataType, UnsupportedType, SynchronizationFailed,
-            Throwable {
+            BaseException {
         boolean success = false;
         try {
+            Integer errorCode = new Integer(400);
+            String errorReason = "InvalidSystemMetadata";
             InvalidSystemMetadata exceptTest = new InvalidSystemMetadata("100", "test IdentifierNotUnique");
             String exceptTestSerial = exceptTest.serialize(BaseException.FMT_XML);
             ByteArrayInputStream inputStream = new ByteArrayInputStream(exceptTestSerial.getBytes());
 
-            ExceptionHandler.deserializeAndThrowException(inputStream, "text/xml");
+            ExceptionHandler.deserializeAndThrowException(inputStream, "text/xml", errorCode, errorReason);
         } catch (InvalidSystemMetadata ex) {
             success = true;
         }
@@ -253,14 +291,16 @@ public class ExceptionHandlerTestCase {
             AuthenticationTimeout, IdentifierNotUnique, InsufficientResources, InvalidCredentials,
             InvalidRequest, InvalidSystemMetadata, NotAuthorized, NotFound, NotImplemented,
             ServiceFailure, UnsupportedMetadataType, UnsupportedType, SynchronizationFailed,
-            Throwable {
+            BaseException {
         boolean success = false;
         try {
+            Integer errorCode = new Integer(401);
+            String errorReason = "InvalidToken";
             InvalidToken exceptTest = new InvalidToken("100", "test IdentifierNotUnique");
             String exceptTestSerial = exceptTest.serialize(BaseException.FMT_XML);
             ByteArrayInputStream inputStream = new ByteArrayInputStream(exceptTestSerial.getBytes());
 
-            ExceptionHandler.deserializeAndThrowException(inputStream, "text/xml");
+            ExceptionHandler.deserializeAndThrowException(inputStream, "text/xml", errorCode, errorReason);
         } catch (InvalidToken ex) {
             success = true;
         }
@@ -272,14 +312,16 @@ public class ExceptionHandlerTestCase {
             AuthenticationTimeout, IdentifierNotUnique, InsufficientResources, InvalidCredentials,
             InvalidRequest, InvalidSystemMetadata, InvalidToken, NotFound, NotImplemented,
             ServiceFailure, UnsupportedMetadataType, UnsupportedType, SynchronizationFailed,
-            Throwable {
+            BaseException {
         boolean success = false;
         try {
-            NotAuthorized exceptTest = new NotAuthorized("100", "test IdentifierNotUnique");
+            Integer errorCode = new Integer(401);
+            String errorReason = "NotAuthorized";
+            NotAuthorized exceptTest = new NotAuthorized("100", "test Not Authorized");
             String exceptTestSerial = exceptTest.serialize(BaseException.FMT_XML);
             ByteArrayInputStream inputStream = new ByteArrayInputStream(exceptTestSerial.getBytes());
 
-            ExceptionHandler.deserializeAndThrowException(inputStream, "text/xml");
+            ExceptionHandler.deserializeAndThrowException(inputStream, "text/xml", errorCode, errorReason);
         } catch (NotAuthorized ex) {
             success = true;
         }
@@ -291,14 +333,16 @@ public class ExceptionHandlerTestCase {
             AuthenticationTimeout, IdentifierNotUnique, InsufficientResources, InvalidCredentials,
             InvalidRequest, InvalidSystemMetadata, InvalidToken, NotAuthorized, NotImplemented,
             ServiceFailure, UnsupportedMetadataType, UnsupportedType, SynchronizationFailed,
-            Throwable {
+            BaseException {
         boolean success = false;
         try {
+            Integer errorCode = new Integer(404);
+            String errorReason = "NotFound";
             NotFound exceptTest = new NotFound("100", "test IdentifierNotUnique");
             String exceptTestSerial = exceptTest.serialize(BaseException.FMT_XML);
             ByteArrayInputStream inputStream = new ByteArrayInputStream(exceptTestSerial.getBytes());
 
-            ExceptionHandler.deserializeAndThrowException(inputStream, "text/xml");
+            ExceptionHandler.deserializeAndThrowException(inputStream, "text/xml", errorCode, errorReason);
         } catch (NotFound ex) {
             success = true;
         }
@@ -310,14 +354,16 @@ public class ExceptionHandlerTestCase {
             AuthenticationTimeout, IdentifierNotUnique, InsufficientResources, InvalidCredentials,
             InvalidRequest, InvalidSystemMetadata, InvalidToken, NotAuthorized, NotFound,
             ServiceFailure, UnsupportedMetadataType, UnsupportedType, SynchronizationFailed,
-            Throwable {
+            BaseException {
         boolean success = false;
         try {
+            Integer errorCode = new Integer(501);
+            String errorReason = "NotImplemented";
             NotImplemented exceptTest = new NotImplemented("100", "test IdentifierNotUnique");
             String exceptTestSerial = exceptTest.serialize(BaseException.FMT_XML);
             ByteArrayInputStream inputStream = new ByteArrayInputStream(exceptTestSerial.getBytes());
 
-            ExceptionHandler.deserializeAndThrowException(inputStream, "text/xml");
+            ExceptionHandler.deserializeAndThrowException(inputStream, "text/xml", errorCode, errorReason);
         } catch (NotImplemented ex) {
             success = true;
         }
@@ -329,14 +375,16 @@ public class ExceptionHandlerTestCase {
             AuthenticationTimeout, IdentifierNotUnique, InsufficientResources, InvalidCredentials,
             InvalidRequest, InvalidSystemMetadata, InvalidToken, NotAuthorized, NotFound,
             NotImplemented, UnsupportedMetadataType, UnsupportedType, SynchronizationFailed,
-            Throwable {
+            BaseException {
         boolean success = false;
         try {
+            Integer errorCode = new Integer(500);
+            String errorReason = "ServiceFailure";
             ServiceFailure exceptTest = new ServiceFailure("100", "test IdentifierNotUnique");
             String exceptTestSerial = exceptTest.serialize(BaseException.FMT_XML);
             ByteArrayInputStream inputStream = new ByteArrayInputStream(exceptTestSerial.getBytes());
 
-            ExceptionHandler.deserializeAndThrowException(inputStream, "text/xml");
+            ExceptionHandler.deserializeAndThrowException(inputStream, "text/xml", errorCode, errorReason);
         } catch (ServiceFailure ex) {
             success = true;
         }
@@ -348,14 +396,16 @@ public class ExceptionHandlerTestCase {
             AuthenticationTimeout, IdentifierNotUnique, InsufficientResources, InvalidCredentials,
             InvalidRequest, InvalidSystemMetadata, InvalidToken, NotAuthorized, NotFound,
             NotImplemented, ServiceFailure, UnsupportedType, SynchronizationFailed,
-            Throwable {
+            BaseException {
         boolean success = false;
         try {
+            Integer errorCode = new Integer(400);
+            String errorReason = "UnsupportedMetadataType";
             UnsupportedMetadataType exceptTest = new UnsupportedMetadataType("100", "test IdentifierNotUnique");
             String exceptTestSerial = exceptTest.serialize(BaseException.FMT_XML);
             ByteArrayInputStream inputStream = new ByteArrayInputStream(exceptTestSerial.getBytes());
 
-            ExceptionHandler.deserializeAndThrowException(inputStream, "text/xml");
+            ExceptionHandler.deserializeAndThrowException(inputStream, "text/xml", errorCode, errorReason);
         } catch (UnsupportedMetadataType ex) {
             success = true;
         }
@@ -367,14 +417,16 @@ public class ExceptionHandlerTestCase {
             AuthenticationTimeout, IdentifierNotUnique, InsufficientResources, InvalidCredentials,
             InvalidRequest, InvalidSystemMetadata, InvalidToken, NotAuthorized, NotFound,
             NotImplemented, ServiceFailure, UnsupportedMetadataType, SynchronizationFailed,
-            Throwable {
+            BaseException {
         boolean success = false;
         try {
+            Integer errorCode = new Integer(400);
+            String errorReason = "UnsupportedType";
             UnsupportedType exceptTest = new UnsupportedType("100", "test IdentifierNotUnique");
             String exceptTestSerial = exceptTest.serialize(BaseException.FMT_XML);
             ByteArrayInputStream inputStream = new ByteArrayInputStream(exceptTestSerial.getBytes());
 
-            ExceptionHandler.deserializeAndThrowException(inputStream, "text/xml");
+            ExceptionHandler.deserializeAndThrowException(inputStream, "text/xml", errorCode, errorReason);
         } catch (UnsupportedType ex) {
             success = true;
         }
@@ -386,14 +438,16 @@ public class ExceptionHandlerTestCase {
             AuthenticationTimeout, IdentifierNotUnique, InsufficientResources, InvalidCredentials,
             InvalidRequest, InvalidSystemMetadata, InvalidToken, NotAuthorized, NotFound,
             NotImplemented, ServiceFailure, UnsupportedMetadataType, UnsupportedType,
-            Throwable {
+            BaseException {
         boolean success = false;
         try {
+            Integer errorCode = new Integer(500);
+            String errorReason = "SynchronizationFailed";
             SynchronizationFailed exceptTest = new SynchronizationFailed("100", "test IdentifierNotUnique");
             String exceptTestSerial = exceptTest.serialize(BaseException.FMT_XML);
             ByteArrayInputStream inputStream = new ByteArrayInputStream(exceptTestSerial.getBytes());
 
-            ExceptionHandler.deserializeAndThrowException(inputStream, "text/xml");
+            ExceptionHandler.deserializeAndThrowException(inputStream, "text/xml", errorCode, errorReason);
         } catch (SynchronizationFailed ex) {
             success = true;
         }
@@ -405,17 +459,18 @@ public class ExceptionHandlerTestCase {
             AuthenticationTimeout, IdentifierNotUnique, InsufficientResources, InvalidCredentials,
             InvalidRequest, InvalidSystemMetadata, InvalidToken, NotAuthorized, NotFound,
             NotImplemented, ServiceFailure, UnsupportedMetadataType, UnsupportedType, SynchronizationFailed,
-            Throwable {
+            BaseException {
         boolean success = false;
         try {
             int code = 0;
             String detail_code = null;
             String description = null;
-
+            Integer errorCode = new Integer(404);
+            String errorReason = "NotFound";
             String exceptTestSerial = "<?xml version='1.0' encoding='UTF-8'?><error name='JUNK' errorCode='404' detailCode='-1'><description></description></error>";
             ByteArrayInputStream inputStream = new ByteArrayInputStream(exceptTestSerial.getBytes());
 
-            ExceptionHandler.deserializeAndThrowException(inputStream, "text/xml");
+            ExceptionHandler.deserializeAndThrowException(inputStream, "text/xml", errorCode, errorReason);
         } catch (ServiceFailure ex) {
             success = true;
         }
@@ -427,24 +482,21 @@ public class ExceptionHandlerTestCase {
             AuthenticationTimeout, IdentifierNotUnique, InsufficientResources, InvalidCredentials,
             InvalidRequest, InvalidSystemMetadata, InvalidToken, NotAuthorized, NotFound,
             NotImplemented, ServiceFailure, UnsupportedMetadataType, UnsupportedType, SynchronizationFailed,
-            Throwable {
+            BaseException {
         boolean success = false;
         try {
             int code = 0;
             String detail_code = null;
             String description = null;
-
+            Integer errorCode = new Integer(404);
+            String errorReason = "NotFound";
             String exceptTestSerial = "<?xml version='1.0' encoding='UTF-8'?><error errorCode='404' detailCode='-1'><description></description></error>";
             ByteArrayInputStream inputStream = new ByteArrayInputStream(exceptTestSerial.getBytes());
 
-            ExceptionHandler.deserializeAndThrowException(inputStream, "text/xml");
+            ExceptionHandler.deserializeAndThrowException(inputStream, "text/xml", errorCode, errorReason);
         } catch (ServiceFailure ex) {
             success = true;
         }
         assertTrue(success);
     }
-    //          AuthenticationTimeout, IdentifierNotUnique, InsufficientResources,
-    //                 InvalidCredentials, InvalidRequest, InvalidSystemMetadata,
-    //                 InvalidToken, NotAuthorized, NotFound, NotImplemented, ServiceFailure,
-    //                 UnsupportedMetadataType, UnsupportedType, SynchronizationFailed
 }

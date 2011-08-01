@@ -297,6 +297,8 @@ public class BaseException extends Exception {
         errorNode.setAttribute("errorCode", Integer.toString(getCode()));
         if (getPid() != null)
         	errorNode.setAttribute("pid", getPid());
+        if (getNodeId() != null)
+        	errorNode.setAttribute("nodeId", getNodeId());
         Element description = dom.createElement("description");
         description.setTextContent(getDescription());
         

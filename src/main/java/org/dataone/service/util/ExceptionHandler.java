@@ -18,6 +18,7 @@ import org.apache.http.Header;
 import org.apache.http.HttpException;
 import org.apache.http.HttpResponse;
 import org.dataone.service.exceptions.AuthenticationTimeout;
+import org.dataone.service.exceptions.BaseException;
 import org.dataone.service.exceptions.IdentifierNotUnique;
 import org.dataone.service.exceptions.InsufficientResources;
 import org.dataone.service.exceptions.InvalidCredentials;
@@ -44,107 +45,101 @@ import org.xml.sax.SAXException;
  * @author waltz
  */
 public class ExceptionHandler {
-	protected static Log log = LogFactory.getLog(ExceptionHandler.class);
 
+    protected static Log log = LogFactory.getLog(ExceptionHandler.class);
 
-	public static InputStream filterErrors(HttpResponse res)
-	throws AuthenticationTimeout, IdentifierNotUnique, InsufficientResources,
-	InvalidCredentials, InvalidRequest, InvalidSystemMetadata, InvalidToken,
-	NotAuthorized, NotFound, NotImplemented, ServiceFailure,
-	UnsupportedMetadataType, UnsupportedQueryType, UnsupportedType,
-	IllegalStateException, IOException, HttpException, SynchronizationFailed, Throwable
-	{
-		int code = res.getStatusLine().getStatusCode();
-		log.info("response httpCode: " + code);
-		log.debug(IOUtils.toString(res.getEntity().getContent()));
-		if (code != HttpURLConnection.HTTP_OK) {
-			// error, so throw exception
-			deserializeAndThrowException(res);
-		}
-		return res.getEntity().getContent();
-	}
+    public static InputStream filterErrors(HttpResponse res)
+            throws AuthenticationTimeout, IdentifierNotUnique, InsufficientResources,
+            InvalidCredentials, InvalidRequest, InvalidSystemMetadata, InvalidToken,
+            NotAuthorized, NotFound, NotImplemented, ServiceFailure,
+            UnsupportedMetadataType, UnsupportedQueryType, UnsupportedType,
+            IllegalStateException, IOException, HttpException, SynchronizationFailed, BaseException {
+        int code = res.getStatusLine().getStatusCode();
+        log.info("response httpCode: " + code);
+        log.debug(IOUtils.toString(res.getEntity().getContent()));
+        if (code != HttpURLConnection.HTTP_OK) {
+            // error, so throw exception
+            deserializeAndThrowException(res);
+        }
+        return res.getEntity().getContent();
+    }
 
-	public Header[] filterErrorsHeader(HttpResponse res)
-	throws AuthenticationTimeout, IdentifierNotUnique, InsufficientResources,
-	InvalidCredentials, InvalidRequest, InvalidSystemMetadata, InvalidToken,
-	NotAuthorized, NotFound, NotImplemented, ServiceFailure,
-	UnsupportedMetadataType, UnsupportedQueryType, UnsupportedType,
-	IllegalStateException, IOException, HttpException, SynchronizationFailed, Throwable
-	{
+    public Header[] filterErrorsHeader(HttpResponse res)
+            throws AuthenticationTimeout, IdentifierNotUnique, InsufficientResources,
+            InvalidCredentials, InvalidRequest, InvalidSystemMetadata, InvalidToken,
+            NotAuthorized, NotFound, NotImplemented, ServiceFailure,
+            UnsupportedMetadataType, UnsupportedQueryType, UnsupportedType,
+            IllegalStateException, IOException, HttpException, SynchronizationFailed, BaseException {
 
-		int code = res.getStatusLine().getStatusCode();
-		log.info("response httpCode: " + code);
-		if (code != HttpURLConnection.HTTP_OK) {
-			// error, so throw exception
-			deserializeAndThrowException(res);
-		}
-		return res.getAllHeaders();
-	}
+        int code = res.getStatusLine().getStatusCode();
+        log.info("response httpCode: " + code);
+        if (code != HttpURLConnection.HTTP_OK) {
+            // error, so throw exception
+            deserializeAndThrowException(res);
+        }
+        return res.getAllHeaders();
+    }
 
+    public static InputStream filterErrors(InputStream is, boolean isException, String contentType)
+            throws AuthenticationTimeout, IdentifierNotUnique, InsufficientResources,
+            InvalidCredentials, InvalidRequest, InvalidSystemMetadata, InvalidToken,
+            NotAuthorized, NotFound, NotImplemented, ServiceFailure,
+            UnsupportedMetadataType, UnsupportedQueryType, UnsupportedType,
+            IllegalStateException, IOException, SynchronizationFailed, BaseException {
+        if (isException) {
+            deserializeAndThrowException(is, contentType, null, null);
+        }
+        return is;
+    }
 
+    /**
+     *
+     * @param response
+     * @throws NotFound
+     * @throws InvalidToken
+     * @throws ServiceFailure
+     * @throws NotAuthorized
+     * @throws NotFound
+     * @throws IdentifierNotUnique
+     * @throws UnsupportedType
+     * @throws InsufficientResources
+     * @throws InvalidSystemMetadata
+     * @throws NotImplemented
+     * @throws InvalidCredentials
+     * @throws InvalidRequest
+     * @throws IOException
+     * @throws AuthenticationTimeout
+     * @throws UnsupportedMetadataType
+     * @throws HttpException
+     */
+    public static void deserializeAndThrowException(HttpResponse response)
+            throws NotFound, InvalidToken, ServiceFailure, NotAuthorized,
+            NotFound, IdentifierNotUnique, UnsupportedType,
+            InsufficientResources, InvalidSystemMetadata, NotImplemented,
+            InvalidCredentials, InvalidRequest, IOException, AuthenticationTimeout,
+            UnsupportedMetadataType, UnsupportedQueryType, HttpException, SynchronizationFailed, BaseException {
 
-	public static InputStream filterErrors(InputStream is, boolean isException, String contentType)
-	throws AuthenticationTimeout, IdentifierNotUnique, InsufficientResources,
-	InvalidCredentials, InvalidRequest, InvalidSystemMetadata, InvalidToken,
-	NotAuthorized, NotFound, NotImplemented, ServiceFailure,
-	UnsupportedMetadataType, UnsupportedQueryType, UnsupportedType,
-	IllegalStateException, IOException, SynchronizationFailed, Throwable
-	{
-		if (isException) {
-			deserializeAndThrowException(is, contentType);
-		}
-		return is;
-	}
+        // use content-type to determine what format the response is
+        Header[] h = response.getHeaders("content-type");
+        String contentType = "unset";
+        if (h.length == 1) {
+            contentType = h[0].getValue();
+        } else if (h.length > 1) {
+            throw new IOException("Should not get more than one content-type returned");
+        }
 
+        Integer statusCode = null;
+        String statusReason = null;
+        InputStream responseStream = null;
+        try {
+            statusCode = new Integer(response.getStatusLine().getStatusCode());
+            statusReason = response.getStatusLine().getReasonPhrase();
+            responseStream = response.getEntity().getContent();
+        } catch (RuntimeException re) {
+        }
+        deserializeAndThrowException(responseStream, contentType, statusCode, statusReason);
+    }
 
-
-	/**
-	 *
-	 * @param response
-	 * @throws NotFound
-	 * @throws InvalidToken
-	 * @throws ServiceFailure
-	 * @throws NotAuthorized
-	 * @throws NotFound
-	 * @throws IdentifierNotUnique
-	 * @throws UnsupportedType
-	 * @throws InsufficientResources
-	 * @throws InvalidSystemMetadata
-	 * @throws NotImplemented
-	 * @throws InvalidCredentials
-	 * @throws InvalidRequest
-	 * @throws IOException
-	 * @throws AuthenticationTimeout
-	 * @throws UnsupportedMetadataType
-	 * @throws HttpException
-	 */
-
-	public static void deserializeAndThrowException(HttpResponse response)
-	throws NotFound, InvalidToken, ServiceFailure, NotAuthorized,
-	NotFound, IdentifierNotUnique, UnsupportedType,
-	InsufficientResources, InvalidSystemMetadata, NotImplemented,
-	InvalidCredentials, InvalidRequest, IOException, AuthenticationTimeout, 
-        UnsupportedMetadataType, UnsupportedQueryType, HttpException, SynchronizationFailed, Throwable {
-
-		// use content-type to determine what format the response is
-    	Header[] h = response.getHeaders("content-type");
-    	String contentType = "unset";
-    	if (h.length == 1)
-    		contentType = h[0].getValue();
-    	else if (h.length > 1)
-    		throw new IOException("Should not get more than one content-type returned");
-
-    	Integer statusCode = null;
-    	String statusReason = null;
-    	InputStream responseStream = null;
-    	try {
-    		statusCode = new Integer(response.getStatusLine().getStatusCode());
-    		statusReason = response.getStatusLine().getReasonPhrase();
-    		responseStream = response.getEntity().getContent();
-    	} catch (RuntimeException re) {
-    	}
-    	deserializeAndThrowException(responseStream, contentType);
-	}
     /**
      * Throw the exception that is contained in an HTTP response
      *
@@ -171,41 +166,45 @@ public class ExceptionHandler {
      * @throws UnsupportedQueryType
      * @throws HttpException
      */
-    public static void deserializeAndThrowException(InputStream errorStream, String contentType)
+    public static void deserializeAndThrowException(InputStream errorStream, String contentType, Integer statusCode, String reason)
             throws
             AuthenticationTimeout, IdentifierNotUnique, InsufficientResources,
             InvalidCredentials, InvalidRequest, InvalidSystemMetadata,
             InvalidToken, NotAuthorized, NotFound, NotImplemented, ServiceFailure,
-            UnsupportedMetadataType, UnsupportedQueryType, UnsupportedType, SynchronizationFailed, Throwable
-            {
-
+            UnsupportedMetadataType, UnsupportedQueryType, UnsupportedType, SynchronizationFailed, BaseException {
+        String defaultMessage = "";
         if (contentType == null) {
             contentType = "unset";
         }
-
+        if (statusCode != null) {
+            defaultMessage = String.valueOf(statusCode) + ": ";
+        }
+        if (reason != null) {
+            defaultMessage = defaultMessage + reason + ": ";
+        }
         if (contentType.contains("xml")) {
             try {
-                deserializeXmlAndThrowException(errorStream);
+                deserializeXmlAndThrowException(errorStream, defaultMessage);
             } catch (SAXException e) {
-                deserializeAndThrowServiceFailure(errorStream, e);
+                deserializeAndThrowServiceFailure(errorStream, e, defaultMessage);
             } catch (IOException e) {
-                deserializeAndThrowServiceFailure(errorStream, e);
+                deserializeAndThrowServiceFailure(errorStream, e, defaultMessage);
             } catch (ParserConfigurationException e) {
-                deserializeAndThrowServiceFailure(errorStream, e);
+                deserializeAndThrowServiceFailure(errorStream, e, defaultMessage);
             }
         } else if (contentType.contains("html")) {
-            deserializeHtmlAndThrowException(errorStream);
+            deserializeHtmlAndThrowException(errorStream, defaultMessage);
         } else if (contentType.contains("json")) {
-            deserializeJsonAndThrowException(errorStream);
+            deserializeJsonAndThrowException(errorStream, defaultMessage);
         } else if (contentType.contains("csv")) {
-            deserializeCsvAndThrowException(errorStream);
+            deserializeCsvAndThrowException(errorStream, defaultMessage);
         } else if (contentType.contains("text/plain")) {
-            deserializeTextPlainAndThrowException(errorStream);
+            deserializeTextPlainAndThrowException(errorStream, defaultMessage);
         } else if (contentType.equals("unset")) {
-            deserializeTextPlainAndThrowException(errorStream);
+            deserializeTextPlainAndThrowException(errorStream, defaultMessage);
         } else {
             // attempt the default...
-            deserializeTextPlainAndThrowException(errorStream);
+            deserializeTextPlainAndThrowException(errorStream, defaultMessage);
         }
     }
 
@@ -217,16 +216,16 @@ public class ExceptionHandler {
      * @throws ServiceFailure
      *
      */
-    private static void deserializeAndThrowServiceFailure(InputStream errorStream, Exception e) throws ServiceFailure {
+    private static void deserializeAndThrowServiceFailure(InputStream errorStream, Exception e, String defaultMessage) throws ServiceFailure {
         TreeMap<String, String> stackTrace = new TreeMap<String, String>();
         StackTraceElement stackTraceElements[] = e.getStackTrace();
         for (int i = 0; i < stackTraceElements.length; ++i) {
             stackTrace.put(String.valueOf(stackTraceElements[i].getLineNumber()), stackTraceElements[i].toString());
         }
         try {
-            throw new ServiceFailure("-1", e.getMessage() + "\n" + IOUtils.toString(errorStream), "", stackTrace);
+            throw new ServiceFailure("-1", defaultMessage + e.getMessage() + "\n" + IOUtils.toString(errorStream), "", stackTrace);
         } catch (IOException e1) {
-            throw new ServiceFailure("-1", "errorStream could not be reset/reread" + e1.getMessage(), "", stackTrace);
+            throw new ServiceFailure("-1", defaultMessage + "errorStream could not be reset/reread" + e1.getMessage(), "", stackTrace);
         }
 
     }
@@ -238,11 +237,11 @@ public class ExceptionHandler {
      *
      */
 
-    private static void deserializeHtmlAndThrowException(InputStream errorStream) throws ServiceFailure {
+    private static void deserializeHtmlAndThrowException(InputStream errorStream, String defaultMessage) throws ServiceFailure {
         try {
-            throw new ServiceFailure("-1", "parser for deserializing HTML not written yet.  Providing message body:\n" + IOUtils.toString(errorStream));
+            throw new ServiceFailure("-1", defaultMessage + "parser for deserializing HTML not written yet.  Providing message body:\n" + IOUtils.toString(errorStream));
         } catch (IOException e1) {
-            throw new ServiceFailure("-1", "errorStream could not be reset/reread" + e1.getMessage());
+            throw new ServiceFailure("-1", defaultMessage + "errorStream could not be reset/reread" + e1.getMessage());
         }
     }
     /*
@@ -253,11 +252,11 @@ public class ExceptionHandler {
      *
      */
 
-    private static void deserializeJsonAndThrowException(InputStream errorStream) throws ServiceFailure {
+    private static void deserializeJsonAndThrowException(InputStream errorStream, String defaultMessage) throws ServiceFailure {
         try {
-            throw new ServiceFailure("-1", "parser for deserializing JSON not written yet.  Providing message body:\n" + IOUtils.toString(errorStream));
+            throw new ServiceFailure("-1", defaultMessage + "parser for deserializing JSON not written yet.  Providing message body:\n" + IOUtils.toString(errorStream));
         } catch (IOException e1) {
-            throw new ServiceFailure("-1", "errorStream could not be reset/reread" + e1.getMessage());
+            throw new ServiceFailure("-1", defaultMessage + "errorStream could not be reset/reread" + e1.getMessage());
         }
     }
     /*
@@ -268,11 +267,11 @@ public class ExceptionHandler {
      *
      */
 
-    private static void deserializeCsvAndThrowException(InputStream errorStream) throws ServiceFailure {
+    private static void deserializeCsvAndThrowException(InputStream errorStream, String defaultMessage) throws ServiceFailure {
         try {
-            throw new ServiceFailure("-1", "parser for deserializing CSV not written yet.  Providing message body:\n" + IOUtils.toString(errorStream));
+            throw new ServiceFailure("-1", defaultMessage + "parser for deserializing CSV not written yet.  Providing message body:\n" + IOUtils.toString(errorStream));
         } catch (IOException e1) {
-            throw new ServiceFailure("-1", "errorStream could not be reset/reread" + e1.getMessage());
+            throw new ServiceFailure("-1", defaultMessage + "errorStream could not be reset/reread" + e1.getMessage());
         }
     }
     /*
@@ -283,11 +282,11 @@ public class ExceptionHandler {
      *
      */
 
-    private static void deserializeTextPlainAndThrowException(InputStream errorStream) throws ServiceFailure {
+    private static void deserializeTextPlainAndThrowException(InputStream errorStream, String defaultMessage) throws ServiceFailure {
         try {
-            throw new ServiceFailure("-1", "Deserializing Text/Plain: Just providing message body:\n" + IOUtils.toString(errorStream) + "\n{EndOfMessage}");
+            throw new ServiceFailure("-1", defaultMessage + "Deserializing Text/Plain: Just providing message body:\n" + IOUtils.toString(errorStream) + "\n{EndOfMessage}");
         } catch (IOException e1) {
-            throw new ServiceFailure("-1", "errorStream could not be reset/reread" + e1.getMessage());
+            throw new ServiceFailure("-1", defaultMessage + "errorStream could not be reset/reread" + e1.getMessage());
         }
     }
 
@@ -313,16 +312,15 @@ public class ExceptionHandler {
      * @throws AuthenticationTimeout
      * @throws UnsupportedMetadataType
      * @throws HttpException
-     * @throws Throwable
+     * @throws BaseException
      */
-    private static void deserializeXmlAndThrowException(InputStream errorStream)
+    private static void deserializeXmlAndThrowException(InputStream errorStream, String defaultMessage)
             throws ParserConfigurationException, SAXException, IOException,
             AuthenticationTimeout, IdentifierNotUnique, InsufficientResources,
             InvalidCredentials, InvalidRequest, InvalidSystemMetadata,
             InvalidToken, NotAuthorized, NotFound, NotImplemented, ServiceFailure,
-            UnsupportedMetadataType, UnsupportedQueryType, UnsupportedType, SynchronizationFailed,
-            Throwable {
-        throw deserializeXml(errorStream);
+            UnsupportedMetadataType, UnsupportedQueryType, UnsupportedType, SynchronizationFailed, BaseException {
+        throw deserializeXml(errorStream, defaultMessage);
     }
     /*
      * deserialize the xml of an errorStream and return the DataONE exception
@@ -353,7 +351,7 @@ public class ExceptionHandler {
      * @throws IOException
      */
 
-    public static <T>Throwable deserializeXml(InputStream errorStream) throws ParserConfigurationException, SAXException, IOException {
+    public static <T> BaseException deserializeXml(InputStream errorStream, String defaultMessage) throws ParserConfigurationException, SAXException, IOException {
 
         TreeMap<String, String> trace_information = new TreeMap<String, String>();
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
@@ -386,40 +384,40 @@ public class ExceptionHandler {
         // traceInformation should be empty if not known or not supplied
         if (!name.isEmpty()) {
             if (name.equals("AuthenticationTimeout")) {
-                return  new AuthenticationTimeout(detailCode, description, pid, trace_information);
+                return new AuthenticationTimeout(detailCode, description, pid, trace_information);
             } else if (name.equals("IdentifierNotUnique")) {
-                return  new IdentifierNotUnique(detailCode, description, pid, trace_information);
+                return new IdentifierNotUnique(detailCode, description, pid, trace_information);
             } else if (name.equals("InsufficientResources")) {
-                return  new InsufficientResources(detailCode, description, pid, trace_information);
+                return new InsufficientResources(detailCode, description, pid, trace_information);
             } else if (name.equals("InvalidCredentials")) {
-                return  new InvalidCredentials(detailCode, description, pid, trace_information);
+                return new InvalidCredentials(detailCode, description, pid, trace_information);
             } else if (name.equals("InvalidRequest")) {
-                return  new InvalidRequest(detailCode, description, pid, trace_information);
+                return new InvalidRequest(detailCode, description, pid, trace_information);
             } else if (name.equals("InvalidSystemMetadata")) {
-                return  new InvalidSystemMetadata(detailCode, description, pid, trace_information);
+                return new InvalidSystemMetadata(detailCode, description, pid, trace_information);
             } else if (name.equals("InvalidToken")) {
-                return  new InvalidToken(detailCode, description, pid, trace_information);
+                return new InvalidToken(detailCode, description, pid, trace_information);
             } else if (name.equals("NotAuthorized")) {
-                return  new NotAuthorized(detailCode, description, pid, trace_information);
+                return new NotAuthorized(detailCode, description, pid, trace_information);
             } else if (name.equals("NotFound")) {
-                return  new NotFound(detailCode, description, pid, trace_information);
+                return new NotFound(detailCode, description, pid, trace_information);
             } else if (name.equals("NotImplemented")) {
-                return  new NotImplemented(detailCode, description, pid, trace_information);
+                return new NotImplemented(detailCode, description, pid, trace_information);
             } else if (name.equals("ServiceFailure")) {
-                return  new ServiceFailure(detailCode, description, pid, trace_information);
+                return new ServiceFailure(detailCode, description, pid, trace_information);
             } else if (name.equals("UnsupportedMetadataType")) {
-                return  new UnsupportedMetadataType(detailCode, description, pid, trace_information);
+                return new UnsupportedMetadataType(detailCode, description, pid, trace_information);
             } else if (name.equals("UnsupportedQueryType")) {
-                return  new UnsupportedQueryType(detailCode, description, pid, trace_information);
+                return new UnsupportedQueryType(detailCode, description, pid, trace_information);
             } else if (name.equals("UnsupportedType")) {
-                return  new UnsupportedType(detailCode, description, pid, trace_information);
+                return new UnsupportedType(detailCode, description, pid, trace_information);
             } else if (name.equals("SynchronizationFailed")) {
-                return  new SynchronizationFailed(detailCode, description, pid, trace_information);
+                return new SynchronizationFailed(detailCode, description, pid, trace_information);
             } else {
-                return  new ServiceFailure(detailCode, description, pid, trace_information);
+                return new ServiceFailure(detailCode, defaultMessage + description, pid, trace_information);
             }
         } else {
-            return  new ServiceFailure(detailCode, description, pid, trace_information);
+            return new ServiceFailure(detailCode, defaultMessage + description, pid, trace_information);
         }
     }
 

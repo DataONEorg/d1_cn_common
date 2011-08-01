@@ -10,7 +10,6 @@ import org.dataone.service.types.v1.NodeList;
 import org.dataone.service.util.TypeMarshaller;
 import org.jibx.runtime.JiBXException;
 
-
 /**
  *
  * Methods for convenient access to Nodelist
@@ -19,15 +18,14 @@ import org.jibx.runtime.JiBXException;
  * @author waltz
  *
  */
-public class NodelistUtil
-{
-    
+public class NodelistUtil {
+
     /**
      * Convenience method of transferring nodeId and nodeBaseURL into a Map
      *
      * @author berkley
      * @author waltz
-     * @param InputStream
+     * @param nodeListStream
      * @return Map
      * @exception InstantiationException
      * @exception IOException
@@ -35,16 +33,30 @@ public class NodelistUtil
      * @exception JiBXException
      */
     public static Map<String, String> mapNodeList(InputStream nodeListStream)
-        throws InstantiationException, IllegalAccessException, JiBXException, IOException
-    {
-       // method originally used Hashtable. I've substituted ConcurrentHashMap to
-       // continue thread safe operations and, additionally, to increase performance
-       ConcurrentHashMap<String, String> baseUrlMap = new ConcurrentHashMap<String, String>();
+            throws InstantiationException, IllegalAccessException, JiBXException, IOException {
         NodeList nodeList = TypeMarshaller.unmarshalTypeFromStream(NodeList.class, nodeListStream);
+        return mapNodeList(nodeList);
+    }
+
+    /**
+     * Convenience method of transferring nodeId and nodeBaseURL into a Map
+     *
+     * @author berkley
+     * @author waltz
+     * @param nodeList
+     * @return Map
+     * @exception InstantiationException
+     * @exception IOException
+     * @exception IllegalAccessException
+     * @exception JiBXException
+     */
+    public static Map<String, String> mapNodeList(NodeList nodeList) {
+        // method originally used Hashtable. I've substituted ConcurrentHashMap to
+        // continue thread safe operations and, additionally, to increase performance
+        ConcurrentHashMap<String, String> baseUrlMap = new ConcurrentHashMap<String, String>();
         for (Node node : nodeList.getNodeList()) {
             baseUrlMap.put(node.getIdentifier().getValue(), node.getBaseURL());
         }
         return baseUrlMap;
     }
- 
 }
