@@ -82,7 +82,7 @@ public interface CNCore
     /**
      * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CNCore.reserveIdentifier
      */
-    public boolean reserveIdentifier(Session session, Identifier pid, String scope, String format)
+    public boolean reserveIdentifier(Session session, Identifier pid)
     	throws InvalidToken, ServiceFailure,
             NotAuthorized, IdentifierNotUnique, NotImplemented, InvalidRequest;
     
