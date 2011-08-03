@@ -111,4 +111,18 @@ public interface CNIdentity {
     public boolean removeGroupMembers(Session session, Subject groupName, 
         SubjectList members) throws ServiceFailure, InvalidToken, NotAuthorized, 
         NotFound, NotImplemented, InvalidRequest;   
+    
+    /**
+     * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CNIdentity.isGroup
+     */
+    public boolean isGroup(Session session, Subject subject) 
+        throws ServiceFailure, InvalidToken, NotAuthorized, NotFound, 
+        NotImplemented, InvalidRequest;
+    
+    /**
+     * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CNIdentity.isPublic
+     */
+    public boolean isPublic(Session session, Subject subject) 
+        throws ServiceFailure, InvalidToken, NotAuthorized, NotFound, 
+        NotImplemented, InvalidRequest;
 }
