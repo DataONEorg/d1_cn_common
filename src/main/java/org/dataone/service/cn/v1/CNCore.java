@@ -115,4 +115,11 @@ public interface CNCore
      public boolean registerSystemMetadata(Session session, Identifier pid,
         SystemMetadata sysmeta) throws NotImplemented, NotAuthorized,
         ServiceFailure, InvalidRequest, InvalidSystemMetadata;
+     
+     /**
+      * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CNCore.updateSystemMetadata
+      */
+      public boolean updateSystemMetadata(Session session, Identifier pid,
+         SystemMetadata sysmeta) throws NotImplemented, NotAuthorized,
+         ServiceFailure, InvalidRequest, InvalidSystemMetadata, NotFound;
 }
