@@ -2,6 +2,7 @@
 package org.dataone.service.types.v1;
 
 import java.io.Serializable;
+import java.math.BigInteger;
 import java.util.Date;
 
 /** 
@@ -24,7 +25,7 @@ public class ObjectInfo implements Serializable
     private ObjectFormat objectFormat;
     private Checksum checksum;
     private Date dateSysMetadataModified;
-    private long size;
+    private BigInteger size;
 
     /** 
      * Get the 'identifier' element value.
@@ -103,7 +104,7 @@ public class ObjectInfo implements Serializable
      * 
      * @return value
      */
-    public long getSize() {
+    public BigInteger getSize() {
         return size;
     }
 
@@ -112,7 +113,7 @@ public class ObjectInfo implements Serializable
      * 
      * @param size
      */
-    public void setSize(long size) {
+    public void setSize(BigInteger size) {
         this.size = size;
     }
 }

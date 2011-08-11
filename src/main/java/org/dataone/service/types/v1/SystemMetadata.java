@@ -2,6 +2,7 @@
 package org.dataone.service.types.v1;
 
 import java.io.Serializable;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -34,7 +35,7 @@ public class SystemMetadata implements Serializable
 {
     private Identifier identifier;
     private ObjectFormat objectFormat;
-    private long size;
+    private BigInteger size;
     private Checksum checksum;
     private Subject submitter;
     private Subject rightsHolder;
@@ -89,7 +90,7 @@ public class SystemMetadata implements Serializable
      * 
      * @return value
      */
-    public long getSize() {
+    public BigInteger getSize() {
         return size;
     }
 
@@ -98,7 +99,7 @@ public class SystemMetadata implements Serializable
      * 
      * @param size
      */
-    public void setSize(long size) {
+    public void setSize(BigInteger size) {
         this.size = size;
     }
 

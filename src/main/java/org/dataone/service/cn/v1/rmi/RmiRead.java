@@ -18,34 +18,46 @@
  * limitations under the License.
  */
 
-package org.dataone.service.mn.tier4;
+package org.dataone.service.cn.v1.rmi;
+
+import java.io.InputStream;
 
 import org.dataone.service.exceptions.InvalidRequest;
+import org.dataone.service.exceptions.InvalidToken;
 import org.dataone.service.exceptions.NotAuthorized;
+import org.dataone.service.exceptions.NotFound;
 import org.dataone.service.exceptions.NotImplemented;
 import org.dataone.service.exceptions.ServiceFailure;
-import org.dataone.service.exceptions.InsufficientResources;
-import org.dataone.service.exceptions.UnsupportedType;
 
-import org.dataone.service.types.Session;
-import org.dataone.service.types.SystemMetadata;
-import org.dataone.service.types.NodeReference;
+import org.dataone.service.types.v1.Identifier;
+import org.dataone.service.types.v1.SystemMetadata;
 
 /**
- * The DataONE Member Node Tier 4 Replication interface.  This defines an
- * implementation interface for Member Nodes that wish to build an
+ * The DataONE CoordinatingNode Tier1 Read interface.  This defines an
+ * implementation interface for Coordinating Nodes that wish to build an
  * implementation that is compliant with the DataONE service definitions.
  *
  * @author Matthew Jones
  */
-@Deprecated
-public interface MNReplication {
-
+public interface RmiRead 
+{
     /**
-     * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/MN_APIs.html#MN_replication.replicate
+     * InputStream is the Java native version of D1's OctetStream
+     * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CNRead.get
+     *
+     *
      */
-    public boolean replicate(Session cert, SystemMetadata sysmeta, 
-            NodeReference sourceNode) throws NotImplemented, ServiceFailure,
-            NotAuthorized, InvalidRequest, InsufficientResources, UnsupportedType;
+    public InputStream remoteGet(Identifier pid)
+        throws InvalidRequest, InvalidToken, ServiceFailure, NotAuthorized, 
+        NotFound, NotImplemented;
+
+    
+    /**
+     * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CNRead.getSystemMetadata
+     */
+    public SystemMetadata remoteGetSystemMetadata(Identifier pid)
+        throws InvalidRequest, InvalidToken, ServiceFailure, NotAuthorized, 
+        NotFound, NotImplemented;
+         
 
 }

@@ -22,8 +22,6 @@ package org.dataone.service.exceptions;
 
 import java.util.TreeMap;
 
-import org.dataone.service.types.Identifier;
-
 /**
  * The DataONE InvalidToken exception, raised when supplied authentication 
  * token could not be verified as being valid.

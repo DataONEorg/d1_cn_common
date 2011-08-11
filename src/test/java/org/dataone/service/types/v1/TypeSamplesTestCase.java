@@ -27,6 +27,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringWriter;
+import java.math.BigInteger;
 import java.net.URL;
 import java.net.URLConnection;
 import java.text.DateFormat;
@@ -312,7 +313,7 @@ public class TypeSamplesTestCase {
         assertNotNull(thisOF.getFormatName());
         logger.info(thisOF.getFmtid().getValue() + " = " + thisOF.getFormatName());
         systemMetadata.setObjectFormat(ObjectFormatServiceImpl.getInstance().getFormat(fmtid));
-        systemMetadata.setSize(1235431);
+        systemMetadata.setSize(new BigInteger("1235431"));
         Subject submitter = new Subject();
         submitter.setValue("Kermit de Frog");
         systemMetadata.setSubmitter(submitter);
@@ -401,7 +402,7 @@ public class TypeSamplesTestCase {
         checksum1.setAlgorithm(ChecksumAlgorithm.SHA_1);
         objectInfo1.setChecksum(checksum1);
         objectInfo1.setDateSysMetadataModified(new Date());
-        objectInfo1.setSize(412341324);
+        objectInfo1.setSize(new BigInteger("412341324"));
         objectList.addObjectInfo(objectInfo1);
 
         ObjectInfo objectInfo2 = new ObjectInfo();
@@ -416,7 +417,7 @@ public class TypeSamplesTestCase {
         checksum2.setAlgorithm(ChecksumAlgorithm.MD5);
         objectInfo2.setChecksum(checksum1);
         objectInfo2.setDateSysMetadataModified(new Date());
-        objectInfo2.setSize(9087654);
+        objectInfo2.setSize(new BigInteger("9087654"));
         objectList.addObjectInfo(objectInfo2);
 
         ObjectInfo objectInfo3 = new ObjectInfo();
@@ -431,7 +432,7 @@ public class TypeSamplesTestCase {
         checksum3.setAlgorithm(ChecksumAlgorithm.SHA_512);
         objectInfo3.setChecksum(checksum1);
         objectInfo3.setDateSysMetadataModified(new Date());
-        objectInfo3.setSize(90654);
+        objectInfo3.setSize(new BigInteger("90654"));
         objectList.addObjectInfo(objectInfo3);
 
 

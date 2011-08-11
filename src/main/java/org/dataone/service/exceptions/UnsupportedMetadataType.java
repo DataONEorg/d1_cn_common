@@ -22,8 +22,6 @@ package org.dataone.service.exceptions;
 
 import java.util.TreeMap;
 
-import org.dataone.service.types.Identifier;
-
 /**
  * The DataONE UnsupportedMetadataType exception, raised when the science 
  * metadata document submitted is not of a type that is recognized by 

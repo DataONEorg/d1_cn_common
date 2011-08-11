@@ -22,8 +22,6 @@ package org.dataone.service.exceptions;
 
 import java.util.TreeMap;
 
-import org.dataone.service.types.Identifier;
-
 /**
  * The DataONE UnsupportedType exception, raised when the information 
  * presented appears to be unsupported. 

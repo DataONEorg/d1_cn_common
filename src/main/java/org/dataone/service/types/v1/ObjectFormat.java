@@ -32,7 +32,7 @@ public class ObjectFormat implements Serializable
      * Get the 'fmtid' element value. 
                     The unique identifier of the object format in the DataONE
                     Object Format Vocabulary.  The identifier should comply with
-                    DataONE Identifier rules, i.e. no whitespace, only UTF-8 or 
+                    DataONE Identifier rules, i.e. no whitespace, UTF-8 or 
                     US-ASCII printable characters.
                 
      * 
@@ -46,7 +46,7 @@ public class ObjectFormat implements Serializable
      * Set the 'fmtid' element value. 
                     The unique identifier of the object format in the DataONE
                     Object Format Vocabulary.  The identifier should comply with
-                    DataONE Identifier rules, i.e. no whitespace, only UTF-8 or 
+                    DataONE Identifier rules, i.e. no whitespace, UTF-8 or 
                     US-ASCII printable characters.
                 
      * 

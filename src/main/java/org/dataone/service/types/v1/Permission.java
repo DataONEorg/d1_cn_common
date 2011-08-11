@@ -21,13 +21,14 @@ import java.io.Serializable;
  *     &lt;xs:enumeration value="write"/>
  *     &lt;xs:enumeration value="changePermission"/>
  *     &lt;xs:enumeration value="execute"/>
+ *     &lt;xs:enumeration value="replicate"/>
  *   &lt;/xs:restriction>
  * &lt;/xs:simpleType>
  * </pre>
  */
 public enum Permission implements Serializable {
     READ("read"), WRITE("write"), CHANGE_PERMISSION("changePermission"), EXECUTE(
-            "execute");
+            "execute"), REPLICATE("replicate");
     private final String value;
 
     private Permission(String value) {

@@ -22,8 +22,6 @@ package org.dataone.service.exceptions;
 
 import java.util.TreeMap;
 
-import org.dataone.service.types.Identifier;
-
 /**
  * The DataONE NotImplemented exception, raised when a request 
  * is issued for a service that is not implemented by this node.

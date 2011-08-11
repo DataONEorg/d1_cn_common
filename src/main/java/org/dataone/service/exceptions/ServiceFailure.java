@@ -22,8 +22,6 @@ package org.dataone.service.exceptions;
 
 import java.util.TreeMap;
 
-import org.dataone.service.types.Identifier;
-
 /**
  * The DataONE ServiceFailure exception, raised when a requested 
  * service was called but failed to execute the service request due to an

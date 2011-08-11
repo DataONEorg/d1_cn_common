@@ -22,8 +22,6 @@ package org.dataone.service.exceptions;
 
 import java.util.TreeMap;
 
-import org.dataone.service.types.Identifier;
-
 /**
  * The DataONE NotAuthorized exception, raised when the supplied identity 
  * information is not authorized for the requested operation.

@@ -18,10 +18,9 @@
  * limitations under the License.
  */
 
-package org.dataone.service.cn;
+package org.dataone.service.cn.v1.rmi;
 
 import java.io.InputStream;
-import java.util.Date;
 
 import org.dataone.service.exceptions.IdentifierNotUnique;
 import org.dataone.service.exceptions.InsufficientResources;
@@ -34,15 +33,11 @@ import org.dataone.service.exceptions.NotImplemented;
 import org.dataone.service.exceptions.ServiceFailure;
 import org.dataone.service.exceptions.UnsupportedType;
 
-import org.dataone.service.types.Identifier;
-import org.dataone.service.types.Log;
-import org.dataone.service.types.ObjectFormat;
-import org.dataone.service.types.ObjectFormatIdentifier;
-import org.dataone.service.types.ObjectFormatList;
-import org.dataone.service.types.Session;
-import org.dataone.service.types.Event;
-import org.dataone.service.types.NodeList;
-import org.dataone.service.types.SystemMetadata;
+import org.dataone.service.types.v1.Identifier;
+import org.dataone.service.types.v1.ObjectFormat;
+import org.dataone.service.types.v1.ObjectFormatIdentifier;
+import org.dataone.service.types.v1.ObjectFormatList;
+import org.dataone.service.types.v1.SystemMetadata;
 
 /**
  * The DataONE CoordinatingNode Tier1 Core interface.  This defines an
@@ -51,62 +46,40 @@ import org.dataone.service.types.SystemMetadata;
  *
  * @author Matthew Jones
  */
-@Deprecated
-public interface CNCore
+public interface RmiCore
 {
-	/** 
+	/**
      * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CNCore.listFormats
      */
-		public ObjectFormatList listFormats()
+	public ObjectFormatList remoteListFormats()
         throws InvalidRequest, ServiceFailure, NotFound, InsufficientResources,
         NotImplemented;
 
     /**
      * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CNCore.getFormat
      */
-    public ObjectFormat getFormat(ObjectFormatIdentifier fmtid)
+    public ObjectFormat remoteGetFormat(ObjectFormatIdentifier fmtid)
         throws InvalidRequest, ServiceFailure, NotFound, InsufficientResources,
         NotImplemented;
-    
-    /**
-     * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CNCore.getLogRecords
-     */
-    public Log getLogRecords(Session session, Date fromDate, Date toDate, 
-        Event event, Integer start, Integer count) throws InvalidToken, InvalidRequest, ServiceFailure, 
-        NotAuthorized, NotImplemented;
-    
-    /**
-     * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CNCore.listNodes
-     */
-    public NodeList listNodes() throws NotImplemented, ServiceFailure;
 
-    /**
-     * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CNCore.reserveIdentifier
-     */
-    public Identifier reserveIdentifier(Session session, Identifier pid, String scope, String format) 
-    	throws InvalidToken, ServiceFailure, 
-            NotAuthorized, IdentifierNotUnique, NotImplemented, InvalidRequest;
-    
-    /**
-     * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CNCore.hasReservation
-     */
-    public boolean hasReservation(Session session, Identifier pid) 
-    	throws InvalidToken, ServiceFailure,  NotFound,
-            NotAuthorized, IdentifierNotUnique, NotImplemented, InvalidRequest;
-    
+
     /**
      * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CNCore.create
      */
-    public Identifier create(Session session, Identifier pid, InputStream object, 
-            SystemMetadata sysmeta) throws InvalidToken, ServiceFailure, 
-            NotAuthorized, IdentifierNotUnique, UnsupportedType, 
-            InsufficientResources, InvalidSystemMetadata, NotImplemented, 
+    public Identifier remoteCreate(Identifier pid, InputStream object, SystemMetadata sysmeta) throws InvalidToken, ServiceFailure,
+            NotAuthorized, IdentifierNotUnique, UnsupportedType,
+            InsufficientResources, InvalidSystemMetadata, NotImplemented,
             InvalidRequest;
-    
-    /** 
+
+    /**
      * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CNCore.registerSystemMetadata
      */
-     public boolean registerSystemMetadata(Session session, Identifier pid,
-        SystemMetadata sysmeta) throws NotImplemented, NotAuthorized,
+     public boolean remoteRegisterSystemMetadata(Identifier pid, SystemMetadata sysmeta) throws NotImplemented, NotAuthorized,
         ServiceFailure, InvalidRequest, InvalidSystemMetadata;
+     
+     /**
+      * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CNCore.updateSystemMetadata
+      */
+      public boolean remoteUpdateSystemMetadata(Identifier pid, SystemMetadata sysmeta) throws NotImplemented, NotAuthorized,
+         ServiceFailure, InvalidRequest, InvalidSystemMetadata, NotFound;
 }

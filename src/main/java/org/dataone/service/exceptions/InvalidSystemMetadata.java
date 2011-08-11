@@ -22,8 +22,6 @@ package org.dataone.service.exceptions;
 
 import java.util.TreeMap;
 
-import org.dataone.service.types.Identifier;
-
 /**
  * The DataONE InvalidSystemMetadata exception, raised when a request 
  * is issued and the supplied system metadata is invalid. This could be 

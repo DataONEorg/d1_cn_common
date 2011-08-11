@@ -22,8 +22,6 @@ package org.dataone.service.exceptions;
 
 import java.util.TreeMap;
 
-import org.dataone.service.types.Identifier;
-
 /**
  * The DataONE InvalidRequest exception, raised when a request 
  * is issued for which one or more parameters provided in the call were invalid.

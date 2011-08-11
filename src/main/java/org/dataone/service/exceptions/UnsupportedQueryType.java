@@ -22,8 +22,6 @@ package org.dataone.service.exceptions;
 
 import java.util.TreeMap;
 
-import org.dataone.service.types.Identifier;
-
 /**
  * The DataONE UnsupportedQueryType exception, raised when a search request is
  * made that is not recognized by the DataONE system.

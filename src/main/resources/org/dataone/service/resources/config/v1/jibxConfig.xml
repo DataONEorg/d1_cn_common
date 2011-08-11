@@ -21,16 +21,20 @@
 
 -->
 
-<schema-set prefer-inline="false" generate-all="true" package="org.dataone.service.types.v1" enumeration-type="java5" >
+<schema-set xmlns:xs="http://www.w3.org/2001/XMLSchema"
+  prefer-inline="false" generate-all="true" package="org.dataone.service.types.v1"
+  type-substitutions="xs:unsignedLong xs:long" enumeration-type="java5" >
     <class-decorator class="org.jibx.schema.codegen.extend.CollectionMethodsDecorator"/>
      <!-- Should add in the serializable decorator, we may want to use it at some point -->
      <class-decorator class="org.jibx.schema.codegen.extend.SerializableDecorator" />
 
     <schema-set names="dataoneTypes.xsd" prefix="d1" namespaces="http://ns.dataone.org/service/types/v1">
         <schema-type type-name="dateTime" java-class="java.util.Date"
-            serializer="org.dataone.service.types.util.ServiceTypeUtil.serializeDateToUTC"
-            deserializer="org.dataone.service.types.util.ServiceTypeUtil.deserializeDateToUTC"/>
-       <!-- <schema name="dataoneTypes.xsd" includes="checksum  componentList identifier log nodeList objectList objectLocationList objectFormat objectFormatList person subject subjectList systemMetadata AccessPolicy  AccessRule  Checksum  ChecksumAlgorithm  Component  ComponentList ComponentName Event  Group  Identifier  IdentifierFormat  Log  LogEntry  MonitorInfo MonitorList Node  NodeHealth  NodeList  NodeReference  NodeState  NodeType  ObjectFormat  ObjectFormatIdentifier ObjectFormatList ObjectInfo  ObjectList  ObjectLocation   ObjectLocationList  Permission  Person  Session Subject  SubjectList QueryType  Replica  ReplicationPolicy  ReplicationStatus  Schedule  Service  Services  Slice  Status  Synchronization  SystemMetadata" /> -->
+            serializer="org.dataone.service.util.DateTimeMarshaller.serializeDateToUTC"
+            deserializer="org.dataone.service.util.DateTimeMarshaller.deserializeDateToUTC"/>
+        <schema-type type-name="long" java-class="java.math.BigInteger"
+            serializer="org.dataone.service.util.BigIntegerMarshaller.serializeBigInteger"
+            deserializer="org.dataone.service.util.BigIntegerMarshaller.deserializeBigInteger"/>
             <schema name="dataoneTypes.xsd" includes="ObjectFormatIdentifier NodeReference" >
                 <simpleType name="ObjectFormatIdentifier">
                     <restriction value-name="value" />

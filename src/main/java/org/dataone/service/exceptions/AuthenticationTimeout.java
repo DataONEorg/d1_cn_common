@@ -22,7 +22,6 @@ package org.dataone.service.exceptions;
 
 import java.util.TreeMap;
 
-import org.dataone.service.types.Identifier;
 
 /**
  * The DataONE AuthenticationTimeout exception, raised when authentication 

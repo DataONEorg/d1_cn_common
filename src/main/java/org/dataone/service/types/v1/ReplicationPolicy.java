@@ -82,7 +82,7 @@ public class ReplicationPolicy implements Serializable
     /** 
      * Get the list of 'blockedMemberNode' element items. The object MUST never be replicated to nodes 
                           listed as blockedMemberNodes. Where there is a conflict between 
-                          a requiredMemberNode and a blockedMemberNode entry, the 
+                          a preferredMemberNode and a blockedMemberNode entry, the 
                           blockedMemberNode entry prevails.
                       
      * 
@@ -95,7 +95,7 @@ public class ReplicationPolicy implements Serializable
     /** 
      * Set the list of 'blockedMemberNode' element items. The object MUST never be replicated to nodes 
                           listed as blockedMemberNodes. Where there is a conflict between 
-                          a requiredMemberNode and a blockedMemberNode entry, the 
+                          a preferredMemberNode and a blockedMemberNode entry, the 
                           blockedMemberNode entry prevails.
                       
      * 

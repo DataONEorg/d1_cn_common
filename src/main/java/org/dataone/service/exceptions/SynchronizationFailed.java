@@ -22,8 +22,6 @@ package org.dataone.service.exceptions;
 
 import java.util.TreeMap;
 
-import org.dataone.service.types.Identifier;
-
 /**
  * The DataONE SynchronizationFailed exception, used as a callback message
  * to a Member Node from a Coordinating Node when an attempt to synchronize

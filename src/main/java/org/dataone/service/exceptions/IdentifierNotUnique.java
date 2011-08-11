@@ -22,8 +22,6 @@ package org.dataone.service.exceptions;
 
 import java.util.TreeMap;
 
-import org.dataone.service.types.Identifier;
-
 /**
  * The DataONE IdentifierNotUnique exception, raised when a requested 
  * identifier has already been used or reserved.  Clients need to choose a
