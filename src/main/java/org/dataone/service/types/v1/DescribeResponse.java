@@ -20,7 +20,7 @@
 
 package org.dataone.service.types.v1;
 
-import org.dataone.service.types.*;
+import java.math.BigInteger;
 import java.util.Date;
 
 /**
@@ -51,7 +51,7 @@ import java.util.Date;
 public class DescribeResponse 
 {
     private ObjectFormat dataONE_ObjectFormat;
-    private long content_Length;
+    private BigInteger content_Length;
     private Date last_Modified;
     private Checksum dataONE_Checksum;
 
@@ -64,7 +64,7 @@ public class DescribeResponse
      * @param last_modified  DateTime value that indicates when the system metadata associated with the object was last modified, i.e. the value of SystemMetadata.dateSysMetadataModified for the object.
      * @param checksum The algorithm (SystemMetadata.algorithm) and Checksum (SystemMetadata.checksum) of the object being examined, drawn from the SystemMetadata. The algorithm and checksum are separated by a single comma with the algorithm first.
      */
-    public DescribeResponse(ObjectFormat format, long content_length, Date last_modified, Checksum checksum) {
+    public DescribeResponse(ObjectFormat format, BigInteger content_length, Date last_modified, Checksum checksum) {
         this.dataONE_ObjectFormat = format;
         this.content_Length = content_length;
         this.last_Modified = last_modified;
@@ -76,7 +76,7 @@ public class DescribeResponse
      *
      * @return Size of the object in bytes
      */
-    public long getContent_Length() {
+    public BigInteger getContent_Length() {
         return content_Length;
     }
 
