@@ -53,10 +53,12 @@ public class ExceptionHandler {
             InvalidCredentials, InvalidRequest, InvalidSystemMetadata, InvalidToken,
             NotAuthorized, NotFound, NotImplemented, ServiceFailure,
             UnsupportedMetadataType, UnsupportedQueryType, UnsupportedType,
-            IllegalStateException, IOException, HttpException, SynchronizationFailed, BaseException {
+            IllegalStateException, IOException, HttpException, SynchronizationFailed {
         int code = res.getStatusLine().getStatusCode();
         log.info("response httpCode: " + code);
-        log.debug(IOUtils.toString(res.getEntity().getContent()));
+        if (log.isDebugEnabled()) {
+        	log.debug(IOUtils.toString(res.getEntity().getContent()));
+        }
         if (code != HttpURLConnection.HTTP_OK) {
             // error, so throw exception
             deserializeAndThrowException(res);
@@ -64,12 +66,12 @@ public class ExceptionHandler {
         return res.getEntity().getContent();
     }
 
-    public Header[] filterErrorsHeader(HttpResponse res)
+    public static Header[] filterErrorsHeader(HttpResponse res)
             throws AuthenticationTimeout, IdentifierNotUnique, InsufficientResources,
             InvalidCredentials, InvalidRequest, InvalidSystemMetadata, InvalidToken,
             NotAuthorized, NotFound, NotImplemented, ServiceFailure,
             UnsupportedMetadataType, UnsupportedQueryType, UnsupportedType,
-            IllegalStateException, IOException, HttpException, SynchronizationFailed, BaseException {
+            IllegalStateException, IOException, HttpException, SynchronizationFailed {
 
         int code = res.getStatusLine().getStatusCode();
         log.info("response httpCode: " + code);
@@ -85,7 +87,7 @@ public class ExceptionHandler {
             InvalidCredentials, InvalidRequest, InvalidSystemMetadata, InvalidToken,
             NotAuthorized, NotFound, NotImplemented, ServiceFailure,
             UnsupportedMetadataType, UnsupportedQueryType, UnsupportedType,
-            IllegalStateException, IOException, SynchronizationFailed, BaseException {
+            IllegalStateException, IOException, SynchronizationFailed {
         if (isException) {
             deserializeAndThrowException(is, contentType, null, null);
         }
@@ -117,7 +119,7 @@ public class ExceptionHandler {
             NotFound, IdentifierNotUnique, UnsupportedType,
             InsufficientResources, InvalidSystemMetadata, NotImplemented,
             InvalidCredentials, InvalidRequest, IOException, AuthenticationTimeout,
-            UnsupportedMetadataType, UnsupportedQueryType, HttpException, SynchronizationFailed, BaseException {
+            UnsupportedMetadataType, UnsupportedQueryType, HttpException, SynchronizationFailed {
 
         // use content-type to determine what format the response is
         Header[] h = response.getHeaders("content-type");
@@ -167,11 +169,12 @@ public class ExceptionHandler {
      * @throws HttpException
      */
     public static void deserializeAndThrowException(InputStream errorStream, String contentType, Integer statusCode, String reason)
-            throws
-            AuthenticationTimeout, IdentifierNotUnique, InsufficientResources,
-            InvalidCredentials, InvalidRequest, InvalidSystemMetadata,
-            InvalidToken, NotAuthorized, NotFound, NotImplemented, ServiceFailure,
-            UnsupportedMetadataType, UnsupportedQueryType, UnsupportedType, SynchronizationFailed, BaseException {
+    throws
+    AuthenticationTimeout, IdentifierNotUnique, InsufficientResources,
+    InvalidCredentials, InvalidRequest, InvalidSystemMetadata,
+    InvalidToken, NotAuthorized, NotFound, NotImplemented, ServiceFailure,
+    UnsupportedMetadataType, UnsupportedQueryType, UnsupportedType, SynchronizationFailed 
+    {
         String defaultMessage = "";
         if (contentType == null) {
             contentType = "unset";
@@ -216,7 +219,9 @@ public class ExceptionHandler {
      * @throws ServiceFailure
      *
      */
-    private static void deserializeAndThrowServiceFailure(InputStream errorStream, Exception e, String defaultMessage) throws ServiceFailure {
+    private static void deserializeAndThrowServiceFailure(InputStream errorStream, Exception e, String defaultMessage) 
+    throws ServiceFailure 
+    {
         TreeMap<String, String> stackTrace = new TreeMap<String, String>();
         StackTraceElement stackTraceElements[] = e.getStackTrace();
         for (int i = 0; i < stackTraceElements.length; ++i) {
@@ -319,8 +324,39 @@ public class ExceptionHandler {
             AuthenticationTimeout, IdentifierNotUnique, InsufficientResources,
             InvalidCredentials, InvalidRequest, InvalidSystemMetadata,
             InvalidToken, NotAuthorized, NotFound, NotImplemented, ServiceFailure,
-            UnsupportedMetadataType, UnsupportedQueryType, UnsupportedType, SynchronizationFailed, BaseException {
-        throw deserializeXml(errorStream, defaultMessage);
+            UnsupportedMetadataType, UnsupportedQueryType, UnsupportedType, SynchronizationFailed {
+        BaseException be = deserializeXml(errorStream, defaultMessage);
+        if (be instanceof AuthenticationTimeout) {
+        	throw (AuthenticationTimeout) be;
+        } else if (be instanceof IdentifierNotUnique) {
+        	throw (IdentifierNotUnique) be;
+        } else if (be instanceof InsufficientResources) {
+        	throw (InsufficientResources) be;
+        } else if (be instanceof InvalidCredentials) {
+        	throw (InvalidCredentials) be;
+        } else if (be instanceof InvalidRequest) {
+        	throw (InvalidRequest) be;
+        } else if (be instanceof InvalidSystemMetadata) {
+        	throw (InvalidSystemMetadata) be;
+        } else if (be instanceof InvalidToken) {
+        	throw (InvalidToken) be;
+        } else if (be instanceof NotAuthorized) {
+        	throw (NotAuthorized) be;
+        } else if (be instanceof NotFound) {
+        	throw (NotFound) be;
+        } else if (be instanceof NotImplemented) {
+        	throw (NotImplemented) be;
+        } else if (be instanceof ServiceFailure) {
+        	throw (ServiceFailure) be;
+        } else if (be instanceof UnsupportedMetadataType) {
+        	throw (UnsupportedMetadataType) be;
+        } else if (be instanceof UnsupportedQueryType) {
+        	throw (UnsupportedQueryType) be;
+        } else if (be instanceof UnsupportedType) {
+        	throw (UnsupportedType) be;
+        } else if (be instanceof SynchronizationFailed) {
+        	throw (SynchronizationFailed) be;
+        }
     }
     /*
      * deserialize the xml of an errorStream and return the DataONE exception
@@ -351,8 +387,9 @@ public class ExceptionHandler {
      * @throws IOException
      */
 
-    public static <T> BaseException deserializeXml(InputStream errorStream, String defaultMessage) throws ParserConfigurationException, SAXException, IOException {
-
+    public static <T> BaseException deserializeXml(InputStream errorStream, String defaultMessage) 
+    throws ParserConfigurationException, SAXException, IOException 
+    {
         TreeMap<String, String> trace_information = new TreeMap<String, String>();
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
         Document doc;
