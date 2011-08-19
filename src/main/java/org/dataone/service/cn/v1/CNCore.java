@@ -53,6 +53,9 @@ import org.dataone.service.types.v1.SystemMetadata;
  */
 public interface CNCore
 {
+	public final static String SERVICE_VERSION = "v1";
+	
+	
 	/**
      * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CNCore.listFormats
      */
