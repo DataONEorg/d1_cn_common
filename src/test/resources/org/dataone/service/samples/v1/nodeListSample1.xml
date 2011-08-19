@@ -32,10 +32,9 @@
 		<description>description of the node.  This is daac</description>
 		<baseURL>http://eg.daacmn.dataone.utk.edu</baseURL>
 		<services>
-			<service version="0.5" available="true">
-				<name>mn_crud</name>
-				</service>
-			</services>
+			<service name="MNCore" version="v1" available="true" />
+                        <service name="MNRead" version="v1" available="true" />
+                </services>
 		<synchronization>
 			<schedule sec="0" min="10,40" hour="*" mon="*" mday="*" wday="*" year="*"/>
 			<lastHarvested>2010-08-23T11:11:11.123456</lastHarvested>
@@ -52,12 +51,9 @@
 		<description>a node full of goodness</description>
 		<baseURL>http://knb-mn.ecoinformatics.org</baseURL>
 		<services>
-			<service version="0.4" available="true">
-				<name>mn_crud</name>
-			</service>
-			<service version="0.4" available="true">
-				<name>mn_replication</name>
-			</service>
+			<service name="MNCore" version="v1" available="true" />
+                        <service name="MNRead" version="v1" available="true" />
+			<service name="MNreplication" version="v1" available="true" />
 
 		</services>
 

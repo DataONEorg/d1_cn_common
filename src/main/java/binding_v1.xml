@@ -210,10 +210,10 @@
     <value style="attribute" name="numberReplicas" get-method="getNumberReplicas" set-method="setNumberReplicas" usage="optional"/>
   </mapping>
   <mapping abstract="true" type-name="d1:Service" class="org.dataone.service.types.v1.Service">
-    <value style="element" name="name" get-method="getName" set-method="setName"/>
     <collection get-method="getRestrictionList" set-method="setRestrictionList" usage="optional" create-type="java.util.ArrayList">
       <structure map-as="d1:ServiceMethodRestriction" name="restriction"/>
     </collection>
+    <value style="attribute" name="name" get-method="getName" set-method="setName"/>
     <value style="attribute" name="version" get-method="getVersion" set-method="setVersion"/>
     <value style="attribute" name="available" get-method="getAvailable" set-method="setAvailable" usage="optional"/>
   </mapping>

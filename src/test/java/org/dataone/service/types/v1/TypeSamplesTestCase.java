@@ -68,7 +68,7 @@ public class TypeSamplesTestCase {
 	
 	
 	//    static final String datatypeSchemaTagUrl = "file:///home/rwaltz/Documents/Projects/tags/D1_SCHEMA_0_6_2/";
-    static final String datatypeSchemaTagUrl = "https://repository.dataone.org/software/cicore/trunk/d1_schemas/";
+    static final String datatypeSchemaTagUrl = "https://repository.dataone.org/software/cicore/branches/D1_SCHEMA_0_6_4/";
     static String datatypeSchemaLocation = datatypeSchemaTagUrl + "dataoneTypes.xsd";
 
     static String systemMetadataSchemaLocation = datatypeSchemaTagUrl + "dataoneTypes.xsd";

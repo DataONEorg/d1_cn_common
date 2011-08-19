@@ -18,9 +18,9 @@ import java.util.List;
  * <pre>
  * &lt;xs:complexType xmlns:ns="http://ns.dataone.org/service/types/v1" xmlns:xs="http://www.w3.org/2001/XMLSchema" name="Service">
  *   &lt;xs:sequence>
- *     &lt;xs:element type="xs:string" name="name" minOccurs="1" maxOccurs="1"/>
  *     &lt;xs:element type="ns:ServiceMethodRestriction" name="restriction" minOccurs="0" maxOccurs="unbounded"/>
  *   &lt;/xs:sequence>
+ *   &lt;xs:attribute type="xs:string" use="required" name="name"/>
  *   &lt;xs:attribute type="xs:string" use="required" name="version"/>
  *   &lt;xs:attribute type="xs:boolean" name="available"/>
  * &lt;/xs:complexType>
@@ -28,28 +28,10 @@ import java.util.List;
  */
 public class Service implements Serializable
 {
-    private String name;
     private List<ServiceMethodRestriction> restrictionList = new ArrayList<ServiceMethodRestriction>();
+    private String name;
     private String version;
     private Boolean available;
-
-    /** 
-     * Get the 'name' element value.
-     * 
-     * @return value
-     */
-    public String getName() {
-        return name;
-    }
-
-    /** 
-     * Set the 'name' element value.
-     * 
-     * @param name
-     */
-    public void setName(String name) {
-        this.name = name;
-    }
 
     /** 
      * Get the list of 'restriction' element items.
@@ -99,6 +81,24 @@ public class Service implements Serializable
      */
     public void clearRestrictionList() {
         restrictionList.clear();
+    }
+
+    /** 
+     * Get the 'name' attribute value.
+     * 
+     * @return value
+     */
+    public String getName() {
+        return name;
+    }
+
+    /** 
+     * Set the 'name' attribute value.
+     * 
+     * @param name
+     */
+    public void setName(String name) {
+        this.name = name;
     }
 
     /** 
