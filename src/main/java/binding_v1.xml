@@ -97,6 +97,9 @@
     <structure map-as="d1:Services" get-method="getServices" set-method="setServices" usage="optional" name="services"/>
     <structure map-as="d1:Synchronization" get-method="getSynchronization" set-method="setSynchronization" usage="optional" name="synchronization"/>
     <structure map-as="d1:NodeHealth" get-method="getHealth" set-method="setHealth" usage="optional" name="health"/>
+    <collection get-method="getSubjectList" set-method="setSubjectList" usage="optional" create-type="java.util.ArrayList">
+      <structure map-as="d1:Subject" name="subject"/>
+    </collection>
     <value style="attribute" name="replicate" get-method="isReplicate" set-method="setReplicate"/>
     <value style="attribute" name="synchronize" get-method="isSynchronize" set-method="setSynchronize"/>
     <value style="attribute" name="type" get-method="getType" set-method="setType" format="d1:NodeType"/>
@@ -273,7 +276,7 @@
   </mapping>
   <mapping abstract="true" type-name="d1:SystemMetadata" class="org.dataone.service.types.v1.SystemMetadata">
     <structure map-as="d1:Identifier" get-method="getIdentifier" set-method="setIdentifier" name="identifier"/>
-    <structure map-as="d1:ObjectFormat" get-method="getObjectFormat" set-method="setObjectFormat" name="objectFormat"/>
+    <structure map-as="d1:ObjectFormatIdentifier" get-method="getFmtid" set-method="setFmtid" name="fmtid"/>
     <value style="element" name="size" get-method="getSize" set-method="setSize" serializer="org.dataone.service.util.BigIntegerMarshaller.serializeBigInteger" deserializer="org.dataone.service.util.BigIntegerMarshaller.deserializeBigInteger"/>
     <structure map-as="d1:Checksum" get-method="getChecksum" set-method="setChecksum" name="checksum"/>
     <structure map-as="d1:Subject" get-method="getSubmitter" set-method="setSubmitter" name="submitter"/>

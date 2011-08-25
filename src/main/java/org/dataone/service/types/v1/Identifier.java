@@ -8,9 +8,11 @@ import java.io.Serializable;
  equivalent to a Unicode string of printable characters, excluding
  whitespace. All representations of identifiers must be encoded in 7-bit
  ASCII or UTF-8.
- Identifiers have a maximum length of 800 characters. Some discussion on this
- is described in `ticket 577`_.
+ Identifiers have a maximum length of 800 characters, and a variety of other properties
+ designed for preservation and longevity. Some discussion on this
+ is described in the `PID documentation`_ and in decision `ticket 577`_.
  .. _ticket 577: https://redmine.dataone.org/issues/577
+ .. _PID documentation: http://mule1.dataone.org/ArchitectureDocs-current/design/PIDs.html
 
  * 
  * Schema fragment(s) for this class:

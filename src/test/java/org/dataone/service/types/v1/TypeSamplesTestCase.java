@@ -312,7 +312,7 @@ public class TypeSamplesTestCase {
         assertNotNull(thisOF.getFmtid());
         assertNotNull(thisOF.getFormatName());
         logger.info(thisOF.getFmtid().getValue() + " = " + thisOF.getFormatName());
-        systemMetadata.setObjectFormat(ObjectFormatServiceImpl.getInstance().getFormat(fmtid));
+        systemMetadata.setFmtid(fmtid);
         systemMetadata.setSize(new BigInteger("1235431"));
         Subject submitter = new Subject();
         submitter.setValue("Kermit de Frog");

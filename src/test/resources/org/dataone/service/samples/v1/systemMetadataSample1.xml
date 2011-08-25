@@ -25,11 +25,9 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://ns.dataone.org/service/types/v1 file:/home/rwaltz/Projects/AllSoftware/d1_schemas/dataoneTypes.xsd">
     <identifier>ABC123</identifier>
-    <objectFormat>
-        <fmtid>http://www.loc.gov/METS/</fmtid>
-        <formatName>Metadata Encoding and Transmission Standard, version 1</formatName>        
-        <scienceMetadata>true</scienceMetadata>
-    </objectFormat>
+
+    <fmtid>http://www.loc.gov/METS/</fmtid>
+
     <size>922337203</size>
     <checksum algorithm="SHA-1">SGVsbG8gV29ybGQh</checksum>
     <submitter>Robert P Waltz</submitter>

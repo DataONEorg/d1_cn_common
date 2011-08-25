@@ -2,6 +2,8 @@
 package org.dataone.service.types.v1;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 /** 
  * A unique implementation of the member node or coordination node software
@@ -19,6 +21,7 @@ import java.io.Serializable;
  *     &lt;xs:element type="ns:Services" name="services" minOccurs="0" maxOccurs="1"/>
  *     &lt;xs:element type="ns:Synchronization" name="synchronization" minOccurs="0" maxOccurs="1"/>
  *     &lt;xs:element type="ns:NodeHealth" name="health" minOccurs="0" maxOccurs="1"/>
+ *     &lt;xs:element type="ns:Subject" name="subject" minOccurs="0" maxOccurs="unbounded"/>
  *   &lt;/xs:sequence>
  *   &lt;xs:attribute type="xs:boolean" use="required" name="replicate"/>
  *   &lt;xs:attribute type="xs:boolean" use="required" name="synchronize"/>
@@ -35,6 +38,7 @@ public class Node implements Serializable
     private Services services;
     private Synchronization synchronization;
     private NodeHealth health;
+    private List<Subject> subjectList = new ArrayList<Subject>();
     private boolean replicate;
     private boolean synchronize;
     private NodeType type;
@@ -183,6 +187,70 @@ public class Node implements Serializable
      */
     public void setHealth(NodeHealth health) {
         this.health = health;
+    }
+
+    /** 
+     * Get the list of 'subject' element items. The Subject of this node, which can be repeated as needed.  
+                      The Node.subject represents the identifier of the node that would be found in X.509 
+                      certificates that would be used to securely communicate with this node.  Thus, it is
+                      an X.509 Distinguished Name that applies to the host on which the Node is operating. 
+                      When (and if) this hostname changes the new subject for the node would be added to the
+                      Node so that we can track the subject that has been used in various access control 
+                      rules over time.
+                      
+     * 
+     * @return list
+     */
+    public List<Subject> getSubjectList() {
+        return subjectList;
+    }
+
+    /** 
+     * Set the list of 'subject' element items. The Subject of this node, which can be repeated as needed.  
+                      The Node.subject represents the identifier of the node that would be found in X.509 
+                      certificates that would be used to securely communicate with this node.  Thus, it is
+                      an X.509 Distinguished Name that applies to the host on which the Node is operating. 
+                      When (and if) this hostname changes the new subject for the node would be added to the
+                      Node so that we can track the subject that has been used in various access control 
+                      rules over time.
+                      
+     * 
+     * @param list
+     */
+    public void setSubjectList(List<Subject> list) {
+        subjectList = list;
+    }
+
+    /** 
+     * Get the number of 'subject' element items.
+     * @return count
+     */
+    public int sizeSubjectList() {
+        return subjectList.size();
+    }
+
+    /** 
+     * Add a 'subject' element item.
+     * @param item
+     */
+    public void addSubject(Subject item) {
+        subjectList.add(item);
+    }
+
+    /** 
+     * Get 'subject' element item by position.
+     * @return item
+     * @param index
+     */
+    public Subject getSubject(int index) {
+        return subjectList.get(index);
+    }
+
+    /** 
+     * Remove all 'subject' element items.
+     */
+    public void clearSubjectList() {
+        subjectList.clear();
     }
 
     /** 
