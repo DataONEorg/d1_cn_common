@@ -20,16 +20,21 @@
 
 package org.dataone.service.mn.tier4.v1;
 
+import java.io.InputStream;
+
 import org.dataone.service.exceptions.InvalidRequest;
 import org.dataone.service.exceptions.NotAuthorized;
 import org.dataone.service.exceptions.NotImplemented;
 import org.dataone.service.exceptions.ServiceFailure;
 import org.dataone.service.exceptions.InsufficientResources;
 import org.dataone.service.exceptions.UnsupportedType;
+import org.dataone.service.exceptions.NotFound;
+import org.dataone.service.exceptions.InvalidToken;
 
 import org.dataone.service.types.v1.Session;
 import org.dataone.service.types.v1.SystemMetadata;
 import org.dataone.service.types.v1.NodeReference;
+import org.dataone.service.types.v1.Identifier;
 
 /**
  * The DataONE Member Node Tier 4 Replication interface.  This defines an
@@ -44,7 +49,13 @@ public interface MNReplication {
      * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/MN_APIs.html#MN_replication.replicate
      */
     public boolean replicate(Session cert, SystemMetadata sysmeta, 
-            NodeReference sourceNode) throws NotImplemented, ServiceFailure,
-            NotAuthorized, InvalidRequest, InsufficientResources, UnsupportedType;
+        NodeReference sourceNode) throws NotImplemented, ServiceFailure,
+        NotAuthorized, InvalidRequest, InsufficientResources, UnsupportedType;
 
+    /**
+     * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/MN_APIs.html#MNReplication.getReplica
+     */
+    public InputStream getReplica(Session cert, Identifier pid)
+        throws InvalidRequest, InvalidToken, NotAuthorized, NotImplemented, 
+        ServiceFailure, NotFound;
 }
