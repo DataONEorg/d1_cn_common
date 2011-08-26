@@ -28,6 +28,8 @@ import org.dataone.service.exceptions.NotImplemented;
 import org.dataone.service.exceptions.ServiceFailure;
 
 import org.dataone.service.types.v1.Session;
+import org.dataone.service.types.v1.Subject;
+import org.dataone.service.types.v1.Permission;
 import org.dataone.service.types.v1.Identifier;
 import org.dataone.service.types.v1.ReplicationStatus;
 import org.dataone.service.types.v1.ReplicationPolicy;
@@ -61,4 +63,12 @@ public interface CNReplication {
     public boolean setReplicationPolicy(Session session, Identifier pid, 
         ReplicationPolicy policy) throws NotImplemented, NotFound, NotAuthorized, 
         ServiceFailure, InvalidRequest, InvalidToken;
+
+    /** TODO: verify correct method signature
+     * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CNReplication.isReplicationAuthorized
+     */
+    public boolean isReplicationAuthorized(Session originatingNodeSession, 
+        Subject targetNodeSubject, Identifier pid, Permission executePermission)
+        throws NotImplemented, NotAuthorized, InvalidToken, ServiceFailure, 
+        NotFound, InvalidRequest;
 }
