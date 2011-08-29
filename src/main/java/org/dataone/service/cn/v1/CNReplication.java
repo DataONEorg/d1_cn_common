@@ -68,7 +68,7 @@ public interface CNReplication {
      * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CNReplication.isReplicationAuthorized
      */
     public boolean isReplicationAuthorized(Session originatingNodeSession, 
-        Subject targetNodeSubject, Identifier pid, Permission executePermission)
+        Subject targetNodeSubject, Identifier pid, Permission replicatePermission)
         throws NotImplemented, NotAuthorized, InvalidToken, ServiceFailure, 
         NotFound, InvalidRequest;
 }
