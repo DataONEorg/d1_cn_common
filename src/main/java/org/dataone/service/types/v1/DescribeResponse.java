@@ -42,7 +42,7 @@ import java.util.Date;
  * Last-Modified: Wed, 16 Dec 2009 13:58:34 GMT
  * Content-Length: 10400
  * Content-Type: application/octet-stream
- * DataONE-ObjectFormat: eml://ecoinformatics.org/eml-2.0.1
+ * DataONE-fmtid: eml://ecoinformatics.org/eml-2.0.1
  * DataONE-Checksum: SHA-1,2e01e17467891f7c933dbaa00e1459d23db3fe4f
  *
  *
@@ -50,7 +50,7 @@ import java.util.Date;
  */
 public class DescribeResponse 
 {
-    private ObjectFormat dataONE_ObjectFormat;
+    private ObjectFormatIdentifier dataONE_ObjectFormatID;
     private BigInteger content_Length;
     private Date last_Modified;
     private Checksum dataONE_Checksum;
@@ -64,8 +64,8 @@ public class DescribeResponse
      * @param last_modified  DateTime value that indicates when the system metadata associated with the object was last modified, i.e. the value of SystemMetadata.dateSysMetadataModified for the object.
      * @param checksum The algorithm (SystemMetadata.algorithm) and Checksum (SystemMetadata.checksum) of the object being examined, drawn from the SystemMetadata. The algorithm and checksum are separated by a single comma with the algorithm first.
      */
-    public DescribeResponse(ObjectFormat format, BigInteger content_length, Date last_modified, Checksum checksum) {
-        this.dataONE_ObjectFormat = format;
+    public DescribeResponse(ObjectFormatIdentifier objectFormatID, BigInteger content_length, Date last_modified, Checksum checksum) {
+        this.dataONE_ObjectFormatID = objectFormatID;
         this.content_Length = content_length;
         this.last_Modified = last_modified;
         this.dataONE_Checksum = checksum;
@@ -90,12 +90,12 @@ public class DescribeResponse
     }
 
     /**
-     * get The value of the SystemMetadata.objectFormat entry available in the SystemMetadata.
+     * get The value of the SystemMetadata.objectFormatIdentifier entry available in the SystemMetadata.
      *
      * @return objectFormat of the object
      */
-    public ObjectFormat getDataONE_ObjectFormat() {
-        return dataONE_ObjectFormat;
+    public ObjectFormatIdentifier getDataONE_ObjectFormatIdentifier() {
+        return dataONE_ObjectFormatID;
     }
 
     /**
