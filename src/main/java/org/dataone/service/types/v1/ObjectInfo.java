@@ -11,7 +11,7 @@ import java.util.Date;
  * &lt;xs:complexType xmlns:ns="http://ns.dataone.org/service/types/v1" xmlns:xs="http://www.w3.org/2001/XMLSchema" name="ObjectInfo">
  *   &lt;xs:sequence>
  *     &lt;xs:element type="ns:Identifier" name="identifier" minOccurs="1" maxOccurs="1"/>
- *     &lt;xs:element type="ns:ObjectFormat" name="objectFormat"/>
+ *     &lt;xs:element type="ns:ObjectFormatIdentifier" name="fmtid"/>
  *     &lt;xs:element type="ns:Checksum" name="checksum" minOccurs="1" maxOccurs="1"/>
  *     &lt;xs:element type="xs:dateTime" name="dateSysMetadataModified"/>
  *     &lt;xs:element type="xs:long" name="size"/>
@@ -22,7 +22,7 @@ import java.util.Date;
 public class ObjectInfo implements Serializable
 {
     private Identifier identifier;
-    private ObjectFormat objectFormat;
+    private ObjectFormatIdentifier fmtid;
     private Checksum checksum;
     private Date dateSysMetadataModified;
     private BigInteger size;
@@ -46,21 +46,21 @@ public class ObjectInfo implements Serializable
     }
 
     /** 
-     * Get the 'objectFormat' element value.
+     * Get the 'fmtid' element value.
      * 
      * @return value
      */
-    public ObjectFormat getObjectFormat() {
-        return objectFormat;
+    public ObjectFormatIdentifier getFmtid() {
+        return fmtid;
     }
 
     /** 
-     * Set the 'objectFormat' element value.
+     * Set the 'fmtid' element value.
      * 
-     * @param objectFormat
+     * @param fmtid
      */
-    public void setObjectFormat(ObjectFormat objectFormat) {
-        if (objectFormat != null) {this.objectFormat = objectFormat;} else {throw new NullPointerException("ObjectFormat cannot be null!");}
+    public void setFmtid(ObjectFormatIdentifier fmtid) {
+        this.fmtid = fmtid;
     }
 
     /** 

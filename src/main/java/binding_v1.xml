@@ -145,7 +145,7 @@
   </mapping>
   <mapping abstract="true" type-name="d1:ObjectInfo" class="org.dataone.service.types.v1.ObjectInfo">
     <structure map-as="d1:Identifier" get-method="getIdentifier" set-method="setIdentifier" name="identifier"/>
-    <structure map-as="d1:ObjectFormat" get-method="getObjectFormat" set-method="setObjectFormat" name="objectFormat"/>
+    <structure map-as="d1:ObjectFormatIdentifier" get-method="getFmtid" set-method="setFmtid" name="fmtid"/>
     <structure map-as="d1:Checksum" get-method="getChecksum" set-method="setChecksum" name="checksum"/>
     <value style="element" name="dateSysMetadataModified" get-method="getDateSysMetadataModified" set-method="setDateSysMetadataModified" serializer="org.dataone.service.util.DateTimeMarshaller.serializeDateToUTC" deserializer="org.dataone.service.util.DateTimeMarshaller.deserializeDateToUTC"/>
     <value style="element" name="size" get-method="getSize" set-method="setSize" serializer="org.dataone.service.util.BigIntegerMarshaller.serializeBigInteger" deserializer="org.dataone.service.util.BigIntegerMarshaller.deserializeBigInteger"/>
@@ -233,6 +233,9 @@
   <mapping abstract="true" type-name="d1:Session" class="org.dataone.service.types.v1.Session">
     <structure map-as="d1:Subject" get-method="getSubject" set-method="setSubject" name="subject"/>
     <structure map-as="d1:SubjectList" get-method="getSubjectList" set-method="setSubjectList" usage="optional" name="subjectList"/>
+  </mapping>
+  <mapping class="org.dataone.service.types.v1.Session" name="session" ns="http://ns.dataone.org/service/types/v1">
+    <structure map-as="d1:Session"/>
   </mapping>
   <mapping abstract="true" type-name="d1:Schedule" class="org.dataone.service.types.v1.Schedule">
     <value style="attribute" name="hour" get-method="getHour" set-method="setHour"/>

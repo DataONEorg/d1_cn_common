@@ -116,14 +116,12 @@ public class TypeSamplesTestCase {
 
     }
 
-    /** FIXME: testObjectListMarshalling method missing
     @Test
     public void validateObjectListMarshalling() throws Exception, SAXException, IOException, ParserConfigurationException {
 // TODO arguments should be injected based on version of service api to test and build
         assertTrue(testObjectListMarshalling("/org/dataone/service/samples/v1/objectListSample1.xml"));
 
     }
-    */
 
     @Test
     public void validateLoggingSample() throws Exception, SAXException, IOException, ParserConfigurationException {
@@ -297,6 +295,8 @@ public class TypeSamplesTestCase {
             return result;
         }//toString()
     }
+    
+    
     @Test
     public void testSimpleSystemMetadataMarshalling() throws Exception {
         logger.info("Starting testing of testSimpleSystemMetadataMarshalling");
@@ -382,7 +382,7 @@ public class TypeSamplesTestCase {
         return true;
     }
 
-    /** FIXME: fix missing ObjectInfo.setObjectFormat() method
+    // FIXME: fix missing ObjectInfo.setObjectFormat() method
     public boolean testObjectListMarshalling(String externalObjectList) throws Exception {
         ObjectList objectList = new ObjectList();
         objectList.setCount(3);
@@ -399,7 +399,7 @@ public class TypeSamplesTestCase {
         objectInfo1.setIdentifier(identifier1);
         ObjectFormatIdentifier fmtid = new ObjectFormatIdentifier();
         fmtid.setValue("CF-1.0");
-        objectInfo1.setObjectFormat(ObjectFormatServiceImpl.getInstance().getFormat(fmtid));
+        objectInfo1.setFmtid(fmtid);
         Checksum checksum1 = new Checksum();
         checksum1.setValue("V29ybGQgSGVsbG8h");
         checksum1.setAlgorithm(ChecksumAlgorithm.SHA_1);
@@ -414,7 +414,7 @@ public class TypeSamplesTestCase {
         objectInfo2.setIdentifier(identifier1);
         ObjectFormatIdentifier fmtid2 = new ObjectFormatIdentifier();
         fmtid2.setValue("http://digir.net/schema/conceptual/darwin/2003/1.0/darwin2.xsd");
-        objectInfo2.setObjectFormat(ObjectFormatServiceImpl.getInstance().getFormat(fmtid2));
+        objectInfo2.setFmtid(fmtid2);
         Checksum checksum2 = new Checksum();
         checksum2.setValue("V29ybGQgSGVsaF89");
         checksum2.setAlgorithm(ChecksumAlgorithm.MD5);
@@ -429,7 +429,7 @@ public class TypeSamplesTestCase {
         objectInfo3.setIdentifier(identifier1);
         ObjectFormatIdentifier fmtid3 = new ObjectFormatIdentifier();
         fmtid3.setValue("FGDC-STD-001-1998");
-        objectInfo3.setObjectFormat(ObjectFormatServiceImpl.getInstance().getFormat(fmtid3));
+        objectInfo3.setFmtid(fmtid3);
         Checksum checksum3 = new Checksum();
         checksum3.setValue("V29ybGQgSGVsaF89ybGE8987adf3");
         checksum3.setAlgorithm(ChecksumAlgorithm.SHA_512);
@@ -475,7 +475,7 @@ public class TypeSamplesTestCase {
         assertTrue(validateExamples(systemObjectListSchemaLocation, testObjectListInput));
         return true;
     }
-    */
+    
 
     @Test
     public void testSubjectListMarshalling() throws Exception {
