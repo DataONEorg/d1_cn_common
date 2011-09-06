@@ -46,13 +46,6 @@
     <target name="cleanUpTypes"
             description="generate the distribution" >
 
-        <replace file="${basedir}/src/main/java/org/dataone/service/types/v1/ChecksumAlgorithm.java" token="SH_A1" value="SHA_1" />
-        <replace file="${basedir}/src/main/java/org/dataone/service/types/v1/ChecksumAlgorithm.java" token="SH_A224" value="SHA_224" />
-        <replace file="${basedir}/src/main/java/org/dataone/service/types/v1/ChecksumAlgorithm.java" token="SH_A256" value="SHA_256" />
-        <replace file="${basedir}/src/main/java/org/dataone/service/types/v1/ChecksumAlgorithm.java" token="SH_A384" value="SHA_384" />
-        <replace file="${basedir}/src/main/java/org/dataone/service/types/v1/ChecksumAlgorithm.java" token="SH_A512" value="SHA_512" />
-        <replace file="${basedir}/src/main/java/org/dataone/service/types/v1/ChecksumAlgorithm.java" token="M_D5" value="MD5" />
-
         <replaceregexp file="${basedir}/src/main/java/org/dataone/service/types/v1/ObjectInfo.java"
                        match="(\s+)(this\.objectFormat \= objectFormat\;)"
                        replace="\1if \(objectFormat != null\) \{\2} else \{throw new NullPointerException\(&quot;ObjectFormat cannot be null!&quot;\);\}"

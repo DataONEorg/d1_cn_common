@@ -20,12 +20,13 @@ import java.util.List;
  *     &lt;xs:element type="xs:string" name="baseURL" minOccurs="1" maxOccurs="1"/>
  *     &lt;xs:element type="ns:Services" name="services" minOccurs="0" maxOccurs="1"/>
  *     &lt;xs:element type="ns:Synchronization" name="synchronization" minOccurs="0" maxOccurs="1"/>
- *     &lt;xs:element type="ns:NodeHealth" name="health" minOccurs="0" maxOccurs="1"/>
+ *     &lt;xs:element type="ns:Ping" name="ping" minOccurs="0" maxOccurs="1"/>
  *     &lt;xs:element type="ns:Subject" name="subject" minOccurs="0" maxOccurs="unbounded"/>
  *   &lt;/xs:sequence>
  *   &lt;xs:attribute type="xs:boolean" use="required" name="replicate"/>
  *   &lt;xs:attribute type="xs:boolean" use="required" name="synchronize"/>
  *   &lt;xs:attribute type="ns:NodeType" use="required" name="type"/>
+ *   &lt;xs:attribute type="ns:NodeState" use="required" name="state"/>
  * &lt;/xs:complexType>
  * </pre>
  */
@@ -37,11 +38,12 @@ public class Node implements Serializable
     private String baseURL;
     private Services services;
     private Synchronization synchronization;
-    private NodeHealth health;
+    private Ping ping;
     private List<Subject> subjectList = new ArrayList<Subject>();
     private boolean replicate;
     private boolean synchronize;
     private NodeType type;
+    private NodeState state;
 
     /** 
      * Get the 'identifier' element value. A unique identifier for the node. This may initially be the same as the
@@ -168,25 +170,21 @@ public class Node implements Serializable
     }
 
     /** 
-     * Get the 'health' element value. The name of the node is being used in Mercury currently to assign a
-                          path, so format should be consistent with dataone directory naming conventions
-                      
+     * Get the 'ping' element value.
      * 
      * @return value
      */
-    public NodeHealth getHealth() {
-        return health;
+    public Ping getPing() {
+        return ping;
     }
 
     /** 
-     * Set the 'health' element value. The name of the node is being used in Mercury currently to assign a
-                          path, so format should be consistent with dataone directory naming conventions
-                      
+     * Set the 'ping' element value.
      * 
-     * @param health
+     * @param ping
      */
-    public void setHealth(NodeHealth health) {
-        this.health = health;
+    public void setPing(Ping ping) {
+        this.ping = ping;
     }
 
     /** 
@@ -305,5 +303,23 @@ public class Node implements Serializable
      */
     public void setType(NodeType type) {
         this.type = type;
+    }
+
+    /** 
+     * Get the 'state' attribute value.
+     * 
+     * @return value
+     */
+    public NodeState getState() {
+        return state;
+    }
+
+    /** 
+     * Set the 'state' attribute value.
+     * 
+     * @param state
+     */
+    public void setState(NodeState state) {
+        this.state = state;
     }
 }

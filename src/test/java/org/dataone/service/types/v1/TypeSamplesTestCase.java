@@ -332,7 +332,7 @@ public class TypeSamplesTestCase {
         systemMetadata.setAuthoritativeMemberNode(authoritativeMemberNode);
         Checksum checksum = new Checksum();
         checksum.setValue("V29ybGQgSGVsbG8h");
-        checksum.setAlgorithm(ChecksumAlgorithm.SHA_1);
+        checksum.setAlgorithm("SHA-1");
 
         systemMetadata.setChecksum(checksum);
 
@@ -402,7 +402,7 @@ public class TypeSamplesTestCase {
         objectInfo1.setFmtid(fmtid);
         Checksum checksum1 = new Checksum();
         checksum1.setValue("V29ybGQgSGVsbG8h");
-        checksum1.setAlgorithm(ChecksumAlgorithm.SHA_1);
+        checksum1.setAlgorithm("SHA-1");
         objectInfo1.setChecksum(checksum1);
         objectInfo1.setDateSysMetadataModified(new Date());
         objectInfo1.setSize(new BigInteger("412341324"));
@@ -417,7 +417,7 @@ public class TypeSamplesTestCase {
         objectInfo2.setFmtid(fmtid2);
         Checksum checksum2 = new Checksum();
         checksum2.setValue("V29ybGQgSGVsaF89");
-        checksum2.setAlgorithm(ChecksumAlgorithm.MD5);
+        checksum2.setAlgorithm("MD5");
         objectInfo2.setChecksum(checksum1);
         objectInfo2.setDateSysMetadataModified(new Date());
         objectInfo2.setSize(new BigInteger("9087654"));
@@ -432,7 +432,7 @@ public class TypeSamplesTestCase {
         objectInfo3.setFmtid(fmtid3);
         Checksum checksum3 = new Checksum();
         checksum3.setValue("V29ybGQgSGVsaF89ybGE8987adf3");
-        checksum3.setAlgorithm(ChecksumAlgorithm.SHA_512);
+        checksum3.setAlgorithm("SHA-512");
         objectInfo3.setChecksum(checksum1);
         objectInfo3.setDateSysMetadataModified(new Date());
         objectInfo3.setSize(new BigInteger("90654"));
@@ -729,7 +729,7 @@ public class TypeSamplesTestCase {
     public boolean testChecksumMarshalling(String checksumDoc) throws Exception {
         Checksum checksum = new Checksum();
         checksum.setValue("ADSFA21341234ADSFADSF");
-        checksum.setAlgorithm(ChecksumAlgorithm.SHA_1);
+        checksum.setAlgorithm("SHA-1");
 
 
         IBindingFactory bfact =

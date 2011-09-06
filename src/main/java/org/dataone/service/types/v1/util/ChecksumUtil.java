@@ -10,7 +10,6 @@ import java.io.InputStream;
 import org.dataone.service.types.v1.Checksum;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import org.dataone.service.types.v1.ChecksumAlgorithm;
 
 /**
  *
@@ -20,14 +19,14 @@ public class ChecksumUtil {
    /**
      * return a checksum based on the input of the stream
      * @param is
-     * @param algorithm
+     * @param algorithmAlgorithm
      * @return
      * @throws NoSuchAlgorithmException
      * @throws IOException
      */
-    public static Checksum checksum(InputStream is, ChecksumAlgorithm algorithm) throws NoSuchAlgorithmException, IOException {
+    public static Checksum checksum(InputStream is, String checksumAlgorithm) throws NoSuchAlgorithmException, IOException {
         byte[] buffer = new byte[1024];
-        MessageDigest complete = MessageDigest.getInstance(algorithm.toString());
+        MessageDigest complete = MessageDigest.getInstance(checksumAlgorithm);
         int numRead;
 
         do {
@@ -40,7 +39,7 @@ public class ChecksumUtil {
         String csStr = getHex(complete.digest());
         Checksum checksum = new Checksum();
         checksum.setValue(csStr);
-        checksum.setAlgorithm(algorithm);
+        checksum.setAlgorithm(checksumAlgorithm);
         return checksum;
     }
 

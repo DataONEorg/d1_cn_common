@@ -56,9 +56,10 @@ public class ExceptionHandler {
             IllegalStateException, IOException, HttpException, SynchronizationFailed {
         int code = res.getStatusLine().getStatusCode();
         log.info("response httpCode: " + code);
-        if (log.isDebugEnabled()) {
-        	log.debug(IOUtils.toString(res.getEntity().getContent()));
-        }
+        // cannot read from an input stream twice.
+//        if (log.isDebugEnabled()) {
+//        	log.debug(IOUtils.toString(res.getEntity().getContent()));
+//        }
         if (code != HttpURLConnection.HTTP_OK) {
             // error, so throw exception
             deserializeAndThrowException(res);

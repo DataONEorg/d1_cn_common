@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <d1:nodeList xmlns:d1="http://ns.dataone.org/service/types/v1">
 
-    <node replicate="true" synchronize="true" type="mn">
+    <node replicate="true" synchronize="true" type="mn" state="up">
         <identifier>d1m1</identifier>
         <name>dryad</name>
         <description>Production Member node with Dryad Data</description>
@@ -14,12 +14,11 @@
             <lastHarvested>1900-01-01T00:00:00Z</lastHarvested>
             <lastCompleteHarvest>1900-01-01T00:00:00Z</lastCompleteHarvest>
         </synchronization>
-        <health state="up">
-            <ping success="true" lastSuccess="1900-01-01T00:00:00Z"/>
-            <status success="false" dateChecked="1900-01-01T00:00:00Z"/>
-        </health>
+
+        <ping success="true" lastSuccess="1900-01-01T00:00:00Z"/>
+ 
     </node>
-    <node replicate="true" synchronize="true" type="mn">
+    <node replicate="true" synchronize="true" type="mn" state="up">
         <identifier>d1m2</identifier>
         <name>knb</name>
         <description>Production Member node with KNB Data</description>
@@ -32,12 +31,11 @@
             <lastHarvested>1900-01-01T00:00:00Z</lastHarvested>
             <lastCompleteHarvest>1900-01-01T00:00:00Z</lastCompleteHarvest>
         </synchronization>
-        <health state="up">
-            <ping success="true" lastSuccess="1900-01-01T00:00:00Z"/>
-            <status success="false" dateChecked="1900-01-01T00:00:00Z"/>
-        </health>
+
+        <ping success="true" lastSuccess="1900-01-01T00:00:00Z"/>
+
     </node>
-    <node replicate="true" synchronize="true" type="mn">
+    <node replicate="true" synchronize="true" type="mn" state="up">
         <identifier>d1m3</identifier>
         <name>ornldaac</name>
         <description>Production Member node with DAAC Data</description>
@@ -50,12 +48,11 @@
             <lastHarvested>1900-01-01T00:00:00Z</lastHarvested>
             <lastCompleteHarvest>1900-01-01T00:00:00Z</lastCompleteHarvest>
         </synchronization>
-        <health state="up">
-            <ping success="true" lastSuccess="1900-01-01T00:00:00Z"/>
-            <status success="false" dateChecked="1900-01-01T00:00:00Z"/>
-        </health>
+
+        <ping success="true" lastSuccess="1900-01-01T00:00:00Z"/>
+
     </node>
-    <node replicate="false" synchronize="true" type="mn">
+    <node replicate="false" synchronize="true" type="mn" state="up">
         <identifier>d1tg</identifier>
         <name>TeraGrid</name>
         <description>TeraGrid Production Member node running Metacat</description>
@@ -68,12 +65,11 @@
             <lastHarvested>1900-01-01T00:00:00Z</lastHarvested>
             <lastCompleteHarvest>1900-01-01T00:00:00Z</lastCompleteHarvest>
         </synchronization>
-        <health state="up">
-            <ping success="true" lastSuccess="1900-01-01T00:00:00Z"/>
-            <status success="false" dateChecked="1900-01-01T00:00:00Z"/>
-        </health>
+
+        <ping success="true" lastSuccess="1900-01-01T00:00:00Z"/>
+
     </node>
-    <node replicate="true" synchronize="false" type="cn">
+    <node replicate="true" synchronize="false" type="cn" state="up">
         <identifier>d1c0</identifier>
         <name>cn</name>
         <description>Production Coordinating Node</description>
@@ -82,7 +78,7 @@
             <service name="CNCore" version="0.5" available="true"/>
         </services>
     </node>
-    <node replicate="true" synchronize="false" type="cn">
+    <node replicate="true" synchronize="false" type="cn" state="up">
         <identifier>d1c1</identifier>
         <name>cn-unm-1</name>
         <description>Production Coordinating node at University of New Mexico</description>
@@ -90,12 +86,11 @@
         <services>
             <service name="CNCore" version="0.5" available="true" />
         </services>
-        <health state="up">
-            <ping success="true" lastSuccess="1900-01-01T00:00:00Z"/>
-            <status success="false" dateChecked="1900-01-01T00:00:00Z"/>
-        </health>
+
+        <ping success="true" lastSuccess="1900-01-01T00:00:00Z"/>
+
     </node>
-    <node replicate="true" synchronize="false" type="cn">
+    <node replicate="true" synchronize="false" type="cn" state="up">
         <identifier>d1c2</identifier>
         <name>cn-ucsb-1</name>
         <description>Production Coordinating node at University of California Santa Barbara</description>
@@ -103,12 +98,11 @@
         <services>
             <service name="CNCore" version="0.5" available="true" />
         </services>
-        <health state="up">
-            <ping success="true" lastSuccess="1900-01-01T00:00:00Z"/>
-            <status success="false" dateChecked="1900-01-01T00:00:00Z"/>
-        </health>
+
+        <ping success="true" lastSuccess="1900-01-01T00:00:00Z"/>
+
     </node>
-    <node replicate="true" synchronize="false" type="cn">
+    <node replicate="true" synchronize="false" type="cn" state="up">
         <identifier>d1c3</identifier>
         <name>cn-orc-1</name>
         <description>Production Coordinating node at Oak Ridge National Laboratories UTK Campus</description>
@@ -116,12 +110,11 @@
         <services>
             <service name="CNCore" version="0.5" available="true" />
         </services>
-        <health state="up">
-            <ping success="true" lastSuccess="1900-01-01T00:00:00Z"/>
-            <status success="false" dateChecked="1900-01-01T00:00:00Z"/>
-        </health>
+
+        <ping success="true" lastSuccess="1900-01-01T00:00:00Z"/>
+
     </node>
-    <node replicate="true" synchronize="true" type="mn">
+    <node replicate="true" synchronize="true" type="mn" state="up">
         <identifier>s1m1</identifier>
         <name>knb</name>
         <description>Dynamic Development Member Node 1</description>
@@ -134,12 +127,11 @@
             <lastHarvested>1900-01-01T00:00:00Z</lastHarvested>
             <lastCompleteHarvest>1900-01-01T00:00:00Z</lastCompleteHarvest>
         </synchronization>
-        <health state="up">
-            <ping success="true" lastSuccess="1900-01-01T00:00:00Z"/>
-            <status success="false" dateChecked="1900-01-01T00:00:00Z"/>
-        </health>
+
+        <ping success="true" lastSuccess="1900-01-01T00:00:00Z"/>
+
     </node>
-    <node replicate="true" synchronize="true" type="mn">
+    <node replicate="true" synchronize="true" type="mn" state="up">
         <identifier>s1m2</identifier>
         <name>dryad</name>
         <description>Dynamic Development Member Node 2</description>
@@ -152,12 +144,11 @@
             <lastHarvested>1900-01-01T00:00:00Z</lastHarvested>
             <lastCompleteHarvest>1900-01-01T00:00:00Z</lastCompleteHarvest>
         </synchronization>
-        <health state="up">
-            <ping success="true" lastSuccess="1900-01-01T00:00:00Z"/>
-            <status success="false" dateChecked="1900-01-01T00:00:00Z"/>
-        </health>
+
+        <ping success="true" lastSuccess="1900-01-01T00:00:00Z"/>
+
     </node>
-    <node replicate="true" synchronize="true" type="cn">
+    <node replicate="true" synchronize="true" type="cn" state="up">
         <identifier>c1c1</identifier>
         <name>cn_rpw_orc</name>
         <description>Development Coordinating Node 1</description>
@@ -165,12 +156,11 @@
         <services>
             <service name="CNCore" version="0.5" available="true" />
         </services>
-        <health state="up">
-            <ping success="true" lastSuccess="1900-01-01T00:00:00Z"/>
-            <status success="false" dateChecked="1900-01-01T00:00:00Z"/>
-        </health>
+
+        <ping success="true" lastSuccess="1900-01-01T00:00:00Z"/>
+
     </node>
-    <node replicate="true" synchronize="true" type="cn">
+    <node replicate="true" synchronize="true" type="cn" state="up">
         <identifier>c1c2</identifier>
         <name>cn_rpw_unm</name>
         <description>Development Coordinating Node 2</description>
@@ -178,12 +168,11 @@
         <services>
             <service name="CNCore" version="0.5" available="true" />
         </services>
-        <health state="up">
-            <ping success="true" lastSuccess="1900-01-01T00:00:00Z"/>
-            <status success="false" dateChecked="1900-01-01T00:00:00Z"/>
-        </health>
+
+        <ping success="true" lastSuccess="1900-01-01T00:00:00Z"/>
+
     </node>
-    <node replicate="true" synchronize="true" type="cn">
+    <node replicate="true" synchronize="true" type="cn" state="up">
         <identifier>c3p0</identifier>
         <name>cn_dev</name>
         <description>Development Protocol Coordinating Node</description>
@@ -196,12 +185,11 @@
             <lastHarvested>1900-01-01T00:00:00Z</lastHarvested>
             <lastCompleteHarvest>1900-01-01T00:00:00Z</lastCompleteHarvest>
         </synchronization>
-        <health state="up">
-            <ping success="true" lastSuccess="1900-01-01T00:00:00Z"/>
-            <status success="false" dateChecked="1900-01-01T00:00:00Z"/>
-        </health>
+
+        <ping success="true" lastSuccess="1900-01-01T00:00:00Z"/>
+
     </node>
-    <node replicate="true" synchronize="true" type="mn">
+    <node replicate="true" synchronize="true" type="mn" state="up">
         <identifier>r2d2</identifier>
         <name>dryad</name>
         <description>Development AstroMech Member Node</description>
@@ -214,12 +202,11 @@
             <lastHarvested>1900-01-01T00:00:00Z</lastHarvested>
             <lastCompleteHarvest>1900-01-01T00:00:00Z</lastCompleteHarvest>
         </synchronization>
-        <health state="up">
-            <ping success="true" lastSuccess="1900-01-01T00:00:00Z"/>
-            <status success="false" dateChecked="1900-01-01T00:00:00Z"/>
-        </health>
+
+        <ping success="true" lastSuccess="1900-01-01T00:00:00Z"/>
+
     </node>
-    <node replicate="true" synchronize="true" type="mn">
+    <node replicate="true" synchronize="true" type="mn" state="up">
         <identifier>m0t1</identifier>
         <name>knb</name>
         <description>Development Member node</description>
@@ -232,9 +219,6 @@
             <lastHarvested>1900-01-01T00:00:00Z</lastHarvested>
             <lastCompleteHarvest>1900-01-01T00:00:00Z</lastCompleteHarvest>
         </synchronization>
-        <health state="up">
-            <ping success="true" lastSuccess="1900-01-01T00:00:00Z"/>
-            <status success="false" dateChecked="1900-01-01T00:00:00Z"/>
-        </health>
+        <ping success="true" lastSuccess="1900-01-01T00:00:00Z"/>
     </node>
 </d1:nodeList>

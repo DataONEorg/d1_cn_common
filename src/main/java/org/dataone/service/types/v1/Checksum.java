@@ -9,7 +9,7 @@ import java.io.Serializable;
  * &lt;xs:complexType xmlns:ns="http://ns.dataone.org/service/types/v1" xmlns:xs="http://www.w3.org/2001/XMLSchema" name="Checksum">
  *   &lt;xs:simpleContent>
  *     &lt;xs:extension base="xs:string">
- *       &lt;xs:attribute type="ns:ChecksumAlgorithm" use="required" name="algorithm"/>
+ *       &lt;xs:attribute type="xs:string" use="required" name="algorithm"/>
  *     &lt;/xs:extension>
  *   &lt;/xs:simpleContent>
  * &lt;/xs:complexType>
@@ -18,7 +18,7 @@ import java.io.Serializable;
 public class Checksum implements Serializable
 {
     private String value;
-    private ChecksumAlgorithm algorithm;
+    private String algorithm;
 
     /** 
      * Get the extension value.
@@ -43,7 +43,7 @@ public class Checksum implements Serializable
      * 
      * @return value
      */
-    public ChecksumAlgorithm getAlgorithm() {
+    public String getAlgorithm() {
         return algorithm;
     }
 
@@ -52,7 +52,7 @@ public class Checksum implements Serializable
      * 
      * @param algorithm
      */
-    public void setAlgorithm(ChecksumAlgorithm algorithm) {
+    public void setAlgorithm(String algorithm) {
         this.algorithm = algorithm;
     }
 }

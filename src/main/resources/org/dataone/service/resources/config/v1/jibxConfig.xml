@@ -39,6 +39,11 @@
                 <simpleType name="ObjectFormatIdentifier">
                     <restriction value-name="value" />
                 </simpleType>
+                <complexType name="QueryType">
+                   <simpleContent>
+                        <extension value-name="value" />
+                    </simpleContent>
+                </complexType>
                 <complexType name="NodeReference">
                    <simpleContent>
                         <extension value-name="value" />
