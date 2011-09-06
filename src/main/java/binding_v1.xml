@@ -179,9 +179,6 @@
     <value style="attribute" name="success" get-method="getSuccess" set-method="setSuccess" usage="optional"/>
     <value style="attribute" name="lastSuccess" get-method="getLastSuccess" set-method="setLastSuccess" usage="optional" serializer="org.dataone.service.util.DateTimeMarshaller.serializeDateToUTC" deserializer="org.dataone.service.util.DateTimeMarshaller.deserializeDateToUTC"/>
   </mapping>
-  <mapping abstract="true" type-name="d1:QueryType" class="org.dataone.service.types.v1.QueryType">
-    <value style="text" get-method="getValue" set-method="setValue"/>
-  </mapping>
   <mapping abstract="true" type-name="d1:Replica" class="org.dataone.service.types.v1.Replica">
     <structure map-as="d1:NodeReference" get-method="getReplicaMemberNode" set-method="setReplicaMemberNode" name="replicaMemberNode"/>
     <value style="element" name="replicationStatus" get-method="getReplicationStatus" set-method="setReplicationStatus" format="d1:ReplicationStatus"/>

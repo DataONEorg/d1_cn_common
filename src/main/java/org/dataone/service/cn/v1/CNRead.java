@@ -35,7 +35,6 @@ import org.dataone.service.types.v1.SystemMetadata;
 import org.dataone.service.types.v1.ObjectLocationList;
 import org.dataone.service.types.v1.Checksum;
 import org.dataone.service.types.v1.ObjectList;
-import org.dataone.service.types.v1.QueryType;
 //import org.dataone.service.types.OctetStream;
 
 /**
@@ -90,7 +89,7 @@ public interface CNRead
     /**
      * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CNRead.search
      */
-    public ObjectList search(Session session, QueryType queryType, String query)
+    public ObjectList search(Session session, String queryType, String query)
         throws InvalidToken, ServiceFailure, NotAuthorized, InvalidRequest, 
         NotImplemented;
 }
