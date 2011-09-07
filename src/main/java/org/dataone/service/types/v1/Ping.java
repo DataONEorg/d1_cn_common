@@ -5,7 +5,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 /** 
- * Store results from the Mn_Health.ping method
+ * Store results from the :func:`MNCore.ping` method.
 
  * 
  * Schema fragment(s) for this class:
@@ -22,7 +22,8 @@ public class Ping implements Serializable
     private Date lastSuccess;
 
     /** 
-     * Get the 'success' attribute value.
+     * Get the 'success' attribute value. A boolean flag indicating TRUE if the node was reached by the last 
+                      :func:`MNCore.ping` call, otherwise FALSE
      * 
      * @return value
      */
@@ -31,7 +32,8 @@ public class Ping implements Serializable
     }
 
     /** 
-     * Set the 'success' attribute value.
+     * Set the 'success' attribute value. A boolean flag indicating TRUE if the node was reached by the last 
+                      :func:`MNCore.ping` call, otherwise FALSE
      * 
      * @param success
      */
@@ -40,7 +42,9 @@ public class Ping implements Serializable
     }
 
     /** 
-     * Get the 'lastSuccess' attribute value.
+     * Get the 'lastSuccess' attribute value. 
+                      The date time value of the last time a successful ping was performed.
+                  
      * 
      * @return value
      */
@@ -49,7 +53,9 @@ public class Ping implements Serializable
     }
 
     /** 
-     * Set the 'lastSuccess' attribute value.
+     * Set the 'lastSuccess' attribute value. 
+                      The date time value of the last time a successful ping was performed.
+                  
      * 
      * @param lastSuccess
      */

@@ -4,7 +4,7 @@ package org.dataone.service.types.v1;
 import java.io.Serializable;
 
 /** 
- * The schedule on which MnSynchronization will run for a particular run
+ * The schedule on which MnSynchronization will run for a particular run.
 
  * 
  * Schema fragment(s) for this class:

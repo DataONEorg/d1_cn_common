@@ -4,6 +4,9 @@ package org.dataone.service.types.v1;
 import java.io.Serializable;
 
 /** 
+ * Portion of an ObjectLocationList indicating the node from which the object
+ can be retrieved. 
+ * 
  * Schema fragment(s) for this class:
  * <pre>
  * &lt;xs:complexType xmlns:ns="http://ns.dataone.org/service/types/v1" xmlns:xs="http://www.w3.org/2001/XMLSchema" name="ObjectLocation">
@@ -68,7 +71,9 @@ public class ObjectLocation implements Serializable
     /** 
      * Get the 'url' element value. The full (absolute) URL that can be used to
                           retrieve the object using the get() method of the rest interface.
-                      
+                      For example, if identifer
+                          was "ABX154", and the node had a base URL of ``http://mn1.dataone.org/mn``
+                          then the value would be ``http://mn1.dataone.org/mn/object/ABX154``
      * 
      * @return value
      */
@@ -79,7 +84,9 @@ public class ObjectLocation implements Serializable
     /** 
      * Set the 'url' element value. The full (absolute) URL that can be used to
                           retrieve the object using the get() method of the rest interface.
-                      
+                      For example, if identifer
+                          was "ABX154", and the node had a base URL of ``http://mn1.dataone.org/mn``
+                          then the value would be ``http://mn1.dataone.org/mn/object/ABX154``
      * 
      * @param url
      */

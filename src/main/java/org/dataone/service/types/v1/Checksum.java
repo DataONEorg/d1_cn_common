@@ -4,6 +4,8 @@ package org.dataone.service.types.v1;
 import java.io.Serializable;
 
 /** 
+ * Represents the value of a computed checksum.
+ * 
  * Schema fragment(s) for this class:
  * <pre>
  * &lt;xs:complexType xmlns:ns="http://ns.dataone.org/service/types/v1" xmlns:xs="http://www.w3.org/2001/XMLSchema" name="Checksum">

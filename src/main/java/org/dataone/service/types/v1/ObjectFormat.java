@@ -4,9 +4,9 @@ package org.dataone.service.types.v1;
 import java.io.Serializable;
 
 /** 
- * An ObjectFormat is the structure returned from the 
+ * One value from the DataONE Object Format Vocabulary, which is returned by :func:`CNCore.getFormat()`.An ObjectFormat is the structure returned from the 
  getFormat() method of the CN REST interface.  It provides the 
- unique identifierand the name associated with the object format.  
+ unique identifier and the name associated with the object format.  
  Future versions may contain additional structured content from 
  external common typing systems.
 

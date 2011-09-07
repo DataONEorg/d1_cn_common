@@ -6,6 +6,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /** 
+ * 
+ Defines the replication policy applied to a particular object.
+
+ * 
  * Schema fragment(s) for this class:
  * <pre>
  * &lt;xs:complexType xmlns:ns="http://ns.dataone.org/service/types/v1" xmlns:xs="http://www.w3.org/2001/XMLSchema" name="ReplicationPolicy">

@@ -6,8 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /** 
- * A unique implementation of the member node or coordination node software
- stack. several nodes may exist on a single physical device or hostname 
+ * A set of values that describe a member or coordinating node, its Internet location, the services it
+ supports and its replication policy. Several nodes may exist on a single physical device or hostname.
 
  * 
  * Schema fragment(s) for this class:

@@ -6,6 +6,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /** 
+ * Person represents metadata about a Principal that is a person and that 
+ can be used by clients and nodes for displaying :class:`Types.AccessPolicy` information.
+ * 
  * Schema fragment(s) for this class:
  * <pre>
  * &lt;xs:complexType xmlns:ns="http://ns.dataone.org/service/types/v1" xmlns:xs="http://www.w3.org/2001/XMLSchema" name="Person">
@@ -30,7 +33,7 @@ public class Person implements Serializable
     private List<Subject> equivalentIdentityList = new ArrayList<Subject>();
 
     /** 
-     * Get the 'subject' element value.
+     * Get the 'subject' element value. The unique identifier for the person.
      * 
      * @return value
      */
@@ -39,7 +42,7 @@ public class Person implements Serializable
     }
 
     /** 
-     * Set the 'subject' element value.
+     * Set the 'subject' element value. The unique identifier for the person.
      * 
      * @param subject
      */
@@ -48,7 +51,7 @@ public class Person implements Serializable
     }
 
     /** 
-     * Get the list of 'givenName' element items.
+     * Get the list of 'givenName' element items. The given name of the Person.
      * 
      * @return list
      */
@@ -57,7 +60,7 @@ public class Person implements Serializable
     }
 
     /** 
-     * Set the list of 'givenName' element items.
+     * Set the list of 'givenName' element items. The given name of the Person.
      * 
      * @param list
      */
@@ -98,7 +101,7 @@ public class Person implements Serializable
     }
 
     /** 
-     * Get the 'familyName' element value.
+     * Get the 'familyName' element value. The family name of the Person.
      * 
      * @return value
      */
@@ -107,7 +110,7 @@ public class Person implements Serializable
     }
 
     /** 
-     * Set the 'familyName' element value.
+     * Set the 'familyName' element value. The family name of the Person.
      * 
      * @param familyName
      */
@@ -116,7 +119,7 @@ public class Person implements Serializable
     }
 
     /** 
-     * Get the list of 'email' element items.
+     * Get the list of 'email' element items. The email address of the Person.
      * 
      * @return list
      */
@@ -125,7 +128,7 @@ public class Person implements Serializable
     }
 
     /** 
-     * Set the list of 'email' element items.
+     * Set the list of 'email' element items. The email address of the Person.
      * 
      * @param list
      */
@@ -166,7 +169,8 @@ public class Person implements Serializable
     }
 
     /** 
-     * Get the list of 'isMemberOf' element items.
+     * Get the list of 'isMemberOf' element items. A group or role in which the Principal is a member, expressed using the
+                          unique Principal identifier for that group.
      * 
      * @return list
      */
@@ -175,7 +179,8 @@ public class Person implements Serializable
     }
 
     /** 
-     * Set the list of 'isMemberOf' element items.
+     * Set the list of 'isMemberOf' element items. A group or role in which the Principal is a member, expressed using the
+                          unique Principal identifier for that group.
      * 
      * @param list
      */
@@ -216,7 +221,8 @@ public class Person implements Serializable
     }
 
     /** 
-     * Get the list of 'equivalentIdentity' element items.
+     * Get the list of 'equivalentIdentity' element items. An alternative but equivalent identity for the principal that has been
+                          used in alternate identity systems.
      * 
      * @return list
      */
@@ -225,7 +231,8 @@ public class Person implements Serializable
     }
 
     /** 
-     * Set the list of 'equivalentIdentity' element items.
+     * Set the list of 'equivalentIdentity' element items. An alternative but equivalent identity for the principal that has been
+                          used in alternate identity systems.
      * 
      * @param list
      */

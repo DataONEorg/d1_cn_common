@@ -7,7 +7,7 @@ import java.util.List;
 
 /** 
  * An ObjectLocationList is the structure returned
- from the resolve() method of the CN REST interface. It provides a
+ from the :func:`CNRead.resolve` method of the CN REST interface. It provides a
  list of locations from which the specified object can be retrieved.
 
  * 

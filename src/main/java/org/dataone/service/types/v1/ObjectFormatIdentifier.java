@@ -4,8 +4,8 @@ package org.dataone.service.types.v1;
 import java.io.Serializable;
 
 /** 
- *  An ObjectFormatIdentifier is a string identifying
- the object format. It must be unique in the containing ObjectFormatList.
+ * A string used to identify an instance of :class:`Types.ObjectFormat` and MUST
+ be unique within an instance of :class:`Types.ObjectFormatList`.
 
  * 
  * Schema fragment(s) for this class:

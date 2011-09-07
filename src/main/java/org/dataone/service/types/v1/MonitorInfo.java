@@ -5,6 +5,9 @@ import java.io.Serializable;
 import java.sql.Date;
 
 /** 
+ * A single log entry as reported by a Member Node or Coordinating Node through
+ the getMonitorInfos methods.
+ * 
  * Schema fragment(s) for this class:
  * <pre>
  * &lt;xs:complexType xmlns:ns="http://ns.dataone.org/service/types/v1" xmlns:xs="http://www.w3.org/2001/XMLSchema" name="MonitorInfo">

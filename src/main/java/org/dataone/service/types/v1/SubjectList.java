@@ -6,6 +6,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 /** 
+ * 
+ A List of Subjects, including both persons and groups, that is returned
+ from the listSubjects service.
+
+ * 
  * Schema fragment(s) for this class:
  * <pre>
  * &lt;xs:complexType xmlns:ns="http://ns.dataone.org/service/types/v1" xmlns:xs="http://www.w3.org/2001/XMLSchema" name="SubjectList">

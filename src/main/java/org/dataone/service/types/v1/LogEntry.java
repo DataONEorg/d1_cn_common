@@ -5,7 +5,8 @@ import java.io.Serializable;
 import java.util.Date;
 
 /** 
- * Represents a single log entry resulting from the action of a single event.
+ * A single log entry as reported by a Member Node or Coordinating Node through
+ the :func:`MNCore.getLogRecords` and :func:`CNCore.getLogRecords` methods.
  * 
  * Schema fragment(s) for this class:
  * <pre>

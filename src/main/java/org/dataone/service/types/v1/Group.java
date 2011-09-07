@@ -6,6 +6,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /** 
+ * Group represents metadata about a Subject that is a group of other Subjects
+ and that can be used by clients and nodes for displaying AccessPolicy
+ information.
+ * 
  * Schema fragment(s) for this class:
  * <pre>
  * &lt;xs:complexType xmlns:ns="http://ns.dataone.org/service/types/v1" xmlns:xs="http://www.w3.org/2001/XMLSchema" name="Group">
@@ -24,7 +28,7 @@ public class Group implements Serializable
     private List<Subject> hasMemberList = new ArrayList<Subject>();
 
     /** 
-     * Get the 'subject' element value.
+     * Get the 'subject' element value. The unique identifier of the group.
      * 
      * @return value
      */
@@ -33,7 +37,7 @@ public class Group implements Serializable
     }
 
     /** 
-     * Set the 'subject' element value.
+     * Set the 'subject' element value. The unique identifier of the group.
      * 
      * @param subject
      */
@@ -42,7 +46,7 @@ public class Group implements Serializable
     }
 
     /** 
-     * Get the 'groupName' element value.
+     * Get the 'groupName' element value. The name of the Group.
      * 
      * @return value
      */
@@ -51,7 +55,7 @@ public class Group implements Serializable
     }
 
     /** 
-     * Set the 'groupName' element value.
+     * Set the 'groupName' element value. The name of the Group.
      * 
      * @param groupName
      */
@@ -60,7 +64,8 @@ public class Group implements Serializable
     }
 
     /** 
-     * Get the list of 'hasMember' element items.
+     * Get the list of 'hasMember' element items. A Subject that is a member of this group, expressed using the
+                      unique identifier for that Subject.
      * 
      * @return list
      */
@@ -69,7 +74,8 @@ public class Group implements Serializable
     }
 
     /** 
-     * Set the list of 'hasMember' element items.
+     * Set the list of 'hasMember' element items. A Subject that is a member of this group, expressed using the
+                      unique identifier for that Subject.
      * 
      * @param list
      */

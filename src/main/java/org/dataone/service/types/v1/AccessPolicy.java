@@ -6,6 +6,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 /** 
+ * A set of rules that specifies as a whole the allowable permissions that a
+ given user or system has for accessing a resource, including both data and
+ metadata resources and service resources. An access policy consists of a
+ sequence of allow rules that grant permissions to principals, which can be
+ individual users, groups of users, symbolic users, or systems and services.
+
+ * 
  * Schema fragment(s) for this class:
  * <pre>
  * &lt;xs:complexType xmlns:ns="http://ns.dataone.org/service/types/v1" xmlns:xs="http://www.w3.org/2001/XMLSchema" name="AccessPolicy">

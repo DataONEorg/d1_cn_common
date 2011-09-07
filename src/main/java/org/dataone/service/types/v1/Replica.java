@@ -5,6 +5,10 @@ import java.io.Serializable;
 import java.util.Date;
 
 /** 
+ * 
+ Replica information that forms a part of the SystemMetadata.
+
+ * 
  * Schema fragment(s) for this class:
  * <pre>
  * &lt;xs:complexType xmlns:ns="http://ns.dataone.org/service/types/v1" xmlns:xs="http://www.w3.org/2001/XMLSchema" name="Replica">
