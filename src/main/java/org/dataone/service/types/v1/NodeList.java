@@ -6,7 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /** 
- *  A list of Node entries that is returned by :func:`CNCore.listNodes()`.NodeList is described in :mod:`NodeList`.
+ *  A list of Node entries that is 
+ returned by :func:`CNCore.listNodes()`.NodeList is described in :mod:`NodeList`.
  * 
  * Schema fragment(s) for this class:
  * <pre>

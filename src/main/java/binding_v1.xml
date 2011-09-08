@@ -111,7 +111,7 @@
   <mapping abstract="true" type-name="d1:ObjectFormat" class="org.dataone.service.types.v1.ObjectFormat">
     <structure map-as="d1:ObjectFormatIdentifier" get-method="getFmtid" set-method="setFmtid" name="fmtid"/>
     <value style="element" name="formatName" get-method="getFormatName" set-method="setFormatName"/>
-    <value style="element" name="scienceMetadata" get-method="isScienceMetadata" set-method="setScienceMetadata"/>
+    <value style="element" name="formatType" get-method="getFormatType" set-method="setFormatType"/>
   </mapping>
   <mapping class="org.dataone.service.types.v1.ObjectFormat" name="objectFormat" ns="http://ns.dataone.org/service/types/v1">
     <structure map-as="d1:ObjectFormat"/>

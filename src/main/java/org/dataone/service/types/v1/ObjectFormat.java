@@ -4,7 +4,8 @@ package org.dataone.service.types.v1;
 import java.io.Serializable;
 
 /** 
- * One value from the DataONE Object Format Vocabulary, which is returned by :func:`CNCore.getFormat()`.An ObjectFormat is the structure returned from the 
+ * One value from the DataONE Object Format Vocabulary, 
+ which is returned by :func:`CNCore.getFormat()`.An ObjectFormat is the structure returned from the 
  getFormat() method of the CN REST interface.  It provides the 
  unique identifier and the name associated with the object format.  
  Future versions may contain additional structured content from 
@@ -17,7 +18,7 @@ import java.io.Serializable;
  *   &lt;xs:sequence>
  *     &lt;xs:element type="ns:ObjectFormatIdentifier" name="fmtid" minOccurs="1" maxOccurs="1"/>
  *     &lt;xs:element type="xs:string" name="formatName" minOccurs="1" maxOccurs="1"/>
- *     &lt;xs:element type="xs:boolean" name="scienceMetadata" minOccurs="1" maxOccurs="1"/>
+ *     &lt;xs:element type="xs:string" name="formatType" minOccurs="1" maxOccurs="1"/>
  *   &lt;/xs:sequence>
  * &lt;/xs:complexType>
  * </pre>
@@ -26,7 +27,7 @@ public class ObjectFormat implements Serializable
 {
     private ObjectFormatIdentifier fmtid;
     private String formatName;
-    private boolean scienceMetadata;
+    private String formatType;
 
     /** 
      * Get the 'fmtid' element value. 
@@ -81,30 +82,30 @@ public class ObjectFormat implements Serializable
     }
 
     /** 
-     * Get the 'scienceMetadata' element value. 
-                A boolean field indicating whether or not this format is science
-                metadata describing a science data object.  If the format is a
-                self-describing data format that includes science metadata, then 
-                the field should also be set to true.
+     * Get the 'formatType' element value. A string field indicating whether or not this 
+              format is science data(DATA), science metadata(METADATA) or a 
+              resource map(RESOURCE).  If the format is a self-describing data 
+              format that includes science metadata, then the field should also be 
+              set to science metadata.
               
      * 
      * @return value
      */
-    public boolean isScienceMetadata() {
-        return scienceMetadata;
+    public String getFormatType() {
+        return formatType;
     }
 
     /** 
-     * Set the 'scienceMetadata' element value. 
-                A boolean field indicating whether or not this format is science
-                metadata describing a science data object.  If the format is a
-                self-describing data format that includes science metadata, then 
-                the field should also be set to true.
+     * Set the 'formatType' element value. A string field indicating whether or not this 
+              format is science data(DATA), science metadata(METADATA) or a 
+              resource map(RESOURCE).  If the format is a self-describing data 
+              format that includes science metadata, then the field should also be 
+              set to science metadata.
               
      * 
-     * @param scienceMetadata
+     * @param formatType
      */
-    public void setScienceMetadata(boolean scienceMetadata) {
-        this.scienceMetadata = scienceMetadata;
+    public void setFormatType(String formatType) {
+        this.formatType = formatType;
     }
 }

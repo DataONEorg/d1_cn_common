@@ -5,8 +5,9 @@ import java.io.Serializable;
 import java.sql.Date;
 
 /** 
- * A single log entry as reported by a Member Node or Coordinating Node through
- the getMonitorInfos methods.
+ * A single log entry as reported by a 
+ Member Node or Coordinating Node through the getMonitorInfos methods.
+
  * 
  * Schema fragment(s) for this class:
  * <pre>

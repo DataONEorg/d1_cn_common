@@ -4,7 +4,8 @@ package org.dataone.service.types.v1;
 import java.io.Serializable;
 
 /** 
- * Member Node identifier drawn from the DataONE :mod:`cn_register &lt;registry service&gt;`.
+ * Member Node identifier drawn from the DataONE
+ :mod:`cn_register &lt;registry service&gt;`.
  * 
  * Schema fragment(s) for this class:
  * <pre>
