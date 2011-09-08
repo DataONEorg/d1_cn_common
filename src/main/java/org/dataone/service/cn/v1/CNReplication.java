@@ -47,8 +47,8 @@ public interface CNReplication {
      * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CNReplication.setReplicationStatus
      */
     public boolean setReplicationStatus(Session session, Identifier pid, 
-        ReplicationStatus status) throws ServiceFailure, NotImplemented, 
-        InvalidToken, NotAuthorized, InvalidRequest, NotFound;
+        NodeReference nodeRef, ReplicationStatus status) throws ServiceFailure, 
+        NotImplemented, InvalidToken, NotAuthorized, InvalidRequest, NotFound;
 
     /** TODO: verify return type for this method and uncomment when ReplicaMetadata is added
      * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CNReplication.updateReplicationMetadata
@@ -60,7 +60,7 @@ public interface CNReplication {
     /**
      * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CNReplication.setReplicationPolicy
      */
-    public boolean setReplicationPolicy(NodeReference nodeRef, Identifier pid, 
+    public boolean setReplicationPolicy(Session session, Identifier pid, 
         ReplicationPolicy policy) throws NotImplemented, NotFound, NotAuthorized, 
         ServiceFailure, InvalidRequest, InvalidToken;
 
