@@ -33,6 +33,7 @@ import org.dataone.service.types.v1.Permission;
 import org.dataone.service.types.v1.Identifier;
 import org.dataone.service.types.v1.ReplicationStatus;
 import org.dataone.service.types.v1.ReplicationPolicy;
+import org.dataone.service.types.v1.NodeReference;
 
 /**
  * The DataONE CoordinatingNode Tier3 Replication interface.  This defines an
