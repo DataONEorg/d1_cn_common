@@ -64,10 +64,10 @@ public interface CNReplication {
         ReplicationPolicy policy) throws NotImplemented, NotFound, NotAuthorized, 
         ServiceFailure, InvalidRequest, InvalidToken;
 
-    /** TODO: verify correct method signature
-     * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CNReplication.isReplicationAuthorized
+    /** 
+     * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CNReplication.isNodeAuthorized
      */
-    public boolean isReplicationAuthorized(Session originatingNodeSession, 
+    public boolean isNodeAuthorized(Session originatingNodeSession, 
         Subject targetNodeSubject, Identifier pid, Permission replicatePermission)
         throws NotImplemented, NotAuthorized, InvalidToken, ServiceFailure, 
         NotFound, InvalidRequest;
