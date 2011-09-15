@@ -2,17 +2,18 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package org.dataone.service.util;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.regex.Pattern;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
+import org.joda.time.format.ISODateTimeFormat;
 
 /**
  *
@@ -20,8 +21,17 @@ import org.joda.time.format.DateTimeFormatter;
  */
 public class DateTimeMarshaller {
 
+    static final Pattern timezonePattern = Pattern.compile(".+(?:(?:[\\+\\-]\\d\\d:?\\d\\d)|Z)$");
+
+    static final DateTimeFormatter basicDateIsoFmt = ISODateTimeFormat.basicDate();
+    static final DateTimeFormatter basicDateTimeIsoFmt = ISODateTimeFormat.basicDateTime();
+    static final DateTimeFormatter basicDateTimeNoMillisIsoFmt = ISODateTimeFormat.basicDateTimeNoMillis();
+    static final DateTimeFormatter extendedDateIsoFmt = ISODateTimeFormat.date();
+    static final DateTimeFormatter extendedDateTimeIsoFmt = ISODateTimeFormat.dateTime();
+    static final DateTimeFormatter extendedDateTimeNoMillisIsoFmt = ISODateTimeFormat.dateTimeNoMillis();
     static final DateTimeFormatter fmt = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss.SSSZZ");
-    static final DateTimeFormatter zFmt = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss'Z'");
+//    static final DateTimeFormatter zFmt = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss'Z'");
+
     /**
      * convert a date to GMT
      *
@@ -35,7 +45,6 @@ public class DateTimeMarshaller {
 
     }
 
-
     /**
      * convert a String to GMT date
      * The STring must either be ISO 8601 compliant or
@@ -46,10 +55,31 @@ public class DateTimeMarshaller {
     public static Date deserializeDateToUTC(String dt) {
         // if the string can not be parsed, then a Null Pointer Exception will be thrown
         DateTime dateTime = null;
+
+
         if (Character.isDigit(dt.charAt(0))) {
             // Assume it is ISO 8601 compliant
-            dateTime = new DateTime(dt);
+            // either simple or extended date
+            String tzAppend = "";
+            if (!(timezonePattern.matcher(dt).matches())) {
+                tzAppend = "Z";
+            }
+            if (Character.isDigit(dt.charAt(4))) {
+               //basic
+                if (dt.contains(".")) {
+                    dateTime = basicDateTimeIsoFmt.parseDateTime(dt+tzAppend);
+                } else {
+                    dateTime = basicDateTimeNoMillisIsoFmt.parseDateTime(dt+tzAppend);
+                }
+            } else {
+                // extended
+                if (dt.contains(".")) {
+                    dateTime = extendedDateTimeIsoFmt.parseDateTime(dt+tzAppend);
 
+                } else {
+                    dateTime = extendedDateTimeNoMillisIsoFmt.parseDateTime(dt+tzAppend);
+                }
+            }
         } else {
             if (Character.isSpaceChar(dt.charAt(3))) {
                 // it better be a string that looks something like
