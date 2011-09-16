@@ -18,13 +18,15 @@ public class ClientConfiguration {
 
     private static String storageConfigurationLocation = "/etc/dataone/storage/hazelcast.xml";
     
-    private Config hazelcastConfig = new Config();
+    private Config hazelcastConfig;
     public ClientConfiguration() throws FileNotFoundException {
             File hazelcastConfigfile = new File(storageConfigurationLocation);
             hazelcastConfig = new FileSystemXmlConfig(hazelcastConfigfile);
-
     }
-
+    public ClientConfiguration(String location) throws FileNotFoundException {
+            File hazelcastConfigfile = new File(location);
+            hazelcastConfig = new FileSystemXmlConfig(hazelcastConfigfile);
+    }
     public int getPort() {
         return hazelcastConfig.getPort();
     }
