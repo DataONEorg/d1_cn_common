@@ -51,7 +51,17 @@
                        replace="\1if \(objectFormat != null\) \{\2} else \{throw new NullPointerException\(&quot;ObjectFormat cannot be null!&quot;\);\}"
                        byline="true"
         />
+        <replaceregexp file="${basedir}/src/main/java/org/dataone/service/types/v1/Identifier.java"
+                       match="(\s+)(Serializable)"
+                       replace="\1 Serializable, Comparable"
+                       byline="true"
+        />
 
+        <replaceregexp file="${basedir}/src/main/java/org/dataone/service/types/v1/Identifier.java"
+                       match="(private String value\;)"
+                       replace="\1${line.separator}${line.separator}    public int compareTo\(Object idValue\) throws ClassCastException \{${line.separator}        return this.value.compareTo\(\(String\)idValue\)\;${line.separator}    \}${line.separator}"
+                       byline="true"
+        />
     </target>
 
 

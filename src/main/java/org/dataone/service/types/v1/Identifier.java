@@ -24,9 +24,14 @@ import java.io.Serializable;
  * &lt;/xs:complexType>
  * </pre>
  */
-public class Identifier implements Serializable
+public class Identifier implements  Serializable, Comparable
 {
     private String value;
+
+    public int compareTo(Object idValue) throws ClassCastException {
+        return this.value.compareTo((String)idValue);
+    }
+
 
     /** 
      * Get the 'Identifier' complexType value.
