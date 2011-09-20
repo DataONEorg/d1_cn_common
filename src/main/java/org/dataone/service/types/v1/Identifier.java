@@ -28,8 +28,9 @@ public class Identifier implements  Serializable, Comparable
 {
     private String value;
 
-    public int compareTo(Object idValue) throws ClassCastException {
-        return this.value.compareTo((String)idValue);
+    public int compareTo(Object identifier) throws ClassCastException {
+        Identifier id = (Identifier)identifier;
+        return this.value.compareTo(id.getValue());
     }
 
 
