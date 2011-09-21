@@ -143,7 +143,12 @@ public class TypeSamplesTestCase {
         assertTrue(validateExamples(systemNodeRegistrySchemaLocation, "/org/dataone/service/samples/v1/nodeListSample1.xml"));
 
     }
+    @Test
+    public void validateNodeSample() throws Exception, SAXException, IOException, ParserConfigurationException {
+// TODO arguments should be injected based on version of service api to test and build
+        assertTrue(validateExamples(systemMetadataSchemaLocation, "/org/dataone/service/samples/v1/mnNode1.xml"));
 
+    }
     @Test
     public void validateIdentifierSample() throws Exception, SAXException, IOException, ParserConfigurationException {
 // TODO arguments should be injected based on version of service api to test and build

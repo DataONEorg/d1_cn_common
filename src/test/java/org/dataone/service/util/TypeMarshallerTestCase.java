@@ -5,6 +5,7 @@
 
 package org.dataone.service.util;
 
+import org.dataone.service.types.v1.Node;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.logging.Level;
@@ -25,6 +26,23 @@ public class TypeMarshallerTestCase {
         try {
             InputStream is = this.getClass().getResourceAsStream("/org/dataone/service/samples/v1/systemMetadataSample1.xml");
             SystemMetadata systemMetadata = TypeMarshaller.unmarshalTypeFromStream(SystemMetadata.class, is);
+        } catch (IOException ex) {
+            fail("Test misconfiguration" +  ex);
+        } catch (InstantiationException ex) {
+            fail("Test misconfiguration" + ex);
+        } catch (IllegalAccessException ex) {
+            fail("Test misconfiguration" +  ex);
+        } catch (JiBXException ex) {
+            fail("Test misconfiguration" +  ex);
+        }
+
+
+    }
+    @Test
+    public void deserializeNode() {
+        try {
+            InputStream is = this.getClass().getResourceAsStream("/org/dataone/service/samples/v1/mnNode1.xml");
+            Node node = TypeMarshaller.unmarshalTypeFromStream(Node.class, is);
         } catch (IOException ex) {
             fail("Test misconfiguration" +  ex);
         } catch (InstantiationException ex) {
