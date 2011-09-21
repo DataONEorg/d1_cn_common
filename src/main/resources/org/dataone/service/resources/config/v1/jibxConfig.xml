@@ -27,7 +27,8 @@
     <class-decorator class="org.jibx.schema.codegen.extend.CollectionMethodsDecorator"/>
      <!-- Should add in the serializable decorator, we may want to use it at some point -->
      <class-decorator class="org.jibx.schema.codegen.extend.SerializableDecorator" />
-
+     <class-decorator class="org.jibx.schema.codegen.extend.ExtensionDecorator" match-name="Identifier" base-class="org.dataone.service.types.IdentifierBase"/>
+      <class-decorator class="org.jibx.schema.codegen.extend.ExtensionDecorator" match-name="NodeReference" base-class="org.dataone.service.types.IdentifierBase"/>
     <schema-set names="dataoneTypes.xsd" prefix="d1" namespaces="http://ns.dataone.org/service/types/v1">
         <schema-type type-name="dateTime" java-class="java.util.Date"
             serializer="org.dataone.service.util.DateTimeMarshaller.serializeDateToUTC"

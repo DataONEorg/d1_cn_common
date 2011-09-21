@@ -2,6 +2,7 @@
 package org.dataone.service.types.v1;
 
 import java.io.Serializable;
+import org.dataone.service.types.IdentifierBase;
 
 /** 
  * Member Node identifier drawn from the DataONE
@@ -16,7 +17,8 @@ import java.io.Serializable;
  * &lt;/xs:complexType>
  * </pre>
  */
-public class NodeReference implements Serializable
+public class NodeReference extends org.dataone.service.types.IdentifierBase
+    implements  Serializable, Comparable
 {
     private String value;
 

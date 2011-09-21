@@ -2,6 +2,7 @@
 package org.dataone.service.types.v1;
 
 import java.io.Serializable;
+import org.dataone.service.types.IdentifierBase;
 
 /** 
  * An :term:`identifier` (:term:`PID`) in the DataONE system. This is
@@ -24,15 +25,10 @@ import java.io.Serializable;
  * &lt;/xs:complexType>
  * </pre>
  */
-public class Identifier implements  Serializable, Comparable
+public class Identifier extends org.dataone.service.types.IdentifierBase
+    implements  Serializable, Comparable
 {
     private String value;
-
-    public int compareTo(Object identifier) throws ClassCastException {
-        Identifier id = (Identifier)identifier;
-        return this.value.compareTo(id.getValue());
-    }
-
 
     /** 
      * Get the 'Identifier' complexType value.

@@ -46,22 +46,21 @@
     <target name="cleanUpTypes"
             description="generate the distribution" >
 
-        <replaceregexp file="${basedir}/src/main/java/org/dataone/service/types/v1/ObjectInfo.java"
-                       match="(\s+)(this\.objectFormat \= objectFormat\;)"
-                       replace="\1if \(objectFormat != null\) \{\2} else \{throw new NullPointerException\(&quot;ObjectFormat cannot be null!&quot;\);\}"
-                       byline="true"
-        />
         <replaceregexp file="${basedir}/src/main/java/org/dataone/service/types/v1/Identifier.java"
                        match="(\s+)(Serializable)"
                        replace="\1 Serializable, Comparable"
                        byline="true"
         />
-
-        <replaceregexp file="${basedir}/src/main/java/org/dataone/service/types/v1/Identifier.java"
+        <replaceregexp file="${basedir}/src/main/java/org/dataone/service/types/v1/NodeReference.java"
+                       match="(\s+)(Serializable)"
+                       replace="\1 Serializable, Comparable"
+                       byline="true"
+        />
+<!--        <replaceregexp file="${basedir}/src/main/java/org/dataone/service/types/v1/Identifier.java"
                        match="(private String value\;)"
                        replace="\1${line.separator}${line.separator}    public int compareTo\(Object identifier\) throws ClassCastException \{${line.separator}        Identifier id = (Identifier)identifier\;${line.separator}        return this.value.compareTo\(id\.getValue\(\)\)\;${line.separator}    \}${line.separator}"
                        byline="true"
-        />
+        /> -->
     </target>
 
 
