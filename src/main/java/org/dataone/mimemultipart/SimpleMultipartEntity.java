@@ -190,7 +190,8 @@ public class SimpleMultipartEntity extends MultipartEntity
     {
     	Date d = new Date();
 		File tmpDir = new File(Constants.TEMP_DIR);
-		File outputFile = new File(tmpDir, "mmp.output." + d.getTime());
+                
+		File outputFile = new File(tmpDir, "mmp.output." + Thread.currentThread().getId() + "." + d.getTime());
 		String afp = outputFile.getAbsolutePath();
 		tempfileNames.add(afp);
 		log.info("temp outputFile is: " + outputFile.getAbsolutePath());
