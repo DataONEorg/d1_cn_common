@@ -34,7 +34,6 @@ public class IdentifierBase implements Serializable, Comparable {
     @Override
     public boolean equals(Object other)
     {
-        System.out.println("equals");
         IdentifierBase base = (IdentifierBase)other;
         return getValue().equals(base.getValue());
     }
@@ -42,7 +41,6 @@ public class IdentifierBase implements Serializable, Comparable {
     @Override
     public int hashCode()
     {
-        System.out.println("hashcode");
         return getValue().hashCode();
     }
 

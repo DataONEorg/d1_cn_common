@@ -64,19 +64,18 @@ import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 
 public class TypeSamplesTestCase {
-	private static Logger logger = Logger.getLogger(TypeSamplesTestCase.class);
-	
-	
-	//    static final String datatypeSchemaTagUrl = "file:///home/rwaltz/Documents/Projects/tags/D1_SCHEMA_0_6_2/";
+
+    private static Logger logger = Logger.getLogger(TypeSamplesTestCase.class);
+    //    static final String datatypeSchemaTagUrl = "file:///home/rwaltz/Documents/Projects/tags/D1_SCHEMA_0_6_2/";
     static final String datatypeSchemaTagUrl = "https://repository.dataone.org/software/cicore/branches/D1_SCHEMA_0_6_4/";
     static String datatypeSchemaLocation = datatypeSchemaTagUrl + "dataoneTypes.xsd";
-
     static String systemMetadataSchemaLocation = datatypeSchemaTagUrl + "dataoneTypes.xsd";
     static String systemObjectListSchemaLocation = datatypeSchemaTagUrl + "dataoneTypes.xsd";
     static String systemLoggingSchemaLocation = datatypeSchemaTagUrl + "dataoneTypes.xsd";
     static String systemNodeRegistrySchemaLocation = datatypeSchemaTagUrl + "dataoneTypes.xsd";
     static String systemIdentifierSchemaLocation = datatypeSchemaTagUrl + "dataoneTypes.xsd";
     static String systemChecksumSchemaLocation = datatypeSchemaTagUrl + "dataoneTypes.xsd";
+
     @Test
     public void fake() throws Exception {
         // parse an XML document into a DOM tree
@@ -96,6 +95,7 @@ public class TypeSamplesTestCase {
         assertTrue(testSystemMetadataMarshalling("/org/dataone/service/samples/v1/systemMetadataSample1.xml"));
 
     }
+
     @Test
     public void validateSysmetaSampleUnicodeSupplEscaped() throws Exception, SAXException, IOException, ParserConfigurationException {
 // TODO arguments should be injected based on version of service api to test and build
@@ -103,12 +103,13 @@ public class TypeSamplesTestCase {
 
     }
 
- //   @Test
+    //   @Test
     public void validateSysmetaSampleUnicodeSupplEscapedMarshalling() throws Exception, SAXException, IOException, ParserConfigurationException {
 // TODO arguments should be injected based on version of service api to test and build
         assertTrue(testSystemMetadataMarshalling("/org/dataone/service/samples/v1/systemMetadataSampleUnicodeSupplEscaped.xml"));
 
     }
+
     @Test
     public void validateObjectListSample() throws Exception, SAXException, IOException, ParserConfigurationException {
 // TODO arguments should be injected based on version of service api to test and build
@@ -143,12 +144,14 @@ public class TypeSamplesTestCase {
         assertTrue(validateExamples(systemNodeRegistrySchemaLocation, "/org/dataone/service/samples/v1/nodeListSample1.xml"));
 
     }
+
     @Test
     public void validateNodeSample() throws Exception, SAXException, IOException, ParserConfigurationException {
 // TODO arguments should be injected based on version of service api to test and build
         assertTrue(validateExamples(systemMetadataSchemaLocation, "/org/dataone/service/samples/v1/mnNode1.xml"));
 
     }
+
     @Test
     public void validateIdentifierSample() throws Exception, SAXException, IOException, ParserConfigurationException {
 // TODO arguments should be injected based on version of service api to test and build
@@ -176,6 +179,7 @@ public class TypeSamplesTestCase {
         assertTrue(testChecksumMarshalling("/org/dataone/service/samples/v1/checksum1.xml"));
 
     }
+
     private boolean validateExamples(String xsdUrlString, InputStream xmlInputStream) throws Exception, SAXException, IOException, ParserConfigurationException {
         DocumentBuilder parser;
         // create a SchemaFactory capable of understanding WXS schemas
@@ -220,8 +224,9 @@ public class TypeSamplesTestCase {
         return validateXmlDocument.validate(document);
 
     }
+
     private boolean validateExamples(String xsdUrlString, String xmlDocument) throws Exception, SAXException, IOException, ParserConfigurationException {
-        return validateExamples(xsdUrlString,this.getClass().getResourceAsStream(xmlDocument) );
+        return validateExamples(xsdUrlString, this.getClass().getResourceAsStream(xmlDocument));
     }
 
     /**
@@ -300,8 +305,7 @@ public class TypeSamplesTestCase {
             return result;
         }//toString()
     }
-    
-    
+
     @Test
     public void testSimpleSystemMetadataMarshalling() throws Exception {
         logger.info("Starting testing of testSimpleSystemMetadataMarshalling");
@@ -340,7 +344,17 @@ public class TypeSamplesTestCase {
         checksum.setAlgorithm("SHA-1");
 
         systemMetadata.setChecksum(checksum);
+        List<Replica> replicaList = new ArrayList<Replica>();
 
+        systemMetadata.setReplicaList(replicaList);
+        NodeReference nodeReference = new NodeReference();
+        nodeReference.setValue("mn1");
+        Replica originalReplica = new Replica();
+        originalReplica.setReplicaMemberNode(nodeReference);
+        originalReplica.setReplicationStatus(ReplicationStatus.COMPLETED);
+        originalReplica.setReplicaVerified(new Date());
+
+        systemMetadata.addReplica(originalReplica);
         IBindingFactory bfact =
                 BindingDirectory.getFactory(org.dataone.service.types.v1.SystemMetadata.class);
 
@@ -356,7 +370,7 @@ public class TypeSamplesTestCase {
 
         //       BindingDirectory.getFactory("binding", "org.dataone.service.types");
         IUnmarshallingContext uctx = bfact.createUnmarshallingContext();
-        
+
         systemMetadata = (SystemMetadata) uctx.unmarshalDocument(testSystemMetadataInput, null);
         assertTrue(systemMetadata != null);
         assertTrue(systemMetadata.getIdentifier().getValue().equalsIgnoreCase("ABC432"));
@@ -379,7 +393,7 @@ public class TypeSamplesTestCase {
             ByteArrayOutputStream testSytemMetadataOutput = new ByteArrayOutputStream();
             mctx.marshalDocument(systemMetadata, "UTF-8", null, testSytemMetadataOutput);
             logger.info(testSytemMetadataOutput.toString());
-            assertTrue(validateExamples(systemMetadataSchemaLocation,new ByteArrayInputStream(testSytemMetadataOutput.toByteArray())));
+            assertTrue(validateExamples(systemMetadataSchemaLocation, new ByteArrayInputStream(testSytemMetadataOutput.toByteArray())));
 
         } finally {
             inputStream.close();
@@ -472,7 +486,7 @@ public class TypeSamplesTestCase {
         // validate deserialized Composed object above
         testObjectListInput.reset();
         assertTrue(validateExamples(systemObjectListSchemaLocation, testObjectListInput));
-        
+
         // validate deserialized resource stream
         testObjectListOutput.reset();
         mctx.marshalDocument(objectList, "UTF-8", null, testObjectListOutput);
@@ -480,13 +494,12 @@ public class TypeSamplesTestCase {
         assertTrue(validateExamples(systemObjectListSchemaLocation, testObjectListInput));
         return true;
     }
-    
 
     @Test
     public void testSubjectListMarshalling() throws Exception {
         logger.info("Starting testing of testSubjectListMarshalling");
         SubjectList subjectList = new SubjectList();
-        
+
         // set the properties of SubjectList
         String subjectValue = "cn=test1,dc=dataone,dc=org";
         Subject subject = new Subject();
@@ -497,7 +510,7 @@ public class TypeSamplesTestCase {
         person.setFamilyName("test");
         person.addEmail("test@dataone.org");
         subjectList.addPerson(person);
-        
+
         IBindingFactory bfact =
                 BindingDirectory.getFactory(org.dataone.service.types.v1.SubjectList.class);
 
@@ -510,14 +523,14 @@ public class TypeSamplesTestCase {
         ByteArrayInputStream bais = new ByteArrayInputStream(baos.toByteArray());
 
         IUnmarshallingContext uctx = bfact.createUnmarshallingContext();
-        
+
         subjectList = (SubjectList) uctx.unmarshalDocument(bais, null);
         assertTrue(subjectList != null);
         assertTrue(subjectList.getPerson(0).getSubject().getValue().equals(subjectValue));
         bais.reset();
         assertTrue(validateExamples(datatypeSchemaLocation, bais));
     }
-    
+
     public boolean testLoggingMarshalling(String externalLoggingObjects) throws Exception {
 
         Log log = new Log();
