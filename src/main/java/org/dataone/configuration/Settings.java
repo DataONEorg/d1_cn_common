@@ -11,6 +11,7 @@ import org.apache.commons.configuration.CompositeConfiguration;
 import org.apache.commons.configuration.Configuration;
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.DefaultConfigurationBuilder;
+import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -140,8 +141,29 @@ public class Settings {
 			log.debug("TestSettings not found: assume production context");
 			// do nothing, because will only find if d1_integration in classpath 
 		}		
-		
+				
 		return configuration;
+    }
+    
+    /**
+     * Include additional properties in the global configuration.
+     * Properties included in the given file will override existing properties in the global configuration
+     * if they are present.
+     * @param fileName The properties file (path) to include
+     * @throws ConfigurationException
+     */
+    public static void augmentConfiguration(String fileName) throws ConfigurationException {
+    	Configuration config = new PropertiesConfiguration(fileName);
+    	// create new composite to hold them all
+    	CompositeConfiguration compositeConfiguration = new CompositeConfiguration();
+    	compositeConfiguration.addConfiguration(config);
+    	// add the originals back
+    	int size = ((CompositeConfiguration) getConfiguration()).getNumberOfConfigurations();
+    	for (int i = 0; i < size; i++) {
+    		Configuration c = ((CompositeConfiguration) getConfiguration()).getConfiguration(i);
+    		compositeConfiguration.addConfiguration(c);
+    	}
+    	configuration = compositeConfiguration;
     }
 }
 
