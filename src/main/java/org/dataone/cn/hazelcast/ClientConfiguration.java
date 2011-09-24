@@ -27,14 +27,15 @@ public class ClientConfiguration {
             File hazelcastConfigfile = new File(location);
             hazelcastConfig = new FileSystemXmlConfig(hazelcastConfigfile);
     }
+    public ClientConfiguration(Config hazelcastConfig) throws FileNotFoundException {
+            this.hazelcastConfig = hazelcastConfig;
+    }
     public int getPort() {
         return hazelcastConfig.getPort();
     }
 
-    public String[] getAddresses() {
-        // clients will connect directly to the localhost for interactions
-        String[] addresses = {"localhost:" + Integer.toString(this.getPort())};
-        return addresses;
+    public String getLocalhost() {
+        return "localhost:" + Integer.toString(this.getPort());
     }
 
     public String getGroup() {
