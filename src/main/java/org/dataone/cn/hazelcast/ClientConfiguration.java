@@ -35,7 +35,7 @@ public class ClientConfiguration {
     }
 
     public String getLocalhost() {
-        return "localhost:" + Integer.toString(this.getPort());
+        return "127.0.0.1:" + Integer.toString(this.getPort());
     }
 
     public String getGroup() {
