@@ -11,12 +11,13 @@ import org.dataone.service.types.v1.Subject;
 
 /**
  * A helper class to simplify the use of AccessRules and AccessPolicies
- * consisting of mostly factory methods for creating these nested objects
+ * consisting of static factory methods for creating these nested objects
  * (accessPolicy has accessRules has Permissions and Subjects, each subject has a value)
  * <p>
- * Currently does not work with other authentication objects (Session, Person, 
- * Group, SubjectList), but nothing  precludes this.  Just want to be careful not
- * to duplicate functionality in d1_libclient_java's org.dataone.client.auth.CertificateManager.
+ * Developer Notes: Currently does not work with other authentication objects (Session, 
+ * Person, Group, SubjectList), but nothing  precludes this.  You'll just want to be
+ * careful not to duplicate functionality in d1_libclient_java's 
+ * org.dataone.client.auth.CertificateManager.
  * 
  * @author rnahf
  *
@@ -50,9 +51,9 @@ public class AccessUtil {
 	 * If you have Lists of these things already, consider creating directly
 	 * and using ar.setPermissions(List\<Permission\> permissions), for example.
 	 * 
-	 * @param subjects - an array of Strings to be used to build Subjects
+	 * @param subjects - an array of Strings where each string becomes the value of a new Subject
 	 * @param permissions - an array of Permission objects (enumeration elements)
-	 * @return an AccessRule
+	 * @return an AccessRule instance
 	 */
 	public static AccessRule createAccessRule(String[] subjectStrings, Permission[] permissions)
 	{
@@ -68,7 +69,14 @@ public class AccessUtil {
 		return ar;
 	}
 
-	
+	/**
+	 * creates an AccessPolicy with a single AccessRule, and the AccessRule composed
+	 * of Subjects and Permissions specified in the parameters.
+	 * 
+	 * @param subjectStrings - an array of Strings where each string becomes the value of a new Subject
+	 * @param permissions - an array of Permission objects (enumeration elements)
+	 * @return an AccessPolicy instance
+	 */
 	public static AccessPolicy createSingleRuleAccessPolicy(String[] subjectStrings, Permission[] permissions)
 	{
 		AccessPolicy ap = new AccessPolicy();
@@ -77,7 +85,13 @@ public class AccessUtil {
 	}
 
 	
-	
+	/**
+	 * creates a java-List of Subject objects from the given String array.  The
+	 * utility of this method is for manually created AccessRules and other 
+	 * dataONE objects that take a List of Subjects.
+	 * @param subjectStrings - an array of Strings where each string becomes the value of a new Subject
+	 * @return a List\<Subject\> object
+	 */
 	public static List<Subject> createSubjectList(String[] subjectStrings) 
 	{
 		Vector<Subject> subjectList = new Vector<Subject>();
@@ -90,23 +104,45 @@ public class AccessUtil {
 	}
 	
 	
-	
+	/**
+	 * Dead-simple convenience method for creating a standard permission set
+	 * of Read and Write.
+	 * @return a Permission array
+	 */
 	public static Permission[] createReadWritePermissions()
 	{
 		return new Permission[]{Permission.READ, Permission.WRITE};
 	}
+
 	
+	/**
+	 * Dead-simple convenience method for creating a standard permission set
+	 * of Read and Write and ChangePermission
+	 * @return a Permission array
+	 */
 	public static Permission[] createReadWriteChangePermissions()
 	{
 		return new Permission[]{Permission.READ, Permission.WRITE, Permission.CHANGE_PERMISSION};
 	}
+
 	
+	/**
+	 * Dead-simple convenience method for creating a standard permission set
+	 * of Read and Write.
+	 * @return a List of Permission objects
+	 */
 	public static List<Permission> createReadWritePermissionList()
 	{
 		Permission[] p = createReadWritePermissions();
 		return Arrays.asList(p);
 	}
 	
+	
+	/**
+	 * Dead-simple convenience method for creating a standard permission set
+	 * of Read and Write and ChangePermission
+	 * @return a List of Permission objects
+	 */
 	public static List<Permission> createReadWriteChangePermissionList()
 	{
 		Permission[] p = createReadWriteChangePermissions();
