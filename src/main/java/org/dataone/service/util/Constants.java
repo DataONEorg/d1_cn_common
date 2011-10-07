@@ -105,6 +105,14 @@ public class Constants {
     public static final String TEMP_DIR = "/tmp";
     
     /** Authorization section */
-    public static final String PUBLIC_SUBJECT = "public";
+    @Deprecated
+    /**
+     * changed to SUBJECT_PUBLIC for consistency and grouping
+     */
+    public static final String PUBLIC_SUBJECT= "public";
+    public static final String SUBJECT_PUBLIC = "public";
+    public static final String SUBJECT_AUTHENTICATED_USER = "authenticatedUser";
+    public static final String SUBJECT_VERIFIED_USER = "verifiedUser";
+
     
 }
