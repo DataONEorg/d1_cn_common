@@ -32,6 +32,7 @@ import org.dataone.service.exceptions.ServiceFailure;
 import org.dataone.service.types.v1.Person;
 import org.dataone.service.types.v1.Session;
 import org.dataone.service.types.v1.Subject;
+import org.dataone.service.types.v1.SubjectInfo;
 import org.dataone.service.types.v1.SubjectList;
 
 /**
@@ -67,7 +68,7 @@ public interface CNIdentity {
     /** TODO: are ServiceFailure and InvalidToken the only exceptions needed here?
      * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CNIdentity.getSubjectInfo
      */
-    public SubjectList getSubjectInfo(Session session, Subject subject)
+    public SubjectInfo getSubjectInfo(Session session, Subject subject)
         throws ServiceFailure, InvalidRequest, NotAuthorized, NotImplemented;
   
     /**

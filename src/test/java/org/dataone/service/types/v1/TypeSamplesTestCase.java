@@ -496,11 +496,11 @@ public class TypeSamplesTestCase {
     }
 
     @Test
-    public void testSubjectListMarshalling() throws Exception {
-        logger.info("Starting testing of testSubjectListMarshalling");
-        SubjectList subjectList = new SubjectList();
+    public void testSubjectInfoMarshalling() throws Exception {
+        logger.info("Starting testing of testSubjectInfoMarshalling");
+        SubjectInfo subjectInfo = new SubjectInfo();
 
-        // set the properties of SubjectList
+        // set the properties of SubjectInfo
         String subjectValue = "cn=test1,dc=dataone,dc=org";
         Subject subject = new Subject();
         subject.setValue(subjectValue);
@@ -509,24 +509,24 @@ public class TypeSamplesTestCase {
         person.addGivenName("test");
         person.setFamilyName("test");
         person.addEmail("test@dataone.org");
-        subjectList.addPerson(person);
+        subjectInfo.addPerson(person);
 
         IBindingFactory bfact =
-                BindingDirectory.getFactory(org.dataone.service.types.v1.SubjectList.class);
+                BindingDirectory.getFactory(org.dataone.service.types.v1.SubjectInfo.class);
 
         IMarshallingContext mctx = bfact.createMarshallingContext();
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
-        mctx.marshalDocument(subjectList, "UTF-8", null, baos);
+        mctx.marshalDocument(subjectInfo, "UTF-8", null, baos);
 
         logger.info(baos.toString());
         ByteArrayInputStream bais = new ByteArrayInputStream(baos.toByteArray());
 
         IUnmarshallingContext uctx = bfact.createUnmarshallingContext();
 
-        subjectList = (SubjectList) uctx.unmarshalDocument(bais, null);
-        assertTrue(subjectList != null);
-        assertTrue(subjectList.getPerson(0).getSubject().getValue().equals(subjectValue));
+        subjectInfo = (SubjectInfo) uctx.unmarshalDocument(bais, null);
+        assertTrue(subjectInfo != null);
+        assertTrue(subjectInfo.getPerson(0).getSubject().getValue().equals(subjectValue));
         bais.reset();
         assertTrue(validateExamples(datatypeSchemaLocation, bais));
     }

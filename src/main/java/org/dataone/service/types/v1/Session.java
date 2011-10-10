@@ -6,9 +6,9 @@ import java.io.Serializable;
 /** 
  * Information about the authenticated session for a service transaction.  Session data
  is retrieved from the SSL client certificate and populated in the Session object.  The
- subject represents the person or system that authenticated successfully, and the subjectList
+ subject represents the person or system that authenticated successfully, and the subjectInfo
  contains a listing of alternate identities (both Persons and Groups) that are also valid identities
- for this user.  The subjectList should include at least one Person or Group entry that provides
+ for this user.  The subjectInfo should include at least one Person or Group entry that provides
  the attributes of the subject that was authenticated. 
 
  * 
@@ -17,7 +17,7 @@ import java.io.Serializable;
  * &lt;xs:complexType xmlns:ns="http://ns.dataone.org/service/types/v1" xmlns:xs="http://www.w3.org/2001/XMLSchema" name="Session">
  *   &lt;xs:sequence>
  *     &lt;xs:element type="ns:Subject" name="subject" minOccurs="1" maxOccurs="1"/>
- *     &lt;xs:element type="ns:SubjectList" name="subjectList" minOccurs="0" maxOccurs="1"/>
+ *     &lt;xs:element type="ns:SubjectInfo" name="subjectInfo" minOccurs="0" maxOccurs="1"/>
  *   &lt;/xs:sequence>
  * &lt;/xs:complexType>
  * </pre>
@@ -25,7 +25,7 @@ import java.io.Serializable;
 public class Session implements Serializable
 {
     private Subject subject;
-    private SubjectList subjectList;
+    private SubjectInfo subjectInfo;
 
     /** 
      * Get the 'subject' element value.
@@ -46,20 +46,20 @@ public class Session implements Serializable
     }
 
     /** 
-     * Get the 'subjectList' element value.
+     * Get the 'subjectInfo' element value.
      * 
      * @return value
      */
-    public SubjectList getSubjectList() {
-        return subjectList;
+    public SubjectInfo getSubjectInfo() {
+        return subjectInfo;
     }
 
     /** 
-     * Set the 'subjectList' element value.
+     * Set the 'subjectInfo' element value.
      * 
-     * @param subjectList
+     * @param subjectInfo
      */
-    public void setSubjectList(SubjectList subjectList) {
-        this.subjectList = subjectList;
+    public void setSubjectInfo(SubjectInfo subjectInfo) {
+        this.subjectInfo = subjectInfo;
     }
 }
