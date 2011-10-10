@@ -80,6 +80,8 @@ public class Constants {
     public static final String RESOURCE_ACCOUNT_MAPPING_CONFIRM = "accounts/mapconfirm";
     /** IDENTITY API resource which handles group-related operations */
     public static final String RESOURCE_GROUPS = "groups";
+    /** IDENTITY API resource which handles group-member-remove operations */
+    public static final String RESOURCE_GROUPS_REMOVE = "groups/remove";
     
     /** READ API resource which handles relationship assertion operations */
     public static final String RESOURCE_RELATIONSHIP = "assertRelation";
