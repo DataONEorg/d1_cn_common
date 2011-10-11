@@ -96,11 +96,11 @@ public class Constants {
     /** REPLICATION API resource which handles replication policy updates */
     public static final String RESOURCE_REPLICATION_POLICY = "meta/policy";
     /** REPLICATE API resource which handles replica metadata updates */
-    public static final String RESOURCE_META_REPLICATION = "meta/replication";
+    public static final String RESOURCE_REPLICATION_META = "meta/replication";
     /** REPLICATE API resource which handles replication authorization */
     public static final String RESOURCE_REPLICATION_AUTHORIZED = "replicationAuthorized";
     /** REPLICATE API resource which handles replication status updates */
-    public static final String RESOURCE_NOTIFY = "notify";
+    public static final String RESOURCE_REPLICATION_NOTIFY = "notify";
     
    
     /** Temporary file directory */
