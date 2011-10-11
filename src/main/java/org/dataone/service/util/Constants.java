@@ -93,13 +93,13 @@ public class Constants {
     public static final String RESOURCE_RESOLVE = "resolve";   
     
     
-    /** REPLICATE API resource which handles authorization checks */
+    /** REPLICATION API resource which handles replication policy updates */
     public static final String RESOURCE_POLICY = "meta/policy";
-    /** REPLICATE API resource which handles authorization checks */
-    public static final String RESOURCE_META_REPLICATE = "meta/replication";
-    /** REPLICATE API resource which handles authorization checks */
-    public static final String RESOURCE_REPLICATE = "replicate";
-    /** REPLICATE API resource which handles authorization checks */
+    /** REPLICATE API resource which handles replica metadata updates */
+    public static final String RESOURCE_META_REPLICATION = "meta/replication";
+    /** REPLICATE API resource which handles replication authorization */
+    public static final String RESOURCE_REPLICATE = "replicationAuthorized";
+    /** REPLICATE API resource which handles replication status updates */
     public static final String RESOURCE_NOTIFY = "notify";
     
    
