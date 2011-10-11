@@ -94,13 +94,13 @@ public class Constants {
     
     
     /** REPLICATION API resource which handles replication policy updates */
-    public static final String RESOURCE_REPLICATION_POLICY = "meta/policy";
+    public static final String RESOURCE_REPLICATION_POLICY = "replicaPolicies";
     /** REPLICATE API resource which handles replica metadata updates */
-    public static final String RESOURCE_REPLICATION_META = "meta/replication";
+    public static final String RESOURCE_REPLICATION_META = "replicaMetadata";
     /** REPLICATE API resource which handles replication authorization */
-    public static final String RESOURCE_REPLICATION_AUTHORIZED = "replicationAuthorized";
+    public static final String RESOURCE_REPLICATION_AUTHORIZED = "replicaAuthorizations";
     /** REPLICATE API resource which handles replication status updates */
-    public static final String RESOURCE_REPLICATION_NOTIFY = "notify";
+    public static final String RESOURCE_REPLICATION_NOTIFY = "replicaNotifications";
     
    
     /** Temporary file directory */
