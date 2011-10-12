@@ -47,12 +47,12 @@
             description="generate the distribution" >
 
         <replaceregexp file="${basedir}/src/main/java/org/dataone/service/types/v1/Identifier.java"
-                       match="(\s+)(Serializable)"
+                       match="([\w\s]+)(Serializable)"
                        replace="\1 Serializable, Comparable"
                        byline="true"
         />
         <replaceregexp file="${basedir}/src/main/java/org/dataone/service/types/v1/NodeReference.java"
-                       match="(\s+)(Serializable)"
+                       match="([\w\s]+)(Serializable)"
                        replace="\1 Serializable, Comparable"
                        byline="true"
         />
