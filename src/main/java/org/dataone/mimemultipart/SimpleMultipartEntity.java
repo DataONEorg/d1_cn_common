@@ -186,12 +186,14 @@ public class SimpleMultipartEntity extends MultipartEntity
     }
              
     
-    private File generateTempFile()
+    private File generateTempFile() throws IOException
     {
     	Date d = new Date();
 		File tmpDir = new File(Constants.TEMP_DIR);
                 
-		File outputFile = new File(tmpDir, "mmp.output." + Thread.currentThread().getId() + "." + d.getTime());
+		//File outputFile = new File(tmpDir, "mmp.output." + Thread.currentThread().getId() + "." + d.getTime());
+		File outputFile = File.createTempFile("mmp.output.", null, tmpDir);
+
 		String afp = outputFile.getAbsolutePath();
 		tempfileNames.add(afp);
 		log.info("temp outputFile is: " + outputFile.getAbsolutePath());
