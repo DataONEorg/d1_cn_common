@@ -393,4 +393,14 @@
    <formatName>Portable Document Format</formatName>
    <formatType>DATA</formatType>
   </objectFormat>
+  <objectFormat>
+    <fmtid>http://dublincore.org/schemas/xmls/qdc/2008/02/11/simpledc.xsd</fmtid>
+    <formatName>Simple DC container XML Schema Created 2008-02-11</formatName>
+    <formatType>METADATA</formatType>
+  </objectFormat>
+  <objectFormat>
+    <fmtid>http://dublincore.org/schemas/xmls/qdc/2008/02/11/qualifieddc.xsd</fmtid>
+    <formatName>Qualified DC container XML Schema Created 2008-02-11</formatName>
+    <formatType>METADATA</formatType>
+  </objectFormat>
 </d1:objectFormatList>
