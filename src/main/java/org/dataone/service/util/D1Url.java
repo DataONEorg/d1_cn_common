@@ -144,6 +144,18 @@ public class D1Url {
             url += joinToUrlWith("&", paramV.get(i));
         }
     }
+    
+    public String getAssembledQueryString() {
+    	String queryParams = "";
+    	if (paramV.size() > 0) {
+    		queryParams += paramV.get(0);
+    		for (int i = 1; i < paramV.size(); i++) {
+    			queryParams += "&";
+    			queryParams += paramV.get(i);
+    		}  		
+    	}
+    	return queryParams;
+    }
 
     protected static String trimAndValidateString(String s) throws IllegalArgumentException {
         if (s == null || s.trim().isEmpty()) {
@@ -152,21 +164,21 @@ public class D1Url {
         return s.trim();
     }
 
-    protected String joinToUrlWith(String j, String s) {
-        if (s == null) {
+    protected String joinToUrlWith(String joiner, String string) {
+        if (string == null) {
             return "";
         }
         String joined = null;
-        if (this.url.endsWith(j)) {
-            if (s.startsWith(j)) {
-                joined = (String) s.subSequence(1, s.length());
+        if (this.url.endsWith(joiner)) {
+            if (string.startsWith(joiner)) {
+                joined = (String) string.subSequence(1, string.length());
             } else {
-                joined = s;
+                joined = string;
             }
-        } else if (s.startsWith(j)) {
-            joined = s;
+        } else if (string.startsWith(joiner)) {
+            joined = string;
         } else {
-            joined = j + s;
+            joined = joiner + string;
         }
         return joined;
     }

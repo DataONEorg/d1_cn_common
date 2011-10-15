@@ -214,4 +214,14 @@ public class D1Url1TestCase {
 			assertTrue("Correct exception thrown", true);
 		}
 	}
+	
+	@Test 
+	public void testGetAssembledQueryString() {
+		D1Url url = new D1Url(testBaseUrl,testResource);
+		url.addNonEmptyParamPair("k1", "v1&");
+		url.addNonEmptyParamPair("k2", "v2");
+		String expected = "k1=v1%26&k2=v2";
+
+		assertEquals(expected, url.getAssembledQueryString());
+	}
 }
