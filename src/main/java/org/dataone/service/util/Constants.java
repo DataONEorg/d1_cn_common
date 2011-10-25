@@ -76,6 +76,8 @@ public class Constants {
     public static final String RESOURCE_ACCOUNTS = "accounts";
     /** IDENTITY API resource which handles account-mapping operations */
     public static final String RESOURCE_ACCOUNT_MAPPING = "accounts/map";
+    /** IDENTITY API resource which handles account-mapping request operations */
+    public static final String RESOURCE_ACCOUNT_MAPPING_REQUEST = "accounts/maprequest";
     /** IDENTITY API resource which handles account-mapping confirmation operations */
     public static final String RESOURCE_ACCOUNT_MAPPING_CONFIRM = "accounts/mapconfirm";
     /** IDENTITY API resource which handles pending account-mapping operations */
