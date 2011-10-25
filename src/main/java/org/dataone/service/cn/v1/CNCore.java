@@ -66,7 +66,7 @@ public interface CNCore
     /**
      * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CNCore.getFormat
      */
-    public ObjectFormat getFormat(ObjectFormatIdentifier fmtid)
+    public ObjectFormat getFormat(ObjectFormatIdentifier formatid)
         throws InvalidRequest, ServiceFailure, NotFound, InsufficientResources,
         NotImplemented;
 

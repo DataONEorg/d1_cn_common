@@ -78,7 +78,7 @@ public interface MNCore {
      * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/MN_APIs.html#MN_core.getOperationStatistics
      */
     public MonitorList getOperationStatistics(Session cert, Date startTime,
-    		Date endTime, Subject requestor, Event event, ObjectFormatIdentifier formatId) 
+    		Date endTime, Subject requestor, Event event, ObjectFormatIdentifier formatid) 
     throws InvalidRequest, InvalidToken, NotAuthorized, NotImplemented, ServiceFailure,
     	   InsufficientResources, UnsupportedType;
 

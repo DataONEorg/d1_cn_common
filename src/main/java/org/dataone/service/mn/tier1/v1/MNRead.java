@@ -87,7 +87,7 @@ public interface MNRead {
      * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/MN_APIs.html#MN_read.listObjects
      */
     public ObjectList listObjects(Session cert, Date startTime, 
-            Date endTime, ObjectFormatIdentifier objectFormatId, Boolean replicaStatus,
+            Date endTime, ObjectFormatIdentifier formatid, Boolean replicaStatus,
             Integer start, Integer count) 
     throws InvalidRequest, InvalidToken, NotAuthorized, NotImplemented, ServiceFailure;
 
