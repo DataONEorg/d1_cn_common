@@ -81,7 +81,14 @@ public interface CNIdentity {
     /**
      * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CNIdentity.mapIdentity
      */
-    public boolean mapIdentity(Session session, Subject subject) 
+    public boolean mapIdentity(Session session, Subject subject1, Subject subject2) 
+        throws ServiceFailure, InvalidToken, NotAuthorized, NotFound, 
+        NotImplemented, InvalidRequest;
+    
+    /**
+     * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CNIdentity.requestMapIdentity
+     */
+    public boolean requestMapIdentity(Session session, Subject subject) 
         throws ServiceFailure, InvalidToken, NotAuthorized, NotFound, 
         NotImplemented, InvalidRequest;
     
