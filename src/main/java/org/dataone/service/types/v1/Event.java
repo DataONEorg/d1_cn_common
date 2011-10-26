@@ -27,6 +27,7 @@ public enum Event implements Serializable {
     CREATE("create"), READ("read"), UPDATE("update"), DELETE("delete"), REPLICATE(
             "replicate"), SYNCHRONIZATION_FAILED("synchronization_failed"), REPLICATION_FAILED(
             "replication_failed");
+    private static final long serialVersionUID = 10000000;
     private final String value;
 
     private Event(String value) {

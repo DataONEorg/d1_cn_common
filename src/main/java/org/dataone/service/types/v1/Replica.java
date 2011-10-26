@@ -22,6 +22,7 @@ import java.util.Date;
  */
 public class Replica implements Serializable
 {
+    private static final long serialVersionUID = 10000000;
     private NodeReference replicaMemberNode;
     private ReplicationStatus replicationStatus;
     private Date replicaVerified;

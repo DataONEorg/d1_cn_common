@@ -29,6 +29,7 @@ import java.util.List;
  */
 public class AccessRule implements Serializable
 {
+    private static final long serialVersionUID = 10000000;
     private List<Subject> subjectList = new ArrayList<Subject>();
     private List<Permission> permissionList = new ArrayList<Permission>();
 

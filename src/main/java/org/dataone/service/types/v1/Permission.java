@@ -6,12 +6,12 @@ import java.io.Serializable;
 /** 
  * A string value indicating the set of actions that
  can be performed on a resource as specified in an access policy. The
- set of permissions include the ability to read a resource, modify a
+ set of permissions include the ability to read a resource (read), modify a
  resource (write), and to change the set of access control policies
  for a resource (changePermission). In addition, there is a permission
  that controls ability to execute a service (execute), and a 
- permission that controls the ability of a node to replicate an object 
- to itself from another node.
+ permission that controls the ability of a node to receive a replicate of
+ an object from another node.
 
  * 
  * Schema fragment(s) for this class:
@@ -30,6 +30,7 @@ import java.io.Serializable;
 public enum Permission implements Serializable {
     READ("read"), WRITE("write"), CHANGE_PERMISSION("changePermission"), EXECUTE(
             "execute"), REPLICATE("replicate");
+    private static final long serialVersionUID = 10000000;
     private final String value;
 
     private Permission(String value) {

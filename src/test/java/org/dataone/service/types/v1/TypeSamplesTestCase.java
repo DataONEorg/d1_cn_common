@@ -67,7 +67,7 @@ public class TypeSamplesTestCase {
 
     private static Logger logger = Logger.getLogger(TypeSamplesTestCase.class);
     //    static final String datatypeSchemaTagUrl = "file:///home/rwaltz/Documents/Projects/tags/D1_SCHEMA_0_6_2/";
-    static final String datatypeSchemaTagUrl = "https://repository.dataone.org/software/cicore/branches/D1_SCHEMA_0_6_4/";
+    static final String datatypeSchemaTagUrl = "https://repository.dataone.org/software/cicore/branches/D1_SCHEMA_1_0_0/";
     static String datatypeSchemaLocation = datatypeSchemaTagUrl + "dataoneTypes.xsd";
     static String systemMetadataSchemaLocation = datatypeSchemaTagUrl + "dataoneTypes.xsd";
     static String systemObjectListSchemaLocation = datatypeSchemaTagUrl + "dataoneTypes.xsd";
@@ -144,7 +144,10 @@ public class TypeSamplesTestCase {
         assertTrue(validateExamples(systemNodeRegistrySchemaLocation, "/org/dataone/service/samples/v1/nodeListSample1.xml"));
 
     }
-
+    @Test
+    public void validateNodeRegistryMarshalling() throws Exception, SAXException, IOException, ParserConfigurationException {
+        assertTrue(testNodeListMarshalling("/org/dataone/service/samples/v1/nodeListSample1.xml"));
+    }
     @Test
     public void validateNodeSample() throws Exception, SAXException, IOException, ParserConfigurationException {
 // TODO arguments should be injected based on version of service api to test and build
@@ -174,7 +177,7 @@ public class TypeSamplesTestCase {
     }
 
     @Test
-    public void validateNodeRegistryMarshalling() throws Exception, SAXException, IOException, ParserConfigurationException {
+    public void validateChecksuMarshalling() throws Exception, SAXException, IOException, ParserConfigurationException {
 
         assertTrue(testChecksumMarshalling("/org/dataone/service/samples/v1/checksum1.xml"));
 
@@ -311,6 +314,7 @@ public class TypeSamplesTestCase {
         logger.info("Starting testing of testSimpleSystemMetadataMarshalling");
         SystemMetadata systemMetadata = new SystemMetadata();
 
+        systemMetadata.setSerialVersion(BigInteger.ONE);
         Identifier identifier = new Identifier();
         identifier.setValue("ABC432");
 //        systemMetadata.
@@ -320,10 +324,10 @@ public class TypeSamplesTestCase {
         fmtid.setValue("CF-1.0");
         ObjectFormat thisOF = ObjectFormatServiceImpl.getInstance().getFormat(fmtid);
         assertNotNull(thisOF);
-        assertNotNull(thisOF.getFmtid());
+        assertNotNull(thisOF.getFormatId());
         assertNotNull(thisOF.getFormatName());
-        logger.info(thisOF.getFmtid().getValue() + " = " + thisOF.getFormatName());
-        systemMetadata.setFmtid(fmtid);
+        logger.info(thisOF.getFormatId().getValue() + " = " + thisOF.getFormatName());
+        systemMetadata.setFormatId(fmtid);
         systemMetadata.setSize(new BigInteger("1235431"));
         Subject submitter = new Subject();
         submitter.setValue("Kermit de Frog");
@@ -418,7 +422,7 @@ public class TypeSamplesTestCase {
         objectInfo1.setIdentifier(identifier1);
         ObjectFormatIdentifier fmtid = new ObjectFormatIdentifier();
         fmtid.setValue("CF-1.0");
-        objectInfo1.setFmtid(fmtid);
+        objectInfo1.setFormatId(fmtid);
         Checksum checksum1 = new Checksum();
         checksum1.setValue("V29ybGQgSGVsbG8h");
         checksum1.setAlgorithm("SHA-1");
@@ -433,7 +437,7 @@ public class TypeSamplesTestCase {
         objectInfo2.setIdentifier(identifier1);
         ObjectFormatIdentifier fmtid2 = new ObjectFormatIdentifier();
         fmtid2.setValue("http://digir.net/schema/conceptual/darwin/2003/1.0/darwin2.xsd");
-        objectInfo2.setFmtid(fmtid2);
+        objectInfo2.setFormatId(fmtid2);
         Checksum checksum2 = new Checksum();
         checksum2.setValue("V29ybGQgSGVsaF89");
         checksum2.setAlgorithm("MD5");
@@ -448,7 +452,7 @@ public class TypeSamplesTestCase {
         objectInfo3.setIdentifier(identifier1);
         ObjectFormatIdentifier fmtid3 = new ObjectFormatIdentifier();
         fmtid3.setValue("FGDC-STD-001-1998");
-        objectInfo3.setFmtid(fmtid3);
+        objectInfo3.setFormatId(fmtid3);
         Checksum checksum3 = new Checksum();
         checksum3.setValue("V29ybGQgSGVsaF89ybGE8987adf3");
         checksum3.setAlgorithm("SHA-512");
@@ -509,6 +513,7 @@ public class TypeSamplesTestCase {
         person.addGivenName("test");
         person.setFamilyName("test");
         person.addEmail("test@dataone.org");
+        person.setVerified(Boolean.TRUE);
         subjectInfo.addPerson(person);
 
         IBindingFactory bfact =
@@ -624,45 +629,39 @@ public class TypeSamplesTestCase {
 
     public boolean testNodeListMarshalling(String externalObjectList) throws Exception {
         NodeList nodeList = new NodeList();
-        Node node = new Node();
-        nodeList.addNode(node);
-        node.setReplicate(true);
-        node.setSynchronize(true);
+        Node sq1dMNNode = new Node();
+        String sq1dId = "sq1d";
+        NodeReference sq1dNodeReference = new NodeReference();
+        sq1dNodeReference.setValue(sq1dId);
+        sq1dMNNode.setIdentifier(sq1dNodeReference);
+        sq1dMNNode.setName("squid");
+        sq1dMNNode.setDescription("this is a squid test");
+        sq1dMNNode.setBaseURL("https://my.squid.test/mn");
+        sq1dMNNode.setReplicate(false);
+        sq1dMNNode.setSynchronize(false);
+        sq1dMNNode.setState(NodeState.UP);
+        sq1dMNNode.setType(NodeType.MN);
+        Subject sq1dSubject = new Subject();
+        sq1dSubject.setValue("cn="+sq1dId+",dc=dataone,dc=org");
+        sq1dMNNode.addSubject(sq1dSubject);
+        Services sq1dservices = new Services();
+        Service sq1dcoreService = new Service();
+        sq1dcoreService.setName("MNCore");
+        sq1dcoreService.setVersion("v1");
+        sq1dcoreService.setAvailable(Boolean.TRUE);
 
-        NodeReference id1 = new NodeReference();
-        id1.setValue("123");
-        node.setIdentifier(id1);
+        Service sq1dreadService = new Service();
+        sq1dreadService.setName("MNRead");
+        sq1dreadService.setVersion("v1");
+        sq1dreadService.setAvailable(Boolean.TRUE);
+        sq1dservices.addService(sq1dcoreService);
+        sq1dservices.addService(sq1dreadService);
+        sq1dMNNode.setServices(sq1dservices);
 
-        String name = "nodename";
-        node.setName(name);
-        node.setBaseURL("this.here.org");
-
-        Services services = new Services();
-
-        Service service = new Service();
-
-        service.setName("crud");
-        service.setVersion("0.5");
-        service.setAvailable(true);
-
-        services.addService(service);
-        node.setServices(services);
-        Synchronization synchronize = new Synchronization();
-        Schedule schedule = new Schedule();
-        schedule.setSec("00");
-        schedule.setMin("01");
-        schedule.setHour("0,6,12,18");
-        schedule.setMday("*");
-        schedule.setWday("*");
-        schedule.setMon("*");
-        schedule.setYear("*");
-        synchronize.setSchedule(schedule);
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss.SSSZ");
-        Date defaultDate = df.parse("2010-06-21T00:00:00.000Z");
-        synchronize.setLastHarvested(defaultDate);
-        synchronize.setLastCompleteHarvest(defaultDate);
-        node.setSynchronization(synchronize);
-
+        Subject contactSubject = new Subject();
+        contactSubject.setValue("cn=who,dc=where,dc=there");
+        sq1dMNNode.addContactSubject(contactSubject);
+        nodeList.addNode(sq1dMNNode);
         IBindingFactory bfact =
                 BindingDirectory.getFactory(org.dataone.service.types.v1.NodeList.class);
 

@@ -24,6 +24,7 @@ import java.io.Serializable;
  */
 public class Session implements Serializable
 {
+    private static final long serialVersionUID = 10000000;
     private Subject subject;
     private SubjectInfo subjectInfo;
 

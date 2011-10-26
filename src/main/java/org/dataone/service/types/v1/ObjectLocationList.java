@@ -23,6 +23,7 @@ import java.util.List;
  */
 public class ObjectLocationList implements Serializable
 {
+    private static final long serialVersionUID = 10000000;
     private Identifier identifier;
     private List<ObjectLocation> objectLocationList = new ArrayList<ObjectLocation>();
 

@@ -26,14 +26,14 @@
  count="2" start="0" total="2">
     <objectInfo>
         <identifier>ABC123</identifier>
-        <fmtid>eml://ecoinformatics.org/eml-2.0.0</fmtid>
+        <formatId>eml://ecoinformatics.org/eml-2.0.0</formatId>
         <checksum algorithm="SHA-1">SGVsbG8gV29ybGQh</checksum>
         <dateSysMetadataModified>2006-05-04T18:13:51.0Z</dateSysMetadataModified>
         <size>922337203</size>
     </objectInfo>
     <objectInfo>
         <identifier>ABC456</identifier>
-        <fmtid>eml://ecoinformatics.org/eml-2.0.0</fmtid>
+        <formatId>eml://ecoinformatics.org/eml-2.0.0</formatId>
         <checksum algorithm="SHA-1">V29ybGQgSGVsbG8h</checksum>
         <dateSysMetadataModified>2006-05-05T18:13:51.0Z</dateSysMetadataModified>
         <size>922337203</size>

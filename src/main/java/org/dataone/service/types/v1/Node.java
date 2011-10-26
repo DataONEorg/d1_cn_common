@@ -22,6 +22,7 @@ import java.util.List;
  *     &lt;xs:element type="ns:Synchronization" name="synchronization" minOccurs="0" maxOccurs="1"/>
  *     &lt;xs:element type="ns:Ping" name="ping" minOccurs="0" maxOccurs="1"/>
  *     &lt;xs:element type="ns:Subject" name="subject" minOccurs="0" maxOccurs="unbounded"/>
+ *     &lt;xs:element type="ns:Subject" name="contactSubject" minOccurs="1" maxOccurs="unbounded"/>
  *   &lt;/xs:sequence>
  *   &lt;xs:attribute type="xs:boolean" use="required" name="replicate"/>
  *   &lt;xs:attribute type="xs:boolean" use="required" name="synchronize"/>
@@ -32,6 +33,7 @@ import java.util.List;
  */
 public class Node implements Serializable
 {
+    private static final long serialVersionUID = 10000000;
     private NodeReference identifier;
     private String name;
     private String description;
@@ -40,6 +42,7 @@ public class Node implements Serializable
     private Synchronization synchronization;
     private Ping ping;
     private List<Subject> subjectList = new ArrayList<Subject>();
+    private List<Subject> contactSubjectList = new ArrayList<Subject>();
     private boolean replicate;
     private boolean synchronize;
     private NodeType type;
@@ -193,8 +196,7 @@ public class Node implements Serializable
                       certificates that would be used to securely communicate with this node.  Thus, it is
                       an X.509 Distinguished Name that applies to the host on which the Node is operating. 
                       When (and if) this hostname changes the new subject for the node would be added to the
-                      Node so that we can track the subject that has been used in various access control 
-                      rules over time.
+                      Node to track the subject that has been used in various access control rules over time.
                       
      * 
      * @return list
@@ -209,8 +211,7 @@ public class Node implements Serializable
                       certificates that would be used to securely communicate with this node.  Thus, it is
                       an X.509 Distinguished Name that applies to the host on which the Node is operating. 
                       When (and if) this hostname changes the new subject for the node would be added to the
-                      Node so that we can track the subject that has been used in various access control 
-                      rules over time.
+                      Node to track the subject that has been used in various access control rules over time.
                       
      * 
      * @param list
@@ -249,6 +250,72 @@ public class Node implements Serializable
      */
     public void clearSubjectList() {
         subjectList.clear();
+    }
+
+    /** 
+     * Get the list of 'contactSubject' element items. The appropriate person or group to contact regarding the disposition, 
+                      management, and status of this Member Node. The Node.contactSubject is
+                      an X.509 Distinguished Name for a person or group that can be used to look up current 
+                      contact details (e.g., name, email address) for the contact in the DataONE Identity service.
+                      DataONE uses the subjectContact to provide notices of interest to DataONE nodes, including 
+                      information such as policy changes, maintenance updates, node outage notifications, among 
+                      other information useful for administering a node. Each node that is registered with DataONE
+                      must provide at least one subjectContact that has been verified with DataONE.
+                      
+     * 
+     * @return list
+     */
+    public List<Subject> getContactSubjectList() {
+        return contactSubjectList;
+    }
+
+    /** 
+     * Set the list of 'contactSubject' element items. The appropriate person or group to contact regarding the disposition, 
+                      management, and status of this Member Node. The Node.contactSubject is
+                      an X.509 Distinguished Name for a person or group that can be used to look up current 
+                      contact details (e.g., name, email address) for the contact in the DataONE Identity service.
+                      DataONE uses the subjectContact to provide notices of interest to DataONE nodes, including 
+                      information such as policy changes, maintenance updates, node outage notifications, among 
+                      other information useful for administering a node. Each node that is registered with DataONE
+                      must provide at least one subjectContact that has been verified with DataONE.
+                      
+     * 
+     * @param list
+     */
+    public void setContactSubjectList(List<Subject> list) {
+        contactSubjectList = list;
+    }
+
+    /** 
+     * Get the number of 'contactSubject' element items.
+     * @return count
+     */
+    public int sizeContactSubjectList() {
+        return contactSubjectList.size();
+    }
+
+    /** 
+     * Add a 'contactSubject' element item.
+     * @param item
+     */
+    public void addContactSubject(Subject item) {
+        contactSubjectList.add(item);
+    }
+
+    /** 
+     * Get 'contactSubject' element item by position.
+     * @return item
+     * @param index
+     */
+    public Subject getContactSubject(int index) {
+        return contactSubjectList.get(index);
+    }
+
+    /** 
+     * Remove all 'contactSubject' element items.
+     */
+    public void clearContactSubjectList() {
+        contactSubjectList.clear();
     }
 
     /** 

@@ -15,6 +15,7 @@ import java.io.Serializable;
  */
 public class Slice implements Serializable
 {
+    private static final long serialVersionUID = 10000000;
     private int count;
     private int start;
     private int total;

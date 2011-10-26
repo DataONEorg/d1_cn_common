@@ -24,6 +24,7 @@ import java.util.List;
  */
 public class ReplicationPolicy implements Serializable
 {
+    private static final long serialVersionUID = 10000000;
     private List<NodeReference> preferredMemberNodeList = new ArrayList<NodeReference>();
     private List<NodeReference> blockedMemberNodeList = new ArrayList<NodeReference>();
     private Boolean replicationAllowed;

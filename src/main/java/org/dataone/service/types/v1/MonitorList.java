@@ -17,6 +17,7 @@ import java.util.List;
  */
 public class MonitorList implements Serializable
 {
+    private static final long serialVersionUID = 10000000;
     private List<MonitorInfo> monitorInfoList = new ArrayList<MonitorInfo>();
 
     /** 

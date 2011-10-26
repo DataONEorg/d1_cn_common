@@ -21,6 +21,7 @@ import java.util.List;
  */
 public class ObjectList extends Slice implements Serializable
 {
+    private static final long serialVersionUID = 10000000;
     private List<ObjectInfo> objectInfoList = new ArrayList<ObjectInfo>();
 
     /** 

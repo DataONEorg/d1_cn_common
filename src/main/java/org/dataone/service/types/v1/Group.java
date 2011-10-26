@@ -23,6 +23,7 @@ import java.util.List;
  */
 public class Group implements Serializable
 {
+    private static final long serialVersionUID = 10000000;
     private Subject subject;
     private String groupName;
     private List<Subject> hasMemberList = new ArrayList<Subject>();

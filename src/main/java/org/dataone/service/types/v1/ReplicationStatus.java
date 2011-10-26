@@ -6,7 +6,7 @@ import java.io.Serializable;
 /** 
  * A controlled string value indicating the current
  state of a replica of an object.  When an object 
- identified that needs to be replicated, it is added to the replication
+ identified needs to be replicated, it is added to the replication
  task queue and is marked as 'queued'; a CN node will then pick up 
  that task and request that it be replicated to a MN and marks that it
  is 'requested'; when a MN finishes replicating the object, it informs
@@ -32,6 +32,7 @@ import java.io.Serializable;
 public enum ReplicationStatus implements Serializable {
     QUEUED("queued"), REQUESTED("requested"), COMPLETED("completed"), INVALIDATED(
             "invalidated");
+    private static final long serialVersionUID = 10000000;
     private final String value;
 
     private ReplicationStatus(String value) {

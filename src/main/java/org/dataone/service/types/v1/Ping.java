@@ -18,6 +18,7 @@ import java.util.Date;
  */
 public class Ping implements Serializable
 {
+    private static final long serialVersionUID = 10000000;
     private Boolean success;
     private Date lastSuccess;
 

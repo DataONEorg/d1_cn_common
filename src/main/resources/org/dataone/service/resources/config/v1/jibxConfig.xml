@@ -26,7 +26,7 @@
   type-substitutions="xs:unsignedLong xs:long" enumeration-type="java5" >
     <class-decorator class="org.jibx.schema.codegen.extend.CollectionMethodsDecorator"/>
      <!-- Should add in the serializable decorator, we may want to use it at some point -->
-     <class-decorator class="org.jibx.schema.codegen.extend.SerializableDecorator" />
+     <class-decorator class="org.jibx.schema.codegen.extend.SerializableDecorator" serial-version="10000000"/>
      <class-decorator class="org.jibx.schema.codegen.extend.ExtensionDecorator" match-name="Identifier" base-class="org.dataone.service.types.IdentifierBase"/>
       <class-decorator class="org.jibx.schema.codegen.extend.ExtensionDecorator" match-name="NodeReference" base-class="org.dataone.service.types.IdentifierBase"/>
     <schema-set names="dataoneTypes.xsd" prefix="d1" namespaces="http://ns.dataone.org/service/types/v1">

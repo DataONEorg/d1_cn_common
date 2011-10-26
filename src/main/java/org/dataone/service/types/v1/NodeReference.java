@@ -20,6 +20,7 @@ import org.dataone.service.types.IdentifierBase;
 public class NodeReference extends org.dataone.service.types.IdentifierBase
     implements  Serializable, Comparable
 {
+    private static final long serialVersionUID = 10000000;
     private String value;
 
     /** 

@@ -4,6 +4,11 @@ package org.dataone.service.types.v1;
 import java.io.Serializable;
 
 /** 
+ * 
+ The type of this node, which is either "mn" for Member Nodes, and
+ and "cn" for Coordinating Nodes.
+
+ * 
  * Schema fragment(s) for this class:
  * <pre>
  * &lt;xs:simpleType xmlns:ns="http://ns.dataone.org/service/types/v1" xmlns:xs="http://www.w3.org/2001/XMLSchema" name="NodeType">
@@ -17,6 +22,7 @@ import java.io.Serializable;
  */
 public enum NodeType implements Serializable {
     MN("mn"), CN("cn"), MONITOR("Monitor");
+    private static final long serialVersionUID = 10000000;
     private final String value;
 
     private NodeType(String value) {

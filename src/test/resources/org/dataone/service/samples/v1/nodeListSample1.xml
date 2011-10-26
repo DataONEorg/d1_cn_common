@@ -22,7 +22,8 @@
 -->
 
 <d1:nodeList xmlns:d1="http://ns.dataone.org/service/types/v1"
-        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://ns.dataone.org/service/types/v1 https://repository.dataone.org/software/cicore/branches/D1_SCHEMA_1_0_0/dataoneTypes.xsd">
     <!-- This instance document was generated for testing purposes
          It contains no useful information.
     -->
@@ -42,7 +43,7 @@
 		</synchronization>
 
 		<ping success="true" lastSuccess="2010-08-23T11:11:11.123456"/>
-	
+                <contactSubject>cn=me,dc=here,dc=there</contactSubject>
 	</node>
 	<node replicate="true" type="mn" synchronize="true" state="up">
 		<identifier>knb_mn_id</identifier>
@@ -61,5 +62,6 @@
 			<lastHarvested>2010-08-22T11:11:11.123456</lastHarvested>
 			<lastCompleteHarvest>2010-08-20T12:12:12.123456</lastCompleteHarvest>
 		</synchronization>
+                <contactSubject>cn=me,dc=here,dc=there</contactSubject>
 	</node>
 </d1:nodeList>

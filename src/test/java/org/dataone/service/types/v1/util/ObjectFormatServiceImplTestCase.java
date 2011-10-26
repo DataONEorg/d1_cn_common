@@ -94,7 +94,7 @@ public class ObjectFormatServiceImplTestCase {
     
 		String result;
     try {
-	    result = ObjectFormatServiceImpl.getInstance().getFormat(fmtid).getFmtid().getValue();
+	    result = ObjectFormatServiceImpl.getInstance().getFormat(fmtid).getFormatId().getValue();
 		  assertTrue(result.equals(knownFormat));
 
     } catch (InvalidRequest e) {
@@ -130,7 +130,7 @@ public class ObjectFormatServiceImplTestCase {
 
 	    try {
 	      String result = 
-	      	ObjectFormatServiceImpl.getInstance().getFormat(fmtid).getFmtid().getValue();
+	      	ObjectFormatServiceImpl.getInstance().getFormat(fmtid).getFormatId().getValue();
       
 	    } catch (Exception e) {
         assertTrue(e instanceof NotFound);

@@ -86,6 +86,9 @@
     <collection get-method="getSubjectList" set-method="setSubjectList" usage="optional" create-type="java.util.ArrayList">
       <structure map-as="d1:Subject" name="subject"/>
     </collection>
+    <collection get-method="getContactSubjectList" set-method="setContactSubjectList" create-type="java.util.ArrayList">
+      <structure map-as="d1:Subject" name="contactSubject"/>
+    </collection>
     <value style="attribute" name="replicate" get-method="isReplicate" set-method="setReplicate"/>
     <value style="attribute" name="synchronize" get-method="isSynchronize" set-method="setSynchronize"/>
     <value style="attribute" name="type" get-method="getType" set-method="setType" format="d1:NodeType"/>
@@ -109,7 +112,7 @@
     <structure map-as="d1:NodeReference"/>
   </mapping>
   <mapping abstract="true" type-name="d1:ObjectFormat" class="org.dataone.service.types.v1.ObjectFormat">
-    <structure map-as="d1:ObjectFormatIdentifier" get-method="getFmtid" set-method="setFmtid" name="fmtid"/>
+    <structure map-as="d1:ObjectFormatIdentifier" get-method="getFormatId" set-method="setFormatId" name="formatId"/>
     <value style="element" name="formatName" get-method="getFormatName" set-method="setFormatName"/>
     <value style="element" name="formatType" get-method="getFormatType" set-method="setFormatType"/>
   </mapping>
@@ -127,7 +130,7 @@
   </mapping>
   <mapping abstract="true" type-name="d1:ObjectInfo" class="org.dataone.service.types.v1.ObjectInfo">
     <structure map-as="d1:Identifier" get-method="getIdentifier" set-method="setIdentifier" name="identifier"/>
-    <structure map-as="d1:ObjectFormatIdentifier" get-method="getFmtid" set-method="setFmtid" name="fmtid"/>
+    <structure map-as="d1:ObjectFormatIdentifier" get-method="getFormatId" set-method="setFormatId" name="formatId"/>
     <structure map-as="d1:Checksum" get-method="getChecksum" set-method="setChecksum" name="checksum"/>
     <value style="element" name="dateSysMetadataModified" get-method="getDateSysMetadataModified" set-method="setDateSysMetadataModified" serializer="org.dataone.service.util.DateTimeMarshaller.serializeDateToUTC" deserializer="org.dataone.service.util.DateTimeMarshaller.deserializeDateToUTC"/>
     <value style="element" name="size" get-method="getSize" set-method="setSize" serializer="org.dataone.service.util.BigIntegerMarshaller.serializeBigInteger" deserializer="org.dataone.service.util.BigIntegerMarshaller.deserializeBigInteger"/>
@@ -162,7 +165,7 @@
       <value style="element" name="givenName" type="java.lang.String"/>
     </collection>
     <value style="element" name="familyName" get-method="getFamilyName" set-method="setFamilyName"/>
-    <collection get-method="getEmailList" set-method="setEmailList" create-type="java.util.ArrayList">
+    <collection get-method="getEmailList" set-method="setEmailList" usage="optional" create-type="java.util.ArrayList">
       <value style="element" name="email" type="java.lang.String"/>
     </collection>
     <collection get-method="getIsMemberOfList" set-method="setIsMemberOfList" usage="optional" create-type="java.util.ArrayList">
@@ -171,6 +174,7 @@
     <collection get-method="getEquivalentIdentityList" set-method="setEquivalentIdentityList" usage="optional" create-type="java.util.ArrayList">
       <structure map-as="d1:Subject" name="equivalentIdentity"/>
     </collection>
+    <value style="element" name="verified" get-method="getVerified" set-method="setVerified" usage="optional"/>
   </mapping>
   <mapping class="org.dataone.service.types.v1.Person" name="person" ns="http://ns.dataone.org/service/types/v1">
     <structure map-as="d1:Person"/>
@@ -264,8 +268,9 @@
     <structure map-as="d1:SubjectList"/>
   </mapping>
   <mapping abstract="true" type-name="d1:SystemMetadata" class="org.dataone.service.types.v1.SystemMetadata">
+    <value style="element" name="serialVersion" get-method="getSerialVersion" set-method="setSerialVersion" serializer="org.dataone.service.util.BigIntegerMarshaller.serializeBigInteger" deserializer="org.dataone.service.util.BigIntegerMarshaller.deserializeBigInteger"/>
     <structure map-as="d1:Identifier" get-method="getIdentifier" set-method="setIdentifier" name="identifier"/>
-    <structure map-as="d1:ObjectFormatIdentifier" get-method="getFmtid" set-method="setFmtid" name="fmtid"/>
+    <structure map-as="d1:ObjectFormatIdentifier" get-method="getFormatId" set-method="setFormatId" name="formatId"/>
     <value style="element" name="size" get-method="getSize" set-method="setSize" serializer="org.dataone.service.util.BigIntegerMarshaller.serializeBigInteger" deserializer="org.dataone.service.util.BigIntegerMarshaller.deserializeBigInteger"/>
     <structure map-as="d1:Checksum" get-method="getChecksum" set-method="setChecksum" name="checksum"/>
     <structure map-as="d1:Subject" get-method="getSubmitter" set-method="setSubmitter" name="submitter"/>

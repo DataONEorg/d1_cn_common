@@ -29,6 +29,7 @@ import java.util.List;
  */
 public class ObjectFormatList extends Slice implements Serializable
 {
+    private static final long serialVersionUID = 10000000;
     private List<ObjectFormat> objectFormatList = new ArrayList<ObjectFormat>();
 
     /** 

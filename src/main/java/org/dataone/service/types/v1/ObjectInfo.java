@@ -11,7 +11,7 @@ import java.util.Date;
  * &lt;xs:complexType xmlns:ns="http://ns.dataone.org/service/types/v1" xmlns:xs="http://www.w3.org/2001/XMLSchema" name="ObjectInfo">
  *   &lt;xs:sequence>
  *     &lt;xs:element type="ns:Identifier" name="identifier" minOccurs="1" maxOccurs="1"/>
- *     &lt;xs:element type="ns:ObjectFormatIdentifier" name="fmtid"/>
+ *     &lt;xs:element type="ns:ObjectFormatIdentifier" name="formatId"/>
  *     &lt;xs:element type="ns:Checksum" name="checksum" minOccurs="1" maxOccurs="1"/>
  *     &lt;xs:element type="xs:dateTime" name="dateSysMetadataModified"/>
  *     &lt;xs:element type="xs:long" name="size"/>
@@ -21,8 +21,9 @@ import java.util.Date;
  */
 public class ObjectInfo implements Serializable
 {
+    private static final long serialVersionUID = 10000000;
     private Identifier identifier;
-    private ObjectFormatIdentifier fmtid;
+    private ObjectFormatIdentifier formatId;
     private Checksum checksum;
     private Date dateSysMetadataModified;
     private BigInteger size;
@@ -46,21 +47,21 @@ public class ObjectInfo implements Serializable
     }
 
     /** 
-     * Get the 'fmtid' element value.
+     * Get the 'formatId' element value.
      * 
      * @return value
      */
-    public ObjectFormatIdentifier getFmtid() {
-        return fmtid;
+    public ObjectFormatIdentifier getFormatId() {
+        return formatId;
     }
 
     /** 
-     * Set the 'fmtid' element value.
+     * Set the 'formatId' element value.
      * 
-     * @param fmtid
+     * @param formatId
      */
-    public void setFmtid(ObjectFormatIdentifier fmtid) {
-        this.fmtid = fmtid;
+    public void setFormatId(ObjectFormatIdentifier formatId) {
+        this.formatId = formatId;
     }
 
     /** 

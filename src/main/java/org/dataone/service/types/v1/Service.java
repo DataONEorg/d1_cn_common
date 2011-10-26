@@ -28,6 +28,7 @@ import java.util.List;
  */
 public class Service implements Serializable
 {
+    private static final long serialVersionUID = 10000000;
     private List<ServiceMethodRestriction> restrictionList = new ArrayList<ServiceMethodRestriction>();
     private String name;
     private String version;

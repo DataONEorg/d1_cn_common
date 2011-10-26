@@ -6,8 +6,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /** 
- * Person represents metadata about a Principal that is a person and that 
- can be used by clients and nodes for displaying :class:`Types.AccessPolicy` information.
+ * Person represents metadata about a Principal that
+ is a person and that
+ can be used by clients and nodes for displaying
+ :class:`Types.AccessPolicy` information.
  * 
  * Schema fragment(s) for this class:
  * <pre>
@@ -16,24 +18,28 @@ import java.util.List;
  *     &lt;xs:element type="ns:Subject" name="subject" minOccurs="1" maxOccurs="1"/>
  *     &lt;xs:element type="xs:string" name="givenName" minOccurs="1" maxOccurs="unbounded"/>
  *     &lt;xs:element type="xs:string" name="familyName" minOccurs="1" maxOccurs="1"/>
- *     &lt;xs:element type="xs:string" name="email" minOccurs="1" maxOccurs="unbounded"/>
+ *     &lt;xs:element type="xs:string" name="email" minOccurs="0" maxOccurs="unbounded"/>
  *     &lt;xs:element type="ns:Subject" name="isMemberOf" minOccurs="0" maxOccurs="unbounded"/>
  *     &lt;xs:element type="ns:Subject" name="equivalentIdentity" minOccurs="0" maxOccurs="unbounded"/>
+ *     &lt;xs:element type="xs:boolean" name="verified" minOccurs="0" maxOccurs="1"/>
  *   &lt;/xs:sequence>
  * &lt;/xs:complexType>
  * </pre>
  */
 public class Person implements Serializable
 {
+    private static final long serialVersionUID = 10000000;
     private Subject subject;
     private List<String> givenNameList = new ArrayList<String>();
     private String familyName;
     private List<String> emailList = new ArrayList<String>();
     private List<Subject> isMemberOfList = new ArrayList<Subject>();
     private List<Subject> equivalentIdentityList = new ArrayList<Subject>();
+    private Boolean verified;
 
     /** 
      * Get the 'subject' element value. The unique identifier for the person.
+    				
      * 
      * @return value
      */
@@ -43,6 +49,7 @@ public class Person implements Serializable
 
     /** 
      * Set the 'subject' element value. The unique identifier for the person.
+    				
      * 
      * @param subject
      */
@@ -120,6 +127,7 @@ public class Person implements Serializable
 
     /** 
      * Get the list of 'email' element items. The email address of the Person.
+    				
      * 
      * @return list
      */
@@ -129,6 +137,7 @@ public class Person implements Serializable
 
     /** 
      * Set the list of 'email' element items. The email address of the Person.
+    				
      * 
      * @param list
      */
@@ -169,8 +178,9 @@ public class Person implements Serializable
     }
 
     /** 
-     * Get the list of 'isMemberOf' element items. A group or role in which the Principal is a member, expressed using the
-                          unique Principal identifier for that group.
+     * Get the list of 'isMemberOf' element items. A group or role in which the Principal is a
+    					member, expressed using the
+    					unique Principal identifier for that group.
      * 
      * @return list
      */
@@ -179,8 +189,9 @@ public class Person implements Serializable
     }
 
     /** 
-     * Set the list of 'isMemberOf' element items. A group or role in which the Principal is a member, expressed using the
-                          unique Principal identifier for that group.
+     * Set the list of 'isMemberOf' element items. A group or role in which the Principal is a
+    					member, expressed using the
+    					unique Principal identifier for that group.
      * 
      * @param list
      */
@@ -221,8 +232,9 @@ public class Person implements Serializable
     }
 
     /** 
-     * Get the list of 'equivalentIdentity' element items. An alternative but equivalent identity for the principal that has been
-                          used in alternate identity systems.
+     * Get the list of 'equivalentIdentity' element items. An alternative but equivalent identity for the
+    					principal that has been
+    					used in alternate identity systems.
      * 
      * @return list
      */
@@ -231,8 +243,9 @@ public class Person implements Serializable
     }
 
     /** 
-     * Set the list of 'equivalentIdentity' element items. An alternative but equivalent identity for the principal that has been
-                          used in alternate identity systems.
+     * Set the list of 'equivalentIdentity' element items. An alternative but equivalent identity for the
+    					principal that has been
+    					used in alternate identity systems.
      * 
      * @param list
      */
@@ -270,5 +283,37 @@ public class Person implements Serializable
      */
     public void clearEquivalentIdentityList() {
         equivalentIdentityList.clear();
+    }
+
+    /** 
+     * Get the 'verified' element value. True if the name and email address of the Person
+    					have been verified to ensure that the givenName and familyName
+    					represent the real person's legal name, and that the email 
+    					address is correct for that person and is in the control
+    					of the indicated individual. Verification occurs through a
+    					established procedure within DataONE as part of the Identity 
+    					Management system.
+    				
+     * 
+     * @return value
+     */
+    public Boolean getVerified() {
+        return verified;
+    }
+
+    /** 
+     * Set the 'verified' element value. True if the name and email address of the Person
+    					have been verified to ensure that the givenName and familyName
+    					represent the real person's legal name, and that the email 
+    					address is correct for that person and is in the control
+    					of the indicated individual. Verification occurs through a
+    					established procedure within DataONE as part of the Identity 
+    					Management system.
+    				
+     * 
+     * @param verified
+     */
+    public void setVerified(Boolean verified) {
+        this.verified = verified;
     }
 }

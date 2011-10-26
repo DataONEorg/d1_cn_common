@@ -23,6 +23,7 @@ import java.util.List;
  */
 public class SubjectInfo implements Serializable
 {
+    private static final long serialVersionUID = 10000000;
     private List<Person> personList = new ArrayList<Person>();
     private List<Group> groupList = new ArrayList<Group>();
 

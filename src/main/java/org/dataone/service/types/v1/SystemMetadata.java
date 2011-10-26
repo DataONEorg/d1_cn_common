@@ -17,8 +17,9 @@ import java.util.List;
  * <pre>
  * &lt;xs:complexType xmlns:ns="http://ns.dataone.org/service/types/v1" xmlns:xs="http://www.w3.org/2001/XMLSchema" name="SystemMetadata">
  *   &lt;xs:sequence>
+ *     &lt;xs:element type="xs:long" name="serialVersion" minOccurs="1" maxOccurs="1"/>
  *     &lt;xs:element type="ns:Identifier" name="identifier"/>
- *     &lt;xs:element type="ns:ObjectFormatIdentifier" name="fmtid"/>
+ *     &lt;xs:element type="ns:ObjectFormatIdentifier" name="formatId"/>
  *     &lt;xs:element type="xs:long" name="size"/>
  *     &lt;xs:element type="ns:Checksum" name="checksum"/>
  *     &lt;xs:element type="ns:Subject" name="submitter"/>
@@ -38,8 +39,10 @@ import java.util.List;
  */
 public class SystemMetadata implements Serializable
 {
+    private static final long serialVersionUID = 10000000;
+    private BigInteger serialVersion;
     private Identifier identifier;
-    private ObjectFormatIdentifier fmtid;
+    private ObjectFormatIdentifier formatId;
     private BigInteger size;
     private Checksum checksum;
     private Subject submitter;
@@ -53,6 +56,24 @@ public class SystemMetadata implements Serializable
     private NodeReference originMemberNode;
     private NodeReference authoritativeMemberNode;
     private List<Replica> replicaList = new ArrayList<Replica>();
+
+    /** 
+     * Get the 'serialVersion' element value.
+     * 
+     * @return value
+     */
+    public BigInteger getSerialVersion() {
+        return serialVersion;
+    }
+
+    /** 
+     * Set the 'serialVersion' element value.
+     * 
+     * @param serialVersion
+     */
+    public void setSerialVersion(BigInteger serialVersion) {
+        this.serialVersion = serialVersion;
+    }
 
     /** 
      * Get the 'identifier' element value.
@@ -73,21 +94,21 @@ public class SystemMetadata implements Serializable
     }
 
     /** 
-     * Get the 'fmtid' element value.
+     * Get the 'formatId' element value.
      * 
      * @return value
      */
-    public ObjectFormatIdentifier getFmtid() {
-        return fmtid;
+    public ObjectFormatIdentifier getFormatId() {
+        return formatId;
     }
 
     /** 
-     * Set the 'fmtid' element value.
+     * Set the 'formatId' element value.
      * 
-     * @param fmtid
+     * @param formatId
      */
-    public void setFmtid(ObjectFormatIdentifier fmtid) {
-        this.fmtid = fmtid;
+    public void setFormatId(ObjectFormatIdentifier formatId) {
+        this.formatId = formatId;
     }
 
     /** 

@@ -21,6 +21,7 @@ import java.sql.Date;
  */
 public class MonitorInfo implements Serializable
 {
+    private static final long serialVersionUID = 10000000;
     private Date date;
     private int count;
 

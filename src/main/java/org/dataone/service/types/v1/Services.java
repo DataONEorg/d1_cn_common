@@ -17,6 +17,7 @@ import java.util.List;
  */
 public class Services implements Serializable
 {
+    private static final long serialVersionUID = 10000000;
     private List<Service> serviceList = new ArrayList<Service>();
 
     /** 

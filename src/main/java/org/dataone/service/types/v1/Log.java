@@ -24,6 +24,7 @@ import java.util.List;
  */
 public class Log extends Slice implements Serializable
 {
+    private static final long serialVersionUID = 10000000;
     private List<LogEntry> logEntryList = new ArrayList<LogEntry>();
 
     /** 

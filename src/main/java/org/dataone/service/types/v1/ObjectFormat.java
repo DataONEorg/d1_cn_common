@@ -16,7 +16,7 @@ import java.io.Serializable;
  * <pre>
  * &lt;xs:complexType xmlns:ns="http://ns.dataone.org/service/types/v1" xmlns:xs="http://www.w3.org/2001/XMLSchema" name="ObjectFormat">
  *   &lt;xs:sequence>
- *     &lt;xs:element type="ns:ObjectFormatIdentifier" name="fmtid" minOccurs="1" maxOccurs="1"/>
+ *     &lt;xs:element type="ns:ObjectFormatIdentifier" name="formatId" minOccurs="1" maxOccurs="1"/>
  *     &lt;xs:element type="xs:string" name="formatName" minOccurs="1" maxOccurs="1"/>
  *     &lt;xs:element type="xs:string" name="formatType" minOccurs="1" maxOccurs="1"/>
  *   &lt;/xs:sequence>
@@ -25,36 +25,37 @@ import java.io.Serializable;
  */
 public class ObjectFormat implements Serializable
 {
-    private ObjectFormatIdentifier fmtid;
+    private static final long serialVersionUID = 10000000;
+    private ObjectFormatIdentifier formatId;
     private String formatName;
     private String formatType;
 
     /** 
-     * Get the 'fmtid' element value. 
+     * Get the 'formatId' element value. 
                     The unique identifier of the object format in the DataONE
                     Object Format Vocabulary.  The identifier should comply with
-                    DataONE Identifier rules, i.e. no whitespace, UTF-8 or 
+                    DataONE Identifier rules, i.e. no whitespace, only UTF-8 or 
                     US-ASCII printable characters.
                 
      * 
      * @return value
      */
-    public ObjectFormatIdentifier getFmtid() {
-        return fmtid;
+    public ObjectFormatIdentifier getFormatId() {
+        return formatId;
     }
 
     /** 
-     * Set the 'fmtid' element value. 
+     * Set the 'formatId' element value. 
                     The unique identifier of the object format in the DataONE
                     Object Format Vocabulary.  The identifier should comply with
-                    DataONE Identifier rules, i.e. no whitespace, UTF-8 or 
+                    DataONE Identifier rules, i.e. no whitespace, only UTF-8 or 
                     US-ASCII printable characters.
                 
      * 
-     * @param fmtid
+     * @param formatId
      */
-    public void setFmtid(ObjectFormatIdentifier fmtid) {
-        this.fmtid = fmtid;
+    public void setFormatId(ObjectFormatIdentifier formatId) {
+        this.formatId = formatId;
     }
 
     /** 

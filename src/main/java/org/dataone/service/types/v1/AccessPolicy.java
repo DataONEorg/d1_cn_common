@@ -24,6 +24,7 @@ import java.util.List;
  */
 public class AccessPolicy implements Serializable
 {
+    private static final long serialVersionUID = 10000000;
     private List<AccessRule> allowList = new ArrayList<AccessRule>();
 
     /** 
