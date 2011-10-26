@@ -105,6 +105,8 @@ public class Constants {
     public static final String RESOURCE_REPLICATION_AUTHORIZED = "replicaAuthorizations";
     /** REPLICATE API resource which handles replication status updates */
     public static final String RESOURCE_REPLICATION_NOTIFY = "replicaNotifications";
+    /** REPLICATE API resource which handles replication initiation **/
+    public static final String RESOURCE_REPLICATE = "replicate";
     
    
     /** Temporary file directory */
