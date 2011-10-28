@@ -97,16 +97,18 @@ public class Constants {
     public static final String RESOURCE_RESOLVE = "resolve";   
     
     
-    /** REPLICATION API resource which handles replication policy updates */
+    /** REPLICATION API endpoint that represents replication policy updates */
     public static final String RESOURCE_REPLICATION_POLICY = "replicaPolicies";
-    /** REPLICATE API resource which handles replica metadata updates */
+    /** REPLICATION API endpoint that represents replication metadata updates */
     public static final String RESOURCE_REPLICATION_META = "replicaMetadata";
-    /** REPLICATE API resource which handles replication authorization */
+    /** REPLICATION API endpoint that represents replication authorization */
     public static final String RESOURCE_REPLICATION_AUTHORIZED = "replicaAuthorizations";
-    /** REPLICATE API resource which handles replication status updates */
+    /** REPLICATION API endpoint that represents replication status updates */
     public static final String RESOURCE_REPLICATION_NOTIFY = "replicaNotifications";
-    /** REPLICATE API resource which handles replication initiation **/
+    /** REPLICATION API endpoint that represents replication initiation **/
     public static final String RESOURCE_REPLICATE = "replicate";
+    /** REPLICATION API endpoint representing the replicas collection **/
+    public static final String RESOURCE_REPLICAS = "replica";
     
    
     /** Temporary file directory */
