@@ -36,10 +36,10 @@ public class ChecksumUtil {
             }
         } while (numRead != -1);
 
-        // do not check if mark is supported -- we want people to be aware when they consume the input stream
-        //if (is.markSupported()) {
+        // reset if it is supported
+        if (is.markSupported()) {
         	is.reset();
-        //}
+        }
         
         String csStr = getHex(complete.digest());
         Checksum checksum = new Checksum();
