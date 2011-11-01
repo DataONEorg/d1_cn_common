@@ -27,6 +27,7 @@ import org.dataone.service.exceptions.NotFound;
 import org.dataone.service.exceptions.NotImplemented;
 import org.dataone.service.exceptions.ServiceFailure;
 
+import org.dataone.service.types.v1.Replica;
 import org.dataone.service.types.v1.Session;
 import org.dataone.service.types.v1.Subject;
 import org.dataone.service.types.v1.Permission;
@@ -72,4 +73,13 @@ public interface CNReplication {
         Subject targetNodeSubject, Identifier pid, Permission replicatePermission)
         throws NotImplemented, NotAuthorized, InvalidToken, ServiceFailure, 
         NotFound, InvalidRequest;
+
+    /** 
+     * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CNReplication.updateReplicationMetadata
+     */
+    public boolean updateReplicationMetadata(Session targetNodeSession, 
+        Identifier pid, Replica replica)
+        throws NotImplemented, NotAuthorized, ServiceFailure, 
+        NotFound, InvalidRequest;
+
 }
