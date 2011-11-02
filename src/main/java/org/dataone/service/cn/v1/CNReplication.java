@@ -49,22 +49,17 @@ public interface CNReplication {
      * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CNReplication.setReplicationStatus
      */
     public boolean setReplicationStatus(Session session, Identifier pid, 
-        NodeReference nodeRef, ReplicationStatus status) throws ServiceFailure, 
-        NotImplemented, InvalidToken, NotAuthorized, InvalidRequest, NotFound;
-
-    /** TODO: verify return type for this method and uncomment when ReplicaMetadata is added
-     * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CNReplication.updateReplicationMetadata
-    public void updateReplicationMetadata(Session session, Identifier pid, 
-        ReplicaMetadata replicaMetadata) throws NotImplemented, NotAuthorized, 
-        ServiceFailure, InvalidRequest;
-     */
+        NodeReference nodeRef, ReplicationStatus status, long serialVersion) 
+        throws ServiceFailure, NotImplemented, InvalidToken, NotAuthorized, 
+        InvalidRequest, NotFound;
 
     /**
      * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CNReplication.setReplicationPolicy
      */
     public boolean setReplicationPolicy(Session session, Identifier pid, 
-        ReplicationPolicy policy) throws NotImplemented, NotFound, NotAuthorized, 
-        ServiceFailure, InvalidRequest, InvalidToken;
+        ReplicationPolicy policy, long serialVersion) 
+        throws NotImplemented, NotFound, NotAuthorized, ServiceFailure, 
+        InvalidRequest, InvalidToken;
 
     /** 
      * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CNReplication.isNodeAuthorized
@@ -78,7 +73,7 @@ public interface CNReplication {
      * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CNReplication.updateReplicationMetadata
      */
     public boolean updateReplicationMetadata(Session targetNodeSession, 
-        Identifier pid, Replica replica)
+        Identifier pid, Replica replicaMetadata, long serialVersion)
         throws NotImplemented, NotAuthorized, ServiceFailure, 
         NotFound, InvalidRequest;
 

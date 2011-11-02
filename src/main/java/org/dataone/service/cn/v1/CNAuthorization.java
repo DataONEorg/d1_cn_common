@@ -45,7 +45,8 @@ public interface CNAuthorization {
     /**
      * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CNAuthorization.setOwner
      */
-    public Identifier setOwner(Session session, Identifier pid, Subject userId)
+    public Identifier setOwner(Session session, Identifier pid, Subject userId, 
+         long serialVersion)
         throws InvalidToken, ServiceFailure, NotFound, NotAuthorized, 
         NotImplemented, InvalidRequest;
 
@@ -60,6 +61,7 @@ public interface CNAuthorization {
      * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CNAuthorization.setAccessPolicy
      */
     public boolean setAccessPolicy(Session session, Identifier pid, 
-        AccessPolicy policy) throws InvalidToken, NotFound, NotImplemented, 
-        NotAuthorized, ServiceFailure, InvalidRequest;
+        AccessPolicy policy, long serialVersion) 
+        throws InvalidToken, NotFound, NotImplemented, NotAuthorized, 
+        ServiceFailure, InvalidRequest;
 }
