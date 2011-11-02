@@ -207,9 +207,8 @@
     <value style="attribute" name="available" get-method="getAvailable" set-method="setAvailable" usage="optional"/>
   </mapping>
   <mapping abstract="true" type-name="d1:ServiceMethodRestriction" class="org.dataone.service.types.v1.ServiceMethodRestriction">
-    <structure map-as="d1:SubjectList" get-method="getAllowed" set-method="setAllowed" name="allowed"/>
-    <value style="attribute" name="name" get-method="getName" set-method="setName" usage="optional"/>
-    <value style="attribute" name="rest" get-method="getRest" set-method="setRest"/>
+    <structure map-as="d1:SubjectList" get-method="getAllowed" set-method="setAllowed" usage="optional" name="allowed"/>
+    <value style="attribute" name="methodName" get-method="getMethodName" set-method="setMethodName"/>
   </mapping>
   <mapping abstract="true" type-name="d1:Services" class="org.dataone.service.types.v1.Services">
     <collection get-method="getServiceList" set-method="setServiceList" create-type="java.util.ArrayList">

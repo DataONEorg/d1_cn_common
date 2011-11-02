@@ -4,7 +4,8 @@ package org.dataone.service.types.v1;
 import java.io.Serializable;
 
 /** 
- * Describes the restriction policy for a given method.
+ * Describes an optional restriction policy for a given method.
+ If this element exists for a service method, its use is restricted.
  Only subjects listed in the allowed list are allowed to invoke the method.
 
  * 
@@ -12,10 +13,9 @@ import java.io.Serializable;
  * <pre>
  * &lt;xs:complexType xmlns:ns="http://ns.dataone.org/service/types/v1" xmlns:xs="http://www.w3.org/2001/XMLSchema" name="ServiceMethodRestriction">
  *   &lt;xs:sequence>
- *     &lt;xs:element type="ns:SubjectList" name="allowed" minOccurs="1" maxOccurs="1"/>
+ *     &lt;xs:element type="ns:SubjectList" name="allowed" minOccurs="0" maxOccurs="1"/>
  *   &lt;/xs:sequence>
- *   &lt;xs:attribute type="xs:string" name="name"/>
- *   &lt;xs:attribute type="xs:string" use="required" name="rest"/>
+ *   &lt;xs:attribute type="xs:string" use="required" name="methodName"/>
  * &lt;/xs:complexType>
  * </pre>
  */
@@ -23,8 +23,7 @@ public class ServiceMethodRestriction implements Serializable
 {
     private static final long serialVersionUID = 10000000;
     private SubjectList allowed;
-    private String name;
-    private String rest;
+    private String methodName;
 
     /** 
      * Get the 'allowed' element value.
@@ -45,38 +44,20 @@ public class ServiceMethodRestriction implements Serializable
     }
 
     /** 
-     * Get the 'name' attribute value.
+     * Get the 'methodName' attribute value.
      * 
      * @return value
      */
-    public String getName() {
-        return name;
+    public String getMethodName() {
+        return methodName;
     }
 
     /** 
-     * Set the 'name' attribute value.
+     * Set the 'methodName' attribute value.
      * 
-     * @param name
+     * @param methodName
      */
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    /** 
-     * Get the 'rest' attribute value.
-     * 
-     * @return value
-     */
-    public String getRest() {
-        return rest;
-    }
-
-    /** 
-     * Set the 'rest' attribute value.
-     * 
-     * @param rest
-     */
-    public void setRest(String rest) {
-        this.rest = rest;
+    public void setMethodName(String methodName) {
+        this.methodName = methodName;
     }
 }
