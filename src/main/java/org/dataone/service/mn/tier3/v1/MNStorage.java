@@ -36,6 +36,7 @@ import org.dataone.service.types.v1.Session;
 import org.dataone.service.types.v1.SystemMetadata;
 
 import java.io.InputStream;
+import java.util.Date;
 
 /**
  * The DataONE Member Node Tier 3 Storage interface.  This defines an
@@ -71,4 +72,11 @@ public interface MNStorage {
             throws InvalidToken, ServiceFailure, NotAuthorized, NotFound,
             NotImplemented, InvalidRequest;
 
+    /**
+     * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/MN_APIs.html#MN_storage.systemMetadataChanged
+     */
+    public void systemMetadataChanged(Session cert, Identifier pid,
+            long serialVersion, Date dateSystemMetadataLastModified)
+            throws InvalidToken, ServiceFailure, NotAuthorized,
+            NotImplemented, InvalidRequest;
 }
