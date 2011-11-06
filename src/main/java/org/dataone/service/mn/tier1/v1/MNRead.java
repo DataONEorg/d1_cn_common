@@ -56,24 +56,21 @@ public interface MNRead {
      *
      */
     public InputStream get(Session cert, Identifier pid)
-    throws InvalidRequest, InvalidToken, NotAuthorized, NotImplemented, ServiceFailure,
-         NotFound;
+    throws InvalidToken, NotAuthorized, NotImplemented, ServiceFailure, NotFound;
 
 
     /**
      * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/MN_APIs.html#MN_read.getSystemMetadata
      */
     public SystemMetadata getSystemMetadata(Session cert, Identifier pid)
-    throws InvalidRequest, InvalidToken, NotAuthorized, NotImplemented, ServiceFailure,
-         NotFound;
+    throws InvalidToken, NotAuthorized, NotImplemented, ServiceFailure, NotFound;
 
 
     /**
      * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/MN_APIs.html#MN_read.describe
      */
     public DescribeResponse describe(Session cert, Identifier pid)
-    throws InvalidRequest, InvalidToken, NotAuthorized, NotImplemented, ServiceFailure,
-         NotFound;
+    throws InvalidToken, NotAuthorized, NotImplemented, ServiceFailure, NotFound;
     
 
     /**
@@ -95,7 +92,7 @@ public interface MNRead {
      * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/MN_APIs.html#MN_read.synchronizationFailed
      */
     public void synchronizationFailed(Session cert, SynchronizationFailed message)
-    throws InvalidRequest, InvalidToken, NotAuthorized, NotImplemented, ServiceFailure;
+    throws InvalidToken, NotAuthorized, NotImplemented, ServiceFailure;
     
 
 }

@@ -45,7 +45,7 @@ import org.dataone.service.types.v1.Subject;
  * implementation interface for Member Nodes that wish to build an
  * implementation that is compliant with the DataONE service definitions.
  *
- * @author Matthew Jones
+ * @author Matthew Jones, Rob Nahf
  */
 public interface MNCore {
 
@@ -56,8 +56,7 @@ public interface MNCore {
      * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/MN_APIs.html#MN_core.ping
      */
     public boolean ping() 
-    throws InvalidRequest, NotAuthorized, NotImplemented, ServiceFailure,
-           InsufficientResources, UnsupportedType;
+    throws NotImplemented, ServiceFailure, InsufficientResources;
 
     /** 
      * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/MN_APIs.html#MN_core.getLogRecords
@@ -66,36 +65,20 @@ public interface MNCore {
            Event event, Integer start, Integer count) 
     throws InvalidRequest, InvalidToken, NotAuthorized, NotImplemented, ServiceFailure;
 
-    /** TODO: Add ObjectStatistics class
-     * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/MN_APIs.html#MN_core.getObjectStatistics
-     *
-    public ObjectStatistics getObjectStatistics(String format, String pid) 
-    throws InvalidRequest, NotAuthorized, NotImplemented, ServiceFailure,
-           InsufficientResources, UnsupportedType;
-    */
 
-    /**
-     * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/MN_APIs.html#MN_core.getOperationStatistics
-     */
-    public MonitorList getOperationStatistics(Session cert, Date startTime,
-    		Date endTime, Subject requestor, Event event, ObjectFormatIdentifier formatid) 
-    throws InvalidRequest, InvalidToken, NotAuthorized, NotImplemented, ServiceFailure,
-    	   InsufficientResources, UnsupportedType;
+//    /**
+//     * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/MN_APIs.html#MN_core.getOperationStatistics
+//     */
+//    public MonitorList getOperationStatistics(Session cert, Date startTime,
+//    		Date endTime, Subject requestor, Event event, ObjectFormatIdentifier formatid) 
+//    throws InvalidRequest, InvalidToken, NotAuthorized, NotImplemented, ServiceFailure,
+//    	   InsufficientResources, UnsupportedType;
 
-
-    /** TODO: Add StatusResponse class
-     * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/MN_APIs.html#MN_core.getStatus
-     *
-    public StatusResponse getStatus() 
-    throws InvalidRequest, NotAuthorized, NotImplemented, ServiceFailure,
-    	   InsufficientResources, UnsupportedType;
-
-    */
 
     /**
      * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/MN_APIs.html#MN_core.getCapabilities
      */
     public Node getCapabilities() 
-    throws InvalidRequest, NotAuthorized, NotImplemented, ServiceFailure;
+    throws NotImplemented, ServiceFailure;
 
 }
