@@ -22,21 +22,16 @@ package org.dataone.service.mn.tier1.v1;
 
 import java.util.Date;
 
+import org.dataone.service.exceptions.InsufficientResources;
 import org.dataone.service.exceptions.InvalidRequest;
 import org.dataone.service.exceptions.InvalidToken;
 import org.dataone.service.exceptions.NotAuthorized;
 import org.dataone.service.exceptions.NotImplemented;
 import org.dataone.service.exceptions.ServiceFailure;
-import org.dataone.service.exceptions.InsufficientResources;
-import org.dataone.service.exceptions.UnsupportedType;
-
+import org.dataone.service.types.v1.Event;
 import org.dataone.service.types.v1.Log;
 import org.dataone.service.types.v1.Node;
-import org.dataone.service.types.v1.ObjectFormatIdentifier;
 import org.dataone.service.types.v1.Session;
-import org.dataone.service.types.v1.Event;
-import org.dataone.service.types.v1.MonitorList;
-import org.dataone.service.types.v1.Subject;
 
 
 
@@ -61,18 +56,9 @@ public interface MNCore {
     /** 
      * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/MN_APIs.html#MN_core.getLogRecords
      */
-    public Log getLogRecords(Session cert, Date fromDate, Date toDate, 
+    public Log getLogRecords(Session session, Date fromDate, Date toDate, 
            Event event, Integer start, Integer count) 
     throws InvalidRequest, InvalidToken, NotAuthorized, NotImplemented, ServiceFailure;
-
-
-//    /**
-//     * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/MN_APIs.html#MN_core.getOperationStatistics
-//     */
-//    public MonitorList getOperationStatistics(Session cert, Date startTime,
-//    		Date endTime, Subject requestor, Event event, ObjectFormatIdentifier formatid) 
-//    throws InvalidRequest, InvalidToken, NotAuthorized, NotImplemented, ServiceFailure,
-//    	   InsufficientResources, UnsupportedType;
 
 
     /**

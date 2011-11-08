@@ -72,6 +72,8 @@ public class Constants {
     
     /** CORE API resource which handles identifier reserving operations */
     public static final String RESOURCE_RESERVE = "reserve";
+    /** CORE API resource which handles identifier generation operations */
+    public static final String RESOURCE_GENERATE = "generate";
     
     
     /** IDENTITY API resource which handles account operations */

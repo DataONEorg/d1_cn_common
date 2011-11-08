@@ -21,6 +21,7 @@
 package org.dataone.service.cn.v1;
 
 import java.io.InputStream;
+import java.util.Date;
 
 import org.dataone.service.exceptions.InvalidRequest;
 import org.dataone.service.exceptions.InvalidToken;
@@ -28,14 +29,13 @@ import org.dataone.service.exceptions.NotAuthorized;
 import org.dataone.service.exceptions.NotFound;
 import org.dataone.service.exceptions.NotImplemented;
 import org.dataone.service.exceptions.ServiceFailure;
-
-import org.dataone.service.types.v1.Session;
-import org.dataone.service.types.v1.Identifier;
-import org.dataone.service.types.v1.SystemMetadata;
-import org.dataone.service.types.v1.ObjectLocationList;
 import org.dataone.service.types.v1.Checksum;
+import org.dataone.service.types.v1.Identifier;
+import org.dataone.service.types.v1.ObjectFormatIdentifier;
 import org.dataone.service.types.v1.ObjectList;
-//import org.dataone.service.types.OctetStream;
+import org.dataone.service.types.v1.ObjectLocationList;
+import org.dataone.service.types.v1.Session;
+import org.dataone.service.types.v1.SystemMetadata;
 
 /**
  * The DataONE CoordinatingNode Tier1 Read interface.  This defines an
@@ -53,28 +53,26 @@ public interface CNRead
      *
      */
     public InputStream get(Session session, Identifier pid)
-        throws InvalidRequest, InvalidToken, ServiceFailure, NotAuthorized, 
-        NotFound, NotImplemented;
+        throws InvalidToken, ServiceFailure, NotAuthorized, NotFound, NotImplemented;
 
     
     /**
      * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CNRead.getSystemMetadata
      */
     public SystemMetadata getSystemMetadata(Session session, Identifier pid)
-        throws InvalidRequest, InvalidToken, ServiceFailure, NotAuthorized, 
-        NotFound, NotImplemented;
+        throws InvalidToken, ServiceFailure, NotAuthorized, NotFound, NotImplemented;
     
     /**
      * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CNRead.resolve
      */
     public ObjectLocationList resolve(Session session, Identifier pid)
-        throws InvalidRequest, InvalidToken, ServiceFailure, NotAuthorized, 
-        NotFound, NotImplemented;
+        throws InvalidToken, ServiceFailure, NotAuthorized, NotFound, NotImplemented;
     
         
     /**
      * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CNRead.assertRelation
      */
+    @Deprecated
     public boolean assertRelation(Session session, Identifier pidOfSubject, 
         String relationship, Identifier pidOfObject) throws InvalidToken, 
         ServiceFailure, NotAuthorized, NotFound, InvalidRequest, NotImplemented;
@@ -83,8 +81,15 @@ public interface CNRead
      * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CNRead.getChecksum
      */
     public Checksum getChecksum(Session session, Identifier pid)
-        throws InvalidToken, ServiceFailure, NotAuthorized, NotFound,
-        InvalidRequest, NotImplemented;
+        throws InvalidToken, ServiceFailure, NotAuthorized, NotFound, NotImplemented;
+    
+    /**
+     * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CNRead.listObjects
+     */
+    public ObjectList listObjects(Session session, Date startTime, 
+            Date endTime, ObjectFormatIdentifier formatid, Boolean replicaStatus,
+            Integer start, Integer count) 
+    throws InvalidRequest, InvalidToken, NotAuthorized, NotImplemented, ServiceFailure;
     
     /**
      * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CNRead.search

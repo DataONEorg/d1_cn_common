@@ -26,6 +26,7 @@ import org.dataone.service.exceptions.NotAuthorized;
 import org.dataone.service.exceptions.NotFound;
 import org.dataone.service.exceptions.NotImplemented;
 import org.dataone.service.exceptions.ServiceFailure;
+import org.dataone.service.exceptions.VersionMismatch;
 
 import org.dataone.service.types.v1.Replica;
 import org.dataone.service.types.v1.Session;
@@ -51,7 +52,7 @@ public interface CNReplication {
     public boolean setReplicationStatus(Session session, Identifier pid, 
         NodeReference nodeRef, ReplicationStatus status, long serialVersion) 
         throws ServiceFailure, NotImplemented, InvalidToken, NotAuthorized, 
-        InvalidRequest, NotFound;
+        InvalidRequest, NotFound, VersionMismatch;
 
     /**
      * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CNReplication.setReplicationPolicy
@@ -59,7 +60,7 @@ public interface CNReplication {
     public boolean setReplicationPolicy(Session session, Identifier pid, 
         ReplicationPolicy policy, long serialVersion) 
         throws NotImplemented, NotFound, NotAuthorized, ServiceFailure, 
-        InvalidRequest, InvalidToken;
+        InvalidRequest, InvalidToken, VersionMismatch;
 
     /** 
      * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CNReplication.isNodeAuthorized
@@ -75,6 +76,6 @@ public interface CNReplication {
     public boolean updateReplicationMetadata(Session targetNodeSession, 
         Identifier pid, Replica replicaMetadata, long serialVersion)
         throws NotImplemented, NotAuthorized, ServiceFailure, 
-        NotFound, InvalidRequest;
+        NotFound, InvalidRequest, VersionMismatch;
 
 }

@@ -60,22 +60,28 @@ public interface CNCore
      * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CNCore.listFormats
      */
 		public ObjectFormatList listFormats()
-        throws InvalidRequest, ServiceFailure, NotFound, InsufficientResources,
-        NotImplemented;
+        throws ServiceFailure, InsufficientResources, NotImplemented;
 
     /**
      * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CNCore.getFormat
      */
     public ObjectFormat getFormat(ObjectFormatIdentifier formatid)
-        throws InvalidRequest, ServiceFailure, NotFound, InsufficientResources,
-        NotImplemented;
+        throws ServiceFailure, NotFound, InsufficientResources, NotImplemented;
+    
+    /**
+     * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CNCore.getChecksumAlgorithms
+     */
+    // TODO:  uncomment this and client code when return type is available
+    //    public ChecksumAlgorithmList getChecksumAlgorithms()
+//        throws ServiceFailure, NotImplemented;
 
     /**
      * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CNCore.getLogRecords
      */
     public Log getLogRecords(Session session, Date fromDate, Date toDate,
-        Event event, Integer start, Integer count) throws InvalidToken, InvalidRequest, ServiceFailure,
-        NotAuthorized, NotImplemented;
+        Event event, Integer start, Integer count) 
+    throws InvalidToken, InvalidRequest, ServiceFailure,
+        NotAuthorized, NotImplemented, InsufficientResources;
 
     /**
      * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CNCore.listNodes
@@ -85,7 +91,7 @@ public interface CNCore
     /**
      * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CNCore.reserveIdentifier
      */
-    public boolean reserveIdentifier(Session session, Identifier pid)
+    public Identifier reserveIdentifier(Session session, Identifier pid)
     	throws InvalidToken, ServiceFailure,
             NotAuthorized, IdentifierNotUnique, NotImplemented, InvalidRequest;
     
@@ -101,7 +107,7 @@ public interface CNCore
      */
     public boolean hasReservation(Session session, Identifier pid)
     	throws InvalidToken, ServiceFailure,  NotFound,
-            NotAuthorized, IdentifierNotUnique, NotImplemented, InvalidRequest;
+            NotAuthorized, NotImplemented, InvalidRequest, IdentifierNotUnique;
 
     /**
      * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CNCore.create
@@ -118,11 +124,5 @@ public interface CNCore
      public Identifier registerSystemMetadata(Session session, Identifier pid,
         SystemMetadata sysmeta) throws NotImplemented, NotAuthorized,
         ServiceFailure, InvalidRequest, InvalidSystemMetadata;
-     
-     /**
-      * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CNCore.updateSystemMetadata
-      */
-      public boolean updateSystemMetadata(Session session, Identifier pid,
-         SystemMetadata sysmeta) throws NotImplemented, NotAuthorized,
-         ServiceFailure, InvalidRequest, InvalidSystemMetadata, NotFound;
+
 }

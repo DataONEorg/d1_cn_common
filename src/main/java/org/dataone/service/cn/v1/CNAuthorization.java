@@ -26,6 +26,7 @@ import org.dataone.service.exceptions.NotAuthorized;
 import org.dataone.service.exceptions.NotFound;
 import org.dataone.service.exceptions.NotImplemented;
 import org.dataone.service.exceptions.ServiceFailure;
+import org.dataone.service.exceptions.VersionMismatch;
 
 import org.dataone.service.types.v1.Permission;
 import org.dataone.service.types.v1.Session;
@@ -48,7 +49,7 @@ public interface CNAuthorization {
     public Identifier setOwner(Session session, Identifier pid, Subject userId, 
          long serialVersion)
         throws InvalidToken, ServiceFailure, NotFound, NotAuthorized, 
-        NotImplemented, InvalidRequest;
+        NotImplemented, InvalidRequest, VersionMismatch;
 
     /**
      * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CNAuthorization.isAuthorized
@@ -63,5 +64,5 @@ public interface CNAuthorization {
     public boolean setAccessPolicy(Session session, Identifier pid, 
         AccessPolicy policy, long serialVersion) 
         throws InvalidToken, NotFound, NotImplemented, NotAuthorized, 
-        ServiceFailure, InvalidRequest;
+        ServiceFailure, InvalidRequest, VersionMismatch;
 }

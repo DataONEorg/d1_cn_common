@@ -48,34 +48,34 @@ public interface CNIdentity {
      * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CNIdentity.registerAccount
      */
     public Subject registerAccount(Session session, Person person) 
-        throws ServiceFailure, IdentifierNotUnique, InvalidCredentials, 
+        throws ServiceFailure, NotAuthorized, IdentifierNotUnique, InvalidCredentials, 
         NotImplemented, InvalidRequest;
     
     /**
      * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CNIdentity.updateAccount
      */
     public Subject updateAccount(Session session, Person person) 
-    	throws ServiceFailure, IdentifierNotUnique, InvalidCredentials, 
-        NotImplemented, InvalidRequest;
+    	throws ServiceFailure, NotAuthorized, IdentifierNotUnique, InvalidCredentials, 
+        NotImplemented, InvalidRequest, NotFound;
     
     /**
      * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CNIdentity.verifyAccount
      */
     public boolean verifyAccount(Session session, Subject subject) 
         throws ServiceFailure, NotAuthorized, NotImplemented, InvalidToken, 
-        InvalidRequest;
+        InvalidRequest, NotFound;
 
-    /** TODO: are ServiceFailure and InvalidToken the only exceptions needed here?
+    /** 
      * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CNIdentity.getSubjectInfo
      */
     public SubjectInfo getSubjectInfo(Session session, Subject subject)
-        throws ServiceFailure, InvalidRequest, NotAuthorized, NotImplemented;
+        throws ServiceFailure, NotAuthorized, NotImplemented, NotFound;
   
     /**
      * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CNIdentity.listSubjects
      */
     public SubjectInfo listSubjects(Session session, String query, String status, Integer start, 
-        Integer count) throws ServiceFailure, InvalidToken, NotAuthorized, 
+        Integer count) throws InvalidRequest, ServiceFailure, InvalidToken, NotAuthorized, 
         NotImplemented;
         
     /**
@@ -83,7 +83,7 @@ public interface CNIdentity {
      */
     public boolean mapIdentity(Session session, Subject subject1, Subject subject2) 
         throws ServiceFailure, InvalidToken, NotAuthorized, NotFound, 
-        NotImplemented, InvalidRequest;
+        NotImplemented, InvalidRequest, IdentifierNotUnique;
     
     /**
      * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CNIdentity.requestMapIdentity
@@ -97,14 +97,14 @@ public interface CNIdentity {
      */
     public boolean confirmMapIdentity(Session session, Subject subject) 
         throws ServiceFailure, InvalidToken, NotAuthorized, NotFound, 
-        NotImplemented, InvalidRequest;
+        NotImplemented;
     
-    /**
-     * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CNIdentity.getPendingMapIdentity
-     */
-    public SubjectInfo getPendingMapIdentity(Session session, Subject subject) 
-        throws ServiceFailure, InvalidToken, NotAuthorized, NotFound, 
-        NotImplemented, InvalidRequest;
+//    /**
+//     * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CNIdentity.getPendingMapIdentity
+//     */
+//    public SubjectInfo getPendingMapIdentity(Session session, Subject subject) 
+//        throws ServiceFailure, InvalidToken, NotAuthorized, NotFound, 
+//        NotImplemented, InvalidRequest;
     
     /**
      * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CNIdentity.denyMapIdentity
@@ -124,8 +124,7 @@ public interface CNIdentity {
      * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CNIdentity.createGroup
      */
     public Subject createGroup(Session session, Subject groupName) 
-        throws ServiceFailure, InvalidToken, NotAuthorized, NotFound, 
-        NotImplemented, InvalidRequest, IdentifierNotUnique;
+        throws ServiceFailure, InvalidToken, NotAuthorized, NotImplemented, IdentifierNotUnique;
 
     /**
      * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CNIdentity.addGroupMembers
@@ -141,17 +140,17 @@ public interface CNIdentity {
         SubjectList members) throws ServiceFailure, InvalidToken, NotAuthorized, 
         NotFound, NotImplemented, InvalidRequest;   
     
-    /**
-     * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CNIdentity.isGroup
-     */
-    public boolean isGroup(Session session, Subject subject) 
-        throws ServiceFailure, InvalidToken, NotAuthorized, NotFound, 
-        NotImplemented, InvalidRequest;
-    
-    /**
-     * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CNIdentity.isPublic
-     */
-    public boolean isPublic(Session session, Subject subject) 
-        throws ServiceFailure, InvalidToken, NotAuthorized, NotFound, 
-        NotImplemented, InvalidRequest;
+//    /**
+//     * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CNIdentity.isGroup
+//     */
+//    public boolean isGroup(Session session, Subject subject) 
+//        throws ServiceFailure, InvalidToken, NotAuthorized, NotFound, 
+//        NotImplemented, InvalidRequest;
+//    
+//    /**
+//     * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CNIdentity.isPublic
+//     */
+//    public boolean isPublic(Session session, Subject subject) 
+//        throws ServiceFailure, InvalidToken, NotAuthorized, NotFound, 
+//        NotImplemented, InvalidRequest;
 }

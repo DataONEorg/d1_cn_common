@@ -50,7 +50,7 @@ public interface MNStorage {
     /**
      * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/MN_APIs.html#MN_storage.create
      */
-    public Identifier create(Session cert, Identifier pid, InputStream object, 
+    public Identifier create(Session session, Identifier pid, InputStream object, 
         SystemMetadata sysmeta) 
     throws IdentifierNotUnique, InsufficientResources, InvalidRequest, InvalidSystemMetadata, 
     	InvalidToken, NotAuthorized, NotImplemented, ServiceFailure, UnsupportedType;
@@ -59,7 +59,7 @@ public interface MNStorage {
     /**
      * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/MN_APIs.html#MN_storage.update
      */
-    public Identifier update(Session cert, Identifier pid, InputStream object, 
+    public Identifier update(Session session, Identifier pid, InputStream object, 
         Identifier newPid, SystemMetadata sysmeta) 
     throws IdentifierNotUnique, InsufficientResources, InvalidRequest, InvalidSystemMetadata, 
         InvalidToken, NotAuthorized, NotImplemented, ServiceFailure, UnsupportedType,
@@ -69,14 +69,14 @@ public interface MNStorage {
     /**
      * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/MN_APIs.html#MN_storage.delete
      */
-    public Identifier delete(Session cert, Identifier pid)
+    public Identifier delete(Session session, Identifier pid)
     throws InvalidToken, ServiceFailure, NotAuthorized, NotFound, NotImplemented;
 
     
     /**
      * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/MN_APIs.html#MN_storage.systemMetadataChanged
      */
-    public void systemMetadataChanged(Session cert, Identifier pid, long serialVersion,
+    public void systemMetadataChanged(Session session, Identifier pid, long serialVersion,
     	Date dateSystemMetadataLastModified)
     throws InvalidToken, ServiceFailure, NotAuthorized, NotImplemented, InvalidRequest;
 }
