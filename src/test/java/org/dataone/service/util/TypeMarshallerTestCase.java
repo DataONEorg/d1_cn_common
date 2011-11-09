@@ -5,15 +5,18 @@
 
 package org.dataone.service.util;
 
-import org.dataone.service.types.v1.Node;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
+import org.apache.log4j.Logger;
+import org.dataone.service.types.v1.Node;
 import org.dataone.service.types.v1.SystemMetadata;
 import org.jibx.runtime.JiBXException;
 import org.junit.Test;
-import static org.junit.Assert.*;
 
 
 /**
@@ -21,6 +24,9 @@ import static org.junit.Assert.*;
  * @author waltz
  */
 public class TypeMarshallerTestCase {
+	
+	private static Logger log = Logger.getLogger(TypeMarshallerTestCase.class);
+
     @Test
     public void deserializeSystemMetadata() {
         try {
@@ -43,6 +49,30 @@ public class TypeMarshallerTestCase {
         try {
             InputStream is = this.getClass().getResourceAsStream("/org/dataone/service/samples/v1/mnNode1.xml");
             Node node = TypeMarshaller.unmarshalTypeFromStream(Node.class, is);
+        } catch (IOException ex) {
+            fail("Test misconfiguration" +  ex);
+        } catch (InstantiationException ex) {
+            fail("Test misconfiguration" + ex);
+        } catch (IllegalAccessException ex) {
+            fail("Test misconfiguration" +  ex);
+        } catch (JiBXException ex) {
+            fail("Test misconfiguration" +  ex);
+        }
+
+
+    }
+    
+    @Test
+    public void serializeNodeStylesheet() {
+        try {
+            InputStream is = this.getClass().getResourceAsStream("/org/dataone/service/samples/v1/mnNode1.xml");
+            Node node = TypeMarshaller.unmarshalTypeFromStream(Node.class, is);
+            String styleSheet = "test.xsl";
+            ByteArrayOutputStream os = new ByteArrayOutputStream();
+			TypeMarshaller.marshalTypeToOutputStream(node, os , styleSheet);
+			String result = os.toString("UTF-8");
+			log.debug("Stylesheet result: \n" + result);
+			assertTrue(result.contains(styleSheet));
         } catch (IOException ex) {
             fail("Test misconfiguration" +  ex);
         } catch (InstantiationException ex) {

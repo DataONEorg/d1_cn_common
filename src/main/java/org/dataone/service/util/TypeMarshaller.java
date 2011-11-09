@@ -48,13 +48,9 @@ public class TypeMarshaller {
     static Logger logger = Logger.getLogger(TypeMarshaller.class.getName());
 
     public static File marshalTypeToFile(Object typeObject, String filenamePath) throws JiBXException, FileNotFoundException, IOException {
-        IBindingFactory bfact = BindingDirectory.getFactory(typeObject.getClass());
-
-        IMarshallingContext mctx = bfact.createMarshallingContext();
         File outputFile = new File(filenamePath);
         FileOutputStream typeOutput = new FileOutputStream(outputFile);
-
-        mctx.marshalDocument(typeObject, "UTF-8", null, typeOutput);
+        marshalTypeToOutputStream(typeObject, typeOutput, null);
         try {
             typeOutput.close();
         } catch (IOException ex) {
@@ -64,9 +60,17 @@ public class TypeMarshaller {
     }
     
     public static void marshalTypeToOutputStream(Object typeObject, OutputStream os) throws JiBXException, IOException {
+        marshalTypeToOutputStream(typeObject, os, null);
+    }
+    
+    public static void marshalTypeToOutputStream(Object typeObject, OutputStream os, String styleSheet) throws JiBXException, IOException {
         IBindingFactory bfact = BindingDirectory.getFactory(typeObject.getClass());
         IMarshallingContext mctx = bfact.createMarshallingContext();
-        mctx.marshalDocument(typeObject, "UTF-8", null, os);
+        mctx.startDocument("UTF-8", null, os);
+        if (styleSheet != null) {
+        	mctx.getXmlWriter().writePI("xml-stylesheet", "href=\"" + styleSheet + "\"");
+        }
+        mctx.marshalDocument(typeObject);
     }
     
     public static <T> T unmarshalTypeFromFile(Class<T> domainClass, String filenamePath) throws IOException, InstantiationException, IllegalAccessException, JiBXException {
