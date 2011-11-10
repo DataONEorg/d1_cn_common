@@ -99,12 +99,12 @@ public interface CNIdentity {
         throws ServiceFailure, InvalidToken, NotAuthorized, NotFound, 
         NotImplemented;
     
-//    /**
-//     * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CNIdentity.getPendingMapIdentity
-//     */
-//    public SubjectInfo getPendingMapIdentity(Session session, Subject subject) 
-//        throws ServiceFailure, InvalidToken, NotAuthorized, NotFound, 
-//        NotImplemented, InvalidRequest;
+    /**
+     * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CNIdentity.getPendingMapIdentity
+     */
+    public SubjectInfo getPendingMapIdentity(Session session, Subject subject) 
+        throws ServiceFailure, InvalidToken, NotAuthorized, NotFound, 
+        NotImplemented, InvalidRequest;
     
     /**
      * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CNIdentity.denyMapIdentity
