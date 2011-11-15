@@ -43,7 +43,7 @@ public class Constants {
     /** Common API resource which handles SystemMetadata operations */
     public static final String RESOURCE_META = "meta";
     /** Common API resource which handles SystemMetadata update operations */
-    public static final String RESOURCE_META_CHANGED = "dirtyMeta";
+    public static final String RESOURCE_META_CHANGED = "dirtySystemMetadata";
     /** Common API resource which handles node operations */
     public static final String RESOURCE_NODE = "node";
     /** Common API resource which handles document operations */
