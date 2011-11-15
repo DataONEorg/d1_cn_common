@@ -68,7 +68,7 @@ public class TypeMarshaller {
         IMarshallingContext mctx = bfact.createMarshallingContext();
         mctx.startDocument("UTF-8", null, os);
         if (styleSheet != null) {
-        	mctx.getXmlWriter().writePI("xml-stylesheet", "href=\"" + styleSheet + "\"");
+        	mctx.getXmlWriter().writePI("xml-stylesheet", "type=\"text/xsl\" href=\"" + styleSheet + "\"");
         }
         mctx.marshalDocument(typeObject);
     }
