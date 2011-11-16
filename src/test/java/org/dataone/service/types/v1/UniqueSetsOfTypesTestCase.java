@@ -5,6 +5,7 @@
 
 package org.dataone.service.types.v1;
 
+import org.dataone.service.util.Constants;
 import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.List;
@@ -82,5 +83,17 @@ public class UniqueSetsOfTypesTestCase {
 
         assertTrue(idList.contains(a1));
     }
+    @Test
+    public void PublicSetofSubjectReferences () {
+        Subject a1 = new Subject();
+        a1.setValue(Constants.SUBJECT_PUBLIC);
 
+        Subject a2 = new Subject();
+        a2.setValue("public");
+
+
+        assertTrue(a1.equals(a2));
+        assertTrue(a1.compareTo(a2) == 0);
+
+    }
 }
