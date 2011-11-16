@@ -56,6 +56,11 @@
                        replace="\1 Serializable, Comparable"
                        byline="true"
         />
+        <replaceregexp file="${basedir}/src/main/java/org/dataone/service/types/v1/Subject.java"
+                       match="([\w\s]+)(Serializable)"
+                       replace="\1 Serializable, Comparable"
+                       byline="true"
+        />
 <!--        <replaceregexp file="${basedir}/src/main/java/org/dataone/service/types/v1/Identifier.java"
                        match="(private String value\;)"
                        replace="\1${line.separator}${line.separator}    public int compareTo\(Object identifier\) throws ClassCastException \{${line.separator}        Identifier id = (Identifier)identifier\;${line.separator}        return this.value.compareTo\(id\.getValue\(\)\)\;${line.separator}    \}${line.separator}"

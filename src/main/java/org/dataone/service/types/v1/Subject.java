@@ -2,6 +2,7 @@
 package org.dataone.service.types.v1;
 
 import java.io.Serializable;
+import org.dataone.service.types.IdentifierBase;
 
 /** 
  * Person (user), Group, or Organization, or System.The formal name identifiying a user or group from the DataONE 
@@ -18,7 +19,8 @@ import java.io.Serializable;
  * &lt;/xs:complexType>
  * </pre>
  */
-public class Subject implements Serializable
+public class Subject extends org.dataone.service.types.IdentifierBase implements
+     Serializable, Comparable
 {
     private static final long serialVersionUID = 10000000;
     private String value;
