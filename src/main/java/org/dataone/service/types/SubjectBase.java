@@ -60,8 +60,14 @@ public class SubjectBase implements Serializable, Comparable {
      * @return the standard D1 representation
      */
     private String standardizeDN(String name) {
-    	X500Principal principal = new X500Principal(name);
-	String standardizedName = principal.getName(X500Principal.RFC2253);
-	return standardizedName;
+    	String standardizedName = null;
+    	try {
+    		X500Principal principal = new X500Principal(name);
+    		standardizedName = principal.getName(X500Principal.RFC2253);
+    	} catch (IllegalArgumentException e) {
+    		// it's not an X500 principal, so pass through untouched
+    		standardizedName = name;
+    	}
+    	return standardizedName;
     }
 }

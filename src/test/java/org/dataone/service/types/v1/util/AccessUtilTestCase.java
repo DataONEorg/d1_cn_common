@@ -12,6 +12,7 @@ import org.dataone.service.types.v1.AccessRule;
 import org.dataone.service.types.v1.Permission;
 import org.dataone.service.types.v1.Subject;
 import org.dataone.service.types.v1.util.AccessUtil;
+import org.dataone.service.util.Constants;
 import org.junit.Test;
 
 import edu.emory.mathcs.backport.java.util.Arrays;
@@ -72,7 +73,7 @@ public class AccessUtilTestCase {
 		AccessRule ar = new AccessRule();
 		List<Subject> sl = new ArrayList<Subject>();
 		Subject s = new Subject();
-		s.setValue("s");
+		s.setValue(Constants.SUBJECT_PUBLIC);
 		sl.add(s);
 		ar.setSubjectList(sl);
 		ar.setPermissionList(Arrays.asList(new Permission[]{Permission.READ,Permission.WRITE}));
@@ -81,7 +82,7 @@ public class AccessUtilTestCase {
 		assertTrue("subject finds itself", permMap.containsKey(s));
 		
 		Subject ss = new Subject();
-		ss.setValue("s");
+		ss.setValue(Constants.SUBJECT_PUBLIC);
 		assertTrue("subject finds comparable self", permMap.containsKey(ss));
 		
 		assertTrue("can find all in permission set", 
