@@ -29,7 +29,7 @@
      <class-decorator class="org.jibx.schema.codegen.extend.SerializableDecorator" serial-version="10000000"/>
      <class-decorator class="org.jibx.schema.codegen.extend.ExtensionDecorator" match-name="Identifier" base-class="org.dataone.service.types.IdentifierBase"/>
       <class-decorator class="org.jibx.schema.codegen.extend.ExtensionDecorator" match-name="NodeReference" base-class="org.dataone.service.types.IdentifierBase"/>
-      <class-decorator class="org.jibx.schema.codegen.extend.ExtensionDecorator" match-name="Subject" base-class="org.dataone.service.types.IdentifierBase"/>
+      <class-decorator class="org.jibx.schema.codegen.extend.ExtensionDecorator" match-name="Subject" base-class="org.dataone.service.types.SubjectBase"/>
     <schema-set names="dataoneTypes.xsd" prefix="d1" namespaces="http://ns.dataone.org/service/types/v1">
         <schema-type type-name="dateTime" java-class="java.util.Date"
             serializer="org.dataone.service.util.DateTimeMarshaller.serializeDateToUTC"
