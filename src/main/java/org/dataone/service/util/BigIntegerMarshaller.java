@@ -45,7 +45,9 @@ public class BigIntegerMarshaller {
      */
     public static BigInteger deserializeBigInteger(String bigIntValue) throws JiBXException {
 
-        BigInteger bigInt = new BigInteger(bigIntValue);
+    	if (bigIntValue == null)
+    		throw new JiBXException("serialized value cannot be null");
+    	BigInteger bigInt = new BigInteger(bigIntValue);
         if (bigInt.compareTo(compareLimit) >= 0) {
             return bigInt;
         } else {
