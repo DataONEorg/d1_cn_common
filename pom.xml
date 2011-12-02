@@ -36,13 +36,13 @@
         <dependency>
             <groupId>com.hazelcast</groupId>
             <artifactId>hazelcast</artifactId>
-            <version>1.9.3.4</version>
+            <version>1.9.4.4</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>com.hazelcast</groupId>
             <artifactId>hazelcast-client</artifactId>
-            <version>1.9.3.4</version>
+            <version>1.9.4.4</version>
             <type>jar</type>
             <scope>compile</scope>
         </dependency>
