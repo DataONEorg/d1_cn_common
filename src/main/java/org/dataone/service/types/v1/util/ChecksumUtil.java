@@ -37,6 +37,13 @@ public class ChecksumUtil {
         } while (numRead != -1);
 
         // reset if it is supported
+        //
+        // mark is only supported on two Java supplied InputStreams
+        // BufferedInputStream and ByteArrayInputStream
+        // for BufferedInputStream, reset will only go the beginning of the
+        // buffer (which if shorter than the stream itself, will result
+        // in resetting to the middle of the stream )
+
         if (is.markSupported()) {
         	is.reset();
         }
@@ -52,7 +59,7 @@ public class ChecksumUtil {
      * convert a byte array to a hex string
      */
     private static String getHex(byte[] raw) {
-        final String HEXES = "0123456789ABCDEF";
+        final String HEXES = "0123456789abcdef";
         if (raw == null) {
             return null;
         }

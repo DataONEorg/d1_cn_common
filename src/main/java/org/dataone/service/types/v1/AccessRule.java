@@ -10,7 +10,7 @@ import java.util.List;
  read or write) on an object in DataONE. Rules are tuples (subject,
  permission) specifying which permissions are allowed for the subjects(s).
  The resource on which the access control rules are being applied is
- determined by the containing System Metadata document, or in the case of
+ determined by the containing SystemMetadata document, or in the case of
  methods such as :func:`CNAuthorization.setAccessPolicy`, by the *pid* in the
  method parameters.Access control rules are specified by the :term:`Origin Member Node` when the
  object is first registered in DataONE. If no rules are specified at that

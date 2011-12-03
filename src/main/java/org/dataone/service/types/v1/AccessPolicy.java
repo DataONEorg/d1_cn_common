@@ -7,7 +7,7 @@ import java.util.List;
 
 /** 
  * A set of rules that specifies as a whole the allowable permissions that a
- given user or system has for accessing a resource, including both data and
+ given user, group, or system has for accessing a resource, including both data and
  metadata resources and service resources. An access policy consists of a
  sequence of allow rules that grant permissions to principals, which can be
  individual users, groups of users, symbolic users, or systems and services.

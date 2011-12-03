@@ -5,8 +5,11 @@ import java.io.Serializable;
 import java.util.Date;
 
 /** 
- * The process by which data is pulled from membernodes down
- to the coordinating node
+ * Configuration information for the process by which data is harvested from membernodes
+ to Coordinating Nodes, including the schedule on which harvesting should occur, and metadata about
+ the last synchronization attempts for the node.  Clients providing Synchronization
+ information only need to provide the schedule, but must provide placeholder values that will be overridden 
+ by the Coordinating Nodes for the lastHarvested and lastCompleteHarvest fields.
 
  * 
  * Schema fragment(s) for this class:
@@ -46,7 +49,7 @@ public class Synchronization implements Serializable
     }
 
     /** 
-     * Get the 'lastHarvested' element value. The last time the mn sychronization daemon ran and found new data to synchronize
+     * Get the 'lastHarvested' element value. The most recent modification date of objects checked during the last harvest of the node.
                       
      * 
      * @return value
@@ -56,7 +59,7 @@ public class Synchronization implements Serializable
     }
 
     /** 
-     * Set the 'lastHarvested' element value. The last time the mn sychronization daemon ran and found new data to synchronize
+     * Set the 'lastHarvested' element value. The most recent modification date of objects checked during the last harvest of the node.
                       
      * 
      * @param lastHarvested
@@ -66,7 +69,7 @@ public class Synchronization implements Serializable
     }
 
     /** 
-     * Get the 'lastCompleteHarvest' element value. The last time all the data from a node was pulled from a member node
+     * Get the 'lastCompleteHarvest' element value. The last time all the data from a node was pulled from a member node. 
                       
      * 
      * @return value
@@ -76,7 +79,7 @@ public class Synchronization implements Serializable
     }
 
     /** 
-     * Set the 'lastCompleteHarvest' element value. The last time all the data from a node was pulled from a member node
+     * Set the 'lastCompleteHarvest' element value. The last time all the data from a node was pulled from a member node. 
                       
      * 
      * @param lastCompleteHarvest

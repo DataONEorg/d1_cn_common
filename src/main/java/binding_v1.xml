@@ -37,6 +37,9 @@
     <collection get-method="getHasMemberList" set-method="setHasMemberList" usage="optional" create-type="java.util.ArrayList">
       <structure map-as="d1:Subject" name="hasMember"/>
     </collection>
+    <collection get-method="getRightsHolderList" set-method="setRightsHolderList" create-type="java.util.ArrayList">
+      <structure map-as="d1:Subject" name="rightsHolder"/>
+    </collection>
   </mapping>
   <mapping abstract="true" type-name="d1:Identifier" class="org.dataone.service.types.v1.Identifier">
     <value style="text" get-method="getValue" set-method="setValue"/>
@@ -147,6 +150,9 @@
   <mapping abstract="true" type-name="d1:ObjectLocation" class="org.dataone.service.types.v1.ObjectLocation">
     <structure map-as="d1:NodeReference" get-method="getNodeIdentifier" set-method="setNodeIdentifier" name="nodeIdentifier"/>
     <value style="element" name="baseURL" get-method="getBaseURL" set-method="setBaseURL"/>
+    <collection get-method="getVersionList" set-method="setVersionList" create-type="java.util.ArrayList">
+      <value style="element" name="version" type="java.lang.String"/>
+    </collection>
     <value style="element" name="url" get-method="getUrl" set-method="setUrl"/>
     <value style="element" name="preference" get-method="getPreference" set-method="setPreference" usage="optional"/>
   </mapping>
@@ -188,6 +194,9 @@
     <value style="element" name="replicationStatus" get-method="getReplicationStatus" set-method="setReplicationStatus" format="d1:ReplicationStatus"/>
     <value style="element" name="replicaVerified" get-method="getReplicaVerified" set-method="setReplicaVerified" serializer="org.dataone.service.util.DateTimeMarshaller.serializeDateToUTC" deserializer="org.dataone.service.util.DateTimeMarshaller.deserializeDateToUTC"/>
   </mapping>
+  <mapping class="org.dataone.service.types.v1.Replica" name="replica" ns="http://ns.dataone.org/service/types/v1">
+    <structure map-as="d1:Replica"/>
+  </mapping>
   <mapping abstract="true" type-name="d1:ReplicationPolicy" class="org.dataone.service.types.v1.ReplicationPolicy">
     <collection get-method="getPreferredMemberNodeList" set-method="setPreferredMemberNodeList" usage="optional" create-type="java.util.ArrayList">
       <structure map-as="d1:NodeReference" name="preferredMemberNode"/>
@@ -198,6 +207,9 @@
     <value style="attribute" name="replicationAllowed" get-method="getReplicationAllowed" set-method="setReplicationAllowed" usage="optional"/>
     <value style="attribute" name="numberReplicas" get-method="getNumberReplicas" set-method="setNumberReplicas" usage="optional"/>
   </mapping>
+  <mapping class="org.dataone.service.types.v1.ReplicationPolicy" name="replicationPolicy" ns="http://ns.dataone.org/service/types/v1">
+    <structure map-as="d1:ReplicationPolicy"/>
+  </mapping>
   <mapping abstract="true" type-name="d1:Service" class="org.dataone.service.types.v1.Service">
     <collection get-method="getRestrictionList" set-method="setRestrictionList" usage="optional" create-type="java.util.ArrayList">
       <structure map-as="d1:ServiceMethodRestriction" name="restriction"/>
@@ -207,7 +219,7 @@
     <value style="attribute" name="available" get-method="getAvailable" set-method="setAvailable" usage="optional"/>
   </mapping>
   <mapping abstract="true" type-name="d1:ServiceMethodRestriction" class="org.dataone.service.types.v1.ServiceMethodRestriction">
-    <structure map-as="d1:SubjectList" get-method="getAllowed" set-method="setAllowed" usage="optional" name="allowed"/>
+    <structure map-as="d1:SubjectList"/>
     <value style="attribute" name="methodName" get-method="getMethodName" set-method="setMethodName"/>
   </mapping>
   <mapping abstract="true" type-name="d1:Services" class="org.dataone.service.types.v1.Services">
@@ -278,6 +290,7 @@
     <structure map-as="d1:ReplicationPolicy" get-method="getReplicationPolicy" set-method="setReplicationPolicy" usage="optional" name="replicationPolicy"/>
     <structure map-as="d1:Identifier" get-method="getObsoletes" set-method="setObsoletes" usage="optional" name="obsoletes"/>
     <structure map-as="d1:Identifier" get-method="getObsoletedBy" set-method="setObsoletedBy" usage="optional" name="obsoletedBy"/>
+    <value style="element" name="archived" get-method="getArchived" set-method="setArchived" usage="optional"/>
     <value style="element" name="dateUploaded" get-method="getDateUploaded" set-method="setDateUploaded" serializer="org.dataone.service.util.DateTimeMarshaller.serializeDateToUTC" deserializer="org.dataone.service.util.DateTimeMarshaller.deserializeDateToUTC"/>
     <value style="element" name="dateSysMetadataModified" get-method="getDateSysMetadataModified" set-method="setDateSysMetadataModified" serializer="org.dataone.service.util.DateTimeMarshaller.serializeDateToUTC" deserializer="org.dataone.service.util.DateTimeMarshaller.deserializeDateToUTC"/>
     <structure map-as="d1:NodeReference" get-method="getOriginMemberNode" set-method="setOriginMemberNode" usage="optional" name="originMemberNode"/>

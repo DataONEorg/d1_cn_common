@@ -6,12 +6,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 /** 
- * The available Dataone Service APIs that are exposed on a Node
+ * The available Dataone Service APIs that are exposed on a Node.
  Name and version of a DataONE software stack component are
  equivalent to the statusresponselist.xsd name and version. 
  Without a restriction, all service methods are available to all callers.
  Restrictions may be placed on individual methods of the service to limit 
- the service to a certain set of Subjects.
+ the service to a certain set of Subjects. Enforcement of these service restrictions
+ is incumbent on the Node service implementation.
 
  * 
  * Schema fragment(s) for this class:

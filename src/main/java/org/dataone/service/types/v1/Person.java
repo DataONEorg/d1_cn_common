@@ -7,9 +7,12 @@ import java.util.List;
 
 /** 
  * Person represents metadata about a Principal that
- is a person and that
- can be used by clients and nodes for displaying
- :class:`Types.AccessPolicy` information.
+ is a person and that can be used by clients and nodes for
+ :class:`Types.AccessPolicy` information. The mutable properties
+ of a Person instance can only be changed by itself (i.e., the 
+ Subject identifying the Person instance) and by the Coordinating
+ Node identitiy, but can be read by any identity in the DataONE system.
+
  * 
  * Schema fragment(s) for this class:
  * <pre>
@@ -38,7 +41,7 @@ public class Person implements Serializable
     private Boolean verified;
 
     /** 
-     * Get the 'subject' element value. The unique identifier for the person.
+     * Get the 'subject' element value. The unique, immutable identifier for the person.
     				
      * 
      * @return value
@@ -48,7 +51,7 @@ public class Person implements Serializable
     }
 
     /** 
-     * Set the 'subject' element value. The unique identifier for the person.
+     * Set the 'subject' element value. The unique, immutable identifier for the person.
     				
      * 
      * @param subject
@@ -178,9 +181,9 @@ public class Person implements Serializable
     }
 
     /** 
-     * Get the list of 'isMemberOf' element items. A group or role in which the Principal is a
-    					member, expressed using the
-    					unique Principal identifier for that group.
+     * Get the list of 'isMemberOf' element items. A group or role in which the Person is a
+    					member, expressed using the unique Subject identifier for that Group.
+    				
      * 
      * @return list
      */
@@ -189,9 +192,9 @@ public class Person implements Serializable
     }
 
     /** 
-     * Set the list of 'isMemberOf' element items. A group or role in which the Principal is a
-    					member, expressed using the
-    					unique Principal identifier for that group.
+     * Set the list of 'isMemberOf' element items. A group or role in which the Person is a
+    					member, expressed using the unique Subject identifier for that Group.
+    				
      * 
      * @param list
      */
@@ -233,8 +236,8 @@ public class Person implements Serializable
 
     /** 
      * Get the list of 'equivalentIdentity' element items. An alternative but equivalent identity for the
-    					principal that has been
-    					used in alternate identity systems.
+    					principal that has been used in alternate identity systems.
+    				
      * 
      * @return list
      */
@@ -244,8 +247,8 @@ public class Person implements Serializable
 
     /** 
      * Set the list of 'equivalentIdentity' element items. An alternative but equivalent identity for the
-    					principal that has been
-    					used in alternate identity systems.
+    					principal that has been used in alternate identity systems.
+    				
      * 
      * @param list
      */
@@ -292,7 +295,9 @@ public class Person implements Serializable
     					address is correct for that person and is in the control
     					of the indicated individual. Verification occurs through a
     					established procedure within DataONE as part of the Identity 
-    					Management system.
+    					Management system.  A Person can not change their own 'verified'
+    					field, but rather must be verified and changed through this DataONE
+    					established process.
     				
      * 
      * @return value
@@ -308,7 +313,9 @@ public class Person implements Serializable
     					address is correct for that person and is in the control
     					of the indicated individual. Verification occurs through a
     					established procedure within DataONE as part of the Identity 
-    					Management system.
+    					Management system.  A Person can not change their own 'verified'
+    					field, but rather must be verified and changed through this DataONE
+    					established process.
     				
      * 
      * @param verified

@@ -6,8 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /** 
- * A set of values that describe a member or coordinating node, its Internet location, the services it
- supports and its replication policy. Several nodes may exist on a single physical device or hostname.
+ * A set of values that describe a member or coordinating node, its Internet location, and the services it
+ supports. Several nodes may exist on a single physical device or hostname.
 
  * 
  * Schema fragment(s) for this class:
@@ -73,9 +73,8 @@ public class Node implements Serializable
     }
 
     /** 
-     * Get the 'name' element value. A human readable name of the Node. 
-                          The name of the node is being used in Mercury currently to assign a path,
-                          so format should be consistent with dataone directory naming conventions
+     * Get the 'name' element value. A human readable name of the Node. This name can be used as a label in many systems
+                      to represent the node, and thus should be short but understandable.
                       
      * 
      * @return value
@@ -85,9 +84,8 @@ public class Node implements Serializable
     }
 
     /** 
-     * Set the 'name' element value. A human readable name of the Node. 
-                          The name of the node is being used in Mercury currently to assign a path,
-                          so format should be consistent with dataone directory naming conventions
+     * Set the 'name' element value. A human readable name of the Node. This name can be used as a label in many systems
+                      to represent the node, and thus should be short but understandable.
                       
      * 
      * @param name
@@ -97,8 +95,9 @@ public class Node implements Serializable
     }
 
     /** 
-     * Get the 'description' element value. Description of content maintained by this node and any other free style
-                          notes. May be we should allow CDATA element with the purpose of using for display
+     * Get the 'description' element value. Description of a Node, explaining the community it serves and other
+                          relevant information about the node, such as what content is maintained by this node
+                          and any other free style notes.
                       
      * 
      * @return value
@@ -108,8 +107,9 @@ public class Node implements Serializable
     }
 
     /** 
-     * Set the 'description' element value. Description of content maintained by this node and any other free style
-                          notes. May be we should allow CDATA element with the purpose of using for display
+     * Set the 'description' element value. Description of a Node, explaining the community it serves and other
+                          relevant information about the node, such as what content is maintained by this node
+                          and any other free style notes.
                       
      * 
      * @param description

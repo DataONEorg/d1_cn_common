@@ -6,9 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /** 
- * Group represents metadata about a Subject that is a group of other Subjects
- and that can be used by clients and nodes for displaying AccessPolicy
- information.
+ * Group represents metadata about a Subject that represents a collection of other Subjects.
+ Groups are convenient ways to express access rules for certain roles that are not necessarily tied to particular people over time.
  * 
  * Schema fragment(s) for this class:
  * <pre>
@@ -17,6 +16,7 @@ import java.util.List;
  *     &lt;xs:element type="ns:Subject" name="subject" minOccurs="1" maxOccurs="1"/>
  *     &lt;xs:element type="xs:string" name="groupName" minOccurs="1" maxOccurs="1"/>
  *     &lt;xs:element type="ns:Subject" name="hasMember" minOccurs="0" maxOccurs="unbounded"/>
+ *     &lt;xs:element type="ns:Subject" name="rightsHolder" minOccurs="1" maxOccurs="unbounded"/>
  *   &lt;/xs:sequence>
  * &lt;/xs:complexType>
  * </pre>
@@ -27,9 +27,13 @@ public class Group implements Serializable
     private Subject subject;
     private String groupName;
     private List<Subject> hasMemberList = new ArrayList<Subject>();
+    private List<Subject> rightsHolderList = new ArrayList<Subject>();
 
     /** 
-     * Get the 'subject' element value. The unique identifier of the group.
+     * Get the 'subject' element value. The unique, immutable identifier of the group. 
+                  Group subjects must not be reused, and so they are both immutable and can not be 
+                  deleted from the DataONE system.
+                  
      * 
      * @return value
      */
@@ -38,7 +42,10 @@ public class Group implements Serializable
     }
 
     /** 
-     * Set the 'subject' element value. The unique identifier of the group.
+     * Set the 'subject' element value. The unique, immutable identifier of the group. 
+                  Group subjects must not be reused, and so they are both immutable and can not be 
+                  deleted from the DataONE system.
+                  
      * 
      * @param subject
      */
@@ -114,5 +121,65 @@ public class Group implements Serializable
      */
     public void clearHasMemberList() {
         hasMemberList.clear();
+    }
+
+    /** 
+     * Get the list of 'rightsHolder' element items. Represents the list of owners of this group. All groups are readable by 
+    				anyone in the DataONE system, but can only be modified by subjects listed in rightsHolder fields.
+    				Designation as a rightsHolder allows the subject, or their equivalent identities, to make changes
+    				to the mutable properties of the group, including its name and membership list and rights holder list.
+    				The subject of the Group itself immutable.
+    				
+     * 
+     * @return list
+     */
+    public List<Subject> getRightsHolderList() {
+        return rightsHolderList;
+    }
+
+    /** 
+     * Set the list of 'rightsHolder' element items. Represents the list of owners of this group. All groups are readable by 
+    				anyone in the DataONE system, but can only be modified by subjects listed in rightsHolder fields.
+    				Designation as a rightsHolder allows the subject, or their equivalent identities, to make changes
+    				to the mutable properties of the group, including its name and membership list and rights holder list.
+    				The subject of the Group itself immutable.
+    				
+     * 
+     * @param list
+     */
+    public void setRightsHolderList(List<Subject> list) {
+        rightsHolderList = list;
+    }
+
+    /** 
+     * Get the number of 'rightsHolder' element items.
+     * @return count
+     */
+    public int sizeRightsHolderList() {
+        return rightsHolderList.size();
+    }
+
+    /** 
+     * Add a 'rightsHolder' element item.
+     * @param item
+     */
+    public void addRightsHolder(Subject item) {
+        rightsHolderList.add(item);
+    }
+
+    /** 
+     * Get 'rightsHolder' element item by position.
+     * @return item
+     * @param index
+     */
+    public Subject getRightsHolder(int index) {
+        return rightsHolderList.get(index);
+    }
+
+    /** 
+     * Remove all 'rightsHolder' element items.
+     */
+    public void clearRightsHolderList() {
+        rightsHolderList.clear();
     }
 }

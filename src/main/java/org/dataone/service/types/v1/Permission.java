@@ -10,8 +10,8 @@ import java.io.Serializable;
  resource (write), and to change the set of access control policies
  for a resource (changePermission). In addition, there is a permission
  that controls ability to execute a service (execute), and a 
- permission that controls the ability of a node to receive a replicate of
- an object from another node.
+ permission that controls the ability of a node to receive a replica of
+ an object from another node (replicate).
 
  * 
  * Schema fragment(s) for this class:

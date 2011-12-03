@@ -12,7 +12,7 @@ import java.io.Serializable;
  is 'requested'; when a MN finishes replicating the object, it informs
  the CN that it is finished and it is marked as 'completed'; periodically
  the CN checks each replica to be sure it is both available and valid 
- (matching checksum with original), and if it is either unavailable in 
+ (matching checksum with original), and if it is either unavailable or 
  invalid then it marks it as 'invalidated', which indicates that the 
  replication policy needs to be checked again. 
 

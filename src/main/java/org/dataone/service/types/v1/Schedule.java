@@ -4,7 +4,8 @@ package org.dataone.service.types.v1;
 import java.io.Serializable;
 
 /** 
- * The schedule on which MnSynchronization will run for a particular run.
+ * The schedule on which MnSynchronization will run for a particular run. Syntax for each time slot
+ follows the syntax conventions defined by the Quartz Scheduler (http://www.quartz-scheduler.org/api/2.1.0/org/quartz/CronExpression.html)
 
  * 
  * Schema fragment(s) for this class:

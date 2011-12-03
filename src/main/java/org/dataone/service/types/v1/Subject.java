@@ -5,7 +5,7 @@ import java.io.Serializable;
 import org.dataone.service.types.SubjectBase;
 
 /** 
- * Person (user), Group, or Organization, or System.The formal name identifiying a user or group from the DataONE 
+ * The identifier for a Person (user), Group, Organization, or System.The formal name identifiying a user or group from the DataONE 
  Identity Management Service. The subject is represented by a unique,
  persistent, non-reassignable identifier string that follows the same
  constraints as Identifier.Used by :mod:`SystemMetadata`

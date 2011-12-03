@@ -2,10 +2,14 @@
 package org.dataone.service.types.v1;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 /** 
  * Portion of an ObjectLocationList indicating the node from which the object
- can be retrieved. 
+ can be retrieved. The principal information on each location is found in the nodeIdentifier; all
+ other fields are provided for convenience, but could also be looked up from the Node list inforamtion.
+
  * 
  * Schema fragment(s) for this class:
  * <pre>
@@ -13,6 +17,7 @@ import java.io.Serializable;
  *   &lt;xs:sequence>
  *     &lt;xs:element type="ns:NodeReference" name="nodeIdentifier" minOccurs="1" maxOccurs="1"/>
  *     &lt;xs:element type="xs:string" name="baseURL" minOccurs="1" maxOccurs="1"/>
+ *     &lt;xs:element type="xs:string" name="version" minOccurs="1" maxOccurs="unbounded"/>
  *     &lt;xs:element type="xs:string" name="url" minOccurs="1" maxOccurs="1"/>
  *     &lt;xs:element type="xs:int" name="preference" minOccurs="0" maxOccurs="1"/>
  *   &lt;/xs:sequence>
@@ -24,12 +29,13 @@ public class ObjectLocation implements Serializable
     private static final long serialVersionUID = 10000000;
     private NodeReference nodeIdentifier;
     private String baseURL;
+    private List<String> versionList = new ArrayList<String>();
     private String url;
     private Integer preference;
 
     /** 
      * Get the 'nodeIdentifier' element value. Identifier of the node (the same identifier used
-                          in the node registry for identifying the node.
+                          in the node registry for identifying the node).
                       
      * 
      * @return value
@@ -40,7 +46,7 @@ public class ObjectLocation implements Serializable
 
     /** 
      * Set the 'nodeIdentifier' element value. Identifier of the node (the same identifier used
-                          in the node registry for identifying the node.
+                          in the node registry for identifying the node).
                       
      * 
      * @param nodeIdentifier
@@ -50,7 +56,9 @@ public class ObjectLocation implements Serializable
     }
 
     /** 
-     * Get the 'baseURL' element value. The current base URL for services implemented on the target node.
+     * Get the 'baseURL' element value. The current base URL for services implemented on the target node. Used with service version
+                      to construct a URL for service calls to this node. Note that complete information on services
+                      available on a Node is available from the :func:`CNCore.listNodes` service. 
                       
      * 
      * @return value
@@ -60,13 +68,71 @@ public class ObjectLocation implements Serializable
     }
 
     /** 
-     * Set the 'baseURL' element value. The current base URL for services implemented on the target node.
+     * Set the 'baseURL' element value. The current base URL for services implemented on the target node. Used with service version
+                      to construct a URL for service calls to this node. Note that complete information on services
+                      available on a Node is available from the :func:`CNCore.listNodes` service. 
                       
      * 
      * @param baseURL
      */
     public void setBaseURL(String baseURL) {
         this.baseURL = baseURL;
+    }
+
+    /** 
+     * Get the list of 'version' element items. The version of services implemented on the node.  Used with base url
+                      to construct a URL for service calls to this node. Note that complete information on services
+                      available on a Node is available from the :func:`CNCore.listNodes` service. 
+                      
+     * 
+     * @return list
+     */
+    public List<String> getVersionList() {
+        return versionList;
+    }
+
+    /** 
+     * Set the list of 'version' element items. The version of services implemented on the node.  Used with base url
+                      to construct a URL for service calls to this node. Note that complete information on services
+                      available on a Node is available from the :func:`CNCore.listNodes` service. 
+                      
+     * 
+     * @param list
+     */
+    public void setVersionList(List<String> list) {
+        versionList = list;
+    }
+
+    /** 
+     * Get the number of 'version' element items.
+     * @return count
+     */
+    public int sizeVersionList() {
+        return versionList.size();
+    }
+
+    /** 
+     * Add a 'version' element item.
+     * @param item
+     */
+    public void addVersion(String item) {
+        versionList.add(item);
+    }
+
+    /** 
+     * Get 'version' element item by position.
+     * @return item
+     * @param index
+     */
+    public String getVersion(int index) {
+        return versionList.get(index);
+    }
+
+    /** 
+     * Remove all 'version' element items.
+     */
+    public void clearVersionList() {
+        versionList.clear();
     }
 
     /** 

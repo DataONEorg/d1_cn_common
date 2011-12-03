@@ -4,6 +4,10 @@ package org.dataone.service.types.v1;
 import java.io.Serializable;
 
 /** 
+ * An abstract type used as a common base for other types that need to include count, start, and total
+ attributes to indicate which slice of a list is represented by a set of records.
+
+ * 
  * Schema fragment(s) for this class:
  * <pre>
  * &lt;xs:complexType xmlns:ns="http://ns.dataone.org/service/types/v1" xmlns:xs="http://www.w3.org/2001/XMLSchema" name="Slice">

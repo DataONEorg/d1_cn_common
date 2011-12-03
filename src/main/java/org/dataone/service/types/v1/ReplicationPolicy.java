@@ -7,7 +7,10 @@ import java.util.List;
 
 /** 
  * 
- Defines the replication policy applied to a particular object.
+ The replication policy for an object defines if replication should be
+ attempted for this object, and if so, how many rpelicas should be maintained.
+ It also permits specification of preferred and blocked nodes as potential
+ replication targets.
 
  * 
  * Schema fragment(s) for this class:
@@ -31,8 +34,11 @@ public class ReplicationPolicy implements Serializable
     private Integer numberReplicas;
 
     /** 
-     * Get the list of 'preferredMemberNode' element items. Nodes listed here have preference over other nodes for 
-                      replication targets.
+     * Get the list of 'preferredMemberNode' element items. Preferred Nodes are utilized over other nodes as 
+                      replication targets, up to the number of replicas requested.  If preferred
+                      nodes are unavailable, or if insufficient nodes are listed as preferred to meet
+                      the requested number of replicas, then the Coordinating Nodes will pick additional
+                      replica nodes for the content.
                   
      * 
      * @return list
@@ -42,8 +48,11 @@ public class ReplicationPolicy implements Serializable
     }
 
     /** 
-     * Set the list of 'preferredMemberNode' element items. Nodes listed here have preference over other nodes for 
-                      replication targets.
+     * Set the list of 'preferredMemberNode' element items. Preferred Nodes are utilized over other nodes as 
+                      replication targets, up to the number of replicas requested.  If preferred
+                      nodes are unavailable, or if insufficient nodes are listed as preferred to meet
+                      the requested number of replicas, then the Coordinating Nodes will pick additional
+                      replica nodes for the content.
                   
      * 
      * @param list

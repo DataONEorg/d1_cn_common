@@ -6,6 +6,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /** 
+ * A list of Nodes object locations from which the object can be retrieved. 
+
+ * 
  * Schema fragment(s) for this class:
  * <pre>
  * &lt;xs:complexType xmlns:ns="http://ns.dataone.org/service/types/v1" xmlns:xs="http://www.w3.org/2001/XMLSchema" name="ObjectList">
