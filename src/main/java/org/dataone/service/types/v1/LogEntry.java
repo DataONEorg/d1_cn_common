@@ -12,7 +12,7 @@ import java.util.Date;
  * <pre>
  * &lt;xs:complexType xmlns:ns="http://ns.dataone.org/service/types/v1" xmlns:xs="http://www.w3.org/2001/XMLSchema" name="LogEntry">
  *   &lt;xs:sequence>
- *     &lt;xs:element type="ns:Identifier" name="entryId" minOccurs="1" maxOccurs="1"/>
+ *     &lt;xs:element type="xs:string" name="entryId" minOccurs="1" maxOccurs="1"/>
  *     &lt;xs:element type="ns:Identifier" name="identifier" minOccurs="1" maxOccurs="1"/>
  *     &lt;xs:element type="xs:string" name="ipAddress" minOccurs="1" maxOccurs="1"/>
  *     &lt;xs:element type="xs:string" name="userAgent" minOccurs="1" maxOccurs="1"/>
@@ -27,7 +27,7 @@ import java.util.Date;
 public class LogEntry implements Serializable
 {
     private static final long serialVersionUID = 10000000;
-    private Identifier entryId;
+    private String entryId;
     private Identifier identifier;
     private String ipAddress;
     private String userAgent;
@@ -41,7 +41,7 @@ public class LogEntry implements Serializable
      * 
      * @return value
      */
-    public Identifier getEntryId() {
+    public String getEntryId() {
         return entryId;
     }
 
@@ -50,7 +50,7 @@ public class LogEntry implements Serializable
      * 
      * @param entryId
      */
-    public void setEntryId(Identifier entryId) {
+    public void setEntryId(String entryId) {
         this.entryId = entryId;
     }
 

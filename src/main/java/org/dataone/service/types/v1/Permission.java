@@ -8,8 +8,7 @@ import java.io.Serializable;
  can be performed on a resource as specified in an access policy. The
  set of permissions include the ability to read a resource (read), modify a
  resource (write), and to change the set of access control policies
- for a resource (changePermission). In addition, there is a permission
- that controls ability to execute a service (execute), and a 
+ for a resource (changePermission). In addition, there is a 
  permission that controls the ability of a node to receive a replica of
  an object from another node (replicate).
 
@@ -21,15 +20,14 @@ import java.io.Serializable;
  *     &lt;xs:enumeration value="read"/>
  *     &lt;xs:enumeration value="write"/>
  *     &lt;xs:enumeration value="changePermission"/>
- *     &lt;xs:enumeration value="execute"/>
  *     &lt;xs:enumeration value="replicate"/>
  *   &lt;/xs:restriction>
  * &lt;/xs:simpleType>
  * </pre>
  */
 public enum Permission implements Serializable {
-    READ("read"), WRITE("write"), CHANGE_PERMISSION("changePermission"), EXECUTE(
-            "execute"), REPLICATE("replicate");
+    READ("read"), WRITE("write"), CHANGE_PERMISSION("changePermission"), REPLICATE(
+            "replicate");
     private static final long serialVersionUID = 10000000;
     private final String value;
 

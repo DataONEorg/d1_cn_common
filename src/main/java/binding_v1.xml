@@ -57,7 +57,7 @@
     <structure map-as="d1:Log"/>
   </mapping>
   <mapping abstract="true" type-name="d1:LogEntry" class="org.dataone.service.types.v1.LogEntry">
-    <structure map-as="d1:Identifier" get-method="getEntryId" set-method="setEntryId" name="entryId"/>
+    <value style="element" name="entryId" get-method="getEntryId" set-method="setEntryId"/>
     <structure map-as="d1:Identifier" get-method="getIdentifier" set-method="setIdentifier" name="identifier"/>
     <value style="element" name="ipAddress" get-method="getIpAddress" set-method="setIpAddress"/>
     <value style="element" name="userAgent" get-method="getUserAgent" set-method="setUserAgent"/>

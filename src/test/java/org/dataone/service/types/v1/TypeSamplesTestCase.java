@@ -545,8 +545,7 @@ public class TypeSamplesTestCase {
 
         LogEntry logEntry1 = new LogEntry();
         logEntry1.setDateLogged(new Date());
-        Identifier entry1 = new Identifier();
-        entry1.setValue("1");
+        String entry1 = "1";
         logEntry1.setEntryId(entry1);
 
         logEntry1.setEvent(Event.READ);
@@ -569,8 +568,7 @@ public class TypeSamplesTestCase {
 
         LogEntry logEntry2 = new LogEntry();
         logEntry2.setDateLogged(new Date());
-        Identifier entry2 = new Identifier();
-        entry2.setValue("2");
+        String entry2 = "2";
         logEntry2.setEntryId(entry2);
 
         logEntry2.setEvent(Event.READ);
