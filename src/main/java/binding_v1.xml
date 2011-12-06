@@ -64,7 +64,7 @@
     <structure map-as="d1:Subject" get-method="getSubject" set-method="setSubject" name="subject"/>
     <value style="element" name="event" get-method="getEvent" set-method="setEvent" format="d1:Event"/>
     <value style="element" name="dateLogged" get-method="getDateLogged" set-method="setDateLogged" serializer="org.dataone.service.util.DateTimeMarshaller.serializeDateToUTC" deserializer="org.dataone.service.util.DateTimeMarshaller.deserializeDateToUTC"/>
-    <structure map-as="d1:NodeReference" get-method="getMemberNode" set-method="setMemberNode" name="memberNode"/>
+    <structure map-as="d1:NodeReference" get-method="getNodeIdentifier" set-method="setNodeIdentifier" name="nodeIdentifier"/>
   </mapping>
   <mapping abstract="true" type-name="d1:MonitorInfo" class="org.dataone.service.types.v1.MonitorInfo">
     <value style="element" name="date" get-method="getDate" set-method="setDate"/>

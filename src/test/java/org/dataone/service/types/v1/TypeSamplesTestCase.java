@@ -557,7 +557,7 @@ public class TypeSamplesTestCase {
 
         NodeReference memberNode = new NodeReference();
         memberNode.setValue("mn1");
-        logEntry1.setMemberNode(memberNode);
+        logEntry1.setNodeIdentifier(memberNode);
 
         Subject subject1 = new Subject();
         subject1.setValue("Scooter");
@@ -580,7 +580,7 @@ public class TypeSamplesTestCase {
 
         NodeReference memberNode2 = new NodeReference();
         memberNode2.setValue("mn1");
-        logEntry2.setMemberNode(memberNode2);
+        logEntry2.setNodeIdentifier(memberNode2);
 
         Subject subject2 = new Subject();
         subject2.setValue("Fozzie Bear");

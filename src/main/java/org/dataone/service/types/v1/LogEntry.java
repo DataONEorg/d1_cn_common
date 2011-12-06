@@ -19,7 +19,7 @@ import java.util.Date;
  *     &lt;xs:element type="ns:Subject" name="subject" minOccurs="1" maxOccurs="1"/>
  *     &lt;xs:element type="ns:Event" name="event" minOccurs="1" maxOccurs="1"/>
  *     &lt;xs:element type="xs:dateTime" name="dateLogged" minOccurs="1" maxOccurs="1"/>
- *     &lt;xs:element type="ns:NodeReference" name="memberNode" minOccurs="1" maxOccurs="1"/>
+ *     &lt;xs:element type="ns:NodeReference" name="nodeIdentifier" minOccurs="1" maxOccurs="1"/>
  *   &lt;/xs:sequence>
  * &lt;/xs:complexType>
  * </pre>
@@ -34,7 +34,7 @@ public class LogEntry implements Serializable
     private Subject subject;
     private Event event;
     private Date dateLogged;
-    private NodeReference memberNode;
+    private NodeReference nodeIdentifier;
 
     /** 
      * Get the 'entryId' element value.
@@ -163,20 +163,20 @@ public class LogEntry implements Serializable
     }
 
     /** 
-     * Get the 'memberNode' element value.
+     * Get the 'nodeIdentifier' element value.
      * 
      * @return value
      */
-    public NodeReference getMemberNode() {
-        return memberNode;
+    public NodeReference getNodeIdentifier() {
+        return nodeIdentifier;
     }
 
     /** 
-     * Set the 'memberNode' element value.
+     * Set the 'nodeIdentifier' element value.
      * 
-     * @param memberNode
+     * @param nodeIdentifier
      */
-    public void setMemberNode(NodeReference memberNode) {
-        this.memberNode = memberNode;
+    public void setNodeIdentifier(NodeReference nodeIdentifier) {
+        this.nodeIdentifier = nodeIdentifier;
     }
 }

@@ -33,7 +33,7 @@
             <subject>me</subject>
             <event>create</event>
             <dateLogged>2006-05-04T18:13:51.0Z</dateLogged>
-            <memberNode>mn1</memberNode>
+            <nodeIdentifier>mn1</nodeIdentifier>
         </logEntry>
         <logEntry>
             <entryId>456</entryId>
@@ -43,7 +43,7 @@
             <subject>you</subject>
             <event>create</event>
             <dateLogged>2006-05-04T18:13:51.0Z</dateLogged>
-            <memberNode>mn1</memberNode>
+            <nodeIdentifier>mn1</nodeIdentifier>
         </logEntry>
         <logEntry>
             <entryId>789</entryId>
@@ -53,6 +53,6 @@
             <subject>it</subject>
             <event>create</event>
             <dateLogged>2006-05-04T18:13:51.0Z</dateLogged>
-            <memberNode>mn1</memberNode>
+            <nodeIdentifier>mn1</nodeIdentifier>
         </logEntry>
     </d1:log>
