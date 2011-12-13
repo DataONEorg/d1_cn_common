@@ -31,6 +31,14 @@
   <mapping class="org.dataone.service.types.v1.Checksum" name="checksum" ns="http://ns.dataone.org/service/types/v1">
     <structure map-as="d1:Checksum"/>
   </mapping>
+  <mapping abstract="true" type-name="d1:ChecksumAlgorithmList" class="org.dataone.service.types.v1.ChecksumAlgorithmList">
+    <collection get-method="getAlgorithmList" set-method="setAlgorithmList" create-type="java.util.ArrayList">
+      <value style="element" name="algorithm" type="java.lang.String"/>
+    </collection>
+  </mapping>
+  <mapping class="org.dataone.service.types.v1.ChecksumAlgorithmList" name="checksumAlgorithmList" ns="http://ns.dataone.org/service/types/v1">
+    <structure map-as="d1:ChecksumAlgorithmList"/>
+  </mapping>
   <mapping abstract="true" type-name="d1:Group" class="org.dataone.service.types.v1.Group">
     <structure map-as="d1:Subject" get-method="getSubject" set-method="setSubject" name="subject"/>
     <value style="element" name="groupName" get-method="getGroupName" set-method="setGroupName"/>
@@ -66,18 +74,6 @@
     <value style="element" name="dateLogged" get-method="getDateLogged" set-method="setDateLogged" serializer="org.dataone.service.util.DateTimeMarshaller.serializeDateToUTC" deserializer="org.dataone.service.util.DateTimeMarshaller.deserializeDateToUTC"/>
     <structure map-as="d1:NodeReference" get-method="getNodeIdentifier" set-method="setNodeIdentifier" name="nodeIdentifier"/>
   </mapping>
-  <mapping abstract="true" type-name="d1:MonitorInfo" class="org.dataone.service.types.v1.MonitorInfo">
-    <value style="element" name="date" get-method="getDate" set-method="setDate"/>
-    <value style="element" name="count" get-method="getCount" set-method="setCount"/>
-  </mapping>
-  <mapping abstract="true" type-name="d1:MonitorList" class="org.dataone.service.types.v1.MonitorList">
-    <collection get-method="getMonitorInfoList" set-method="setMonitorInfoList" usage="optional" create-type="java.util.ArrayList">
-      <structure map-as="d1:MonitorInfo" name="monitorInfo"/>
-    </collection>
-  </mapping>
-  <mapping class="org.dataone.service.types.v1.MonitorList" name="monitorList" ns="http://ns.dataone.org/service/types/v1">
-    <structure map-as="d1:MonitorList"/>
-  </mapping>
   <mapping abstract="true" type-name="d1:Node" class="org.dataone.service.types.v1.Node">
     <structure map-as="d1:NodeReference" get-method="getIdentifier" set-method="setIdentifier" name="identifier"/>
     <value style="element" name="name" get-method="getName" set-method="setName"/>
@@ -85,6 +81,7 @@
     <value style="element" name="baseURL" get-method="getBaseURL" set-method="setBaseURL"/>
     <structure map-as="d1:Services" get-method="getServices" set-method="setServices" usage="optional" name="services"/>
     <structure map-as="d1:Synchronization" get-method="getSynchronization" set-method="setSynchronization" usage="optional" name="synchronization"/>
+    <structure map-as="d1:NodeReplicationPolicy" get-method="getNodeReplicationPolicy" set-method="setNodeReplicationPolicy" usage="optional" name="nodeReplicationPolicy"/>
     <structure map-as="d1:Ping" get-method="getPing" set-method="setPing" usage="optional" name="ping"/>
     <collection get-method="getSubjectList" set-method="setSubjectList" usage="optional" create-type="java.util.ArrayList">
       <structure map-as="d1:Subject" name="subject"/>
@@ -99,6 +96,16 @@
   </mapping>
   <mapping class="org.dataone.service.types.v1.Node" name="node" ns="http://ns.dataone.org/service/types/v1">
     <structure map-as="d1:Node"/>
+  </mapping>
+  <mapping abstract="true" type-name="d1:NodeReplicationPolicy" class="org.dataone.service.types.v1.NodeReplicationPolicy">
+    <value style="element" name="maxObjectSize" get-method="getMaxObjectSize" set-method="setMaxObjectSize" usage="optional" serializer="org.dataone.service.util.BigIntegerMarshaller.serializeBigInteger" deserializer="org.dataone.service.util.BigIntegerMarshaller.deserializeBigInteger"/>
+    <value style="element" name="spaceAllocated" get-method="getSpaceAllocated" set-method="setSpaceAllocated" usage="optional" serializer="org.dataone.service.util.BigIntegerMarshaller.serializeBigInteger" deserializer="org.dataone.service.util.BigIntegerMarshaller.deserializeBigInteger"/>
+    <collection get-method="getAllowedNodeList" set-method="setAllowedNodeList" usage="optional" create-type="java.util.ArrayList">
+      <structure map-as="d1:NodeReference" name="allowedNode"/>
+    </collection>
+    <collection get-method="getAllowedObjectFormatList" set-method="setAllowedObjectFormatList" usage="optional" create-type="java.util.ArrayList">
+      <structure map-as="d1:ObjectFormatIdentifier" name="allowedObjectFormat"/>
+    </collection>
   </mapping>
   <mapping abstract="true" type-name="d1:NodeList" class="org.dataone.service.types.v1.NodeList">
     <collection get-method="getNodeList" set-method="setNodeList" create-type="java.util.ArrayList">
@@ -250,8 +257,8 @@
   </mapping>
   <mapping abstract="true" type-name="d1:Synchronization" class="org.dataone.service.types.v1.Synchronization">
     <structure map-as="d1:Schedule" get-method="getSchedule" set-method="setSchedule" name="schedule"/>
-    <value style="element" name="lastHarvested" get-method="getLastHarvested" set-method="setLastHarvested" serializer="org.dataone.service.util.DateTimeMarshaller.serializeDateToUTC" deserializer="org.dataone.service.util.DateTimeMarshaller.deserializeDateToUTC"/>
-    <value style="element" name="lastCompleteHarvest" get-method="getLastCompleteHarvest" set-method="setLastCompleteHarvest" serializer="org.dataone.service.util.DateTimeMarshaller.serializeDateToUTC" deserializer="org.dataone.service.util.DateTimeMarshaller.deserializeDateToUTC"/>
+    <value style="element" name="lastHarvested" get-method="getLastHarvested" set-method="setLastHarvested" usage="optional" serializer="org.dataone.service.util.DateTimeMarshaller.serializeDateToUTC" deserializer="org.dataone.service.util.DateTimeMarshaller.deserializeDateToUTC"/>
+    <value style="element" name="lastCompleteHarvest" get-method="getLastCompleteHarvest" set-method="setLastCompleteHarvest" usage="optional" serializer="org.dataone.service.util.DateTimeMarshaller.serializeDateToUTC" deserializer="org.dataone.service.util.DateTimeMarshaller.deserializeDateToUTC"/>
   </mapping>
   <mapping abstract="true" type-name="d1:Subject" class="org.dataone.service.types.v1.Subject">
     <value style="text" get-method="getValue" set-method="setValue"/>
@@ -279,20 +286,20 @@
     <structure map-as="d1:SubjectList"/>
   </mapping>
   <mapping abstract="true" type-name="d1:SystemMetadata" class="org.dataone.service.types.v1.SystemMetadata">
-    <value style="element" name="serialVersion" get-method="getSerialVersion" set-method="setSerialVersion" serializer="org.dataone.service.util.BigIntegerMarshaller.serializeBigInteger" deserializer="org.dataone.service.util.BigIntegerMarshaller.deserializeBigInteger"/>
+    <value style="element" name="serialVersion" get-method="getSerialVersion" set-method="setSerialVersion" usage="optional" serializer="org.dataone.service.util.BigIntegerMarshaller.serializeBigInteger" deserializer="org.dataone.service.util.BigIntegerMarshaller.deserializeBigInteger"/>
     <structure map-as="d1:Identifier" get-method="getIdentifier" set-method="setIdentifier" name="identifier"/>
     <structure map-as="d1:ObjectFormatIdentifier" get-method="getFormatId" set-method="setFormatId" name="formatId"/>
     <value style="element" name="size" get-method="getSize" set-method="setSize" serializer="org.dataone.service.util.BigIntegerMarshaller.serializeBigInteger" deserializer="org.dataone.service.util.BigIntegerMarshaller.deserializeBigInteger"/>
     <structure map-as="d1:Checksum" get-method="getChecksum" set-method="setChecksum" name="checksum"/>
-    <structure map-as="d1:Subject" get-method="getSubmitter" set-method="setSubmitter" name="submitter"/>
+    <structure map-as="d1:Subject" get-method="getSubmitter" set-method="setSubmitter" usage="optional" name="submitter"/>
     <structure map-as="d1:Subject" get-method="getRightsHolder" set-method="setRightsHolder" name="rightsHolder"/>
     <structure map-as="d1:AccessPolicy" get-method="getAccessPolicy" set-method="setAccessPolicy" usage="optional" name="accessPolicy"/>
     <structure map-as="d1:ReplicationPolicy" get-method="getReplicationPolicy" set-method="setReplicationPolicy" usage="optional" name="replicationPolicy"/>
     <structure map-as="d1:Identifier" get-method="getObsoletes" set-method="setObsoletes" usage="optional" name="obsoletes"/>
     <structure map-as="d1:Identifier" get-method="getObsoletedBy" set-method="setObsoletedBy" usage="optional" name="obsoletedBy"/>
     <value style="element" name="archived" get-method="getArchived" set-method="setArchived" usage="optional"/>
-    <value style="element" name="dateUploaded" get-method="getDateUploaded" set-method="setDateUploaded" serializer="org.dataone.service.util.DateTimeMarshaller.serializeDateToUTC" deserializer="org.dataone.service.util.DateTimeMarshaller.deserializeDateToUTC"/>
-    <value style="element" name="dateSysMetadataModified" get-method="getDateSysMetadataModified" set-method="setDateSysMetadataModified" serializer="org.dataone.service.util.DateTimeMarshaller.serializeDateToUTC" deserializer="org.dataone.service.util.DateTimeMarshaller.deserializeDateToUTC"/>
+    <value style="element" name="dateUploaded" get-method="getDateUploaded" set-method="setDateUploaded" usage="optional" serializer="org.dataone.service.util.DateTimeMarshaller.serializeDateToUTC" deserializer="org.dataone.service.util.DateTimeMarshaller.deserializeDateToUTC"/>
+    <value style="element" name="dateSysMetadataModified" get-method="getDateSysMetadataModified" set-method="setDateSysMetadataModified" usage="optional" serializer="org.dataone.service.util.DateTimeMarshaller.serializeDateToUTC" deserializer="org.dataone.service.util.DateTimeMarshaller.deserializeDateToUTC"/>
     <structure map-as="d1:NodeReference" get-method="getOriginMemberNode" set-method="setOriginMemberNode" usage="optional" name="originMemberNode"/>
     <structure map-as="d1:NodeReference" get-method="getAuthoritativeMemberNode" set-method="setAuthoritativeMemberNode" usage="optional" name="authoritativeMemberNode"/>
     <collection get-method="getReplicaList" set-method="setReplicaList" usage="optional" create-type="java.util.ArrayList">

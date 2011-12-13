@@ -24,14 +24,15 @@ import java.io.Serializable;
  *     &lt;xs:enumeration value="queued"/>
  *     &lt;xs:enumeration value="requested"/>
  *     &lt;xs:enumeration value="completed"/>
+ *     &lt;xs:enumeration value="failed"/>
  *     &lt;xs:enumeration value="invalidated"/>
  *   &lt;/xs:restriction>
  * &lt;/xs:simpleType>
  * </pre>
  */
 public enum ReplicationStatus implements Serializable {
-    QUEUED("queued"), REQUESTED("requested"), COMPLETED("completed"), INVALIDATED(
-            "invalidated");
+    QUEUED("queued"), REQUESTED("requested"), COMPLETED("completed"), FAILED(
+            "failed"), INVALIDATED("invalidated");
     private static final long serialVersionUID = 10000000;
     private final String value;
 

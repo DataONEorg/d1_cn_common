@@ -39,20 +39,20 @@ import java.util.List;
  * <pre>
  * &lt;xs:complexType xmlns:ns="http://ns.dataone.org/service/types/v1" xmlns:xs="http://www.w3.org/2001/XMLSchema" name="SystemMetadata">
  *   &lt;xs:sequence>
- *     &lt;xs:element type="xs:long" name="serialVersion" minOccurs="1" maxOccurs="1"/>
+ *     &lt;xs:element type="xs:long" name="serialVersion" minOccurs="0" maxOccurs="1"/>
  *     &lt;xs:element type="ns:Identifier" name="identifier"/>
  *     &lt;xs:element type="ns:ObjectFormatIdentifier" name="formatId"/>
  *     &lt;xs:element type="xs:long" name="size"/>
  *     &lt;xs:element type="ns:Checksum" name="checksum"/>
- *     &lt;xs:element type="ns:Subject" name="submitter"/>
+ *     &lt;xs:element type="ns:Subject" name="submitter" minOccurs="0" maxOccurs="1"/>
  *     &lt;xs:element type="ns:Subject" name="rightsHolder"/>
  *     &lt;xs:element type="ns:AccessPolicy" name="accessPolicy" minOccurs="0" maxOccurs="1"/>
  *     &lt;xs:element type="ns:ReplicationPolicy" name="replicationPolicy" minOccurs="0" maxOccurs="1"/>
  *     &lt;xs:element type="ns:Identifier" name="obsoletes" minOccurs="0" maxOccurs="1"/>
  *     &lt;xs:element type="ns:Identifier" name="obsoletedBy" minOccurs="0" maxOccurs="1"/>
  *     &lt;xs:element type="xs:boolean" name="archived" minOccurs="0" maxOccurs="1"/>
- *     &lt;xs:element type="xs:dateTime" name="dateUploaded"/>
- *     &lt;xs:element type="xs:dateTime" name="dateSysMetadataModified"/>
+ *     &lt;xs:element type="xs:dateTime" name="dateUploaded" minOccurs="0" maxOccurs="1"/>
+ *     &lt;xs:element type="xs:dateTime" name="dateSysMetadataModified" minOccurs="0" maxOccurs="1"/>
  *     &lt;xs:element type="ns:NodeReference" name="originMemberNode" minOccurs="0" maxOccurs="1"/>
  *     &lt;xs:element type="ns:NodeReference" name="authoritativeMemberNode" minOccurs="0" maxOccurs="1"/>
  *     &lt;xs:element type="ns:Replica" name="replica" minOccurs="0" maxOccurs="unbounded"/>
@@ -87,7 +87,8 @@ public class SystemMetadata implements Serializable
               		changes have occurred to SystemMetadata to avoid update conflicts. Clients
               		should ensure that they have the most recent version of a SystemMetadata
               		document before attempting to update, otherwise an error will be thrown to
-              		prevent conflicts.
+              		prevent conflicts. The Coordinating Node must set this optional field
+                      when it receives the system metadata document.
               		
      * 
      * @return value
@@ -102,7 +103,8 @@ public class SystemMetadata implements Serializable
               		changes have occurred to SystemMetadata to avoid update conflicts. Clients
               		should ensure that they have the most recent version of a SystemMetadata
               		document before attempting to update, otherwise an error will be thrown to
-              		prevent conflicts.
+              		prevent conflicts. The Coordinating Node must set this optional field
+                      when it receives the system metadata document.
               		
      * 
      * @param serialVersion
@@ -273,6 +275,8 @@ public class SystemMetadata implements Serializable
      * Get the 'submitter' element value. 
               		Subject who submitted the associated abject to the DataONE Member Node. The
     					Submitter is by default the RightsHolder if a RightsHolder has not been specified.
+                      The Member Node must set this optional field when it receives the 
+                      system metadata document from a client.
               		
      * 
      * @return value
@@ -285,6 +289,8 @@ public class SystemMetadata implements Serializable
      * Set the 'submitter' element value. 
               		Subject who submitted the associated abject to the DataONE Member Node. The
     					Submitter is by default the RightsHolder if a RightsHolder has not been specified.
+                      The Member Node must set this optional field when it receives the 
+                      system metadata document from a client.
               		
      * 
      * @param submitter
@@ -478,7 +484,9 @@ public class SystemMetadata implements Serializable
               		Date and time (UTC) that the object was uploaded into the DataONE system,
     					which is typically the time that the object is first created on a Member
     					Node using the 'create()' operation. Note this is independent of the 
-    					publication or release date of the object.
+    					publication or release date of the object. The Member Node must set this 
+                      optional field when it receives the system metadata document from a client.
+              
               		
      * 
      * @return value
@@ -492,7 +500,9 @@ public class SystemMetadata implements Serializable
               		Date and time (UTC) that the object was uploaded into the DataONE system,
     					which is typically the time that the object is first created on a Member
     					Node using the 'create()' operation. Note this is independent of the 
-    					publication or release date of the object.
+    					publication or release date of the object. The Member Node must set this 
+                      optional field when it receives the system metadata document from a client.
+              
               		
      * 
      * @param dateUploaded
@@ -505,7 +515,8 @@ public class SystemMetadata implements Serializable
      * Get the 'dateSysMetadataModified' element value. 
               		Date and time (UTC) that this system metadata record was last modified in the 
     					DataONE system. This is the same timestamp as DateUploaded until the system
-    					metadata is further modified.
+    					metadata is further modified.  The Member Node must set this 
+                      optional field when it receives the system metadata document from a client.
               		
      * 
      * @return value
@@ -518,7 +529,8 @@ public class SystemMetadata implements Serializable
      * Set the 'dateSysMetadataModified' element value. 
               		Date and time (UTC) that this system metadata record was last modified in the 
     					DataONE system. This is the same timestamp as DateUploaded until the system
-    					metadata is further modified.
+    					metadata is further modified.  The Member Node must set this 
+                      optional field when it receives the system metadata document from a client.
               		
      * 
      * @param dateSysMetadataModified
@@ -557,9 +569,8 @@ public class SystemMetadata implements Serializable
     					an object in the system. The AuthoritativeMemberNode will often also be the 
     					OriginMemberNode, unless there has been a need to transfer authority for
     					an object to a new node, such as when a Member Node becomes defunct.
-    					Replication should occur from the AuthoritativeMemberNode.  The Authoritative Member Node
-    					has all the rights of the RightsHolder to maintain and curate the object, inlcuding making any
-    					changes necessary.
+    					The Authoritative Member Node has all the rights of the RightsHolder 
+                      to maintain and curate the object, inlcuding making any changes necessary.
               		
      * 
      * @return value
@@ -574,9 +585,8 @@ public class SystemMetadata implements Serializable
     					an object in the system. The AuthoritativeMemberNode will often also be the 
     					OriginMemberNode, unless there has been a need to transfer authority for
     					an object to a new node, such as when a Member Node becomes defunct.
-    					Replication should occur from the AuthoritativeMemberNode.  The Authoritative Member Node
-    					has all the rights of the RightsHolder to maintain and curate the object, inlcuding making any
-    					changes necessary.
+    					The Authoritative Member Node has all the rights of the RightsHolder 
+                      to maintain and curate the object, inlcuding making any changes necessary.
               		
      * 
      * @param authoritativeMemberNode

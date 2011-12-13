@@ -20,6 +20,7 @@ import java.util.List;
  *     &lt;xs:element type="xs:string" name="baseURL" minOccurs="1" maxOccurs="1"/>
  *     &lt;xs:element type="ns:Services" name="services" minOccurs="0" maxOccurs="1"/>
  *     &lt;xs:element type="ns:Synchronization" name="synchronization" minOccurs="0" maxOccurs="1"/>
+ *     &lt;xs:element type="ns:NodeReplicationPolicy" name="nodeReplicationPolicy" minOccurs="0" maxOccurs="1"/>
  *     &lt;xs:element type="ns:Ping" name="ping" minOccurs="0" maxOccurs="1"/>
  *     &lt;xs:element type="ns:Subject" name="subject" minOccurs="0" maxOccurs="unbounded"/>
  *     &lt;xs:element type="ns:Subject" name="contactSubject" minOccurs="1" maxOccurs="unbounded"/>
@@ -40,6 +41,7 @@ public class Node implements Serializable
     private String baseURL;
     private Services services;
     private Synchronization synchronization;
+    private NodeReplicationPolicy nodeReplicationPolicy;
     private Ping ping;
     private List<Subject> subjectList = new ArrayList<Subject>();
     private List<Subject> contactSubjectList = new ArrayList<Subject>();
@@ -119,7 +121,10 @@ public class Node implements Serializable
     }
 
     /** 
-     * Get the 'baseURL' element value.
+     * Get the 'baseURL' element value. The base URL of the node, indicating the
+                       protocol, fully qualified domain name, and path to the implementing
+                       service, excluding the version of the API. e.g.
+                       https://server.example.edu/app/d1/mn
      * 
      * @return value
      */
@@ -128,7 +133,10 @@ public class Node implements Serializable
     }
 
     /** 
-     * Set the 'baseURL' element value.
+     * Set the 'baseURL' element value. The base URL of the node, indicating the
+                       protocol, fully qualified domain name, and path to the implementing
+                       service, excluding the version of the API. e.g.
+                       https://server.example.edu/app/d1/mn
      * 
      * @param baseURL
      */
@@ -137,7 +145,9 @@ public class Node implements Serializable
     }
 
     /** 
-     * Get the 'services' element value.
+     * Get the 'services' element value. A list of services that are provided by this node.  
+                      Used in Node descriptions so that Nodes can provide metadata 
+                      about each service they implement and support.
      * 
      * @return value
      */
@@ -146,7 +156,9 @@ public class Node implements Serializable
     }
 
     /** 
-     * Set the 'services' element value.
+     * Set the 'services' element value. A list of services that are provided by this node.  
+                      Used in Node descriptions so that Nodes can provide metadata 
+                      about each service they implement and support.
      * 
      * @param services
      */
@@ -155,7 +167,10 @@ public class Node implements Serializable
     }
 
     /** 
-     * Get the 'synchronization' element value.
+     * Get the 'synchronization' element value. Configuration information for the process by which data is harvested from Member Nodes
+                          to Coordinating Nodes, including the schedule on which harvesting should occur, and metadata about
+                          the last synchronization attempts for the node.
+                      
      * 
      * @return value
      */
@@ -164,7 +179,10 @@ public class Node implements Serializable
     }
 
     /** 
-     * Set the 'synchronization' element value.
+     * Set the 'synchronization' element value. Configuration information for the process by which data is harvested from Member Nodes
+                          to Coordinating Nodes, including the schedule on which harvesting should occur, and metadata about
+                          the last synchronization attempts for the node.
+                      
      * 
      * @param synchronization
      */
@@ -173,7 +191,37 @@ public class Node implements Serializable
     }
 
     /** 
-     * Get the 'ping' element value.
+     * Get the 'nodeReplicationPolicy' element value. The overall replication policy for this node that expresses
+                      constraints on object size, total objects, source nodes, and object
+                      format types.  A node may want to restrict replication from only from
+                      certain peer nodes, or may have file size limits, total allocated size limits,
+                      or may want to focus on being a replica target for domain-specific
+                      object formats.
+     * 
+     * @return value
+     */
+    public NodeReplicationPolicy getNodeReplicationPolicy() {
+        return nodeReplicationPolicy;
+    }
+
+    /** 
+     * Set the 'nodeReplicationPolicy' element value. The overall replication policy for this node that expresses
+                      constraints on object size, total objects, source nodes, and object
+                      format types.  A node may want to restrict replication from only from
+                      certain peer nodes, or may have file size limits, total allocated size limits,
+                      or may want to focus on being a replica target for domain-specific
+                      object formats.
+     * 
+     * @param nodeReplicationPolicy
+     */
+    public void setNodeReplicationPolicy(
+            NodeReplicationPolicy nodeReplicationPolicy) {
+        this.nodeReplicationPolicy = nodeReplicationPolicy;
+    }
+
+    /** 
+     * Get the 'ping' element value. Stored results from the :func:`MNCore.ping` method.
+                       
      * 
      * @return value
      */
@@ -182,7 +230,8 @@ public class Node implements Serializable
     }
 
     /** 
-     * Set the 'ping' element value.
+     * Set the 'ping' element value. Stored results from the :func:`MNCore.ping` method.
+                       
      * 
      * @param ping
      */
@@ -319,7 +368,8 @@ public class Node implements Serializable
     }
 
     /** 
-     * Get the 'replicate' attribute value.
+     * Get the 'replicate' attribute value. Set to true if the node is willing to be a replication target,
+                  otherwise false.
      * 
      * @return value
      */
@@ -328,7 +378,8 @@ public class Node implements Serializable
     }
 
     /** 
-     * Set the 'replicate' attribute value.
+     * Set the 'replicate' attribute value. Set to true if the node is willing to be a replication target,
+                  otherwise false.
      * 
      * @param replicate
      */
@@ -337,7 +388,8 @@ public class Node implements Serializable
     }
 
     /** 
-     * Get the 'synchronize' attribute value.
+     * Get the 'synchronize' attribute value. Set to true if the node should be synchronized by a
+                  Coordinating Node, otherwise false.
      * 
      * @return value
      */
@@ -346,7 +398,8 @@ public class Node implements Serializable
     }
 
     /** 
-     * Set the 'synchronize' attribute value.
+     * Set the 'synchronize' attribute value. Set to true if the node should be synchronized by a
+                  Coordinating Node, otherwise false.
      * 
      * @param synchronize
      */
@@ -355,7 +408,8 @@ public class Node implements Serializable
     }
 
     /** 
-     * Get the 'type' attribute value.
+     * Get the 'type' attribute value. The type of the node (Coordinating, Member, Monitor),
+                  chosen from the NodeType type.
      * 
      * @return value
      */
@@ -364,7 +418,8 @@ public class Node implements Serializable
     }
 
     /** 
-     * Set the 'type' attribute value.
+     * Set the 'type' attribute value. The type of the node (Coordinating, Member, Monitor),
+                  chosen from the NodeType type.
      * 
      * @param type
      */
@@ -373,7 +428,8 @@ public class Node implements Serializable
     }
 
     /** 
-     * Get the 'state' attribute value.
+     * Get the 'state' attribute value. The state of the node (up, down),
+                  chosen from the NodeState type.
      * 
      * @return value
      */
@@ -382,7 +438,8 @@ public class Node implements Serializable
     }
 
     /** 
-     * Set the 'state' attribute value.
+     * Set the 'state' attribute value. The state of the node (up, down),
+                  chosen from the NodeState type.
      * 
      * @param state
      */
