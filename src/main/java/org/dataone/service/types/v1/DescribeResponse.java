@@ -44,6 +44,7 @@ import java.util.Date;
  * Content-Type: application/octet-stream
  * DataONE-fmtid: eml://ecoinformatics.org/eml-2.0.1
  * DataONE-Checksum: SHA-1,2e01e17467891f7c933dbaa00e1459d23db3fe4f
+ * DataONE-SerialVersion: 1234
  *
  *
  * @author Matthew Jones
@@ -54,6 +55,7 @@ public class DescribeResponse
     private BigInteger content_Length;
     private Date last_Modified;
     private Checksum dataONE_Checksum;
+    private BigInteger serialVersion;
 
     /**
      * instantiate a DescribeResponse object
@@ -63,12 +65,14 @@ public class DescribeResponse
      * @param content_length Size of the object in bytes, the value of SystemMetadata.size from SystemMetadata.
      * @param last_modified  DateTime value that indicates when the system metadata associated with the object was last modified, i.e. the value of SystemMetadata.dateSysMetadataModified for the object.
      * @param checksum The algorithm (SystemMetadata.algorithm) and Checksum (SystemMetadata.checksum) of the object being examined, drawn from the SystemMetadata. The algorithm and checksum are separated by a single comma with the algorithm first.
+     * @param serialVersion The serialVersion of the object's SystemMetadata
      */
-    public DescribeResponse(ObjectFormatIdentifier objectFormatID, BigInteger content_length, Date last_modified, Checksum checksum) {
+    public DescribeResponse(ObjectFormatIdentifier objectFormatID, BigInteger content_length, Date last_modified, Checksum checksum, BigInteger serialVersion) {
         this.dataONE_ObjectFormatID = objectFormatID;
         this.content_Length = content_length;
         this.last_Modified = last_modified;
         this.dataONE_Checksum = checksum;
+        this.serialVersion = serialVersion;
     }
 
     /**
@@ -105,6 +109,14 @@ public class DescribeResponse
      */
     public Date getLast_Modified() {
         return last_Modified;
+    }
+    
+    /**
+     * get the SerialVersion of the object SystemMetadata
+     * @return serialVersion of the object
+     */
+    public BigInteger getSerialVersion() {
+    	return serialVersion;
     }
     
 
