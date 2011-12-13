@@ -144,8 +144,7 @@ public class ObjectFormatServiceImpl {
             
     // get the object format list from disk and parse it
     try {
-      InputStream inputStream = 
-    	this.getClass().getResourceAsStream(objectFormatFilePath);
+      InputStream inputStream = getObjectFormatFile();
             
     	objectFormatList = 
     		TypeMarshaller.unmarshalTypeFromStream(ObjectFormatList.class, inputStream);
@@ -190,6 +189,16 @@ public class ObjectFormatServiceImpl {
     }   
     return;
   
+  }
+  
+  /**
+   * COnvenience method to retrieve the default format list as a stream
+   * @return
+   */
+  public InputStream getObjectFormatFile() {
+	  InputStream inputStream = 
+	    	this.getClass().getResourceAsStream(objectFormatFilePath);
+	  return inputStream;
   }
  
   /*
