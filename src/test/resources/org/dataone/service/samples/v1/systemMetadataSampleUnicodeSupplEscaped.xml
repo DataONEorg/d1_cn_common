@@ -25,7 +25,7 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://ns.dataone.org/service/types/v1 https://repository.dataone.org/software/cicore/branches/D1_SCHEMA_1_0_0/dataoneTypes.xsd">
     <serialVersion>1</serialVersion>
-    <identifier>common-unicode-supplementary-escaped-𐌔𐌕𐌖𐌗	common-unicode-supplementary-escaped-%F0%90%8C%94%F0%90%8C%95%F0%90%8C%96%F0%90%8C%97</identifier>
+    <identifier>common-unicode-supplementary-escaped-𐌔𐌕𐌖𐌗common-unicode-supplementary-escaped-%F0%90%8C%94%F0%90%8C%95%F0%90%8C%96%F0%90%8C%97</identifier>
 
     <formatId>http://www.loc.gov/METS/</formatId>
 

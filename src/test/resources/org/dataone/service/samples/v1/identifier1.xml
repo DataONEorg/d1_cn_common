@@ -9,5 +9,4 @@
 -->
 
 <d1:identifier  xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
-   xmlns:d1='http://ns.dataone.org/service/types/v1'>
- ABC123</d1:identifier>
+   xmlns:d1='http://ns.dataone.org/service/types/v1'>ABC123</d1:identifier>
