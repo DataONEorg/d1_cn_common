@@ -29,6 +29,7 @@ import org.dataone.service.exceptions.NotFound;
 import org.dataone.service.exceptions.NotImplemented;
 import org.dataone.service.exceptions.ServiceFailure;
 
+import org.dataone.service.types.v1.Group;
 import org.dataone.service.types.v1.Person;
 import org.dataone.service.types.v1.Session;
 import org.dataone.service.types.v1.Subject;
@@ -123,22 +124,15 @@ public interface CNIdentity {
     /**
      * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CNIdentity.createGroup
      */
-    public Subject createGroup(Session session, Subject groupName) 
+    public Subject createGroup(Session session, Group group) 
         throws ServiceFailure, InvalidToken, NotAuthorized, NotImplemented, IdentifierNotUnique;
-
-    /**
-     * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CNIdentity.addGroupMembers
-     */
-    public boolean addGroupMembers(Session session, Subject groupName, 
-        SubjectList members) throws ServiceFailure, InvalidToken, 
-        NotAuthorized, NotFound, NotImplemented, InvalidRequest;
     
     /**
-     * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CNIdentity.removeGroupMembers
+     * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CNIdentity.updateGroup
      */
-    public boolean removeGroupMembers(Session session, Subject groupName, 
-        SubjectList members) throws ServiceFailure, InvalidToken, NotAuthorized, 
-        NotFound, NotImplemented, InvalidRequest;   
+    public boolean updateGroup(Session session, Group group) 
+        throws ServiceFailure, InvalidToken, NotAuthorized, NotFound, NotImplemented, InvalidRequest;
+ 
     
 //    /**
 //     * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CNIdentity.isGroup
