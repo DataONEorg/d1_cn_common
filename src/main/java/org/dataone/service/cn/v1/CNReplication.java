@@ -20,6 +20,7 @@
 
 package org.dataone.service.cn.v1;
 
+import org.dataone.service.exceptions.BaseException;
 import org.dataone.service.exceptions.InvalidRequest;
 import org.dataone.service.exceptions.InvalidToken;
 import org.dataone.service.exceptions.NotAuthorized;
@@ -49,10 +50,10 @@ public interface CNReplication {
     /**
      * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CNReplication.setReplicationStatus
      */
-    public boolean setReplicationStatus(Session session, Identifier pid, 
-        NodeReference nodeRef, ReplicationStatus status, long serialVersion) 
-        throws ServiceFailure, NotImplemented, InvalidToken, NotAuthorized, 
-        InvalidRequest, NotFound, VersionMismatch;
+	public boolean setReplicationStatus(Session session, Identifier pid, 
+		NodeReference nodeRef, ReplicationStatus status, BaseException failure) 
+		throws ServiceFailure, NotImplemented, InvalidToken, NotAuthorized, 
+		InvalidRequest, NotFound, VersionMismatch;
 
     /**
      * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CNReplication.setReplicationPolicy
