@@ -10,6 +10,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import javax.xml.parsers.ParserConfigurationException;
 import org.apache.commons.io.IOUtils;
+import org.apache.http.Header;
+import org.apache.http.HttpException;
 import org.apache.http.ProtocolVersion;
 import org.apache.http.entity.ByteArrayEntity;
 import org.apache.http.message.BasicHeader;
@@ -130,6 +132,37 @@ public class ExceptionHandlerTestCase {
 
 
     }
+    
+    
+    @Test
+    public void testDeserializeHeadersAndThrowException() {
+
+        int errorCode = 404;
+        String setDescription = "a description"; 
+        Header[] headers = new Header[]{ 
+        		new BasicHeader("DataONE-Exception-Name","NotFound"),
+        		new BasicHeader("DataONE-Exception-DetailCode","123"),
+        		new BasicHeader("DataONE-Exception-Description",setDescription),
+        		new BasicHeader("DataONE-Exception-PID","aPid")};   
+
+        try {
+            ExceptionHandler.deserializeHeadersAndThrowException(errorCode, headers);
+            fail("should throw exception");
+        } catch (NotFound e) {
+            assertEquals(setDescription, e.getDescription());
+        } catch (BaseException e) {
+            fail("shouldn't throw this exception: " + e.getClass().getSimpleName());
+        } catch (IllegalStateException e) {
+            fail("shouldn't throw this exception: " + e.getClass().getSimpleName());
+        } catch (IOException e) {
+        	fail("shouldn't throw this exception: " + e.getClass().getSimpleName());
+		} catch (HttpException e) {
+			fail("shouldn't throw this exception: " + e.getClass().getSimpleName());
+		}
+    }
+    
+    
+    
 
     @Test
     public void filterErrorsTest() throws IOException {

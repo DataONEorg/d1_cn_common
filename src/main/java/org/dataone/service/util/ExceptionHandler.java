@@ -7,10 +7,14 @@ package org.dataone.service.util;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.TreeMap;
+
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -29,10 +33,10 @@ import org.dataone.service.exceptions.NotAuthorized;
 import org.dataone.service.exceptions.NotFound;
 import org.dataone.service.exceptions.NotImplemented;
 import org.dataone.service.exceptions.ServiceFailure;
-import org.dataone.service.exceptions.UnsupportedMetadataType;
-import org.dataone.service.exceptions.UnsupportedType;
 import org.dataone.service.exceptions.SynchronizationFailed;
+import org.dataone.service.exceptions.UnsupportedMetadataType;
 import org.dataone.service.exceptions.UnsupportedQueryType;
+import org.dataone.service.exceptions.UnsupportedType;
 import org.dataone.service.exceptions.VersionMismatch;
 import org.jibx.runtime.JiBXException;
 import org.w3c.dom.Document;
@@ -48,6 +52,7 @@ import org.xml.sax.SAXException;
 public class ExceptionHandler {
 
     protected static Log log = LogFactory.getLog(ExceptionHandler.class);
+
 
     public static InputStream filterErrors(HttpResponse res)
             throws AuthenticationTimeout, IdentifierNotUnique, InsufficientResources,
@@ -68,22 +73,118 @@ public class ExceptionHandler {
         return res.getEntity().getContent();
     }
 
-    public static Header[] filterErrorsHeader(HttpResponse res)
+    
+    /**
+     * will filter serialized errors coming from the HEAD request
+     * by deserializing them and putting on the exception thread(?).
+     * Exception state is triggered if http status code is not 200 (OK)
+     *  or 204 (NO_CONTENT). Where possible, assembles a dataone exception
+     *  from header entries corresponding to the standard base exception parts.
+     * 
+     * @param response - the http response
+     * @return - Header[] from the http response
+     * @throws AuthenticationTimeout
+     * @throws IdentifierNotUnique
+     * @throws InsufficientResources
+     * @throws InvalidCredentials
+     * @throws InvalidRequest
+     * @throws InvalidSystemMetadata
+     * @throws InvalidToken
+     * @throws NotAuthorized
+     * @throws NotFound
+     * @throws NotImplemented
+     * @throws ServiceFailure
+     * @throws UnsupportedMetadataType
+     * @throws UnsupportedQueryType
+     * @throws UnsupportedType
+     * @throws VersionMismatch
+     * @throws IllegalStateException
+     * @throws IOException
+     * @throws HttpException
+     * @throws SynchronizationFailed
+     */
+    public static Header[] filterErrorsHeader(HttpResponse response)
             throws AuthenticationTimeout, IdentifierNotUnique, InsufficientResources,
             InvalidCredentials, InvalidRequest, InvalidSystemMetadata, InvalidToken,
             NotAuthorized, NotFound, NotImplemented, ServiceFailure,
             UnsupportedMetadataType, UnsupportedQueryType, UnsupportedType, VersionMismatch,
             IllegalStateException, IOException, HttpException, SynchronizationFailed {
 
-        int code = res.getStatusLine().getStatusCode();
+        int code = response.getStatusLine().getStatusCode();
         log.info("response httpCode: " + code);
-        if (code != HttpURLConnection.HTTP_OK) {
-            // error, so throw exception
-            deserializeAndThrowException(res);
+       
+        if (code != HttpURLConnection.HTTP_OK &&
+        		code != HttpURLConnection.HTTP_NO_CONTENT) {
+        	deserializeHeadersAndThrowException(code,response.getAllHeaders());
         }
-        return res.getAllHeaders();
+        return response.getAllHeaders();
+    }
+    
+    
+    public static void deserializeHeadersAndThrowException(int code, Header[] headers)
+    throws AuthenticationTimeout, IdentifierNotUnique, InsufficientResources,
+    InvalidCredentials, InvalidRequest, InvalidSystemMetadata, InvalidToken,
+    NotAuthorized, NotFound, NotImplemented, ServiceFailure,
+    UnsupportedMetadataType, UnsupportedQueryType, UnsupportedType, VersionMismatch,
+    IllegalStateException, IOException, HttpException, SynchronizationFailed {
+        
+        
+    	Map<String, String> headersMap = new HashMap<String,String>();
+    	for (Header header: headers) {
+    		if (log.isDebugEnabled())
+    			log.debug(String.format("header: %s = %s", 
+    									header.getName(), 
+    									header.getValue() ));
+    		headersMap.put(header.getName(), header.getValue());
+    	}
+    	
+    	if (headersMap.containsKey("DataONE-Exception-Name")) {
+    		String d1ExceptionName = headersMap.get("DataONE-Exception-Name");
+    		String detailCode = headersMap.get("DataONE-Exception-DetailCode");
+    		String description = headersMap.get("DataONE-Exception-Description");
+    		String pid = headersMap.get("DataONE-Exception-PID");
+    	
+    		if (d1ExceptionName.equals("AuthenticationTimeout")) {
+                throw new AuthenticationTimeout(detailCode, description, pid, null);
+            } else if (d1ExceptionName.equals("IdentifierNotUnique")) {
+                throw new IdentifierNotUnique(detailCode, description, pid, null);
+            } else if (d1ExceptionName.equals("InsufficientResources")) {
+                throw new InsufficientResources(detailCode, description, pid, null);
+            } else if (d1ExceptionName.equals("InvalidCredentials")) {
+                throw new InvalidCredentials(detailCode, description, pid, null);
+            } else if (d1ExceptionName.equals("InvalidRequest")) {
+                throw new InvalidRequest(detailCode, description, pid, null);
+            } else if (d1ExceptionName.equals("InvalidSystemMetadata")) {
+                throw new InvalidSystemMetadata(detailCode, description, pid, null);
+            } else if (d1ExceptionName.equals("InvalidToken")) {
+                throw new InvalidToken(detailCode, description, pid, null);
+            } else if (d1ExceptionName.equals("NotAuthorized")) {
+                throw new NotAuthorized(detailCode, description, pid, null);
+            } else if (d1ExceptionName.equals("NotFound")) {
+                throw new NotFound(detailCode, description, pid, null);
+            } else if (d1ExceptionName.equals("NotImplemented")) {
+                throw new NotImplemented(detailCode, description, pid, null);
+            } else if (d1ExceptionName.equals("ServiceFailure")) {
+                throw new ServiceFailure(detailCode, description, pid, null);
+            } else if (d1ExceptionName.equals("UnsupportedMetadataType")) {
+                throw new UnsupportedMetadataType(detailCode, description, pid, null);
+            } else if (d1ExceptionName.equals("UnsupportedQueryType")) {
+                throw new UnsupportedQueryType(detailCode, description, pid, null);
+            } else if (d1ExceptionName.equals("UnsupportedType")) {
+                throw new UnsupportedType(detailCode, description, pid, null);
+            } else if (d1ExceptionName.equals("SynchronizationFailed")) {
+                throw new SynchronizationFailed(detailCode, description, pid, null);
+            } else if (d1ExceptionName.equals("VersionMismatch")) {
+                throw new VersionMismatch(detailCode, description, pid, null);
+            } else {
+                throw new ServiceFailure(detailCode, "status " + code + ": " + description, pid, null);
+            }
+    	} else {
+            throw new ServiceFailure("0000: NON-D1-EXCEPTION", "status: " + code);
+        }
     }
 
+    
     public static InputStream filterErrors(InputStream is, boolean isException, String contentType)
             throws AuthenticationTimeout, IdentifierNotUnique, InsufficientResources,
             InvalidCredentials, InvalidRequest, InvalidSystemMetadata, InvalidToken,
@@ -140,7 +241,8 @@ public class ExceptionHandler {
         try {
             statusCode = new Integer(response.getStatusLine().getStatusCode());
             statusReason = response.getStatusLine().getReasonPhrase();
-            responseStream = response.getEntity().getContent();
+            if (response.getEntity() != null)
+            	responseStream = response.getEntity().getContent();
         } catch (RuntimeException re) {
         }
         deserializeAndThrowException(responseStream, contentType, statusCode, statusReason);
@@ -426,7 +528,7 @@ public class ExceptionHandler {
             pid = root.getAttribute("pid");
         }
         if (root.hasAttribute("nodeId")) {
-            pid = root.getAttribute("nodeId");
+        	nodeId = root.getAttribute("nodeId");
         }
         getTraceValue(root, trace_information);
         String description = getDescriptionValue(root);
@@ -436,42 +538,42 @@ public class ExceptionHandler {
         // traceInformation should be empty if not known or not supplied
         if (!name.isEmpty()) {
             if (name.equals("AuthenticationTimeout")) {
-                return new AuthenticationTimeout(detailCode, description, pid, trace_information);
+                return new AuthenticationTimeout(detailCode, description, pid, nodeId, trace_information);
             } else if (name.equals("IdentifierNotUnique")) {
-                return new IdentifierNotUnique(detailCode, description, pid, trace_information);
+                return new IdentifierNotUnique(detailCode, description, pid, nodeId, trace_information);
             } else if (name.equals("InsufficientResources")) {
-                return new InsufficientResources(detailCode, description, pid, trace_information);
+                return new InsufficientResources(detailCode, description, pid, nodeId, trace_information);
             } else if (name.equals("InvalidCredentials")) {
-                return new InvalidCredentials(detailCode, description, pid, trace_information);
+                return new InvalidCredentials(detailCode, description, pid, nodeId, trace_information);
             } else if (name.equals("InvalidRequest")) {
-                return new InvalidRequest(detailCode, description, pid, trace_information);
+                return new InvalidRequest(detailCode, description, pid, nodeId, trace_information);
             } else if (name.equals("InvalidSystemMetadata")) {
-                return new InvalidSystemMetadata(detailCode, description, pid, trace_information);
+                return new InvalidSystemMetadata(detailCode, description, pid, nodeId, trace_information);
             } else if (name.equals("InvalidToken")) {
-                return new InvalidToken(detailCode, description, pid, trace_information);
+                return new InvalidToken(detailCode, description, pid, nodeId, trace_information);
             } else if (name.equals("NotAuthorized")) {
-                return new NotAuthorized(detailCode, description, pid, trace_information);
+                return new NotAuthorized(detailCode, description, pid, nodeId, trace_information);
             } else if (name.equals("NotFound")) {
-                return new NotFound(detailCode, description, pid, trace_information);
+                return new NotFound(detailCode, description, pid, nodeId, trace_information);
             } else if (name.equals("NotImplemented")) {
-                return new NotImplemented(detailCode, description, pid, trace_information);
+                return new NotImplemented(detailCode, description, pid, nodeId, trace_information);
             } else if (name.equals("ServiceFailure")) {
-                return new ServiceFailure(detailCode, description, pid, trace_information);
+                return new ServiceFailure(detailCode, description, pid, nodeId, trace_information);
             } else if (name.equals("UnsupportedMetadataType")) {
-                return new UnsupportedMetadataType(detailCode, description, pid, trace_information);
+                return new UnsupportedMetadataType(detailCode, description, pid, nodeId, trace_information);
             } else if (name.equals("UnsupportedQueryType")) {
-                return new UnsupportedQueryType(detailCode, description, pid, trace_information);
+                return new UnsupportedQueryType(detailCode, description, pid, nodeId, trace_information);
             } else if (name.equals("UnsupportedType")) {
-                return new UnsupportedType(detailCode, description, pid, trace_information);
+                return new UnsupportedType(detailCode, description, pid, nodeId, trace_information);
             } else if (name.equals("SynchronizationFailed")) {
-                return new SynchronizationFailed(detailCode, description, pid, trace_information);
+                return new SynchronizationFailed(detailCode, description, pid, nodeId, trace_information);
             } else if (name.equals("VersionMismatch")) {
-                return new VersionMismatch(detailCode, description, pid, trace_information);
+                return new VersionMismatch(detailCode, description, pid, nodeId, trace_information);
             } else {
-                return new ServiceFailure(detailCode, defaultMessage + description, pid, trace_information);
+                return new ServiceFailure(detailCode, defaultMessage + description, pid, nodeId, trace_information);
             }
         } else {
-            return new ServiceFailure(detailCode, defaultMessage + description, pid, trace_information);
+            return new ServiceFailure(detailCode, defaultMessage + description, pid, nodeId, trace_information);
         }
     }
 
@@ -560,5 +662,5 @@ public class ExceptionHandler {
             throw new ServiceFailure("0",
                     "Could not deserialize the " + domainClass.getCanonicalName() + ": " + e.getMessage());
         }
-    }
+    } 
 }
