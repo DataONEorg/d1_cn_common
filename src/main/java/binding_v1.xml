@@ -49,6 +49,9 @@
       <structure map-as="d1:Subject" name="rightsHolder"/>
     </collection>
   </mapping>
+  <mapping class="org.dataone.service.types.v1.Group" name="group" ns="http://ns.dataone.org/service/types/v1">
+    <structure map-as="d1:Group"/>
+  </mapping>
   <mapping abstract="true" type-name="d1:Identifier" class="org.dataone.service.types.v1.Identifier">
     <value style="text" get-method="getValue" set-method="setValue"/>
   </mapping>
