@@ -48,11 +48,4 @@ public interface MNAuthorization {
             throws ServiceFailure, InvalidRequest, InvalidToken, NotFound, 
                    NotAuthorized, NotImplemented;
 
-    /**
-     * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/MN_APIs.html#MN_auth.setAccess
-     */
-    @Deprecated
-    public boolean setAccessPolicy(Session session, Identifier pid, AccessPolicy accessPolicy)
-            throws InvalidToken, ServiceFailure, NotFound, NotAuthorized, 
-                   NotImplemented, InvalidRequest;
 }

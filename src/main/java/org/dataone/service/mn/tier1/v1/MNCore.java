@@ -50,7 +50,7 @@ public interface MNCore {
     /**
      * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/MN_APIs.html#MN_core.ping
      */
-    public boolean ping() 
+    public Date ping() 
     throws NotImplemented, ServiceFailure, InsufficientResources;
 
     /** 

@@ -30,6 +30,7 @@ import org.dataone.service.exceptions.NotFound;
 import org.dataone.service.exceptions.NotImplemented;
 import org.dataone.service.exceptions.ServiceFailure;
 import org.dataone.service.types.v1.Checksum;
+import org.dataone.service.types.v1.DescribeResponse;
 import org.dataone.service.types.v1.Identifier;
 import org.dataone.service.types.v1.ObjectFormatIdentifier;
 import org.dataone.service.types.v1.ObjectList;
@@ -63,6 +64,13 @@ public interface CNRead
         throws InvalidToken, ServiceFailure, NotAuthorized, NotFound, NotImplemented;
     
     /**
+     * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/MN_APIs.html#MN_read.describe
+     */
+    public DescribeResponse describe(Session session, Identifier pid)
+    throws InvalidToken, NotAuthorized, NotImplemented, ServiceFailure, NotFound;
+    
+
+   /**
      * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CNRead.resolve
      */
     public ObjectLocationList resolve(Session session, Identifier pid)
@@ -86,8 +94,8 @@ public interface CNRead
     /**
      * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CNRead.listObjects
      */
-    public ObjectList listObjects(Session session, Date startTime, 
-            Date endTime, ObjectFormatIdentifier formatid, Boolean replicaStatus,
+    public ObjectList listObjects(Session session, Date fromDate, 
+            Date toDate, ObjectFormatIdentifier formatid, Boolean replicaStatus,
             Integer start, Integer count) 
     throws InvalidRequest, InvalidToken, NotAuthorized, NotImplemented, ServiceFailure;
     

@@ -44,9 +44,9 @@ import org.dataone.service.types.v1.AccessPolicy;
 public interface CNAuthorization {
 
     /**
-     * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CNAuthorization.setOwner
+     * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CNAuthorization.setRightsHolder
      */
-    public Identifier setOwner(Session session, Identifier pid, Subject userId, 
+    public Identifier setRightsHolder(Session session, Identifier pid, Subject userId, 
          long serialVersion)
         throws InvalidToken, ServiceFailure, NotFound, NotAuthorized, 
         NotImplemented, InvalidRequest, VersionMismatch;

@@ -56,7 +56,7 @@ public interface CNIdentity {
      * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CNIdentity.updateAccount
      */
     public Subject updateAccount(Session session, Person person) 
-    	throws ServiceFailure, NotAuthorized, IdentifierNotUnique, InvalidCredentials, 
+    	throws ServiceFailure, NotAuthorized, InvalidCredentials, 
         NotImplemented, InvalidRequest, NotFound;
     
     /**
@@ -70,7 +70,7 @@ public interface CNIdentity {
      * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CNIdentity.getSubjectInfo
      */
     public SubjectInfo getSubjectInfo(Session session, Subject subject)
-        throws ServiceFailure, NotAuthorized, NotImplemented, NotFound;
+        throws ServiceFailure, NotAuthorized, NotImplemented, NotFound, InvalidToken;
   
     /**
      * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CNIdentity.listSubjects
@@ -82,7 +82,7 @@ public interface CNIdentity {
     /**
      * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CNIdentity.mapIdentity
      */
-    public boolean mapIdentity(Session session, Subject subject1, Subject subject2) 
+    public boolean mapIdentity(Session session, Subject subject) 
         throws ServiceFailure, InvalidToken, NotAuthorized, NotFound, 
         NotImplemented, InvalidRequest, IdentifierNotUnique;
     
@@ -91,7 +91,7 @@ public interface CNIdentity {
      */
     public boolean requestMapIdentity(Session session, Subject subject) 
         throws ServiceFailure, InvalidToken, NotAuthorized, NotFound, 
-        NotImplemented, InvalidRequest;
+        NotImplemented, InvalidRequest, IdentifierNotUnique;
     
     /**
      * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CNIdentity.confirmMapIdentity
@@ -105,21 +105,21 @@ public interface CNIdentity {
      */
     public SubjectInfo getPendingMapIdentity(Session session, Subject subject) 
         throws ServiceFailure, InvalidToken, NotAuthorized, NotFound, 
-        NotImplemented, InvalidRequest;
+        NotImplemented;
     
     /**
      * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CNIdentity.denyMapIdentity
      */
     public boolean denyMapIdentity(Session session, Subject subject) 
         throws ServiceFailure, InvalidToken, NotAuthorized, NotFound, 
-        NotImplemented, InvalidRequest;
+        NotImplemented;
     
     /**
      * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CNIdentity.removeMapIdentity
      */
     public boolean removeMapIdentity(Session session, Subject subject) 
         throws ServiceFailure, InvalidToken, NotAuthorized, NotFound, 
-        NotImplemented, InvalidRequest;
+        NotImplemented;
     
     /**
      * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CNIdentity.createGroup

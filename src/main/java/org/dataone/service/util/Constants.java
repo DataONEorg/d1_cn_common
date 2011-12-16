@@ -48,6 +48,8 @@ public class Constants {
     public static final String RESOURCE_NODE = "node";
     /** Common API resource which handles document operations */
     public static final String RESOURCE_OBJECTS = "object";
+    /** Common API resource which handles search operations */
+    public static final String RESOURCE_SEARCH = "search";
     
     /** AUTHORIZATION API resource which handles access operations */
     public static final String RESOURCE_ACCESS = "accessRules";

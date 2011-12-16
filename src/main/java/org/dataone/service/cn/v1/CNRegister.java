@@ -21,6 +21,7 @@
 package org.dataone.service.cn.v1;
 
 import org.dataone.service.exceptions.InvalidRequest;
+import org.dataone.service.exceptions.InvalidToken;
 import org.dataone.service.exceptions.NotAuthorized;
 import org.dataone.service.exceptions.NotFound;
 import org.dataone.service.exceptions.NotImplemented;
@@ -45,7 +46,7 @@ public interface CNRegister {
      */
     public boolean updateNodeCapabilities(Session session, NodeReference nodeid, 
         Node node) throws NotImplemented, NotAuthorized, 
-        ServiceFailure, InvalidRequest, NotFound;
+        ServiceFailure, InvalidRequest, NotFound, InvalidToken;
 
     /** 
      * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CNRegister.register

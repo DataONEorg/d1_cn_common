@@ -77,6 +77,6 @@ public interface CNReplication {
     public boolean updateReplicationMetadata(Session targetNodeSession, 
         Identifier pid, Replica replicaMetadata, long serialVersion)
         throws NotImplemented, NotAuthorized, ServiceFailure, 
-        NotFound, InvalidRequest, VersionMismatch;
+        NotFound, InvalidRequest, InvalidToken, VersionMismatch;
 
 }

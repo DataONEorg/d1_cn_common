@@ -23,6 +23,7 @@ package org.dataone.service.mn.tier1.v1;
 import java.io.InputStream;
 import java.util.Date;
 
+import org.dataone.service.exceptions.InsufficientResources;
 import org.dataone.service.exceptions.InvalidRequest;
 import org.dataone.service.exceptions.InvalidToken;
 import org.dataone.service.exceptions.NotAuthorized;
@@ -56,7 +57,8 @@ public interface MNRead {
      *
      */
     public InputStream get(Session session, Identifier pid)
-    throws InvalidToken, NotAuthorized, NotImplemented, ServiceFailure, NotFound;
+    throws InvalidToken, NotAuthorized, NotImplemented, ServiceFailure, 
+        NotFound, InsufficientResources;
 
 
     /**
@@ -83,8 +85,8 @@ public interface MNRead {
     /** 
      * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/MN_APIs.html#MN_read.listObjects
      */
-    public ObjectList listObjects(Session session, Date startTime, 
-            Date endTime, ObjectFormatIdentifier formatid, Boolean replicaStatus,
+    public ObjectList listObjects(Session session, Date fromDate, 
+            Date toDate, ObjectFormatIdentifier formatid, Boolean replicaStatus,
             Integer start, Integer count) 
     throws InvalidRequest, InvalidToken, NotAuthorized, NotImplemented, ServiceFailure;
 

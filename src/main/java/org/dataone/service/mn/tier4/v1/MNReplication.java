@@ -57,6 +57,7 @@ public interface MNReplication {
      * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/MN_APIs.html#MNReplication.getReplica
      */
     public InputStream getReplica(Session session, Identifier pid)
-    throws InvalidToken, NotAuthorized, NotImplemented, ServiceFailure, NotFound;
+    throws InvalidToken, NotAuthorized, NotImplemented, ServiceFailure, NotFound,
+    InsufficientResources;
     
 }

@@ -34,6 +34,7 @@ import org.dataone.service.exceptions.NotImplemented;
 import org.dataone.service.exceptions.ServiceFailure;
 import org.dataone.service.exceptions.UnsupportedType;
 
+import org.dataone.service.types.v1.ChecksumAlgorithmList;
 import org.dataone.service.types.v1.Identifier;
 import org.dataone.service.types.v1.Log;
 import org.dataone.service.types.v1.ObjectFormat;
@@ -55,25 +56,30 @@ public interface CNCore
 {
 	public final static String SERVICE_VERSION = "v1";
 	
+
+    /**
+     * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CN_core.ping
+     */
+    public Date ping() 
+    throws NotImplemented, ServiceFailure, InsufficientResources;
 	
 	/**
      * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CNCore.listFormats
      */
-		public ObjectFormatList listFormats()
-        throws ServiceFailure, InsufficientResources, NotImplemented;
+	public ObjectFormatList listFormats()
+        throws ServiceFailure, NotImplemented;
 
     /**
      * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CNCore.getFormat
      */
     public ObjectFormat getFormat(ObjectFormatIdentifier formatid)
-        throws ServiceFailure, NotFound, InsufficientResources, NotImplemented;
+        throws ServiceFailure, NotFound, NotImplemented, InvalidRequest;
     
     /**
      * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CNCore.getChecksumAlgorithms
      */
-    // TODO:  uncomment this and client code when return type is available
-    //    public ChecksumAlgorithmList getChecksumAlgorithms()
-//        throws ServiceFailure, NotImplemented;
+     public ChecksumAlgorithmList listChecksumAlgorithms()
+       throws ServiceFailure, NotImplemented;
 
     /**
      * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CNCore.getLogRecords
