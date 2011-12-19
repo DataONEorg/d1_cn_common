@@ -8,15 +8,23 @@ import org.apache.tools.ant.filters.StringInputStream;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
+
 import javax.xml.parsers.ParserConfigurationException;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.Header;
+import org.apache.http.HttpEntity;
 import org.apache.http.HttpException;
+import org.apache.http.HttpResponse;
+import org.apache.http.HttpVersion;
 import org.apache.http.ProtocolVersion;
+import org.apache.http.entity.BasicHttpEntity;
 import org.apache.http.entity.ByteArrayEntity;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.message.BasicHeader;
 import org.apache.http.message.BasicHttpResponse;
 import org.apache.http.message.BasicStatusLine;
+import org.dataone.mimemultipart.SimpleMultipartEntity;
 import org.dataone.service.exceptions.AuthenticationTimeout;
 import org.dataone.service.exceptions.BaseException;
 import org.dataone.service.exceptions.IdentifierNotUnique;
@@ -108,6 +116,128 @@ public class ExceptionHandlerTestCase {
         } catch (IOException e) {
             fail("shouldn't throw this exception: " + e.getClass().getSimpleName());
         }
+    }
+    
+ 
+    @Test
+    public void testFilterErrorsHeader_HEAD_notError() throws UnsupportedEncodingException {
+        
+    	HttpResponse mockResponse = new BasicHttpResponse(new HttpVersion(1,1),200,"OK");
+    	mockResponse.addHeader(new BasicHeader("Date","someDate"));
+        
+        try {
+        	Header[] headers = ExceptionHandler.filterErrorsHeader(mockResponse, Constants.HEAD);
+            boolean foundIt = false;
+        	for (Header header: headers) {
+            	if (header.getName().equals("Date")) {
+            		foundIt = true;
+            		break;
+            	}
+            }
+        	assertTrue("should be able to find header 'Date'", foundIt);
+        } catch (BaseException e) {
+            fail("shouldn't throw this exception: " + e.getClass().getSimpleName());
+        } catch (IllegalStateException e) {
+            fail("shouldn't throw this exception: " + e.getClass().getSimpleName());
+        } catch (IOException e) {
+            fail("shouldn't throw this exception: " + e.getClass().getSimpleName());
+        } catch (HttpException e) {
+        	fail("shouldn't throw this exception: " + e.getClass().getSimpleName());
+		}
+    }
+    
+    
+    
+    @Test
+    public void testFilterErrorsHeader_HEAD() throws UnsupportedEncodingException {
+    	String setDetailCode = "12345";
+        String setDescription = "sorry, lost it";
+        String setPID = "anIdentifierString";
+        NotFound nfe = new NotFound(setDetailCode, setDescription);
+ 
+        HttpEntity entity = new StringEntity(nfe.serialize(BaseException.FMT_XML));
+        
+    	HttpResponse mockResponse = new BasicHttpResponse(new HttpVersion(1,1),404,"NotFound");
+    	mockResponse.setEntity(entity);
+    	mockResponse.addHeader(new BasicHeader("DataONE-Exception-Name","NotFound"));
+    	mockResponse.addHeader(new BasicHeader("DataONE-Exception-DetailCode",setDetailCode));
+    	mockResponse.addHeader(new BasicHeader("DataONE-Exception-Description",setDescription));
+    	mockResponse.addHeader(new BasicHeader("DataONE-Exception-PID",setPID));    	
+    
+        
+        try {
+            ExceptionHandler.filterErrorsHeader(mockResponse, Constants.HEAD);
+            fail("should throw exception");
+        } catch (NotFound e) {
+            assertEquals(setDetailCode, e.getDetail_code());
+            assertEquals(setDescription, e.getDescription());
+            assertEquals(setPID, e.getPid());
+        } catch (BaseException e) {
+            fail("shouldn't throw this exception: " + e.getClass().getSimpleName());
+        } catch (IllegalStateException e) {
+            fail("shouldn't throw this exception: " + e.getClass().getSimpleName());
+        } catch (IOException e) {
+            fail("shouldn't throw this exception: " + e.getClass().getSimpleName());
+        } catch (HttpException e) {
+        	fail("shouldn't throw this exception: " + e.getClass().getSimpleName());
+		}
+    }
+    
+    
+    @Test
+    public void testFilterErrorsHeader_GET_notError() throws UnsupportedEncodingException {
+    	
+    	HttpResponse mockResponse = new BasicHttpResponse(new HttpVersion(1,1),200,"OK");
+    	mockResponse.addHeader(new BasicHeader("Date","someDate"));
+        
+        try {
+        	Header[] headers = ExceptionHandler.filterErrorsHeader(mockResponse, Constants.HEAD);
+            boolean foundIt = false;
+        	for (Header header: headers) {
+            	if (header.getName().equals("Date")) {
+            		foundIt = true;
+            		break;
+            	}
+            }
+        	assertTrue("should be able to find header 'Date'", foundIt);
+        } catch (BaseException e) {
+            fail("shouldn't throw this exception: " + e.getClass().getSimpleName());
+        } catch (IllegalStateException e) {
+            fail("shouldn't throw this exception: " + e.getClass().getSimpleName());
+        } catch (IOException e) {
+            fail("shouldn't throw this exception: " + e.getClass().getSimpleName());
+        } catch (HttpException e) {
+        	fail("shouldn't throw this exception: " + e.getClass().getSimpleName());
+		}
+    }
+    
+    @Test
+    public void testFilterErrorsHeader_GET() throws UnsupportedEncodingException {
+    	String setDetailCode = "12345";
+        String setDescription = "some generic description";
+        NotFound nfe = new NotFound(setDetailCode, setDescription);
+ 
+        HttpEntity entity = new StringEntity(nfe.serialize(BaseException.FMT_XML));
+        
+    	HttpResponse mockResponse = new BasicHttpResponse(new HttpVersion(1,1),404,"NotFound");
+    	mockResponse.setEntity(entity);
+    	mockResponse.addHeader(new BasicHeader("Content-Type","text/xml"));
+        
+        try {
+            ExceptionHandler.filterErrorsHeader(mockResponse, Constants.GET);//xmlErrorStream, true, "xml");
+            fail("should throw exception");
+        } catch (NotFound e) {
+            assertEquals(setDetailCode, e.getDetail_code());
+            assertEquals(setDescription, e.getDescription());
+        } catch (BaseException e) {
+            fail("shouldn't throw this exception: " + e.getClass().getSimpleName());
+        } catch (IllegalStateException e) {
+            fail("shouldn't throw this exception: " + e.getClass().getSimpleName());
+        } catch (IOException e) {
+            fail("shouldn't throw this exception: " + e.getClass().getSimpleName());
+        } catch (HttpException e) {
+        	fail("shouldn't throw this exception: " + e.getClass().getSimpleName());
+		}
     }
 
     @Test

@@ -103,7 +103,7 @@ public class ExceptionHandler {
      * @throws HttpException
      * @throws SynchronizationFailed
      */
-    public static Header[] filterErrorsHeader(HttpResponse response)
+    public static Header[] filterErrorsHeader(HttpResponse response, String httpMethod)
             throws AuthenticationTimeout, IdentifierNotUnique, InsufficientResources,
             InvalidCredentials, InvalidRequest, InvalidSystemMetadata, InvalidToken,
             NotAuthorized, NotFound, NotImplemented, ServiceFailure,
@@ -113,9 +113,13 @@ public class ExceptionHandler {
         int code = response.getStatusLine().getStatusCode();
         log.info("response httpCode: " + code);
        
-        if (code != HttpURLConnection.HTTP_OK &&
-        		code != HttpURLConnection.HTTP_NO_CONTENT) {
-        	deserializeHeadersAndThrowException(code,response.getAllHeaders());
+        if (code != HttpURLConnection.HTTP_OK) {
+        	// error, so throw exception
+        	if (httpMethod == Constants.HEAD) {
+        		deserializeHeadersAndThrowException(code,response.getAllHeaders());        		
+        	} else { 
+                deserializeAndThrowException(response);
+        	}
         }
         return response.getAllHeaders();
     }
