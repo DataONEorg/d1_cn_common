@@ -54,7 +54,24 @@ public class ChecksumUtil {
         checksum.setAlgorithm(checksumAlgorithm);
         return checksum;
     }
-
+    
+    
+    /**
+     * produce a checksum for the given byte array
+     */
+    public static Checksum checksum(byte[] object, String algorithm) throws NoSuchAlgorithmException 
+    {
+    	MessageDigest complete = MessageDigest.getInstance(algorithm);
+    	complete.update(object);
+        String csStr = getHex(complete.digest());
+        
+    	Checksum checksum = new Checksum();
+        checksum.setValue(csStr);
+        checksum.setAlgorithm(algorithm);
+        return checksum;
+    }
+    
+    
     /**
      * convert a byte array to a hex string
      */
