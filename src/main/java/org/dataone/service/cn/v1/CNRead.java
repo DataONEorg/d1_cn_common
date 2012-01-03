@@ -76,14 +76,6 @@ public interface CNRead
     public ObjectLocationList resolve(Session session, Identifier pid)
         throws InvalidToken, ServiceFailure, NotAuthorized, NotFound, NotImplemented;
     
-        
-    /**
-     * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CNRead.assertRelation
-     */
-    @Deprecated
-    public boolean assertRelation(Session session, Identifier pidOfSubject, 
-        String relationship, Identifier pidOfObject) throws InvalidToken, 
-        ServiceFailure, NotAuthorized, NotFound, InvalidRequest, NotImplemented;
     
     /**
      * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CNRead.getChecksum
