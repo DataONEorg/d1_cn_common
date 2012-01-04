@@ -13,7 +13,7 @@
 
         <repository>
             <id>sonatype.org</id>
-            <url>http://repository.sonatype.org/content/repositories/central</url>
+            <url>https://repository.sonatype.org/content/shadows/centralm1</url>
             <releases>
                 <enabled>true</enabled>
             </releases>
@@ -36,8 +36,8 @@
         <dependency>
             <groupId>com.hazelcast</groupId>
             <artifactId>hazelcast</artifactId>
-            <version>1.9.4.4</version>
-            <scope>provided</scope>
+            <version>1.9.4.5</version>
+            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>commons-lang</groupId>
