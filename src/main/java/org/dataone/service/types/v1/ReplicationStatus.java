@@ -4,18 +4,19 @@ package org.dataone.service.types.v1;
 import java.io.Serializable;
 
 /** 
- * A controlled string value indicating the current
- state of a replica of an object.  When an object 
- identified needs to be replicated, it is added to the replication
- task queue and is marked as 'queued'; a CN node will then pick up 
- that task and request that it be replicated to a MN and marks that it
- is 'requested'; when a MN finishes replicating the object, it informs
- the CN that it is finished and it is marked as 'completed'; periodically
- the CN checks each replica to be sure it is both available and valid 
- (matching checksum with original), and if it is either unavailable or 
- invalid then it marks it as 'invalidated', which indicates that the 
- replication policy needs to be checked again. 
-
+ * An enumerated string value indicating the current
+ state of a replica of an object. When an object identified needs to be
+ replicated, it is added to the replication task queue and is marked as
+ *queued*; a CN will pick up that task and request that it be replicated
+ to a MN and marks that it as *requested*; when a MN finishes replicating
+ the object, it informs the CN that it is finished and it is marked as
+ *completed*. If an MN is unable to complete replication, the
+ replication status is marked as *failed*.Periodically a CN checks each replica to be sure it is
+ both available and valid (matching checksum with original), and if it is
+ either inaccessible or invalid then it marks it as *invalidated*, which
+ indicates that the object replication needs to be invoked
+ again.The replication process is described in
+ :doc:`UC09 &lt;/design/UseCases/09_uc&gt;`.
  * 
  * Schema fragment(s) for this class:
  * <pre>

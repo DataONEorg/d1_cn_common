@@ -7,12 +7,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 /** 
- * The overall replication policy for the node that expresses
- constraints on object size, total objects, source nodes, and object
- format types.  A node may want to restrict replication from only from
- certain peer nodes, or may have file size limits, total allocated size limits,
- or may want to focus on being a replica target for domain-specific
- object formats.
+ * The overall replication policy for the node that
+ expresses constraints on object size, total objects, source nodes, and
+ object format types. A node may choose to restrict replication from only
+ certain peer nodes, may have file size limits, total allocated size
+ limits, or may want to focus on being a :term:`replication target` for
+ domain-specific object formats.
  * 
  * Schema fragment(s) for this class:
  * <pre>
@@ -35,9 +35,9 @@ public class NodeReplicationPolicy implements Serializable
     private List<ObjectFormatIdentifier> allowedObjectFormatList = new ArrayList<ObjectFormatIdentifier>();
 
     /** 
-     * Get the 'maxObjectSize' element value. An optional statement of the maximum size
-                      of an object that this node is willing to replicate, expressed
-                      in bytes.
+     * Get the 'maxObjectSize' element value. An optional statement of the maximum size in bytes
+            of objects this node is willing to accept for
+            replication.
      * 
      * @return value
      */
@@ -46,9 +46,9 @@ public class NodeReplicationPolicy implements Serializable
     }
 
     /** 
-     * Set the 'maxObjectSize' element value. An optional statement of the maximum size
-                      of an object that this node is willing to replicate, expressed
-                      in bytes.
+     * Set the 'maxObjectSize' element value. An optional statement of the maximum size in bytes
+            of objects this node is willing to accept for
+            replication.
      * 
      * @param maxObjectSize
      */
@@ -57,9 +57,9 @@ public class NodeReplicationPolicy implements Serializable
     }
 
     /** 
-     * Get the 'spaceAllocated' element value. An optional statement of the total space
-                      allocated to replication object storage on this node, expressed
-                      in bytes.
+     * Get the 'spaceAllocated' element value. An optional statement of the total space in bytes
+            allocated for replication object storage on this
+            node.
      * 
      * @return value
      */
@@ -68,9 +68,9 @@ public class NodeReplicationPolicy implements Serializable
     }
 
     /** 
-     * Set the 'spaceAllocated' element value. An optional statement of the total space
-                      allocated to replication object storage on this node, expressed
-                      in bytes.
+     * Set the 'spaceAllocated' element value. An optional statement of the total space in bytes
+            allocated for replication object storage on this
+            node.
      * 
      * @param spaceAllocated
      */
@@ -79,8 +79,9 @@ public class NodeReplicationPolicy implements Serializable
     }
 
     /** 
-     * Get the list of 'allowedNode' element items. An optional, repeatable statement of a peer source node
-                      from which this node is willing to replicate, expressed as a NodeReference.
+     * Get the list of 'allowedNode' element items. An optional, repeatable statement of a peer source
+            node from which this node is willing to replicate content, expressed
+            as a :class:`Types.NodeReference`.
      * 
      * @return list
      */
@@ -89,8 +90,9 @@ public class NodeReplicationPolicy implements Serializable
     }
 
     /** 
-     * Set the list of 'allowedNode' element items. An optional, repeatable statement of a peer source node
-                      from which this node is willing to replicate, expressed as a NodeReference.
+     * Set the list of 'allowedNode' element items. An optional, repeatable statement of a peer source
+            node from which this node is willing to replicate content, expressed
+            as a :class:`Types.NodeReference`.
      * 
      * @param list
      */
@@ -131,8 +133,9 @@ public class NodeReplicationPolicy implements Serializable
     }
 
     /** 
-     * Get the list of 'allowedObjectFormat' element items. An optional, repeatable statement of an object format
-                      that this node is willing to replicate, expressed as an ObjectFormatIdentifier.
+     * Get the list of 'allowedObjectFormat' element items. An optional, repeatable statement of an object
+            format that this node is willing to replicate, expressed as a
+            :class:`Types.ObjectFormatIdentifier`.
      * 
      * @return list
      */
@@ -141,8 +144,9 @@ public class NodeReplicationPolicy implements Serializable
     }
 
     /** 
-     * Set the list of 'allowedObjectFormat' element items. An optional, repeatable statement of an object format
-                      that this node is willing to replicate, expressed as an ObjectFormatIdentifier.
+     * Set the list of 'allowedObjectFormat' element items. An optional, repeatable statement of an object
+            format that this node is willing to replicate, expressed as a
+            :class:`Types.ObjectFormatIdentifier`.
      * 
      * @param list
      */

@@ -4,9 +4,11 @@ package org.dataone.service.types.v1;
 import java.io.Serializable;
 
 /** 
- * An abstract type used as a common base for other types that need to include count, start, and total
- attributes to indicate which slice of a list is represented by a set of records.
-
+ * An abstract type used as a common base for other types
+ that need to include *count*, *start*, and *total* attributes to
+ indicate which slice of a list is represented by a set of
+ records.The first element in a list is always index 0, i.e.
+ list indexes are zero-based.
  * 
  * Schema fragment(s) for this class:
  * <pre>
@@ -25,7 +27,8 @@ public class Slice implements Serializable
     private int total;
 
     /** 
-     * Get the 'count' attribute value.
+     * Get the 'count' attribute value. The number of entries in the
+          slice.
      * 
      * @return value
      */
@@ -34,7 +37,8 @@ public class Slice implements Serializable
     }
 
     /** 
-     * Set the 'count' attribute value.
+     * Set the 'count' attribute value. The number of entries in the
+          slice.
      * 
      * @param count
      */
@@ -43,7 +47,8 @@ public class Slice implements Serializable
     }
 
     /** 
-     * Get the 'start' attribute value.
+     * Get the 'start' attribute value. The zero-based index of the first element in the
+          slice.
      * 
      * @return value
      */
@@ -52,7 +57,8 @@ public class Slice implements Serializable
     }
 
     /** 
-     * Set the 'start' attribute value.
+     * Set the 'start' attribute value. The zero-based index of the first element in the
+          slice.
      * 
      * @param start
      */
@@ -61,7 +67,8 @@ public class Slice implements Serializable
     }
 
     /** 
-     * Get the 'total' attribute value.
+     * Get the 'total' attribute value. The total number of entries in the source list from
+          which the slice was extracted.
      * 
      * @return value
      */
@@ -70,7 +77,8 @@ public class Slice implements Serializable
     }
 
     /** 
-     * Set the 'total' attribute value.
+     * Set the 'total' attribute value. The total number of entries in the source list from
+          which the slice was extracted.
      * 
      * @param total
      */

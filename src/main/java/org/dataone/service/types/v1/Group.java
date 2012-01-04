@@ -6,8 +6,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 /** 
- * Group represents metadata about a Subject that represents a collection of other Subjects.
- Groups are convenient ways to express access rules for certain roles that are not necessarily tied to particular people over time.
+ * Group represents metadata about a :term:`Subject` that
+ represents a collection of other Subjects. Groups provide a convenient
+ mechanism to express access rules for certain roles that are not
+ necessarily tied to particular :term:`principals` over
+ time.
  * 
  * Schema fragment(s) for this class:
  * <pre>
@@ -30,10 +33,10 @@ public class Group implements Serializable
     private List<Subject> rightsHolderList = new ArrayList<Subject>();
 
     /** 
-     * Get the 'subject' element value. The unique, immutable identifier of the group. 
-                  Group subjects must not be reused, and so they are both immutable and can not be 
-                  deleted from the DataONE system.
-                  
+     * Get the 'subject' element value. The unique, immutable identifier of the
+            :term:`group`. Group subjects must not be reused, and so they are
+            both immutable and can not be deleted from the DataONE
+            system.
      * 
      * @return value
      */
@@ -42,10 +45,10 @@ public class Group implements Serializable
     }
 
     /** 
-     * Set the 'subject' element value. The unique, immutable identifier of the group. 
-                  Group subjects must not be reused, and so they are both immutable and can not be 
-                  deleted from the DataONE system.
-                  
+     * Set the 'subject' element value. The unique, immutable identifier of the
+            :term:`group`. Group subjects must not be reused, and so they are
+            both immutable and can not be deleted from the DataONE
+            system.
      * 
      * @param subject
      */
@@ -72,8 +75,9 @@ public class Group implements Serializable
     }
 
     /** 
-     * Get the list of 'hasMember' element items. A Subject that is a member of this group, expressed using the
-                      unique identifier for that Subject.
+     * Get the list of 'hasMember' element items. A :term:`Subject` that is a member of this
+              group, expressed using the unique identifier for that
+              Subject.
      * 
      * @return list
      */
@@ -82,8 +86,9 @@ public class Group implements Serializable
     }
 
     /** 
-     * Set the list of 'hasMember' element items. A Subject that is a member of this group, expressed using the
-                      unique identifier for that Subject.
+     * Set the list of 'hasMember' element items. A :term:`Subject` that is a member of this
+              group, expressed using the unique identifier for that
+              Subject.
      * 
      * @param list
      */
@@ -124,12 +129,13 @@ public class Group implements Serializable
     }
 
     /** 
-     * Get the list of 'rightsHolder' element items. Represents the list of owners of this group. All groups are readable by 
-    				anyone in the DataONE system, but can only be modified by subjects listed in rightsHolder fields.
-    				Designation as a rightsHolder allows the subject, or their equivalent identities, to make changes
-    				to the mutable properties of the group, including its name and membership list and rights holder list.
-    				The subject of the Group itself immutable.
-    				
+     * Get the list of 'rightsHolder' element items. Represents the list of owners of this :term:`group`.
+          All groups are readable by anyone in the DataONE system, but can only
+          be modified by subjects listed in *rightsHolder* fields. Designation
+          as a :term:`rightsHolder` allows the subject, or their equivalent
+          identities, to make changes to the mutable properties of the group,
+          including its name, membership list and rights holder list. The
+          subject of the group itself is immutable. 
      * 
      * @return list
      */
@@ -138,12 +144,13 @@ public class Group implements Serializable
     }
 
     /** 
-     * Set the list of 'rightsHolder' element items. Represents the list of owners of this group. All groups are readable by 
-    				anyone in the DataONE system, but can only be modified by subjects listed in rightsHolder fields.
-    				Designation as a rightsHolder allows the subject, or their equivalent identities, to make changes
-    				to the mutable properties of the group, including its name and membership list and rights holder list.
-    				The subject of the Group itself immutable.
-    				
+     * Set the list of 'rightsHolder' element items. Represents the list of owners of this :term:`group`.
+          All groups are readable by anyone in the DataONE system, but can only
+          be modified by subjects listed in *rightsHolder* fields. Designation
+          as a :term:`rightsHolder` allows the subject, or their equivalent
+          identities, to make changes to the mutable properties of the group,
+          including its name, membership list and rights holder list. The
+          subject of the group itself is immutable. 
      * 
      * @param list
      */

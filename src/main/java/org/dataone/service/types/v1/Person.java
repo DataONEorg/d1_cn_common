@@ -6,12 +6,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 /** 
- * Person represents metadata about a Principal that
- is a person and that can be used by clients and nodes for
- :class:`Types.AccessPolicy` information. The mutable properties
- of a Person instance can only be changed by itself (i.e., the 
- Subject identifying the Person instance) and by the Coordinating
- Node identitiy, but can be read by any identity in the DataONE system.
+ * *Person* represents metadata about a :term:`Principal`
+ that is a person and that can be used by clients and nodes for
+ :class:`Types.AccessPolicy` information. The mutable properties of a
+ *Person* instance can only be changed by itself (i.e., the Subject
+ identifying the Person instance) and by the Coordinating Node identity,
+ but can be read by any identity in the DataONE system.
 
  * 
  * Schema fragment(s) for this class:
@@ -41,8 +41,8 @@ public class Person implements Serializable
     private Boolean verified;
 
     /** 
-     * Get the 'subject' element value. The unique, immutable identifier for the person.
-    				
+     * Get the 'subject' element value. The unique, immutable identifier for the
+            person.
      * 
      * @return value
      */
@@ -51,8 +51,8 @@ public class Person implements Serializable
     }
 
     /** 
-     * Set the 'subject' element value. The unique, immutable identifier for the person.
-    				
+     * Set the 'subject' element value. The unique, immutable identifier for the
+            person.
      * 
      * @param subject
      */
@@ -61,7 +61,8 @@ public class Person implements Serializable
     }
 
     /** 
-     * Get the list of 'givenName' element items. The given name of the Person.
+     * Get the list of 'givenName' element items. The given name of the Person, repeatable if they
+            have more than one given name.
      * 
      * @return list
      */
@@ -70,7 +71,8 @@ public class Person implements Serializable
     }
 
     /** 
-     * Set the list of 'givenName' element items. The given name of the Person.
+     * Set the list of 'givenName' element items. The given name of the Person, repeatable if they
+            have more than one given name.
      * 
      * @param list
      */
@@ -111,7 +113,7 @@ public class Person implements Serializable
     }
 
     /** 
-     * Get the 'familyName' element value. The family name of the Person.
+     * Get the 'familyName' element value. The family name of the *Person*.
      * 
      * @return value
      */
@@ -120,7 +122,7 @@ public class Person implements Serializable
     }
 
     /** 
-     * Set the 'familyName' element value. The family name of the Person.
+     * Set the 'familyName' element value. The family name of the *Person*.
      * 
      * @param familyName
      */
@@ -129,8 +131,8 @@ public class Person implements Serializable
     }
 
     /** 
-     * Get the list of 'email' element items. The email address of the Person.
-    				
+     * Get the list of 'email' element items. The email address of the *Person*, repeatable if
+            they have more than one email address. 
      * 
      * @return list
      */
@@ -139,8 +141,8 @@ public class Person implements Serializable
     }
 
     /** 
-     * Set the list of 'email' element items. The email address of the Person.
-    				
+     * Set the list of 'email' element items. The email address of the *Person*, repeatable if
+            they have more than one email address. 
      * 
      * @param list
      */
@@ -181,9 +183,10 @@ public class Person implements Serializable
     }
 
     /** 
-     * Get the list of 'isMemberOf' element items. A group or role in which the Person is a
-    					member, expressed using the unique Subject identifier for that Group.
-    				
+     * Get the list of 'isMemberOf' element items. A group or role in which the *Person* is a member,
+            expressed using the unique :class:`Types.Subject` identifier for
+            that :class:`Types.Group`, and repeatable if they are a member of
+            more than one group. 
      * 
      * @return list
      */
@@ -192,9 +195,10 @@ public class Person implements Serializable
     }
 
     /** 
-     * Set the list of 'isMemberOf' element items. A group or role in which the Person is a
-    					member, expressed using the unique Subject identifier for that Group.
-    				
+     * Set the list of 'isMemberOf' element items. A group or role in which the *Person* is a member,
+            expressed using the unique :class:`Types.Subject` identifier for
+            that :class:`Types.Group`, and repeatable if they are a member of
+            more than one group. 
      * 
      * @param list
      */
@@ -236,8 +240,9 @@ public class Person implements Serializable
 
     /** 
      * Get the list of 'equivalentIdentity' element items. An alternative but equivalent identity for the
-    					principal that has been used in alternate identity systems.
-    				
+            :term:`principal` that has been used in alternate identity systems,
+            repeatable if more than one equivalent identity applies.
+            
      * 
      * @return list
      */
@@ -247,8 +252,9 @@ public class Person implements Serializable
 
     /** 
      * Set the list of 'equivalentIdentity' element items. An alternative but equivalent identity for the
-    					principal that has been used in alternate identity systems.
-    				
+            :term:`principal` that has been used in alternate identity systems,
+            repeatable if more than one equivalent identity applies.
+            
      * 
      * @param list
      */
@@ -289,16 +295,15 @@ public class Person implements Serializable
     }
 
     /** 
-     * Get the 'verified' element value. True if the name and email address of the Person
-    					have been verified to ensure that the givenName and familyName
-    					represent the real person's legal name, and that the email 
-    					address is correct for that person and is in the control
-    					of the indicated individual. Verification occurs through a
-    					established procedure within DataONE as part of the Identity 
-    					Management system.  A Person can not change their own 'verified'
-    					field, but rather must be verified and changed through this DataONE
-    					established process.
-    				
+     * Get the 'verified' element value. *true* if the name and email address of the
+     *Person* have been :term:`verified` to ensure that the *givenName*
+            and *familyName* represent the real person's legal name, and that
+            the email address is correct for that person and is in the control
+            of the indicated individual. Verification occurs through a
+            established procedure within DataONE as part of the Identity
+            Management system. A Person can not change their own *verified*
+            field, but rather must be verified and changed through this DataONE
+            established process. 
      * 
      * @return value
      */
@@ -307,16 +312,15 @@ public class Person implements Serializable
     }
 
     /** 
-     * Set the 'verified' element value. True if the name and email address of the Person
-    					have been verified to ensure that the givenName and familyName
-    					represent the real person's legal name, and that the email 
-    					address is correct for that person and is in the control
-    					of the indicated individual. Verification occurs through a
-    					established procedure within DataONE as part of the Identity 
-    					Management system.  A Person can not change their own 'verified'
-    					field, but rather must be verified and changed through this DataONE
-    					established process.
-    				
+     * Set the 'verified' element value. *true* if the name and email address of the
+     *Person* have been :term:`verified` to ensure that the *givenName*
+            and *familyName* represent the real person's legal name, and that
+            the email address is correct for that person and is in the control
+            of the indicated individual. Verification occurs through a
+            established procedure within DataONE as part of the Identity
+            Management system. A Person can not change their own *verified*
+            field, but rather must be verified and changed through this DataONE
+            established process. 
      * 
      * @param verified
      */

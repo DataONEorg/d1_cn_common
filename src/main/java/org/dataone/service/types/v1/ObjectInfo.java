@@ -7,8 +7,7 @@ import java.util.Date;
 
 /** 
  * Metadata about an object, representing a subset of the
- metadata found in SystemMetadata.
-
+ metadata found in :class:`Types.SystemMetadata`.
  * 
  * Schema fragment(s) for this class:
  * <pre>

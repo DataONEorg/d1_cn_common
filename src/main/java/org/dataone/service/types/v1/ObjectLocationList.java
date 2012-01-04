@@ -6,9 +6,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /** 
- * An ObjectLocationList is the structure returned
- from the :func:`CNRead.resolve` method of the CN REST interface. It provides a
- list of locations from which the specified object can be retrieved.
+ * An *ObjectLocationList* is the structure returned from
+ the :func:`CNRead.resolve` method of the CN REST interface. It provides
+ a list of locations from which the specified object can be retrieved.
 
  * 
  * Schema fragment(s) for this class:
@@ -28,8 +28,8 @@ public class ObjectLocationList implements Serializable
     private List<ObjectLocation> objectLocationList = new ArrayList<ObjectLocation>();
 
     /** 
-     * Get the 'identifier' element value. The identifier of the object being resolved.
-                      
+     * Get the 'identifier' element value. The :term:`identifier` of the object being
+          resolved.
      * 
      * @return value
      */
@@ -38,8 +38,8 @@ public class ObjectLocationList implements Serializable
     }
 
     /** 
-     * Set the 'identifier' element value. The identifier of the object being resolved.
-                      
+     * Set the 'identifier' element value. The :term:`identifier` of the object being
+          resolved.
      * 
      * @param identifier
      */
@@ -49,7 +49,7 @@ public class ObjectLocationList implements Serializable
 
     /** 
      * Get the list of 'objectLocation' element items. List of nodes from which the object can be
-                          retrieved
+          retrieved
      * 
      * @return list
      */
@@ -59,7 +59,7 @@ public class ObjectLocationList implements Serializable
 
     /** 
      * Set the list of 'objectLocation' element items. List of nodes from which the object can be
-                          retrieved
+          retrieved
      * 
      * @param list
      */

@@ -5,8 +5,8 @@ import java.io.Serializable;
 import java.util.Date;
 
 /** 
- * Store results from the :func:`MNCore.ping` method.
-
+ * Store results from the :func:`MNCore.ping`
+ method.
  * 
  * Schema fragment(s) for this class:
  * <pre>
@@ -23,8 +23,9 @@ public class Ping implements Serializable
     private Date lastSuccess;
 
     /** 
-     * Get the 'success' attribute value. A boolean flag indicating TRUE if the node was reached by the last 
-                      :func:`MNCore.ping` call, otherwise FALSE
+     * Get the 'success' attribute value. A boolean flag indicating *true* if the node was
+          reached by the last :func:`MNCore.ping` or :func:`CNCore.ping` call,
+          otherwise *false*.
      * 
      * @return value
      */
@@ -33,8 +34,9 @@ public class Ping implements Serializable
     }
 
     /** 
-     * Set the 'success' attribute value. A boolean flag indicating TRUE if the node was reached by the last 
-                      :func:`MNCore.ping` call, otherwise FALSE
+     * Set the 'success' attribute value. A boolean flag indicating *true* if the node was
+          reached by the last :func:`MNCore.ping` or :func:`CNCore.ping` call,
+          otherwise *false*.
      * 
      * @param success
      */
@@ -43,9 +45,8 @@ public class Ping implements Serializable
     }
 
     /** 
-     * Get the 'lastSuccess' attribute value. 
-                      The date time value of the last time a successful ping was performed.
-                  
+     * Get the 'lastSuccess' attribute value. The date time value (UTC) of the last time a
+          successful ping was performed.
      * 
      * @return value
      */
@@ -54,9 +55,8 @@ public class Ping implements Serializable
     }
 
     /** 
-     * Set the 'lastSuccess' attribute value. 
-                      The date time value of the last time a successful ping was performed.
-                  
+     * Set the 'lastSuccess' attribute value. The date time value (UTC) of the last time a
+          successful ping was performed.
      * 
      * @param lastSuccess
      */

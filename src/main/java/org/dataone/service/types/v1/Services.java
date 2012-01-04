@@ -6,9 +6,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /** 
- * A list of services that are provided by a node.  Used in Node descriptions so that 
- Nodes can provide metadata about each service they implement and support. 
-
+ * A list of services that are provided by a node. Used
+ in Node descriptions so that Nodes can provide metadata about each
+ service they implement and support. 
  * 
  * Schema fragment(s) for this class:
  * <pre>

@@ -4,9 +4,10 @@ package org.dataone.service.types.v1;
 import java.io.Serializable;
 
 /** 
- * The controlled list of events that are logged, 
- which will include 'CREATE', 'UPDATE', 'DELETE', 'READ', 'REPLICATE',
- 'SYNCHRONIZATION_FAILED' and 'REPLICATION_FAILED' events.
+ * The controlled list of events that are logged, which
+ will include *create*, *update*, *delete*, *read*, *replicate*,
+ *synchronization_failed* and *replication_failed*
+ events.
  * 
  * Schema fragment(s) for this class:
  * <pre>

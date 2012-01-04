@@ -4,7 +4,14 @@ package org.dataone.service.types.v1;
 import java.io.Serializable;
 
 /** 
- * Represents the value of a computed checksum.
+ * Represents the value of a computed :term:`checksum`
+ expressed as a hexadecimal formatted version of the message digest. Note
+ that these hex values should be treated as case-insensitive strings, in
+ that leading zeros must be preserved, and digests can use a mixture of
+ upper and lower case letters to represent the hex values. Comparison
+ algorithms MUST be able to handle any variant of these representations
+ (e.g., by performing a case-insensitive string match on hex digests from
+ the same algorithm).
  * 
  * Schema fragment(s) for this class:
  * <pre>

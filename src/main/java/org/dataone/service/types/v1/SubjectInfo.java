@@ -6,10 +6,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /** 
- * 
- A List of subjects, including both Persons and Groups, that is returned
- from the getSubjectInfo service and listSubjects service.
-
+ * A list of :term:`Subjects`, including both
+ :class:`Types.Person`s and :class:`Types.Group`s, that is returned from
+ the :func:`CNIdentity.getSubjectInfo` service and
+ :func:`CNIdentity.listSubjects` service.
  * 
  * Schema fragment(s) for this class:
  * <pre>

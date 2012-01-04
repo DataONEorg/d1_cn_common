@@ -5,8 +5,9 @@ import java.io.Serializable;
 import java.util.Date;
 
 /** 
- * A single log entry as reported by a Member Node or Coordinating Node through
- the :func:`MNCore.getLogRecords` and :func:`CNCore.getLogRecords` methods.
+ * A single log entry as reported by a Member Node or
+ Coordinating Node through the :func:`MNCore.getLogRecords` and
+ :func:`CNCore.getLogRecords` methods.
  * 
  * Schema fragment(s) for this class:
  * <pre>
@@ -37,7 +38,10 @@ public class LogEntry implements Serializable
     private NodeReference nodeIdentifier;
 
     /** 
-     * Get the 'entryId' element value.
+     * Get the 'entryId' element value. A unique identifier for this log entry. The
+            identifier should be unique for a particular node; This is not drawn
+            from the same value space as other identifiers in DataONE, and so is
+            not subjec to the same restrictions.
      * 
      * @return value
      */
@@ -46,7 +50,10 @@ public class LogEntry implements Serializable
     }
 
     /** 
-     * Set the 'entryId' element value.
+     * Set the 'entryId' element value. A unique identifier for this log entry. The
+            identifier should be unique for a particular node; This is not drawn
+            from the same value space as other identifiers in DataONE, and so is
+            not subjec to the same restrictions.
      * 
      * @param entryId
      */
@@ -55,7 +62,8 @@ public class LogEntry implements Serializable
     }
 
     /** 
-     * Get the 'identifier' element value.
+     * Get the 'identifier' element value. The :term:`identifier` of the object that was the
+            target of the operation which generated this log entry.
      * 
      * @return value
      */
@@ -64,7 +72,8 @@ public class LogEntry implements Serializable
     }
 
     /** 
-     * Set the 'identifier' element value.
+     * Set the 'identifier' element value. The :term:`identifier` of the object that was the
+            target of the operation which generated this log entry.
      * 
      * @param identifier
      */
@@ -73,7 +82,8 @@ public class LogEntry implements Serializable
     }
 
     /** 
-     * Get the 'ipAddress' element value.
+     * Get the 'ipAddress' element value. The IP address, as reported by the service receiving
+            the request, of the request origin.
      * 
      * @return value
      */
@@ -82,7 +92,8 @@ public class LogEntry implements Serializable
     }
 
     /** 
-     * Set the 'ipAddress' element value.
+     * Set the 'ipAddress' element value. The IP address, as reported by the service receiving
+            the request, of the request origin.
      * 
      * @param ipAddress
      */
@@ -91,7 +102,8 @@ public class LogEntry implements Serializable
     }
 
     /** 
-     * Get the 'userAgent' element value.
+     * Get the 'userAgent' element value. The user agent of the client making the request, as
+            reported in the User-Agent HTTP header.
      * 
      * @return value
      */
@@ -100,7 +112,8 @@ public class LogEntry implements Serializable
     }
 
     /** 
-     * Set the 'userAgent' element value.
+     * Set the 'userAgent' element value. The user agent of the client making the request, as
+            reported in the User-Agent HTTP header.
      * 
      * @param userAgent
      */
@@ -109,7 +122,10 @@ public class LogEntry implements Serializable
     }
 
     /** 
-     * Get the 'subject' element value.
+     * Get the 'subject' element value. The :term:`Subject` used for making the request.
+            This may be the DataONE *public* user if the request is not
+            authenticated, otherwise it will be the Subject of the certificate
+            used for authenticating the request.
      * 
      * @return value
      */
@@ -118,7 +134,10 @@ public class LogEntry implements Serializable
     }
 
     /** 
-     * Set the 'subject' element value.
+     * Set the 'subject' element value. The :term:`Subject` used for making the request.
+            This may be the DataONE *public* user if the request is not
+            authenticated, otherwise it will be the Subject of the certificate
+            used for authenticating the request.
      * 
      * @param subject
      */
@@ -127,7 +146,8 @@ public class LogEntry implements Serializable
     }
 
     /** 
-     * Get the 'event' element value.
+     * Get the 'event' element value. An entry from the :class:`Types.Event` enumeration
+            indicating the type of operation that triggered the log message.
      * 
      * @return value
      */
@@ -136,7 +156,8 @@ public class LogEntry implements Serializable
     }
 
     /** 
-     * Set the 'event' element value.
+     * Set the 'event' element value. An entry from the :class:`Types.Event` enumeration
+            indicating the type of operation that triggered the log message.
      * 
      * @param event
      */
@@ -145,7 +166,9 @@ public class LogEntry implements Serializable
     }
 
     /** 
-     * Get the 'dateLogged' element value.
+     * Get the 'dateLogged' element value. A :class:`Types.DateTime` time stamp indicating when
+            the event triggering the log message ocurred. Note that all time
+            stamps in DataONE are in UTC.
      * 
      * @return value
      */
@@ -154,7 +177,9 @@ public class LogEntry implements Serializable
     }
 
     /** 
-     * Set the 'dateLogged' element value.
+     * Set the 'dateLogged' element value. A :class:`Types.DateTime` time stamp indicating when
+            the event triggering the log message ocurred. Note that all time
+            stamps in DataONE are in UTC.
      * 
      * @param dateLogged
      */
@@ -163,7 +188,8 @@ public class LogEntry implements Serializable
     }
 
     /** 
-     * Get the 'nodeIdentifier' element value.
+     * Get the 'nodeIdentifier' element value. The unique identifier for the node where the log
+            message was generated.
      * 
      * @return value
      */
@@ -172,7 +198,8 @@ public class LogEntry implements Serializable
     }
 
     /** 
-     * Set the 'nodeIdentifier' element value.
+     * Set the 'nodeIdentifier' element value. The unique identifier for the node where the log
+            message was generated.
      * 
      * @param nodeIdentifier
      */

@@ -6,7 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /** 
- * Represents a list of checksum algorithms.
+ * Represents a list of :term:`checksum`
+ algorithms.
  * 
  * Schema fragment(s) for this class:
  * <pre>

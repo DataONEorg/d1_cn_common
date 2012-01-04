@@ -10,7 +10,7 @@
 <d1:node xmlns:d1="http://ns.dataone.org/service/types/v1"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         replicate="true" synchronize="true" type="mn" state="up"
-        xsi:schemaLocation="http://ns.dataone.org/service/types/v1 https://repository.dataone.org/software/cicore/branches/D1_SCHEMA_1_0_0/dataoneTypes.xsd">
+        xsi:schemaLocation="http://ns.dataone.org/service/types/v1 https://repository.dataone.org/software/cicore/tags/D1_SCHEMA_1_0_0/dataoneTypes.xsd">
     <identifier>test</identifier>
     <name>localhost-test-1</name>
     <description>Localhost Test Member node</description>

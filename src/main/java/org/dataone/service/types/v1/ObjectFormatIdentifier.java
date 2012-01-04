@@ -4,9 +4,9 @@ package org.dataone.service.types.v1;
 import java.io.Serializable;
 
 /** 
- * A string used to identify an instance of :class:`Types.ObjectFormat` and MUST
- be unique within an instance of :class:`Types.ObjectFormatList`.
-
+ * A string used to identify an instance of
+ :class:`Types.ObjectFormat` and MUST be unique within an instance of
+ :class:`Types.ObjectFormatList`. 
  * 
  * Schema fragment(s) for this class:
  * <pre>

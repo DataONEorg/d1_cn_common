@@ -4,11 +4,11 @@ package org.dataone.service.types.v1;
 import java.io.Serializable;
 
 /** 
- * Describes an optional restriction policy for a
- given method. If this element exists for a service method, its use is restricted,
- and only Subjects listed in the allowed list are allowed to invoke the method named
- in the 'methodName' attribute.
-
+ * Describes an optional restriction policy for a given
+ method. If this element exists for a service method, its use is
+ restricted, and only :term:`Subjects` listed in the list are allowed to
+ invoke the method named in the *methodName*
+ attribute.
  * 
  * Schema fragment(s) for this class:
  * <pre>
@@ -28,9 +28,8 @@ public class ServiceMethodRestriction extends SubjectList implements
     private String methodName;
 
     /** 
-     * Get the 'methodName' attribute value. The formal name of the method in this Service
-    					which is to be restricted.
-              			
+     * Get the 'methodName' attribute value. The formal name of the method in this *Service*
+            which is to be restricted.
      * 
      * @return value
      */
@@ -39,9 +38,8 @@ public class ServiceMethodRestriction extends SubjectList implements
     }
 
     /** 
-     * Set the 'methodName' attribute value. The formal name of the method in this Service
-    					which is to be restricted.
-              			
+     * Set the 'methodName' attribute value. The formal name of the method in this *Service*
+            which is to be restricted.
      * 
      * @param methodName
      */

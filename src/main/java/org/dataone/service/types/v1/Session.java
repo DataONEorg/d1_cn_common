@@ -4,14 +4,15 @@ package org.dataone.service.types.v1;
 import java.io.Serializable;
 
 /** 
- * 
- Information about the authenticated session for a service transaction.  Session data
- is retrieved from the SSL client certificate and populated in the Session object.  The
- subject represents the person or system that authenticated successfully, and the subjectInfo
- contains a listing of alternate identities (both Persons and Groups) that are also valid identities
- for this user.  The subjectInfo should include at least one Person or Group entry that provides
- the attributes of the subject that was authenticated. 
-
+ * Information about the authenticated session for a
+ service transaction. Session data is retrieved from the SSL client
+ certificate and populated in the *Session* object. The subject
+ represents the person or system that authenticated successfully, and the
+ *subjectInfo* contains a listing of alternate identities (both Persons
+ and Groups) that are also valid identities for this user. The
+ *subjectInfo* should include at least one :class:`Types.Person` or
+ :class:`Types.Group` entry that provides the attributes of the subject
+ that was authenticated.
  * 
  * Schema fragment(s) for this class:
  * <pre>

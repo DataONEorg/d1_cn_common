@@ -6,12 +6,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 /** 
- * An ObjectFormatList is the structure returned from 
- the :func:`CNCore.listFormats()` method of the CN REST interface.  It 
- provides a list of named objectformats defined in the DataONE system.  
- Each ObjectFormat returned in the list describes the object format via 
- its  name, and future versions may contain additional structured content 
- from common external typing systems.
+ * An ObjectFormatList is the structure returned from the
+ :func:`CNCore.listFormats()` method of the CN REST interface. It
+ provides a list of named object formats defined in the DataONE system.
+ Each :class:`Types.ObjectFormat` returned in the list describes the
+ object format via its name, and future versions may contain additional
+ structured content from common external typing systems.
 
  * 
  * Schema fragment(s) for this class:

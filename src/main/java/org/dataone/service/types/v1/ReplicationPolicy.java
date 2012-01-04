@@ -6,11 +6,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /** 
- * 
- The replication policy for an object defines if replication should be
- attempted for this object, and if so, how many rpelicas should be maintained.
- It also permits specification of preferred and blocked nodes as potential
- replication targets.
+ * The *ReplicationPolicy* for an object defines if
+ replication should be attempted for this object, and if so, how many
+ replicas should be maintained. It also permits specification of
+ preferred and blocked nodes as potential replication targets.
 
  * 
  * Schema fragment(s) for this class:
@@ -34,12 +33,12 @@ public class ReplicationPolicy implements Serializable
     private Integer numberReplicas;
 
     /** 
-     * Get the list of 'preferredMemberNode' element items. Preferred Nodes are utilized over other nodes as 
-                      replication targets, up to the number of replicas requested.  If preferred
-                      nodes are unavailable, or if insufficient nodes are listed as preferred to meet
-                      the requested number of replicas, then the Coordinating Nodes will pick additional
-                      replica nodes for the content.
-                  
+     * Get the list of 'preferredMemberNode' element items. Preferred Nodes are utilized over other nodes as
+            replication targets, up to the number of replicas requested. If
+            preferred nodes are unavailable, or if insufficient nodes are listed
+            as preferred to meet the requested number of replicas, then the
+            Coordinating Nodes will pick additional replica nodes for the
+            content. 
      * 
      * @return list
      */
@@ -48,12 +47,12 @@ public class ReplicationPolicy implements Serializable
     }
 
     /** 
-     * Set the list of 'preferredMemberNode' element items. Preferred Nodes are utilized over other nodes as 
-                      replication targets, up to the number of replicas requested.  If preferred
-                      nodes are unavailable, or if insufficient nodes are listed as preferred to meet
-                      the requested number of replicas, then the Coordinating Nodes will pick additional
-                      replica nodes for the content.
-                  
+     * Set the list of 'preferredMemberNode' element items. Preferred Nodes are utilized over other nodes as
+            replication targets, up to the number of replicas requested. If
+            preferred nodes are unavailable, or if insufficient nodes are listed
+            as preferred to meet the requested number of replicas, then the
+            Coordinating Nodes will pick additional replica nodes for the
+            content. 
      * 
      * @param list
      */
@@ -94,11 +93,10 @@ public class ReplicationPolicy implements Serializable
     }
 
     /** 
-     * Get the list of 'blockedMemberNode' element items. The object MUST never be replicated to nodes 
-                          listed as blockedMemberNodes. Where there is a conflict between 
-                          a preferredMemberNode and a blockedMemberNode entry, the 
-                          blockedMemberNode entry prevails.
-                      
+     * Get the list of 'blockedMemberNode' element items. The object MUST never be replicated to nodes
+            listed as *blockedMemberNodes*. Where there is a conflict between a
+     *preferredMemberNode* and a *blockedMemberNode* entry, the
+     *blockedMemberNode* entry prevails. 
      * 
      * @return list
      */
@@ -107,11 +105,10 @@ public class ReplicationPolicy implements Serializable
     }
 
     /** 
-     * Set the list of 'blockedMemberNode' element items. The object MUST never be replicated to nodes 
-                          listed as blockedMemberNodes. Where there is a conflict between 
-                          a preferredMemberNode and a blockedMemberNode entry, the 
-                          blockedMemberNode entry prevails.
-                      
+     * Set the list of 'blockedMemberNode' element items. The object MUST never be replicated to nodes
+            listed as *blockedMemberNodes*. Where there is a conflict between a
+     *preferredMemberNode* and a *blockedMemberNode* entry, the
+     *blockedMemberNode* entry prevails. 
      * 
      * @param list
      */
@@ -152,7 +149,8 @@ public class ReplicationPolicy implements Serializable
     }
 
     /** 
-     * Get the 'replicationAllowed' attribute value.
+     * Get the 'replicationAllowed' attribute value. A boolean flag indicating if the object should be
+          replicated (*true*, default) or not (*false*).
      * 
      * @return value
      */
@@ -161,7 +159,8 @@ public class ReplicationPolicy implements Serializable
     }
 
     /** 
-     * Set the 'replicationAllowed' attribute value.
+     * Set the 'replicationAllowed' attribute value. A boolean flag indicating if the object should be
+          replicated (*true*, default) or not (*false*).
      * 
      * @param replicationAllowed
      */
@@ -170,7 +169,8 @@ public class ReplicationPolicy implements Serializable
     }
 
     /** 
-     * Get the 'numberReplicas' attribute value.
+     * Get the 'numberReplicas' attribute value. An integer indicating the number of replicas
+          targeted for this object. Defaults to 3.
      * 
      * @return value
      */
@@ -179,7 +179,8 @@ public class ReplicationPolicy implements Serializable
     }
 
     /** 
-     * Set the 'numberReplicas' attribute value.
+     * Set the 'numberReplicas' attribute value. An integer indicating the number of replicas
+          targeted for this object. Defaults to 3.
      * 
      * @param numberReplicas
      */

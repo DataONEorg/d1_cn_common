@@ -4,12 +4,15 @@ package org.dataone.service.types.v1;
 import java.io.Serializable;
 
 /** 
- * A string value indicating the set of actions that
- can be performed on a resource as specified in an access policy. The
- set of permissions include the ability to read a resource (read), modify a
- resource (write), and to change the set of access control policies
- for a resource (changePermission).
-
+ * A string value indicating the set of actions that can
+ be performed on a resource as specified in an access policy. The set of
+ permissions include the ability to read a resource (*read*), modify a
+ resource (*write*), and to change the set of access control policies for
+ a resource (*changePermission*). Permission levels are cumulative, in
+ that write permission implicitly grants read access, and
+ changePermission permission implicitly grants write access (and
+ therefore read as well). If a subject is granted multiple permissions,
+ the highest level of access applies.
  * 
  * Schema fragment(s) for this class:
  * <pre>

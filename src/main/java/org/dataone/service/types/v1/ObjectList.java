@@ -6,8 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /** 
- * A list of Nodes object locations from which the object can be retrieved. 
-
+ * A list of object locations (nodes) from which the
+ object can be retrieved. 
  * 
  * Schema fragment(s) for this class:
  * <pre>

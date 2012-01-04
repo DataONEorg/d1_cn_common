@@ -6,9 +6,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /** 
- * A set of values that describe a member or coordinating node, its Internet location, and the services it
- supports. Several nodes may exist on a single physical device or hostname.
-
+ * A set of values that describe a member or coordinating
+ node, its Internet location, and the services it supports. Several nodes
+ may exist on a single physical device or hostname. 
  * 
  * Schema fragment(s) for this class:
  * <pre>
@@ -51,10 +51,11 @@ public class Node implements Serializable
     private NodeState state;
 
     /** 
-     * Get the 'identifier' element value. A unique identifier for the node. This may initially be the same as the
-                          baseURL, however this value should not change for future implementations of the same
-                          node, whereas the baseURL may change in the future. 
-                      
+     * Get the 'identifier' element value. A unique identifier for the node. Although this
+            may initially be the same as the *baseURL*, such practice is not
+            recommended however as this value MUST NOT change for future
+            implementations of the same node, whereas the *baseURL* may change
+            in the future. 
      * 
      * @return value
      */
@@ -63,10 +64,11 @@ public class Node implements Serializable
     }
 
     /** 
-     * Set the 'identifier' element value. A unique identifier for the node. This may initially be the same as the
-                          baseURL, however this value should not change for future implementations of the same
-                          node, whereas the baseURL may change in the future. 
-                      
+     * Set the 'identifier' element value. A unique identifier for the node. Although this
+            may initially be the same as the *baseURL*, such practice is not
+            recommended however as this value MUST NOT change for future
+            implementations of the same node, whereas the *baseURL* may change
+            in the future. 
      * 
      * @param identifier
      */
@@ -75,9 +77,9 @@ public class Node implements Serializable
     }
 
     /** 
-     * Get the 'name' element value. A human readable name of the Node. This name can be used as a label in many systems
-                      to represent the node, and thus should be short but understandable.
-                      
+     * Get the 'name' element value. A human readable name of the Node. This name can
+            be used as a label in many systems to represent the node, and thus
+            should be short, but understandable. 
      * 
      * @return value
      */
@@ -86,9 +88,9 @@ public class Node implements Serializable
     }
 
     /** 
-     * Set the 'name' element value. A human readable name of the Node. This name can be used as a label in many systems
-                      to represent the node, and thus should be short but understandable.
-                      
+     * Set the 'name' element value. A human readable name of the Node. This name can
+            be used as a label in many systems to represent the node, and thus
+            should be short, but understandable. 
      * 
      * @param name
      */
@@ -97,10 +99,10 @@ public class Node implements Serializable
     }
 
     /** 
-     * Get the 'description' element value. Description of a Node, explaining the community it serves and other
-                          relevant information about the node, such as what content is maintained by this node
-                          and any other free style notes.
-                      
+     * Get the 'description' element value. Description of a Node, explaining the community it
+            serves and other relevant information about the node, such as what
+            content is maintained by this node and any other free style notes.
+            
      * 
      * @return value
      */
@@ -109,10 +111,10 @@ public class Node implements Serializable
     }
 
     /** 
-     * Set the 'description' element value. Description of a Node, explaining the community it serves and other
-                          relevant information about the node, such as what content is maintained by this node
-                          and any other free style notes.
-                      
+     * Set the 'description' element value. Description of a Node, explaining the community it
+            serves and other relevant information about the node, such as what
+            content is maintained by this node and any other free style notes.
+            
      * 
      * @param description
      */
@@ -122,9 +124,10 @@ public class Node implements Serializable
 
     /** 
      * Get the 'baseURL' element value. The base URL of the node, indicating the
-                       protocol, fully qualified domain name, and path to the implementing
-                       service, excluding the version of the API. e.g.
-                       https://server.example.edu/app/d1/mn
+             protocol, fully qualified domain name, and path to the implementing
+             service, excluding the version of the API. e.g.
+             ``https://server.example.edu/app/d1/mn`` rather than
+             ``https://server.example.edu/app/d1/mn/v1``
      * 
      * @return value
      */
@@ -134,9 +137,10 @@ public class Node implements Serializable
 
     /** 
      * Set the 'baseURL' element value. The base URL of the node, indicating the
-                       protocol, fully qualified domain name, and path to the implementing
-                       service, excluding the version of the API. e.g.
-                       https://server.example.edu/app/d1/mn
+             protocol, fully qualified domain name, and path to the implementing
+             service, excluding the version of the API. e.g.
+             ``https://server.example.edu/app/d1/mn`` rather than
+             ``https://server.example.edu/app/d1/mn/v1``
      * 
      * @param baseURL
      */
@@ -145,9 +149,9 @@ public class Node implements Serializable
     }
 
     /** 
-     * Get the 'services' element value. A list of services that are provided by this node.  
-                      Used in Node descriptions so that Nodes can provide metadata 
-                      about each service they implement and support.
+     * Get the 'services' element value. A list of services that are provided by this node.
+            Used in node descriptions so that nodes can provide metadata about
+            each service they implement and support.
      * 
      * @return value
      */
@@ -156,9 +160,9 @@ public class Node implements Serializable
     }
 
     /** 
-     * Set the 'services' element value. A list of services that are provided by this node.  
-                      Used in Node descriptions so that Nodes can provide metadata 
-                      about each service they implement and support.
+     * Set the 'services' element value. A list of services that are provided by this node.
+            Used in node descriptions so that nodes can provide metadata about
+            each service they implement and support.
      * 
      * @param services
      */
@@ -167,10 +171,11 @@ public class Node implements Serializable
     }
 
     /** 
-     * Get the 'synchronization' element value. Configuration information for the process by which data is harvested from Member Nodes
-                          to Coordinating Nodes, including the schedule on which harvesting should occur, and metadata about
-                          the last synchronization attempts for the node.
-                      
+     * Get the 'synchronization' element value. Configuration information for the process by which
+              content is harvested from Member Nodes to Coordinating Nodes. This
+              includes the schedule on which harvesting should occur, and metadata
+              about the last synchronization attempts for the
+              node.
      * 
      * @return value
      */
@@ -179,10 +184,11 @@ public class Node implements Serializable
     }
 
     /** 
-     * Set the 'synchronization' element value. Configuration information for the process by which data is harvested from Member Nodes
-                          to Coordinating Nodes, including the schedule on which harvesting should occur, and metadata about
-                          the last synchronization attempts for the node.
-                      
+     * Set the 'synchronization' element value. Configuration information for the process by which
+              content is harvested from Member Nodes to Coordinating Nodes. This
+              includes the schedule on which harvesting should occur, and metadata
+              about the last synchronization attempts for the
+              node.
      * 
      * @param synchronization
      */
@@ -191,12 +197,12 @@ public class Node implements Serializable
     }
 
     /** 
-     * Get the 'nodeReplicationPolicy' element value. The overall replication policy for this node that expresses
-                      constraints on object size, total objects, source nodes, and object
-                      format types.  A node may want to restrict replication from only from
-                      certain peer nodes, or may have file size limits, total allocated size limits,
-                      or may want to focus on being a replica target for domain-specific
-                      object formats.
+     * Get the 'nodeReplicationPolicy' element value. The replication policy for this node that expresses
+              constraints on object size, total objects, source nodes, and object
+              format types. A node may want to restrict replication from only
+              certain peer nodes, may have file size limits, total allocated size
+              limits, or may want to focus on being a replica target for
+              domain-specific object formats.
      * 
      * @return value
      */
@@ -205,12 +211,12 @@ public class Node implements Serializable
     }
 
     /** 
-     * Set the 'nodeReplicationPolicy' element value. The overall replication policy for this node that expresses
-                      constraints on object size, total objects, source nodes, and object
-                      format types.  A node may want to restrict replication from only from
-                      certain peer nodes, or may have file size limits, total allocated size limits,
-                      or may want to focus on being a replica target for domain-specific
-                      object formats.
+     * Set the 'nodeReplicationPolicy' element value. The replication policy for this node that expresses
+              constraints on object size, total objects, source nodes, and object
+              format types. A node may want to restrict replication from only
+              certain peer nodes, may have file size limits, total allocated size
+              limits, or may want to focus on being a replica target for
+              domain-specific object formats.
      * 
      * @param nodeReplicationPolicy
      */
@@ -220,8 +226,8 @@ public class Node implements Serializable
     }
 
     /** 
-     * Get the 'ping' element value. Stored results from the :func:`MNCore.ping` method.
-                       
+     * Get the 'ping' element value. Stored results from the :func:`MNCore.ping` and
+             :func:`CNCore.ping` methods.
      * 
      * @return value
      */
@@ -230,8 +236,8 @@ public class Node implements Serializable
     }
 
     /** 
-     * Set the 'ping' element value. Stored results from the :func:`MNCore.ping` method.
-                       
+     * Set the 'ping' element value. Stored results from the :func:`MNCore.ping` and
+             :func:`CNCore.ping` methods.
      * 
      * @param ping
      */
@@ -240,13 +246,15 @@ public class Node implements Serializable
     }
 
     /** 
-     * Get the list of 'subject' element items. The Subject of this node, which can be repeated as needed.  
-                      The Node.subject represents the identifier of the node that would be found in X.509 
-                      certificates that would be used to securely communicate with this node.  Thus, it is
-                      an X.509 Distinguished Name that applies to the host on which the Node is operating. 
-                      When (and if) this hostname changes the new subject for the node would be added to the
-                      Node to track the subject that has been used in various access control rules over time.
-                      
+     * Get the list of 'subject' element items. The :term:`Subject` of this node, which can be
+            repeated as needed. The *Node.subject* represents the identifier of
+            the node that would be found in X.509 certificates used to securely
+            communicate with this node. Thus, it is an :term:`X.509
+            Distinguished Name` that applies to the host on which the Node is
+            operating. When (and if) this hostname changes the new subject for
+            the node would be added to the Node to track the subject that has
+            been used in various access control rules over time.
+            
      * 
      * @return list
      */
@@ -255,13 +263,15 @@ public class Node implements Serializable
     }
 
     /** 
-     * Set the list of 'subject' element items. The Subject of this node, which can be repeated as needed.  
-                      The Node.subject represents the identifier of the node that would be found in X.509 
-                      certificates that would be used to securely communicate with this node.  Thus, it is
-                      an X.509 Distinguished Name that applies to the host on which the Node is operating. 
-                      When (and if) this hostname changes the new subject for the node would be added to the
-                      Node to track the subject that has been used in various access control rules over time.
-                      
+     * Set the list of 'subject' element items. The :term:`Subject` of this node, which can be
+            repeated as needed. The *Node.subject* represents the identifier of
+            the node that would be found in X.509 certificates used to securely
+            communicate with this node. Thus, it is an :term:`X.509
+            Distinguished Name` that applies to the host on which the Node is
+            operating. When (and if) this hostname changes the new subject for
+            the node would be added to the Node to track the subject that has
+            been used in various access control rules over time.
+            
      * 
      * @param list
      */
@@ -302,15 +312,18 @@ public class Node implements Serializable
     }
 
     /** 
-     * Get the list of 'contactSubject' element items. The appropriate person or group to contact regarding the disposition, 
-                      management, and status of this Member Node. The Node.contactSubject is
-                      an X.509 Distinguished Name for a person or group that can be used to look up current 
-                      contact details (e.g., name, email address) for the contact in the DataONE Identity service.
-                      DataONE uses the subjectContact to provide notices of interest to DataONE nodes, including 
-                      information such as policy changes, maintenance updates, node outage notifications, among 
-                      other information useful for administering a node. Each node that is registered with DataONE
-                      must provide at least one subjectContact that has been verified with DataONE.
-                      
+     * Get the list of 'contactSubject' element items. The appropriate person or group to contact
+            regarding the disposition, management, and status of this Member
+            Node. The *Node.contactSubject* is an term:`X.509 Distinguished
+            Name` for a person or group that can be used to look up current
+            contact details (e.g., name, email address) for the contact in the
+            DataONE Identity service. DataONE uses the *contactSubject* to
+            provide notices of interest to DataONE nodes, including information
+            such as policy changes, maintenance updates, node outage
+            notifications, among other information useful for administering a
+            node. Each node that is registered with DataONE must provide at
+            least one *contactSubject* that has been :term:`verified` with
+            DataONE. 
      * 
      * @return list
      */
@@ -319,15 +332,18 @@ public class Node implements Serializable
     }
 
     /** 
-     * Set the list of 'contactSubject' element items. The appropriate person or group to contact regarding the disposition, 
-                      management, and status of this Member Node. The Node.contactSubject is
-                      an X.509 Distinguished Name for a person or group that can be used to look up current 
-                      contact details (e.g., name, email address) for the contact in the DataONE Identity service.
-                      DataONE uses the subjectContact to provide notices of interest to DataONE nodes, including 
-                      information such as policy changes, maintenance updates, node outage notifications, among 
-                      other information useful for administering a node. Each node that is registered with DataONE
-                      must provide at least one subjectContact that has been verified with DataONE.
-                      
+     * Set the list of 'contactSubject' element items. The appropriate person or group to contact
+            regarding the disposition, management, and status of this Member
+            Node. The *Node.contactSubject* is an term:`X.509 Distinguished
+            Name` for a person or group that can be used to look up current
+            contact details (e.g., name, email address) for the contact in the
+            DataONE Identity service. DataONE uses the *contactSubject* to
+            provide notices of interest to DataONE nodes, including information
+            such as policy changes, maintenance updates, node outage
+            notifications, among other information useful for administering a
+            node. Each node that is registered with DataONE must provide at
+            least one *contactSubject* that has been :term:`verified` with
+            DataONE. 
      * 
      * @param list
      */
@@ -368,8 +384,8 @@ public class Node implements Serializable
     }
 
     /** 
-     * Get the 'replicate' attribute value. Set to true if the node is willing to be a replication target,
-                  otherwise false.
+     * Get the 'replicate' attribute value. Set to *true* if the node is willing to be a
+          :term:`replication target`, otherwise *false*.
      * 
      * @return value
      */
@@ -378,8 +394,8 @@ public class Node implements Serializable
     }
 
     /** 
-     * Set the 'replicate' attribute value. Set to true if the node is willing to be a replication target,
-                  otherwise false.
+     * Set the 'replicate' attribute value. Set to *true* if the node is willing to be a
+          :term:`replication target`, otherwise *false*.
      * 
      * @param replicate
      */
@@ -388,8 +404,9 @@ public class Node implements Serializable
     }
 
     /** 
-     * Get the 'synchronize' attribute value. Set to true if the node should be synchronized by a
-                  Coordinating Node, otherwise false.
+     * Get the 'synchronize' attribute value. Set to *true* if the node should be
+          :term:`synchronized` by a Coordinating Node, otherwise
+     *false*.
      * 
      * @return value
      */
@@ -398,8 +415,9 @@ public class Node implements Serializable
     }
 
     /** 
-     * Set the 'synchronize' attribute value. Set to true if the node should be synchronized by a
-                  Coordinating Node, otherwise false.
+     * Set the 'synchronize' attribute value. Set to *true* if the node should be
+          :term:`synchronized` by a Coordinating Node, otherwise
+     *false*.
      * 
      * @param synchronize
      */
@@ -408,8 +426,9 @@ public class Node implements Serializable
     }
 
     /** 
-     * Get the 'type' attribute value. The type of the node (Coordinating, Member, Monitor),
-                  chosen from the NodeType type.
+     * Get the 'type' attribute value. The type of the node (Coordinating, Member,
+          Monitor), chosen from the :class:`Types.NodeType`
+          type.
      * 
      * @return value
      */
@@ -418,8 +437,9 @@ public class Node implements Serializable
     }
 
     /** 
-     * Set the 'type' attribute value. The type of the node (Coordinating, Member, Monitor),
-                  chosen from the NodeType type.
+     * Set the 'type' attribute value. The type of the node (Coordinating, Member,
+          Monitor), chosen from the :class:`Types.NodeType`
+          type.
      * 
      * @param type
      */
@@ -428,8 +448,8 @@ public class Node implements Serializable
     }
 
     /** 
-     * Get the 'state' attribute value. The state of the node (up, down),
-                  chosen from the NodeState type.
+     * Get the 'state' attribute value. The state of the node (*up*, *down*), chosen from
+          the :class:`Types.NodeState` type.
      * 
      * @return value
      */
@@ -438,8 +458,8 @@ public class Node implements Serializable
     }
 
     /** 
-     * Set the 'state' attribute value. The state of the node (up, down),
-                  chosen from the NodeState type.
+     * Set the 'state' attribute value. The state of the node (*up*, *down*), chosen from
+          the :class:`Types.NodeState` type.
      * 
      * @param state
      */

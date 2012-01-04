@@ -4,10 +4,8 @@ package org.dataone.service.types.v1;
 import java.io.Serializable;
 
 /** 
- * 
- The type of this node, which is either "mn" for Member Nodes, and
- and "cn" for Coordinating Nodes.
-
+ * The type of this node, which is either *mn* for
+ Member Nodes, or *cn* for Coordinating Nodes.
  * 
  * Schema fragment(s) for this class:
  * <pre>

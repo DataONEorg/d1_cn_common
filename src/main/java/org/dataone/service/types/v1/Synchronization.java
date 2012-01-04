@@ -5,12 +5,13 @@ import java.io.Serializable;
 import java.util.Date;
 
 /** 
- * Configuration information for the process by which data is harvested from Member Nodes
- to Coordinating Nodes, including the schedule on which harvesting should occur, and metadata about
- the last synchronization attempts for the node.  Clients providing Synchronization
- information only need to provide the schedule. Coordinating Nodes must set values for 
- the lastHarvested and lastCompleteHarvest fields.
-
+ * Configuration information for the process by which
+ metadata is harvested from Member Nodes to Coordinating Nodes, including
+ the schedule on which harvesting should occur, and information about the
+ last :term:`synchronization` attempts for the node. Member Nodes
+ providing *Synchronization* information only need to provide the
+ *schedule*. Coordinating Nodes must set values for the *lastHarvested*
+ and *lastCompleteHarvest* fields.
  * 
  * Schema fragment(s) for this class:
  * <pre>
@@ -31,7 +32,11 @@ public class Synchronization implements Serializable
     private Date lastCompleteHarvest;
 
     /** 
-     * Get the 'schedule' element value.
+     * Get the 'schedule' element value. An entry set by the Member Node indicating the
+            frequency for which synchronization should occur. This setting will
+            be influenced by the frequency with which content is updated on the
+            Member Node and the acceptable latency for detection and subsequent
+            processing of new content.
      * 
      * @return value
      */
@@ -40,7 +45,11 @@ public class Synchronization implements Serializable
     }
 
     /** 
-     * Set the 'schedule' element value.
+     * Set the 'schedule' element value. An entry set by the Member Node indicating the
+            frequency for which synchronization should occur. This setting will
+            be influenced by the frequency with which content is updated on the
+            Member Node and the acceptable latency for detection and subsequent
+            processing of new content.
      * 
      * @param schedule
      */
@@ -49,8 +58,8 @@ public class Synchronization implements Serializable
     }
 
     /** 
-     * Get the 'lastHarvested' element value. The most recent modification date of objects checked during the last harvest of the node.
-                      
+     * Get the 'lastHarvested' element value. The most recent modification date (UTC) of objects
+            checked during the last harvest of the node.
      * 
      * @return value
      */
@@ -59,8 +68,8 @@ public class Synchronization implements Serializable
     }
 
     /** 
-     * Set the 'lastHarvested' element value. The most recent modification date of objects checked during the last harvest of the node.
-                      
+     * Set the 'lastHarvested' element value. The most recent modification date (UTC) of objects
+            checked during the last harvest of the node.
      * 
      * @param lastHarvested
      */
@@ -69,8 +78,9 @@ public class Synchronization implements Serializable
     }
 
     /** 
-     * Get the 'lastCompleteHarvest' element value. The last time all the data from a node was pulled from a member node. 
-                      
+     * Get the 'lastCompleteHarvest' element value. The last time (UTC) all the data from a node was
+            pulled from a member node during a complete synchronization
+            process.
      * 
      * @return value
      */
@@ -79,8 +89,9 @@ public class Synchronization implements Serializable
     }
 
     /** 
-     * Set the 'lastCompleteHarvest' element value. The last time all the data from a node was pulled from a member node. 
-                      
+     * Set the 'lastCompleteHarvest' element value. The last time (UTC) all the data from a node was
+            pulled from a member node during a complete synchronization
+            process.
      * 
      * @param lastCompleteHarvest
      */

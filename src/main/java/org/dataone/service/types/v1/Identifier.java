@@ -5,14 +5,15 @@ import java.io.Serializable;
 import org.dataone.service.types.IdentifierBase;
 
 /** 
- * An :term:`identifier` (:term:`PID`) in the DataONE system. This is
- equivalent to a Unicode string of printable characters, excluding
- whitespace. All representations of identifiers must be encoded in 7-bit
- ASCII or UTF-8.
- Identifiers have a maximum length of 800 characters, and a variety of other properties
- designed for preservation and longevity. Some discussion on this
- is described in the `PID documentation`_ and in decision `ticket 577`_.
- .. _ticket 577: https://redmine.dataone.org/issues/577
+ * An :term:`identifier` (:term:`PID`) in the DataONE
+ system that is used to uniquely and globally identify an object.
+ Identifiers can not be reused once assigned. Identifiers are represented
+ by a Unicode string of printable characters, excluding
+ :term:`whitespace`. All representations of identifiers must be encoded
+ in 7-bit ASCII or UTF-8.Identifiers have a maximum length of 800 characters,
+ and a variety of other properties designed for preservation and
+ longevity. Some discussion on this is described in the `PID
+ documentation`_ and in decision `ticket 577`_. .. _ticket 577: https://redmine.dataone.org/issues/577
  .. _PID documentation: http://mule1.dataone.org/ArchitectureDocs-current/design/PIDs.html
 
  * 

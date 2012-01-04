@@ -6,10 +6,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 /** 
- * Portion of an ObjectLocationList indicating the node from which the object
- can be retrieved. The principal information on each location is found in the nodeIdentifier; all
- other fields are provided for convenience, but could also be looked up from the Node list inforamtion.
-
+ * Portion of an :class:`Types.ObjectLocationList`
+ indicating the node from which the object can be retrieved. The
+ principal information on each location is found in the *nodeIdentifier*,
+ all other fields are provided for convenience, but could also be looked
+ up from the Node list information.
  * 
  * Schema fragment(s) for this class:
  * <pre>
@@ -34,9 +35,9 @@ public class ObjectLocation implements Serializable
     private Integer preference;
 
     /** 
-     * Get the 'nodeIdentifier' element value. Identifier of the node (the same identifier used
-                          in the node registry for identifying the node).
-                      
+     * Get the 'nodeIdentifier' element value. Identifier of the :class:`Types.Node` (the same
+            identifier used in the node registry for identifying the node).
+            
      * 
      * @return value
      */
@@ -45,9 +46,9 @@ public class ObjectLocation implements Serializable
     }
 
     /** 
-     * Set the 'nodeIdentifier' element value. Identifier of the node (the same identifier used
-                          in the node registry for identifying the node).
-                      
+     * Set the 'nodeIdentifier' element value. Identifier of the :class:`Types.Node` (the same
+            identifier used in the node registry for identifying the node).
+            
      * 
      * @param nodeIdentifier
      */
@@ -56,10 +57,12 @@ public class ObjectLocation implements Serializable
     }
 
     /** 
-     * Get the 'baseURL' element value. The current base URL for services implemented on the target node. Used with service version
-                      to construct a URL for service calls to this node. Note that complete information on services
-                      available on a Node is available from the :func:`CNCore.listNodes` service. 
-                      
+     * Get the 'baseURL' element value. The current base URL (the *baseURL* element from
+            the :class:`Types.Node` record) for services implemented on the
+            target node. Used with service version to construct a URL for
+            service calls to this node. Note that complete information on
+            services available on a Node is available from the
+            :func:`CNCore.listNodes` service. 
      * 
      * @return value
      */
@@ -68,10 +71,12 @@ public class ObjectLocation implements Serializable
     }
 
     /** 
-     * Set the 'baseURL' element value. The current base URL for services implemented on the target node. Used with service version
-                      to construct a URL for service calls to this node. Note that complete information on services
-                      available on a Node is available from the :func:`CNCore.listNodes` service. 
-                      
+     * Set the 'baseURL' element value. The current base URL (the *baseURL* element from
+            the :class:`Types.Node` record) for services implemented on the
+            target node. Used with service version to construct a URL for
+            service calls to this node. Note that complete information on
+            services available on a Node is available from the
+            :func:`CNCore.listNodes` service. 
      * 
      * @param baseURL
      */
@@ -80,10 +85,11 @@ public class ObjectLocation implements Serializable
     }
 
     /** 
-     * Get the list of 'version' element items. The version of services implemented on the node.  Used with base url
-                      to construct a URL for service calls to this node. Note that complete information on services
-                      available on a Node is available from the :func:`CNCore.listNodes` service. 
-                      
+     * Get the list of 'version' element items. The version of services implemented on the node.
+            Used with base url to construct a URL for service calls to this
+            node. Note that complete information on services available on a Node
+            is available from the :func:`CNCore.listNodes` service.
+            
      * 
      * @return list
      */
@@ -92,10 +98,11 @@ public class ObjectLocation implements Serializable
     }
 
     /** 
-     * Set the list of 'version' element items. The version of services implemented on the node.  Used with base url
-                      to construct a URL for service calls to this node. Note that complete information on services
-                      available on a Node is available from the :func:`CNCore.listNodes` service. 
-                      
+     * Set the list of 'version' element items. The version of services implemented on the node.
+            Used with base url to construct a URL for service calls to this
+            node. Note that complete information on services available on a Node
+            is available from the :func:`CNCore.listNodes` service.
+            
      * 
      * @param list
      */
@@ -137,10 +144,10 @@ public class ObjectLocation implements Serializable
 
     /** 
      * Get the 'url' element value. The full (absolute) URL that can be used to
-                          retrieve the object using the get() method of the rest interface.
-                      For example, if identifer
-                          was "ABX154", and the node had a base URL of ``http://mn1.dataone.org/mn``
-                          then the value would be ``http://mn1.dataone.org/mn/object/ABX154``
+            retrieve the object using the get() method of the rest
+            interface.For example, if identifier was "ABX154", and the
+            node had a base URL of ``http://mn1.dataone.org/mn`` then the value
+            would be ``http://mn1.dataone.org/mn/object/ABX154``
      * 
      * @return value
      */
@@ -150,10 +157,10 @@ public class ObjectLocation implements Serializable
 
     /** 
      * Set the 'url' element value. The full (absolute) URL that can be used to
-                          retrieve the object using the get() method of the rest interface.
-                      For example, if identifer
-                          was "ABX154", and the node had a base URL of ``http://mn1.dataone.org/mn``
-                          then the value would be ``http://mn1.dataone.org/mn/object/ABX154``
+            retrieve the object using the get() method of the rest
+            interface.For example, if identifier was "ABX154", and the
+            node had a base URL of ``http://mn1.dataone.org/mn`` then the value
+            would be ``http://mn1.dataone.org/mn/object/ABX154``
      * 
      * @param url
      */
@@ -162,9 +169,9 @@ public class ObjectLocation implements Serializable
     }
 
     /** 
-     * Get the 'preference' element value. A weighting parameter that provides a hint to the caller 
-                          for the relative preference for nodes from which the content should be retrieved.
-                      
+     * Get the 'preference' element value. A weighting parameter that provides a hint to the
+            caller for the relative preference for nodes from which the content
+            should be retrieved. 
      * 
      * @return value
      */
@@ -173,9 +180,9 @@ public class ObjectLocation implements Serializable
     }
 
     /** 
-     * Set the 'preference' element value. A weighting parameter that provides a hint to the caller 
-                          for the relative preference for nodes from which the content should be retrieved.
-                      
+     * Set the 'preference' element value. A weighting parameter that provides a hint to the
+            caller for the relative preference for nodes from which the content
+            should be retrieved. 
      * 
      * @param preference
      */

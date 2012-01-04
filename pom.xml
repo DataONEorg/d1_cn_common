@@ -217,7 +217,7 @@
     <repositories>
         <repository>
             <id>sonatype.org</id>
-            <url>http://repository.sonatype.org/content/repositories/central</url>
+            <url>https://repository.sonatype.org/content/shadows/centralm1</url>
             <releases>
                 <enabled>true</enabled>
             </releases>

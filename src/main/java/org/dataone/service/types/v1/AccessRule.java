@@ -6,16 +6,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 /** 
- * A rule that is used to allow a :term:`subject` to perform an action (such as
- read or write) on an object in DataONE. Rules are tuples (subject,
- permission) specifying which permissions are allowed for the subjects(s).
- The resource on which the access control rules are being applied is
- determined by the containing SystemMetadata document, or in the case of
- methods such as :func:`CNAuthorization.setAccessPolicy`, by the *pid* in the
- method parameters.Access control rules are specified by the :term:`Origin Member Node` when the
- object is first registered in DataONE. If no rules are specified at that
- time, then the object is deemed to be private and the only user with access
- to the object (read, write, or otherwise) is the :term:`Rights Holder`.
+ * A rule that is used to allow a :term:`subject` to
+ perform an action (such as read or write) on an object in DataONE. Rules
+ are tuples (subject, permission) specifying which permissions are
+ allowed for the subjects(s). If a subject is granted multiple
+ permissions, the highest level of access applies. The resource on which
+ the access control rules are being applied is determined by the
+ containing :term:`SystemMetadata` document, or in the case of methods
+ such as :func:`CNAuthorization.setAccessPolicy`, by the :term:`pid` in
+ the method parameters.Access control rules are specified by the
+ :term:`Origin Member Node` when the object is first registered in
+ DataONE. If no rules are specified at that time, then the object is
+ deemed to be private and the only user with access to the object (read,
+ write, or otherwise) is the :term:`Rights Holder`.
  * 
  * Schema fragment(s) for this class:
  * <pre>

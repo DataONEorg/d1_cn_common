@@ -6,8 +6,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /** 
- * Represents a collection of LogEntry elements, used to transfer log information between DataONE components. 
-
+ * Represents a collection of :class:`Types.LogEntry`
+ elements, used to transfer log information between DataONE
+ components.
  * 
  * Schema fragment(s) for this class:
  * <pre>

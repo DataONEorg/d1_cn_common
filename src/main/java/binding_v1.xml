@@ -24,6 +24,9 @@
       <value style="element" name="permission" type="org.dataone.service.types.v1.Permission" format="d1:Permission"/>
     </collection>
   </mapping>
+  <mapping class="org.dataone.service.types.v1.AccessRule" name="accessRule" ns="http://ns.dataone.org/service/types/v1">
+    <structure map-as="d1:AccessRule"/>
+  </mapping>
   <mapping abstract="true" type-name="d1:Checksum" class="org.dataone.service.types.v1.Checksum">
     <value style="text" get-method="getValue" set-method="setValue"/>
     <value style="attribute" name="algorithm" get-method="getAlgorithm" set-method="setAlgorithm"/>
@@ -77,6 +80,9 @@
     <value style="element" name="dateLogged" get-method="getDateLogged" set-method="setDateLogged" serializer="org.dataone.service.util.DateTimeMarshaller.serializeDateToUTC" deserializer="org.dataone.service.util.DateTimeMarshaller.deserializeDateToUTC"/>
     <structure map-as="d1:NodeReference" get-method="getNodeIdentifier" set-method="setNodeIdentifier" name="nodeIdentifier"/>
   </mapping>
+  <mapping class="org.dataone.service.types.v1.LogEntry" name="logEntry" ns="http://ns.dataone.org/service/types/v1">
+    <structure map-as="d1:LogEntry"/>
+  </mapping>
   <mapping abstract="true" type-name="d1:Node" class="org.dataone.service.types.v1.Node">
     <structure map-as="d1:NodeReference" get-method="getIdentifier" set-method="setIdentifier" name="identifier"/>
     <value style="element" name="name" get-method="getName" set-method="setName"/>
@@ -109,6 +115,9 @@
     <collection get-method="getAllowedObjectFormatList" set-method="setAllowedObjectFormatList" usage="optional" create-type="java.util.ArrayList">
       <structure map-as="d1:ObjectFormatIdentifier" name="allowedObjectFormat"/>
     </collection>
+  </mapping>
+  <mapping class="org.dataone.service.types.v1.NodeReplicationPolicy" name="nodeReplicationPolicy" ns="http://ns.dataone.org/service/types/v1">
+    <structure map-as="d1:NodeReplicationPolicy"/>
   </mapping>
   <mapping abstract="true" type-name="d1:NodeList" class="org.dataone.service.types.v1.NodeList">
     <collection get-method="getNodeList" set-method="setNodeList" create-type="java.util.ArrayList">
@@ -147,6 +156,9 @@
     <structure map-as="d1:Checksum" get-method="getChecksum" set-method="setChecksum" name="checksum"/>
     <value style="element" name="dateSysMetadataModified" get-method="getDateSysMetadataModified" set-method="setDateSysMetadataModified" serializer="org.dataone.service.util.DateTimeMarshaller.serializeDateToUTC" deserializer="org.dataone.service.util.DateTimeMarshaller.deserializeDateToUTC"/>
     <value style="element" name="size" get-method="getSize" set-method="setSize" serializer="org.dataone.service.util.BigIntegerMarshaller.serializeBigInteger" deserializer="org.dataone.service.util.BigIntegerMarshaller.deserializeBigInteger"/>
+  </mapping>
+  <mapping class="org.dataone.service.types.v1.ObjectInfo" name="objectInfo" ns="http://ns.dataone.org/service/types/v1">
+    <structure map-as="d1:ObjectInfo"/>
   </mapping>
   <mapping abstract="true" type-name="d1:ObjectList" class="org.dataone.service.types.v1.ObjectList">
     <structure map-as="d1:Slice"/>
@@ -228,14 +240,23 @@
     <value style="attribute" name="version" get-method="getVersion" set-method="setVersion"/>
     <value style="attribute" name="available" get-method="getAvailable" set-method="setAvailable" usage="optional"/>
   </mapping>
+  <mapping class="org.dataone.service.types.v1.Service" name="service" ns="http://ns.dataone.org/service/types/v1">
+    <structure map-as="d1:Service"/>
+  </mapping>
   <mapping abstract="true" type-name="d1:ServiceMethodRestriction" class="org.dataone.service.types.v1.ServiceMethodRestriction">
     <structure map-as="d1:SubjectList"/>
     <value style="attribute" name="methodName" get-method="getMethodName" set-method="setMethodName"/>
+  </mapping>
+  <mapping class="org.dataone.service.types.v1.ServiceMethodRestriction" name="serviceMethodRestriction" ns="http://ns.dataone.org/service/types/v1">
+    <structure map-as="d1:ServiceMethodRestriction"/>
   </mapping>
   <mapping abstract="true" type-name="d1:Services" class="org.dataone.service.types.v1.Services">
     <collection get-method="getServiceList" set-method="setServiceList" create-type="java.util.ArrayList">
       <structure map-as="d1:Service" name="service"/>
     </collection>
+  </mapping>
+  <mapping class="org.dataone.service.types.v1.Services" name="services" ns="http://ns.dataone.org/service/types/v1">
+    <structure map-as="d1:Services"/>
   </mapping>
   <mapping abstract="true" type-name="d1:Session" class="org.dataone.service.types.v1.Session">
     <structure map-as="d1:Subject" get-method="getSubject" set-method="setSubject" name="subject"/>
@@ -253,6 +274,9 @@
     <value style="attribute" name="wday" get-method="getWday" set-method="setWday"/>
     <value style="attribute" name="year" get-method="getYear" set-method="setYear"/>
   </mapping>
+  <mapping class="org.dataone.service.types.v1.Schedule" name="schedule" ns="http://ns.dataone.org/service/types/v1">
+    <structure map-as="d1:Schedule"/>
+  </mapping>
   <mapping abstract="true" type-name="d1:Slice" class="org.dataone.service.types.v1.Slice">
     <value style="attribute" name="count" get-method="getCount" set-method="setCount"/>
     <value style="attribute" name="start" get-method="getStart" set-method="setStart"/>
@@ -262,6 +286,9 @@
     <structure map-as="d1:Schedule" get-method="getSchedule" set-method="setSchedule" name="schedule"/>
     <value style="element" name="lastHarvested" get-method="getLastHarvested" set-method="setLastHarvested" usage="optional" serializer="org.dataone.service.util.DateTimeMarshaller.serializeDateToUTC" deserializer="org.dataone.service.util.DateTimeMarshaller.deserializeDateToUTC"/>
     <value style="element" name="lastCompleteHarvest" get-method="getLastCompleteHarvest" set-method="setLastCompleteHarvest" usage="optional" serializer="org.dataone.service.util.DateTimeMarshaller.serializeDateToUTC" deserializer="org.dataone.service.util.DateTimeMarshaller.deserializeDateToUTC"/>
+  </mapping>
+  <mapping class="org.dataone.service.types.v1.Synchronization" name="synchronization" ns="http://ns.dataone.org/service/types/v1">
+    <structure map-as="d1:Synchronization"/>
   </mapping>
   <mapping abstract="true" type-name="d1:Subject" class="org.dataone.service.types.v1.Subject">
     <value style="text" get-method="getValue" set-method="setValue"/>

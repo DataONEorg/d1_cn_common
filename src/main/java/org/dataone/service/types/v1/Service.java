@@ -6,14 +6,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 /** 
- * The available Dataone Service APIs that are exposed on a Node.
- Name and version of a DataONE software stack component are
- equivalent to the statusresponselist.xsd name and version. 
- Without a restriction, all service methods are available to all callers.
- Restrictions may be placed on individual methods of the service to limit 
- the service to a certain set of Subjects. Enforcement of these service restrictions
- is incumbent on the Node service implementation.
-
+ * The available Dataone Service APIs that are exposed on
+ a Node. Without a restriction, all service methods are available to all
+ callers. Restrictions may be placed on individual methods of the service
+ to limit the service to a certain set of :term:`Subjects`. Enforcement
+ of these service restrictions is incumbent on the Node service
+ implementation.
  * 
  * Schema fragment(s) for this class:
  * <pre>
@@ -36,7 +34,8 @@ public class Service implements Serializable
     private Boolean available;
 
     /** 
-     * Get the list of 'restriction' element items.
+     * Get the list of 'restriction' element items. A list of method names and :term:`Subjects` with
+            permission to invoke those methods.
      * 
      * @return list
      */
@@ -45,7 +44,8 @@ public class Service implements Serializable
     }
 
     /** 
-     * Set the list of 'restriction' element items.
+     * Set the list of 'restriction' element items. A list of method names and :term:`Subjects` with
+            permission to invoke those methods.
      * 
      * @param list
      */
@@ -86,7 +86,11 @@ public class Service implements Serializable
     }
 
     /** 
-     * Get the 'name' attribute value.
+     * Get the 'name' attribute value. The name of the service. The valid list of entries
+          for Member Nodes includes: *MNCore*, *MNRead*, *MNAuthorization*,
+     *MNStorage*, and *MNReplication*. The valid list of entries for
+          Coordinating Nodes includes: *CNCore*, *CNRead*, *CNAuthorization*,
+     *CNIdentity*, *CNReplication*, and *CNRegister*.
      * 
      * @return value
      */
@@ -95,7 +99,11 @@ public class Service implements Serializable
     }
 
     /** 
-     * Set the 'name' attribute value.
+     * Set the 'name' attribute value. The name of the service. The valid list of entries
+          for Member Nodes includes: *MNCore*, *MNRead*, *MNAuthorization*,
+     *MNStorage*, and *MNReplication*. The valid list of entries for
+          Coordinating Nodes includes: *CNCore*, *CNRead*, *CNAuthorization*,
+     *CNIdentity*, *CNReplication*, and *CNRegister*.
      * 
      * @param name
      */
@@ -104,7 +112,10 @@ public class Service implements Serializable
     }
 
     /** 
-     * Get the 'version' attribute value.
+     * Get the 'version' attribute value. Version of the service supported by the node.
+          Version is expressed in whole steps, no minor version identifiers are
+          used. For example, the version 1.0.0 API would be indicated by the
+          value "v1"
      * 
      * @return value
      */
@@ -113,7 +124,10 @@ public class Service implements Serializable
     }
 
     /** 
-     * Set the 'version' attribute value.
+     * Set the 'version' attribute value. Version of the service supported by the node.
+          Version is expressed in whole steps, no minor version identifiers are
+          used. For example, the version 1.0.0 API would be indicated by the
+          value "v1"
      * 
      * @param version
      */
@@ -122,7 +136,9 @@ public class Service implements Serializable
     }
 
     /** 
-     * Get the 'available' attribute value.
+     * Get the 'available' attribute value. A boolean flag indicating if the service is
+          available (*true*, default) or otherwise (*false*).
+          
      * 
      * @return value
      */
@@ -131,7 +147,9 @@ public class Service implements Serializable
     }
 
     /** 
-     * Set the 'available' attribute value.
+     * Set the 'available' attribute value. A boolean flag indicating if the service is
+          available (*true*, default) or otherwise (*false*).
+          
      * 
      * @param available
      */

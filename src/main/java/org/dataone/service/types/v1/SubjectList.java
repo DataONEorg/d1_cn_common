@@ -6,7 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /** 
- *  A list of Subjects used for identity/group management
+ *  A list of :term:`Subjects` used for identity/group
+ management
  * 
  * Schema fragment(s) for this class:
  * <pre>

@@ -5,9 +5,8 @@ import java.io.Serializable;
 import java.util.Date;
 
 /** 
- * 
- Replica information that describes the existence of a replica, and its status.
-
+ * Replica information that describes the existence of a
+ replica, and its status.
  * 
  * Schema fragment(s) for this class:
  * <pre>
@@ -28,11 +27,10 @@ public class Replica implements Serializable
     private Date replicaVerified;
 
     /** 
-     * Get the 'replicaMemberNode' element value. 
-    				A reference to the Member Node that houses this replica, regardless of
-      whether it has arrived at the Member Node or not. See ReplicationStatus
-      to determine if the replica is completely transferred.
-    				
+     * Get the 'replicaMemberNode' element value. A reference to the Member Node that houses this
+            replica, regardless of whether it has arrived at the Member Node or
+            not. See *replicationStatus* to determine if the replica is
+            completely transferred. 
      * 
      * @return value
      */
@@ -41,11 +39,10 @@ public class Replica implements Serializable
     }
 
     /** 
-     * Set the 'replicaMemberNode' element value. 
-    				A reference to the Member Node that houses this replica, regardless of
-      whether it has arrived at the Member Node or not. See ReplicationStatus
-      to determine if the replica is completely transferred.
-    				
+     * Set the 'replicaMemberNode' element value. A reference to the Member Node that houses this
+            replica, regardless of whether it has arrived at the Member Node or
+            not. See *replicationStatus* to determine if the replica is
+            completely transferred. 
      * 
      * @param replicaMemberNode
      */
@@ -54,11 +51,9 @@ public class Replica implements Serializable
     }
 
     /** 
-     * Get the 'replicationStatus' element value. 
-    				The current status of this replica, describing where the replica is
-    				in the replication process.  Only 'completed' replicas shoud be
-    				considered as available.
-    				
+     * Get the 'replicationStatus' element value.  The current status of this replica, indicating
+            the stage of replication process for the object. Only *completed*
+            replicas should be considered as available. 
      * 
      * @return value
      */
@@ -67,11 +62,9 @@ public class Replica implements Serializable
     }
 
     /** 
-     * Set the 'replicationStatus' element value. 
-    				The current status of this replica, describing where the replica is
-    				in the replication process.  Only 'completed' replicas shoud be
-    				considered as available.
-    				
+     * Set the 'replicationStatus' element value.  The current status of this replica, indicating
+            the stage of replication process for the object. Only *completed*
+            replicas should be considered as available. 
      * 
      * @param replicationStatus
      */
@@ -80,12 +73,11 @@ public class Replica implements Serializable
     }
 
     /** 
-     * Get the 'replicaVerified' element value. 
-    				The last date and time on which the integrity of a replica was
-    				verified by the coordinating node.  Verification occurs by checking
-    				that the checksum of the stored object matches the cehcksum recorded for
-    				the object in the system metadata.
-    				
+     * Get the 'replicaVerified' element value.  The last date and time on which the integrity of
+            a replica was verified by the coordinating node. Verification occurs
+            by checking that the checksum of the stored object matches the
+            checksum recorded for the object in the system
+            metadata.
      * 
      * @return value
      */
@@ -94,12 +86,11 @@ public class Replica implements Serializable
     }
 
     /** 
-     * Set the 'replicaVerified' element value. 
-    				The last date and time on which the integrity of a replica was
-    				verified by the coordinating node.  Verification occurs by checking
-    				that the checksum of the stored object matches the cehcksum recorded for
-    				the object in the system metadata.
-    				
+     * Set the 'replicaVerified' element value.  The last date and time on which the integrity of
+            a replica was verified by the coordinating node. Verification occurs
+            by checking that the checksum of the stored object matches the
+            checksum recorded for the object in the system
+            metadata.
      * 
      * @param replicaVerified
      */
