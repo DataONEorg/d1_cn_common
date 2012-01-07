@@ -35,7 +35,6 @@ import org.dataone.service.exceptions.NotImplemented;
 import org.dataone.service.exceptions.ServiceFailure;
 import org.dataone.service.exceptions.SynchronizationFailed;
 import org.dataone.service.exceptions.UnsupportedMetadataType;
-import org.dataone.service.exceptions.UnsupportedQueryType;
 import org.dataone.service.exceptions.UnsupportedType;
 import org.dataone.service.exceptions.VersionMismatch;
 import org.jibx.runtime.JiBXException;
@@ -58,7 +57,7 @@ public class ExceptionHandler {
             throws AuthenticationTimeout, IdentifierNotUnique, InsufficientResources,
             InvalidCredentials, InvalidRequest, InvalidSystemMetadata, InvalidToken,
             NotAuthorized, NotFound, NotImplemented, ServiceFailure,
-            UnsupportedMetadataType, UnsupportedQueryType, UnsupportedType, VersionMismatch,
+            UnsupportedMetadataType, UnsupportedType, VersionMismatch,
             IllegalStateException, IOException, HttpException, SynchronizationFailed {
         int code = res.getStatusLine().getStatusCode();
         log.info("response httpCode: " + code);
@@ -107,7 +106,7 @@ public class ExceptionHandler {
             throws AuthenticationTimeout, IdentifierNotUnique, InsufficientResources,
             InvalidCredentials, InvalidRequest, InvalidSystemMetadata, InvalidToken,
             NotAuthorized, NotFound, NotImplemented, ServiceFailure,
-            UnsupportedMetadataType, UnsupportedQueryType, UnsupportedType, VersionMismatch,
+            UnsupportedMetadataType, UnsupportedType, VersionMismatch,
             IllegalStateException, IOException, HttpException, SynchronizationFailed {
 
         int code = response.getStatusLine().getStatusCode();
@@ -129,7 +128,7 @@ public class ExceptionHandler {
     throws AuthenticationTimeout, IdentifierNotUnique, InsufficientResources,
     InvalidCredentials, InvalidRequest, InvalidSystemMetadata, InvalidToken,
     NotAuthorized, NotFound, NotImplemented, ServiceFailure,
-    UnsupportedMetadataType, UnsupportedQueryType, UnsupportedType, VersionMismatch,
+    UnsupportedMetadataType, UnsupportedType, VersionMismatch,
     IllegalStateException, IOException, HttpException, SynchronizationFailed {
         
         
@@ -172,8 +171,6 @@ public class ExceptionHandler {
                 throw new ServiceFailure(detailCode, description, pid, null);
             } else if (d1ExceptionName.equals("UnsupportedMetadataType")) {
                 throw new UnsupportedMetadataType(detailCode, description, pid, null);
-            } else if (d1ExceptionName.equals("UnsupportedQueryType")) {
-                throw new UnsupportedQueryType(detailCode, description, pid, null);
             } else if (d1ExceptionName.equals("UnsupportedType")) {
                 throw new UnsupportedType(detailCode, description, pid, null);
             } else if (d1ExceptionName.equals("SynchronizationFailed")) {
@@ -193,7 +190,7 @@ public class ExceptionHandler {
             throws AuthenticationTimeout, IdentifierNotUnique, InsufficientResources,
             InvalidCredentials, InvalidRequest, InvalidSystemMetadata, InvalidToken,
             NotAuthorized, NotFound, NotImplemented, ServiceFailure,
-            UnsupportedMetadataType, UnsupportedQueryType, UnsupportedType, VersionMismatch,
+            UnsupportedMetadataType, UnsupportedType, VersionMismatch,
             IllegalStateException, IOException, SynchronizationFailed {
         if (isException) {
             deserializeAndThrowException(is, contentType, null, null);
@@ -227,7 +224,7 @@ public class ExceptionHandler {
             NotFound, IdentifierNotUnique, UnsupportedType,
             InsufficientResources, InvalidSystemMetadata, NotImplemented,
             InvalidCredentials, InvalidRequest, IOException, AuthenticationTimeout,
-            UnsupportedMetadataType, UnsupportedQueryType, VersionMismatch,
+            UnsupportedMetadataType, VersionMismatch,
             HttpException, SynchronizationFailed {
 
         // use content-type to determine what format the response is
@@ -284,7 +281,7 @@ public class ExceptionHandler {
     AuthenticationTimeout, IdentifierNotUnique, InsufficientResources,
     InvalidCredentials, InvalidRequest, InvalidSystemMetadata,
     InvalidToken, NotAuthorized, NotFound, NotImplemented, ServiceFailure,
-    UnsupportedMetadataType, UnsupportedQueryType, UnsupportedType, 
+    UnsupportedMetadataType, UnsupportedType, 
     SynchronizationFailed, VersionMismatch
     {
         String defaultMessage = "";
@@ -440,7 +437,7 @@ public class ExceptionHandler {
             AuthenticationTimeout, IdentifierNotUnique, InsufficientResources,
             InvalidCredentials, InvalidRequest, InvalidSystemMetadata,
             InvalidToken, NotAuthorized, NotFound, NotImplemented, ServiceFailure,
-            UnsupportedMetadataType, UnsupportedQueryType, UnsupportedType, 
+            UnsupportedMetadataType, UnsupportedType, 
             SynchronizationFailed, VersionMismatch 
     {
         BaseException be = deserializeXml(errorStream, defaultMessage);
@@ -468,8 +465,6 @@ public class ExceptionHandler {
         	throw (ServiceFailure) be;
         } else if (be instanceof UnsupportedMetadataType) {
         	throw (UnsupportedMetadataType) be;
-        } else if (be instanceof UnsupportedQueryType) {
-        	throw (UnsupportedQueryType) be;
         } else if (be instanceof UnsupportedType) {
         	throw (UnsupportedType) be;
         } else if (be instanceof SynchronizationFailed) {
@@ -500,7 +495,6 @@ public class ExceptionHandler {
      *                                          IOException
      *                                          AuthenticationTimeout
      *                                          UnsupportedMetadataType
-     *                                          UnsupportedQueryType
      *                                          VersionMismatch
      *                                          HttpException
      * @throws ParserConfigurationException
@@ -565,8 +559,6 @@ public class ExceptionHandler {
                 return new ServiceFailure(detailCode, description, pid, nodeId, trace_information);
             } else if (name.equals("UnsupportedMetadataType")) {
                 return new UnsupportedMetadataType(detailCode, description, pid, nodeId, trace_information);
-            } else if (name.equals("UnsupportedQueryType")) {
-                return new UnsupportedQueryType(detailCode, description, pid, nodeId, trace_information);
             } else if (name.equals("UnsupportedType")) {
                 return new UnsupportedType(detailCode, description, pid, nodeId, trace_information);
             } else if (name.equals("SynchronizationFailed")) {
