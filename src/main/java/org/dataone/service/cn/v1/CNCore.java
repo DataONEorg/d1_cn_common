@@ -33,6 +33,7 @@ import org.dataone.service.exceptions.NotFound;
 import org.dataone.service.exceptions.NotImplemented;
 import org.dataone.service.exceptions.ServiceFailure;
 import org.dataone.service.exceptions.UnsupportedType;
+import org.dataone.service.exceptions.VersionMismatch;
 
 import org.dataone.service.types.v1.ChecksumAlgorithmList;
 import org.dataone.service.types.v1.Identifier;
@@ -130,5 +131,13 @@ public interface CNCore
      public Identifier registerSystemMetadata(Session session, Identifier pid,
         SystemMetadata sysmeta) throws NotImplemented, NotAuthorized,
         ServiceFailure, InvalidRequest, InvalidSystemMetadata;
+     
+     /**
+      * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CNCore.setObsoletedBy
+      */
+     public boolean setObsoletedBy(Session session, Identifier pid,
+   			Identifier obsoletedByPid, long serialVersion)
+   			throws NotImplemented, NotFound, NotAuthorized, ServiceFailure,
+   			InvalidRequest, InvalidToken, VersionMismatch;
 
 }
