@@ -109,6 +109,8 @@ public class Constants {
     public static final String RESOURCE_REPLICATION_AUTHORIZED = "replicaAuthorizations";
     /** REPLICATION API endpoint that represents replication status updates */
     public static final String RESOURCE_REPLICATION_NOTIFY = "replicaNotifications";
+    /** REPLICATION API endpoint that represents replica deletes */
+    public static final String RESOURCE_REPLICATION_DELETE_REPLICA = "deleteReplicationMetadata";
     /** REPLICATION API endpoint that represents replication initiation **/
     public static final String RESOURCE_REPLICATE = "replicate";
     /** REPLICATION API endpoint representing the replicas collection **/
