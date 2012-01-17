@@ -53,7 +53,7 @@ public interface CNReplication {
 	public boolean setReplicationStatus(Session session, Identifier pid, 
 		NodeReference nodeRef, ReplicationStatus status, BaseException failure) 
 		throws ServiceFailure, NotImplemented, InvalidToken, NotAuthorized, 
-		InvalidRequest, NotFound, VersionMismatch;
+		InvalidRequest, NotFound;
 
     /**
      * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CNReplication.setReplicationPolicy

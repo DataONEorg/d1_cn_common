@@ -59,13 +59,31 @@ public class ExceptionHandler {
             NotAuthorized, NotFound, NotImplemented, ServiceFailure,
             UnsupportedMetadataType, UnsupportedType, VersionMismatch,
             IllegalStateException, IOException, HttpException, SynchronizationFailed {
-        int code = res.getStatusLine().getStatusCode();
+    	
+    	return filterErrors(res,false);
+    }
+    
+    public static InputStream filterErrors(HttpResponse res, boolean allowRedirect)
+            throws AuthenticationTimeout, IdentifierNotUnique, InsufficientResources,
+            InvalidCredentials, InvalidRequest, InvalidSystemMetadata, InvalidToken,
+            NotAuthorized, NotFound, NotImplemented, ServiceFailure,
+            UnsupportedMetadataType, UnsupportedType, VersionMismatch,
+            IllegalStateException, IOException, HttpException, SynchronizationFailed {
+
+    	int code = res.getStatusLine().getStatusCode();
         log.info("response httpCode: " + code);
         // cannot read from an input stream twice.
 //        if (log.isDebugEnabled()) {
 //        	log.debug(IOUtils.toString(res.getEntity().getContent()));
 //        }
-        if (code != HttpURLConnection.HTTP_OK) {
+        
+        if (code == HttpURLConnection.HTTP_OK) {
+        	// fall through
+        } 
+        else if (allowRedirect && code == HttpURLConnection.HTTP_SEE_OTHER) {
+        	// fall through
+        }
+        else {
             // error, so throw exception
             deserializeAndThrowException(res);
         }
