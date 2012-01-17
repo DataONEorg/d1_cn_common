@@ -47,9 +47,15 @@ import org.dataone.service.util.Constants;
 
 /**
  * @author berkley
+ * 
+ * This class is being deprecated in favor of SimpleMultipartEntity 
+ * and org.dataone.client.RestClient. Use of RestClient offers configuration
+ * of security and connection management. 
+ * 
  * A class to handle writing MIME multipart messages
  *  see http://hc.apache.org/httpcomponents-client-dev/httpclient/apidocs/org/apache/http/client/methods/package-tree.html
  */
+@Deprecated
 public class MultipartRequestHandler
 {
 	private static Logger logger = Logger.getLogger(MultipartRequestHandler.class);

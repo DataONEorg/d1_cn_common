@@ -48,7 +48,7 @@ public class SimpleMultipartEntity extends MultipartEntity
 {
 	private static Log log = LogFactory.getLog(SimpleMultipartEntity.class);
 	
-	private Vector<String> tempfileNames = new Vector<String>();
+	private Vector<File> tempFiles = new Vector<File>();
     /**
      * add a file part to the MMP
      * @param name - the name assigned to the file part
@@ -182,7 +182,7 @@ public class SimpleMultipartEntity extends MultipartEntity
     }
     
     protected String getLastTempfile() {
-    	return tempfileNames.lastElement();
+    	return tempFiles.lastElement().getAbsolutePath();
     }
              
     
@@ -194,8 +194,7 @@ public class SimpleMultipartEntity extends MultipartEntity
 		//File outputFile = new File(tmpDir, "mmp.output." + Thread.currentThread().getId() + "." + d.getTime());
 		File outputFile = File.createTempFile("mmp.output.", null, tmpDir);
 
-		String afp = outputFile.getAbsolutePath();
-		tempfileNames.add(afp);
+		tempFiles.add(outputFile);
 		log.info("temp outputFile is: " + outputFile.getAbsolutePath());
 		return outputFile;
     }
@@ -210,12 +209,13 @@ public class SimpleMultipartEntity extends MultipartEntity
      *        [true]  otherwise
      */
     public boolean cleanupTempFiles() {
+
     	boolean areAllFilesGone = true;
-    	for (String f: tempfileNames) {
-    		File fileToDelete = new File(f);
-    		if (fileToDelete.exists()) {
-    			if (!fileToDelete.delete()) {
+    	for (File file: tempFiles) {
+    		if (file.exists()) {
+    			if (!file.delete()) {
     				areAllFilesGone = false;
+    				log.warn("failed to delete temp file: " + file.getAbsolutePath());
     			}
     		}
     	}
