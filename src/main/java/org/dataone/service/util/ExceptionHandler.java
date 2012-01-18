@@ -21,6 +21,7 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.http.Header;
 import org.apache.http.HttpException;
 import org.apache.http.HttpResponse;
+import org.apache.http.util.EntityUtils;
 import org.dataone.service.exceptions.AuthenticationTimeout;
 import org.dataone.service.exceptions.BaseException;
 import org.dataone.service.exceptions.IdentifierNotUnique;
@@ -97,6 +98,11 @@ public class ExceptionHandler {
      * Exception state is triggered if http status code is not 200 (OK)
      *  or 204 (NO_CONTENT). Where possible, assembles a dataone exception
      *  from header entries corresponding to the standard base exception parts.
+     *  
+     *  Because this method functions (like filterErrors) as an adapter method, 
+     *  returning just the headers from the response, it consumes the entity
+     *  contained in the response that is passed in, for proper release of
+     *  connection resources.
      * 
      * @param response - the http response
      * @return - Header[] from the http response
@@ -129,7 +135,7 @@ public class ExceptionHandler {
 
         int code = response.getStatusLine().getStatusCode();
         log.info("response httpCode: " + code);
-       
+        EntityUtils.consume(response.getEntity());
         if (code != HttpURLConnection.HTTP_OK) {
         	// error, so throw exception
         	if (httpMethod == Constants.HEAD) {
@@ -138,6 +144,7 @@ public class ExceptionHandler {
                 deserializeAndThrowException(response);
         	}
         }
+        
         return response.getAllHeaders();
     }
     
