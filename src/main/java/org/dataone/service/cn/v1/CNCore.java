@@ -44,7 +44,7 @@ import org.dataone.service.types.v1.ObjectFormatList;
 import org.dataone.service.types.v1.Session;
 import org.dataone.service.types.v1.Event;
 import org.dataone.service.types.v1.NodeList;
-import org.dataone.service.types.v1.SubjectInfo;
+import org.dataone.service.types.v1.Subject;
 import org.dataone.service.types.v1.SystemMetadata;
 
 /**
@@ -113,7 +113,7 @@ public interface CNCore
     /**
      * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CNCore.hasReservation
      */
-    public boolean hasReservation(Session session, SubjectInfo subjectInfo, Identifier pid)
+    public boolean hasReservation(Session session, Subject subject, Identifier pid)
     	throws InvalidToken, ServiceFailure,  NotFound,
             NotAuthorized, NotImplemented, InvalidRequest, IdentifierNotUnique;
 
