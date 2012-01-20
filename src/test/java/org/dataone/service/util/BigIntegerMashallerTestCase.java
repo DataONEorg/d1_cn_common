@@ -6,8 +6,6 @@
 package org.dataone.service.util;
 
 import java.math.BigInteger;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.jibx.runtime.JiBXException;
 import org.junit.Test;
 import static org.junit.Assert.*;
