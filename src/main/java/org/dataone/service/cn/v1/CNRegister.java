@@ -53,5 +53,5 @@ public interface CNRegister {
      */
     public NodeReference register(Session session, Node node)
         throws NotImplemented, NotAuthorized, ServiceFailure, InvalidRequest, 
-        IdentifierNotUnique;
+        InvalidToken, IdentifierNotUnique;
 }

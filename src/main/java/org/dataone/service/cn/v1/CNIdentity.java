@@ -50,14 +50,14 @@ public interface CNIdentity {
      */
     public Subject registerAccount(Session session, Person person) 
         throws ServiceFailure, NotAuthorized, IdentifierNotUnique, InvalidCredentials, 
-        NotImplemented, InvalidRequest;
+        NotImplemented, InvalidRequest, InvalidToken;
     
     /**
      * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CNIdentity.updateAccount
      */
     public Subject updateAccount(Session session, Person person) 
     	throws ServiceFailure, NotAuthorized, InvalidCredentials, 
-        NotImplemented, InvalidRequest, NotFound;
+        NotImplemented, InvalidRequest, InvalidToken, NotFound;
     
     /**
      * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CNIdentity.verifyAccount

@@ -50,7 +50,7 @@ public interface MNReplication {
      */
     public boolean replicate(Session session, SystemMetadata sysmeta, NodeReference sourceNode) 
     throws NotImplemented, ServiceFailure, NotAuthorized, InvalidRequest, 
-    	InsufficientResources, UnsupportedType;
+    	InvalidToken, InsufficientResources, UnsupportedType;
 
     
     /**
