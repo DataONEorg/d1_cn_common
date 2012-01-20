@@ -12,6 +12,15 @@ import java.io.File;
 import java.io.FileNotFoundException;
 /**
  *
+ * Read in a hazelcast configuration file and return settings such that
+ * a client will only connect to the localhost
+ *
+ * Default is to read the storage cluster from /etc/dataone/storage/hazelcast.xml
+ * But it can be overridden for testing purposes.
+ *
+ * TODO: may need to be written to support spring configurations as well as the standard
+ * configuration so as to allow client configuration of processing and storage clusters
+ * 
  * @author waltz
  */
 public class ClientConfiguration {

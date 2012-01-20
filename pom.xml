@@ -59,7 +59,7 @@
         <dependency>
             <groupId>org.dataone</groupId>
             <artifactId>d1_common_java</artifactId>
-            <version>1.0.1-SNAPSHOT</version>
+            <version>1.0.1-RC1</version>
             <type>jar</type>
         </dependency>
         <dependency>
