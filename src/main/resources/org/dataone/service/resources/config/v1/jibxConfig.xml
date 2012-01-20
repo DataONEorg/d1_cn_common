@@ -30,14 +30,20 @@
      <class-decorator class="org.jibx.schema.codegen.extend.ExtensionDecorator" match-name="Identifier" base-class="org.dataone.service.types.IdentifierBase"/>
       <class-decorator class="org.jibx.schema.codegen.extend.ExtensionDecorator" match-name="NodeReference" base-class="org.dataone.service.types.IdentifierBase"/>
       <class-decorator class="org.jibx.schema.codegen.extend.ExtensionDecorator" match-name="Subject" base-class="org.dataone.service.types.SubjectBase"/>
-    <schema-set names="dataoneTypes.xsd" prefix="d1" namespaces="http://ns.dataone.org/service/types/v1">
+<!--      For development cycles, we will use dataoneTypes.xsd as the schema-set name, but
+          For production releases we switch to an url that has v1 as the last segment of the uri path -->
+<!--      <schema-set names="dataoneTypes.xsd" prefix="d1" namespaces="http://ns.dataone.org/service/types/v1"> -->
+    <schema-set names="v1" prefix="d1" namespaces="http://ns.dataone.org/service/types/v1">
         <schema-type type-name="dateTime" java-class="java.util.Date"
             serializer="org.dataone.service.util.DateTimeMarshaller.serializeDateToUTC"
             deserializer="org.dataone.service.util.DateTimeMarshaller.deserializeDateToUTC"/>
         <schema-type type-name="long" java-class="java.math.BigInteger"
             serializer="org.dataone.service.util.BigIntegerMarshaller.serializeBigInteger"
             deserializer="org.dataone.service.util.BigIntegerMarshaller.deserializeBigInteger"/>
-            <schema name="dataoneTypes.xsd" includes="ObjectFormatIdentifier NodeReference" >
+<!--      For development cycles, we will use dataoneTypes.xsd as the schema name, but
+          For production releases we switch to an url that has v1 as the last segment of the uri path -->
+<!--            <schema name="dataoneTypes.xsd" includes="ObjectFormatIdentifier NodeReference" > -->
+            <schema name="v1" includes="ObjectFormatIdentifier NodeReference" >
                 <simpleType name="ObjectFormatIdentifier">
                     <restriction value-name="value" />
                 </simpleType>
