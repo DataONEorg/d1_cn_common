@@ -194,9 +194,7 @@ public class NodelistUtil {
     	{
     		Node node = nodeList.getNode(i);
     		for (Service service: node.getServices().getServiceList())
-    		{
-    			ServiceMethodRestriction smr = service.getRestriction(0);
-    			
+    		{	
     			if (service.getName().equalsIgnoreCase(serviceName)) {
     				boolean availability = true;
     				if (service.getAvailable() != null) {
