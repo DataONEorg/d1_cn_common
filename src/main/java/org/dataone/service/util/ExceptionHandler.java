@@ -258,6 +258,7 @@ public class ExceptionHandler {
         if (h.length == 1) {
             contentType = h[0].getValue();
         } else if (h.length > 1) {
+        	EntityUtils.consume(response.getEntity());
             throw new IOException("Should not get more than one content-type returned");
         }
 
