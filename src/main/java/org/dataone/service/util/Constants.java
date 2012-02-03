@@ -88,6 +88,8 @@ public class Constants {
     public static final String RESOURCE_ACCOUNT_MAPPING = "accounts/map";
     /** IDENTITY API resource which handles account-mapping request operations */
     public static final String RESOURCE_ACCOUNT_MAPPING_PENDING = "accounts/pendingmap";
+    /** IDENTITY API resource which handles account-verification request operations */
+    public static final String RESOURCE_ACCOUNT_VERIFICATION = "accounts/verification";
     /** IDENTITY API resource which handles group-related operations */
     public static final String RESOURCE_GROUPS = "groups";
     /** IDENTITY API resource which handles group-member-remove operations */
