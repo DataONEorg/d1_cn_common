@@ -133,16 +133,19 @@ public class ExceptionHandler {
             UnsupportedMetadataType, UnsupportedType, VersionMismatch,
             IllegalStateException, IOException, HttpException, SynchronizationFailed {
 
-        int code = response.getStatusLine().getStatusCode();
-        log.info("response httpCode: " + code);
-        EntityUtils.consume(response.getEntity());
-        if (code != HttpURLConnection.HTTP_OK) {
-        	// error, so throw exception
-        	if (httpMethod == Constants.HEAD) {
-        		deserializeHeadersAndThrowException(code,response.getAllHeaders());        		
-        	} else { 
-                deserializeAndThrowException(response);
+        try {
+        	int code = response.getStatusLine().getStatusCode();
+        	log.info("response httpCode: " + code);
+        	if (code != HttpURLConnection.HTTP_OK) {
+        		// error, so throw exception
+        		if (httpMethod == Constants.HEAD) {
+        			deserializeHeadersAndThrowException(code,response.getAllHeaders());        		
+        		} else { 
+        			deserializeAndThrowException(response);
+        		}
         	}
+        } finally {
+        	EntityUtils.consume(response.getEntity());
         }
         
         return response.getAllHeaders();
