@@ -55,7 +55,7 @@ public class SubjectBase implements Serializable, Comparable {
         return standardizedValue.compareTo(standardizedOtherValue);
     }
     /**
-     * Returns D1-wide consistent Subject DN string representations
+     * Uses X500Principal.CANONICAL format for internal comparison/equality checks
      * @param name the [reasonable] DN representation
      * @return the standard D1 representation
      */
@@ -63,7 +63,7 @@ public class SubjectBase implements Serializable, Comparable {
     	String standardizedName = null;
     	try {
     		X500Principal principal = new X500Principal(name);
-    		standardizedName = principal.getName(X500Principal.RFC2253);
+    		standardizedName = principal.getName(X500Principal.CANONICAL);
     	} catch (IllegalArgumentException e) {
     		// it's not an X500 principal, so pass through untouched
     		standardizedName = name;
