@@ -83,6 +83,6 @@ public interface CNReplication {
      * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CNReplication.deleteReplicationMetadata
      */
     public boolean deleteReplicationMetadata(Session session, Identifier pid, NodeReference nodeId, long serialVersion) 
-  		throws InvalidToken, ServiceFailure, NotAuthorized, NotFound, NotImplemented, VersionMismatch;
+  		throws InvalidToken, InvalidRequest, ServiceFailure, NotAuthorized, NotFound, NotImplemented, VersionMismatch;
 
 }

@@ -76,7 +76,7 @@ public interface MNStorage {
     /**
      * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/MN_APIs.html#MN_storage.systemMetadataChanged
      */
-    public void systemMetadataChanged(Session session, Identifier pid, long serialVersion,
+    public boolean systemMetadataChanged(Session session, Identifier pid, long serialVersion,
     	Date dateSystemMetadataLastModified)
     throws InvalidToken, ServiceFailure, NotAuthorized, NotImplemented, InvalidRequest;
 }

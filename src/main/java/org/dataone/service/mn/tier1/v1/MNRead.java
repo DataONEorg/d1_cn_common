@@ -93,7 +93,7 @@ public interface MNRead {
     /** 
      * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/MN_APIs.html#MN_read.synchronizationFailed
      */
-    public void synchronizationFailed(Session session, SynchronizationFailed message)
+    public boolean synchronizationFailed(Session session, SynchronizationFailed message)
     throws InvalidToken, NotAuthorized, NotImplemented, ServiceFailure;
     
 
