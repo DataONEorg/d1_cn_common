@@ -34,7 +34,10 @@ public class IdentifierBase implements Serializable, Comparable {
     @Override
     public boolean equals(Object other)
     {
-        IdentifierBase base = (IdentifierBase)other;
+    	// enforce type equality first
+    	if ( other == null || other.getClass() != this.getClass() ) return false;
+    	
+    	IdentifierBase base = (IdentifierBase)other;
         return getValue().equals(base.getValue());
     }
 
@@ -44,6 +47,12 @@ public class IdentifierBase implements Serializable, Comparable {
         return getValue().hashCode();
     }
 
+    /**
+     * Compares order based on the String value of the IdentifierBase or sub-class
+     * So, objects of different subclasses will sort together, and (sub)class type
+     * does not contribute to the overall ordering, if the comparison is between
+     * objects of different types.
+     */
     public int compareTo(Object identifier) throws ClassCastException {
         IdentifierBase id = (IdentifierBase)identifier;
         return getValue().compareTo(id.getValue());

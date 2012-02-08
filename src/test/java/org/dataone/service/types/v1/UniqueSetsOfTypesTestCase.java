@@ -5,6 +5,7 @@
 
 package org.dataone.service.types.v1;
 
+import org.dataone.service.types.IdentifierBase;
 import org.dataone.service.util.Constants;
 import java.util.HashMap;
 import java.util.ArrayList;
@@ -60,6 +61,54 @@ public class UniqueSetsOfTypesTestCase {
         assertFalse(idMap.get(a1).contentEquals("Hello"));
         assertTrue(idMap.get(a1).contentEquals("Yello"));
     }
+    
+    
+    @Test
+    public void UniqueSetofObjectFormatIdentifiers () {
+        ObjectFormatIdentifier a1 = new ObjectFormatIdentifier();
+        a1.setValue("thisIsUnique");
+
+        ObjectFormatIdentifier a2 = new ObjectFormatIdentifier();
+        a2.setValue("thisIsUnique");
+
+
+        assertTrue(a1.equals(a2));
+        assertTrue(a1.compareTo(a2) == 0);
+
+        HashMap<ObjectFormatIdentifier, String> idMap = new HashMap<ObjectFormatIdentifier, String>();
+
+        idMap.put(a1, "Hello");
+        idMap.put(a2, "Yello");
+
+        assertFalse(idMap.get(a1).contentEquals("Hello"));
+        assertTrue(idMap.get(a1).contentEquals("Yello"));
+    } 
+    
+    
+    @Test
+    public void UniqueSetIdentifierBase () {
+        ObjectFormatIdentifier a1 = new ObjectFormatIdentifier();
+        a1.setValue("thisIsUnique");
+
+        Identifier a2 = new Identifier();
+        a2.setValue("thisIsUnique");
+
+
+        assertFalse(a1.equals(a2));
+        assertTrue(a1.compareTo(a2) == 0);
+
+        HashMap<IdentifierBase, String> idMap = new HashMap<IdentifierBase, String>();
+
+        idMap.put(a1, "Hello");
+        idMap.put(a2, "Yello");
+
+        String s = new String();
+        assertTrue(idMap.get(a1).contentEquals("Hello"));
+        assertTrue(idMap.get(a2).contentEquals("Yello"));
+    } 
+    
+    
+    
     @Test
     public void UniqueSetofSubjectReferences () {
         Subject a1 = new Subject();

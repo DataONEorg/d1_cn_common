@@ -2,6 +2,7 @@
 package org.dataone.service.types.v1;
 
 import java.io.Serializable;
+import org.dataone.service.types.IdentifierBase;
 
 /** 
  * A string used to identify an instance of
@@ -15,7 +16,9 @@ import java.io.Serializable;
  * &lt;/xs:simpleType>
  * </pre>
  */
-public class ObjectFormatIdentifier implements Serializable
+public class ObjectFormatIdentifier
+        extends
+            org.dataone.service.types.IdentifierBase implements Serializable
 {
     private static final long serialVersionUID = 10000000;
     private String value;
