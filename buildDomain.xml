@@ -51,6 +51,11 @@
                        replace="\1 Serializable, Comparable"
                        byline="true"
         />
+        <replaceregexp file="${basedir}/src/main/java/org/dataone/service/types/v1/ObjectFormatIdentifier.java"
+                       match="([\w\s]+)(Serializable)"
+                       replace="\1 Serializable, Comparable"
+                       byline="true"
+        />
         <replaceregexp file="${basedir}/src/main/java/org/dataone/service/types/v1/NodeReference.java"
                        match="([\w\s]+)(Serializable)"
                        replace="\1 Serializable, Comparable"

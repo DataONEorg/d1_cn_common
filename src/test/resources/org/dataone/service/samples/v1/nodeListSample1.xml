@@ -23,7 +23,7 @@
 
 <d1:nodeList xmlns:d1="http://ns.dataone.org/service/types/v1"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:schemaLocation="http://ns.dataone.org/service/types/v1 https://repository.dataone.org/software/cicore/tags/D1_SCHEMA_1_0_0/dataoneTypes.xsd">
+        xsi:schemaLocation="http://ns.dataone.org/service/types/v1 https://repository.dataone.org/software/cicore/tags/D1_SCHEMA_1_0_1/dataoneTypes.xsd">
     <!-- This instance document was generated for testing purposes
          It contains no useful information.
     -->

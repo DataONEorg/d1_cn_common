@@ -5,8 +5,7 @@
 
 package org.dataone.service.util;
 
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -14,8 +13,10 @@ import java.io.InputStream;
 
 import org.apache.log4j.Logger;
 import org.dataone.service.types.v1.Node;
+import org.dataone.service.types.v1.ObjectList;
 import org.dataone.service.types.v1.SystemMetadata;
 import org.jibx.runtime.JiBXException;
+import org.junit.Ignore;
 import org.junit.Test;
 
 
@@ -60,6 +61,41 @@ public class TypeMarshallerTestCase {
         }
 
 
+    }
+    @Test
+    public void serializeEmptyObjectList() {
+        ObjectList objectList = new ObjectList();
+        assertNotNull(objectList);
+        assertNotNull(objectList.getObjectInfoList());
+        try {
+            ByteArrayOutputStream os = new ByteArrayOutputStream();
+            TypeMarshaller.marshalTypeToOutputStream(objectList, os);
+            String xmlObjectList = os.toString();
+            assertNotNull(xmlObjectList);
+        } catch (IOException ex) {
+            fail("Test misconfiguration" +  ex);
+        } catch (JiBXException ex) {
+            fail("Test misconfiguration" +  ex);
+        }
+    }
+    // This one fails! need to fix and then try again
+    @Ignore
+    @Test
+    public void deserializeEmptyObjectList() {
+        try {
+            InputStream is = this.getClass().getResourceAsStream("/org/dataone/service/samples/v1/objectListSample2.xml");
+            ObjectList objectList = TypeMarshaller.unmarshalTypeFromStream(ObjectList.class, is);
+            assertNotNull(objectList);
+            assertNotNull(objectList.getObjectInfoList());
+        } catch (IOException ex) {
+            fail("Test misconfiguration" +  ex);
+        } catch (InstantiationException ex) {
+            fail("Test misconfiguration" + ex);
+        } catch (IllegalAccessException ex) {
+            fail("Test misconfiguration" +  ex);
+        } catch (JiBXException ex) {
+            fail("Test misconfiguration" +  ex);
+        }
     }
     
     @Test
