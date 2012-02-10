@@ -45,10 +45,10 @@ public class ObjectFormatServiceImpl {
   private static ObjectFormatServiceImpl instance = null;
   
   /* The list of object formats */
-  private ObjectFormatList objectFormatList = null;
+  protected ObjectFormatList objectFormatList = null;
   
   /* the searchable map of object formats */
-  private HashMap<String, ObjectFormat> objectFormatMap;
+  protected HashMap<ObjectFormatIdentifier, ObjectFormat> objectFormatMap;
   
   /* the package path of the cached object format list*/ 
   private String objectFormatFilePath = "/org/dataone/service/resources/" +
@@ -58,21 +58,19 @@ public class ObjectFormatServiceImpl {
    * Constructor: Creates an instance of the object format service. Since
    * this uses a singleton pattern, use getInstance() to gain the instance.
    */
-  public ObjectFormatServiceImpl() {
+  protected ObjectFormatServiceImpl() throws ServiceFailure {
     
   	logger = Logger.getLogger(ObjectFormatServiceImpl.class);
   	
+  	objectFormatMap = new HashMap<ObjectFormatIdentifier, ObjectFormat>();
     try {
-      
-    	// create the in-memory list of object formats
-      getCachedList();
+    	refreshCache();
       
     } catch (ServiceFailure se) {
       logger.debug("There was a problem creating the ObjectFormatServiceImpl. " +
                        "The error message was: " + se.getMessage());
-      
-    }
-    
+      throw se;
+    }  
   }
 
   /**
@@ -82,7 +80,7 @@ public class ObjectFormatServiceImpl {
    * @return ObjectFormatServiceImpl - The instance of the object format service
    * @throws ServiceFailure 
    */
-  public static synchronized ObjectFormatServiceImpl getInstance() {
+  public static synchronized ObjectFormatServiceImpl getInstance() throws ServiceFailure {
     
     if ( instance == null ) {
       instance = new ObjectFormatServiceImpl();
@@ -97,103 +95,86 @@ public class ObjectFormatServiceImpl {
    * 
    * @return objectFormatList - the list of object formats
    */
-	public ObjectFormatList listFormats() 
-	  throws InvalidRequest, ServiceFailure,
-	  NotFound, InsufficientResources, NotImplemented {
-    
+	public ObjectFormatList listFormats() {
 		return objectFormatList;
-
   }
 
   /**
    * Get the object format based on the given identifier.
    * 
-   * @param fmtid - the object format identifier
+   * @param formatId - the object format identifier
    * @return objectFormat - the ObjectFormat represented by the format identifier
-   * @throws InvalidRequest 
-   * @throws ServiceFailure 
-   * @throws NotFound 
-   * @throws InsufficientResources 
-   * @throws NotImplemented 
+   * @throws NotFound
+   * @throws NotImplemented - not thrown by this base class, in signature to allow subclasses to override
+   * @throws ServiceFailure - not thrown by this base class, in signature to allow subclasses to override
    */
-	public ObjectFormat getFormat(ObjectFormatIdentifier fmtid)
-	  throws InvalidRequest, ServiceFailure, NotFound, InsufficientResources,
-	  NotImplemented {
-    
-		ObjectFormat objectFormat = null;
-    String fmtidStr = fmtid.getValue();
-    objectFormat = getObjectFormatMap().get(fmtidStr);
-    
-    if ( objectFormat == null ) {
-      
-    	throw new NotFound("4848", "The format specified by " + fmtid.getValue() + 
-    			               " does not exist at this node.");
-    }
+	public ObjectFormat getFormat(ObjectFormatIdentifier formatId)
+	throws NotFound, ServiceFailure, NotImplemented {
+		
+		ObjectFormat objectFormat = getObjectFormatMap().get(formatId);
 
-    
-    return objectFormat;
+		if ( objectFormat == null ) {
+
+			throw new NotFound("0000", "The format specified by '" + formatId.getValue() + 
+			"' does not exist at this node.");
+		}
+		return objectFormat;
 	}
+
 	
   /**
    * Get the object format list from the cached file on disk
    * 
-   * @return objectFormatList - the cached object format list
+   * @throws ServiceFailure - if any trouble creating the cache (logs error, too)
    */
-  private void getCachedList()
+  private void refreshCache()
     throws ServiceFailure {
             
     // get the object format list from disk and parse it
     try {
-      InputStream inputStream = getObjectFormatFile();
-            
+    	InputStream inputStream = getObjectFormatFile();
+
     	objectFormatList = 
     		TypeMarshaller.unmarshalTypeFromStream(ObjectFormatList.class, inputStream);
-    	
-      // index the object format list based on the format identifier
-      int listSize = this.objectFormatList.sizeObjectFormatList();
-      
-      for (int i = 0; i < listSize; i++ ) {
-        
-        ObjectFormat objectFormat = 
-          objectFormatList.getObjectFormat(i);
-        String identifier = objectFormat.getFormatId().getValue();
-        getObjectFormatMap().put(identifier, objectFormat);
-        
-      }
+
+    	// index the object format list by the format identifier
+    	for (ObjectFormat objectFormat : objectFormatList.getObjectFormatList())
+    	{
+    		getObjectFormatMap().put(objectFormat.getFormatId(), objectFormat);
+    	}
 
     } catch (JiBXException jibxe) {
-      
     	String message = "The object format list could not be deserialized. " +
     	"The error message was: " + jibxe.getMessage();
-        logger.error(message);
-        throw new ServiceFailure("4841", message);
-             
+    	logger.error(message);
+    	throw new ServiceFailure("0000", message);
+
     } catch (IOException ioe) {
     	String message = "The object format list could not be read. " +
     	"The error message was: " + ioe.getMessage();
-        logger.error(message);
-        throw new ServiceFailure("4841", message);
- 
+    	logger.error(message);
+    	throw new ServiceFailure("0000", message);
+
     } catch (InstantiationException ie) {
     	String message = "The object format list could not be instantiated. " +
     	"The error message was: " + ie.getMessage();
-        logger.error(message);
-        throw new ServiceFailure("4841", message);
+    	logger.error(message);
+    	throw new ServiceFailure("0000", message);
 
     } catch (IllegalAccessException iae) {
     	String message = "The object format list could not be accessed. " +
     	"The error message was: " + iae.getMessage();
-        logger.error(message);
-        throw new ServiceFailure("4841", message);
- 
+    	logger.error(message);
+    	throw new ServiceFailure("0000", message);
+
     }   
-    return;
-  
+    return; 
   }
+
   
   /**
-   * COnvenience method to retrieve the default format list as a stream
-   * @return
+   * Convenience method to retrieve the default format list as a stream
+   * @return inputstream of the objectFormatList file contents
    */
   public InputStream getObjectFormatFile() {
 	  InputStream inputStream = 
@@ -201,19 +182,15 @@ public class ObjectFormatServiceImpl {
 	  return inputStream;
   }
  
-  /*
-   * Return the hash containing the fmtid and format mapping
+  
+  /**
+   * Return the hash containing the formatId and format mapping
    * 
-   * @return objectFormatMap - the hash of fmtid/format pairs
+   * @return objectFormatMap - the hash of formatiId/format pairs
    */
-  private HashMap<String, ObjectFormat> getObjectFormatMap() {
+  protected HashMap<ObjectFormatIdentifier, ObjectFormat> getObjectFormatMap() {
   	
-  	if ( objectFormatMap == null ) {
-  		objectFormatMap = new HashMap<String, ObjectFormat>();
-  		
-  	}
-  	return objectFormatMap;
-  	
+  	return objectFormatMap;  	
   }
 
 

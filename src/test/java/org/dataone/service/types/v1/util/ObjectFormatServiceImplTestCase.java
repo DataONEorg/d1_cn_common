@@ -61,25 +61,11 @@ public class ObjectFormatServiceImplTestCase {
   	try {
 	    objectFormatList = ObjectFormatServiceImpl.getInstance().listFormats();
 	  	assertTrue(objectFormatList.getTotal() >= formatsCount);
-    
-    } catch (InvalidRequest e) {
-	    // TODO Auto-generated catch block
-      fail("The request was invalid: " + e.getMessage());
-      
+	  	
     } catch (ServiceFailure e) {
       fail("The service failed: " + e.getMessage());
- 
-    } catch (NotFound e) {
-      fail("The list was not found: " + e.getMessage());
-
-    } catch (InsufficientResources e) {
-      fail("There were insufficient resources: " + e.getMessage());
-
-    } catch (NotImplemented e) {
-      fail("The service is not implemented: " + e.getMessage());
-
     }
-  	
+  
   }
   
   /**
@@ -96,19 +82,12 @@ public class ObjectFormatServiceImplTestCase {
     try {
 	    result = ObjectFormatServiceImpl.getInstance().getFormat(fmtid).getFormatId().getValue();
 		  assertTrue(result.equals(knownFormat));
-
-    } catch (InvalidRequest e) {
-	    // TODO Auto-generated catch block
-      fail("The request was invalid: " + e.getMessage());
       
     } catch (ServiceFailure e) {
       fail("The service failed: " + e.getMessage());
  
     } catch (NotFound e) {
       fail("The list was not found: " + e.getMessage());
-
-    } catch (InsufficientResources e) {
-      fail("There were insufficient resources: " + e.getMessage());
 
     } catch (NotImplemented e) {
       fail("The service is not implemented: " + e.getMessage());
