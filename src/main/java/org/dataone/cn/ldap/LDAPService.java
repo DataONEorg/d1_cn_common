@@ -31,7 +31,7 @@ import org.dataone.configuration.Settings;
 public abstract class LDAPService {
 	
 	public static Log log = LogFactory.getLog(LDAPService.class);
-	
+      
 	protected DirContext context = null;
 	
 	// look up defaults from configuration
@@ -285,5 +285,11 @@ public abstract class LDAPService {
 
 		return true;	
 	}
-
+    public String getEnumerationValueString(NamingEnumeration namingEnum) throws NamingException {
+        if (namingEnum.hasMore()) {
+            return (String) namingEnum.next();
+        } else {
+            return "";
+        }
+    }
 }
