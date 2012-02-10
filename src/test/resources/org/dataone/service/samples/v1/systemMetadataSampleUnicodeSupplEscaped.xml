@@ -44,10 +44,10 @@
     <obsoletedBy>AFC12352</obsoletedBy>
     <dateUploaded>2006-05-04T18:13:51.0Z</dateUploaded>
     <dateSysMetadataModified>2006-05-04T18:13:51.0Z</dateSysMetadataModified>
-    <originMemberNode>mn1</originMemberNode>
-    <authoritativeMemberNode>mn1</authoritativeMemberNode>
+    <originMemberNode>urn:node:mn1</originMemberNode>
+    <authoritativeMemberNode>urn:node:mn1</authoritativeMemberNode>
     <replica>
-        <replicaMemberNode>mn3</replicaMemberNode>
+        <replicaMemberNode>urn:node:mn3</replicaMemberNode>
         <replicationStatus>queued</replicationStatus>
         <replicaVerified>2006-05-04T18:13:51.0Z</replicaVerified>
     </replica>

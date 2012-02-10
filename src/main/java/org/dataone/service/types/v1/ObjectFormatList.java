@@ -55,6 +55,9 @@ public class ObjectFormatList extends Slice implements Serializable
      * @return count
      */
     public int sizeObjectFormatList() {
+        if (objectFormatList == null) {
+            objectFormatList = new ArrayList<ObjectFormat>();
+        }
         return objectFormatList.size();
     }
 
@@ -63,6 +66,9 @@ public class ObjectFormatList extends Slice implements Serializable
      * @param item
      */
     public void addObjectFormat(ObjectFormat item) {
+        if (objectFormatList == null) {
+            objectFormatList = new ArrayList<ObjectFormat>();
+        }
         objectFormatList.add(item);
     }
 
@@ -72,6 +78,9 @@ public class ObjectFormatList extends Slice implements Serializable
      * @param index
      */
     public ObjectFormat getObjectFormat(int index) {
+        if (objectFormatList == null) {
+            objectFormatList = new ArrayList<ObjectFormat>();
+        }
         return objectFormatList.get(index);
     }
 
@@ -79,6 +88,9 @@ public class ObjectFormatList extends Slice implements Serializable
      * Remove all 'objectFormat' element items.
      */
     public void clearObjectFormatList() {
+        if (objectFormatList == null) {
+            objectFormatList = new ArrayList<ObjectFormat>();
+        }
         objectFormatList.clear();
     }
 }

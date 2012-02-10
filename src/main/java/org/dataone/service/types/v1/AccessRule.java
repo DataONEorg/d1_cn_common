@@ -59,6 +59,9 @@ public class AccessRule implements Serializable
      * @return count
      */
     public int sizeSubjectList() {
+        if (subjectList == null) {
+            subjectList = new ArrayList<Subject>();
+        }
         return subjectList.size();
     }
 
@@ -67,6 +70,9 @@ public class AccessRule implements Serializable
      * @param item
      */
     public void addSubject(Subject item) {
+        if (subjectList == null) {
+            subjectList = new ArrayList<Subject>();
+        }
         subjectList.add(item);
     }
 
@@ -76,6 +82,9 @@ public class AccessRule implements Serializable
      * @param index
      */
     public Subject getSubject(int index) {
+        if (subjectList == null) {
+            subjectList = new ArrayList<Subject>();
+        }
         return subjectList.get(index);
     }
 
@@ -83,6 +92,9 @@ public class AccessRule implements Serializable
      * Remove all 'subject' element items.
      */
     public void clearSubjectList() {
+        if (subjectList == null) {
+            subjectList = new ArrayList<Subject>();
+        }
         subjectList.clear();
     }
 
@@ -109,6 +121,9 @@ public class AccessRule implements Serializable
      * @return count
      */
     public int sizePermissionList() {
+        if (permissionList == null) {
+            permissionList = new ArrayList<Permission>();
+        }
         return permissionList.size();
     }
 
@@ -117,6 +132,9 @@ public class AccessRule implements Serializable
      * @param item
      */
     public void addPermission(Permission item) {
+        if (permissionList == null) {
+            permissionList = new ArrayList<Permission>();
+        }
         permissionList.add(item);
     }
 
@@ -126,6 +144,9 @@ public class AccessRule implements Serializable
      * @param index
      */
     public Permission getPermission(int index) {
+        if (permissionList == null) {
+            permissionList = new ArrayList<Permission>();
+        }
         return permissionList.get(index);
     }
 
@@ -133,6 +154,9 @@ public class AccessRule implements Serializable
      * Remove all 'permission' element items.
      */
     public void clearPermissionList() {
+        if (permissionList == null) {
+            permissionList = new ArrayList<Permission>();
+        }
         permissionList.clear();
     }
 }

@@ -105,6 +105,9 @@ public class NodeReplicationPolicy implements Serializable
      * @return count
      */
     public int sizeAllowedNodeList() {
+        if (allowedNodeList == null) {
+            allowedNodeList = new ArrayList<NodeReference>();
+        }
         return allowedNodeList.size();
     }
 
@@ -113,6 +116,9 @@ public class NodeReplicationPolicy implements Serializable
      * @param item
      */
     public void addAllowedNode(NodeReference item) {
+        if (allowedNodeList == null) {
+            allowedNodeList = new ArrayList<NodeReference>();
+        }
         allowedNodeList.add(item);
     }
 
@@ -122,6 +128,9 @@ public class NodeReplicationPolicy implements Serializable
      * @param index
      */
     public NodeReference getAllowedNode(int index) {
+        if (allowedNodeList == null) {
+            allowedNodeList = new ArrayList<NodeReference>();
+        }
         return allowedNodeList.get(index);
     }
 
@@ -129,6 +138,9 @@ public class NodeReplicationPolicy implements Serializable
      * Remove all 'allowedNode' element items.
      */
     public void clearAllowedNodeList() {
+        if (allowedNodeList == null) {
+            allowedNodeList = new ArrayList<NodeReference>();
+        }
         allowedNodeList.clear();
     }
 
@@ -159,6 +171,9 @@ public class NodeReplicationPolicy implements Serializable
      * @return count
      */
     public int sizeAllowedObjectFormatList() {
+        if (allowedObjectFormatList == null) {
+            allowedObjectFormatList = new ArrayList<ObjectFormatIdentifier>();
+        }
         return allowedObjectFormatList.size();
     }
 
@@ -167,6 +182,9 @@ public class NodeReplicationPolicy implements Serializable
      * @param item
      */
     public void addAllowedObjectFormat(ObjectFormatIdentifier item) {
+        if (allowedObjectFormatList == null) {
+            allowedObjectFormatList = new ArrayList<ObjectFormatIdentifier>();
+        }
         allowedObjectFormatList.add(item);
     }
 
@@ -176,6 +194,9 @@ public class NodeReplicationPolicy implements Serializable
      * @param index
      */
     public ObjectFormatIdentifier getAllowedObjectFormat(int index) {
+        if (allowedObjectFormatList == null) {
+            allowedObjectFormatList = new ArrayList<ObjectFormatIdentifier>();
+        }
         return allowedObjectFormatList.get(index);
     }
 
@@ -183,6 +204,9 @@ public class NodeReplicationPolicy implements Serializable
      * Remove all 'allowedObjectFormat' element items.
      */
     public void clearAllowedObjectFormatList() {
+        if (allowedObjectFormatList == null) {
+            allowedObjectFormatList = new ArrayList<ObjectFormatIdentifier>();
+        }
         allowedObjectFormatList.clear();
     }
 }

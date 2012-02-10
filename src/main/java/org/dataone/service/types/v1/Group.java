@@ -101,6 +101,9 @@ public class Group implements Serializable
      * @return count
      */
     public int sizeHasMemberList() {
+        if (hasMemberList == null) {
+            hasMemberList = new ArrayList<Subject>();
+        }
         return hasMemberList.size();
     }
 
@@ -109,6 +112,9 @@ public class Group implements Serializable
      * @param item
      */
     public void addHasMember(Subject item) {
+        if (hasMemberList == null) {
+            hasMemberList = new ArrayList<Subject>();
+        }
         hasMemberList.add(item);
     }
 
@@ -118,6 +124,9 @@ public class Group implements Serializable
      * @param index
      */
     public Subject getHasMember(int index) {
+        if (hasMemberList == null) {
+            hasMemberList = new ArrayList<Subject>();
+        }
         return hasMemberList.get(index);
     }
 
@@ -125,6 +134,9 @@ public class Group implements Serializable
      * Remove all 'hasMember' element items.
      */
     public void clearHasMemberList() {
+        if (hasMemberList == null) {
+            hasMemberList = new ArrayList<Subject>();
+        }
         hasMemberList.clear();
     }
 
@@ -163,6 +175,9 @@ public class Group implements Serializable
      * @return count
      */
     public int sizeRightsHolderList() {
+        if (rightsHolderList == null) {
+            rightsHolderList = new ArrayList<Subject>();
+        }
         return rightsHolderList.size();
     }
 
@@ -171,6 +186,9 @@ public class Group implements Serializable
      * @param item
      */
     public void addRightsHolder(Subject item) {
+        if (rightsHolderList == null) {
+            rightsHolderList = new ArrayList<Subject>();
+        }
         rightsHolderList.add(item);
     }
 
@@ -180,6 +198,9 @@ public class Group implements Serializable
      * @param index
      */
     public Subject getRightsHolder(int index) {
+        if (rightsHolderList == null) {
+            rightsHolderList = new ArrayList<Subject>();
+        }
         return rightsHolderList.get(index);
     }
 
@@ -187,6 +208,9 @@ public class Group implements Serializable
      * Remove all 'rightsHolder' element items.
      */
     public void clearRightsHolderList() {
+        if (rightsHolderList == null) {
+            rightsHolderList = new ArrayList<Subject>();
+        }
         rightsHolderList.clear();
     }
 }

@@ -2,7 +2,6 @@
 package org.dataone.service.types.v1;
 
 import java.io.Serializable;
-import org.dataone.service.types.IdentifierBase;
 
 /** 
  * A unique identifier for a Member Node. The
@@ -19,8 +18,7 @@ import org.dataone.service.types.IdentifierBase;
  * &lt;/xs:complexType>
  * </pre>
  */
-public class NodeReference extends org.dataone.service.types.IdentifierBase
-    implements  Serializable, Comparable
+public class NodeReference implements Serializable, Comparable
 {
     private static final long serialVersionUID = 10000000;
     private String value;
@@ -41,5 +39,39 @@ public class NodeReference extends org.dataone.service.types.IdentifierBase
      */
     public void setValue(String value) {
         this.value = value;
+    }
+
+    /** 
+     * 1 value 2 Value 3 String 4 (java.lang.String) 5 NodeReference  value is a string, override equals of NodeReference.
+     * @param other
+     * @return boolean
+     */
+    @Override
+    public boolean equals(Object other) {
+        if (other == null || other.getClass() != this.getClass())
+            return false;
+        NodeReference otherNodeReference = (NodeReference) other;
+        return value.equals(otherNodeReference.getValue());
+    }
+
+    /** 
+     * return the hashcode of NodeReference's string value.
+     * @return int
+     */
+    @Override
+    public int hashCode() {
+        return value.hashCode();
+    }
+
+    /** 
+     * Compares order based on the String value of two objects of the same type.
+     * @param other
+     * @return int
+     * @throws ClassCastException 
+     */
+    @Override
+    public int compareTo(Object other) throws ClassCastException {
+        NodeReference otherNodeReference = (NodeReference) other;
+        return value.compareTo(otherNodeReference.getValue());
     }
 }

@@ -46,6 +46,9 @@ public class ChecksumAlgorithmList implements Serializable
      * @return count
      */
     public int sizeAlgorithmList() {
+        if (algorithmList == null) {
+            algorithmList = new ArrayList<String>();
+        }
         return algorithmList.size();
     }
 
@@ -54,6 +57,9 @@ public class ChecksumAlgorithmList implements Serializable
      * @param item
      */
     public void addAlgorithm(String item) {
+        if (algorithmList == null) {
+            algorithmList = new ArrayList<String>();
+        }
         algorithmList.add(item);
     }
 
@@ -63,6 +69,9 @@ public class ChecksumAlgorithmList implements Serializable
      * @param index
      */
     public String getAlgorithm(int index) {
+        if (algorithmList == null) {
+            algorithmList = new ArrayList<String>();
+        }
         return algorithmList.get(index);
     }
 
@@ -70,6 +79,9 @@ public class ChecksumAlgorithmList implements Serializable
      * Remove all 'algorithm' element items.
      */
     public void clearAlgorithmList() {
+        if (algorithmList == null) {
+            algorithmList = new ArrayList<String>();
+        }
         algorithmList.clear();
     }
 }

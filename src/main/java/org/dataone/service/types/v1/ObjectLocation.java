@@ -115,6 +115,9 @@ public class ObjectLocation implements Serializable
      * @return count
      */
     public int sizeVersionList() {
+        if (versionList == null) {
+            versionList = new ArrayList<String>();
+        }
         return versionList.size();
     }
 
@@ -123,6 +126,9 @@ public class ObjectLocation implements Serializable
      * @param item
      */
     public void addVersion(String item) {
+        if (versionList == null) {
+            versionList = new ArrayList<String>();
+        }
         versionList.add(item);
     }
 
@@ -132,6 +138,9 @@ public class ObjectLocation implements Serializable
      * @param index
      */
     public String getVersion(int index) {
+        if (versionList == null) {
+            versionList = new ArrayList<String>();
+        }
         return versionList.get(index);
     }
 
@@ -139,6 +148,9 @@ public class ObjectLocation implements Serializable
      * Remove all 'version' element items.
      */
     public void clearVersionList() {
+        if (versionList == null) {
+            versionList = new ArrayList<String>();
+        }
         versionList.clear();
     }
 

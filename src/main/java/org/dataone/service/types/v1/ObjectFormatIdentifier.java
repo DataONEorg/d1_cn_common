@@ -2,7 +2,6 @@
 package org.dataone.service.types.v1;
 
 import java.io.Serializable;
-import org.dataone.service.types.IdentifierBase;
 
 /** 
  * A string used to identify an instance of
@@ -16,9 +15,7 @@ import org.dataone.service.types.IdentifierBase;
  * &lt;/xs:simpleType>
  * </pre>
  */
-public class ObjectFormatIdentifier
-        extends
-            org.dataone.service.types.IdentifierBase implements  Serializable, Comparable
+public class ObjectFormatIdentifier implements Serializable, Comparable
 {
     private static final long serialVersionUID = 10000000;
     private String value;
@@ -39,5 +36,39 @@ public class ObjectFormatIdentifier
      */
     public void setValue(String value) {
         this.value = value;
+    }
+
+    /** 
+     * 1 value 2 Value 3 String 4 (java.lang.String) 5 ObjectFormatIdentifier  value is a string, override equals of ObjectFormatIdentifier.
+     * @param other
+     * @return boolean
+     */
+    @Override
+    public boolean equals(Object other) {
+        if (other == null || other.getClass() != this.getClass())
+            return false;
+        ObjectFormatIdentifier otherObjectFormatIdentifier = (ObjectFormatIdentifier) other;
+        return value.equals(otherObjectFormatIdentifier.getValue());
+    }
+
+    /** 
+     * return the hashcode of ObjectFormatIdentifier's string value.
+     * @return int
+     */
+    @Override
+    public int hashCode() {
+        return value.hashCode();
+    }
+
+    /** 
+     * Compares order based on the String value of two objects of the same type.
+     * @param other
+     * @return int
+     * @throws ClassCastException 
+     */
+    @Override
+    public int compareTo(Object other) throws ClassCastException {
+        ObjectFormatIdentifier otherObjectFormatIdentifier = (ObjectFormatIdentifier) other;
+        return value.compareTo(otherObjectFormatIdentifier.getValue());
     }
 }

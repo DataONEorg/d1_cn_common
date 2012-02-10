@@ -2,7 +2,6 @@
 package org.dataone.service.types.v1;
 
 import java.io.Serializable;
-import org.dataone.service.types.IdentifierBase;
 
 /** 
  * An :term:`identifier` (:term:`PID`) in the DataONE
@@ -26,8 +25,7 @@ import org.dataone.service.types.IdentifierBase;
  * &lt;/xs:complexType>
  * </pre>
  */
-public class Identifier extends org.dataone.service.types.IdentifierBase
-    implements  Serializable, Comparable
+public class Identifier implements Serializable, Comparable
 {
     private static final long serialVersionUID = 10000000;
     private String value;
@@ -48,5 +46,39 @@ public class Identifier extends org.dataone.service.types.IdentifierBase
      */
     public void setValue(String value) {
         this.value = value;
+    }
+
+    /** 
+     * 1 value 2 Value 3 String 4 (java.lang.String) 5 Identifier  value is a string, override equals of Identifier.
+     * @param other
+     * @return boolean
+     */
+    @Override
+    public boolean equals(Object other) {
+        if (other == null || other.getClass() != this.getClass())
+            return false;
+        Identifier otherIdentifier = (Identifier) other;
+        return value.equals(otherIdentifier.getValue());
+    }
+
+    /** 
+     * return the hashcode of Identifier's string value.
+     * @return int
+     */
+    @Override
+    public int hashCode() {
+        return value.hashCode();
+    }
+
+    /** 
+     * Compares order based on the String value of two objects of the same type.
+     * @param other
+     * @return int
+     * @throws ClassCastException 
+     */
+    @Override
+    public int compareTo(Object other) throws ClassCastException {
+        Identifier otherIdentifier = (Identifier) other;
+        return value.compareTo(otherIdentifier.getValue());
     }
 }

@@ -47,6 +47,9 @@ public class Services implements Serializable
      * @return count
      */
     public int sizeServiceList() {
+        if (serviceList == null) {
+            serviceList = new ArrayList<Service>();
+        }
         return serviceList.size();
     }
 
@@ -55,6 +58,9 @@ public class Services implements Serializable
      * @param item
      */
     public void addService(Service item) {
+        if (serviceList == null) {
+            serviceList = new ArrayList<Service>();
+        }
         serviceList.add(item);
     }
 
@@ -64,6 +70,9 @@ public class Services implements Serializable
      * @param index
      */
     public Service getService(int index) {
+        if (serviceList == null) {
+            serviceList = new ArrayList<Service>();
+        }
         return serviceList.get(index);
     }
 
@@ -71,6 +80,9 @@ public class Services implements Serializable
      * Remove all 'service' element items.
      */
     public void clearServiceList() {
+        if (serviceList == null) {
+            serviceList = new ArrayList<Service>();
+        }
         serviceList.clear();
     }
 }

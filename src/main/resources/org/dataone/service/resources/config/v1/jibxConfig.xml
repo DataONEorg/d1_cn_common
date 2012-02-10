@@ -24,13 +24,18 @@
 <schema-set xmlns:xs="http://www.w3.org/2001/XMLSchema"
   prefer-inline="false" generate-all="true" package="org.dataone.service.types.v1"
   type-substitutions="xs:unsignedLong xs:long" enumeration-type="java5" >
-    <class-decorator class="org.jibx.schema.codegen.extend.CollectionMethodsDecorator"/>
+    <class-decorator class="org.dataone.jibx.schema.codegen.extend.CollectionMethodsDecorator"/>
      <!-- Should add in the serializable decorator, we may want to use it at some point -->
      <class-decorator class="org.jibx.schema.codegen.extend.SerializableDecorator" serial-version="10000000"/>
+     <class-decorator class="org.dataone.jibx.schema.codegen.extend.ComparableIdentifierDecorator" match-name="Identifier"/>
+     <class-decorator class="org.dataone.jibx.schema.codegen.extend.ComparableIdentifierDecorator" match-name="NodeReference"/>
+     <class-decorator class="org.dataone.jibx.schema.codegen.extend.ComparableIdentifierDecorator" match-name="ObjectFormatIdentifier"/>
+     <class-decorator class="org.dataone.jibx.schema.codegen.extend.ComparableSubjectDecorator" match-name="Subject"/> -->
+<!--
      <class-decorator class="org.jibx.schema.codegen.extend.ExtensionDecorator" match-name="Identifier" base-class="org.dataone.service.types.IdentifierBase"/>
       <class-decorator class="org.jibx.schema.codegen.extend.ExtensionDecorator" match-name="NodeReference" base-class="org.dataone.service.types.IdentifierBase"/>
-      <class-decorator class="org.jibx.schema.codegen.extend.ExtensionDecorator" match-name="ObjectFormatIdentifier" base-class="org.dataone.service.types.IdentifierBase"/>
-      <class-decorator class="org.jibx.schema.codegen.extend.ExtensionDecorator" match-name="Subject" base-class="org.dataone.service.types.SubjectBase"/>
+      <class-decorator class="org.jibx.schema.codegen.extend.ExtensionDecorator" match-name="ObjectFormatIdentifier" base-class="org.dataone.service.types.IdentifierBase"/> 
+      <class-decorator class="org.jibx.schema.codegen.extend.ExtensionDecorator" match-name="Subject" base-class="org.dataone.service.types.SubjectBase"/> -->
 <!--      For development cycles, we will use dataoneTypes.xsd as the schema-set name, but
           For production releases we switch to an url that has v1 as the last segment of the uri path -->
 <!--      <schema-set names="dataoneTypes.xsd" prefix="d1" namespaces="http://ns.dataone.org/service/types/v1"> -->

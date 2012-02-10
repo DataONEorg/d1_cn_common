@@ -50,6 +50,9 @@ public class ObjectList extends Slice implements Serializable
      * @return count
      */
     public int sizeObjectInfoList() {
+        if (objectInfoList == null) {
+            objectInfoList = new ArrayList<ObjectInfo>();
+        }
         return objectInfoList.size();
     }
 
@@ -58,6 +61,9 @@ public class ObjectList extends Slice implements Serializable
      * @param item
      */
     public void addObjectInfo(ObjectInfo item) {
+        if (objectInfoList == null) {
+            objectInfoList = new ArrayList<ObjectInfo>();
+        }
         objectInfoList.add(item);
     }
 
@@ -67,6 +73,9 @@ public class ObjectList extends Slice implements Serializable
      * @param index
      */
     public ObjectInfo getObjectInfo(int index) {
+        if (objectInfoList == null) {
+            objectInfoList = new ArrayList<ObjectInfo>();
+        }
         return objectInfoList.get(index);
     }
 
@@ -74,6 +83,9 @@ public class ObjectList extends Slice implements Serializable
      * Remove all 'objectInfo' element items.
      */
     public void clearObjectInfoList() {
+        if (objectInfoList == null) {
+            objectInfoList = new ArrayList<ObjectInfo>();
+        }
         objectInfoList.clear();
     }
 }

@@ -50,6 +50,9 @@ public class SubjectInfo implements Serializable
      * @return count
      */
     public int sizePersonList() {
+        if (personList == null) {
+            personList = new ArrayList<Person>();
+        }
         return personList.size();
     }
 
@@ -58,6 +61,9 @@ public class SubjectInfo implements Serializable
      * @param item
      */
     public void addPerson(Person item) {
+        if (personList == null) {
+            personList = new ArrayList<Person>();
+        }
         personList.add(item);
     }
 
@@ -67,6 +73,9 @@ public class SubjectInfo implements Serializable
      * @param index
      */
     public Person getPerson(int index) {
+        if (personList == null) {
+            personList = new ArrayList<Person>();
+        }
         return personList.get(index);
     }
 
@@ -74,6 +83,9 @@ public class SubjectInfo implements Serializable
      * Remove all 'person' element items.
      */
     public void clearPersonList() {
+        if (personList == null) {
+            personList = new ArrayList<Person>();
+        }
         personList.clear();
     }
 
@@ -100,6 +112,9 @@ public class SubjectInfo implements Serializable
      * @return count
      */
     public int sizeGroupList() {
+        if (groupList == null) {
+            groupList = new ArrayList<Group>();
+        }
         return groupList.size();
     }
 
@@ -108,6 +123,9 @@ public class SubjectInfo implements Serializable
      * @param item
      */
     public void addGroup(Group item) {
+        if (groupList == null) {
+            groupList = new ArrayList<Group>();
+        }
         groupList.add(item);
     }
 
@@ -117,6 +135,9 @@ public class SubjectInfo implements Serializable
      * @param index
      */
     public Group getGroup(int index) {
+        if (groupList == null) {
+            groupList = new ArrayList<Group>();
+        }
         return groupList.get(index);
     }
 
@@ -124,6 +145,9 @@ public class SubjectInfo implements Serializable
      * Remove all 'group' element items.
      */
     public void clearGroupList() {
+        if (groupList == null) {
+            groupList = new ArrayList<Group>();
+        }
         groupList.clear();
     }
 }

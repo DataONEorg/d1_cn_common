@@ -2,7 +2,7 @@
 package org.dataone.service.types.v1;
 
 import java.io.Serializable;
-import org.dataone.service.types.SubjectBase;
+import javax.security.auth.x500.X500Principal;
 
 /** 
  * An identifier for a Person (user), Group,
@@ -21,8 +21,7 @@ import org.dataone.service.types.SubjectBase;
  * &lt;/xs:complexType>
  * </pre>
  */
-public class Subject extends org.dataone.service.types.SubjectBase implements
-     Serializable, Comparable
+public class Subject implements Serializable, Comparable
 {
     private static final long serialVersionUID = 10000000;
     private String value;
@@ -43,5 +42,60 @@ public class Subject extends org.dataone.service.types.SubjectBase implements
      */
     public void setValue(String value) {
         this.value = value;
+    }
+
+    /** 
+     * Value is a string, override equals of Subject.
+     * @param other
+     * @return boolean
+     */
+    @Override
+    public boolean equals(Object other) {
+        if (other == null || other.getClass() != this.getClass()) {
+            return false;
+        }
+        Subject otherSubject = (Subject) other;
+        String standardizedOtherSubject = standardizeDN(otherSubject.getValue());
+        String standardizedSubject = standardizeDN(value);
+        return standardizedSubject.equals(standardizedOtherSubject);
+    }
+
+    /** 
+     * return the hashcode of Subject's string value.
+     * @return int
+     */
+    @Override
+    public int hashCode() {
+        String standardizedSubject = standardizeDN(value);
+        return standardizedSubject.hashCode();
+    }
+
+    /** 
+     * Compares order based on the String value of two objects of the same type.
+     * @param other
+     * @return int
+     * @throws ClassCastException 
+     */
+    @Override
+    public int compareTo(Object other) throws ClassCastException {
+        Subject otherSubject = (Subject) other;
+        String standardizedOtherSubject = standardizeDN(otherSubject.getValue());
+        String standardizedSubject = standardizeDN(value);
+        return standardizedSubject.compareTo(standardizedOtherSubject);
+    }
+
+    /** 
+     * Uses X500Principal.CANONICAL format for internal comparison/equality checks
+     * @param name the [reasonable] DN representation  * @return the standard D1 representation 
+     */
+    private String standardizeDN(String name) {
+        String standardizedName = null;
+        try {
+            X500Principal principal = new X500Principal(name);
+            standardizedName = principal.getName(X500Principal.CANONICAL);
+        } catch (IllegalArgumentException e) {
+            standardizedName = name;
+        }
+        return standardizedName;
     }
 }

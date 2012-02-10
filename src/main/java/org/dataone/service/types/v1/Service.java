@@ -58,6 +58,9 @@ public class Service implements Serializable
      * @return count
      */
     public int sizeRestrictionList() {
+        if (restrictionList == null) {
+            restrictionList = new ArrayList<ServiceMethodRestriction>();
+        }
         return restrictionList.size();
     }
 
@@ -66,6 +69,9 @@ public class Service implements Serializable
      * @param item
      */
     public void addRestriction(ServiceMethodRestriction item) {
+        if (restrictionList == null) {
+            restrictionList = new ArrayList<ServiceMethodRestriction>();
+        }
         restrictionList.add(item);
     }
 
@@ -75,6 +81,9 @@ public class Service implements Serializable
      * @param index
      */
     public ServiceMethodRestriction getRestriction(int index) {
+        if (restrictionList == null) {
+            restrictionList = new ArrayList<ServiceMethodRestriction>();
+        }
         return restrictionList.get(index);
     }
 
@@ -82,6 +91,9 @@ public class Service implements Serializable
      * Remove all 'restriction' element items.
      */
     public void clearRestrictionList() {
+        if (restrictionList == null) {
+            restrictionList = new ArrayList<ServiceMethodRestriction>();
+        }
         restrictionList.clear();
     }
 

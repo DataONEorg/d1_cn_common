@@ -65,6 +65,9 @@ public class ReplicationPolicy implements Serializable
      * @return count
      */
     public int sizePreferredMemberNodeList() {
+        if (preferredMemberNodeList == null) {
+            preferredMemberNodeList = new ArrayList<NodeReference>();
+        }
         return preferredMemberNodeList.size();
     }
 
@@ -73,6 +76,9 @@ public class ReplicationPolicy implements Serializable
      * @param item
      */
     public void addPreferredMemberNode(NodeReference item) {
+        if (preferredMemberNodeList == null) {
+            preferredMemberNodeList = new ArrayList<NodeReference>();
+        }
         preferredMemberNodeList.add(item);
     }
 
@@ -82,6 +88,9 @@ public class ReplicationPolicy implements Serializable
      * @param index
      */
     public NodeReference getPreferredMemberNode(int index) {
+        if (preferredMemberNodeList == null) {
+            preferredMemberNodeList = new ArrayList<NodeReference>();
+        }
         return preferredMemberNodeList.get(index);
     }
 
@@ -89,6 +98,9 @@ public class ReplicationPolicy implements Serializable
      * Remove all 'preferredMemberNode' element items.
      */
     public void clearPreferredMemberNodeList() {
+        if (preferredMemberNodeList == null) {
+            preferredMemberNodeList = new ArrayList<NodeReference>();
+        }
         preferredMemberNodeList.clear();
     }
 
@@ -121,6 +133,9 @@ public class ReplicationPolicy implements Serializable
      * @return count
      */
     public int sizeBlockedMemberNodeList() {
+        if (blockedMemberNodeList == null) {
+            blockedMemberNodeList = new ArrayList<NodeReference>();
+        }
         return blockedMemberNodeList.size();
     }
 
@@ -129,6 +144,9 @@ public class ReplicationPolicy implements Serializable
      * @param item
      */
     public void addBlockedMemberNode(NodeReference item) {
+        if (blockedMemberNodeList == null) {
+            blockedMemberNodeList = new ArrayList<NodeReference>();
+        }
         blockedMemberNodeList.add(item);
     }
 
@@ -138,6 +156,9 @@ public class ReplicationPolicy implements Serializable
      * @param index
      */
     public NodeReference getBlockedMemberNode(int index) {
+        if (blockedMemberNodeList == null) {
+            blockedMemberNodeList = new ArrayList<NodeReference>();
+        }
         return blockedMemberNodeList.get(index);
     }
 
@@ -145,6 +166,9 @@ public class ReplicationPolicy implements Serializable
      * Remove all 'blockedMemberNode' element items.
      */
     public void clearBlockedMemberNodeList() {
+        if (blockedMemberNodeList == null) {
+            blockedMemberNodeList = new ArrayList<NodeReference>();
+        }
         blockedMemberNodeList.clear();
     }
 

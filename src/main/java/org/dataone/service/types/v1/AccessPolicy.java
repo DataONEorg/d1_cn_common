@@ -50,6 +50,9 @@ public class AccessPolicy implements Serializable
      * @return count
      */
     public int sizeAllowList() {
+        if (allowList == null) {
+            allowList = new ArrayList<AccessRule>();
+        }
         return allowList.size();
     }
 
@@ -58,6 +61,9 @@ public class AccessPolicy implements Serializable
      * @param item
      */
     public void addAllow(AccessRule item) {
+        if (allowList == null) {
+            allowList = new ArrayList<AccessRule>();
+        }
         allowList.add(item);
     }
 
@@ -67,6 +73,9 @@ public class AccessPolicy implements Serializable
      * @param index
      */
     public AccessRule getAllow(int index) {
+        if (allowList == null) {
+            allowList = new ArrayList<AccessRule>();
+        }
         return allowList.get(index);
     }
 
@@ -74,6 +83,9 @@ public class AccessPolicy implements Serializable
      * Remove all 'allow' element items.
      */
     public void clearAllowList() {
+        if (allowList == null) {
+            allowList = new ArrayList<AccessRule>();
+        }
         allowList.clear();
     }
 }

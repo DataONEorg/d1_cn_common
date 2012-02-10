@@ -284,6 +284,9 @@ public class Node implements Serializable
      * @return count
      */
     public int sizeSubjectList() {
+        if (subjectList == null) {
+            subjectList = new ArrayList<Subject>();
+        }
         return subjectList.size();
     }
 
@@ -292,6 +295,9 @@ public class Node implements Serializable
      * @param item
      */
     public void addSubject(Subject item) {
+        if (subjectList == null) {
+            subjectList = new ArrayList<Subject>();
+        }
         subjectList.add(item);
     }
 
@@ -301,6 +307,9 @@ public class Node implements Serializable
      * @param index
      */
     public Subject getSubject(int index) {
+        if (subjectList == null) {
+            subjectList = new ArrayList<Subject>();
+        }
         return subjectList.get(index);
     }
 
@@ -308,6 +317,9 @@ public class Node implements Serializable
      * Remove all 'subject' element items.
      */
     public void clearSubjectList() {
+        if (subjectList == null) {
+            subjectList = new ArrayList<Subject>();
+        }
         subjectList.clear();
     }
 
@@ -356,6 +368,9 @@ public class Node implements Serializable
      * @return count
      */
     public int sizeContactSubjectList() {
+        if (contactSubjectList == null) {
+            contactSubjectList = new ArrayList<Subject>();
+        }
         return contactSubjectList.size();
     }
 
@@ -364,6 +379,9 @@ public class Node implements Serializable
      * @param item
      */
     public void addContactSubject(Subject item) {
+        if (contactSubjectList == null) {
+            contactSubjectList = new ArrayList<Subject>();
+        }
         contactSubjectList.add(item);
     }
 
@@ -373,6 +391,9 @@ public class Node implements Serializable
      * @param index
      */
     public Subject getContactSubject(int index) {
+        if (contactSubjectList == null) {
+            contactSubjectList = new ArrayList<Subject>();
+        }
         return contactSubjectList.get(index);
     }
 
@@ -380,6 +401,9 @@ public class Node implements Serializable
      * Remove all 'contactSubject' element items.
      */
     public void clearContactSubjectList() {
+        if (contactSubjectList == null) {
+            contactSubjectList = new ArrayList<Subject>();
+        }
         contactSubjectList.clear();
     }
 

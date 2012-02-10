@@ -46,6 +46,9 @@ public class SubjectList implements Serializable
      * @return count
      */
     public int sizeSubjectList() {
+        if (subjectList == null) {
+            subjectList = new ArrayList<Subject>();
+        }
         return subjectList.size();
     }
 
@@ -54,6 +57,9 @@ public class SubjectList implements Serializable
      * @param item
      */
     public void addSubject(Subject item) {
+        if (subjectList == null) {
+            subjectList = new ArrayList<Subject>();
+        }
         subjectList.add(item);
     }
 
@@ -63,6 +69,9 @@ public class SubjectList implements Serializable
      * @param index
      */
     public Subject getSubject(int index) {
+        if (subjectList == null) {
+            subjectList = new ArrayList<Subject>();
+        }
         return subjectList.get(index);
     }
 
@@ -70,6 +79,9 @@ public class SubjectList implements Serializable
      * Remove all 'subject' element items.
      */
     public void clearSubjectList() {
+        if (subjectList == null) {
+            subjectList = new ArrayList<Subject>();
+        }
         subjectList.clear();
     }
 }

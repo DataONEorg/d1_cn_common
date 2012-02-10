@@ -4,7 +4,7 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 xsi:schemaLocation="http://ns.dataone.org/service/types/v1 https://repository.dataone.org/software/cicore/tags/D1_SCHEMA_1_0_1/dataoneTypes.xsd">
 
     <node replicate="true" synchronize="true" type="mn" state="up">
-        <identifier>d1m1</identifier>
+        <identifier>urn:node:d1m1</identifier>
         <name>dryad</name>
         <description>Production Member node with Dryad Data</description>
         <baseURL>http://dev-dryad-mn.dataone.org/mn/</baseURL>
@@ -21,7 +21,7 @@ xsi:schemaLocation="http://ns.dataone.org/service/types/v1 https://repository.da
         <contactSubject>cn=me,dc=here,dc=there</contactSubject>
     </node>
     <node replicate="true" synchronize="true" type="mn" state="up">
-        <identifier>d1m2</identifier>
+        <identifier>urn:node:d1m2</identifier>
         <name>knb</name>
         <description>Production Member node with KNB Data</description>
         <baseURL>http://knb-mn.ecoinformatics.org/knb/d1/</baseURL>
@@ -38,7 +38,7 @@ xsi:schemaLocation="http://ns.dataone.org/service/types/v1 https://repository.da
         <contactSubject>cn=me,dc=here,dc=there</contactSubject>
     </node>
     <node replicate="true" synchronize="true" type="mn" state="up">
-        <identifier>d1m3</identifier>
+        <identifier>urn:node:d1m3</identifier>
         <name>ornldaac</name>
         <description>Production Member node with DAAC Data</description>
         <baseURL>http://daacmn.dataone.utk.edu/mn/</baseURL>
@@ -55,7 +55,7 @@ xsi:schemaLocation="http://ns.dataone.org/service/types/v1 https://repository.da
         <contactSubject>cn=me,dc=here,dc=there</contactSubject>
     </node>
     <node replicate="false" synchronize="true" type="mn" state="up">
-        <identifier>d1tg</identifier>
+        <identifier>urn:node:d1tg</identifier>
         <name>TeraGrid</name>
         <description>TeraGrid Production Member node running Metacat</description>
         <baseURL>http://gw59.quarry.iu.teragrid.org:8080/knb/d1</baseURL>
@@ -72,7 +72,7 @@ xsi:schemaLocation="http://ns.dataone.org/service/types/v1 https://repository.da
         <contactSubject>cn=me,dc=here,dc=there</contactSubject>
     </node>
     <node replicate="true" synchronize="false" type="cn" state="up">
-        <identifier>d1c0</identifier>
+        <identifier>urn:node:d1c0</identifier>
         <name>cn</name>
         <description>Production Coordinating Node</description>
         <baseURL>http://cn.dataone.org/cn/</baseURL>
@@ -82,7 +82,7 @@ xsi:schemaLocation="http://ns.dataone.org/service/types/v1 https://repository.da
         <contactSubject>cn=me,dc=here,dc=there</contactSubject>
     </node>
     <node replicate="true" synchronize="false" type="cn" state="up">
-        <identifier>d1c1</identifier>
+        <identifier>urn:node:d1c1</identifier>
         <name>cn-unm-1</name>
         <description>Production Coordinating node at University of New Mexico</description>
         <baseURL>http://cn-unm-1.dataone.org/cn/</baseURL>
@@ -94,7 +94,7 @@ xsi:schemaLocation="http://ns.dataone.org/service/types/v1 https://repository.da
         <contactSubject>cn=me,dc=here,dc=there</contactSubject>
     </node>
     <node replicate="true" synchronize="false" type="cn" state="up">
-        <identifier>d1c2</identifier>
+        <identifier>urn:node:d1c2</identifier>
         <name>cn-ucsb-1</name>
         <description>Production Coordinating node at University of California Santa Barbara</description>
         <baseURL>http://cn-ucsb-1.dataone.org/cn/</baseURL>
@@ -106,7 +106,7 @@ xsi:schemaLocation="http://ns.dataone.org/service/types/v1 https://repository.da
         <contactSubject>cn=me,dc=here,dc=there</contactSubject>
     </node>
     <node replicate="true" synchronize="false" type="cn" state="up">
-        <identifier>d1c3</identifier>
+        <identifier>urn:node:d1c3</identifier>
         <name>cn-orc-1</name>
         <description>Production Coordinating node at Oak Ridge National Laboratories UTK Campus</description>
         <baseURL>http://cn-orc-1.dataone.org/cn/</baseURL>
@@ -118,7 +118,7 @@ xsi:schemaLocation="http://ns.dataone.org/service/types/v1 https://repository.da
         <contactSubject>cn=me,dc=here,dc=there</contactSubject>
     </node>
     <node replicate="true" synchronize="true" type="mn" state="up">
-        <identifier>s1m1</identifier>
+        <identifier>urn:node:s1m1</identifier>
         <name>knb</name>
         <description>Dynamic Development Member Node 1</description>
         <baseURL>http://mn-rpw-silo1.communalware.net/mn/</baseURL>
@@ -135,7 +135,7 @@ xsi:schemaLocation="http://ns.dataone.org/service/types/v1 https://repository.da
         <contactSubject>cn=me,dc=here,dc=there</contactSubject>
     </node>
     <node replicate="true" synchronize="true" type="mn" state="up">
-        <identifier>s1m2</identifier>
+        <identifier>urn:node:s1m2</identifier>
         <name>dryad</name>
         <description>Dynamic Development Member Node 2</description>
         <baseURL>http://mn-rpw-silo2.communalware.net/mn/</baseURL>
@@ -152,7 +152,7 @@ xsi:schemaLocation="http://ns.dataone.org/service/types/v1 https://repository.da
         <contactSubject>cn=me,dc=here,dc=there</contactSubject>
     </node>
     <node replicate="true" synchronize="true" type="cn" state="up">
-        <identifier>c1c1</identifier>
+        <identifier>urn:node:c1c1</identifier>
         <name>cn_rpw_orc</name>
         <description>Development Coordinating Node 1</description>
         <baseURL>http://cn-rpw-orc.communalware.net/cn/</baseURL>
@@ -164,7 +164,7 @@ xsi:schemaLocation="http://ns.dataone.org/service/types/v1 https://repository.da
         <contactSubject>cn=me,dc=here,dc=there</contactSubject>
     </node>
     <node replicate="true" synchronize="true" type="cn" state="up">
-        <identifier>c1c2</identifier>
+        <identifier>urn:node:c1c2</identifier>
         <name>cn_rpw_unm</name>
         <description>Development Coordinating Node 2</description>
         <baseURL>http://cn-rpw-unm.communalware.net/cn/</baseURL>
@@ -176,7 +176,7 @@ xsi:schemaLocation="http://ns.dataone.org/service/types/v1 https://repository.da
         <contactSubject>cn=me,dc=here,dc=there</contactSubject>
     </node>
     <node replicate="true" synchronize="true" type="cn" state="up">
-        <identifier>c3p0</identifier>
+        <identifier>urn:node:c3p0</identifier>
         <name>cn_dev</name>
         <description>Development Protocol Coordinating Node</description>
         <baseURL>http://cn-dev.dataone.org/cn/</baseURL>
@@ -193,7 +193,7 @@ xsi:schemaLocation="http://ns.dataone.org/service/types/v1 https://repository.da
         <contactSubject>cn=me,dc=here,dc=there</contactSubject>
     </node>
     <node replicate="true" synchronize="true" type="mn" state="up">
-        <identifier>r2d2</identifier>
+        <identifier>urn:node:r2d2</identifier>
         <name>dryad</name>
         <description>Development AstroMech Member Node</description>
         <baseURL>http://gmn-dev.dyndns.org/mn/</baseURL>
@@ -210,7 +210,7 @@ xsi:schemaLocation="http://ns.dataone.org/service/types/v1 https://repository.da
         <contactSubject>cn=me,dc=here,dc=there</contactSubject>
     </node>
     <node replicate="true" synchronize="true" type="mn" state="up">
-        <identifier>m0t1</identifier>
+        <identifier>urn:node:m0t1</identifier>
         <name>knb</name>
         <description>Development Member node</description>
         <baseURL>http://knb-test-1.dataone.org/knb/d1</baseURL>

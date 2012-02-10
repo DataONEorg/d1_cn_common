@@ -609,6 +609,9 @@ public class SystemMetadata implements Serializable
      * @return count
      */
     public int sizeReplicaList() {
+        if (replicaList == null) {
+            replicaList = new ArrayList<Replica>();
+        }
         return replicaList.size();
     }
 
@@ -617,6 +620,9 @@ public class SystemMetadata implements Serializable
      * @param item
      */
     public void addReplica(Replica item) {
+        if (replicaList == null) {
+            replicaList = new ArrayList<Replica>();
+        }
         replicaList.add(item);
     }
 
@@ -626,6 +632,9 @@ public class SystemMetadata implements Serializable
      * @param index
      */
     public Replica getReplica(int index) {
+        if (replicaList == null) {
+            replicaList = new ArrayList<Replica>();
+        }
         return replicaList.get(index);
     }
 
@@ -633,6 +642,9 @@ public class SystemMetadata implements Serializable
      * Remove all 'replica' element items.
      */
     public void clearReplicaList() {
+        if (replicaList == null) {
+            replicaList = new ArrayList<Replica>();
+        }
         replicaList.clear();
     }
 }

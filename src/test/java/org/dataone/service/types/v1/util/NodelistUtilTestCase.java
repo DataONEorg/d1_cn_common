@@ -39,8 +39,8 @@ public class NodelistUtilTestCase
             InputStream ndIs = IOUtils.toInputStream(nodeDoc);
             Map<String, String> m = NodelistUtil.mapNodeList(ndIs);
 
-            assertTrue("knb-mn key", m.containsKey("d1m2"));
-            assertTrue("knb-mn value", m.get("d1m2").equals("http://knb-mn.ecoinformatics.org/knb/d1/"));
+            assertTrue("knb-mn key", m.containsKey("urn:node:d1m2"));
+            assertTrue("knb-mn value", m.get("urn:node:d1m2").equals("http://knb-mn.ecoinformatics.org/knb/d1/"));
         }
         catch(Exception e)
         {

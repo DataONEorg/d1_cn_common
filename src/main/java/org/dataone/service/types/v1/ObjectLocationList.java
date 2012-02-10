@@ -72,6 +72,9 @@ public class ObjectLocationList implements Serializable
      * @return count
      */
     public int sizeObjectLocationList() {
+        if (objectLocationList == null) {
+            objectLocationList = new ArrayList<ObjectLocation>();
+        }
         return objectLocationList.size();
     }
 
@@ -80,6 +83,9 @@ public class ObjectLocationList implements Serializable
      * @param item
      */
     public void addObjectLocation(ObjectLocation item) {
+        if (objectLocationList == null) {
+            objectLocationList = new ArrayList<ObjectLocation>();
+        }
         objectLocationList.add(item);
     }
 
@@ -89,6 +95,9 @@ public class ObjectLocationList implements Serializable
      * @param index
      */
     public ObjectLocation getObjectLocation(int index) {
+        if (objectLocationList == null) {
+            objectLocationList = new ArrayList<ObjectLocation>();
+        }
         return objectLocationList.get(index);
     }
 
@@ -96,6 +105,9 @@ public class ObjectLocationList implements Serializable
      * Remove all 'objectLocation' element items.
      */
     public void clearObjectLocationList() {
+        if (objectLocationList == null) {
+            objectLocationList = new ArrayList<ObjectLocation>();
+        }
         objectLocationList.clear();
     }
 }

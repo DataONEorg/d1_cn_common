@@ -47,6 +47,9 @@ public class NodeList implements Serializable
      * @return count
      */
     public int sizeNodeList() {
+        if (nodeList == null) {
+            nodeList = new ArrayList<Node>();
+        }
         return nodeList.size();
     }
 
@@ -55,6 +58,9 @@ public class NodeList implements Serializable
      * @param item
      */
     public void addNode(Node item) {
+        if (nodeList == null) {
+            nodeList = new ArrayList<Node>();
+        }
         nodeList.add(item);
     }
 
@@ -64,6 +70,9 @@ public class NodeList implements Serializable
      * @param index
      */
     public Node getNode(int index) {
+        if (nodeList == null) {
+            nodeList = new ArrayList<Node>();
+        }
         return nodeList.get(index);
     }
 
@@ -71,6 +80,9 @@ public class NodeList implements Serializable
      * Remove all 'node' element items.
      */
     public void clearNodeList() {
+        if (nodeList == null) {
+            nodeList = new ArrayList<Node>();
+        }
         nodeList.clear();
     }
 }

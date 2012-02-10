@@ -78,15 +78,14 @@ public class TypeMarshallerTestCase {
             fail("Test misconfiguration" +  ex);
         }
     }
-    // This one fails! need to fix and then try again
-    @Ignore
+
     @Test
-    public void deserializeEmptyObjectList() {
+    public void deserializeEmptyObjectListSize() {
         try {
             InputStream is = this.getClass().getResourceAsStream("/org/dataone/service/samples/v1/objectListSample2.xml");
             ObjectList objectList = TypeMarshaller.unmarshalTypeFromStream(ObjectList.class, is);
             assertNotNull(objectList);
-            assertNotNull(objectList.getObjectInfoList());
+            assertNotNull(objectList.sizeObjectInfoList());
         } catch (IOException ex) {
             fail("Test misconfiguration" +  ex);
         } catch (InstantiationException ex) {

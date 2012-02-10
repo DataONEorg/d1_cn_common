@@ -51,6 +51,9 @@ public class Log extends Slice implements Serializable
      * @return count
      */
     public int sizeLogEntryList() {
+        if (logEntryList == null) {
+            logEntryList = new ArrayList<LogEntry>();
+        }
         return logEntryList.size();
     }
 
@@ -59,6 +62,9 @@ public class Log extends Slice implements Serializable
      * @param item
      */
     public void addLogEntry(LogEntry item) {
+        if (logEntryList == null) {
+            logEntryList = new ArrayList<LogEntry>();
+        }
         logEntryList.add(item);
     }
 
@@ -68,6 +74,9 @@ public class Log extends Slice implements Serializable
      * @param index
      */
     public LogEntry getLogEntry(int index) {
+        if (logEntryList == null) {
+            logEntryList = new ArrayList<LogEntry>();
+        }
         return logEntryList.get(index);
     }
 
@@ -75,6 +84,9 @@ public class Log extends Slice implements Serializable
      * Remove all 'logEntry' element items.
      */
     public void clearLogEntryList() {
+        if (logEntryList == null) {
+            logEntryList = new ArrayList<LogEntry>();
+        }
         logEntryList.clear();
     }
 }

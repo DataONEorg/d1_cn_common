@@ -28,7 +28,7 @@
          It contains no useful information.
     -->
 	<node replicate="true" type="mn" synchronize="true" state="up">
-		<identifier>example_daac_mn_id</identifier>
+		<identifier>urn:node:example_daac_mn_id</identifier>
 		<name>example_daac_mn</name>
 		<description>description of the node.  This is daac</description>
 		<baseURL>http://eg.daacmn.dataone.utk.edu</baseURL>
@@ -46,7 +46,7 @@
                 <contactSubject>cn=me,dc=here,dc=there</contactSubject>
 	</node>
 	<node replicate="true" type="mn" synchronize="true" state="up">
-		<identifier>knb_mn_id</identifier>
+		<identifier>urn:node:knb_mn_id</identifier>
 		<name>example_knb_mn_entry</name>
 		<description>a node full of goodness</description>
 		<baseURL>http://knb-mn.ecoinformatics.org</baseURL>
