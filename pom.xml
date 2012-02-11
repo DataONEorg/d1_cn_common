@@ -5,7 +5,7 @@
     <groupId>org.dataone</groupId>
     <artifactId>d1_common_java</artifactId>
     <packaging>jar</packaging>
-    <version>1.0.1-RC2</version>
+    <version>1.0.1-RC3-SNAPSHOT</version>
     <name>DataONE_Common_Java</name>
     <url>http://dataone.org</url>
     <description>DataONE Common Code with Service Interface Definitions</description>
@@ -13,7 +13,6 @@
         <org.jibx.version>1.2.3</org.jibx.version>
     </properties>
     <build>
-        <defaultGoal>test</defaultGoal>
         <directory>target</directory>
         <sourceDirectory>src/main/java</sourceDirectory>
         <testSourceDirectory>src/test/java</testSourceDirectory>
@@ -369,14 +368,14 @@
         <dependency>
             <groupId>org.dataone</groupId>
             <artifactId>d1_jibx_extensions</artifactId>
-            <version>1.0.0-RC1</version>
+            <version>1.0.0-RC2-SNAPSHOT</version>
             <type>jar</type>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>org.dataone</groupId>
             <artifactId>d1_test_resources</artifactId>
-            <version>1.0.0-RC1</version>
+            <version>1.0.0-RC2-SNAPSHOT</version>
             <type>jar</type>
             <scope>test</scope>
         </dependency>
