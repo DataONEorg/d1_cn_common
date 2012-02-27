@@ -61,7 +61,7 @@
             <arg value="-c" />
             <arg value="${basedir}/src/main/resources/org/dataone/service/resources/config/jibxConfig.xml" />
             <arg value="-s" />
-            <arg value="https://repository.dataone.org/software/cicore/tags/D1_SCHEMA_0_6_2/" />
+            <arg value="https://repository.dataone.org/software/cicore/tags/D1_SCHEMA_1_0_2/" />
             <arg value="-t"/>
             <arg value="${basedir}/src/main/java"/>
             <arg value="dataoneTypes.xsd" />
@@ -80,7 +80,7 @@
             <arg value="${basedir}/src/main/resources/org/dataone/service/resources/config/v1/jibxConfig.xml" />
             <arg value="-s" />
             <!-- the repository url should be used for development cycles -->
-            <!-- <arg value="https://repository.dataone.org/software/cicore/branches/D1_SCHEMA_1_0_0/" /> -->
+            <!-- <arg value="https://repository.dataone.org/software/cicore/branches/D1_SCHEMA_1_0_2/" /> -->
             <!-- the ns url should be used for production releases -->
             <arg value="http://ns.dataone.org/service/types" />
             <arg value="-p" />

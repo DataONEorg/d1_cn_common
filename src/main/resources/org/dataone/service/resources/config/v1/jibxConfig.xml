@@ -31,11 +31,7 @@
      <class-decorator class="org.dataone.jibx.schema.codegen.extend.ComparableIdentifierDecorator" match-name="NodeReference"/>
      <class-decorator class="org.dataone.jibx.schema.codegen.extend.ComparableIdentifierDecorator" match-name="ObjectFormatIdentifier"/>
      <class-decorator class="org.dataone.jibx.schema.codegen.extend.ComparableSubjectDecorator" match-name="Subject"/> -->
-<!--
-     <class-decorator class="org.jibx.schema.codegen.extend.ExtensionDecorator" match-name="Identifier" base-class="org.dataone.service.types.IdentifierBase"/>
-      <class-decorator class="org.jibx.schema.codegen.extend.ExtensionDecorator" match-name="NodeReference" base-class="org.dataone.service.types.IdentifierBase"/>
-      <class-decorator class="org.jibx.schema.codegen.extend.ExtensionDecorator" match-name="ObjectFormatIdentifier" base-class="org.dataone.service.types.IdentifierBase"/> 
-      <class-decorator class="org.jibx.schema.codegen.extend.ExtensionDecorator" match-name="Subject" base-class="org.dataone.service.types.SubjectBase"/> -->
+
 <!--      For development cycles, we will use dataoneTypes.xsd as the schema-set name, but
           For production releases we switch to an url that has v1 as the last segment of the uri path -->
 <!--      <schema-set names="dataoneTypes.xsd" prefix="d1" namespaces="http://ns.dataone.org/service/types/v1"> -->

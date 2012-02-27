@@ -10,4 +10,4 @@
 
 <d1:identifier  xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
    xmlns:d1='http://ns.dataone.org/service/types/v1'
-   xsi:schemaLocation="http://ns.dataone.org/service/types/v1 https://repository.dataone.org/software/cicore/tags/D1_SCHEMA_1_0_0/dataoneTypes.xsd">ABC123</d1:identifier>
+   xsi:schemaLocation="http://ns.dataone.org/service/types/v1 https://repository.dataone.org/software/cicore/tags/D1_SCHEMA_1_0_2/dataoneTypes.xsd">ABC123</d1:identifier>

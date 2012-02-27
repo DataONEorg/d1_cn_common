@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <d1:nodeList xmlns:d1="http://ns.dataone.org/service/types/v1"
 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-xsi:schemaLocation="http://ns.dataone.org/service/types/v1 https://repository.dataone.org/software/cicore/tags/D1_SCHEMA_1_0_1/dataoneTypes.xsd">
+xsi:schemaLocation="http://ns.dataone.org/service/types/v1 https://repository.dataone.org/software/cicore/tags/D1_SCHEMA_1_0_2/dataoneTypes.xsd">
 
     <node replicate="true" synchronize="true" type="mn" state="up">
         <identifier>urn:node:d1m1</identifier>

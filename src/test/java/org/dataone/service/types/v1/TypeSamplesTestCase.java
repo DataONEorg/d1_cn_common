@@ -66,7 +66,7 @@ import org.xml.sax.SAXParseException;
 public class TypeSamplesTestCase {
 
     private static Logger logger = Logger.getLogger(TypeSamplesTestCase.class);
-    static final String datatypeSchemaTagUrl = "https://repository.dataone.org/software/cicore/tags/D1_SCHEMA_1_0_0/";
+    static final String datatypeSchemaTagUrl = "https://repository.dataone.org/software/cicore/tags/D1_SCHEMA_1_0_2/";
     static String datatypeSchemaLocation = datatypeSchemaTagUrl + "dataoneTypes.xsd";
     static String systemMetadataSchemaLocation = datatypeSchemaTagUrl + "dataoneTypes.xsd";
     static String systemObjectListSchemaLocation = datatypeSchemaTagUrl + "dataoneTypes.xsd";
