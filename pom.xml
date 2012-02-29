@@ -4,13 +4,13 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.dataone</groupId>
     <artifactId>d1_cn_common</artifactId>
-    <version>1.0.0-RC2-SNAPSHOT</version>
+    <version>1.0.0-RC2</version>
     <name>DataONE_Cn_Common</name>
     <url>http://dataone.org</url>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <hazelcast.version>1.9.4.6</hazelcast.version>
-        <d1_libclient_version>1.0.1-RC3-SNAPSHOT</d1_libclient_version>
+        <d1_libclient_version>1.0.1-RC3</d1_libclient_version>
     </properties>
     <repositories>
 
