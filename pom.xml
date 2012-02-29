@@ -8,6 +8,9 @@
     <name>DataONE_Cn_Common</name>
     <url>http://dataone.org</url>
     <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <hazelcast.version>1.9.4.6</hazelcast.version>
+        <d1_libclient_version>1.0.1-RC3-SNAPSHOT</d1_libclient_version>
     </properties>
     <repositories>
 
@@ -36,7 +39,7 @@
         <dependency>
             <groupId>com.hazelcast</groupId>
             <artifactId>hazelcast</artifactId>
-            <version>1.9.4.6</version>
+            <version>${hazelcast.version}</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
@@ -59,13 +62,13 @@
         <dependency>
             <groupId>org.dataone</groupId>
             <artifactId>d1_common_java</artifactId>
-            <version>1.0.1-RC3-SNAPSHOT</version>
+            <version>${d1_libclient_version}</version>
             <type>jar</type>
         </dependency>
         <dependency>
         	<groupId>com.hazelcast</groupId>
         	<artifactId>hazelcast-client</artifactId>
-        	<version>1.9.4.6</version>
+        	<version>${hazelcast.version}</version>
         	<type>jar</type>
         	<scope>compile</scope>
         </dependency>
