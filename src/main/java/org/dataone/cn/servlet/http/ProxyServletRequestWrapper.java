@@ -14,12 +14,16 @@ import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 /**
  *
  * @author rwaltz
  */
 public class ProxyServletRequestWrapper extends HttpServletRequestWrapper implements HttpServletRequest, ServletRequest {
 
+    public static Log logger = LogFactory.getLog(ProxyServletRequestWrapper.class);
     private String proxyPathTranslated = null;
     private String proxyQueryString = null;
     private String proxyRequestURI = null;
@@ -28,13 +32,11 @@ public class ProxyServletRequestWrapper extends HttpServletRequestWrapper implem
     private String proxyServletPath = null;
     private String proxyHttpMethod = null;
     public HashMap<String, String[]> proxyParameterMap = new HashMap<String, String[]>();
-    static final Pattern parameterAssignmentPattern = Pattern.compile("(?:([^&]+)&?)+?");
-    static final Pattern parameterPattern = Pattern.compile("([^\\=]+)\\=([^\\=]+)");
-
+    
     public ProxyServletRequestWrapper(HttpServletRequest request) {
         super(request);
         if (!request.getParameterMap().isEmpty()) {
-            proxyParameterMap.putAll(request.getParameterMap());
+            this.proxyParameterMap.putAll(request.getParameterMap());
         }
     }
 
@@ -62,16 +64,6 @@ public class ProxyServletRequestWrapper extends HttpServletRequestWrapper implem
 
     public void setQueryString(String queryString) {
         this.proxyQueryString = queryString;
-        Matcher parameterAssignmentMatcher = parameterAssignmentPattern.matcher(queryString);
-        while (parameterAssignmentMatcher.find()) {
-            String parameterAssignment = parameterAssignmentMatcher.group(1);
-            Matcher parameterMatcher = parameterPattern.matcher(parameterAssignment);
-            if (parameterMatcher.find()) {
-                String key = parameterMatcher.group(1);
-                String[] value = {parameterMatcher.group(2)};
-                this.proxyParameterMap.put(key, value);
-            }
-        }
 
     }
 
