@@ -92,7 +92,7 @@ public class Subject implements Serializable, Comparable
         String standardizedName = null;
         try {
             X500Principal principal = new X500Principal(name);
-            standardizedName = principal.getName(X500Principal.CANONICAL);
+            standardizedName = principal.getName(X500Principal.RFC2253);
         } catch (IllegalArgumentException e) {
             standardizedName = name;
         }
