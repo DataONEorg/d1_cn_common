@@ -141,4 +141,10 @@ public interface CNCore
    			throws NotImplemented, NotFound, NotAuthorized, ServiceFailure,
    			InvalidRequest, InvalidToken, VersionMismatch;
 
+    /**
+     * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CNCore.delete
+     */
+    public Identifier delete(Session session, Identifier pid)
+    throws InvalidToken, ServiceFailure, NotAuthorized, NotFound, NotImplemented;
+
 }
