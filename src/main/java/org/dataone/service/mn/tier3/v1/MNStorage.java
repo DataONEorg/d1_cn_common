@@ -79,4 +79,13 @@ public interface MNStorage {
     public boolean systemMetadataChanged(Session session, Identifier pid, long serialVersion,
     	Date dateSystemMetadataLastModified)
     throws InvalidToken, ServiceFailure, NotAuthorized, NotImplemented, InvalidRequest;
+    
+    
+    
+    /**
+     * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/MN_APIs.html#MNStorage.generateIdentifier
+     */
+    public Identifier generateIdentifier(Session session, String scheme, String fragment)
+    	throws InvalidToken, ServiceFailure,
+            NotAuthorized, NotImplemented, InvalidRequest;
 }
