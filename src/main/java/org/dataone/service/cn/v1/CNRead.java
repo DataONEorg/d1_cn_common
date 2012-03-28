@@ -87,7 +87,7 @@ public interface CNRead
      * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CNRead.listObjects
      */
     public ObjectList listObjects(Session session, Date fromDate, 
-            Date toDate, ObjectFormatIdentifier formatid, Boolean replicaStatus,
+            Date toDate, ObjectFormatIdentifier formatId, Boolean replicaStatus,
             Integer start, Integer count) 
     throws InvalidRequest, InvalidToken, NotAuthorized, NotImplemented, ServiceFailure;
     
