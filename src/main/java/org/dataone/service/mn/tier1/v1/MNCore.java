@@ -57,7 +57,7 @@ public interface MNCore {
      * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/MN_APIs.html#MN_core.getLogRecords
      */
     public Log getLogRecords(Session session, Date fromDate, Date toDate, 
-           Event event, Integer start, Integer count, String pidFilter) 
+           Event event, String pidFilter, Integer start, Integer count) 
     throws InvalidRequest, InvalidToken, NotAuthorized, NotImplemented, ServiceFailure;
 
 
