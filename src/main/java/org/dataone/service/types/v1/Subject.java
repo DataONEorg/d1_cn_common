@@ -85,8 +85,9 @@ public class Subject implements Serializable, Comparable
     }
 
     /** 
-     * Uses X500Principal.CANONICAL format for internal comparison/equality checks
-     * @param name the [reasonable] DN representation  * @return the standard D1 representation 
+     * Uses X500Principal.RFC2253 format for internal comparison/equality checks
+     * @param name the [reasonable] DN representation 
+     * @return String the standard D1 representation 
      */
     private String standardizeDN(String name) {
         String standardizedName = null;
