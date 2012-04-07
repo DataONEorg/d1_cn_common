@@ -16,6 +16,8 @@ import com.hazelcast.config.ClasspathXmlConfig;
  * 
  * One source for HazelcastClient instances.
  * 
+ * Based on HazelcastClientInstance class.
+ * 
  * @author sroseboo
  * 
  */
@@ -65,7 +67,6 @@ public class HazelcastClientFactory {
                         clientConfiguration = new ClientConfiguration(configLocationSetting);
                     }
                 } else {
-                    // default behavior is to pull from /etc/dataone/
                     clientConfiguration = new ClientConfiguration(defaultLocation);
                 }
             } catch (FileNotFoundException ex) {
