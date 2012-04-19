@@ -20,23 +20,21 @@
 
 package org.dataone.service.mn.tier3.v1;
 
+import java.io.InputStream;
+
+import org.dataone.service.exceptions.IdentifierNotUnique;
+import org.dataone.service.exceptions.InsufficientResources;
 import org.dataone.service.exceptions.InvalidRequest;
+import org.dataone.service.exceptions.InvalidSystemMetadata;
 import org.dataone.service.exceptions.InvalidToken;
 import org.dataone.service.exceptions.NotAuthorized;
 import org.dataone.service.exceptions.NotFound;
 import org.dataone.service.exceptions.NotImplemented;
 import org.dataone.service.exceptions.ServiceFailure;
-import org.dataone.service.exceptions.IdentifierNotUnique;
 import org.dataone.service.exceptions.UnsupportedType;
-import org.dataone.service.exceptions.InsufficientResources;
-import org.dataone.service.exceptions.InvalidSystemMetadata;
-
 import org.dataone.service.types.v1.Identifier;
 import org.dataone.service.types.v1.Session;
 import org.dataone.service.types.v1.SystemMetadata;
-
-import java.io.InputStream;
-import java.util.Date;
 
 /**
  * The DataONE Member Node Tier 3 Storage interface.  This defines an
@@ -72,14 +70,6 @@ public interface MNStorage {
     public Identifier delete(Session session, Identifier pid)
     throws InvalidToken, ServiceFailure, NotAuthorized, NotFound, NotImplemented;
 
-    
-    /**
-     * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/MN_APIs.html#MN_storage.systemMetadataChanged
-     */
-    public boolean systemMetadataChanged(Session session, Identifier pid, long serialVersion,
-    	Date dateSystemMetadataLastModified)
-    throws InvalidToken, ServiceFailure, NotAuthorized, NotImplemented, InvalidRequest;
-    
     
     
     /**
