@@ -20,7 +20,16 @@ import org.dataone.service.util.Constants;
 public class AuthUtils {
 
 	private static Logger logger = Logger.getLogger(AuthUtils.class);
-	
+
+	/**
+	 * Derived from Metacat implementation
+	 * Creates a list of subjects represented in the session object, parsing 
+	 * both the subject of the session and the subjectInfo.
+	 * 
+	 * Does not handle administrative access / authorization
+	 * @param session
+	 * @return
+	 */
 	public static Subject[] authorizedClientSubjects(Session session)
 	{
 		// for the "Verified" symbolic user
@@ -114,7 +123,18 @@ public class AuthUtils {
 	}
 	
 	
-	
+	/**
+	 * Needs testing!!
+	 * Queries the systemMetadata to see if one of the given subjects 
+	 * is allowed the specified permission.
+	 * the given systemMetadata of the object
+	 * @param subjects - the list of subject, assumed to represent the subjects
+	 *                   of a session
+	 * @param permission -  the permission that is requested authorization for 
+	 * @param systemMetadata - the systemMetadata of the target object to test
+	 * @return - true if one of the subjects is authorized for the given permission
+	 * @throws NotAuthorized
+	 */
 	public static boolean isAuthorized(Subject[] subjects, Permission permission, 
 	     SystemMetadata systemMetadata) 
 	throws NotAuthorized
