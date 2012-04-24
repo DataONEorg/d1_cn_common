@@ -50,6 +50,9 @@ public class DataSourceFactory {
     private static final String metacatMaxPoolSize = Settings.getConfiguration().getString(
             metacatMaxPoolSizeProperty);
 
+    private DataSourceFactory() {
+    }
+
     public static BasicDataSource getMetacatDataSource() {
         if (metacatDataSource == null) {
             initMetacatDataSource();
