@@ -157,7 +157,7 @@ public class AuthUtils {
 	
 	
 	/**
-	 * Needs testing!!
+	 *
 	 * Queries the systemMetadata to see if one of the given subjects 
 	 * is allowed the specified permission against the given systemMetadata
 	 * 
@@ -166,31 +166,22 @@ public class AuthUtils {
 	 * @param requestedPerm -  the permission that is requested authorization for 
 	 * @param systemMetadata - the systemMetadata of the target object to test
 	 * @return - true if one of the subjects is authorized for the given permission
-	 * @throws NotAuthorized
+	 *           otherwise false
 	 */
 	public static boolean isAuthorized(Subject[] subjects, Permission requestedPerm,
 			SystemMetadata systemMetadata) 
-	throws NotAuthorized
 	{
-		boolean allowed = false;
-
+		
 		// if rightsHolder is one of subjects, can return allowed (true)
 		// without further checks
 		for (Subject s: subjects) {
-			allowed = systemMetadata.getRightsHolder().equals(s);
-			
-			logger.debug(String.format(
-					"Comparing \t%s \tagainst \t%s", 
-					systemMetadata.getRightsHolder().getValue(),
-					s.getValue())
-					);
-			
-			if (allowed) {
-				return allowed;
+			if (systemMetadata.getRightsHolder().equals(s)) {
+				return true;
 			}
 		}    
 
 	    // otherwise check the access rules
+		boolean allowed = false;
 	    try {
 		    List<AccessRule> allows = systemMetadata.getAccessPolicy().getAllowList();
 		    if (allows != null) {
@@ -199,17 +190,7 @@ public class AuthUtils {
 		    			if (accessRule.sizePermissionList() > 0) {
 		    				for (Subject s: subjects) {
 		    					if (accessRule.getSubjectList().contains(s)) {
-		    						if(requestedPerm.equals(Permission.READ)) {
-		    							// any permission will do, so skip the test
-		    							allowed = true;
-		    							break search;
-		    						} else if (requestedPerm.equals(Permission.CHANGE_PERMISSION)) {
-		    							// has to be exact match
-		    							allowed = accessRule.getPermissionList().contains(Permission.CHANGE_PERMISSION);
-		    						} else {
-		    							allowed = accessRule.getPermissionList().contains(Permission.CHANGE_PERMISSION)
-		    									|| accessRule.getPermissionList().contains(Permission.WRITE);
-		    						}
+		    						allowed = comparePermissions(requestedPerm, accessRule.getPermissionList());
 		    						if (allowed) {
 		    							break search;
 		    						}
@@ -221,16 +202,34 @@ public class AuthUtils {
 	    } catch (Exception e) {
 	    	// catch all for errors - safe side should be to deny the access
 	    	logger.error("Problem checking authorization - defaulting to deny", e);
-			allowed = false;
-		  
-	    }
-	    
-	    // throw or return?
-	    if (!allowed) {
-	      throw new NotAuthorized("1820", requestedPerm + " not allowed on " + 
-	    		  systemMetadata.getIdentifier().getValue());
+			allowed = false;  
 	    }
 	    
 	    return allowed;	    
+	}
+	
+	/*
+	 * a comparison algorithm for hierarchical permissions (WRITE implies READ, and CHANGE
+	 * implies WRITE and READ).
+	 */
+	private static boolean comparePermissions(Permission requested, List<Permission> allowed) 
+	{
+		if (allowed.isEmpty())
+				return false;
+		
+		if (requested.equals(Permission.READ)) 
+			// if this far, then request READ is always true
+			return true;
+		
+		if (allowed.contains(Permission.CHANGE_PERMISSION))
+			return true;
+		
+		// remaining cases are request WRITE or CHANGE vs. READ and/or WRITE
+		// (only WRITE vs. WRITE gives true)
+		if (requested.equals(Permission.WRITE) && allowed.contains(Permission.WRITE))
+				return true;
+		
+		return false;
+		
 	}
 }
