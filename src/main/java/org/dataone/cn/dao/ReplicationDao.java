@@ -21,8 +21,10 @@ package org.dataone.cn.dao;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.dataone.service.types.v1.Identifier;
+import org.dataone.service.types.v1.NodeReference;
 
 /**
  * Abstract definition of a replication data access object used to identify
@@ -39,6 +41,12 @@ public interface ReplicationDao {
 
     public List<Identifier> getInvalidReplicas(int pageSize, int pageNumber);
 
-    public List<Identifier> getStaleQueuedRelicas(int pageSize, int pageNumber);
+    public List<Identifier> getStaleQueuedReplicas(int pageSize, int pageNumber);
+    
+    /**
+     * Return a map of member node to replica count entries where the replica
+     * status is either queued or requested
+     */
+    public Map<NodeReference, Integer> getPendingReplicasByNode();
 
 }

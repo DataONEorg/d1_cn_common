@@ -25,11 +25,15 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.dataone.service.types.v1.Identifier;
+import org.dataone.service.types.v1.NodeReference;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 
@@ -76,7 +80,7 @@ public class ReplicationDaoMetacatImpl implements ReplicationDao {
         return new ArrayList<Identifier>();
     }
 
-    public List<Identifier> getStaleQueuedRelicas(int pageSize, int pageNumber) {
+    public List<Identifier> getStaleQueuedReplicas(int pageSize, int pageNumber) {
         return new ArrayList<Identifier>();
     }
 
@@ -87,4 +91,77 @@ public class ReplicationDaoMetacatImpl implements ReplicationDao {
             return pid;
         }
     }
+
+    /**
+     * Retrieve the count of pending replica requests per target node listed
+     * in the Coordinating Node's systemetadatareplicationstatus table. The 
+     * result is used to determine the current request load for a given 
+     * Member Node
+     * 
+     * @return pendingReplicasNodeMap - the map of nodeId/count pairs
+     */
+    @Override
+    public Map<NodeReference, Integer> getPendingReplicasByNode() {
+        
+        log.debug("Getting current pending replicas by node");
+        
+        // The map to hold the nodeId/count K/V pairs
+        Map<NodeReference, Integer> pendingReplicasByNodeMap = 
+            new HashMap<NodeReference, Integer>();
+        
+        String sqlStatement = 
+         "SELECT systemmetadatareplicationstatus.member_node,          " +
+         "       systemmetadatareplicationstatus.count(status) AS count" + 
+         "  FROM  systemmetadatareplicationstatus                      " +
+         "  WHERE systemmetadatareplicationstatus.status = 'QUEUED'    " +
+         "  OR    systemmetadatareplicationstatus.status = 'REQUESTED' " +
+         "  GROUP BY systemmetadatareplicationstatus.member_node       " +
+         "  ORDER BY systemmetadatareplicationstatus.member_node;      ";
+        
+        pendingReplicasByNodeMap = 
+            this.jdbcTemplate.queryForObject(sqlStatement, new PendingReplicasMap());
+        
+        if (log.isDebugEnabled()) {
+            Iterator<?> iterator = pendingReplicasByNodeMap.entrySet().iterator();
+            log.debug("Pending replica map by node: ");
+            while(iterator.hasNext()) {
+                Map.Entry<NodeReference, Integer> pairs = 
+                    (Map.Entry<NodeReference, Integer>) iterator.next();
+                log.debug("Node: "    + pairs.getKey().getValue() + 
+                          ", count: " + pairs.getValue().intValue());
+            }
+        }
+        return pendingReplicasByNodeMap;
+    }
+
+
+    /*
+     * An internal class representing a Map of pending replicas. implements the
+     * RowMapper interface to populate the resultant Map. 
+     */
+    private static final class PendingReplicasMap 
+        implements RowMapper<Map<NodeReference, Integer>> {
+
+        /**
+         * Map each row of the resultset into a map of nodeId/count entries
+         * 
+         * @return pendingReplicasByNodeMap - the count of pending replicas by node
+         * 
+         * @throws SQLException
+         */
+        @Override
+        public Map<NodeReference, Integer> mapRow(ResultSet resultSet, int rowNum)
+            throws SQLException {
+            Map<NodeReference, Integer> pendingReplicasByNodeMap = 
+                new HashMap<NodeReference, Integer>();
+            NodeReference nodeId = new NodeReference();
+            nodeId.setValue(resultSet.getString("member_node"));
+            Integer count = resultSet.getInt("count");
+            pendingReplicasByNodeMap.put(nodeId, count);
+            
+            return pendingReplicasByNodeMap;
+        }
+        
+    }
+
 }
