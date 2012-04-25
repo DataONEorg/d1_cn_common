@@ -31,7 +31,7 @@ public class DataSourceFactory {
     private static BasicDataSource metacatDataSource;
 
     private static final String metacatUrlProperty = "metacat.datasource.url";
-    private static final String metacatDriverClassProperty = "metacat.datasource.driver";
+    private static final String metacatDriverClassProperty = "metacat.datasource.driverClass";
     private static final String metacatUsernameProperty = "metacat.datasource.username";
     private static final String metacatPasswordProperty = "metacat.datasource.password";
     private static final String metacatInitialPoolSizeProperty = "metacat.datasource.initialSize";
