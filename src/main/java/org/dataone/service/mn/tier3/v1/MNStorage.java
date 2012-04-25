@@ -48,6 +48,44 @@ public interface MNStorage {
     /**
      * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/MN_APIs.html#MN_storage.create
      */
+    public Identifier create(Identifier pid, InputStream object, 
+        SystemMetadata sysmeta) 
+    throws IdentifierNotUnique, InsufficientResources, InvalidRequest, InvalidSystemMetadata, 
+    	InvalidToken, NotAuthorized, NotImplemented, ServiceFailure, UnsupportedType;
+
+
+    /**
+     * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/MN_APIs.html#MN_storage.update
+     */
+    public Identifier update(Identifier pid, InputStream object, 
+        Identifier newPid, SystemMetadata sysmeta) 
+    throws IdentifierNotUnique, InsufficientResources, InvalidRequest, InvalidSystemMetadata, 
+        InvalidToken, NotAuthorized, NotImplemented, ServiceFailure, UnsupportedType,
+        NotFound;
+
+    
+    /**
+     * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/MN_APIs.html#MN_storage.delete
+     */
+    public Identifier delete(Identifier pid)
+    throws InvalidToken, ServiceFailure, NotAuthorized, NotFound, NotImplemented;
+
+    
+    
+    /**
+     * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/MN_APIs.html#MNStorage.generateIdentifier
+     */
+    public Identifier generateIdentifier(String scheme, String fragment)
+    	throws InvalidToken, ServiceFailure,
+            NotAuthorized, NotImplemented, InvalidRequest;
+    
+    /////
+    
+    
+    /**
+     * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/MN_APIs.html#MN_storage.create
+     */
+    @Deprecated
     public Identifier create(Session session, Identifier pid, InputStream object, 
         SystemMetadata sysmeta) 
     throws IdentifierNotUnique, InsufficientResources, InvalidRequest, InvalidSystemMetadata, 
@@ -57,6 +95,7 @@ public interface MNStorage {
     /**
      * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/MN_APIs.html#MN_storage.update
      */
+    @Deprecated
     public Identifier update(Session session, Identifier pid, InputStream object, 
         Identifier newPid, SystemMetadata sysmeta) 
     throws IdentifierNotUnique, InsufficientResources, InvalidRequest, InvalidSystemMetadata, 
@@ -67,6 +106,7 @@ public interface MNStorage {
     /**
      * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/MN_APIs.html#MN_storage.delete
      */
+    @Deprecated
     public Identifier delete(Session session, Identifier pid)
     throws InvalidToken, ServiceFailure, NotAuthorized, NotFound, NotImplemented;
 
@@ -75,6 +115,7 @@ public interface MNStorage {
     /**
      * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/MN_APIs.html#MNStorage.generateIdentifier
      */
+    @Deprecated
     public Identifier generateIdentifier(Session session, String scheme, String fragment)
     	throws InvalidToken, ServiceFailure,
             NotAuthorized, NotImplemented, InvalidRequest;

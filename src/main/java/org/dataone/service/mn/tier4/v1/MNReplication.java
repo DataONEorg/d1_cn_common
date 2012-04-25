@@ -48,6 +48,25 @@ public interface MNReplication {
     /**
      * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/MN_APIs.html#MN_replication.replicate
      */
+    public boolean replicate(SystemMetadata sysmeta, NodeReference sourceNode) 
+    throws NotImplemented, ServiceFailure, NotAuthorized, InvalidRequest, 
+    	InvalidToken, InsufficientResources, UnsupportedType;
+
+    
+    /**
+     * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/MN_APIs.html#MNReplication.getReplica
+     */
+    public InputStream getReplica(Identifier pid)
+    throws InvalidToken, NotAuthorized, NotImplemented, ServiceFailure, NotFound,
+    InsufficientResources;
+ 
+	
+    ////
+	
+    /**
+     * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/MN_APIs.html#MN_replication.replicate
+     */
+	@Deprecated
     public boolean replicate(Session session, SystemMetadata sysmeta, NodeReference sourceNode) 
     throws NotImplemented, ServiceFailure, NotAuthorized, InvalidRequest, 
     	InvalidToken, InsufficientResources, UnsupportedType;
@@ -56,6 +75,7 @@ public interface MNReplication {
     /**
      * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/MN_APIs.html#MNReplication.getReplica
      */
+	@Deprecated
     public InputStream getReplica(Session session, Identifier pid)
     throws InvalidToken, NotAuthorized, NotImplemented, ServiceFailure, NotFound,
     InsufficientResources;

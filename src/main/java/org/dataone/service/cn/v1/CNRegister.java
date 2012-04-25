@@ -44,6 +44,22 @@ public interface CNRegister {
     /** 
      * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CNRegister.updateNodeCapabilities
      */
+    public boolean updateNodeCapabilities(NodeReference nodeid, 
+        Node node) throws NotImplemented, NotAuthorized, 
+        ServiceFailure, InvalidRequest, NotFound, InvalidToken;
+
+    /** 
+     * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CNRegister.register
+     */
+    public NodeReference register(Node node)
+        throws NotImplemented, NotAuthorized, ServiceFailure, InvalidRequest, 
+        InvalidToken, IdentifierNotUnique;
+
+    ////   
+    /** 
+     * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CNRegister.updateNodeCapabilities
+     */
+    @Deprecated
     public boolean updateNodeCapabilities(Session session, NodeReference nodeid, 
         Node node) throws NotImplemented, NotAuthorized, 
         ServiceFailure, InvalidRequest, NotFound, InvalidToken;
@@ -51,6 +67,7 @@ public interface CNRegister {
     /** 
      * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CNRegister.register
      */
+    @Deprecated
     public NodeReference register(Session session, Node node)
         throws NotImplemented, NotAuthorized, ServiceFailure, InvalidRequest, 
         InvalidToken, IdentifierNotUnique;

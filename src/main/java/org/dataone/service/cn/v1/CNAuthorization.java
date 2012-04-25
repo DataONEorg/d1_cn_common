@@ -46,6 +46,30 @@ public interface CNAuthorization {
     /**
      * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CNAuthorization.setRightsHolder
      */
+    public Identifier setRightsHolder(Identifier pid, Subject userId, 
+         long serialVersion)
+        throws InvalidToken, ServiceFailure, NotFound, NotAuthorized, 
+        NotImplemented, InvalidRequest, VersionMismatch;
+
+    /**
+     * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CNAuthorization.isAuthorized
+     */
+    public boolean isAuthorized(Identifier pid, Permission permission)
+        throws ServiceFailure, InvalidToken, NotFound, NotAuthorized, 
+        NotImplemented, InvalidRequest;
+
+    /**
+     * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CNAuthorization.setAccessPolicy
+     */
+    public boolean setAccessPolicy(Identifier pid, 
+        AccessPolicy policy, long serialVersion) 
+        throws InvalidToken, NotFound, NotImplemented, NotAuthorized, 
+        ServiceFailure, InvalidRequest, VersionMismatch;
+    
+    /**
+     * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CNAuthorization.setRightsHolder
+     */
+    @Deprecated
     public Identifier setRightsHolder(Session session, Identifier pid, Subject userId, 
          long serialVersion)
         throws InvalidToken, ServiceFailure, NotFound, NotAuthorized, 
@@ -54,6 +78,7 @@ public interface CNAuthorization {
     /**
      * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CNAuthorization.isAuthorized
      */
+    @Deprecated
     public boolean isAuthorized(Session session, Identifier pid, Permission permission)
         throws ServiceFailure, InvalidToken, NotFound, NotAuthorized, 
         NotImplemented, InvalidRequest;
@@ -61,6 +86,7 @@ public interface CNAuthorization {
     /**
      * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CNAuthorization.setAccessPolicy
      */
+    @Deprecated
     public boolean setAccessPolicy(Session session, Identifier pid, 
         AccessPolicy policy, long serialVersion) 
         throws InvalidToken, NotFound, NotImplemented, NotAuthorized, 

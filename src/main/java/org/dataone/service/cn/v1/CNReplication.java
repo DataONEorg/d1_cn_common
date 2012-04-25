@@ -50,6 +50,44 @@ public interface CNReplication {
     /**
      * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CNReplication.setReplicationStatus
      */
+	public boolean setReplicationStatus(Identifier pid, 
+		NodeReference nodeRef, ReplicationStatus status, BaseException failure) 
+		throws ServiceFailure, NotImplemented, InvalidToken, NotAuthorized, 
+		InvalidRequest, NotFound;
+
+    /**
+     * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CNReplication.setReplicationPolicy
+     */
+    public boolean setReplicationPolicy(Identifier pid, 
+        ReplicationPolicy policy, long serialVersion) 
+        throws NotImplemented, NotFound, NotAuthorized, ServiceFailure, 
+        InvalidRequest, InvalidToken, VersionMismatch;
+
+    /** 
+     * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CNReplication.isNodeAuthorized
+     */
+    public boolean isNodeAuthorized(Subject targetNodeSubject, Identifier pid)
+        throws NotImplemented, NotAuthorized, InvalidToken, ServiceFailure, 
+        NotFound, InvalidRequest;
+
+    /** 
+     * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CNReplication.updateReplicationMetadata
+     */
+    public boolean updateReplicationMetadata(Identifier pid, Replica replicaMetadata, long serialVersion)
+        throws NotImplemented, NotAuthorized, ServiceFailure, 
+        NotFound, InvalidRequest, InvalidToken, VersionMismatch;
+    
+    /** 
+     * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CNReplication.deleteReplicationMetadata
+     */
+    public boolean deleteReplicationMetadata(Identifier pid, NodeReference nodeId, long serialVersion) 
+  		throws InvalidToken, InvalidRequest, ServiceFailure, NotAuthorized, NotFound, NotImplemented, VersionMismatch;
+
+//////    
+    /**
+     * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CNReplication.setReplicationStatus
+     */
+    @Deprecated
 	public boolean setReplicationStatus(Session session, Identifier pid, 
 		NodeReference nodeRef, ReplicationStatus status, BaseException failure) 
 		throws ServiceFailure, NotImplemented, InvalidToken, NotAuthorized, 
@@ -58,7 +96,8 @@ public interface CNReplication {
     /**
      * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CNReplication.setReplicationPolicy
      */
-    public boolean setReplicationPolicy(Session session, Identifier pid, 
+    @Deprecated
+	public boolean setReplicationPolicy(Session session, Identifier pid, 
         ReplicationPolicy policy, long serialVersion) 
         throws NotImplemented, NotFound, NotAuthorized, ServiceFailure, 
         InvalidRequest, InvalidToken, VersionMismatch;
@@ -66,7 +105,8 @@ public interface CNReplication {
     /** 
      * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CNReplication.isNodeAuthorized
      */
-    public boolean isNodeAuthorized(Session originatingNodeSession, 
+    @Deprecated
+	public boolean isNodeAuthorized(Session originatingNodeSession, 
         Subject targetNodeSubject, Identifier pid)
         throws NotImplemented, NotAuthorized, InvalidToken, ServiceFailure, 
         NotFound, InvalidRequest;
@@ -74,7 +114,8 @@ public interface CNReplication {
     /** 
      * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CNReplication.updateReplicationMetadata
      */
-    public boolean updateReplicationMetadata(Session targetNodeSession, 
+    @Deprecated
+	public boolean updateReplicationMetadata(Session targetNodeSession, 
         Identifier pid, Replica replicaMetadata, long serialVersion)
         throws NotImplemented, NotAuthorized, ServiceFailure, 
         NotFound, InvalidRequest, InvalidToken, VersionMismatch;
@@ -82,7 +123,9 @@ public interface CNReplication {
     /** 
      * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CNReplication.deleteReplicationMetadata
      */
-    public boolean deleteReplicationMetadata(Session session, Identifier pid, NodeReference nodeId, long serialVersion) 
+    @Deprecated
+	public boolean deleteReplicationMetadata(Session session, Identifier pid, NodeReference nodeId, long serialVersion) 
   		throws InvalidToken, InvalidRequest, ServiceFailure, NotAuthorized, NotFound, NotImplemented, VersionMismatch;
 
+    
 }
