@@ -20,6 +20,7 @@
 package org.dataone.cn.dao;
 
 public class DaoFactory {
+
     private static ReplicationDao replicationDao;
 
     private DaoFactory() {
