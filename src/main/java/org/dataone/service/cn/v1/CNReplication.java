@@ -39,7 +39,7 @@ import org.dataone.service.types.v1.ReplicationPolicy;
 import org.dataone.service.types.v1.NodeReference;
 
 /**
- * The DataONE CoordinatingNode Tier3 Replication interface.  This defines an
+ * The DataONE CoordinatingNode Tier4 Replication interface.  This defines an
  * implementation interface for Coordinating Nodes that wish to build an
  * implementation that is compliant with the DataONE service definitions.
  *
