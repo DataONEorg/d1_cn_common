@@ -6,10 +6,12 @@ import static org.junit.Assert.assertTrue;
 import java.util.List;
 
 import org.dataone.service.types.v1.Group;
+import org.dataone.service.types.v1.Permission;
 import org.dataone.service.types.v1.Person;
 import org.dataone.service.types.v1.Session;
 import org.dataone.service.types.v1.Subject;
 import org.dataone.service.types.v1.SubjectInfo;
+import org.dataone.service.types.v1.SystemMetadata;
 import org.dataone.service.util.Constants;
 import org.junit.Before;
 import org.junit.Test;
@@ -389,4 +391,44 @@ public class AuthUtilsTestCase {
 		assertTrue("subject list should contain groupC", subjectList.contains(buildSubject("groupD")));
 	}
 	
+	
+	@Test
+	public void testIsAuthorized_AccessPolicy() 
+	{
+		SystemMetadata sysmeta = new SystemMetadata();
+		
+		sysmeta.setAccessPolicy(
+				
+				AccessUtil.createSingleRuleAccessPolicy(
+				new String[]{buildSubject("x").getValue(), buildSubject("y").getValue()},
+				new Permission[]{ Permission.WRITE}));
+		
+		sysmeta.setRightsHolder(buildSubject("qq"));
+		
+		Subject[] subjects = new Subject[] { buildSubject("z"), buildSubject("y"), buildSubject("x") };
+		assertTrue("x should be able to read the object", AuthUtils.isAuthorized(subjects, Permission.READ, sysmeta));		
+		assertTrue("x should be able to write the object", AuthUtils.isAuthorized(subjects, Permission.WRITE, sysmeta));		
+		assertFalse("x should NOT be able to change the object", AuthUtils.isAuthorized(subjects, Permission.CHANGE_PERMISSION, sysmeta));	
+		
+		assertFalse("testRightsHolder should be able to change the object", AuthUtils.isAuthorized(subjects, Permission.CHANGE_PERMISSION, sysmeta));
+	}
+	
+	
+	@Test
+	public void testIsAuthorized_RightsHolder() 
+	{
+		SystemMetadata sysmeta = new SystemMetadata();
+		
+		sysmeta.setAccessPolicy(
+				
+				AccessUtil.createSingleRuleAccessPolicy(
+				new String[]{buildSubject("x").getValue(), buildSubject("y").getValue()},
+				new Permission[]{ Permission.WRITE}));
+		
+		sysmeta.setRightsHolder(buildSubject("testRightsHolder"));
+		
+		Subject[] subjects = new Subject[] { buildSubject("testRightsHolder") };
+	
+		assertTrue("testRightsHolder should be able to change the object", AuthUtils.isAuthorized(subjects, Permission.CHANGE_PERMISSION, sysmeta));
+	}
 }
