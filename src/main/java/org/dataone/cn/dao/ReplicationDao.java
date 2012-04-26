@@ -48,5 +48,16 @@ public interface ReplicationDao {
      * status is either queued or requested
      */
     public Map<NodeReference, Integer> getPendingReplicasByNode();
+    
+    /**
+     * Return a map of member node to replica count entries where the replica
+     * status is failed and the date_verified is within a given timeframe
+     */
+    public Map<NodeReference, Integer> getRecentFailedReplicas();
 
+    /**
+     * Return a map of member node to replica count entries where the replica
+     * status is completed and the date_verified is within a given timeframe
+     */
+    public Map<NodeReference, Integer> getRecentCompletedReplicas();
 }
