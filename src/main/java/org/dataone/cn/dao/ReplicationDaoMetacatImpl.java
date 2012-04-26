@@ -119,7 +119,7 @@ public class ReplicationDaoMetacatImpl implements ReplicationDao {
          "  ORDER BY systemmetadatareplicationstatus.member_node;      ";
         
         pendingReplicasByNodeMap = 
-            this.jdbcTemplate.queryForObject(sqlStatement, new PendingReplicasMap());
+            this.jdbcTemplate.queryForObject(sqlStatement, new ReplicaCountMap());
         
         if (log.isDebugEnabled()) {
             Iterator<?> iterator = pendingReplicasByNodeMap.entrySet().iterator();
@@ -134,32 +134,43 @@ public class ReplicationDaoMetacatImpl implements ReplicationDao {
         return pendingReplicasByNodeMap;
     }
 
+    @Override
+    public Map<NodeReference, Integer> getRecentFailedReplicas() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public Map<NodeReference, Integer> getRecentCompletedReplicas() {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
     /*
-     * An internal class representing a Map of pending replicas. implements the
+     * An internal class representing a Map of replica counts by node. Implements the
      * RowMapper interface to populate the resultant Map. 
      */
-    private static final class PendingReplicasMap 
+    private static final class ReplicaCountMap 
         implements RowMapper<Map<NodeReference, Integer>> {
 
         /**
          * Map each row of the resultset into a map of nodeId/count entries
          * 
-         * @return pendingReplicasByNodeMap - the count of pending replicas by node
+         * @return replicaCountByNodeMap - the count of replicas by node
          * 
          * @throws SQLException
          */
         @Override
         public Map<NodeReference, Integer> mapRow(ResultSet resultSet, int rowNum)
             throws SQLException {
-            Map<NodeReference, Integer> pendingReplicasByNodeMap = 
+            Map<NodeReference, Integer> replicaCountByNodeMap = 
                 new HashMap<NodeReference, Integer>();
             NodeReference nodeId = new NodeReference();
             nodeId.setValue(resultSet.getString("member_node"));
             Integer count = resultSet.getInt("count");
-            pendingReplicasByNodeMap.put(nodeId, count);
+            replicaCountByNodeMap.put(nodeId, count);
             
-            return pendingReplicasByNodeMap;
+            return replicaCountByNodeMap;
         }
         
     }
