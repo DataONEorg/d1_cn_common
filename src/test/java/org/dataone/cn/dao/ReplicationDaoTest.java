@@ -35,7 +35,7 @@ public class ReplicationDaoTest {
     private JdbcTemplate jdbc = new JdbcTemplate(DataSourceFactory.getMetacatDataSource());
 
     @Before
-    public void createReplicationStatusTable() {
+    public void createTables() {
         jdbc.execute("CREATE TABLE IF NOT EXISTS systemmetadatareplicationstatus " + //
                 "(guid text, " + //
                 "member_node varchar(250), " + //
@@ -45,7 +45,7 @@ public class ReplicationDaoTest {
     }
 
     @After
-    public void removeReplicationStatusTable() {
+    public void dropTables() {
         jdbc.execute("DROP TABLE IF EXISTS systemmetadatareplicationstatus;");
     }
 
