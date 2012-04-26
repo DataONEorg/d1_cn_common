@@ -51,11 +51,18 @@ public class ReplicationDaoTest {
 
     @Test
     public void testReplicasByDateQuery() {
-        jdbc.execute("INSERT INTO systemmetadatareplicationstatus VALUES ('test_guid','mn:test:1','REQUESTED',TIMESTAMP '2008-01-01 12:00:00')");
+        // test data - 2 records before today, 1 record after today should
+        // result in 2 rows in query result.
+        // ORDER BY ascending should return least recently verified rows first.
+        jdbc.execute("INSERT INTO systemmetadatareplicationstatus VALUES ('test_guid','mn:test:1','REQUESTED',TIMESTAMP '2011-01-01 12:00:00')");
+        jdbc.execute("INSERT INTO systemmetadatareplicationstatus VALUES ('test_guid2','mn:test:1','REQUESTED',TIMESTAMP '2012-01-01 12:00:00')");
+        jdbc.execute("INSERT INTO systemmetadatareplicationstatus VALUES ('test_guid3','mn:test:1','REQUESTED',TIMESTAMP '2020-01-01 12:00:00')");
+
         ReplicationDao dao = DaoFactory.getReplicationDao();
         List<Identifier> results = dao.getReplicasByDate(new Date(System.currentTimeMillis()), 100,
                 1);
-        System.out.println("result: " + results.size());
-        Assert.assertTrue(results.size() == 1);
+        Assert.assertTrue(results.size() == 2);
+        Assert.assertTrue(results.get(0).getValue().equals("test_guid"));
+        Assert.assertTrue(results.get(1).getValue().equals("test_guid2"));
     }
 }
