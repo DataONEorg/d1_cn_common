@@ -179,10 +179,48 @@ public class ReplicationDaoMetacatImpl implements ReplicationDao {
         return recentFailedReplicasByNodeMap;
     }
 
+    /**
+     * Retrieve the count of recently completed replica requests per target node listed
+     * in the Coordinating Node's systemetadatareplicationstatus table. The 
+     * result is used to determine the current failure rate for a given 
+     * Member Node
+     * 
+     * @return recentCompletedReplicasByNodeMap - the map of nodeId/count pairs
+     */
     @Override
     public Map<NodeReference, Integer> getRecentCompletedReplicas() {
-        // TODO Auto-generated method stub
-        return null;
+        log.debug("Getting recently completed replicas by node.");
+        
+        // The map to hold the nodeId/count K/V pairs
+        Map<NodeReference, Integer> recentCompletedReplicasByNodeMap = 
+            new HashMap<NodeReference, Integer>();
+        
+        // TODO: make the date_verified timeframe configurable (currently 3)
+        String sqlStatement = 
+         "SELECT systemmetadatareplicationstatus.member_node,          " +
+         "       systemmetadatareplicationstatus.count(status) AS count" + 
+         "  FROM  systemmetadatareplicationstatus                      " +
+         "  WHERE systemmetadatareplicationstatus.status = 'COMPLETED' " +
+         "  AND   systemmetadatareplicationstatus.date_verified >=     " +
+         "        (SELECT CURRENT_DATE - 3)                            " +
+         "  GROUP BY systemmetadatareplicationstatus.member_node       " +
+         "  ORDER BY systemmetadatareplicationstatus.member_node;      ";
+        
+        recentCompletedReplicasByNodeMap = 
+            this.jdbcTemplate.queryForObject(sqlStatement, new ReplicaCountMap());
+        
+        if (log.isDebugEnabled()) {
+            Iterator<Map.Entry<NodeReference, Integer>> iterator = 
+                recentCompletedReplicasByNodeMap.entrySet().iterator();
+            log.debug("Recent completed replica map by node: ");
+            while(iterator.hasNext()) {
+                Map.Entry<NodeReference, Integer> pairs = 
+                    (Map.Entry<NodeReference, Integer>) iterator.next();
+                log.debug("Node: "    + pairs.getKey().getValue() + 
+                          ", count: " + pairs.getValue().intValue());
+            }
+        }
+        return recentCompletedReplicasByNodeMap;
     }
 
     /*
