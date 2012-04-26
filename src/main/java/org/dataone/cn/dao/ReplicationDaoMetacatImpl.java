@@ -51,15 +51,6 @@ public class ReplicationDaoMetacatImpl implements ReplicationDao {
 
     public List<Identifier> getReplicasByDate(Date auditDate, int pageSize, int pageNumber) {
 
-        // SELECT systemmetadata.guid, systemmetadata.number_replicas,
-        // systemmetadatareplicationstatus.member_node,
-        // systemmetadatareplicationstatus.status,
-        // systemmetadatareplicationstatus.date_verified FROM
-        // systemmetadata,systemmetadatareplicationstatus WHERE
-        // systemmetadata.guid = systemmetadatareplicationstatus.guid AND
-        // systemmetadatareplicationstatus.date_verified <= '2012-04-02
-        // 00:00:00' LIMIT 10 OFFSET 0;
-
         String dateString = format.format(auditDate);
         List<Identifier> results = this.jdbcTemplate.query(
                 "SELECT systemmetadatareplicationstatus.guid, "
@@ -93,52 +84,49 @@ public class ReplicationDaoMetacatImpl implements ReplicationDao {
     }
 
     /**
-     * Retrieve the count of pending replica requests per target node listed
-     * in the Coordinating Node's systemetadatareplicationstatus table. The 
-     * result is used to determine the current request load for a given 
-     * Member Node
+     * Retrieve the count of pending replica requests per target node listed in
+     * the Coordinating Node's systemetadatareplicationstatus table. The result
+     * is used to determine the current request load for a given Member Node
      * 
      * @return pendingReplicasByNodeMap - the map of nodeId/count pairs
      */
     @Override
     public Map<NodeReference, Integer> getPendingReplicasByNode() {
-        
+
         log.debug("Getting current pending replicas by node.");
-        
+
         // The map to hold the nodeId/count K/V pairs
-        Map<NodeReference, Integer> pendingReplicasByNodeMap = 
-            new HashMap<NodeReference, Integer>();
-        
-        String sqlStatement = 
-         "SELECT systemmetadatareplicationstatus.member_node,          " +
-         "       systemmetadatareplicationstatus.count(status) AS count" + 
-         "  FROM  systemmetadatareplicationstatus                      " +
-         "  WHERE systemmetadatareplicationstatus.status = 'QUEUED'    " +
-         "  OR    systemmetadatareplicationstatus.status = 'REQUESTED' " +
-         "  GROUP BY systemmetadatareplicationstatus.member_node       " +
-         "  ORDER BY systemmetadatareplicationstatus.member_node;      ";
-        
-        pendingReplicasByNodeMap = 
-            this.jdbcTemplate.queryForObject(sqlStatement, new ReplicaCountMap());
-        
+        Map<NodeReference, Integer> pendingReplicasByNodeMap = new HashMap<NodeReference, Integer>();
+
+        String sqlStatement = "SELECT systemmetadatareplicationstatus.member_node,          "
+                + "       systemmetadatareplicationstatus.count(status) AS count"
+                + "  FROM  systemmetadatareplicationstatus                      "
+                + "  WHERE systemmetadatareplicationstatus.status = 'QUEUED'    "
+                + "  OR    systemmetadatareplicationstatus.status = 'REQUESTED' "
+                + "  GROUP BY systemmetadatareplicationstatus.member_node       "
+                + "  ORDER BY systemmetadatareplicationstatus.member_node;      ";
+
+        pendingReplicasByNodeMap = this.jdbcTemplate.queryForObject(sqlStatement,
+                new ReplicaCountMap());
+
         if (log.isDebugEnabled()) {
-            Iterator<Map.Entry<NodeReference, Integer>> iterator = 
-                pendingReplicasByNodeMap.entrySet().iterator();
+            Iterator<Map.Entry<NodeReference, Integer>> iterator = pendingReplicasByNodeMap
+                    .entrySet().iterator();
             log.debug("Pending replica map by node: ");
-            while(iterator.hasNext()) {
-                Map.Entry<NodeReference, Integer> pairs = 
-                    (Map.Entry<NodeReference, Integer>) iterator.next();
-                log.debug("Node: "    + pairs.getKey().getValue() + 
-                          ", count: " + pairs.getValue().intValue());
+            while (iterator.hasNext()) {
+                Map.Entry<NodeReference, Integer> pairs = (Map.Entry<NodeReference, Integer>) iterator
+                        .next();
+                log.debug("Node: " + pairs.getKey().getValue() + ", count: "
+                        + pairs.getValue().intValue());
             }
         }
         return pendingReplicasByNodeMap;
     }
 
     /**
-     * Retrieve the count of recently failed replica requests per target node listed
-     * in the Coordinating Node's systemetadatareplicationstatus table. The 
-     * result is used to determine the current failure rate for a given 
+     * Retrieve the count of recently failed replica requests per target node
+     * listed in the Coordinating Node's systemetadatareplicationstatus table.
+     * The result is used to determine the current failure rate for a given
      * Member Node
      * 
      * @return recentFailedReplicasByNodeMap - the map of nodeId/count pairs
@@ -146,43 +134,41 @@ public class ReplicationDaoMetacatImpl implements ReplicationDao {
     @Override
     public Map<NodeReference, Integer> getRecentFailedReplicas() {
         log.debug("Getting recently failed replicas by node.");
-        
+
         // The map to hold the nodeId/count K/V pairs
-        Map<NodeReference, Integer> recentFailedReplicasByNodeMap = 
-            new HashMap<NodeReference, Integer>();
-        
+        Map<NodeReference, Integer> recentFailedReplicasByNodeMap = new HashMap<NodeReference, Integer>();
+
         // TODO: make the date_verified timeframe configurable (currently 3)
-        String sqlStatement = 
-         "SELECT systemmetadatareplicationstatus.member_node,          " +
-         "       systemmetadatareplicationstatus.count(status) AS count" + 
-         "  FROM  systemmetadatareplicationstatus                      " +
-         "  WHERE systemmetadatareplicationstatus.status = 'FAILED'    " +
-         "  AND   systemmetadatareplicationstatus.date_verified >=     " +
-         "        (SELECT CURRENT_DATE - 3)                            " +
-         "  GROUP BY systemmetadatareplicationstatus.member_node       " +
-         "  ORDER BY systemmetadatareplicationstatus.member_node;      ";
-        
-        recentFailedReplicasByNodeMap = 
-            this.jdbcTemplate.queryForObject(sqlStatement, new ReplicaCountMap());
-        
+        String sqlStatement = "SELECT systemmetadatareplicationstatus.member_node,          "
+                + "       systemmetadatareplicationstatus.count(status) AS count"
+                + "  FROM  systemmetadatareplicationstatus                      "
+                + "  WHERE systemmetadatareplicationstatus.status = 'FAILED'    "
+                + "  AND   systemmetadatareplicationstatus.date_verified >=     "
+                + "        (SELECT CURRENT_DATE - 3)                            "
+                + "  GROUP BY systemmetadatareplicationstatus.member_node       "
+                + "  ORDER BY systemmetadatareplicationstatus.member_node;      ";
+
+        recentFailedReplicasByNodeMap = this.jdbcTemplate.queryForObject(sqlStatement,
+                new ReplicaCountMap());
+
         if (log.isDebugEnabled()) {
-            Iterator<Map.Entry<NodeReference, Integer>> iterator = 
-                recentFailedReplicasByNodeMap.entrySet().iterator();
+            Iterator<Map.Entry<NodeReference, Integer>> iterator = recentFailedReplicasByNodeMap
+                    .entrySet().iterator();
             log.debug("Recent failed replica map by node: ");
-            while(iterator.hasNext()) {
-                Map.Entry<NodeReference, Integer> pairs = 
-                    (Map.Entry<NodeReference, Integer>) iterator.next();
-                log.debug("Node: "    + pairs.getKey().getValue() + 
-                          ", count: " + pairs.getValue().intValue());
+            while (iterator.hasNext()) {
+                Map.Entry<NodeReference, Integer> pairs = (Map.Entry<NodeReference, Integer>) iterator
+                        .next();
+                log.debug("Node: " + pairs.getKey().getValue() + ", count: "
+                        + pairs.getValue().intValue());
             }
         }
         return recentFailedReplicasByNodeMap;
     }
 
     /**
-     * Retrieve the count of recently completed replica requests per target node listed
-     * in the Coordinating Node's systemetadatareplicationstatus table. The 
-     * result is used to determine the current failure rate for a given 
+     * Retrieve the count of recently completed replica requests per target node
+     * listed in the Coordinating Node's systemetadatareplicationstatus table.
+     * The result is used to determine the current failure rate for a given
      * Member Node
      * 
      * @return recentCompletedReplicasByNodeMap - the map of nodeId/count pairs
@@ -190,45 +176,42 @@ public class ReplicationDaoMetacatImpl implements ReplicationDao {
     @Override
     public Map<NodeReference, Integer> getRecentCompletedReplicas() {
         log.debug("Getting recently completed replicas by node.");
-        
+
         // The map to hold the nodeId/count K/V pairs
-        Map<NodeReference, Integer> recentCompletedReplicasByNodeMap = 
-            new HashMap<NodeReference, Integer>();
-        
+        Map<NodeReference, Integer> recentCompletedReplicasByNodeMap = new HashMap<NodeReference, Integer>();
+
         // TODO: make the date_verified timeframe configurable (currently 3)
-        String sqlStatement = 
-         "SELECT systemmetadatareplicationstatus.member_node,          " +
-         "       systemmetadatareplicationstatus.count(status) AS count" + 
-         "  FROM  systemmetadatareplicationstatus                      " +
-         "  WHERE systemmetadatareplicationstatus.status = 'COMPLETED' " +
-         "  AND   systemmetadatareplicationstatus.date_verified >=     " +
-         "        (SELECT CURRENT_DATE - 3)                            " +
-         "  GROUP BY systemmetadatareplicationstatus.member_node       " +
-         "  ORDER BY systemmetadatareplicationstatus.member_node;      ";
-        
-        recentCompletedReplicasByNodeMap = 
-            this.jdbcTemplate.queryForObject(sqlStatement, new ReplicaCountMap());
-        
+        String sqlStatement = "SELECT systemmetadatareplicationstatus.member_node,          "
+                + "       systemmetadatareplicationstatus.count(status) AS count"
+                + "  FROM  systemmetadatareplicationstatus                      "
+                + "  WHERE systemmetadatareplicationstatus.status = 'COMPLETED' "
+                + "  AND   systemmetadatareplicationstatus.date_verified >=     "
+                + "        (SELECT CURRENT_DATE - 3)                            "
+                + "  GROUP BY systemmetadatareplicationstatus.member_node       "
+                + "  ORDER BY systemmetadatareplicationstatus.member_node;      ";
+
+        recentCompletedReplicasByNodeMap = this.jdbcTemplate.queryForObject(sqlStatement,
+                new ReplicaCountMap());
+
         if (log.isDebugEnabled()) {
-            Iterator<Map.Entry<NodeReference, Integer>> iterator = 
-                recentCompletedReplicasByNodeMap.entrySet().iterator();
+            Iterator<Map.Entry<NodeReference, Integer>> iterator = recentCompletedReplicasByNodeMap
+                    .entrySet().iterator();
             log.debug("Recent completed replica map by node: ");
-            while(iterator.hasNext()) {
-                Map.Entry<NodeReference, Integer> pairs = 
-                    (Map.Entry<NodeReference, Integer>) iterator.next();
-                log.debug("Node: "    + pairs.getKey().getValue() + 
-                          ", count: " + pairs.getValue().intValue());
+            while (iterator.hasNext()) {
+                Map.Entry<NodeReference, Integer> pairs = (Map.Entry<NodeReference, Integer>) iterator
+                        .next();
+                log.debug("Node: " + pairs.getKey().getValue() + ", count: "
+                        + pairs.getValue().intValue());
             }
         }
         return recentCompletedReplicasByNodeMap;
     }
 
     /*
-     * An internal class representing a Map of replica counts by node. Implements the
-     * RowMapper interface to populate the resultant Map. 
+     * An internal class representing a Map of replica counts by node.
+     * Implements the RowMapper interface to populate the resultant Map.
      */
-    private static final class ReplicaCountMap 
-        implements RowMapper<Map<NodeReference, Integer>> {
+    private static final class ReplicaCountMap implements RowMapper<Map<NodeReference, Integer>> {
 
         /**
          * Map each row of the resultset into a map of nodeId/count entries
@@ -239,17 +222,16 @@ public class ReplicationDaoMetacatImpl implements ReplicationDao {
          */
         @Override
         public Map<NodeReference, Integer> mapRow(ResultSet resultSet, int rowNum)
-            throws SQLException {
-            Map<NodeReference, Integer> replicaCountByNodeMap = 
-                new HashMap<NodeReference, Integer>();
+                throws SQLException {
+            Map<NodeReference, Integer> replicaCountByNodeMap = new HashMap<NodeReference, Integer>();
             NodeReference nodeId = new NodeReference();
             nodeId.setValue(resultSet.getString("member_node"));
             Integer count = resultSet.getInt("count");
             replicaCountByNodeMap.put(nodeId, count);
-            
+
             return replicaCountByNodeMap;
         }
-        
+
     }
 
 }
