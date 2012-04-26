@@ -98,7 +98,7 @@ public class ReplicationDaoMetacatImpl implements ReplicationDao {
      * result is used to determine the current request load for a given 
      * Member Node
      * 
-     * @return pendingReplicasNodeMap - the map of nodeId/count pairs
+     * @return pendingReplicasByNodeMap - the map of nodeId/count pairs
      */
     @Override
     public Map<NodeReference, Integer> getPendingReplicasByNode() {
@@ -135,6 +135,14 @@ public class ReplicationDaoMetacatImpl implements ReplicationDao {
         return pendingReplicasByNodeMap;
     }
 
+    /**
+     * Retrieve the count of recently failed replica requests per target node listed
+     * in the Coordinating Node's systemetadatareplicationstatus table. The 
+     * result is used to determine the current failure rate for a given 
+     * Member Node
+     * 
+     * @return recentFailedReplicasByNodeMap - the map of nodeId/count pairs
+     */
     @Override
     public Map<NodeReference, Integer> getRecentFailedReplicas() {
         log.debug("Getting recently failed replicas by node.");
