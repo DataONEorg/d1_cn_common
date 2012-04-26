@@ -61,6 +61,31 @@ public class TestSimpleMultipartEntity {
 	
 	
 	@Test
+	public void testGetDescription() throws IOException
+	{
+		SimpleMultipartEntity smpe = new SimpleMultipartEntity();
+		String content = "this is a very short test input stream.";
+		InputStream is = IOUtils.toInputStream(content);
+		smpe.addFilePart("isTestPart", is);
+		File t = new File(smpe.getLastTempfile());
+				
+		smpe.addParamPart("ppppp", "12345");
+		
+		String description = smpe.getDescription();
+		System.out.println(description);
+		
+		assertTrue( "description file length should equal content length",
+				description.contains(String.valueOf(t.length())));
+		assertTrue( "description should contain the param part name",
+				description.contains("ppppp"));
+		assertTrue( "description should contain the param part value",
+				description.contains("12345"));
+		
+		
+		smpe.cleanupTempFiles();
+	}
+	
+	@Test
 	public void testFileCleanup() throws ClientProtocolException, IOException 
 	{
 		SimpleMultipartEntity smpe = new SimpleMultipartEntity();

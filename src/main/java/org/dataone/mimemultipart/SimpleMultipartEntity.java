@@ -47,24 +47,32 @@ import org.jibx.runtime.JiBXException;
 public class SimpleMultipartEntity extends MultipartEntity
 {
 	private static Log log = LogFactory.getLog(SimpleMultipartEntity.class);
-	
 	private Vector<File> tempFiles = new Vector<File>();
-    /**
+ 
+	private String mmpDescription = "";
+	
+	
+	
+	/**
+	 * Returns a concise description of the existing file parts, as comma-separated
+	 * key-value pairs.  Values for file parts are its filename and size.
+	 * @return
+	 */
+	public String getDescription() {
+		return mmpDescription;
+	}
+	
+	/**
      * add a file part to the MMP
      * @param name - the name assigned to the file part
      * @param file - the file to be put into the file part
      */
     public void addFilePart(String name, File file)
     {
-// should let the processing method throw any exceptions.
-//        if (!f.exists()) 
-//        	throw new FileNotFoundException("File Not Found: " + f.getName());
-//        if (f.isDirectory())
-//        	throw new Exception("File cannot be a directory");
-//        if (!f.canRead())
-//        	throw new Exception("File not readable");
     	FileBody fileBody = new FileBody(file);
         addPart(name, fileBody);
+        mmpDescription += String.format("FilePart:%s = %s (%d bytes); ", 
+        		name, file.getAbsoluteFile(), file.length());
     }
     
     /**
@@ -101,6 +109,9 @@ public class SimpleMultipartEntity extends MultipartEntity
 		
 		FileBody fBody = new FileBody(outputFile);
 		addPart(name, fBody);
+		
+        mmpDescription += String.format("FilePart:%s = %s (%d bytes); ", 
+        		name, outputFile.getAbsoluteFile(), outputFile.length());
     }
     
     /**
@@ -129,6 +140,9 @@ public class SimpleMultipartEntity extends MultipartEntity
     	// create the new file body
     	FileBody fBody = new FileBody(outputFile);
 		addPart(name, fBody);
+		
+        mmpDescription += String.format("FilePart:%s = %s (%d bytes); ", 
+        		name, outputFile.getAbsoluteFile(), outputFile.length());
     }
 
     @Deprecated
@@ -160,6 +174,9 @@ public class SimpleMultipartEntity extends MultipartEntity
 		}   	
     	FileBody fileBody = new FileBody(outputFile);
         addPart(name, fileBody);
+        
+        mmpDescription += String.format("FilePart:%s = %s (%d bytes); ", 
+        		name, outputFile.getAbsoluteFile(), outputFile.length());
     }
 
     
@@ -176,9 +193,11 @@ public class SimpleMultipartEntity extends MultipartEntity
         }
         catch(UnsupportedEncodingException uee)
         {
-            throw new RuntimeException("UTF-8 is not supported in MultipartRequestHandler.addParamPart: " + 
+            throw new RuntimeException("UTF-8 is not supported in SimpleMultipartEntity.addParamPart: " + 
                     uee.getMessage());
         }
+        
+        mmpDescription += String.format("ParamPart:%s = %s; ", name, value);
     }
     
     protected String getLastTempfile() {
