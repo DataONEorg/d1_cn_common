@@ -53,7 +53,7 @@ public class ReplicationDaoMetacatImpl implements ReplicationDao {
 
         String dateString = format.format(auditDate);
         List<Identifier> results = this.jdbcTemplate.query(
-                "SELECT systemmetadatareplicationstatus.guid, "
+                "SELECT DISTINCT systemmetadatareplicationstatus.guid, "
                         + "systemmetadatareplicationstatus.date_verified "
                         + "FROM systemmetadatareplicationstatus "
                         + "WHERE systemmetadatareplicationstatus.date_verified <= ? "
@@ -61,18 +61,6 @@ public class ReplicationDaoMetacatImpl implements ReplicationDao {
                 new Object[] { dateString }, new IdentifierMapper());
 
         return results;
-    }
-
-    public List<Identifier> getFailedReplicas(int pageSize, int pageNumber) {
-        return new ArrayList<Identifier>();
-    }
-
-    public List<Identifier> getInvalidReplicas(int pageSize, int pageNumber) {
-        return new ArrayList<Identifier>();
-    }
-
-    public List<Identifier> getStaleQueuedReplicas(int pageSize, int pageNumber) {
-        return new ArrayList<Identifier>();
     }
 
     private static final class IdentifierMapper implements RowMapper<Identifier> {

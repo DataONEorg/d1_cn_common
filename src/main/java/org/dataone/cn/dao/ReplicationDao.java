@@ -35,20 +35,27 @@ import org.dataone.service.types.v1.NodeReference;
  */
 public interface ReplicationDao {
 
+    /**
+     * Returns paged list of distinct DataONE Identifier objects with at least
+     * one replica with a replica verified date previous to the auditDate
+     * parameter. Results to be ordered so identifiers with oldest replica
+     * verified dates are returned first. (ascending by replica verified date).
+     * 
+     * @param auditDate
+     *            - Identifiers with one or more replica verified dates after
+     *            audit date are returned.
+     * @param pageSize
+     * @param pageNumber
+     * @return distinct identifiers ordered by ascending replica verified date.
+     */
     public List<Identifier> getReplicasByDate(Date auditDate, int pageSize, int pageNumber);
 
-    public List<Identifier> getFailedReplicas(int pageSize, int pageNumber);
-
-    public List<Identifier> getInvalidReplicas(int pageSize, int pageNumber);
-
-    public List<Identifier> getStaleQueuedReplicas(int pageSize, int pageNumber);
-    
     /**
      * Return a map of member node to replica count entries where the replica
      * status is either queued or requested
      */
     public Map<NodeReference, Integer> getPendingReplicasByNode();
-    
+
     /**
      * Return a map of member node to replica count entries where the replica
      * status is failed and the date_verified is within a given timeframe
