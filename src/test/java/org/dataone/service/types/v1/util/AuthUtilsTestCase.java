@@ -4,6 +4,8 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 import org.dataone.service.types.v1.Group;
 import org.dataone.service.types.v1.Permission;
@@ -85,46 +87,36 @@ public class AuthUtilsTestCase {
 	
 	@Test
 	public void testAuthorizedClientSubjects_Public() {
-		
-		
-		Subject[] subjects = AuthUtils.authorizedClientSubjects(standardSession);
-		List<Subject> subjectList = (List<Subject>)Arrays.asList(subjects);
-		
-		
-		assertTrue("public should always appear", subjectList.contains(publick));
+				
+		Set<Subject> subjectSet = AuthUtils.authorizedClientSubjects(standardSession);		
+		assertTrue("public should always appear", subjectSet.contains(publick));
 	}
 
 	
 	@Test
 	public void testAuthorizedClientSubjects_Authenticated() {
-		Subject[] subjects = AuthUtils.authorizedClientSubjects(standardSession);
-		List<Subject> subjectList = (List<Subject>)Arrays.asList(subjects);
 		
-	
-		assertTrue("authenticated should be in the list", subjectList.contains(authenticated));
+		Set<Subject> subjectSet = AuthUtils.authorizedClientSubjects(standardSession);
+		assertTrue("authenticated should be in the list", subjectSet.contains(authenticated));
 	}
 
 	
 	@Test
 	public void testAuthorizedClientSubjects_Verified() {
 		
-		
-		Subject[] subjects = AuthUtils.authorizedClientSubjects(standardSession);
-		List<Subject> subjectList = (List<Subject>)Arrays.asList(subjects);
-	
-		assertTrue("verified appears because an equiv identity is verified", subjectList.contains(verified));
+		Set<Subject> subjectSet = AuthUtils.authorizedClientSubjects(standardSession);	
+		assertTrue("verified appears because an equiv identity is verified", subjectSet.contains(verified));
 	}
 
 	@Test
 	public void testAuthorizedClientSubjects_EquivalentIDs() {
 		
 		
-		Subject[] subjects = AuthUtils.authorizedClientSubjects(standardSession);
-		List<Subject> subjectList = (List<Subject>)Arrays.asList(subjects);
+		Set<Subject> subjectSet = AuthUtils.authorizedClientSubjects(standardSession);
 	
-		assertTrue("subject list should contain x", subjectList.contains(buildSubject("x")));
-		assertTrue("subject list should contain y", subjectList.contains(buildSubject("y")));
-		assertTrue("subject list should contain z", subjectList.contains(buildSubject("z")));
+		assertTrue("subject list should contain x", subjectSet.contains(buildSubject("x")));
+		assertTrue("subject list should contain y", subjectSet.contains(buildSubject("y")));
+		assertTrue("subject list should contain z", subjectSet.contains(buildSubject("z")));
 	
 	}
 	
@@ -148,12 +140,11 @@ public class AuthUtilsTestCase {
 		si.addPerson(z);		
 
 		ses.setSubjectInfo(si);
-		Subject[] subjects = AuthUtils.authorizedClientSubjects(standardSession);
-		List<Subject> subjectList = (List<Subject>)Arrays.asList(subjects);
+		Set<Subject> subjectSet = AuthUtils.authorizedClientSubjects(standardSession);
 	
-		assertTrue("subject list contains x", subjectList.contains(buildSubject("x")));
-		assertTrue("subject list contains y", subjectList.contains(buildSubject("y")));
-		assertTrue("subject list contains z", subjectList.contains(buildSubject("z")));
+		assertTrue("subject list contains x", subjectSet.contains(buildSubject("x")));
+		assertTrue("subject list contains y", subjectSet.contains(buildSubject("y")));
+		assertTrue("subject list contains z", subjectSet.contains(buildSubject("z")));
 	
 	}
 	
@@ -176,10 +167,9 @@ public class AuthUtilsTestCase {
 		si.addPerson(z);		
 
 		ses.setSubjectInfo(si);
-		Subject[] subjects = AuthUtils.authorizedClientSubjects(ses);
-		List<Subject> subjectList = (List<Subject>)Arrays.asList(subjects);
+		Set<Subject> subjectSet = AuthUtils.authorizedClientSubjects(ses);
 	
-		assertTrue("subject list contains x", subjectList.contains(verified));
+		assertTrue("subject list contains x", subjectSet.contains(verified));
 	}
 
 	
@@ -188,26 +178,24 @@ public class AuthUtilsTestCase {
 		
 		Session ses = new Session();
 		
-		Subject[] subjects = AuthUtils.authorizedClientSubjects(ses);
-		List<Subject> subjectList = (List<Subject>)Arrays.asList(subjects);
+		Set<Subject> subjectSet = AuthUtils.authorizedClientSubjects(ses);
 	
 		assertTrue("empty session should revert to public",
-				subjectList.contains(publick));
+				subjectSet.contains(publick));
 		assertTrue("empty session should have only 1 subject (public)",
-				subjectList.size() == 1);
+				subjectSet.size() == 1);
 	}
 	
 	@Test
 	public void testAuthorizedClientSubjects_Null_isPublic() {
 		
 		
-		Subject[] subjects = AuthUtils.authorizedClientSubjects(null);
-		List<Subject> subjectList = (List<Subject>)Arrays.asList(subjects);
+		Set<Subject> subjectSet = AuthUtils.authorizedClientSubjects(null);
 	
 		assertTrue("null session should revert to public",
-				subjectList.contains(publick));
+				subjectSet.contains(publick));
 		assertTrue("null session should have only 1 subject (public)",
-				subjectList.size() == 1);
+				subjectSet.size() == 1);
 	}
 	
 	
@@ -224,11 +212,10 @@ public class AuthUtilsTestCase {
 		Person z = buildTestPerson("z"); 
 
 		ses.setSubjectInfo(si);
-		Subject[] subjects = AuthUtils.authorizedClientSubjects(ses);
-		List<Subject> subjectList = (List<Subject>)Arrays.asList(subjects);
+		Set<Subject> subjectSet = AuthUtils.authorizedClientSubjects(ses);
 	
 		assertFalse("public subject in session, should not have authenticated",
-				subjectList.contains(authenticated));
+				subjectSet.contains(authenticated));
 	}
 	
 	
@@ -260,12 +247,11 @@ public class AuthUtilsTestCase {
 		si.addGroup(buildTestGroup("groupC"));
 		ses.setSubjectInfo(si);
 		
-		Subject[] subjects = AuthUtils.authorizedClientSubjects(ses);
-		List<Subject> subjectList = (List<Subject>)Arrays.asList(subjects);
+		Set<Subject> subjectSet = AuthUtils.authorizedClientSubjects(ses);
 	
-		assertTrue("subject list should contain groupA", subjectList.contains(buildSubject("groupA")));
-		assertTrue("subject list should contain groupB", subjectList.contains(buildSubject("groupB")));
-		assertTrue("subject list should contain groupC", subjectList.contains(buildSubject("groupC")));
+		assertTrue("subject list should contain groupA", subjectSet.contains(buildSubject("groupA")));
+		assertTrue("subject list should contain groupB", subjectSet.contains(buildSubject("groupB")));
+		assertTrue("subject list should contain groupC", subjectSet.contains(buildSubject("groupC")));
 	}
 	
 	
@@ -314,12 +300,11 @@ public class AuthUtilsTestCase {
 		
 		ses.setSubjectInfo(si);
 		
-		Subject[] subjects = AuthUtils.authorizedClientSubjects(ses);
-		List<Subject> subjectList = (List<Subject>)Arrays.asList(subjects);
+		Set<Subject> subjectSet = AuthUtils.authorizedClientSubjects(ses);
 	
-		assertTrue("subject list should contain groupA", subjectList.contains(buildSubject("groupA")));
-		assertTrue("subject list should contain groupB", subjectList.contains(buildSubject("groupB")));
-		assertTrue("subject list should contain groupC", subjectList.contains(buildSubject("groupC")));
+		assertTrue("subject list should contain groupA", subjectSet.contains(buildSubject("groupA")));
+		assertTrue("subject list should contain groupB", subjectSet.contains(buildSubject("groupB")));
+		assertTrue("subject list should contain groupC", subjectSet.contains(buildSubject("groupC")));
 	}
 	
 	
@@ -382,13 +367,12 @@ public class AuthUtilsTestCase {
 		
 		ses.setSubjectInfo(si);
 		
-		Subject[] subjects = AuthUtils.authorizedClientSubjects(ses);
-		List<Subject> subjectList = (List<Subject>)Arrays.asList(subjects);
+		Set<Subject> subjectSet = AuthUtils.authorizedClientSubjects(ses);
 	
-		assertTrue("subject list should contain groupA", subjectList.contains(buildSubject("groupA")));
-		assertTrue("subject list should contain groupB", subjectList.contains(buildSubject("groupB")));
-		assertTrue("subject list should contain groupC", subjectList.contains(buildSubject("groupC")));
-		assertTrue("subject list should contain groupC", subjectList.contains(buildSubject("groupD")));
+		assertTrue("subject list should contain groupA", subjectSet.contains(buildSubject("groupA")));
+		assertTrue("subject list should contain groupB", subjectSet.contains(buildSubject("groupB")));
+		assertTrue("subject list should contain groupC", subjectSet.contains(buildSubject("groupC")));
+		assertTrue("subject list should contain groupC", subjectSet.contains(buildSubject("groupD")));
 	}
 	
 	
@@ -405,12 +389,16 @@ public class AuthUtilsTestCase {
 		
 		sysmeta.setRightsHolder(buildSubject("qq"));
 		
-		Subject[] subjects = new Subject[] { buildSubject("z"), buildSubject("y"), buildSubject("x") };
-		assertTrue("x should be able to read the object", AuthUtils.isAuthorized(subjects, Permission.READ, sysmeta));		
-		assertTrue("x should be able to write the object", AuthUtils.isAuthorized(subjects, Permission.WRITE, sysmeta));		
-		assertFalse("x should NOT be able to change the object", AuthUtils.isAuthorized(subjects, Permission.CHANGE_PERMISSION, sysmeta));	
+		Set<Subject> subjectSet = new TreeSet<Subject>();
+		subjectSet.add(buildSubject("z"));
+		subjectSet.add(buildSubject("y"));
+		subjectSet.add(buildSubject("x"));
 		
-		assertFalse("testRightsHolder should be able to change the object", AuthUtils.isAuthorized(subjects, Permission.CHANGE_PERMISSION, sysmeta));
+		assertTrue("x should be able to read the object", AuthUtils.isAuthorized(subjectSet, Permission.READ, sysmeta));		
+		assertTrue("x should be able to write the object", AuthUtils.isAuthorized(subjectSet, Permission.WRITE, sysmeta));		
+		assertFalse("x should NOT be able to change the object", AuthUtils.isAuthorized(subjectSet, Permission.CHANGE_PERMISSION, sysmeta));	
+		
+		assertFalse("testRightsHolder should be able to change the object", AuthUtils.isAuthorized(subjectSet, Permission.CHANGE_PERMISSION, sysmeta));
 	}
 	
 	
@@ -427,8 +415,9 @@ public class AuthUtilsTestCase {
 		
 		sysmeta.setRightsHolder(buildSubject("testRightsHolder"));
 		
-		Subject[] subjects = new Subject[] { buildSubject("testRightsHolder") };
+		Set<Subject> subjectSet = new TreeSet<Subject>();
+		subjectSet.add(buildSubject("testRightsHolder"));
 	
-		assertTrue("testRightsHolder should be able to change the object", AuthUtils.isAuthorized(subjects, Permission.CHANGE_PERMISSION, sysmeta));
+		assertTrue("testRightsHolder should be able to change the object", AuthUtils.isAuthorized(subjectSet, Permission.CHANGE_PERMISSION, sysmeta));
 	}
 }

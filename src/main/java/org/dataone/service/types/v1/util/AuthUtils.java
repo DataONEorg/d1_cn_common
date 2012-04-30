@@ -1,11 +1,13 @@
 package org.dataone.service.types.v1.util;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.TreeSet;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.log4j.Logger;
-import org.dataone.service.exceptions.NotAuthorized;
 import org.dataone.service.types.v1.AccessRule;
 import org.dataone.service.types.v1.Group;
 import org.dataone.service.types.v1.Permission;
@@ -25,7 +27,7 @@ public class AuthUtils {
 	
 	/**
 	 * Derived from Metacat implementation
-	 * Creates a list of subjects represented in the session object, parsing 
+	 * Creates a set of subjects represented in the session object, parsing 
 	 * both the subject of the session and the subjectInfo.
 	 * 
 	 * - It will always include 'public' subject
@@ -40,9 +42,9 @@ public class AuthUtils {
 	 * - Does not handle administrative access / authorization
 	 * 
 	 * @param session
-	 * @return - a Subject array.
+	 * @return - the set of Subject objects.
 	 */
-	public static Subject[] authorizedClientSubjects(Session session)
+	public static Set<Subject> authorizedClientSubjects(Session session)
 	{
 		// setup a static subject for verified symbolic user
 		if (verifiedSubject == null) {
@@ -50,8 +52,8 @@ public class AuthUtils {
 			verifiedSubject.setValue(Constants.SUBJECT_VERIFIED_USER);
 		}
 		
-		// get the subject[s] from the session
-		Set<Subject> subjects = new TreeSet<Subject>();
+		// using an arbitrary initial size of the HashSet, 
+		Set<Subject> subjects = new HashSet<Subject>();
 
 		// add public subject for everyone
 		Subject publicSubject = new Subject();
@@ -84,7 +86,7 @@ public class AuthUtils {
 				findPersonsSubjects(subjects, subjectInfo, primarySubject);
 			}
 		}
-		return subjects.toArray(new Subject[0]);
+		return subjects;
 	}
 	
 
@@ -161,49 +163,52 @@ public class AuthUtils {
 	 * Queries the systemMetadata to see if one of the given subjects 
 	 * is allowed the specified permission against the given systemMetadata
 	 * 
-	 * @param subjects - the list of subject, assumed to represent the subjects
+	 * @param subjectSet - the collection of subjects, assumed to represent the subjects
 	 *                   of a session
 	 * @param requestedPerm -  the permission that is requested authorization for 
 	 * @param systemMetadata - the systemMetadata of the target object to test
 	 * @return - true if one of the subjects is authorized for the given permission
 	 *           otherwise false
 	 */
-	public static boolean isAuthorized(Subject[] subjects, Permission requestedPerm,
+	public static boolean isAuthorized(Collection<Subject> subjectSet, Permission requestedPerm,
 			SystemMetadata systemMetadata) 
 	{
-		
+	
+		// take care of exceptional case first
+		if (CollectionUtils.isEmpty(subjectSet))
+			return false;
+
+
 		// if rightsHolder is one of subjects, can return allowed (true)
 		// without further checks
-		for (Subject s: subjects) {
-			if (systemMetadata.getRightsHolder().equals(s)) {
-				return true;
-			}
-		}    
+		if (subjectSet.contains(systemMetadata.getRightsHolder()))
+			return true;
+		
 
-	    // otherwise check the access rules
+		// otherwise check the access rules
 		boolean allowed = false;
-	    try {
-		    List<AccessRule> allows = systemMetadata.getAccessPolicy().getAllowList();
-		    if (allows != null) {
-		    	search:
-		    		for (AccessRule accessRule: allows) {
-		    			if (accessRule.sizePermissionList() > 0) {
-		    				for (Subject s: subjects) {
-		    					if (accessRule.getSubjectList().contains(s)) {
-		    						allowed = comparePermissions(requestedPerm, accessRule.getPermissionList());
-		    						if (allowed) {
-		    							break search;
-		    						}
-		    					}
-		    				}
-		    			}
-		    		}
-		    }
-	    } catch (Exception e) {
-	    	// catch all for errors - safe side should be to deny the access
-	    	logger.error("Problem checking authorization - defaulting to deny", e);
+		try {
+			List<AccessRule> allows = systemMetadata.getAccessPolicy().getAllowList();
+			if (allows != null) {
+				search:
+					for (AccessRule accessRule: allows) {
+						if (accessRule.sizePermissionList() > 0) {
+							for (Subject s: subjectSet) {
+								if (accessRule.getSubjectList().contains(s)) {
+									allowed = comparePermissions(requestedPerm, accessRule.getPermissionList());
+									if (allowed) {
+										break search;
+									}
+								}
+							}
+						}
+					}
+			}
+		} catch (Exception e) {
+			// catch all for errors - safe side should be to deny the access
+			logger.error("Problem checking authorization - defaulting to deny", e);
 			allowed = false;  
-	    }
+		}
 	    
 	    return allowed;	    
 	}
