@@ -24,6 +24,7 @@ import java.util.List;
 
 import junit.framework.Assert;
 
+import org.dataone.cn.dao.exceptions.DataAccessException;
 import org.dataone.service.types.v1.Identifier;
 import org.junit.After;
 import org.junit.Before;
@@ -49,7 +50,7 @@ public class ReplicationDaoTest {
     }
 
     @Test
-    public void testReplicasByDateQuery() {
+    public void testReplicasByDateQuery() throws DataAccessException {
         // test data - 3 records before today, 1 record after today should
         // result in 2 distinct rows (test_guid2 used twice) in results when
         // query date is today. ORDER BY ascending should return least recently

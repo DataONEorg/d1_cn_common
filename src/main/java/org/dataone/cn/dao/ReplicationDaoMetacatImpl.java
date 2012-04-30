@@ -32,6 +32,7 @@ import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.dataone.cn.dao.exceptions.DataAccessException;
 import org.dataone.service.types.v1.Identifier;
 import org.dataone.service.types.v1.NodeReference;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -49,17 +50,23 @@ public class ReplicationDaoMetacatImpl implements ReplicationDao {
         this.jdbcTemplate = new JdbcTemplate(DataSourceFactory.getMetacatDataSource());
     }
 
-    public List<Identifier> getReplicasByDate(Date auditDate, int pageSize, int pageNumber) {
+    public List<Identifier> getReplicasByDate(Date auditDate, int pageSize, int pageNumber)
+            throws DataAccessException {
 
         String dateString = format.format(auditDate);
-        List<Identifier> results = this.jdbcTemplate.query(
-                "SELECT DISTINCT systemmetadatareplicationstatus.guid, "
-                        + "systemmetadatareplicationstatus.date_verified "
-                        + "FROM systemmetadatareplicationstatus "
-                        + "WHERE systemmetadatareplicationstatus.date_verified <= ? "
-                        + "ORDER BY systemmetadatareplicationstatus.date_verified ASC;",
-                new Object[] { dateString }, new IdentifierMapper());
-
+        List<Identifier> results = new ArrayList<Identifier>();
+        try {
+            results = this.jdbcTemplate.query(
+                    "SELECT DISTINCT systemmetadatareplicationstatus.guid, "
+                            + "systemmetadatareplicationstatus.date_verified "
+                            + "FROM systemmetadatareplicationstatus "
+                            + "WHERE systemmetadatareplicationstatus.date_verified <= ? "
+                            + "ORDER BY systemmetadatareplicationstatus.date_verified ASC;",
+                    new Object[] { dateString }, new IdentifierMapper());
+        } catch (org.springframework.dao.DataAccessException dae) {
+            dae.getRootCause().printStackTrace();
+            throw new DataAccessException(dae);
+        }
         return results;
     }
 

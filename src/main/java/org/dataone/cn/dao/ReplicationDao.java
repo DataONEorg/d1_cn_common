@@ -23,6 +23,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import org.dataone.cn.dao.exceptions.DataAccessException;
 import org.dataone.service.types.v1.Identifier;
 import org.dataone.service.types.v1.NodeReference;
 
@@ -48,7 +49,8 @@ public interface ReplicationDao {
      * @param pageNumber
      * @return distinct identifiers ordered by ascending replica verified date.
      */
-    public List<Identifier> getReplicasByDate(Date auditDate, int pageSize, int pageNumber);
+    public List<Identifier> getReplicasByDate(Date auditDate, int pageSize, int pageNumber)
+            throws DataAccessException;
 
     /**
      * Return a map of member node to replica count entries where the replica
