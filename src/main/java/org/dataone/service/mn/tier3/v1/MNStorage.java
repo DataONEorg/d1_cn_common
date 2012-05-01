@@ -70,7 +70,11 @@ public interface MNStorage {
     public Identifier delete(Identifier pid)
     throws InvalidToken, ServiceFailure, NotAuthorized, NotFound, NotImplemented;
 
-    
+    /**
+     * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/MN_APIs.html#MN_storage.archive
+     */
+    public Identifier archive(Identifier pid)
+    throws InvalidToken, ServiceFailure, NotAuthorized, NotFound, NotImplemented;    
     
     /**
      * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/MN_APIs.html#MNStorage.generateIdentifier
@@ -110,7 +114,12 @@ public interface MNStorage {
     public Identifier delete(Session session, Identifier pid)
     throws InvalidToken, ServiceFailure, NotAuthorized, NotFound, NotImplemented;
 
-    
+    /**
+     * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/MN_APIs.html#MN_storage.archive
+     */
+    @Deprecated
+    public Identifier archive(Session session, Identifier pid)
+    throws InvalidToken, ServiceFailure, NotAuthorized, NotFound, NotImplemented;    
     
     /**
      * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/MN_APIs.html#MNStorage.generateIdentifier
