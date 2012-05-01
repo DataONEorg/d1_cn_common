@@ -65,12 +65,9 @@ public class ReplicationDaoMetacatImplTest {
         Assert.assertTrue(results.get(0).getValue().equals("test_guid"));
         Assert.assertTrue(results.get(1).getValue().equals("test_guid2"));
     }
+
     @Test
     public void testPendingReplicasByNode() throws DataAccessException {
-        // test data - 3 records before today, 1 record after today should
-        // result in 2 distinct rows (test_guid2 used twice) in results when
-        // query date is today. ORDER BY ascending should return least recently
-        // verified rows first.
         jdbc.execute("INSERT INTO systemmetadatareplicationstatus VALUES ('test_guid','mn:test:1','COMPLETE',TIMESTAMP '2011-01-01 12:00:00')");
         jdbc.execute("INSERT INTO systemmetadatareplicationstatus VALUES ('test_guid2','mn:test:1','REQUESTED',TIMESTAMP '2012-01-01 12:00:00')");
         jdbc.execute("INSERT INTO systemmetadatareplicationstatus VALUES ('test_guid2','mn:test:2','QUEUED',TIMESTAMP '2012-01-01 12:00:00')");
@@ -79,6 +76,32 @@ public class ReplicationDaoMetacatImplTest {
         ReplicationDao dao = DaoFactory.getReplicationDao();
         Map<NodeReference, Integer> results = dao.getPendingReplicasByNode();
         Assert.assertTrue(results.size() == 2);
+
+    }
+
+    @Test
+    public void testRecentFailedReplicasByNode() throws DataAccessException {
+        jdbc.execute("INSERT INTO systemmetadatareplicationstatus VALUES ('test_guid','mn:test:1','COMPLETE',TIMESTAMP '2011-01-01 12:00:00')");
+        jdbc.execute("INSERT INTO systemmetadatareplicationstatus VALUES ('test_guid2','mn:test:1','REQUESTED',TIMESTAMP '2012-01-01 12:00:00')");
+        jdbc.execute("INSERT INTO systemmetadatareplicationstatus VALUES ('test_guid2','mn:test:2','QUEUED',TIMESTAMP '2012-01-01 12:00:00')");
+        jdbc.execute("INSERT INTO systemmetadatareplicationstatus VALUES ('test_guid3','mn:test:1','REQUESTED',TIMESTAMP '2020-01-01 12:00:00')");
+
+        ReplicationDao dao = DaoFactory.getReplicationDao();
+        Map<NodeReference, Integer> results = dao.getRecentFailedReplicas();
+        Assert.assertTrue(results.size() == 0);
+
+    }
+
+    @Test
+    public void testRecentCompletedReplicasByNode() throws DataAccessException {
+        jdbc.execute("INSERT INTO systemmetadatareplicationstatus VALUES ('test_guid','mn:test:1','COMPLETE',TIMESTAMP '2011-01-01 12:00:00')");
+        jdbc.execute("INSERT INTO systemmetadatareplicationstatus VALUES ('test_guid2','mn:test:1','REQUESTED',TIMESTAMP '2012-01-01 12:00:00')");
+        jdbc.execute("INSERT INTO systemmetadatareplicationstatus VALUES ('test_guid2','mn:test:2','QUEUED',TIMESTAMP '2012-01-01 12:00:00')");
+        jdbc.execute("INSERT INTO systemmetadatareplicationstatus VALUES ('test_guid3','mn:test:1','REQUESTED',TIMESTAMP '2020-01-01 12:00:00')");
+
+        ReplicationDao dao = DaoFactory.getReplicationDao();
+        Map<NodeReference, Integer> results = dao.getRecentCompletedReplicas();
+        Assert.assertTrue(results.size() == 0);
 
     }
 }
