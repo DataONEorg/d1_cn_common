@@ -65,17 +65,10 @@ public class ReplicationDaoMetacatImpl implements ReplicationDao {
                     new Object[] { dateString }, new IdentifierMapper());
         } catch (org.springframework.dao.DataAccessException dae) {
             dae.getRootCause().printStackTrace();
+            log.error(dae.getRootCause().getMessage());
             throw new DataAccessException(dae);
         }
         return results;
-    }
-
-    private static final class IdentifierMapper implements RowMapper<Identifier> {
-        public Identifier mapRow(ResultSet rs, int rowNum) throws SQLException {
-            Identifier pid = new Identifier();
-            pid.setValue(rs.getString("guid"));
-            return pid;
-        }
     }
 
     /**
@@ -229,4 +222,11 @@ public class ReplicationDaoMetacatImpl implements ReplicationDao {
 
     }
 
+    private static final class IdentifierMapper implements RowMapper<Identifier> {
+        public Identifier mapRow(ResultSet rs, int rowNum) throws SQLException {
+            Identifier pid = new Identifier();
+            pid.setValue(rs.getString("guid"));
+            return pid;
+        }
+    }
 }

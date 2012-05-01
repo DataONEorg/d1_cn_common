@@ -31,22 +31,18 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.jdbc.core.JdbcTemplate;
 
-public class ReplicationDaoTest {
+public class ReplicationDaoMetacatImplTest {
 
     private JdbcTemplate jdbc = new JdbcTemplate(DataSourceFactory.getMetacatDataSource());
 
     @Before
     public void createTables() {
-        jdbc.execute("CREATE TABLE IF NOT EXISTS systemmetadatareplicationstatus " + //
-                "(guid text, " + //
-                "member_node varchar(250), " + //
-                "status varchar(250), " + //
-                "date_verified timestamp)");
+        ReplicationDaoMetacatImplTestUtil.createTables(jdbc);
     }
 
     @After
     public void dropTables() {
-        jdbc.execute("DROP TABLE IF EXISTS systemmetadatareplicationstatus;");
+        ReplicationDaoMetacatImplTestUtil.dropTables(jdbc);
     }
 
     @Test
