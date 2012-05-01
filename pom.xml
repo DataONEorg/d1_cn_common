@@ -10,7 +10,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <hazelcast.version>1.9.4.6</hazelcast.version>
-        <d1_common_java_version>1.0.1-RC6-SNAPSHOT</d1_common_java_version>
+        <d1_common_java_version>1.0.1-RC8-SNAPSHOT</d1_common_java_version>
         <spring.version>3.1.1.RELEASE</spring.version>
     </properties>
     <repositories>
