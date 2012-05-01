@@ -87,7 +87,7 @@ public class ReplicationDaoMetacatImpl implements ReplicationDao {
         Map<NodeReference, Integer> pendingReplicasByNodeMap = new HashMap<NodeReference, Integer>();
 
         String sqlStatement = "SELECT systemmetadatareplicationstatus.member_node,          "
-                + "       systemmetadatareplicationstatus.count(status) AS count"
+                + "       count(status) AS count"
                 + "  FROM  systemmetadatareplicationstatus                      "
                 + "  WHERE systemmetadatareplicationstatus.status = 'QUEUED'    "
                 + "  OR    systemmetadatareplicationstatus.status = 'REQUESTED' "
