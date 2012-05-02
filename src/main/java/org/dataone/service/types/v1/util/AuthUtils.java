@@ -150,10 +150,13 @@ public class AuthUtils {
 					
 					// finally add equivalent identities
 					// (this is where the recursion happens)
-					for (Subject eqId : p.getEquivalentIdentityList()) {
-						// recursive call for un-examined targetSubjects
-						if (! foundSubjects.contains(eqId)) {
-							findPersonsSubjects(foundSubjects, subjectInfo, eqId);
+					List<Subject> equivList = p.getEquivalentIdentityList();
+					if (equivList != null) {
+						for (Subject eqId : equivList) {
+							// recursive call for un-examined targetSubjects
+							if (! foundSubjects.contains(eqId)) {
+								findPersonsSubjects(foundSubjects, subjectInfo, eqId);
+							}
 						}
 					}
 					
