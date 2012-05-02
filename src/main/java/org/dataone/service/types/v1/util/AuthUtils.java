@@ -91,12 +91,21 @@ public class AuthUtils {
 	
 
 	
-	/*
+	/**
 	 * A recursive method to traverse the equivalent-identity relationships
 	 * and to handle the transitive nature of group membership and verified status.
 	 */
+	// TODO: future optimization might be to replace SubjectInfo with an indexed
+	// map of the Person objects contained by it, but probably not worth the setup
+	// cost when # of Persons is small.
 	private static void findPersonsSubjects(Set<Subject> foundSubjects, SubjectInfo subjectInfo, Subject targetSubject) {
 
+		// add targetSubject - not all target subjects will have Person objects
+		// for example the so-called "legacy" identities
+		// so always add it
+		foundSubjects.add(targetSubject);
+		
+		
 		// setting this up for subsequent searches in the loop
 		List<Group> groupList = null;
 		if (subjectInfo != null) {
@@ -107,10 +116,7 @@ public class AuthUtils {
 			for (Person p: subjectInfo.getPersonList()) {
 				if (p.getSubject().equals(targetSubject)) {
 
-					// add targetSubject
-					foundSubjects.add(targetSubject);
 					logger.debug("traversing person: " + targetSubject.getValue());
-					
 					
 					// check verification status of this identity
 					if (p.getVerified() != null && p.getVerified()) {
