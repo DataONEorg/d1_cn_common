@@ -96,6 +96,14 @@ public interface MNRead {
     public boolean synchronizationFailed(SynchronizationFailed message)
     throws InvalidToken, NotAuthorized, NotImplemented, ServiceFailure;
     
+    /**
+     * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/MN_APIs.html#MNRead.getReplica
+     */
+    public InputStream getReplica(Identifier pid)
+    throws InvalidToken, NotAuthorized, NotImplemented, ServiceFailure, NotFound,
+    InsufficientResources;
+ 
+    
     ///////
     
     /**
@@ -148,5 +156,14 @@ public interface MNRead {
     @Deprecated
     public boolean synchronizationFailed(Session session, SynchronizationFailed message)
     throws InvalidToken, NotAuthorized, NotImplemented, ServiceFailure;
+    
+    /**
+     * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/MN_APIs.html#MNRead.getReplica
+     */
+	@Deprecated
+    public InputStream getReplica(Session session, Identifier pid)
+    throws InvalidToken, NotAuthorized, NotImplemented, ServiceFailure, NotFound,
+    InsufficientResources;
+    
     
 }

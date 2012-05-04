@@ -52,14 +52,6 @@ public interface MNReplication {
     throws NotImplemented, ServiceFailure, NotAuthorized, InvalidRequest, 
     	InvalidToken, InsufficientResources, UnsupportedType;
 
-    
-    /**
-     * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/MN_APIs.html#MNReplication.getReplica
-     */
-    public InputStream getReplica(Identifier pid)
-    throws InvalidToken, NotAuthorized, NotImplemented, ServiceFailure, NotFound,
-    InsufficientResources;
- 
 	
     ////
 	
@@ -71,13 +63,5 @@ public interface MNReplication {
     throws NotImplemented, ServiceFailure, NotAuthorized, InvalidRequest, 
     	InvalidToken, InsufficientResources, UnsupportedType;
 
-    
-    /**
-     * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/MN_APIs.html#MNReplication.getReplica
-     */
-	@Deprecated
-    public InputStream getReplica(Session session, Identifier pid)
-    throws InvalidToken, NotAuthorized, NotImplemented, ServiceFailure, NotFound,
-    InsufficientResources;
     
 }
