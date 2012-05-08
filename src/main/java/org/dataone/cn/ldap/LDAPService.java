@@ -22,6 +22,7 @@
 
 package org.dataone.cn.ldap;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
@@ -37,9 +38,15 @@ import javax.naming.directory.DirContext;
 import javax.naming.directory.InitialDirContext;
 import javax.naming.directory.SearchControls;
 import javax.naming.directory.SearchResult;
+import javax.naming.ldap.InitialLdapContext;
+import javax.naming.ldap.LdapContext;
+import javax.naming.ldap.StartTlsRequest;
+import javax.naming.ldap.StartTlsResponse;
+import javax.net.ssl.SSLSession;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.http.conn.ssl.AllowAllHostnameVerifier;
 import org.dataone.configuration.Settings;
 
 
@@ -61,10 +68,20 @@ public abstract class LDAPService {
 	protected String admin = Settings.getConfiguration().getString("cn.ldap.admin");
 	protected String password = Settings.getConfiguration().getString("cn.ldap.password");
 	protected String base = null; // this setting needs to be overridden in each of the inheriting classes
+	protected boolean useTLS = Boolean.parseBoolean(Settings.getConfiguration().getString("cn.ldap.useTLS"));
 
 	public DirContext getContext() throws NamingException {
 		if (context == null) {
-			context = getDefaultContext();
+			if (useTLS) {
+				try {
+					context = getSecureContext();
+				} catch (IOException e) {
+					log.error("Could not set up TLS connection, using non-secure communication", e);
+					context = getDefaultContext();
+				}
+			} else {
+				context = getDefaultContext();
+			}
 		}
 	    return context;
 	}
@@ -89,6 +106,35 @@ public abstract class LDAPService {
 
         /* get a handle to an Initial DirContext */
         DirContext ctx = new InitialDirContext(env);
+	    return ctx;
+	}
+	
+	protected DirContext getSecureContext() throws NamingException, IOException {
+		Hashtable<String, String> env = new Hashtable<String, String>();
+	    
+		// the basic connection details
+	    env.put(Context.INITIAL_CONTEXT_FACTORY, "com.sun.jndi.ldap.LdapCtxFactory");
+	    // Specify host and port to use for directory service
+	    env.put(Context.PROVIDER_URL, server);
+	    
+	    // get a handle to an Initial Context
+	    //InitialDirContext ctx = new InitialDirContext(env);
+	    LdapContext ctx = new InitialLdapContext(env, null);
+
+	    // set up TLS
+	    StartTlsResponse tls = (StartTlsResponse) ctx.extendedOperation(new StartTlsRequest());
+	    // install simple hostname verifier for localhost
+	    if (server.contains("localhost")) {
+	    	tls.setHostnameVerifier(new AllowAllHostnameVerifier());
+	    }
+	    // start it
+	    SSLSession sess = tls.negotiate();
+	    
+	    // add the authentication information
+	    ctx.addToEnvironment(Context.SECURITY_AUTHENTICATION, "simple");
+	    ctx.addToEnvironment(Context.SECURITY_PRINCIPAL, admin);
+	    ctx.addToEnvironment(Context.SECURITY_CREDENTIALS, password);
+        
 	    return ctx;
 	}
 	
