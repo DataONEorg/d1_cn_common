@@ -208,10 +208,19 @@ public class ReplicationDaoMetacatImpl implements ReplicationDao {
         return recentCompletedReplicasByNodeMap;
     }
 
+    /*
+     * Handle data access exceptions thrown by the underlying JDBC calls
+     * 
+     * @param dae  the DataAccessException thrown
+     * @throws DataAccessException
+     */
     private void handleJdbcDataAccessException(org.springframework.dao.DataAccessException dae)
             throws DataAccessException {
         log.error("Jdbc Data access exception occurred: " + dae.getRootCause().getMessage());
-        throw new DataAccessException(dae);
+        if (log.isDebugEnabled()) {
+            dae.printStackTrace();
+        }
+        throw dae;
     }
 
     private void consolidateResultsIntoSingleMap(Map<NodeReference, Integer> replicasByNodeMap,
