@@ -145,13 +145,13 @@ public interface CNCore
      * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CNCore.delete
      */
     public Identifier delete(Identifier pid)
-    throws InvalidToken, ServiceFailure, InvalidRequest, NotAuthorized, NotFound, NotImplemented;
+    throws InvalidToken, ServiceFailure, NotAuthorized, NotFound, NotImplemented;
 
     /**
      * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CNCore.archive
      */
     public Identifier archive(Identifier pid)
-    throws InvalidToken, ServiceFailure, InvalidRequest, NotAuthorized, NotFound, NotImplemented;
+    throws InvalidToken, ServiceFailure, NotAuthorized, NotFound, NotImplemented;
     
     ////
 
