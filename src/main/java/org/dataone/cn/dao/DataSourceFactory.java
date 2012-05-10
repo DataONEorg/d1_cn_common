@@ -24,6 +24,14 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.dataone.configuration.Settings;
 
+/**
+ * Factory class to provide consumers obtaining a handle on various
+ * BasicDataSource instances. org.apache.commons.dbcp.BasicDataSource instances
+ * provide connection pooling for jdbc data sources.
+ * 
+ * @author sroseboo
+ * 
+ */
 public class DataSourceFactory {
 
     private static final Log log = LogFactory.getLog(DataSourceFactory.class);
@@ -37,23 +45,28 @@ public class DataSourceFactory {
     private static final String metacatInitialPoolSizeProperty = "metacat.datasource.initialSize";
     private static final String metacatMaxPoolSizeProperty = "metacat.datasource.maxSize";
 
-    private static final String metacatUrl = 
-        Settings.getConfiguration().getString(metacatUrlProperty);
-    private static final String metacatDriverClass = 
-        Settings.getConfiguration().getString(metacatDriverClassProperty);
-    private static final String metacatUsername = 
-        Settings.getConfiguration().getString(metacatUsernameProperty);
-    private static final String metacatPassword = 
-        Settings.getConfiguration().getString(metacatPasswordProperty);
-    private static final String metacatInitialPoolSize = 
-        Settings.getConfiguration().getString(metacatInitialPoolSizeProperty);
-    private static final String metacatMaxPoolSize = 
-        Settings.getConfiguration().getString(metacatMaxPoolSizeProperty);
-    
+    private static final String metacatUrl = Settings.getConfiguration()
+            .getString(metacatUrlProperty);
+    private static final String metacatDriverClass = Settings
+            .getConfiguration().getString(metacatDriverClassProperty);
+    private static final String metacatUsername = Settings.getConfiguration()
+            .getString(metacatUsernameProperty);
+    private static final String metacatPassword = Settings.getConfiguration()
+            .getString(metacatPasswordProperty);
+    private static final String metacatInitialPoolSize = Settings
+            .getConfiguration().getString(metacatInitialPoolSizeProperty);
+    private static final String metacatMaxPoolSize = Settings
+            .getConfiguration().getString(metacatMaxPoolSizeProperty);
 
     private DataSourceFactory() {
     }
 
+    /**
+     * Returns the data source instance for the metacat datasource. The metacat
+     * datasource is a postgres relational database source.
+     * 
+     * @return BasicDataSource
+     */
     public static BasicDataSource getMetacatDataSource() {
         if (metacatDataSource == null) {
             initMetacatDataSource();
@@ -62,21 +75,24 @@ public class DataSourceFactory {
     }
 
     private static void initMetacatDataSource() {
-        if ( log.isDebugEnabled() ) {
+        if (log.isDebugEnabled()) {
             log.debug("Metacat Data Source JDBC settings:");
-            log.debug("\tmetacat.datasource.url:"          + metacatUrl);
-            log.debug("\tmetacat.datasource.driverClass:"  + metacatDriverClass);
-            log.debug("\tmetacat.datasource.username:"     + metacatUsername);
-            log.debug("\tmetacat.datasource.password:"     + metacatPassword);
-            log.debug("\tmetacat.datasource.initialSize:"  + metacatInitialPoolSize);
-            log.debug("\tmetacat.datasource.maxSize:"      + metacatMaxPoolSize);
+            log.debug("\tmetacat.datasource.url:" + metacatUrl);
+            log.debug("\tmetacat.datasource.driverClass:" + metacatDriverClass);
+            log.debug("\tmetacat.datasource.username:" + metacatUsername);
+            log.debug("\tmetacat.datasource.password:" + metacatPassword);
+            log.debug("\tmetacat.datasource.initialSize:"
+                    + metacatInitialPoolSize);
+            log.debug("\tmetacat.datasource.maxSize:" + metacatMaxPoolSize);
         }
         metacatDataSource = new BasicDataSource();
         metacatDataSource.setUrl(metacatUrl);
         metacatDataSource.setDriverClassName(metacatDriverClass);
         metacatDataSource.setUsername(metacatUsername);
         metacatDataSource.setPassword(metacatPassword);
-        metacatDataSource.setInitialSize(Integer.valueOf(metacatInitialPoolSize).intValue());
-        metacatDataSource.setMaxActive(Integer.valueOf(metacatMaxPoolSize).intValue());
+        metacatDataSource.setInitialSize(Integer
+                .valueOf(metacatInitialPoolSize).intValue());
+        metacatDataSource.setMaxActive(Integer.valueOf(metacatMaxPoolSize)
+                .intValue());
     }
 }

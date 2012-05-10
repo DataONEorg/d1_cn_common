@@ -19,6 +19,14 @@
  */
 package org.dataone.cn.dao;
 
+/**
+ * Factory class to provide consumers handle on data access object (dao pattern)
+ * instances. DaoFactory returns Dao interfaces while encapsulating the concrete
+ * implementation class and details.
+ * 
+ * @author sroseboo
+ * 
+ */
 public class DaoFactory {
 
     private static ReplicationDao replicationDao;
@@ -26,6 +34,11 @@ public class DaoFactory {
     private DaoFactory() {
     }
 
+    /**
+     * Returns a concrete instance of the ReplicationDao interface.
+     * 
+     * @return ReplicationDao
+     */
     public static final ReplicationDao getReplicationDao() {
         if (replicationDao == null) {
             replicationDao = new ReplicationDaoMetacatImpl();
