@@ -14,8 +14,8 @@ public class DataAccessException extends Exception {
     private static final long serialVersionUID = 208924174580554803L;
 
     /**
-     * Create new instance of a DataONE DataAccessException to wrapping
-     * Throwable cause.
+     * Create new instance of a DataONE DataAccessException to wrap Throwable
+     * cause.
      */
     public DataAccessException(Throwable cause) {
         super(cause);
