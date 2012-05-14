@@ -75,7 +75,8 @@ public abstract class LDAPService {
 			if (useTLS) {
 				try {
 					context = getSecureContext();
-				} catch (IOException e) {
+				//} catch (IOException e) {
+				} catch (Exception e) {
 					log.error("Could not set up TLS connection, using non-secure communication", e);
 					context = getDefaultContext();
 				}
