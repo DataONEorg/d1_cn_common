@@ -1,6 +1,7 @@
 package org.dataone.cn.dao;
 
 import java.sql.Types;
+import java.util.Date;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 
@@ -20,6 +21,17 @@ public class ReplicationDaoMetacatImplTestUtil {
 
     public static void createReplicationStatusRecord(JdbcTemplate jdbc,
             String guid, String memberNodeId, String status, String dateVerified) {
+
+        int[] types = new int[] { Types.VARCHAR, Types.VARCHAR, Types.VARCHAR,
+                Types.TIMESTAMP };
+        jdbc.update(
+                "INSERT INTO systemmetadatareplicationstatus VALUES (?,?,?,?)",
+                new Object[] { guid, memberNodeId, status, dateVerified },
+                types);
+    }
+
+    public static void createReplicationStatusRecord(JdbcTemplate jdbc,
+            String guid, String memberNodeId, String status, Date dateVerified) {
 
         int[] types = new int[] { Types.VARCHAR, Types.VARCHAR, Types.VARCHAR,
                 Types.TIMESTAMP };
