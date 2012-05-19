@@ -193,6 +193,7 @@ public class ExceptionHandler {
     		String description = headersMap.get("DataONE-Exception-Description");
     		String pid = headersMap.get("DataONE-Exception-PID");
     	
+    		d1ExceptionName = d1ExceptionName.replace("org.dataone.service.exceptions.","");
     		if (d1ExceptionName.equals("AuthenticationTimeout")) {
                 throw new AuthenticationTimeout(detailCode, description, pid, null);
             } else if (d1ExceptionName.equals("IdentifierNotUnique")) {
