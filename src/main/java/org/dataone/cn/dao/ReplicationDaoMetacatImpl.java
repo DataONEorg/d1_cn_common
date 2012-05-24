@@ -21,15 +21,15 @@ package org.dataone.cn.dao;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.time.FastDateFormat;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.dataone.cn.dao.exceptions.DataAccessException;
@@ -58,17 +58,17 @@ public class ReplicationDaoMetacatImpl implements ReplicationDao {
 
     private JdbcTemplate jdbcTemplate;
 
-    private final DateFormat format = new SimpleDateFormat(
-            "yyyy-MM-dd HH:mm:ss");
+    private final FastDateFormat format = FastDateFormat
+            .getInstance("yyyy-MM-dd HH:mm:ss");
 
-    /* The number of seconds before now() to query for failures*/
+    /* The number of seconds before now() to query for failures */
     private int failureWindow = 3600;
-    
+
     public ReplicationDaoMetacatImpl() {
         this.jdbcTemplate = new JdbcTemplate(
-            DataSourceFactory.getMetacatDataSource());
-        this.failureWindow = 
-            Settings.getConfiguration().getInt("replication.failure.query.window");
+                DataSourceFactory.getMetacatDataSource());
+        this.failureWindow = Settings.getConfiguration().getInt(
+                "replication.failure.query.window");
     }
 
     public List<Identifier> getReplicasByDate(Date auditDate, int pageSize,
@@ -118,10 +118,8 @@ public class ReplicationDaoMetacatImpl implements ReplicationDao {
 
         List<Map<NodeReference, Integer>> results = null;
         try {
-            results = this.jdbcTemplate.query(sqlStatement,
-                    new ReplicaCountMap());
-            log.debug("Pending replicas by node result size is "
-                    + results.size());
+            results = this.jdbcTemplate.query(sqlStatement, new ReplicaCountMap());
+            log.debug("Pending replicas by node result size is " + results.size());
 
         } catch (org.springframework.dao.DataAccessException dae) {
             handleJdbcDataAccessException(dae);
@@ -159,25 +157,23 @@ public class ReplicationDaoMetacatImpl implements ReplicationDao {
         // The map to hold the nodeId/count K/V pairs
         Map<NodeReference, Integer> recentFailedReplicasByNodeMap = new HashMap<NodeReference, Integer>();
 
+        String cutoffDateString = generateStatusCutoffDateString();
+
         // TODO: make the date_verified timeframe configurable (currently 3)
         String sqlStatement = "SELECT                                        "
                 + "  systemmetadatareplicationstatus.member_node,            "
                 + "  count(systemmetadatareplicationstatus.status) AS count  "
                 + "  FROM  systemmetadatareplicationstatus                   "
                 + "  WHERE systemmetadatareplicationstatus.status = 'FAILED' "
-                + "  AND   systemmetadatareplicationstatus.date_verified >=  "
-                + "        (SELECT CURRENT_TIMESTAMP - interval '            " 
-                +           this.failureWindow
-                + "         second')                                         "
+                + "  AND   systemmetadatareplicationstatus.date_verified >= ? "
                 + "  GROUP BY systemmetadatareplicationstatus.member_node    "
                 + "  ORDER BY systemmetadatareplicationstatus.member_node;   ";
 
         List<Map<NodeReference, Integer>> results = null;
         try {
             results = this.jdbcTemplate.query(sqlStatement,
-                    new ReplicaCountMap());
-            log.debug("Failed replicas by node result size is "
-                    + results.size());
+                    new Object[] { cutoffDateString }, new ReplicaCountMap());
+            log.debug("Failed replicas by node result size is " + results.size());
 
         } catch (org.springframework.dao.DataAccessException dae) {
             handleJdbcDataAccessException(dae);
@@ -215,30 +211,28 @@ public class ReplicationDaoMetacatImpl implements ReplicationDao {
         // The map to hold the nodeId/count K/V pairs
         Map<NodeReference, Integer> recentCompletedReplicasByNodeMap = new HashMap<NodeReference, Integer>();
 
+        String cutoffDateString = generateStatusCutoffDateString();
+
         // TODO: make the date_verified timeframe configurable (currently 3)
         String sqlStatement = "SELECT                                          "
                 + "  systemmetadatareplicationstatus.member_node,              "
                 + "  count(systemmetadatareplicationstatus.status) AS count    "
                 + "  FROM  systemmetadatareplicationstatus                     "
                 + "  WHERE systemmetadatareplicationstatus.status = 'COMPLETED'"
-                + "  AND   systemmetadatareplicationstatus.date_verified >=    "
-                + "        (SELECT CURRENT_TIMESTAMP - interval '              " 
-                +           this.failureWindow
-                + "         second')                                           "
+                + "  AND   systemmetadatareplicationstatus.date_verified >= ?  "
                 + "  GROUP BY systemmetadatareplicationstatus.member_node      "
                 + "  ORDER BY systemmetadatareplicationstatus.member_node;     ";
 
         List<Map<NodeReference, Integer>> results = null;
         try {
             results = this.jdbcTemplate.query(sqlStatement,
-                    new ReplicaCountMap());
+                    new Object[] { cutoffDateString }, new ReplicaCountMap());
             log.debug("Recent completed replicas by node result size is "
                     + results.size());
         } catch (org.springframework.dao.DataAccessException dae) {
             handleJdbcDataAccessException(dae);
         }
-        consolidateResultsIntoSingleMap(recentCompletedReplicasByNodeMap,
-                results);
+        consolidateResultsIntoSingleMap(recentCompletedReplicasByNodeMap, results);
 
         if (log.isDebugEnabled()) {
             Iterator<Map.Entry<NodeReference, Integer>> iterator = recentCompletedReplicasByNodeMap
@@ -284,6 +278,14 @@ public class ReplicationDaoMetacatImpl implements ReplicationDao {
         }
     }
 
+    private String generateStatusCutoffDateString() {
+        Calendar cal = Calendar.getInstance();
+        cal.setTimeInMillis(System.currentTimeMillis());
+        cal.add(Calendar.SECOND, -this.failureWindow);
+        String cutoffDateString = format.format(cal.getTime());
+        return cutoffDateString;
+    }
+
     /*
      * An internal class representing a Map of replica counts by node.
      * Implements the RowMapper interface to populate the resultant Map.
@@ -299,8 +301,8 @@ public class ReplicationDaoMetacatImpl implements ReplicationDao {
          * @throws SQLException
          */
         @Override
-        public Map<NodeReference, Integer> mapRow(ResultSet resultSet,
-                int rowNum) throws SQLException {
+        public Map<NodeReference, Integer> mapRow(ResultSet resultSet, int rowNum)
+                throws SQLException {
             Map<NodeReference, Integer> replicaCountByNodeMap = new HashMap<NodeReference, Integer>();
             NodeReference nodeId = new NodeReference();
             nodeId.setValue(resultSet.getString("member_node"));
@@ -312,8 +314,7 @@ public class ReplicationDaoMetacatImpl implements ReplicationDao {
 
     }
 
-    private static final class IdentifierMapper implements
-            RowMapper<Identifier> {
+    private static final class IdentifierMapper implements RowMapper<Identifier> {
         public Identifier mapRow(ResultSet rs, int rowNum) throws SQLException {
             Identifier pid = new Identifier();
             pid.setValue(rs.getString("guid"));
