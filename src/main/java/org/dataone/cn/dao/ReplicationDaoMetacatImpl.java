@@ -67,8 +67,8 @@ public class ReplicationDaoMetacatImpl implements ReplicationDao {
     public ReplicationDaoMetacatImpl() {
         this.jdbcTemplate = new JdbcTemplate(
                 DataSourceFactory.getMetacatDataSource());
-        this.failureWindow = Settings.getConfiguration().getInt(
-                "replication.failure.query.window");
+        failureWindow = Settings.getConfiguration().getInt(
+                "replication.failure.query.window", failureWindow);
     }
 
     public List<Identifier> getReplicasByDate(Date auditDate, int pageSize,
