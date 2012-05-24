@@ -33,6 +33,7 @@ import java.util.Map;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.dataone.cn.dao.exceptions.DataAccessException;
+import org.dataone.configuration.Settings;
 import org.dataone.service.types.v1.Identifier;
 import org.dataone.service.types.v1.NodeReference;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -60,9 +61,14 @@ public class ReplicationDaoMetacatImpl implements ReplicationDao {
     private final DateFormat format = new SimpleDateFormat(
             "yyyy-MM-dd HH:mm:ss");
 
+    /* The number of seconds before now() to query for failures*/
+    private int failureWindow = 3600;
+    
     public ReplicationDaoMetacatImpl() {
         this.jdbcTemplate = new JdbcTemplate(
-                DataSourceFactory.getMetacatDataSource());
+            DataSourceFactory.getMetacatDataSource());
+        this.failureWindow = 
+            Settings.getConfiguration().getInt("replication.failure.query.window");
     }
 
     public List<Identifier> getReplicasByDate(Date auditDate, int pageSize,
@@ -154,14 +160,17 @@ public class ReplicationDaoMetacatImpl implements ReplicationDao {
         Map<NodeReference, Integer> recentFailedReplicasByNodeMap = new HashMap<NodeReference, Integer>();
 
         // TODO: make the date_verified timeframe configurable (currently 3)
-        String sqlStatement = "SELECT systemmetadatareplicationstatus.member_node,"
-                + "  count(systemmetadatareplicationstatus.status) AS count             "
-                + "  FROM  systemmetadatareplicationstatus                              "
-                + "  WHERE systemmetadatareplicationstatus.status = 'FAILED'            "
-                + "  AND   systemmetadatareplicationstatus.date_verified >=             "
-                + "        (SELECT CURRENT_DATE - 3)                                    "
-                + "  GROUP BY systemmetadatareplicationstatus.member_node               "
-                + "  ORDER BY systemmetadatareplicationstatus.member_node;              ";
+        String sqlStatement = "SELECT                                        "
+                + "  systemmetadatareplicationstatus.member_node,            "
+                + "  count(systemmetadatareplicationstatus.status) AS count  "
+                + "  FROM  systemmetadatareplicationstatus                   "
+                + "  WHERE systemmetadatareplicationstatus.status = 'FAILED' "
+                + "  AND   systemmetadatareplicationstatus.date_verified >=  "
+                + "        (SELECT CURRENT_TIMESTAMP - interval '            " 
+                +           this.failureWindow
+                + "         second')                                         "
+                + "  GROUP BY systemmetadatareplicationstatus.member_node    "
+                + "  ORDER BY systemmetadatareplicationstatus.member_node;   ";
 
         List<Map<NodeReference, Integer>> results = null;
         try {
@@ -207,14 +216,17 @@ public class ReplicationDaoMetacatImpl implements ReplicationDao {
         Map<NodeReference, Integer> recentCompletedReplicasByNodeMap = new HashMap<NodeReference, Integer>();
 
         // TODO: make the date_verified timeframe configurable (currently 3)
-        String sqlStatement = "SELECT systemmetadatareplicationstatus.member_node,"
-                + "  count(systemmetadatareplicationstatus.status) AS count            "
-                + "  FROM  systemmetadatareplicationstatus                             "
-                + "  WHERE systemmetadatareplicationstatus.status = 'COMPLETED'        "
-                + "  AND   systemmetadatareplicationstatus.date_verified >=            "
-                + "        (SELECT CURRENT_DATE - 3)                                   "
-                + "  GROUP BY systemmetadatareplicationstatus.member_node              "
-                + "  ORDER BY systemmetadatareplicationstatus.member_node;             ";
+        String sqlStatement = "SELECT                                          "
+                + "  systemmetadatareplicationstatus.member_node,              "
+                + "  count(systemmetadatareplicationstatus.status) AS count    "
+                + "  FROM  systemmetadatareplicationstatus                     "
+                + "  WHERE systemmetadatareplicationstatus.status = 'COMPLETED'"
+                + "  AND   systemmetadatareplicationstatus.date_verified >=    "
+                + "        (SELECT CURRENT_TIMESTAMP - interval '              " 
+                +           this.failureWindow
+                + "         second')                                           "
+                + "  GROUP BY systemmetadatareplicationstatus.member_node      "
+                + "  ORDER BY systemmetadatareplicationstatus.member_node;     ";
 
         List<Map<NodeReference, Integer>> results = null;
         try {

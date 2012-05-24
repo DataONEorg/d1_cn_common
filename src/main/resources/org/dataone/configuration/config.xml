@@ -2,5 +2,6 @@
 <!-- Apache Commons Configuration -->
 <configuration>
 	<properties fileName="ldapService.properties"/>
-	<properties fileName="metacat-jdbc.properties"/>
+    <properties fileName="metacat-jdbc.properties"/>
+	<properties fileName="replication.properties"/>
 </configuration>
