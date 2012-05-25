@@ -91,7 +91,7 @@ public class ReplicationDaoMetacatImpl implements ReplicationDao {
                             
                             String sqlStatement = "SELECT DISTINCT        "
                                 + "  guid,                                "
-                                + "  date_verified,                       "
+                                + "  date_verified                        "
                                 + "  FROM  systemmetadatareplicationstatus"
                                 + "  WHERE date_verified <= ?             "
                                 + "  ORDER BY date_verified ASC;          ";
