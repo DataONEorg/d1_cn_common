@@ -137,8 +137,6 @@ public class ReplicationDaoMetacatImpl implements ReplicationDao {
                         public PreparedStatement createPreparedStatement(Connection conn) 
                             throws SQLException {
                             
-                            Timestamp cutoffDate = generateStatusCutoffDate();
-
                             String sqlStatement = "SELECT                 " 
                                 + "   member_node,                        "
                                 + "  count(status) AS count               "
@@ -150,7 +148,6 @@ public class ReplicationDaoMetacatImpl implements ReplicationDao {
 
                             PreparedStatement statement =
                                 conn.prepareStatement(sqlStatement);
-                            statement.setTimestamp(1, cutoffDate);
                             log.debug("getPendingReplicasbyNode statement is: " +
                                 statement);
                             return statement;
