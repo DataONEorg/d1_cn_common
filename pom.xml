@@ -5,7 +5,7 @@
     <groupId>org.dataone</groupId>
     <artifactId>d1_common_java</artifactId>
     <packaging>jar</packaging>
-    <version>1.0.1-RC8</version>
+    <version>1.0.1-RC9-SNAPSHOT</version>
     <name>DataONE_Common_Java</name>
     <url>http://dataone.org</url>
     <description>DataONE Common Code with Service Interface Definitions</description>
