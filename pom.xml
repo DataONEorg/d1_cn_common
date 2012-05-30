@@ -5,14 +5,14 @@
     <groupId>org.dataone</groupId>
     <artifactId>d1_common_java</artifactId>
     <packaging>jar</packaging>
-    <version>1.0.1-RC8-SNAPSHOT</version>
+    <version>1.0.1-RC8</version>
     <name>DataONE_Common_Java</name>
     <url>http://dataone.org</url>
     <description>DataONE Common Code with Service Interface Definitions</description>
     <properties>
         <org.jibx.version>1.2.3</org.jibx.version>
-        <d1_jibx_extensions_release>1.0.0-RC5-SNAPSHOT</d1_jibx_extensions_release>
-        <d1_test_resources_release>1.0.0-RC4-SNAPSHOT</d1_test_resources_release>
+        <d1_jibx_extensions_release>1.0.0-RC4</d1_jibx_extensions_release>
+        <d1_test_resources_release>1.0.0-RC4</d1_test_resources_release>
     </properties>
     <build>
         <directory>target</directory>
