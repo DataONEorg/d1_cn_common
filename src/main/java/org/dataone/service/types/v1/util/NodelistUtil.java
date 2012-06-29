@@ -24,23 +24,17 @@ package org.dataone.service.types.v1.util;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.HashMap;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-import java.util.TreeSet;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentSkipListSet;
 
-import org.apache.commons.collections.CollectionUtils;
-import org.dataone.service.exceptions.InvalidRequest;
 import org.dataone.service.types.v1.Node;
 import org.dataone.service.types.v1.NodeList;
 import org.dataone.service.types.v1.NodeReference;
 import org.dataone.service.types.v1.NodeState;
 import org.dataone.service.types.v1.NodeType;
 import org.dataone.service.types.v1.Service;
-import org.dataone.service.types.v1.ServiceMethodRestriction;
 import org.dataone.service.types.v1.Subject;
 import org.dataone.service.util.TypeMarshaller;
 import org.jibx.runtime.JiBXException;
@@ -140,11 +134,11 @@ public class NodelistUtil {
      * A set is returned to allow set logic with other select methods
      * @param nodeList - the nodeList to be searched
      * @param nodeRef - the node reference for the node of interest
-     * @return  the matching Node, or null if not found
+     * @return a set of Nodes that match the criteria
      */
     public static Set<Node> selectNode(NodeList nodeList, Subject subject)
     {
-    	Set<Node> nodeSet = new TreeSet<Node>();
+    	Set<Node> nodeSet = new HashSet<Node>();
     	for(int i=0; i < nodeList.sizeNodeList(); i++) 
     	{
     		Node node = nodeList.getNode(i);
@@ -165,7 +159,7 @@ public class NodelistUtil {
      */
     public static Set<Node> selectNodes(NodeList nodeList, NodeType nodeType) 
     {
-		Set<Node> nodeSet = new TreeSet<Node>();
+    	Set<Node> nodeSet = new HashSet<Node>();
 		for(int i=0; i < nodeList.sizeNodeList(); i++) {
 			Node node = nodeList.getNode(i);
 			if (nodeType == null) {
@@ -186,7 +180,7 @@ public class NodelistUtil {
      */
     public static Set<Node> selectNodes(NodeList nodeList, NodeState nodeState) 
     {
-		Set<Node> nodeSet = new TreeSet<Node>();
+    	Set<Node> nodeSet = new HashSet<Node>();
 		for(int i=0; i < nodeList.sizeNodeList(); i++) {
 			Node node = nodeList.getNode(i);
 			if (nodeState == null) {
@@ -207,11 +201,11 @@ public class NodelistUtil {
      * @param version - the name of the version to find, case-insensitive.  If null, criteria is ignored
      * @param isAvailable - if true, will return only nodes where available value is true or null
      *                    - if false, will return only nodes where available value is false
-     * @return a Set of Nodes matching the criteria
+     * @return a set of Nodes that match the criteria
      */
     public static Set<Node> selectNodesByService(NodeList nodeList, String serviceName, String version, boolean isAvailable)
     {
-    	Set<Node> nodeSet = new TreeSet<Node>();
+    	Set<Node> nodeSet = new HashSet<Node>();
     	for(int i=0; i < nodeList.sizeNodeList(); i++) 
     	{
     		Node node = nodeList.getNode(i);

@@ -25,28 +25,38 @@ package org.dataone.service.types.v1.util;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.dataone.service.types.v1.Node;
+import org.dataone.service.types.v1.NodeList;
+import org.dataone.service.types.v1.NodeState;
+import org.dataone.service.types.v1.NodeType;
+import org.dataone.service.util.TypeMarshaller;
+import org.jibx.runtime.JiBXException;
 import org.junit.Test;
 
 
 /**
- * test the NodeListParser class
+ * test the NodelistUtil class
  * 
- * @author berkley
+ * @author rnahf
  */
 public class NodelistUtilTestCase
 {
 	private static Log log = LogFactory.getLog(NodelistUtilTestCase.class); 
-    @Test
+   
+	
     /**
-     * tests NodeListParser.parseNodeListFile()
+     * tests NodelistUtil.parseNodeListFile()
      */
-    public final void testParseNodeListFile()
+	@Test
+    public final void testMapNodeList()
     {
         try
         {
@@ -71,4 +81,18 @@ public class NodelistUtilTestCase
         }
     }
 
+    @Test
+    public void testSelectNode_comparator() throws InstantiationException, IllegalAccessException, JiBXException, IOException {
+    	
+        InputStream is = this.getClass().getResourceAsStream("/org/dataone/service/samples/v1/nodeListSample2.xml");   
+        NodeList nodeList = TypeMarshaller.unmarshalTypeFromStream(NodeList.class, is);
+    	
+    	Set<Node> nodeSet = NodelistUtil.selectNodes(nodeList, NodeType.MN);
+    	Set<Node> nodeSet2 = NodelistUtil.selectNodes(nodeList, NodeState.UP);
+    	Set<Node> nodeSet3 = NodelistUtil.selectNodesByService(nodeList, "MNCore","v1",true);
+    	assertTrue("returned object should not be null", nodeSet != null);
+    	assertTrue("returned object should not be null", nodeSet2 != null);
+    	assertTrue("returned object should not be null", nodeSet3 != null);
+    	
+    }
 }
