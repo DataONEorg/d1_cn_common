@@ -36,30 +36,55 @@ import org.jibx.runtime.IUnmarshallingContext;
 import org.jibx.runtime.JiBXException;
 
 /**
- *
+ * The standard class used to marshal and unmarshal datatypes to and from input
+ * and output streams and file structures.
+ * 
  * @author rwaltz
  */
 public class TypeMarshaller {
 
     static Logger logger = Logger.getLogger(TypeMarshaller.class.getName());
 
-    public static File marshalTypeToFile(Object typeObject, String filenamePath) throws JiBXException, FileNotFoundException, IOException {
-        File outputFile = new File(filenamePath);
-        FileOutputStream typeOutput = new FileOutputStream(outputFile);
-        marshalTypeToOutputStream(typeObject, typeOutput, null);
-        try {
-            typeOutput.close();
-        } catch (IOException ex) {
-            logger.error(ex.getMessage(), ex);
+    public static File marshalTypeToFile(Object typeObject, String filenamePath) 
+    throws JiBXException, FileNotFoundException, IOException 
+    {
+    	FileOutputStream typeOutput = null;
+    	File outputFile = new File(filenamePath);
+    	typeOutput = new FileOutputStream(outputFile);
+    	
+    	try {
+    		marshalTypeToOutputStream(typeObject, typeOutput, null);
+    	} 
+    	finally {
+    		if (typeOutput != null)
+    			try {
+    				typeOutput.close();
+    			} catch (IOException ex) {
+    				logger.error(ex.getMessage(), ex);
+    			}
         }
         return outputFile;
     }
     
-    public static void marshalTypeToOutputStream(Object typeObject, OutputStream os) throws JiBXException, IOException {
+    
+    public static void marshalTypeToOutputStream(Object typeObject, OutputStream os) 
+    throws JiBXException, IOException 
+    {
         marshalTypeToOutputStream(typeObject, os, null);
     }
     
-    public static void marshalTypeToOutputStream(Object typeObject, OutputStream os, String styleSheet) throws JiBXException, IOException {
+    /**
+     * Marshalls the typeObject to the provided outputStream.  
+     * Does not close the outputstream. 
+     * @param typeObject
+     * @param os
+     * @param styleSheet
+     * @throws JiBXException
+     * @throws IOException
+     */
+    public static void marshalTypeToOutputStream(Object typeObject, OutputStream os, String styleSheet)
+    throws JiBXException, IOException 
+    {
         IBindingFactory bfact = BindingDirectory.getFactory(typeObject.getClass());
         IMarshallingContext mctx = bfact.createMarshallingContext();
         mctx.startDocument("UTF-8", null, os);
@@ -69,27 +94,94 @@ public class TypeMarshaller {
         mctx.marshalDocument(typeObject);
     }
     
-    public static <T> T unmarshalTypeFromFile(Class<T> domainClass, String filenamePath) throws IOException, InstantiationException, IllegalAccessException, JiBXException {
-        IBindingFactory bfact = BindingDirectory.getFactory(domainClass);
-        IUnmarshallingContext uctx = bfact.createUnmarshallingContext();
-        Reader reader = new FileReader(filenamePath);
-        T domainObject = (T) uctx.unmarshalDocument(reader);
-        reader.close();
-        return domainObject;
+    
+    /**
+     * Unmarshalls the contents of the filenamePath into the specified domainClass
+     * 
+     * @param <T>
+     * @param domainClass
+     * @param filenamePath
+     * @return - an instance of the domainClass
+     * @throws IOException
+     * @throws InstantiationException
+     * @throws IllegalAccessException
+     * @throws JiBXException
+     */
+    public static <T> T unmarshalTypeFromFile(Class<T> domainClass, String filenamePath) 
+    throws IOException, InstantiationException, IllegalAccessException, JiBXException 
+    {
+    	Reader reader = null;
+    	try {
+    		IBindingFactory bfact = BindingDirectory.getFactory(domainClass);
+    		IUnmarshallingContext uctx = bfact.createUnmarshallingContext();
+    		reader = new FileReader(filenamePath);
+    		T domainObject = (T) uctx.unmarshalDocument(reader);
+    		return domainObject;
+    	} 
+    	finally {
+    		if (reader != null) {
+    			reader.close();
+    		}
+    	}
     }
-    public static <T> T unmarshalTypeFromFile(Class<T> domainClass, File file) throws IOException, InstantiationException, IllegalAccessException, JiBXException {
-        IBindingFactory bfact = BindingDirectory.getFactory(domainClass);
-        IUnmarshallingContext uctx = bfact.createUnmarshallingContext();
-        Reader reader = new FileReader(file);
-        T domainObject = (T) uctx.unmarshalDocument(reader);
-        reader.close();
-        return domainObject;
+
+    
+     /**
+     * Unmarshalls the contents of file parameter to the specified domainClass
+     * 
+     * @param <T>
+     * @param domainClass
+     * @param file
+     * @return - an instance of the domainClass
+     * @throws IOException
+     * @throws InstantiationException
+     * @throws IllegalAccessException
+     * @throws JiBXException
+     */
+    public static <T> T unmarshalTypeFromFile(Class<T> domainClass, File file) 
+    throws IOException, InstantiationException, IllegalAccessException, JiBXException 
+    {
+    	Reader reader = null;
+    	try {
+    		IBindingFactory bfact = BindingDirectory.getFactory(domainClass);
+    		IUnmarshallingContext uctx = bfact.createUnmarshallingContext();
+    		reader = new FileReader(file);
+    		T domainObject = (T) uctx.unmarshalDocument(reader);
+
+    		return domainObject;
+    	} 
+    	finally {
+    		if (reader != null) {
+    			reader.close();
+    		}
+    	}
     }
-    public static <T> T unmarshalTypeFromStream(Class<T> domainClass, InputStream inputStream) throws IOException, InstantiationException, IllegalAccessException, JiBXException {
-        IBindingFactory bfact = BindingDirectory.getFactory(domainClass);
-        IUnmarshallingContext uctx = bfact.createUnmarshallingContext();
-        T domainObject = (T) uctx.unmarshalDocument(inputStream, null);
-        inputStream.close();
-        return domainObject;
+    
+    
+    /**
+     * Unmarshalls the inputStream to the specified domainClass
+     * and unequivocally closes the passed in InputStream 
+     * @param <T>
+     * @param domainClass
+     * @param inputStream
+     * @return - an instance of the domainClass
+     * @throws IOException
+     * @throws InstantiationException
+     * @throws IllegalAccessException
+     * @throws JiBXException
+     */
+    public static <T> T unmarshalTypeFromStream(Class<T> domainClass, InputStream inputStream) 
+    throws IOException, InstantiationException, IllegalAccessException, JiBXException 
+    {
+        try {
+        	IBindingFactory bfact = BindingDirectory.getFactory(domainClass);
+        	IUnmarshallingContext uctx = bfact.createUnmarshallingContext();
+        	T domainObject = (T) uctx.unmarshalDocument(inputStream, null);
+
+        	return domainObject;
+        } 
+        finally {
+        	inputStream.close();
+        }
     }
 }
