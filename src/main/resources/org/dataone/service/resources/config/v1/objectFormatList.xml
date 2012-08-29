@@ -1,37 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- 
- * This work was created by participants in the DataONE project, and is
- * jointly copyrighted by participating institutions in DataONE. For
- * more information on DataONE, see our web site at http://dataone.org.
- *
- *   Copyright ${year}
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- * 
- * $Id$
- *
- -->
-<!-- 
-  The object format list is the default list of object formats used
-  by Metacat's ObjectFormatService. In the event that the service cannot
-  get the authoritative object format list from the DataONE Coordinating
-  Node listed in the metacat properties file or from a cached version in
-  the metacat database, it will revert to this file.
- -->
-<d1:objectFormatList count="67" start="0" total="67"
-  xmlns:d1="http://ns.dataone.org/service/types/v1" 
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://ns.dataone.org/service/types/v1 https://repository.dataone.org/software/cicore/tags/D1_SCHEMA_1_0_2/dataoneTypes.xsd">
+<d1:objectFormatList xmlns:d1="http://ns.dataone.org/service/types/v1" count="88" start="0" total="88">
   <objectFormat>
     <formatId>-//ecoinformatics.org//eml-access-2.0.0beta4//EN</formatId>
     <formatName>Ecological Metadata Language, Access module, version 2.0.0beta4</formatName>
@@ -194,32 +162,22 @@
   </objectFormat>
   <objectFormat>
     <formatId>FGDC-STD-001.1-1999</formatId>
-    <formatName>
-      Content Standard for Digital Geospatial Metadata, 
-      Biological Data Profile, version 001.1-1999
-    </formatName>
+    <formatName> Content Standard for Digital Geospatial Metadata, Biological Data Profile, version 001.1-1999 </formatName>
     <formatType>METADATA</formatType>
   </objectFormat>
   <objectFormat>
     <formatId>FGDC-STD-001.2-1999</formatId>
-    <formatName>
-      Content Standard for Digital Geospatial Metadata, 
-      Metadata Profile for Shoreline Data, version 001.2-1999
-    </formatName>
+    <formatName> Content Standard for Digital Geospatial Metadata, Metadata Profile for Shoreline Data, version 001.2-1999 </formatName>
     <formatType>METADATA</formatType>
   </objectFormat>
   <objectFormat>
     <formatId>FGDC-STD-001-1998</formatId>
-    <formatName>
-      Content Standard for Digital Geospatial Metadata, version 001-1998
-    </formatName>
+    <formatName> Content Standard for Digital Geospatial Metadata, version 001-1998 </formatName>
     <formatType>METADATA</formatType>
   </objectFormat>
   <objectFormat>
     <formatId>INCITS 453-2009</formatId>
-    <formatName>
-      North American Profile of ISO 19115: 2003 Geographic Information - Metadata
-    </formatName>
+    <formatName> North American Profile of ISO 19115: 2003 Geographic Information - Metadata </formatName>
     <formatType>METADATA</formatType>
   </objectFormat>
   <objectFormat>
@@ -229,58 +187,42 @@
   </objectFormat>
   <objectFormat>
     <formatId>CF-1.0</formatId>
-    <formatName>
-      NetCDF Climate and Forecast Metadata Convention, version 1.0
-    </formatName>
+    <formatName> NetCDF Climate and Forecast Metadata Convention, version 1.0 </formatName>
     <formatType>DATA</formatType>
   </objectFormat>
   <objectFormat>
     <formatId>CF-1.1</formatId>
-    <formatName>
-      NetCDF Climate and Forecast Metadata Convention, version 1.1
-    </formatName>
+    <formatName> NetCDF Climate and Forecast Metadata Convention, version 1.1 </formatName>
     <formatType>DATA</formatType>
   </objectFormat>
   <objectFormat>
     <formatId>CF-1.2</formatId>
-    <formatName>
-      NetCDF Climate and Forecast Metadata Convention, version 1.2
-    </formatName>
+    <formatName> NetCDF Climate and Forecast Metadata Convention, version 1.2 </formatName>
     <formatType>DATA</formatType>
   </objectFormat>
   <objectFormat>
     <formatId>CF-1.3</formatId>
-    <formatName>
-      NetCDF Climate and Forecast Metadata Convention, version 1.3
-    </formatName>
+    <formatName> NetCDF Climate and Forecast Metadata Convention, version 1.3 </formatName>
     <formatType>DATA</formatType>
   </objectFormat>
   <objectFormat>
     <formatId>CF-1.4</formatId>
-    <formatName>
-      NetCDF Climate and Forecast Metadata Convention, version 1.4
-    </formatName>
+    <formatName> NetCDF Climate and Forecast Metadata Convention, version 1.4 </formatName>
     <formatType>DATA</formatType>
   </objectFormat>
   <objectFormat>
     <formatId>http://www.cuahsi.org/waterML/1.0/</formatId>
-    <formatName>
-      Water Markup Language, version 1.0
-    </formatName>
+    <formatName> Water Markup Language, version 1.0 </formatName>
     <formatType>METADATA</formatType>
   </objectFormat>
   <objectFormat>
     <formatId>http://www.cuahsi.org/waterML/1.1/</formatId>
-    <formatName>
-      Water Markup Language, version 1.0
-    </formatName>
+    <formatName> Water Markup Language, version 1.0 </formatName>
     <formatType>METADATA</formatType>
   </objectFormat>
   <objectFormat>
     <formatId>http://www.loc.gov/METS/</formatId>
-    <formatName>
-      Metadata Encoding and Transmission Standard, version 1
-    </formatName>
+    <formatName> Metadata Encoding and Transmission Standard, version 1 </formatName>
     <formatType>METADATA</formatType>
   </objectFormat>
   <objectFormat>
@@ -389,9 +331,9 @@
     <formatType>RESOURCE</formatType>
   </objectFormat>
   <objectFormat>
-   <formatId>application/pdf</formatId>
-   <formatName>Portable Document Format</formatName>
-   <formatType>DATA</formatType>
+    <formatId>application/pdf</formatId>
+    <formatName>Portable Document Format</formatName>
+    <formatType>DATA</formatType>
   </objectFormat>
   <objectFormat>
     <formatId>http://dublincore.org/schemas/xmls/qdc/2008/02/11/simpledc.xsd</formatId>
@@ -402,5 +344,103 @@
     <formatId>http://dublincore.org/schemas/xmls/qdc/2008/02/11/qualifieddc.xsd</formatId>
     <formatName>Qualified DC container XML Schema Created 2008-02-11</formatName>
     <formatType>METADATA</formatType>
+  </objectFormat>
+  <objectFormat>
+    <formatId>http://purl.org/dryad/terms/</formatId>
+    <formatName> Dryad repository object description metadata</formatName>
+    <!-- http://datadryad.org/profile/v3/dryad.xsd --> 
+    <formatType>METADATA</formatType>
+  </objectFormat>
+  <objectFormat>
+    <formatId>application/vnd.ms-excel</formatId>
+    <formatName>Microsoft Excel file format</formatName>
+    <formatType>DATA</formatType>
+  </objectFormat>
+  <objectFormat>
+    <formatId>application/msword</formatId>
+    <formatName>Microsoft Word file format</formatName>
+    <formatType>DATA</formatType>
+  </objectFormat>
+  <objectFormat>
+    <formatId>anvl/erc-v02</formatId>
+    <formatName>Kernel Metadata and Electronic Resource Citations (ERCs), 2010.05.13</formatName>
+    <!-- http://dublincore.org/groups/kernel/spec/ --> 
+    <formatType>DATA</formatType>
+  </objectFormat>
+  <objectFormat>
+    <formatId>nexus/1997</formatId>
+    <formatName>NEXUS File Format for Systematic Information</formatName>
+    <!-- doi:10.1093/sysbio/46.4.590 -->
+    <formatType>DATA</formatType>
+  </objectFormat>
+  <objectFormat>
+    <formatId>application/zip</formatId>
+    <formatName>Zip file format</formatName>
+    <formatType>DATA</formatType>
+  </objectFormat>
+  <objectFormat>
+    <formatId>application/vnd.ms-excel</formatId>
+    <formatName>Microsoft Excel</formatName>
+    <formatType>DATA</formatType>
+  </objectFormat>
+  <objectFormat>
+    <formatId>application/vnd.openxmlformats-officedocument.spreadsheetml.sheet</formatId>
+    <formatName>Microsoft Excel OpenXML</formatName>
+    <formatType>DATA</formatType>
+  </objectFormat>
+  <objectFormat>
+    <formatId>application/msword</formatId>
+    <formatName>Microsoft Word</formatName>
+    <formatType>DATA</formatType>
+  </objectFormat>
+  <objectFormat>
+    <formatId>application/vnd.openxmlformats-officedocument.wordprocessingml.document</formatId>
+    <formatName> Microsoft Word OpenXML </formatName>
+    <formatType>DATA</formatType>
+  </objectFormat>
+  <objectFormat>
+    <formatId>application/x-fasta</formatId>
+    <formatName> FASTA sequence file </formatName>
+    <formatType>DATA</formatType>
+  </objectFormat>
+  <objectFormat>
+    <formatId>text/xml</formatId>
+    <formatName>Extensible Markup Language</formatName>
+    <formatType>DATA</formatType>
+  </objectFormat>
+  <objectFormat>
+    <formatId>application/rtf</formatId>
+    <formatName>Rich Text Format</formatName>
+    <formatType>DATA</formatType>
+  </objectFormat>
+  <objectFormat>
+    <formatId>text/html</formatId>
+    <formatName>Hypertext Markup Language</formatName>
+    <formatType>DATA</formatType>
+  </objectFormat>
+  <objectFormat>
+    <formatId>application/postscript</formatId>
+    <formatName>Postscript</formatName>
+    <formatType>DATA</formatType>
+  </objectFormat>
+  <objectFormat>
+    <formatId>audio/x-wav</formatId>
+    <formatName>Wave Audio Format</formatName>
+    <formatType>DATA</formatType>
+  </objectFormat>
+  <objectFormat>
+    <formatId>application/mathematica</formatId>
+    <formatName>Mathematica Notebook</formatName>
+    <formatType>DATA</formatType>
+  </objectFormat>
+  <objectFormat>
+    <formatId>video/quicktime</formatId>
+    <formatName>Quicktime Video</formatName>
+    <formatType>DATA</formatType>
+  </objectFormat>
+  <objectFormat>
+    <formatId>video/quicktime</formatId>
+    <formatName>Quicktime Video</formatName>
+    <formatType>DATA</formatType>
   </objectFormat>
 </d1:objectFormatList>
