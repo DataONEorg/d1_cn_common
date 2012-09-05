@@ -31,6 +31,7 @@ public class ParameterKeys {
 
     public static final String AUTHORIZED_SUBJECTS = "authorizedSubjects";
     public static final String IS_CN_ADMINISTRATOR = "isCnAdministrator";
+    public static final String IS_MN_ADMINISTRATOR = "isMnAdministrator";
 
 
 }
