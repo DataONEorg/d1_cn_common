@@ -38,10 +38,9 @@ import javax.naming.directory.DirContext;
 import javax.naming.directory.InitialDirContext;
 import javax.naming.directory.SearchControls;
 import javax.naming.directory.SearchResult;
-import javax.naming.ldap.InitialLdapContext;
-import javax.naming.ldap.LdapContext;
-import javax.naming.ldap.StartTlsRequest;
-import javax.naming.ldap.StartTlsResponse;
+import javax.naming.event.EventContext;
+import javax.naming.event.EventDirContext;
+import javax.naming.ldap.*;
 import javax.net.ssl.SSLSession;
 
 import org.apache.commons.logging.Log;
@@ -73,6 +72,7 @@ public abstract class LDAPService {
 
     public DirContext getContext() throws NamingException {
         if (context == null) {
+            log.debug("context is null");
             if (useTLS) {
                 try {
                     context = getSecureContext();
@@ -83,8 +83,24 @@ public abstract class LDAPService {
             } else {
                 context = getDefaultContext();
             }
+            D1UnsolicitedNotificationListener d1Listener = new D1UnsolicitedNotificationListener(this);
+
+            // Register listener with context (all targets equivalent)
+            EventDirContext eventDirContext = (EventDirContext) (context.lookup(""));
+            eventDirContext.addNamingListener("", EventContext.ONELEVEL_SCOPE, d1Listener);
         }
         return context;
+    }
+
+    public void closeContext() {
+        if (context != null) {
+            try {
+                context.close();
+            } catch (Exception ex) {
+                log.warn(ex);
+            }
+        }
+        context = null;
     }
 
     protected DirContext getDefaultContext() throws NamingException {

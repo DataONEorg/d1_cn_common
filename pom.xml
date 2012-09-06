@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.dataone</groupId>
     <artifactId>d1_cn_common</artifactId>
-    <version>1.0.1</version>
+    <version>1.0.2</version>
     <name>DataONE_Cn_Common</name>
     <url>http://dataone.org</url>
     <properties>
@@ -225,6 +225,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
+                 <version>2.2</version>
                   <configuration>
                     <archive>
                         <manifestEntries>
@@ -235,18 +236,6 @@
                         </manifestEntries>
                     </archive>
                 </configuration>
-            </plugin> 
-            <plugin>
-                <groupId>com.mycila.maven-license-plugin</groupId>
-                <artifactId>maven-license-plugin</artifactId>
-                <configuration>
-                    <header>src/license-header.txt</header>
-                </configuration>
-            </plugin>
-			<plugin>
-		       <groupId>org.apache.maven.plugins</groupId>
-		       <artifactId>maven-jar-plugin</artifactId>
-		       <version>2.2</version>
 		       <executions>
 		         <execution>
 		           <goals>
@@ -255,6 +244,14 @@
 		         </execution>
 		       </executions>
      		</plugin>
+            <plugin>
+                <groupId>com.mycila.maven-license-plugin</groupId>
+                <artifactId>maven-license-plugin</artifactId>
+                <configuration>
+                    <header>src/license-header.txt</header>
+                </configuration>
+            </plugin>
+
         </plugins>
 		<resources>
 	      <resource>
