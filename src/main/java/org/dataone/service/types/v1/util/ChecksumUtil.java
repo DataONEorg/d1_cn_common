@@ -34,7 +34,13 @@ import java.security.NoSuchAlgorithmException;
  */
 public class ChecksumUtil {
    /**
-     * return a checksum based on the input of the stream
+     * return a Checksum based on the input of the stream
+     * 
+     * A useful technique when creating systemMetadata is to wrap the the 
+     * inputStream in an org.apache.commons.io.input.CountingInputStream,
+     * to get the length of the content from the stream (after calling this method).
+     * This saves you from having to re-read or turn the inputStream into a byte[].
+     * 
      * @param is
      * @param algorithmAlgorithm
      * @return
