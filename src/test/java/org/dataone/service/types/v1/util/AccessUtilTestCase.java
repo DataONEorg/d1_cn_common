@@ -114,9 +114,66 @@ public class AccessUtilTestCase {
 		
 	}
 
-//	@Test
-	public void testBuildAccessPolicy() {
-		fail("Not yet implemented");
+	@Test
+	public void testCloneAccessRule() 
+	{
+		AccessRule orig = AccessUtil.createAccessRule(
+				new String[]{"subA", "subB"},
+				new Permission[] {Permission.READ});
+		
+		AccessRule clone = AccessUtil.cloneAccessRule(orig);
+		clone.addPermission(Permission.WRITE);
+		Subject c = new Subject();
+		c.setValue("subC");
+		clone.addSubject(c);
+		
+		assertTrue("original accessRule should not be changed by the clone",
+				!orig.getPermissionList().contains(Permission.WRITE));
+		
+		assertTrue("original accessRule should not contain subject 'subC'",
+				!orig.getSubjectList().contains(c));
+
+		assertTrue("original and clone have different list instances",
+				orig.getPermissionList().hashCode() != clone.getPermissionList().hashCode());
+	
+		assertTrue("original and clone have different list intstances",
+				orig.getSubjectList().hashCode() != clone.getSubjectList().hashCode());
+	
 	}
+
+	
+	@Test
+	public void testCloneAccessPolicy() 
+	{
+		AccessPolicy orig = AccessUtil.createSingleRuleAccessPolicy(
+				new String[]{"subX"},
+				new Permission[]{Permission.READ});
+
+		AccessPolicy clone = AccessUtil.cloneAccessPolicy(orig);
+		
+		assertTrue("original and clone have different hashcodes",
+				orig.hashCode() != clone.hashCode());
+		
+		assertTrue("original and clone have different accessRule instances",
+				orig.getAllowList().hashCode() != clone.getAllowList().hashCode());
+		
+		assertTrue("original and clone have different accesRule contents",
+				orig.getAllow(0).hashCode() != clone.getAllow(0).hashCode());
+		
+		AccessRule newRule = new AccessRule();
+		newRule.addPermission(Permission.CHANGE_PERMISSION);
+		Subject s = new Subject();
+		s.setValue("foo");
+		newRule.addSubject(s);
+		
+		clone.addAllow(newRule);
+		
+		for (AccessRule ar: orig.getAllowList()) {
+			assertTrue("original access policy doesn't contain the new Rule's subject",
+					!ar.getSubjectList().contains(s));
+		}
+		
+	}
+	
 
 }

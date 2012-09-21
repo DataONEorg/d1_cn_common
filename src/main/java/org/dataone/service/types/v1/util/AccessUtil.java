@@ -218,4 +218,41 @@ public class AccessUtil {
 		}
 		return accessPolicy;
 	}
+	
+	public static AccessPolicy cloneAccessPolicy(AccessPolicy orig) 
+	{
+		if (orig == null) return null;
+		
+		AccessPolicy clone = new AccessPolicy();
+		
+		if (orig.getAllowList() != null) {
+			for (AccessRule ar: orig.getAllowList()) {
+				clone.addAllow(AccessUtil.cloneAccessRule(ar));
+			}
+		}
+		
+		return clone;
+	}
+	
+	public static AccessRule cloneAccessRule(AccessRule orig) 
+	{
+		if (orig == null) return null;
+		
+		AccessRule clone = new AccessRule();
+		
+		if (orig.getSubjectList() != null) {
+			for (Subject s : orig.getSubjectList()) {
+				Subject newSubject = new Subject();
+				newSubject.setValue(s.getValue());
+				clone.addSubject(newSubject);
+			}
+		}
+		
+		if (orig.getPermissionList() != null) {
+			for (Permission p : orig.getPermissionList()) {
+				clone.addPermission(p);
+			}
+		}
+		return clone;
+	}
 }
