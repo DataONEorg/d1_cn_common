@@ -69,4 +69,11 @@ public interface ReplicationDao {
      * status is completed and the date_verified is within a given timeframe
      */
     public Map<NodeReference, Integer> getRecentCompletedReplicas() throws DataAccessException;
+    
+    /**
+     * Return a map of member node status to count entries for 
+     * tracking node replica status statistics.  The key is a string of node id
+     * and status, and the value is the count of that status for the node
+     */
+    public Map<String, Integer> getCountsByNodeStatus() throws DataAccessException;
 }
