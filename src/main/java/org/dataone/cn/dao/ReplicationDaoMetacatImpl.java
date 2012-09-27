@@ -57,13 +57,13 @@ import org.springframework.jdbc.core.RowMapper;
  */
 public class ReplicationDaoMetacatImpl implements ReplicationDao {
 
-    private static final Log log = LogFactory
-            .getLog(ReplicationDaoMetacatImpl.class);
+    private static final Log log = 
+        LogFactory.getLog(ReplicationDaoMetacatImpl.class);
 
     private JdbcTemplate jdbcTemplate;
 
-    private final FastDateFormat format = FastDateFormat
-            .getInstance("yyyy-MM-dd HH:mm:ss");
+    private final FastDateFormat format = 
+        FastDateFormat.getInstance("yyyy-MM-dd HH:mm:ss");
 
     /* The number of seconds before now() to query for failures */
     private int failureWindow = 3600;
@@ -378,11 +378,95 @@ public class ReplicationDaoMetacatImpl implements ReplicationDao {
 
     }
 
+    /*
+     * An internal class representing a Map of counts by node-status.
+     * Implements the RowMapper interface to populate the resultant Map.
+     */
+    private static final class CountsByNodeStatusMap implements
+            RowMapper<Map<String, Integer>> {
+        
+        /*
+         * Map each row of the resultset into a map of nodeStatus/count entries
+         * 
+         * @return replicaCountByNodeStatusMap - the count of replicas by node
+         * 
+         * @throws SQLException
+         */
+        @Override
+        public Map<String, Integer> mapRow(ResultSet resultSet, int rowNum)
+                throws SQLException {
+            Map<String, Integer> countsByNodeStatusMap = new HashMap<String, Integer>();
+            String memberNode = resultSet.getString("member_node");
+            String status     = resultSet.getString("status");
+            Integer count     = resultSet.getInt("count");
+            countsByNodeStatusMap.put(memberNode + "-" + status, count);
+
+            return countsByNodeStatusMap;
+        }
+
+    }
+    
     private static final class IdentifierMapper implements RowMapper<Identifier> {
         public Identifier mapRow(ResultSet rs, int rowNum) throws SQLException {
             Identifier pid = new Identifier();
             pid.setValue(rs.getString("guid"));
             return pid;
         }
+    }
+
+    /**
+     * Get a map of replica counts by node-status in order to support
+     * instrumentation of system wide MN to MN replication functionality. Summary
+     * counts of of each status type (QUEUED, REQUESTED, COMPLETED, FAILED,
+     * INVALIDATED) are given for each node.  
+     * E.g., <urn:Node:mnDevUCSB1-QUEUED, 3>
+     * 
+     * @return replicaCountsByNodeStatus the map of node-status/count K/V pairs
+     * @throws DataAccessException
+     */
+    @Override
+    public Map<String, Integer> getCountsByNodeStatus() throws DataAccessException {
+        
+        log.debug("Getting current entry counts by node status.");
+
+        // The map to hold the nodeId-status/count K/V pairs
+        Map<String, Integer> replicaCountsByNodeStatus = 
+            new HashMap<String, Integer>();
+        
+        List<Map<String, Integer>> results = null;
+        try {
+            results = 
+                this.jdbcTemplate.query(
+                    new PreparedStatementCreator() {
+                        public PreparedStatement createPreparedStatement(Connection conn) 
+                            throws SQLException {
+                            
+                            String sqlStatement = "SELECT                " 
+                                + "   member_node, status,               "
+                                + "  count(status) AS count              "
+                                + "  FROM  smreplicationstatus           "
+                                + "  GROUP BY member_node, status        "
+                                + "  ORDER BY member_node, status;       ";
+
+                            PreparedStatement statement =
+                                conn.prepareStatement(sqlStatement);
+                            log.debug("getCountsByNodeStatus statement is: " +
+                                statement);
+                            return statement;
+                        }
+                    }, new CountsByNodeStatusMap());
+            log.debug("Counts by node-status result size is " + results.size());
+
+        } catch (org.springframework.dao.DataAccessException dae) {
+            handleJdbcDataAccessException(dae);
+
+        }
+        
+        for (Map<String, Integer> result : results) {
+            replicaCountsByNodeStatus.putAll(result);
+            
+        }
+
+        return replicaCountsByNodeStatus;
     }
 }
