@@ -62,7 +62,7 @@ public class D1Url {
      * adds the next path element to the path portion of the URL, encoding unsafe characters.
      * Empty values to the pathElement parameter throws an exception
      * @param pathElement
-     * @throws IllegalArgumentException
+     * @throws IllegalArgumentException - if pathElement is null or empty
      */
     public void addNextPathElement(String pathElement) throws IllegalArgumentException {
 
@@ -71,7 +71,7 @@ public class D1Url {
 
     /**
      * adds a single parameter to the query portion of the URL (not a key-value pair)
-     * encoding unsafe characters
+     * encoding unsafe characters.  If param is empty or null, nothing is added.
      * @param param
      */
     public void addNonEmptyParam(String param) {
