@@ -10,7 +10,8 @@ import java.util.List;
  indicating the node from which the object can be retrieved. The
  principal information on each location is found in the *nodeIdentifier*,
  all other fields are provided for convenience, but could also be looked
- up from the Node list information.
+ up from the :class:`Types.NodeList` information obtained from 
+ :func:`CNCore.listNodes`.
  * 
  * Schema fragment(s) for this class:
  * <pre>
@@ -159,7 +160,8 @@ public class ObjectLocation implements Serializable
             retrieve the object using the get() method of the rest
             interface.For example, if identifier was "ABX154", and the
             node had a base URL of ``http://mn1.dataone.org/mn`` then the value
-            would be ``http://mn1.dataone.org/mn/object/ABX154``
+            would be 
+            ``http://mn1.dataone.org/mn/v1/object/ABX154``
      * 
      * @return value
      */
@@ -172,7 +174,8 @@ public class ObjectLocation implements Serializable
             retrieve the object using the get() method of the rest
             interface.For example, if identifier was "ABX154", and the
             node had a base URL of ``http://mn1.dataone.org/mn`` then the value
-            would be ``http://mn1.dataone.org/mn/object/ABX154``
+            would be 
+            ``http://mn1.dataone.org/mn/v1/object/ABX154``
      * 
      * @param url
      */
@@ -183,7 +186,8 @@ public class ObjectLocation implements Serializable
     /** 
      * Get the 'preference' element value. A weighting parameter that provides a hint to the
             caller for the relative preference for nodes from which the content
-            should be retrieved. 
+            should be retrieved. Higher values have higher preference.
+            
      * 
      * @return value
      */
@@ -194,7 +198,8 @@ public class ObjectLocation implements Serializable
     /** 
      * Set the 'preference' element value. A weighting parameter that provides a hint to the
             caller for the relative preference for nodes from which the content
-            should be retrieved. 
+            should be retrieved. Higher values have higher preference.
+            
      * 
      * @param preference
      */

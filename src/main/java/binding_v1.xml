@@ -211,6 +211,39 @@
     <value style="attribute" name="success" get-method="getSuccess" set-method="setSuccess" usage="optional"/>
     <value style="attribute" name="lastSuccess" get-method="getLastSuccess" set-method="setLastSuccess" usage="optional" serializer="org.dataone.service.util.DateTimeMarshaller.serializeDateToUTC" deserializer="org.dataone.service.util.DateTimeMarshaller.deserializeDateToUTC"/>
   </mapping>
+  <mapping abstract="true" type-name="d1:QueryEngineDescription" class="org.dataone.service.types.v1.QueryEngineDescription">
+    <value style="element" name="queryEngineVersion" get-method="getQueryEngineVersion" set-method="setQueryEngineVersion"/>
+    <value style="element" name="querySchemaVersion" get-method="getQuerySchemaVersion" set-method="setQuerySchemaVersion" usage="optional"/>
+    <value style="element" name="name" get-method="getName" set-method="setName"/>
+    <collection get-method="getAdditionalInfoList" set-method="setAdditionalInfoList" usage="optional" create-type="java.util.ArrayList">
+      <value style="element" name="additionalInfo" type="java.lang.String"/>
+    </collection>
+    <collection get-method="getQueryFieldList" set-method="setQueryFieldList" usage="optional" create-type="java.util.ArrayList">
+      <structure map-as="d1:QueryField" name="queryField"/>
+    </collection>
+  </mapping>
+  <mapping class="org.dataone.service.types.v1.QueryEngineDescription" name="queryEngineDescription" ns="http://ns.dataone.org/service/types/v1">
+    <structure map-as="d1:QueryEngineDescription"/>
+  </mapping>
+  <mapping abstract="true" type-name="d1:QueryEngineList" class="org.dataone.service.types.v1.QueryEngineList">
+    <collection get-method="getQueryEngineList" set-method="setQueryEngineList" usage="optional" create-type="java.util.ArrayList">
+      <value style="element" name="queryEngine" type="java.lang.String"/>
+    </collection>
+  </mapping>
+  <mapping class="org.dataone.service.types.v1.QueryEngineList" name="queryEngineList" ns="http://ns.dataone.org/service/types/v1">
+    <structure map-as="d1:QueryEngineList"/>
+  </mapping>
+  <mapping abstract="true" type-name="d1:QueryField" class="org.dataone.service.types.v1.QueryField">
+    <value style="element" name="name" get-method="getName" set-method="setName"/>
+    <collection get-method="getDescriptionList" set-method="setDescriptionList" usage="optional" create-type="java.util.ArrayList">
+      <value style="element" name="description" type="java.lang.String"/>
+    </collection>
+    <value style="element" name="type" get-method="getType" set-method="setType"/>
+    <value style="element" name="searchable" get-method="isSearchable" set-method="setSearchable"/>
+    <value style="element" name="returnable" get-method="isReturnable" set-method="setReturnable"/>
+    <value style="element" name="sortable" get-method="isSortable" set-method="setSortable"/>
+    <value style="element" name="multivalued" get-method="getMultivalued" set-method="setMultivalued" usage="optional"/>
+  </mapping>
   <mapping abstract="true" type-name="d1:Replica" class="org.dataone.service.types.v1.Replica">
     <structure map-as="d1:NodeReference" get-method="getReplicaMemberNode" set-method="setReplicaMemberNode" name="replicaMemberNode"/>
     <value style="element" name="replicationStatus" get-method="getReplicationStatus" set-method="setReplicationStatus" format="d1:ReplicationStatus"/>

@@ -35,8 +35,8 @@ public class NodeReplicationPolicy implements Serializable
     private List<ObjectFormatIdentifier> allowedObjectFormatList = new ArrayList<ObjectFormatIdentifier>();
 
     /** 
-     * Get the 'maxObjectSize' element value. An optional statement of the maximum size in bytes
-            of objects this node is willing to accept for
+     * Get the 'maxObjectSize' element value. An optional statement of the maximum size in octets 
+            (8-bit bytes) of objects this node is willing to accept for
             replication.
      * 
      * @return value
@@ -46,8 +46,8 @@ public class NodeReplicationPolicy implements Serializable
     }
 
     /** 
-     * Set the 'maxObjectSize' element value. An optional statement of the maximum size in bytes
-            of objects this node is willing to accept for
+     * Set the 'maxObjectSize' element value. An optional statement of the maximum size in octets 
+            (8-bit bytes) of objects this node is willing to accept for
             replication.
      * 
      * @param maxObjectSize

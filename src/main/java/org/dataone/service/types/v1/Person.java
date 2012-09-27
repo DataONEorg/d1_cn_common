@@ -42,7 +42,7 @@ public class Person implements Serializable
 
     /** 
      * Get the 'subject' element value. The unique, immutable identifier for the
-            person.
+     *Person*.
      * 
      * @return value
      */
@@ -52,7 +52,7 @@ public class Person implements Serializable
 
     /** 
      * Set the 'subject' element value. The unique, immutable identifier for the
-            person.
+     *Person*.
      * 
      * @param subject
      */
@@ -61,7 +61,7 @@ public class Person implements Serializable
     }
 
     /** 
-     * Get the list of 'givenName' element items. The given name of the Person, repeatable if they
+     * Get the list of 'givenName' element items. The given name of the *Person*, repeatable if they
             have more than one given name.
      * 
      * @return list
@@ -71,7 +71,7 @@ public class Person implements Serializable
     }
 
     /** 
-     * Set the list of 'givenName' element items. The given name of the Person, repeatable if they
+     * Set the list of 'givenName' element items. The given name of the *Person*, repeatable if they
             have more than one given name.
      * 
      * @param list
@@ -207,7 +207,7 @@ public class Person implements Serializable
     }
 
     /** 
-     * Get the list of 'isMemberOf' element items. A group or role in which the *Person* is a member,
+     * Get the list of 'isMemberOf' element items. A *group* or role in which the *Person* is a member,
             expressed using the unique :class:`Types.Subject` identifier for
             that :class:`Types.Group`, and repeatable if they are a member of
             more than one group. 
@@ -219,7 +219,7 @@ public class Person implements Serializable
     }
 
     /** 
-     * Set the list of 'isMemberOf' element items. A group or role in which the *Person* is a member,
+     * Set the list of 'isMemberOf' element items. A *group* or role in which the *Person* is a member,
             expressed using the unique :class:`Types.Subject` identifier for
             that :class:`Types.Group`, and repeatable if they are a member of
             more than one group. 
@@ -347,7 +347,7 @@ public class Person implements Serializable
      *Person* have been :term:`verified` to ensure that the *givenName*
             and *familyName* represent the real person's legal name, and that
             the email address is correct for that person and is in the control
-            of the indicated individual. Verification occurs through a
+            of the indicated individual. Verification occurs through an
             established procedure within DataONE as part of the Identity
             Management system. A Person can not change their own *verified*
             field, but rather must be verified and changed through this DataONE
@@ -364,7 +364,7 @@ public class Person implements Serializable
      *Person* have been :term:`verified` to ensure that the *givenName*
             and *familyName* represent the real person's legal name, and that
             the email address is correct for that person and is in the control
-            of the indicated individual. Verification occurs through a
+            of the indicated individual. Verification occurs through an
             established procedure within DataONE as part of the Identity
             Management system. A Person can not change their own *verified*
             field, but rather must be verified and changed through this DataONE

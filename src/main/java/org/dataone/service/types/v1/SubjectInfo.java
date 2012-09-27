@@ -7,9 +7,9 @@ import java.util.List;
 
 /** 
  * A list of :term:`Subjects`, including both
- :class:`Types.Person`s and :class:`Types.Group`s, that is returned from
+ :class:`Types.Person` and :class:`Types.Group` entries returned from
  the :func:`CNIdentity.getSubjectInfo` service and
- :func:`CNIdentity.listSubjects` service.
+ :func:`CNIdentity.listSubjects` services.
  * 
  * Schema fragment(s) for this class:
  * <pre>

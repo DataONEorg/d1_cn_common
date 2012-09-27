@@ -4,10 +4,10 @@ package org.dataone.service.types.v1;
 import java.io.Serializable;
 
 /** 
- * A unique identifier for a Member Node. The
- *NodeReference* must be unique across Member Nodes, and must always be
- assigned to one Member Node instance even in the event of the *BaseURL* or
- other characteristics changing.
+ * A unique identifier for a DataONE Node. The
+ *NodeReference* must be unique across nodes, and must always be
+ assigned to one Member or Coordinating Node instance even in the event of 
+ the *BaseURL* or other characteristics changing.
  * 
  * Schema fragment(s) for this class:
  * <pre>

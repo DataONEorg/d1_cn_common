@@ -6,7 +6,8 @@ import java.util.Date;
 
 /** 
  * Replica information that describes the existence of a
- replica, and its status.
+ replica of some object managed by the DataONE infrastructure, and its 
+ status.
  * 
  * Schema fragment(s) for this class:
  * <pre>

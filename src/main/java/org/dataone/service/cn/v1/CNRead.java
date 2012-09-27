@@ -35,6 +35,8 @@ import org.dataone.service.types.v1.Identifier;
 import org.dataone.service.types.v1.ObjectFormatIdentifier;
 import org.dataone.service.types.v1.ObjectList;
 import org.dataone.service.types.v1.ObjectLocationList;
+import org.dataone.service.types.v1.QueryEngineDescription;
+import org.dataone.service.types.v1.QueryEngineList;
 import org.dataone.service.types.v1.Session;
 import org.dataone.service.types.v1.SystemMetadata;
 
@@ -95,6 +97,25 @@ public interface CNRead
     public ObjectList search(String queryType, String query)
         throws InvalidToken, ServiceFailure, NotAuthorized, InvalidRequest, 
         NotImplemented;
+    
+    /**
+     * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CNRead.query
+     */
+    public InputStream query(String queryEngine, String query)
+        throws InvalidToken, ServiceFailure, NotAuthorized, InvalidRequest, 
+        NotImplemented, NotFound;
+
+    /**
+     * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CNRead.getQueryEngineDescription
+     */
+    public QueryEngineDescription getQueryEngineDescription(String queryEngine)
+        throws InvalidToken, ServiceFailure, NotAuthorized, NotImplemented, NotFound;
+
+    /**
+     * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CNRead.listQueryEngines
+     */
+    public QueryEngineList listQueryEngines()
+        throws InvalidToken, ServiceFailure, NotAuthorized, NotImplemented;
     
     
     //////

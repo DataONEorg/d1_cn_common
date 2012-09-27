@@ -44,8 +44,8 @@
             deserializer="org.dataone.service.util.BigIntegerMarshaller.deserializeBigInteger"/>
 <!--      For development cycles, we will use dataoneTypes.xsd as the schema name, but
           For production releases we switch to an url that has v1 as the last segment of the uri path -->
-<!--            <schema name="dataoneTypes.xsd" includes="ObjectFormatIdentifier NodeReference" > -->
-            <schema name="v1" includes="ObjectFormatIdentifier NodeReference" >
+            <schema name="dataoneTypes.xsd" includes="ObjectFormatIdentifier NodeReference" >
+<!--            <schema name="v1" includes="ObjectFormatIdentifier NodeReference" >  -->
                 <simpleType name="ObjectFormatIdentifier">
                     <restriction value-name="value" />
                 </simpleType>

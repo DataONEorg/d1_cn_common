@@ -15,8 +15,8 @@ import java.io.Serializable;
  both available and valid (matching checksum with original), and if it is
  either inaccessible or invalid then it marks it as *invalidated*, which
  indicates that the object replication needs to be invoked
- again.The replication process is described in
- :doc:`UC09 &lt;/design/UseCases/09_uc&gt;`.
+ again.The replication process is described in Use Case 09 
+ (:doc:`/design/UseCases/09_uc`).
  * 
  * Schema fragment(s) for this class:
  * <pre>

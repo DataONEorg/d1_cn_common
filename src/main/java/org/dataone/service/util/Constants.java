@@ -54,6 +54,9 @@ public class Constants {
     public static final String RESOURCE_SEARCH = "search";
     /** Common API resource which handles archive operations */
     public static final String RESOURCE_ARCHIVE = "archive";
+    /** Common API resource which handles query operations */
+    public static final String RESOURCE_QUERY = "query";
+
     
     /** AUTHORIZATION API resource which handles access operations */
     public static final String RESOURCE_ACCESS = "accessRules";

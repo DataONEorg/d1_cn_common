@@ -10,7 +10,8 @@ import javax.security.auth.x500.X500Principal;
  name to identify a user or group in the DataONE Identity Management
  Service. The *subject* is represented by a unique, persistent,
  non-reassignable identifier string that follows the same constraints as
- :class:`Types.Identifier`.
+ :class:`Types.Identifier`. Subjects are immutable and can not be 
+ deleted.
  * 
  * Schema fragment(s) for this class:
  * <pre>

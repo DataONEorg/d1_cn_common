@@ -6,7 +6,7 @@ import java.util.Date;
 
 /** 
  * A single log entry as reported by a Member Node or
- Coordinating Node through the :func:`MNCore.getLogRecords` and
+ Coordinating Node through the :func:`MNCore.getLogRecords` or
  :func:`CNCore.getLogRecords` methods.
  * 
  * Schema fragment(s) for this class:
@@ -123,8 +123,8 @@ public class LogEntry implements Serializable
 
     /** 
      * Get the 'subject' element value. The :term:`Subject` used for making the request.
-            This may be the DataONE *public* user if the request is not
-            authenticated, otherwise it will be the Subject of the certificate
+            This may be the DataONE :term:`public` user if the request is not
+            authenticated, otherwise it will be the *Subject* of the certificate
             used for authenticating the request.
      * 
      * @return value
@@ -135,8 +135,8 @@ public class LogEntry implements Serializable
 
     /** 
      * Set the 'subject' element value. The :term:`Subject` used for making the request.
-            This may be the DataONE *public* user if the request is not
-            authenticated, otherwise it will be the Subject of the certificate
+            This may be the DataONE :term:`public` user if the request is not
+            authenticated, otherwise it will be the *Subject* of the certificate
             used for authenticating the request.
      * 
      * @param subject

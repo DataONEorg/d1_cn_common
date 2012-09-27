@@ -326,7 +326,7 @@ public class Node implements Serializable
     /** 
      * Get the list of 'contactSubject' element items. The appropriate person or group to contact
             regarding the disposition, management, and status of this Member
-            Node. The *Node.contactSubject* is an term:`X.509 Distinguished
+            Node. The *Node.contactSubject* is an :term:`X.509 Distinguished
             Name` for a person or group that can be used to look up current
             contact details (e.g., name, email address) for the contact in the
             DataONE Identity service. DataONE uses the *contactSubject* to
@@ -346,7 +346,7 @@ public class Node implements Serializable
     /** 
      * Set the list of 'contactSubject' element items. The appropriate person or group to contact
             regarding the disposition, management, and status of this Member
-            Node. The *Node.contactSubject* is an term:`X.509 Distinguished
+            Node. The *Node.contactSubject* is an :term:`X.509 Distinguished
             Name` for a person or group that can be used to look up current
             contact details (e.g., name, email address) for the contact in the
             DataONE Identity service. DataONE uses the *contactSubject* to
