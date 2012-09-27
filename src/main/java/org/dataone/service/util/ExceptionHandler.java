@@ -27,6 +27,7 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.TreeMap;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -228,8 +229,24 @@ public class ExceptionHandler {
                 throw new ServiceFailure(detailCode, "status " + code + ": " + description, pid, null);
             }
     	} else {
-            throw new ServiceFailure("0000: NON-D1-EXCEPTION", "status: " + code);
+            throw new ServiceFailure("0000: NON-D1-EXCEPTION", "status: " + code + " response headers: " +
+            		ExceptionHandler.serializeHeaderMap(headersMap));
         }
+    }
+    
+    /**
+     * 
+     * @param headers
+     * @return
+     */
+    private static String serializeHeaderMap(Map<String, String> headers)
+    {
+    	StringBuffer sb = new StringBuffer();
+    	sb.append("\nheader = value");
+    	for (String key: headers.keySet()) {
+    		sb.append("\n" + key + " = " + headers.get(key));
+    	}
+    	return sb.toString();
     }
 
     
