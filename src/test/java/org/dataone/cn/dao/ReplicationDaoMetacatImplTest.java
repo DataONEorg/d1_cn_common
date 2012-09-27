@@ -104,4 +104,18 @@ public class ReplicationDaoMetacatImplTest {
         Assert.assertTrue(results.size() == 0);
 
     }
+    
+    @Test
+    public void testCountsByNodeStatus() throws DataAccessException {
+        jdbc.execute("INSERT INTO smreplicationstatus VALUES ('test_guid','mn:test:1','COMPLETE',TIMESTAMP '2011-01-01 12:00:00')");
+        jdbc.execute("INSERT INTO smreplicationstatus VALUES ('test_guid2','mn:test:1','REQUESTED',TIMESTAMP '2012-01-01 12:00:00')");
+        jdbc.execute("INSERT INTO smreplicationstatus VALUES ('test_guid2','mn:test:2','QUEUED',TIMESTAMP '2012-01-01 12:00:00')");
+        jdbc.execute("INSERT INTO smreplicationstatus VALUES ('test_guid3','mn:test:1','REQUESTED',TIMESTAMP '2020-01-01 12:00:00')");
+
+        ReplicationDao dao = DaoFactory.getReplicationDao();
+        Map<String, Integer> results = dao.getCountsByNodeStatus();
+        Assert.assertTrue(results.size() == 3); // expect 3 unique node-status keys
+
+    }
+
 }
