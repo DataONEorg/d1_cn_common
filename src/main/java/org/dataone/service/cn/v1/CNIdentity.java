@@ -125,7 +125,7 @@ public interface CNIdentity {
      * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CNIdentity.createGroup
      */
     public Subject createGroup(Group group) 
-        throws ServiceFailure, InvalidToken, NotAuthorized, NotImplemented, IdentifierNotUnique;
+        throws ServiceFailure, InvalidToken, NotAuthorized, NotImplemented, IdentifierNotUnique, InvalidRequest;
     
     /**
      * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CNIdentity.updateGroup
@@ -227,7 +227,7 @@ public interface CNIdentity {
      */
     @Deprecated
     public Subject createGroup(Session session, Group group) 
-        throws ServiceFailure, InvalidToken, NotAuthorized, NotImplemented, IdentifierNotUnique;
+        throws ServiceFailure, InvalidToken, NotAuthorized, NotImplemented, IdentifierNotUnique, InvalidRequest;
     
     /**
      * @see http://mule1.dataone.org/ArchitectureDocs-current/apis/CN_APIs.html#CNIdentity.updateGroup
