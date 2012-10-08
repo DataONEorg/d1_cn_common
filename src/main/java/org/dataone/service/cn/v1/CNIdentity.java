@@ -34,7 +34,6 @@ import org.dataone.service.types.v1.Person;
 import org.dataone.service.types.v1.Session;
 import org.dataone.service.types.v1.Subject;
 import org.dataone.service.types.v1.SubjectInfo;
-import org.dataone.service.types.v1.SubjectList;
 
 /**
  * The DataONE CoordinatingNode Tier2 Identity interface.  This defines an
