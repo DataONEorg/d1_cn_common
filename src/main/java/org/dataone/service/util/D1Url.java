@@ -42,6 +42,10 @@ public class D1Url {
         setBaseUrl(baseUrl);
     }
 
+    public D1Url() {
+    	super();
+    }
+    
     public void setBaseUrl(String baseUrl) throws IllegalArgumentException {
         this.baseUrl = trimAndValidateString(baseUrl);
     }
@@ -153,7 +157,7 @@ public class D1Url {
     }
 
     protected void assembleUrl() {
-        url = baseUrl;
+        url = baseUrl == null ? "" : baseUrl;
         url += joinToUrlWith("/", resource);
         for (int i = 0; i < pathElements.size(); i++) {
             url += joinToUrlWith("/", pathElements.get(i));
@@ -186,6 +190,15 @@ public class D1Url {
         return s.trim();
     }
 
+    
+    /**
+     * use this method to avoid inadvertent duplication of the joining character
+     * The most common case is when a baseUrl contains a trailing slash and you
+     * want to append another path elements.
+     * @param joiner
+     * @param string
+     * @return
+     */
     protected String joinToUrlWith(String joiner, String string) {
         if (string == null) {
             return "";

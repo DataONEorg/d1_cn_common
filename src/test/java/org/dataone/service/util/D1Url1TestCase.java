@@ -246,4 +246,26 @@ public class D1Url1TestCase {
 
 		assertEquals(expected, url.getAssembledQueryString());
 	}
+	
+	@Test
+	public void testBaseURLlessURLassembly() {
+		D1Url pathAndQuery = new D1Url();
+		pathAndQuery.addNextPathElement("solr");
+		pathAndQuery.addNonEmptyParamPair("q","id:*");
+		String expected = "/solr?q=id:*";
+		
+		assertEquals(expected, pathAndQuery.getUrl());
+	}
+	
+	/* need to make sure the quotes are properly escaped
+	 * and the leading ? is included
+	 */
+	@Test
+	public void testSolrQueryScenario() {
+		D1Url pathAndQuery = new D1Url();
+		pathAndQuery.addNonEmptyParamPair("q","id:\"TierTesting:cn-dev:public*\"");
+		String expected = "?q=id:%22TierTesting:cn-dev:public*%22";
+		System.out.println(expected);
+		assertEquals(expected, pathAndQuery.getUrl());
+	}
 }
