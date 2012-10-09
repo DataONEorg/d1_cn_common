@@ -59,6 +59,23 @@ public interface ReplicationDao {
     public Map<NodeReference, Integer> getPendingReplicasByNode() throws DataAccessException;
 
     /**
+     * Returns a paged list of distinct identifier objects with at least
+     * one replica with a replica verified date previous to the auditDate
+     * parameter and a status of requested or queued. 
+     * Results are ordered so identifiers with oldest replica
+     * verified dates are returned first (ascending by replica verified date).
+     * 
+     * @param auditDate
+     *            - Identifiers with one or more replica verified dates after
+     *            audit date are returned.
+     * @param pageSize
+     * @param pageNumber
+     * @return distinct identifiers ordered by ascending replica verified date.
+     */
+    public List<Identifier> getPendingReplicasByDate(Date auditDate, int pageSize,
+            int pageNumber) throws DataAccessException;
+
+    /**
      * Return a map of member node to replica count entries where the replica
      * status is failed and the date_verified is within a given timeframe
      */
