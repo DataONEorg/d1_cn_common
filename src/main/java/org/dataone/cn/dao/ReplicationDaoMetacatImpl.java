@@ -31,6 +31,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 
 import org.apache.commons.lang.time.FastDateFormat;
 import org.apache.commons.logging.Log;
@@ -382,6 +384,42 @@ public class ReplicationDaoMetacatImpl implements ReplicationDao {
      * An internal class representing a Map of counts by node-status.
      * Implements the RowMapper interface to populate the resultant Map.
      */
+    private static final class PendingReplicaMapper implements
+            RowMapper<Map<Identifier, NodeReference>> {
+        
+        /*
+         * Map a row of the resultset into a map with a identifier/nodeid entry
+         * 
+         * @return pendingReplicasByNode - the pid/nodeId pairs
+         * 
+         * @throws SQLException
+         */
+        @Override
+        public Map<Identifier, NodeReference> mapRow(ResultSet resultSet, int rowNum)
+                throws SQLException {
+            Map<Identifier, NodeReference> pendingReplicasByNode = 
+                new HashMap<Identifier, NodeReference>();
+            // set the id
+            String identifier = resultSet.getString("guid");
+            Identifier pid = new Identifier();
+            pid.setValue(identifier);
+            
+            // set the nodeId
+            String memberNode = resultSet.getString("member_node");
+            NodeReference nodeId = new NodeReference();
+            nodeId.setValue(memberNode);
+            
+            pendingReplicasByNode.put(pid, nodeId);
+
+            return pendingReplicasByNode;
+        }
+
+    }
+
+    /*
+     * An internal class representing a Map of counts by node-status.
+     * Implements the RowMapper interface to populate the resultant Map.
+     */
     private static final class CountsByNodeStatusMap implements
             RowMapper<Map<String, Integer>> {
         
@@ -483,12 +521,18 @@ public class ReplicationDaoMetacatImpl implements ReplicationDao {
      * @param pageNumber  the page number to start from
      */
     @Override
-    public List<Identifier> getPendingReplicasByDate(Date auditDate, int pageSize,
-            int pageNumber) throws DataAccessException {
+    public List<Entry<Identifier, NodeReference>> getPendingReplicasByDate(Date auditDate) 
+        throws DataAccessException {
         
         final Timestamp timestamp = new Timestamp(auditDate.getTime());
         
-        List<Identifier> results = new ArrayList<Identifier>();
+        List<Map<Identifier,NodeReference>> results = 
+            new ArrayList<Map<Identifier, NodeReference>>();
+        
+        // a list of the composite row results.
+        List<Map.Entry<Identifier, NodeReference>> replicaByNodeMap =
+            new ArrayList<Map.Entry<Identifier, NodeReference>>();
+        
         try {
             results = 
                 this.jdbcTemplate.query(
@@ -498,7 +542,7 @@ public class ReplicationDaoMetacatImpl implements ReplicationDao {
                             
                             String sqlStatement = "SELECT DISTINCT  "
                                 + "  guid,                          "
-                                + "  date_verified                  "
+                                + "  member_node                    "
                                 + "  FROM  smreplicationstatus      "
                                 + "  WHERE date_verified <= ?       "
                                 + "  AND (status = 'QUEUED'         "
@@ -512,12 +556,24 @@ public class ReplicationDaoMetacatImpl implements ReplicationDao {
                                 statement);
                             return statement;
                         }
-                    }, new IdentifierMapper());
+                    }, new PendingReplicaMapper());
 
         } catch (org.springframework.dao.DataAccessException dae) {
             handleJdbcDataAccessException(dae);
 
         }
-        return results;
+        
+        // take each map from the results and push it into a master list with
+        // the concatenation the Map.entry as the member
+        for (Map<Identifier, NodeReference> result : results) {
+            Set<Entry<Identifier, NodeReference>> entrySet = result.entrySet();
+            for (Entry<Identifier, NodeReference> entry : entrySet) {
+                replicaByNodeMap.add(entry);
+
+            }
+            
+        }
+
+        return replicaByNodeMap;
     }
 }
