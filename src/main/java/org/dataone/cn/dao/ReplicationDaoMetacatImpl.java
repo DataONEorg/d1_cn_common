@@ -469,4 +469,55 @@ public class ReplicationDaoMetacatImpl implements ReplicationDao {
 
         return replicaCountsByNodeStatus;
     }
+
+    /**
+     * Returns a paged list of distinct identifier objects with at least
+     * one replica with a replica verified date previous to the auditDate
+     * parameter and a status of requested or queued. 
+     * Results are ordered so identifiers with oldest replica
+     * verified dates are returned first (ascending by replica verified date).
+     * 
+     * @return results  the list of identifiers
+     * @param auditDate  the replica verified date cutoff; older identifiers are returned 
+     * @param pageSize  the nimber of identifiers per page of the result
+     * @param pageNumber  the page number to start from
+     */
+    @Override
+    public List<Identifier> getPendingReplicasByDate(Date auditDate, int pageSize,
+            int pageNumber) throws DataAccessException {
+        
+        final Timestamp timestamp = new Timestamp(auditDate.getTime());
+        
+        List<Identifier> results = new ArrayList<Identifier>();
+        try {
+            results = 
+                this.jdbcTemplate.query(
+                    new PreparedStatementCreator() {
+                        public PreparedStatement createPreparedStatement(Connection conn) 
+                            throws SQLException {
+                            
+                            String sqlStatement = "SELECT DISTINCT  "
+                                + "  guid,                          "
+                                + "  date_verified                  "
+                                + "  FROM  smreplicationstatus      "
+                                + "  WHERE date_verified <= ?       "
+                                + "  AND (status = 'QUEUED'         "
+                                + "  OR   status = 'REQUESTED')     "
+                                + "  ORDER BY date_verified ASC;    ";
+
+                            PreparedStatement statement =
+                                conn.prepareStatement(sqlStatement);
+                            statement.setTimestamp(1, timestamp);
+                            log.debug("getPendingReplicasByDate statement is: " +
+                                statement);
+                            return statement;
+                        }
+                    }, new IdentifierMapper());
+
+        } catch (org.springframework.dao.DataAccessException dae) {
+            handleJdbcDataAccessException(dae);
+
+        }
+        return results;
+    }
 }
