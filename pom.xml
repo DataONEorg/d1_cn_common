@@ -83,6 +83,18 @@
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+			  <groupId>org.apache.maven.plugins</groupId>
+			  <artifactId>maven-source-plugin</artifactId>
+			  <executions>
+			    <execution>
+			      <id>attach-sources</id>
+			      <goals>
+			        <goal>jar</goal>
+			      </goals>
+			    </execution>
+			  </executions>
+			</plugin>
 
             <!-- take out the placeholder -->
 <!-- need the placeholder element or else bad things happen when generating the classes it generated a class for the version so Identifier & Identifier1 no, i don't know why -->
