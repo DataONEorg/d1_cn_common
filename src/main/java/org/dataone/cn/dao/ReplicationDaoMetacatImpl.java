@@ -408,6 +408,8 @@ public class ReplicationDaoMetacatImpl implements ReplicationDao {
             String memberNode = resultSet.getString("member_node");
             NodeReference nodeId = new NodeReference();
             nodeId.setValue(memberNode);
+            log.debug("Adding pending replica request for removal: " + 
+                    identifier + " at " + memberNode);
             
             pendingReplicasByNode.put(pid, nodeId);
 
@@ -540,14 +542,15 @@ public class ReplicationDaoMetacatImpl implements ReplicationDao {
                         public PreparedStatement createPreparedStatement(Connection conn) 
                             throws SQLException {
                             
-                            String sqlStatement = "SELECT DISTINCT  "
-                                + "  guid,                          "
-                                + "  member_node                    "
-                                + "  FROM  smreplicationstatus      "
-                                + "  WHERE date_verified <= ?       "
-                                + "  AND (status = 'QUEUED'         "
-                                + "  OR   status = 'REQUESTED')     "
-                                + "  ORDER BY date_verified ASC;    ";
+                            String sqlStatement = "SELECT    " +
+                                " guid,                      " +
+                                " member_node,               " +
+                                " date_verified              " +
+                                " FROM  smreplicationstatus  " +
+                                " WHERE date_verified <= ?   " +
+                                " AND (status = 'QUEUED'     " +
+                                " OR   status = 'REQUESTED') " +
+                                " ORDER BY date_verified ASC;";
 
                             PreparedStatement statement =
                                 conn.prepareStatement(sqlStatement);
