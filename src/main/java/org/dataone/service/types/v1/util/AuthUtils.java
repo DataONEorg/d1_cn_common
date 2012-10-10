@@ -98,7 +98,7 @@ public class AuthUtils {
 	// TODO: future optimization might be to replace SubjectInfo with an indexed
 	// map of the Person objects contained by it, but probably not worth the setup
 	// cost when # of Persons is small.
-	private static void findPersonsSubjects(Set<Subject> foundSubjects, SubjectInfo subjectInfo, Subject targetSubject) {
+	protected static void findPersonsSubjects(Set<Subject> foundSubjects, SubjectInfo subjectInfo, Subject targetSubject) {
 
 		// add targetSubject - not all target subjects will have Person objects
 		// for example the so-called "legacy" identities
