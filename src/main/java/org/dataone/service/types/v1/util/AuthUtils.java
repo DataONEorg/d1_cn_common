@@ -94,11 +94,14 @@ public class AuthUtils {
 	/**
 	 * A recursive method to traverse the equivalent-identity relationships
 	 * and to handle the transitive nature of group membership and verified status.
+	 * 
+	 * Note: this is a low-level function that does not provide a complete list
+	 * of authorized subjects for a given SubjectInfo, so callers beware.
 	 */
 	// TODO: future optimization might be to replace SubjectInfo with an indexed
 	// map of the Person objects contained by it, but probably not worth the setup
 	// cost when # of Persons is small.
-	protected static void findPersonsSubjects(Set<Subject> foundSubjects, SubjectInfo subjectInfo, Subject targetSubject) {
+	public static void findPersonsSubjects(Set<Subject> foundSubjects, SubjectInfo subjectInfo, Subject targetSubject) {
 
 		// add targetSubject - not all target subjects will have Person objects
 		// for example the so-called "legacy" identities
