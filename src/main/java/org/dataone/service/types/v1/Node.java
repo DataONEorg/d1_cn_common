@@ -51,11 +51,11 @@ public class Node implements Serializable
     private NodeState state;
 
     /** 
-     * Get the 'identifier' element value. A unique identifier for the node. Although this
-            may initially be the same as the *baseURL*, such practice is not
-            recommended however as this value MUST NOT change for future
-            implementations of the same node, whereas the *baseURL* may change
-            in the future. 
+     * Get the 'identifier' element value. A unique identifier for the node of the form 
+            ``urn:node:NODEID`` where NODEID is the node specific identifier. 
+            This value MUST NOT change for future implementations of the 
+            same node, whereas the *baseURL* may change in the future. 
+            
      * 
      * @return value
      */
@@ -64,11 +64,11 @@ public class Node implements Serializable
     }
 
     /** 
-     * Set the 'identifier' element value. A unique identifier for the node. Although this
-            may initially be the same as the *baseURL*, such practice is not
-            recommended however as this value MUST NOT change for future
-            implementations of the same node, whereas the *baseURL* may change
-            in the future. 
+     * Set the 'identifier' element value. A unique identifier for the node of the form 
+            ``urn:node:NODEID`` where NODEID is the node specific identifier. 
+            This value MUST NOT change for future implementations of the 
+            same node, whereas the *baseURL* may change in the future. 
+            
      * 
      * @param identifier
      */
@@ -450,9 +450,8 @@ public class Node implements Serializable
     }
 
     /** 
-     * Get the 'type' attribute value. The type of the node (Coordinating, Member,
-          Monitor), chosen from the :class:`Types.NodeType`
-          type.
+     * Get the 'type' attribute value. The type of the node (Coordinating, Member), chosen 
+          from the :class:`Types.NodeType` type.
      * 
      * @return value
      */
@@ -461,9 +460,8 @@ public class Node implements Serializable
     }
 
     /** 
-     * Set the 'type' attribute value. The type of the node (Coordinating, Member,
-          Monitor), chosen from the :class:`Types.NodeType`
-          type.
+     * Set the 'type' attribute value. The type of the node (Coordinating, Member), chosen 
+          from the :class:`Types.NodeType` type.
      * 
      * @param type
      */
