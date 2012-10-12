@@ -1,6 +1,5 @@
 package org.dataone.service.types.v1.util;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
@@ -21,8 +20,21 @@ import org.dataone.service.util.Constants;
 public class AuthUtils {
 
 	private static Logger logger = Logger.getLogger(AuthUtils.class);
+	private static Subject verifiedSubject;
+	private static Subject authenticatedSubject;
+	private static Subject publicSubject;
 	
-	private static Subject verifiedSubject = null;
+	static {
+		verifiedSubject = new Subject();
+		verifiedSubject.setValue(Constants.SUBJECT_VERIFIED_USER);
+	
+		authenticatedSubject = new Subject();
+		authenticatedSubject.setValue(Constants.SUBJECT_AUTHENTICATED_USER);
+	
+		publicSubject = new Subject();
+		publicSubject.setValue(Constants.SUBJECT_PUBLIC);
+	
+	}
 	
 	
 	/**
@@ -46,18 +58,12 @@ public class AuthUtils {
 	 */
 	public static Set<Subject> authorizedClientSubjects(Session session)
 	{
-		// setup a static subject for verified symbolic user
-		if (verifiedSubject == null) {
-			verifiedSubject = new Subject();
-			verifiedSubject.setValue(Constants.SUBJECT_VERIFIED_USER);
-		}
+		
 		
 		// using an arbitrary initial size of the HashSet, 
 		Set<Subject> subjects = new HashSet<Subject>();
 
 		// add public subject for everyone
-		Subject publicSubject = new Subject();
-		publicSubject.setValue(Constants.SUBJECT_PUBLIC);
 		subjects.add(publicSubject);
 		
 		if (session != null) {
@@ -69,9 +75,7 @@ public class AuthUtils {
 				
 				// depending on the primary subject, can add the authenticated symbolic user
 				if (! primarySubject.getValue().equals(Constants.SUBJECT_PUBLIC) ) {
-					Subject s = new Subject();
-					s.setValue(Constants.SUBJECT_AUTHENTICATED_USER);
-					subjects.add(s);
+					subjects.add(authenticatedSubject);
 					
 				} else {
 					// zero out the subjectInfo for non-authenticated sessions
