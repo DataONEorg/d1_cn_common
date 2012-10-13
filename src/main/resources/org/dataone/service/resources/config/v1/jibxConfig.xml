@@ -85,7 +85,7 @@
             deserializer="org.dataone.service.util.BigIntegerMarshaller.deserializeBigInteger"/>
 <!--      For development cycles, we will use dataoneTypes_1.1.xsd as the schema name, but
           For production releases we switch to an url that has v1.1 as the last segment of the uri path -->
-            <schema name="dataoneTypes_v1.1.xsd" includes="QueryEngineDescription QueryEngineList QueryField ObjectFormat ObjectFormatList" />
+            <schema name="dataoneTypes_v1.1.xsd" includes="QueryEngineDescription QueryEngineList QueryField" />
 
     </schema-set>
 </schema-set>
