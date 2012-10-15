@@ -35,8 +35,8 @@ import org.dataone.service.types.v1.Identifier;
 import org.dataone.service.types.v1.ObjectFormatIdentifier;
 import org.dataone.service.types.v1.ObjectList;
 import org.dataone.service.types.v1.ObjectLocationList;
-import org.dataone.service.types.v1.QueryEngineDescription;
-import org.dataone.service.types.v1.QueryEngineList;
+import org.dataone.service.types.v1_1.QueryEngineDescription;
+import org.dataone.service.types.v1_1.QueryEngineList;
 import org.dataone.service.types.v1.Session;
 import org.dataone.service.types.v1.SystemMetadata;
 
