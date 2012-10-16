@@ -34,6 +34,7 @@ import java.util.Vector;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpEntityEnclosingRequestBase;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
@@ -62,17 +63,20 @@ public class MultipartRequestHandler
 	
 	private Vector<String> tempfileNames = new Vector<String>();
 	
-	DefaultHttpClient httpclient;
-    HttpEntityEnclosingRequestBase request;  // superclass of HttpPost and HttpGet 
-    MultipartEntity entity;
+        HttpClient httpclient;
+        HttpEntityEnclosingRequestBase request;  // superclass of HttpPost and HttpGet 
+        MultipartEntity entity;
     
+
+
+
     /**
      * constructor
      * @param url
      */
-    public MultipartRequestHandler(String url, String httpMethod )
+    public MultipartRequestHandler(String url, String httpMethod, HttpClient httpClient )
     {
-        httpclient = new DefaultHttpClient();
+        this.httpclient = httpClient;
         if (httpMethod == Constants.POST) 
             request = new HttpPost(url);        	
         if (httpMethod == Constants.PUT) 
@@ -81,6 +85,19 @@ public class MultipartRequestHandler
         entity = new MultipartEntity();
         request.setEntity(entity);
     }
+
+
+
+
+    /**
+     * constructor
+     * @param url
+     */
+    public MultipartRequestHandler(String url, String httpMethod )
+    {
+	this(url, httpMethod, new DefaultHttpClient());
+    }
+
     
 // complexities of getting the uri into the method make it likely that this constructor 
 // will never be used.
@@ -94,6 +111,20 @@ public class MultipartRequestHandler
 //
 //    }
     
+    public HttpClient getHttpClient() {
+	return this.httpclient;
+    }
+
+
+    /**
+     *  replace the DefaultHttpClient created at time of instantiation
+     *  with the specified one.
+     */
+    public void setHttpClient(HttpClient httpClient) {
+	this.httpclient = httpClient;
+    }
+
+
     /**
      * add a file part to the MMP
      * @param f
