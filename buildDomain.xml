@@ -80,7 +80,7 @@
             <arg value="${basedir}/src/main/resources/org/dataone/service/resources/config/v1/jibxConfig.xml" />
             <arg value="-s" />
             <!-- the repository url should be used for development cycles -->
-            <arg value="https://repository.dataone.org/software/cicore/branches/D1_SCHEMA_v1.1/" />
+            <arg value="https://repository.dataone.org/software/cicore/trunk/d1_schemas/" />
             <!-- the ns url should be used for production releases -->
 <!--            <arg value="http://ns.dataone.org/service/types" />  -->
             <arg value="-t"/>
