@@ -142,8 +142,8 @@ public class ReplicationDaoMetacatImpl implements ReplicationDao {
                             String sqlStatement = "SELECT                 " 
                                 + "   member_node,                        "
                                 + "  count(status) AS count               "
-                                + "  FROM  smreplicationstatus"
-                                + "  OR    status = 'REQUESTED'           "
+                                + "  FROM  smreplicationstatus            "
+                                + "  WHERE status = 'REQUESTED'           "
                                 + "  GROUP BY member_node                 "
                                 + "  ORDER BY member_node;                ";
 
