@@ -116,7 +116,7 @@ public class ReplicationDaoMetacatImpl implements ReplicationDao {
 
     /**
      * Retrieve the count of pending replica requests per target node listed in
-     * the Coordinating Node's systemetadatareplicationstatus table. The result
+     * the Coordinating Node's smreplicationstatus table. The result
      * is used to determine the current request load for a given Member Node
      * 
      * @return pendingReplicasByNodeMap - the map of nodeId/count pairs
@@ -143,7 +143,6 @@ public class ReplicationDaoMetacatImpl implements ReplicationDao {
                                 + "   member_node,                        "
                                 + "  count(status) AS count               "
                                 + "  FROM  smreplicationstatus"
-                                + "  WHERE status = 'QUEUED'              "
                                 + "  OR    status = 'REQUESTED'           "
                                 + "  GROUP BY member_node                 "
                                 + "  ORDER BY member_node;                ";
