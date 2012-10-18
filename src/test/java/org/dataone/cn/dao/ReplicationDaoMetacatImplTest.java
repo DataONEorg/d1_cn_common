@@ -70,8 +70,8 @@ public class ReplicationDaoMetacatImplTest {
     public void testPendingReplicasByNode() throws DataAccessException {
         jdbc.execute("INSERT INTO smreplicationstatus VALUES ('test_guid','mn:test:1','COMPLETE',TIMESTAMP '2011-01-01 12:00:00')");
         jdbc.execute("INSERT INTO smreplicationstatus VALUES ('test_guid2','mn:test:1','REQUESTED',TIMESTAMP '2012-01-01 12:00:00')");
-        jdbc.execute("INSERT INTO smreplicationstatus VALUES ('test_guid2','mn:test:2','QUEUED',TIMESTAMP '2012-01-01 12:00:00')");
-        jdbc.execute("INSERT INTO smreplicationstatus VALUES ('test_guid3','mn:test:1','REQUESTED',TIMESTAMP '2020-01-01 12:00:00')");
+        jdbc.execute("INSERT INTO smreplicationstatus VALUES ('test_guid2','mn:test:2','REQUESTED',TIMESTAMP '2012-01-01 12:00:00')");
+        jdbc.execute("INSERT INTO smreplicationstatus VALUES ('test_guid3','mn:test:1','QUEUED',TIMESTAMP '2020-01-01 12:00:00')");
 
         ReplicationDao dao = DaoFactory.getReplicationDao();
         Map<NodeReference, Integer> results = dao.getPendingReplicasByNode();
@@ -84,7 +84,8 @@ public class ReplicationDaoMetacatImplTest {
         jdbc.execute("INSERT INTO smreplicationstatus VALUES ('test_guid','mn:test:1','COMPLETE',TIMESTAMP '2011-01-01 12:00:00')");
         jdbc.execute("INSERT INTO smreplicationstatus VALUES ('test_guid2','mn:test:1','REQUESTED',TIMESTAMP '2012-01-01 12:00:00')");
         jdbc.execute("INSERT INTO smreplicationstatus VALUES ('test_guid2','mn:test:2','QUEUED',TIMESTAMP '2012-01-01 12:00:00')");
-        jdbc.execute("INSERT INTO smreplicationstatus VALUES ('test_guid3','mn:test:1','REQUESTED',TIMESTAMP '2020-01-01 12:00:00')");
+        jdbc.execute("INSERT INTO smreplicationstatus VALUES ('test_guid3','mn:test:1','QUEUED',TIMESTAMP '2020-01-01 12:00:00')");
+        jdbc.execute("INSERT INTO smreplicationstatus VALUES ('test_guid3','mn:test:2','REQUESTED',TIMESTAMP '2020-01-01 12:00:00')");
 
         ReplicationDao dao = DaoFactory.getReplicationDao();
         Map<NodeReference, Integer> results = dao.getRecentFailedReplicas();
