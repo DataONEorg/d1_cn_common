@@ -139,13 +139,14 @@ public class ReplicationDaoMetacatImpl implements ReplicationDao {
                         public PreparedStatement createPreparedStatement(Connection conn) 
                             throws SQLException {
                             
-                            String sqlStatement = "SELECT                 " 
-                                + "   member_node,                        "
-                                + "  count(status) AS count               "
-                                + "  FROM  smreplicationstatus            "
-                                + "  WHERE status = 'REQUESTED'           "
-                                + "  GROUP BY member_node                 "
-                                + "  ORDER BY member_node;                ";
+                            String sqlStatement = "SELECT       " 
+                                + "   member_node,              "
+                                + "  count(status) AS count     "
+                                + "  FROM  smreplicationstatus  "
+                                + "  WHERE status = 'REQUESTED' "
+                                + "  OR    status = 'QUEUED'    "
+                                + "  GROUP BY member_node       "
+                                + "  ORDER BY member_node;      ";
 
                             PreparedStatement statement =
                                 conn.prepareStatement(sqlStatement);
