@@ -27,6 +27,7 @@ import java.util.Map.Entry;
 import org.dataone.cn.dao.exceptions.DataAccessException;
 import org.dataone.service.types.v1.Identifier;
 import org.dataone.service.types.v1.NodeReference;
+import org.dataone.service.types.v1.ReplicationStatus;
 
 /**
  * Abstract definition of a replication data access object used to identify
@@ -60,20 +61,21 @@ public interface ReplicationDao {
     public Map<NodeReference, Integer> getPendingReplicasByNode() throws DataAccessException;
 
     /**
-     * Returns a list of distinct identifier-nodeId to Map.Entry pairs 
-     * (Identifier and NodeReference in the Entry), with at least
-     * one replica with a replica verified date previous to the auditDate
-     * parameter and a status of requested or queued. 
-     * Results are ordered so identifiers with oldest replica
-     * verified dates are returned first (ascending by replica verified date).
+     * Returns a list of distinct identifier-nodeId to Map.Entry pairs
+     * (Identifier and NodeReference in the Entry), with at least one replica
+     * with a replica verified date previous to the auditDate parameter and a
+     * status of requested or queued. Results are ordered so identifiers with
+     * oldest replica verified dates are returned first (ascending by replica
+     * verified date).
      * 
      * @param auditDate
      *            - Identifiers with one or more replica verified dates after
      *            audit date are returned.
-     * @return map  a map of distinct identifiers ordered by ascending replica verified date.
+     * @return map a map of distinct identifiers ordered by ascending replica
+     *         verified date.
      */
-    public List<Entry<Identifier, NodeReference>> getPendingReplicasByDate(Date auditDate) 
-        throws DataAccessException;
+    public List<Entry<Identifier, NodeReference>> getPendingReplicasByDate(Date auditDate)
+            throws DataAccessException;
 
     /**
      * Return a map of member node to replica count entries where the replica
@@ -86,11 +88,27 @@ public interface ReplicationDao {
      * status is completed and the date_verified is within a given timeframe
      */
     public Map<NodeReference, Integer> getRecentCompletedReplicas() throws DataAccessException;
-    
+
     /**
-     * Return a map of member node status to count entries for 
-     * tracking node replica status statistics.  The key is a string of node id
-     * and status, and the value is the count of that status for the node
+     * Return a map of member node status to count entries for tracking node
+     * replica status statistics. The key is a string of node id and status, and
+     * the value is the count of that status for the node
      */
     public Map<String, Integer> getCountsByNodeStatus() throws DataAccessException;
+
+    public List<ReplicaResult> getRequestedReplicasByDate(Date cutoffDate)
+            throws DataAccessException;
+
+    /**
+     * Data transfer object for replica queries.
+     * 
+     * @author sroseboo
+     * 
+     */
+    public static class ReplicaResult {
+        public Identifier identifier;
+        public NodeReference memberNode;
+        public ReplicationStatus status;
+        public Date verifiedDate;
+    }
 }
