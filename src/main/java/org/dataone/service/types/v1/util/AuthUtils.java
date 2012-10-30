@@ -19,21 +19,13 @@ import org.dataone.service.util.Constants;
 
 public class AuthUtils {
 
-	private static Logger logger = Logger.getLogger(AuthUtils.class);
-	private static Subject verifiedSubject;
-	private static Subject authenticatedSubject;
-	private static Subject publicSubject;
+	private static final Logger logger = Logger.getLogger(AuthUtils.class);
 	
-	static {
-		verifiedSubject = new Subject();
-		verifiedSubject.setValue(Constants.SUBJECT_VERIFIED_USER);
 	
-		authenticatedSubject = new Subject();
-		authenticatedSubject.setValue(Constants.SUBJECT_AUTHENTICATED_USER);
-	
-		publicSubject = new Subject();
-		publicSubject.setValue(Constants.SUBJECT_PUBLIC);
-	
+	private static Subject buildSubject(String value) {
+		Subject s = new Subject();
+		s.setValue(value);
+		return s;
 	}
 	
 	
@@ -64,7 +56,7 @@ public class AuthUtils {
 		Set<Subject> subjects = new HashSet<Subject>();
 
 		// add public subject for everyone
-		subjects.add(publicSubject);
+		subjects.add(buildSubject(Constants.SUBJECT_PUBLIC));
 		
 		if (session != null) {
 			
@@ -75,7 +67,7 @@ public class AuthUtils {
 				
 				// depending on the primary subject, can add the authenticated symbolic user
 				if (! primarySubject.getValue().equals(Constants.SUBJECT_PUBLIC) ) {
-					subjects.add(authenticatedSubject);
+					subjects.add(buildSubject(Constants.SUBJECT_AUTHENTICATED_USER));
 					
 				} else {
 					// zero out the subjectInfo for non-authenticated sessions
@@ -127,7 +119,7 @@ public class AuthUtils {
 					
 					// check verification status of this identity
 					if (p.getVerified() != null && p.getVerified()) {
-						foundSubjects.add(verifiedSubject);
+						foundSubjects.add(buildSubject(Constants.SUBJECT_VERIFIED_USER));
 					}
 
 					// add the groups of this identity are a member of

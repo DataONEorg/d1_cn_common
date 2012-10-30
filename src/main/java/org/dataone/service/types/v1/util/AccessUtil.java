@@ -27,6 +27,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.Vector;
@@ -35,6 +36,7 @@ import org.dataone.service.types.v1.AccessPolicy;
 import org.dataone.service.types.v1.AccessRule;
 import org.dataone.service.types.v1.Permission;
 import org.dataone.service.types.v1.Subject;
+import org.dataone.service.util.Constants;
 
 /**
  * A helper class to simplify the use of AccessRules and AccessPolicies
@@ -50,7 +52,8 @@ import org.dataone.service.types.v1.Subject;
  *
  */
 public class AccessUtil {
-
+	
+	
 	/**
 	 * creates an AccessRule containing the items specified in the parameters.
 	 * If you have Lists of these things already, consider creating directly
@@ -254,5 +257,46 @@ public class AccessUtil {
 			}
 		}
 		return clone;
+	}
+	
+	
+	/**
+	 * Given the original policy, return an AccessPolicy containing all of
+	 * the original rules, plus a new rule allowing public read permission, 
+	 * if not already in place (otherwise returns the original).
+	 * 
+	 * If null is passed in, returns an accessPolicy with the sole 'public read' 
+	 * AccessRule.
+	
+	 * 
+	 * @param origPolicy
+	 * @return
+	 */
+	public static AccessPolicy addPublicAccess(AccessPolicy origPolicy)
+	{
+		AccessPolicy returnPolicy = null;
+		if (origPolicy == null) {
+    		returnPolicy = new AccessPolicy();
+    	} else {
+    		returnPolicy = origPolicy;
+    	}
+
+		Subject publick = new Subject();
+    	publick.setValue(Constants.SUBJECT_PUBLIC);
+		
+    	// check that a public READ access is not already there
+    	Map<Subject,Set<Permission>> perms = AccessUtil.getPermissionMap(origPolicy);
+    	if (perms.containsKey(publick) && !perms.get(publick).isEmpty()) {
+    		// already READ, WRITE, or CHANGE, so do nothing
+    		;
+    	} 
+    	else {
+    		// add a new rule giving public access
+    		AccessRule ar = new AccessRule();
+    		ar.addSubject(publick);
+    		ar.addPermission(Permission.READ);
+    		returnPolicy.addAllow(ar);
+    	}
+        return returnPolicy;
 	}
 }
