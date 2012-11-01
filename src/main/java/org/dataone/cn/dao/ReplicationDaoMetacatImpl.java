@@ -42,6 +42,7 @@ import org.dataone.cn.dao.exceptions.DataAccessException;
 import org.dataone.configuration.Settings;
 import org.dataone.service.types.v1.Identifier;
 import org.dataone.service.types.v1.NodeReference;
+import org.dataone.service.types.v1.Replica;
 import org.dataone.service.types.v1.ReplicationStatus;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
@@ -108,11 +109,11 @@ public class ReplicationDaoMetacatImpl implements ReplicationDao {
         return results;
     }
 
-    public List<ReplicaResult> getRequestedReplicasByDate(Date cutoffDate)
+    public List<ReplicaDto> getRequestedReplicasByDate(Date cutoffDate)
             throws DataAccessException {
 
         final Timestamp timestamp = new Timestamp(cutoffDate.getTime());
-        List<ReplicaResult> results = new ArrayList<ReplicaResult>();
+        List<ReplicaDto> results = new ArrayList<ReplicaDto>();
         try {
             results = this.jdbcTemplate.query(new PreparedStatementCreator() {
                 public PreparedStatement createPreparedStatement(Connection conn)
@@ -452,25 +453,29 @@ public class ReplicationDaoMetacatImpl implements ReplicationDao {
         }
     }
 
-    private static final class ReplicaResultMapper implements RowMapper<ReplicaResult> {
-        public ReplicaResult mapRow(ResultSet rs, int rowNum) throws SQLException {
+    private static final class ReplicaResultMapper implements RowMapper<ReplicaDto> {
+        public ReplicaDto mapRow(ResultSet rs, int rowNum) throws SQLException {
 
-            ReplicaResult result = new ReplicaResult();
+            ReplicaDto result = new ReplicaDto();
 
             Identifier pid = new Identifier();
             pid.setValue(rs.getString("guid"));
             result.identifier = pid;
 
+            Replica replica = new Replica();
+
             NodeReference nodeRef = new NodeReference();
             nodeRef.setValue(rs.getString("member_node"));
-            result.memberNode = nodeRef;
+            replica.setReplicaMemberNode(nodeRef);
 
             ReplicationStatus status = ReplicationStatus.convert(StringUtils.lowerCase(rs
                     .getString("status")));
-            result.status = status;
+            replica.setReplicationStatus(status);
 
             Date verifiedDate = rs.getDate("date_verified");
-            result.verifiedDate = verifiedDate;
+            replica.setReplicaVerified(verifiedDate);
+
+            result.replica = replica;
 
             return result;
         }

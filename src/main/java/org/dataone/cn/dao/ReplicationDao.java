@@ -27,7 +27,7 @@ import java.util.Map.Entry;
 import org.dataone.cn.dao.exceptions.DataAccessException;
 import org.dataone.service.types.v1.Identifier;
 import org.dataone.service.types.v1.NodeReference;
-import org.dataone.service.types.v1.ReplicationStatus;
+import org.dataone.service.types.v1.Replica;
 
 /**
  * Abstract definition of a replication data access object used to identify
@@ -96,7 +96,7 @@ public interface ReplicationDao {
      */
     public Map<String, Integer> getCountsByNodeStatus() throws DataAccessException;
 
-    public List<ReplicaResult> getRequestedReplicasByDate(Date cutoffDate)
+    public List<ReplicaDto> getRequestedReplicasByDate(Date cutoffDate)
             throws DataAccessException;
 
     /**
@@ -105,10 +105,8 @@ public interface ReplicationDao {
      * @author sroseboo
      * 
      */
-    public static class ReplicaResult {
+    public static class ReplicaDto {
         public Identifier identifier;
-        public NodeReference memberNode;
-        public ReplicationStatus status;
-        public Date verifiedDate;
+        public Replica replica;
     }
 }

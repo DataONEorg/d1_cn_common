@@ -25,7 +25,7 @@ import java.util.Map;
 
 import junit.framework.Assert;
 
-import org.dataone.cn.dao.ReplicationDao.ReplicaResult;
+import org.dataone.cn.dao.ReplicationDao.ReplicaDto;
 import org.dataone.cn.dao.exceptions.DataAccessException;
 import org.dataone.service.types.v1.Identifier;
 import org.dataone.service.types.v1.NodeReference;
@@ -132,11 +132,12 @@ public class ReplicationDaoMetacatImplTest {
         jdbc.execute("INSERT INTO smreplicationstatus VALUES ('test_guid3','mn:test:3','REQUESTED',TIMESTAMP '2020-01-01 12:00:00')");
 
         ReplicationDao dao = DaoFactory.getReplicationDao();
-        List<ReplicaResult> results = dao.getRequestedReplicasByDate(new Date(System
+        List<ReplicaDto> results = dao.getRequestedReplicasByDate(new Date(System
                 .currentTimeMillis()));
         Assert.assertTrue(results.size() == 2);
-        for (ReplicaResult result : results) {
-            Assert.assertTrue(ReplicationStatus.REQUESTED.equals(result.status));
+        for (ReplicaDto result : results) {
+            Assert.assertTrue(ReplicationStatus.REQUESTED.equals(result.replica
+                    .getReplicationStatus()));
         }
     }
 }
