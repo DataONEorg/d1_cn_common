@@ -34,6 +34,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.FastDateFormat;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -117,7 +118,7 @@ public class ReplicationDaoMetacatImpl implements ReplicationDao {
                 public PreparedStatement createPreparedStatement(Connection conn)
                         throws SQLException {
 
-                    String sqlStatement = "SELECT DISTINCT        "
+                    String sqlStatement = "SELECT      "
                             + "  guid,                                "
                             + "  member_node,                         "
                             + "  status,                              "
@@ -464,7 +465,8 @@ public class ReplicationDaoMetacatImpl implements ReplicationDao {
             nodeRef.setValue(rs.getString("member_node"));
             result.memberNode = nodeRef;
 
-            ReplicationStatus status = ReplicationStatus.convert(rs.getString("status"));
+            ReplicationStatus status = ReplicationStatus.convert(StringUtils.lowerCase(rs
+                    .getString("status")));
             result.status = status;
 
             Date verifiedDate = rs.getDate("date_verified");

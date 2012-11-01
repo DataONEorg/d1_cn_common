@@ -25,9 +25,11 @@ import java.util.Map;
 
 import junit.framework.Assert;
 
+import org.dataone.cn.dao.ReplicationDao.ReplicaResult;
 import org.dataone.cn.dao.exceptions.DataAccessException;
 import org.dataone.service.types.v1.Identifier;
 import org.dataone.service.types.v1.NodeReference;
+import org.dataone.service.types.v1.ReplicationStatus;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -105,7 +107,7 @@ public class ReplicationDaoMetacatImplTest {
         Assert.assertTrue(results.size() == 0);
 
     }
-    
+
     @Test
     public void testCountsByNodeStatus() throws DataAccessException {
         jdbc.execute("INSERT INTO smreplicationstatus VALUES ('test_guid','mn:test:1','COMPLETE',TIMESTAMP '2011-01-01 12:00:00')");
@@ -115,8 +117,26 @@ public class ReplicationDaoMetacatImplTest {
 
         ReplicationDao dao = DaoFactory.getReplicationDao();
         Map<String, Integer> results = dao.getCountsByNodeStatus();
-        Assert.assertTrue(results.size() == 3); // expect 3 unique node-status keys
+        Assert.assertTrue(results.size() == 3); // expect 3 unique node-status
+                                                // keys
 
     }
 
+    @Test
+    public void testRequestedReplicasByDate() throws DataAccessException {
+
+        jdbc.execute("INSERT INTO smreplicationstatus VALUES ('test_guid','mn:test:1','COMPLETE',TIMESTAMP '2011-01-01 12:00:00')");
+        jdbc.execute("INSERT INTO smreplicationstatus VALUES ('test_guid2','mn:test:1','REQUESTED',TIMESTAMP '2012-01-01 12:00:00')");
+        jdbc.execute("INSERT INTO smreplicationstatus VALUES ('test_guid2','mn:test:2','QUEUED',TIMESTAMP '2012-01-01 12:00:00')");
+        jdbc.execute("INSERT INTO smreplicationstatus VALUES ('test_guid3','mn:test:1','REQUESTED',TIMESTAMP '2012-01-01 12:00:00')");
+        jdbc.execute("INSERT INTO smreplicationstatus VALUES ('test_guid3','mn:test:3','REQUESTED',TIMESTAMP '2020-01-01 12:00:00')");
+
+        ReplicationDao dao = DaoFactory.getReplicationDao();
+        List<ReplicaResult> results = dao.getRequestedReplicasByDate(new Date(System
+                .currentTimeMillis()));
+        Assert.assertTrue(results.size() == 2);
+        for (ReplicaResult result : results) {
+            Assert.assertTrue(ReplicationStatus.REQUESTED.equals(result.status));
+        }
+    }
 }
