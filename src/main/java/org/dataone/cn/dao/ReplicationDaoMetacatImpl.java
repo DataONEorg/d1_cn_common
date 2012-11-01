@@ -124,6 +124,7 @@ public class ReplicationDaoMetacatImpl implements ReplicationDao {
                             + "  date_verified                        "
                             + "  FROM  smreplicationstatus            "
                             + "  WHERE date_verified <= ?             "
+                            + "  AND status = 'REQUESTED'             "
                             + "  ORDER BY date_verified ASC;          ";
 
                     PreparedStatement statement = conn.prepareStatement(sqlStatement);
