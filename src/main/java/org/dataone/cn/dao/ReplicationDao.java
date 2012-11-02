@@ -96,8 +96,9 @@ public interface ReplicationDao {
      */
     public Map<String, Integer> getCountsByNodeStatus() throws DataAccessException;
 
-    public List<ReplicaDto> getRequestedReplicasByDate(Date cutoffDate)
-            throws DataAccessException;
+    public List<ReplicaDto> getRequestedReplicasByDate(Date cutoffDate) throws DataAccessException;
+
+    public int getRequestedReplicationCount(NodeReference nodeReference) throws DataAccessException;
 
     /**
      * Data transfer object for replica queries.

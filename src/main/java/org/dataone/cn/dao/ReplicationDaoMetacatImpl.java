@@ -109,8 +109,7 @@ public class ReplicationDaoMetacatImpl implements ReplicationDao {
         return results;
     }
 
-    public List<ReplicaDto> getRequestedReplicasByDate(Date cutoffDate)
-            throws DataAccessException {
+    public List<ReplicaDto> getRequestedReplicasByDate(Date cutoffDate) throws DataAccessException {
 
         final Timestamp timestamp = new Timestamp(cutoffDate.getTime());
         List<ReplicaDto> results = new ArrayList<ReplicaDto>();
@@ -141,6 +140,37 @@ public class ReplicationDaoMetacatImpl implements ReplicationDao {
 
         }
         return results;
+    }
+
+    public int getRequestedReplicationCount(NodeReference nodeRef) throws DataAccessException {
+        int count = -1;
+        final String nodeId = nodeRef.getValue();
+        List<Integer> counts = new ArrayList<Integer>();
+        try {
+            counts = this.jdbcTemplate.query(new PreparedStatementCreator() {
+                public PreparedStatement createPreparedStatement(Connection conn)
+                        throws SQLException {
+
+                    String sqlStatement = "SELECT      "
+                            + "  count(*)                                "
+                            + "  FROM  smreplicationstatus            "
+                            + "  WHERE member_node = ?                "
+                            + "  AND status = 'REQUESTED';             ";
+
+                    PreparedStatement statement = conn.prepareStatement(sqlStatement);
+                    statement.setString(1, nodeId);
+                    log.debug("getRequestedReplicasByDate statement is: " + statement);
+                    return statement;
+                }
+            }, new CountResultMapper());
+        } catch (org.springframework.dao.DataAccessException dae) {
+            handleJdbcDataAccessException(dae);
+
+        }
+        if (counts.size() > 0) {
+            count = counts.get(0);
+        }
+        return count;
     }
 
     /**
@@ -443,6 +473,12 @@ public class ReplicationDaoMetacatImpl implements ReplicationDao {
             return countsByNodeStatusMap;
         }
 
+    }
+
+    private static final class CountResultMapper implements RowMapper<Integer> {
+        public Integer mapRow(ResultSet rs, int rowNum) throws SQLException {
+            return rs.getInt(1);
+        }
     }
 
     private static final class IdentifierMapper implements RowMapper<Identifier> {
