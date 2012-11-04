@@ -100,6 +100,8 @@ public interface ReplicationDao {
 
     public int getRequestedReplicationCount(NodeReference nodeReference) throws DataAccessException;
 
+    public List<ReplicaDto> getQueuedReplicasByDate(Date cutoffDate) throws DataAccessException;
+
     /**
      * Data transfer object for replica queries.
      * 

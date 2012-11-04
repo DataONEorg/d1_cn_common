@@ -142,6 +142,39 @@ public class ReplicationDaoMetacatImpl implements ReplicationDao {
         return results;
     }
 
+    public List<ReplicaDto> getQueuedReplicasByDate(Date cutoffDate) throws DataAccessException {
+
+        final Timestamp timestamp = new Timestamp(cutoffDate.getTime());
+        List<ReplicaDto> results = new ArrayList<ReplicaDto>();
+        try {
+            results = this.jdbcTemplate.query(new PreparedStatementCreator() {
+                public PreparedStatement createPreparedStatement(Connection conn)
+                        throws SQLException {
+
+                    String sqlStatement = "SELECT      "
+                            + "  guid,                                "
+                            + "  member_node,                         "
+                            + "  status,                              "
+                            + "  date_verified                        "
+                            + "  FROM  smreplicationstatus            "
+                            + "  WHERE date_verified <= ?             "
+                            + "  AND status = 'QUEUED'             "
+                            + "  ORDER BY date_verified ASC;          ";
+
+                    PreparedStatement statement = conn.prepareStatement(sqlStatement);
+                    statement.setTimestamp(1, timestamp);
+                    log.debug("getQueuedReplicasByDate statement is: " + statement);
+                    return statement;
+                }
+            }, new ReplicaResultMapper());
+
+        } catch (org.springframework.dao.DataAccessException dae) {
+            handleJdbcDataAccessException(dae);
+
+        }
+        return results;
+    }
+
     public int getRequestedReplicationCount(NodeReference nodeRef) throws DataAccessException {
         int count = -1;
         final String nodeId = nodeRef.getValue();
