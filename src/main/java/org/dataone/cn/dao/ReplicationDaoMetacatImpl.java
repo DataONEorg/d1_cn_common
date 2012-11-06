@@ -190,11 +190,6 @@ public class ReplicationDaoMetacatImpl implements ReplicationDao {
         return false;
     }
 
-    //
-    //
-    //
-    //
-
     public List<Identifier> getReplicasByDate(Date auditDate, int pageSize, int pageNumber)
             throws DataAccessException {
 
