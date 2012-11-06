@@ -19,6 +19,7 @@
  */
 package org.dataone.cn.dao;
 
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -101,6 +102,14 @@ public interface ReplicationDao {
     public int getRequestedReplicationCount(NodeReference nodeReference) throws DataAccessException;
 
     public List<ReplicaDto> getQueuedReplicasByDate(Date cutoffDate) throws DataAccessException;
+
+    public Collection<NodeReference> getMemberNodesWithQueuedReplica() throws DataAccessException;
+
+    public int getQueuedReplicaCountByNode(String nodeId) throws DataAccessException;
+
+    public Collection<ReplicaDto> getQueuedReplicasByNode(String mnId) throws DataAccessException;
+
+    public boolean queuedReplicaExists(String identifier, String nodeId) throws DataAccessException;
 
     /**
      * Data transfer object for replica queries.

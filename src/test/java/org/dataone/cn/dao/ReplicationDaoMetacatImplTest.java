@@ -19,6 +19,7 @@
  */
 package org.dataone.cn.dao;
 
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -38,6 +39,8 @@ import org.springframework.jdbc.core.JdbcTemplate;
 public class ReplicationDaoMetacatImplTest {
 
     private JdbcTemplate jdbc = new JdbcTemplate(DataSourceFactory.getMetacatDataSource());
+
+    private ReplicationDao replicationDao = DaoFactory.getReplicationDao();
 
     @Before
     public void createTables() {
@@ -60,9 +63,8 @@ public class ReplicationDaoMetacatImplTest {
         jdbc.execute("INSERT INTO smreplicationstatus VALUES ('test_guid2','mn:test:2','QUEUED',TIMESTAMP '2012-01-01 12:00:00')");
         jdbc.execute("INSERT INTO smreplicationstatus VALUES ('test_guid3','mn:test:1','REQUESTED',TIMESTAMP '2020-01-01 12:00:00')");
 
-        ReplicationDao dao = DaoFactory.getReplicationDao();
-        List<Identifier> results = dao.getReplicasByDate(new Date(System.currentTimeMillis()), 100,
-                1);
+        List<Identifier> results = replicationDao.getReplicasByDate(
+                new Date(System.currentTimeMillis()), 100, 1);
         Assert.assertTrue(results.size() == 2);
         Assert.assertTrue(results.get(0).getValue().equals("test_guid"));
         Assert.assertTrue(results.get(1).getValue().equals("test_guid2"));
@@ -75,8 +77,7 @@ public class ReplicationDaoMetacatImplTest {
         jdbc.execute("INSERT INTO smreplicationstatus VALUES ('test_guid2','mn:test:2','REQUESTED',TIMESTAMP '2012-01-01 12:00:00')");
         jdbc.execute("INSERT INTO smreplicationstatus VALUES ('test_guid3','mn:test:1','QUEUED',TIMESTAMP '2020-01-01 12:00:00')");
 
-        ReplicationDao dao = DaoFactory.getReplicationDao();
-        Map<NodeReference, Integer> results = dao.getPendingReplicasByNode();
+        Map<NodeReference, Integer> results = replicationDao.getPendingReplicasByNode();
         Assert.assertTrue(results.size() == 2);
 
     }
@@ -89,8 +90,7 @@ public class ReplicationDaoMetacatImplTest {
         jdbc.execute("INSERT INTO smreplicationstatus VALUES ('test_guid3','mn:test:1','QUEUED',TIMESTAMP '2020-01-01 12:00:00')");
         jdbc.execute("INSERT INTO smreplicationstatus VALUES ('test_guid3','mn:test:2','REQUESTED',TIMESTAMP '2020-01-01 12:00:00')");
 
-        ReplicationDao dao = DaoFactory.getReplicationDao();
-        Map<NodeReference, Integer> results = dao.getRecentFailedReplicas();
+        Map<NodeReference, Integer> results = replicationDao.getRecentFailedReplicas();
         Assert.assertTrue(results.size() == 0);
 
     }
@@ -102,8 +102,7 @@ public class ReplicationDaoMetacatImplTest {
         jdbc.execute("INSERT INTO smreplicationstatus VALUES ('test_guid2','mn:test:2','QUEUED',TIMESTAMP '2012-01-01 12:00:00')");
         jdbc.execute("INSERT INTO smreplicationstatus VALUES ('test_guid3','mn:test:1','REQUESTED',TIMESTAMP '2020-01-01 12:00:00')");
 
-        ReplicationDao dao = DaoFactory.getReplicationDao();
-        Map<NodeReference, Integer> results = dao.getRecentCompletedReplicas();
+        Map<NodeReference, Integer> results = replicationDao.getRecentCompletedReplicas();
         Assert.assertTrue(results.size() == 0);
 
     }
@@ -115,8 +114,7 @@ public class ReplicationDaoMetacatImplTest {
         jdbc.execute("INSERT INTO smreplicationstatus VALUES ('test_guid2','mn:test:2','QUEUED',TIMESTAMP '2012-01-01 12:00:00')");
         jdbc.execute("INSERT INTO smreplicationstatus VALUES ('test_guid3','mn:test:1','REQUESTED',TIMESTAMP '2020-01-01 12:00:00')");
 
-        ReplicationDao dao = DaoFactory.getReplicationDao();
-        Map<String, Integer> results = dao.getCountsByNodeStatus();
+        Map<String, Integer> results = replicationDao.getCountsByNodeStatus();
         Assert.assertTrue(results.size() == 3); // expect 3 unique node-status
                                                 // keys
 
@@ -131,8 +129,7 @@ public class ReplicationDaoMetacatImplTest {
         jdbc.execute("INSERT INTO smreplicationstatus VALUES ('test_guid3','mn:test:1','REQUESTED',TIMESTAMP '2012-01-01 12:00:00')");
         jdbc.execute("INSERT INTO smreplicationstatus VALUES ('test_guid3','mn:test:3','REQUESTED',TIMESTAMP '2020-01-01 12:00:00')");
 
-        ReplicationDao dao = DaoFactory.getReplicationDao();
-        List<ReplicaDto> results = dao.getRequestedReplicasByDate(new Date(System
+        List<ReplicaDto> results = replicationDao.getRequestedReplicasByDate(new Date(System
                 .currentTimeMillis()));
         Assert.assertTrue(results.size() == 2);
         for (ReplicaDto result : results) {
@@ -150,12 +147,92 @@ public class ReplicationDaoMetacatImplTest {
         jdbc.execute("INSERT INTO smreplicationstatus VALUES ('test_guid3','mn:test:1','REQUESTED',TIMESTAMP '2012-01-01 12:00:00')");
         jdbc.execute("INSERT INTO smreplicationstatus VALUES ('test_guid3','mn:test:3','REQUESTED',TIMESTAMP '2020-01-01 12:00:00')");
 
-        ReplicationDao dao = DaoFactory.getReplicationDao();
-
         NodeReference nodeRef = new NodeReference();
         nodeRef.setValue("mn:test:1");
 
-        int count = dao.getRequestedReplicationCount(nodeRef);
+        int count = replicationDao.getRequestedReplicationCount(nodeRef);
         Assert.assertTrue(count == 2);
+    }
+
+    @Test
+    public void testGetMemberNodesWithQueuedReplica() throws DataAccessException {
+
+        jdbc.execute("INSERT INTO smreplicationstatus VALUES ('test_guid','mn:test:1','COMPLETE',TIMESTAMP '2011-01-01 12:00:00')");
+        jdbc.execute("INSERT INTO smreplicationstatus VALUES ('test_guid2','mn:test:2','REQUESTED',TIMESTAMP '2012-01-01 12:00:00')");
+        jdbc.execute("INSERT INTO smreplicationstatus VALUES ('test_guid2','mn:test:2','QUEUED',TIMESTAMP '2012-01-01 12:00:00')");
+        jdbc.execute("INSERT INTO smreplicationstatus VALUES ('test_guid3','mn:test:2','QUEUED',TIMESTAMP '2012-01-01 12:00:00')");
+        jdbc.execute("INSERT INTO smreplicationstatus VALUES ('test_guid4','mn:test:1','QUEUED',TIMESTAMP '2012-01-01 12:00:00')");
+        jdbc.execute("INSERT INTO smreplicationstatus VALUES ('test_guid5','mn:test:2','QUEUED',TIMESTAMP '2012-01-01 12:00:00')");
+        jdbc.execute("INSERT INTO smreplicationstatus VALUES ('test_guid6','mn:test:3','REQUESTED',TIMESTAMP '2020-01-01 12:00:00')");
+
+        Collection<NodeReference> nodes = replicationDao.getMemberNodesWithQueuedReplica();
+        Assert.assertTrue(nodes.size() == 2);
+    }
+
+    @Test
+    public void testGetQueuedReplicaCountByNode() throws DataAccessException {
+
+        jdbc.execute("INSERT INTO smreplicationstatus VALUES ('test_guid','mn:test:1','COMPLETE',TIMESTAMP '2011-01-01 12:00:00')");
+        jdbc.execute("INSERT INTO smreplicationstatus VALUES ('test_guid2','mn:test:2','REQUESTED',TIMESTAMP '2012-01-01 12:00:00')");
+        jdbc.execute("INSERT INTO smreplicationstatus VALUES ('test_guid7','mn:test:3','REQUESTED',TIMESTAMP '2020-01-01 12:00:00')");
+        jdbc.execute("INSERT INTO smreplicationstatus VALUES ('test_guid3','mn:test:2','QUEUED',TIMESTAMP '2012-01-01 12:00:00')");
+        jdbc.execute("INSERT INTO smreplicationstatus VALUES ('test_guid4','mn:test:2','QUEUED',TIMESTAMP '2012-01-01 12:00:00')");
+        jdbc.execute("INSERT INTO smreplicationstatus VALUES ('test_guid5','mn:test:2','QUEUED',TIMESTAMP '2012-01-01 12:00:00')");
+        jdbc.execute("INSERT INTO smreplicationstatus VALUES ('test_guid6','mn:test:2','QUEUED',TIMESTAMP '2012-01-01 12:00:00')");
+        jdbc.execute("INSERT INTO smreplicationstatus VALUES ('test_guid3','mn:test:1','QUEUED',TIMESTAMP '2012-01-01 12:00:00')");
+        jdbc.execute("INSERT INTO smreplicationstatus VALUES ('test_guid4','mn:test:1','QUEUED',TIMESTAMP '2012-01-01 12:00:00')");
+        jdbc.execute("INSERT INTO smreplicationstatus VALUES ('test_guid5','mn:test:3','QUEUED',TIMESTAMP '2012-01-01 12:00:00')");
+        jdbc.execute("INSERT INTO smreplicationstatus VALUES ('test_guid6','mn:test:4','QUEUED',TIMESTAMP '2012-01-01 12:00:00')");
+        jdbc.execute("INSERT INTO smreplicationstatus VALUES ('test_guid2','mn:test:4','QUEUED',TIMESTAMP '2012-01-01 12:00:00')");
+
+        int count = replicationDao.getQueuedReplicaCountByNode("mn:test:33");
+        Assert.assertTrue(count == 0);
+
+        count = replicationDao.getQueuedReplicaCountByNode("mn:test:1");
+        Assert.assertTrue(count == 2);
+
+        count = replicationDao.getQueuedReplicaCountByNode("mn:test:2");
+        Assert.assertTrue(count == 4);
+
+        count = replicationDao.getQueuedReplicaCountByNode("mn:test:3");
+        Assert.assertTrue(count == 1);
+
+        count = replicationDao.getQueuedReplicaCountByNode("mn:test:4");
+        Assert.assertTrue(count == 2);
+    }
+
+    @Test
+    public void testGetQueuedReplicasByNode() throws DataAccessException {
+        jdbc.execute("INSERT INTO smreplicationstatus VALUES ('test_guid','mn:test:1','COMPLETE',TIMESTAMP '2011-01-01 12:00:00')");
+        jdbc.execute("INSERT INTO smreplicationstatus VALUES ('test_guid2','mn:test:2','REQUESTED',TIMESTAMP '2012-01-01 12:00:00')");
+        jdbc.execute("INSERT INTO smreplicationstatus VALUES ('test_guid7','mn:test:3','REQUESTED',TIMESTAMP '2020-01-01 12:00:00')");
+        jdbc.execute("INSERT INTO smreplicationstatus VALUES ('test_guid3','mn:test:2','QUEUED',TIMESTAMP '2012-01-01 12:00:00')");
+        jdbc.execute("INSERT INTO smreplicationstatus VALUES ('test_guid4','mn:test:2','QUEUED',TIMESTAMP '2012-01-01 12:00:00')");
+        jdbc.execute("INSERT INTO smreplicationstatus VALUES ('test_guid5','mn:test:2','QUEUED',TIMESTAMP '2012-01-01 12:00:00')");
+        jdbc.execute("INSERT INTO smreplicationstatus VALUES ('test_guid6','mn:test:2','QUEUED',TIMESTAMP '2012-01-01 12:00:00')");
+        jdbc.execute("INSERT INTO smreplicationstatus VALUES ('test_guid3','mn:test:1','QUEUED',TIMESTAMP '2012-01-01 12:00:00')");
+        jdbc.execute("INSERT INTO smreplicationstatus VALUES ('test_guid4','mn:test:1','QUEUED',TIMESTAMP '2012-01-01 12:00:00')");
+        jdbc.execute("INSERT INTO smreplicationstatus VALUES ('test_guid5','mn:test:3','QUEUED',TIMESTAMP '2012-01-01 12:00:00')");
+        jdbc.execute("INSERT INTO smreplicationstatus VALUES ('test_guid6','mn:test:4','QUEUED',TIMESTAMP '2012-01-01 12:00:00')");
+        jdbc.execute("INSERT INTO smreplicationstatus VALUES ('test_guid2','mn:test:4','QUEUED',TIMESTAMP '2012-01-01 12:00:00')");
+
+        Assert.assertTrue(2 == replicationDao.getQueuedReplicasByNode("mn:test:1").size());
+        Assert.assertTrue(4 == replicationDao.getQueuedReplicasByNode("mn:test:2").size());
+        Assert.assertTrue(1 == replicationDao.getQueuedReplicasByNode("mn:test:3").size());
+        Assert.assertTrue(2 == replicationDao.getQueuedReplicasByNode("mn:test:4").size());
+    }
+
+    @Test
+    public void testQueuedReplicaExists() throws DataAccessException {
+
+        jdbc.execute("INSERT INTO smreplicationstatus VALUES ('test_guid','mn:test:1','COMPLETE',TIMESTAMP '2011-01-01 12:00:00')");
+        jdbc.execute("INSERT INTO smreplicationstatus VALUES ('test_guid2','mn:test:2','REQUESTED',TIMESTAMP '2012-01-01 12:00:00')");
+        jdbc.execute("INSERT INTO smreplicationstatus VALUES ('test_guid7','mn:test:3','REQUESTED',TIMESTAMP '2020-01-01 12:00:00')");
+        jdbc.execute("INSERT INTO smreplicationstatus VALUES ('test_guid3','mn:test:2','QUEUED',TIMESTAMP '2012-01-01 12:00:00')");
+        jdbc.execute("INSERT INTO smreplicationstatus VALUES ('test_guid4','mn:test:3','QUEUED',TIMESTAMP '2012-01-01 12:00:00')");
+
+        Assert.assertFalse(replicationDao.queuedReplicaExists("nosuch", "mn:test:2"));
+        Assert.assertTrue(replicationDao.queuedReplicaExists("test_guid3", "mn:test:2"));
+        Assert.assertTrue(replicationDao.queuedReplicaExists("test_guid4", "mn:test:3"));
     }
 }

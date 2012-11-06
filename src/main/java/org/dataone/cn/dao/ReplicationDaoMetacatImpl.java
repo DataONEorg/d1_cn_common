@@ -26,6 +26,7 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -38,6 +39,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.FastDateFormat;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.dataone.client.D1TypeBuilder;
 import org.dataone.cn.dao.exceptions.DataAccessException;
 import org.dataone.configuration.Settings;
 import org.dataone.service.types.v1.Identifier;
@@ -76,6 +78,122 @@ public class ReplicationDaoMetacatImpl implements ReplicationDao {
         this.failureWindow = Settings.getConfiguration().getInt("replication.failure.query.window",
                 failureWindow);
     }
+
+    public Collection<NodeReference> getMemberNodesWithQueuedReplica() throws DataAccessException {
+        List<NodeReference> results = new ArrayList<NodeReference>();
+        try {
+            results = this.jdbcTemplate.query(new PreparedStatementCreator() {
+                public PreparedStatement createPreparedStatement(Connection conn)
+                        throws SQLException {
+
+                    String sqlStatement = "SELECT DISTINCT member_node FROM smreplicationstatus WHERE status='QUEUED';";
+                    PreparedStatement statement = conn.prepareStatement(sqlStatement);
+                    log.debug("getMemberNodesWithQueuedReplica statement is: " + statement);
+                    return statement;
+                }
+            }, new NodeReferenceMapper());
+
+        } catch (org.springframework.dao.DataAccessException dae) {
+            handleJdbcDataAccessException(dae);
+        }
+        return results;
+    }
+
+    public int getQueuedReplicaCountByNode(final String nodeId) throws DataAccessException {
+        int count = 0;
+        List<Integer> counts = new ArrayList<Integer>();
+        try {
+            counts = this.jdbcTemplate.query(new PreparedStatementCreator() {
+                public PreparedStatement createPreparedStatement(Connection conn)
+                        throws SQLException {
+
+                    String sqlStatement = "SELECT      "
+                            + "  count(*)                             "
+                            + "  FROM  smreplicationstatus            "
+                            + "  WHERE member_node = ?                "
+                            + "  AND status = 'QUEUED';             ";
+
+                    PreparedStatement statement = conn.prepareStatement(sqlStatement);
+                    statement.setString(1, nodeId);
+                    log.debug("getQueuedReplicaCountByNode statement is: " + statement);
+                    return statement;
+                }
+            }, new CountResultMapper());
+        } catch (org.springframework.dao.DataAccessException dae) {
+            handleJdbcDataAccessException(dae);
+        }
+        if (counts.size() > 0) {
+            count = counts.get(0);
+        }
+        return count;
+    }
+
+    public Collection<ReplicaDto> getQueuedReplicasByNode(final String mnId)
+            throws DataAccessException {
+        Collection<ReplicaDto> results = new ArrayList<ReplicaDto>();
+        try {
+            results = this.jdbcTemplate.query(new PreparedStatementCreator() {
+                public PreparedStatement createPreparedStatement(Connection conn)
+                        throws SQLException {
+
+                    String sqlStatement = "SELECT      "
+                            + "  guid,                                "
+                            + "  member_node,                         "
+                            + "  status,                              "
+                            + "  date_verified                        "
+                            + "  FROM  smreplicationstatus            "
+                            + "  WHERE member_node = ?             "
+                            + "  AND status = 'QUEUED'             "
+                            + "  ORDER BY date_verified ASC;          ";
+
+                    PreparedStatement statement = conn.prepareStatement(sqlStatement);
+                    statement.setString(1, mnId);
+                    log.debug("getQueuedReplicasByDate statement is: " + statement);
+                    return statement;
+                }
+            }, new ReplicaResultMapper());
+        } catch (org.springframework.dao.DataAccessException dae) {
+            handleJdbcDataAccessException(dae);
+        }
+        return results;
+    }
+
+    public boolean queuedReplicaExists(final String identifier, final String nodeId)
+            throws DataAccessException {
+        List<Integer> counts = new ArrayList<Integer>();
+        try {
+            counts = this.jdbcTemplate.query(new PreparedStatementCreator() {
+                public PreparedStatement createPreparedStatement(Connection conn)
+                        throws SQLException {
+
+                    String sqlStatement = "SELECT      "
+                            + "  count(*)                             "
+                            + "  FROM  smreplicationstatus            "
+                            + "  WHERE guid = ?                       "
+                            + "  AND member_node = ?                  "
+                            + "  AND status = 'QUEUED'                "
+                            + "  ORDER BY date_verified ASC;          ";
+
+                    PreparedStatement statement = conn.prepareStatement(sqlStatement);
+                    statement.setString(1, identifier);
+                    statement.setString(2, nodeId);
+                    log.debug("getQueuedReplicasByDate statement is: " + statement);
+                    return statement;
+                }
+            }, new CountResultMapper());
+        } catch (org.springframework.dao.DataAccessException dae) {
+            handleJdbcDataAccessException(dae);
+        }
+        if (counts.size() > 0 && counts.get(0) != null && counts.get(0).intValue() > 0) {
+            return true;
+        }
+        return false;
+    }
+
+    //
+    //
+    //
+    //
 
     public List<Identifier> getReplicasByDate(Date auditDate, int pageSize, int pageNumber)
             throws DataAccessException {
@@ -176,7 +294,7 @@ public class ReplicationDaoMetacatImpl implements ReplicationDao {
     }
 
     public int getRequestedReplicationCount(NodeReference nodeRef) throws DataAccessException {
-        int count = -1;
+        int count = 0;
         final String nodeId = nodeRef.getValue();
         List<Integer> counts = new ArrayList<Integer>();
         try {
@@ -198,7 +316,6 @@ public class ReplicationDaoMetacatImpl implements ReplicationDao {
             }, new CountResultMapper());
         } catch (org.springframework.dao.DataAccessException dae) {
             handleJdbcDataAccessException(dae);
-
         }
         if (counts.size() > 0) {
             count = counts.get(0);
@@ -547,6 +664,12 @@ public class ReplicationDaoMetacatImpl implements ReplicationDao {
             result.replica = replica;
 
             return result;
+        }
+    }
+
+    private static final class NodeReferenceMapper implements RowMapper<NodeReference> {
+        public NodeReference mapRow(ResultSet rs, int rowNum) throws SQLException {
+            return D1TypeBuilder.buildNodeReference(rs.getString("member_node"));
         }
     }
 
