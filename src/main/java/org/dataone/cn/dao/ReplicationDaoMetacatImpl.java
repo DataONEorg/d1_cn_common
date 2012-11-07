@@ -39,7 +39,6 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.FastDateFormat;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.dataone.client.D1TypeBuilder;
 import org.dataone.cn.dao.exceptions.DataAccessException;
 import org.dataone.configuration.Settings;
 import org.dataone.service.types.v1.Identifier;
@@ -664,7 +663,9 @@ public class ReplicationDaoMetacatImpl implements ReplicationDao {
 
     private static final class NodeReferenceMapper implements RowMapper<NodeReference> {
         public NodeReference mapRow(ResultSet rs, int rowNum) throws SQLException {
-            return D1TypeBuilder.buildNodeReference(rs.getString("member_node"));
+            NodeReference nodeRef = new NodeReference();
+            nodeRef.setValue(rs.getString("member_node"));
+            return nodeRef;
         }
     }
 

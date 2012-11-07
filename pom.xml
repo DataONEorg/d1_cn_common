@@ -12,7 +12,6 @@
         <hazelcast.version>1.9.4.6</hazelcast.version>
         <d1_common_java_version>1.1.0-SNAPSHOT</d1_common_java_version>
         <spring.version>3.1.1.RELEASE</spring.version>
-        <d1_libclient_version>1.1.0-SNAPSHOT</d1_libclient_version>
     </properties>
     <repositories>
 
@@ -72,11 +71,6 @@
             <version>${d1_common_java_version}</version>
             <type>jar</type>
         </dependency>
-		<dependency>
-			<groupId>org.dataone</groupId>
-			<artifactId>d1_libclient_java</artifactId>
-			<version>${d1_libclient_version}</version>
-		</dependency>
         <dependency>
         	<groupId>com.hazelcast</groupId>
         	<artifactId>hazelcast-client</artifactId>
