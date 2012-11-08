@@ -97,18 +97,68 @@ public interface ReplicationDao {
      */
     public Map<String, Integer> getCountsByNodeStatus() throws DataAccessException;
 
+    /**
+     * Returns a List of ReplicaDto objects, which represent replica objects
+     * that are in 'Requested' status and have a verified date before
+     * cuttoffDate.
+     * 
+     * @param cutoffDate
+     * @throws DataAccessException
+     */
     public List<ReplicaDto> getRequestedReplicasByDate(Date cutoffDate) throws DataAccessException;
 
+    /**
+     * Returns the count of replica objects in 'requested' status and targeted
+     * to nodeReference node.
+     * 
+     * @param nodeReference
+     * @throws DataAccessException
+     */
     public int getRequestedReplicationCount(NodeReference nodeReference) throws DataAccessException;
 
+    /**
+     * Returns a List of ReplicaDto objects, which represent replica objects
+     * that are in 'queued' status and have a verified date before cutoffDate.
+     * 
+     * @param cutoffDate
+     * @throws DataAccessException
+     */
     public List<ReplicaDto> getQueuedReplicasByDate(Date cutoffDate) throws DataAccessException;
 
+    /**
+     * Returns a Collection of NodeReference objects which have at least one
+     * queued replica object's targeted toward the node.
+     * 
+     * @throws DataAccessException
+     */
     public Collection<NodeReference> getMemberNodesWithQueuedReplica() throws DataAccessException;
 
+    /**
+     * Returns the count of replicas in the 'queued' status that are targeted
+     * toward nodeId node.
+     * 
+     * @param nodeId
+     * @throws DataAccessException
+     */
     public int getQueuedReplicaCountByNode(String nodeId) throws DataAccessException;
 
-    public Collection<ReplicaDto> getQueuedReplicasByNode(String mnId) throws DataAccessException;
+    /**
+     * Returns a Collection of ReplicaDto objects that represent a replica
+     * object in 'queued' status and targeted at mnId node.
+     * 
+     * @param nodeId
+     * @throws DataAccessException
+     */
+    public Collection<ReplicaDto> getQueuedReplicasByNode(String nodeId) throws DataAccessException;
 
+    /**
+     * Returns true if there is a replica object with 'queued' status for
+     * identifier targeted at nodeId.
+     * 
+     * @param identifier
+     * @param nodeId
+     * @throws DataAccessException
+     */
     public boolean queuedReplicaExists(String identifier, String nodeId) throws DataAccessException;
 
     /**
