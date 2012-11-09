@@ -22,32 +22,36 @@
 
 package org.dataone.cn.hazelcast;
 
-import com.hazelcast.client.HazelcastClient;
-import com.hazelcast.config.ClasspathXmlConfig;
 import java.io.FileNotFoundException;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.dataone.configuration.Settings;
 
+import com.hazelcast.client.ClientConfig;
+import com.hazelcast.client.HazelcastClient;
+import com.hazelcast.config.ClasspathXmlConfig;
+
 /**
  * Create a Settings property to point the hazelcast client instance to a
- * configuration file.  If the path begins with "classpath:" then the
+ * configuration file. If the path begins with "classpath:" then the
  * configuration will be loaded from a jar's classpath (useful for testing)
- * Default location is /etc/dataone/storage/hazelcast.xml and is
- * set in ClientConfiguration.java
- *
- * TODO: Need to determine best manner to support two different hazelcast clusters
- * This was intended only to support connecting to the storage cluster,
- * But since there is storage information in the processing cluster (hzNodes)
- * It might be useful to create two instances
- *
+ * Default location is /etc/dataone/storage/hazelcast.xml and is set in
+ * ClientConfiguration.java
+ * 
+ * TODO: Need to determine best manner to support two different hazelcast
+ * clusters This was intended only to support connecting to the storage cluster,
+ * But since there is storage information in the processing cluster (hzNodes) It
+ * might be useful to create two instances
+ * 
  * @author waltz
  */
 public class HazelcastClientInstance {
 
     public final static Log logger = LogFactory.getLog(HazelcastClientInstance.class);
     private static HazelcastClient hzclient = null;
-    private final static String hzConfigLocation = Settings.getConfiguration().getString("dataone.hazelcast.location.clientconfig");
+    private final static String hzConfigLocation = Settings.getConfiguration().getString(
+            "dataone.hazelcast.location.clientconfig");
 
     static public HazelcastClient getHazelcastClient() {
         if (hzclient == null) {
@@ -68,12 +72,19 @@ public class HazelcastClientInstance {
                     clientConfiguration = new ClientConfiguration();
                 }
             } catch (FileNotFoundException ex) {
-                throw new NullPointerException("FileNotFound so clientConfiguration is Null: " + ex.getMessage());
+                throw new NullPointerException("FileNotFound so clientConfiguration is Null: "
+                        + ex.getMessage());
             }
 
-            logger.info("group " + clientConfiguration.getGroup() + " pwd " + clientConfiguration.getPassword() + " addresses " + clientConfiguration.getLocalhost());
-            hzclient = HazelcastClient.newHazelcastClient(clientConfiguration.getGroup(), clientConfiguration.getPassword(),
-                    clientConfiguration.getLocalhost());
+            logger.info("group " + clientConfiguration.getGroup() + " pwd "
+                    + clientConfiguration.getPassword() + " addresses "
+                    + clientConfiguration.getLocalhost());
+
+            ClientConfig cc = new ClientConfig();
+            cc.getGroupConfig().setName(clientConfiguration.getGroup());
+            cc.getGroupConfig().setPassword(clientConfiguration.getPassword());
+            cc.addAddress(clientConfiguration.getLocalhost());
+            hzclient = HazelcastClient.newHazelcastClient(cc);
         }
         return hzclient;
     }
