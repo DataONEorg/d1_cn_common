@@ -57,7 +57,7 @@ public class HazelcastClientFactory {
     // processing cluster config
     private static HazelcastClient hzProcessingClient = null;
     private static final String hzProcessingConfigSettingsOverrideLocation = Settings
-            .getConfiguration().getString("datone.hazelcast.location.processing.clientconfig");
+            .getConfiguration().getString("dataone.hazelcast.location.processing.clientconfig");
     private static final String defaultProcessingConfigLocation = "/etc/dataone/process/hazelcast.xml";
 
     private HazelcastClientFactory() {
