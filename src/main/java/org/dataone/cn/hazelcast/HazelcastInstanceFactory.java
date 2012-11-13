@@ -33,6 +33,9 @@ public class HazelcastInstanceFactory {
 
     private static final String PROCESSING_INSTANCE_NAME = "hzProcessInstance";
 
+    private HazelcastInstanceFactory() {
+    }
+
     /**
      * Returns the existing instance of the dataone processing member.
      * 
