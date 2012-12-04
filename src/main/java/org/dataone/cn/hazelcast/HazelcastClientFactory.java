@@ -68,7 +68,7 @@ public class HazelcastClientFactory {
             hzStorageClient = getHazelcastClient(hzStorageConfigSettingsOverrideLocation,
                     defaultStorageConfigLocation);
         }
-        return hzProcessingClient;
+        return hzStorageClient;
     }
 
     public static HazelcastClient getProcessingClient() {
