@@ -225,9 +225,9 @@ public class AuthUtils {
 	 * a comparison algorithm for hierarchical permissions (WRITE implies READ, and CHANGE
 	 * implies WRITE and READ).
 	 */
-	private static boolean comparePermissions(Permission requested, List<Permission> allowed) 
+	public static boolean comparePermissions(Permission requested, Collection<Permission> allowed) 
 	{
-		if (allowed.isEmpty())
+		if (CollectionUtils.isEmpty(allowed))
 				return false;
 		
 		if (requested.equals(Permission.READ)) 
