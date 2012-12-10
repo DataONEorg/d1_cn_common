@@ -35,8 +35,8 @@
 
 <!--      For development cycles, we will use dataoneTypes.xsd as the schema-set name, but
           For production releases we switch to an url that has v1 as the last segment of the uri path -->
-      <schema-set names="dataoneTypes.xsd" prefix="d1" namespaces="http://ns.dataone.org/service/types/v1"  package="org.dataone.service.types.v1"  binding-file-name="binding_v1.xml"> 
-<!--    <schema-set names="v1" prefix="d1" namespaces="http://ns.dataone.org/service/types/v1" package="org.dataone.service.types.v1"  binding-file-name="binding_v1.xml"> -->
+<!--      <schema-set names="dataoneTypes.xsd" prefix="d1" namespaces="http://ns.dataone.org/service/types/v1"  package="org.dataone.service.types.v1"  binding-file-name="binding_v1.xml">  -->
+    <schema-set names="v1" prefix="d1" namespaces="http://ns.dataone.org/service/types/v1" package="org.dataone.service.types.v1"  binding-file-name="binding_v1.xml"> 
         <schema-type type-name="dateTime" java-class="java.util.Date"
             serializer="org.dataone.service.util.DateTimeMarshaller.serializeDateToUTC"
             deserializer="org.dataone.service.util.DateTimeMarshaller.deserializeDateToUTC"/>
@@ -45,8 +45,8 @@
             deserializer="org.dataone.service.util.BigIntegerMarshaller.deserializeBigInteger"/>
 <!--      For development cycles, we will use dataoneTypes.xsd as the schema name, but
           For production releases we switch to an url that has v1 as the last segment of the uri path -->
-            <schema name="dataoneTypes.xsd" includes="ObjectFormatIdentifier NodeReference" >
-<!--            <schema name="v1" includes="ObjectFormatIdentifier NodeReference" >  -->
+<!--           <schema name="dataoneTypes.xsd" includes="ObjectFormatIdentifier NodeReference" >  -->  
+            <schema name="v1" includes="ObjectFormatIdentifier NodeReference" > 
                 <simpleType name="ObjectFormatIdentifier">
                     <restriction value-name="value" />
                 </simpleType>
@@ -75,8 +75,8 @@
     
 <!--      For development cycles, we will use dataoneTypes_v1.1.xsd as the schema-set name, but
           For production releases we switch to an url that has v1.1 as the last segment of the uri path -->
-<!--    <schema-set names="v1.1" prefix="d1" namespaces="http://ns.dataone.org/service/types/v1.1" package="org.dataone.service.types.v1_1"  binding-file-name="binding_v1_1.xml"> -->
-    <schema-set names="dataoneTypes_v1.1.xsd" prefix="d1_v1.1" namespaces="http://ns.dataone.org/service/types/v1.1" package="org.dataone.service.types.v1_1"  binding-file-name="binding_v1_1.xml">
+    <schema-set names="v1.1" prefix="d1_v1.1" namespaces="http://ns.dataone.org/service/types/v1.1" package="org.dataone.service.types.v1_1"  binding-file-name="binding_v1_1.xml"> 
+<!--    <schema-set names="dataoneTypes_v1.1.xsd" prefix="d1_v1.1" namespaces="http://ns.dataone.org/service/types/v1.1" package="org.dataone.service.types.v1_1"  binding-file-name="binding_v1_1.xml"> -->
         <schema-type type-name="dateTime" java-class="java.util.Date"
             serializer="org.dataone.service.util.DateTimeMarshaller.serializeDateToUTC"
             deserializer="org.dataone.service.util.DateTimeMarshaller.deserializeDateToUTC"/>
@@ -85,7 +85,7 @@
             deserializer="org.dataone.service.util.BigIntegerMarshaller.deserializeBigInteger"/>
 <!--      For development cycles, we will use dataoneTypes_1.1.xsd as the schema name, but
           For production releases we switch to an url that has v1.1 as the last segment of the uri path -->
-            <schema name="dataoneTypes_v1.1.xsd" includes="QueryEngineDescription QueryEngineList QueryField" />
-
+<!--         <schema name="dataoneTypes_v1.1.xsd" includes="QueryEngineDescription QueryEngineList QueryField" />  --> 
+		<schema name="v1.1" includes="QueryEngineDescription QueryEngineList QueryField" />
     </schema-set>
 </schema-set>
