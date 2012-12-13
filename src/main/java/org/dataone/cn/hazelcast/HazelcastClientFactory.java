@@ -60,6 +60,9 @@ public class HazelcastClientFactory {
             .getConfiguration().getString("dataone.hazelcast.location.processing.clientconfig");
     private static final String defaultProcessingConfigLocation = "/etc/dataone/process/hazelcast.xml";
 
+    private static HazelcastClient hzSessionClient = null;
+    private static final String defaultSessionConfigLocation = "/etc/dataone/portal/hazelcast.xml";
+
     private HazelcastClientFactory() {
     };
 
@@ -77,6 +80,13 @@ public class HazelcastClientFactory {
                     defaultProcessingConfigLocation);
         }
         return hzProcessingClient;
+    }
+
+    public static HazelcastClient getSessionClient() {
+        if (hzSessionClient == null) {
+            hzSessionClient = getHazelcastClient(null, defaultSessionConfigLocation);
+        }
+        return hzSessionClient;
     }
 
     private static HazelcastClient getHazelcastClient(String configLocationSetting,
