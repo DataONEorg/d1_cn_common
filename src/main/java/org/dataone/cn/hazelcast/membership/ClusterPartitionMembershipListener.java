@@ -1,6 +1,5 @@
 package org.dataone.cn.hazelcast.membership;
 
-
 import com.hazelcast.core.HazelcastInstance;
 
 public class ClusterPartitionMembershipListener extends BaseHazelcastMembershipListener {

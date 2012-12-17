@@ -22,7 +22,6 @@ package org.dataone.cn.hazelcast;
 import static junit.framework.Assert.assertEquals;
 
 import java.io.Serializable;
-import java.lang.Thread.UncaughtExceptionHandler;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
@@ -30,7 +29,6 @@ import java.util.Set;
 import java.util.concurrent.Callable;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import org.dataone.cn.hazelcast.membership.BaseHazelcastMembershipListener;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.BeforeClass;
@@ -70,6 +68,9 @@ public class HzMembershipListenerTest {
     public void cleanup() throws Exception {
         Hazelcast.shutdownAll();
     }
+
+    // create lock in master node, create partition, try to unlock in slave
+    // node.
 
     @Test
     public void testPartitionAndMergeWithLocksSingleThread() throws Exception {
@@ -163,8 +164,6 @@ public class HzMembershipListenerTest {
 
         Thread lockThread1 = getLockThread(h1);
         Thread lockThread2 = getLockThread(h2);
-        lockThread1.setUncaughtExceptionHandler(new TestUncaughtExceptionHandler());
-        lockThread2.setUncaughtExceptionHandler(new TestUncaughtExceptionHandler());
         lockThread1.start();
         lockThread2.start();
 
@@ -176,17 +175,6 @@ public class HzMembershipListenerTest {
 
         lockThread1.join();
         lockThread2.join();
-    }
-
-    private class TestUncaughtExceptionHandler implements UncaughtExceptionHandler {
-
-        public void uncaughtException(Thread t, Throwable e) {
-            synchronized (this) {
-                System.err.println("Uncaught exception in thread '" + t.getName() + "': "
-                        + e.getMessage());
-                Assert.fail();
-            }
-        }
     }
 
     @Test
@@ -379,8 +367,6 @@ public class HzMembershipListenerTest {
         c1.getNetworkConfig().setPort(port);
         c1.getNetworkConfig().getJoin().getTcpIpConfig().setMembers(allMembers);
         final HazelcastInstance h1 = Hazelcast.newHazelcastInstance(c1);
-        BaseHazelcastMembershipListener ml1 = new TestMembershipListener(h1);
-        ml1.startListener();
         return h1;
     }
 
