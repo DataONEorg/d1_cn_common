@@ -1,6 +1,7 @@
 package org.dataone.cn.hazelcast.membership;
 
 import org.dataone.cn.hazelcast.HazelcastClientFactory;
+import org.dataone.configuration.Settings;
 
 public class ClusterPartitionMonitor {
 
@@ -17,15 +18,26 @@ public class ClusterPartitionMonitor {
     }
 
     public static void startStorageMonitor() {
+        String configLocationSetting = Settings.getConfiguration().getString(
+                "dataone.hazelcast.location.clientconfig");
+        if (configLocationSetting == null) {
+            configLocationSetting = "/etc/dataone/storage/hazelcast.xml";
+        }
+
         storageMembershipListener = new ClusterPartitionMembershipListener(
-                HazelcastClientFactory.getStorageClient(), "/etc/dataone/storage/hazelcast.xml",
+                HazelcastClientFactory.getStorageClient(), configLocationSetting,
                 ClusterPartitionMembershipListener.STORAGE);
         storageMembershipListener.startListener();
     }
 
     public static void startProcessingMonitor() {
+        String configLocationSetting = Settings.getConfiguration().getString(
+                "dataone.hazelcast.location.processing.clientconfig");
+        if (configLocationSetting == null) {
+            configLocationSetting = "/etc/dataone/process/hazelcast.xml";
+        }
         processingMembershipListener = new ClusterPartitionMembershipListener(
-                HazelcastClientFactory.getProcessingClient(), "/etc/dataone/process/hazelcast.xml",
+                HazelcastClientFactory.getProcessingClient(), configLocationSetting,
                 ClusterPartitionMembershipListener.PROCESSING);
         processingMembershipListener.startListener();
     }

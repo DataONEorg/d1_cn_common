@@ -25,6 +25,7 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 
+import com.hazelcast.config.ClasspathXmlConfig;
 import com.hazelcast.config.Config;
 import com.hazelcast.config.XmlConfigBuilder;
 import com.hazelcast.core.HazelcastInstance;
@@ -52,10 +53,16 @@ public abstract class BaseHazelcastMembershipListener implements MembershipListe
     public BaseHazelcastMembershipListener(HazelcastInstance instance, String configLocation) {
         this.hzInstance = instance;
         if (configLocation != null) {
-            XmlConfigBuilder configBuilder;
             try {
-                configBuilder = new XmlConfigBuilder(configLocation);
-                Config hzConfig = configBuilder.build();
+                Config hzConfig = null;
+                if (configLocation.startsWith("classpath:")) {
+                    String hzConfigLocationConfig = configLocation.replace("classpath:", "");
+                    hzConfig = new ClasspathXmlConfig(hzConfigLocationConfig);
+                } else {
+                    XmlConfigBuilder configBuilder;
+                    configBuilder = new XmlConfigBuilder(configLocation);
+                    hzConfig = configBuilder.build();
+                }
                 configAddresses = hzConfig.getNetworkConfig().getJoin().getTcpIpConfig()
                         .getAddresses();
             } catch (FileNotFoundException e) {
