@@ -93,11 +93,13 @@ public abstract class BaseHazelcastMembershipListener implements MembershipListe
     @Override
     public void memberAdded(MembershipEvent membershipEvent) {
         logEvent(membershipEvent);
+        handleMemberAddedEvent();
     }
 
     @Override
     public void memberRemoved(MembershipEvent membershipEvent) {
         logEvent(membershipEvent);
+        handleMemberRemovedEvent();
     }
 
     protected int getMembershipCount() {
