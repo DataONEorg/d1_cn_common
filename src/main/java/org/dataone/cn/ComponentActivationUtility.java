@@ -46,11 +46,11 @@ public class ComponentActivationUtility {
         // !ClusterPartitionMonitor.getStoragePartion();
     }
 
-    public static boolean replicationComponentActive() {
+    private static boolean replicationComponentActive() {
         return Settings.getConfiguration().getBoolean("Replication.active");
     }
 
-    public static boolean sychronizationComponentActive() {
+    private static boolean sychronizationComponentActive() {
         return Settings.getConfiguration().getBoolean("Synchronization.active");
     }
 }
