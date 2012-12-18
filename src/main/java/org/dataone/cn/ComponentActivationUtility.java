@@ -21,7 +21,6 @@
 
 package org.dataone.cn;
 
-import org.dataone.cn.hazelcast.membership.ClusterPartitionMonitor;
 import org.dataone.configuration.Settings;
 
 /**
@@ -36,13 +35,15 @@ public class ComponentActivationUtility {
     }
 
     public static boolean replicationIsActive() {
-        return replicationComponentActive() && !ClusterPartitionMonitor.getProcessingPartition()
-                && !ClusterPartitionMonitor.getStoragePartion();
+        return replicationComponentActive();
+        // && !ClusterPartitionMonitor.getProcessingPartition() &&
+        // !ClusterPartitionMonitor.getStoragePartion();
     }
 
     public static boolean synchronizationIsActive() {
-        return sychronizationComponentActive() && !ClusterPartitionMonitor.getProcessingPartition()
-                && !ClusterPartitionMonitor.getStoragePartion();
+        return sychronizationComponentActive();
+        // && !ClusterPartitionMonitor.getProcessingPartition()&&
+        // !ClusterPartitionMonitor.getStoragePartion();
     }
 
     public static boolean replicationComponentActive() {
