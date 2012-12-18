@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.dataone.configuration.Settings;
 
 import com.hazelcast.config.ClasspathXmlConfig;
 import com.hazelcast.config.Config;
@@ -37,9 +38,12 @@ public abstract class BaseHazelcastMembershipListener implements MembershipListe
 
     private static Logger log = Logger.getLogger(BaseHazelcastMembershipListener.class.getName());
 
-    protected HazelcastInstance hzInstance = null;
-    protected List<Address> configAddresses = new ArrayList<Address>();
-    protected boolean listening = false;
+    private static final String CLUSTER_SIZE_OVERRIDE_PROPERTY = "dataone.hazelcast.cluster.size";
+
+    private HazelcastInstance hzInstance = null;
+    private List<Address> configAddresses = new ArrayList<Address>();
+    private boolean listening = false;
+    private int expectedClusterSize = 1;
 
     /**
      * Used for testing only when a configuration location is not available.
@@ -65,6 +69,7 @@ public abstract class BaseHazelcastMembershipListener implements MembershipListe
                 }
                 configAddresses = hzConfig.getNetworkConfig().getJoin().getTcpIpConfig()
                         .getAddresses();
+                setExpectedClusterSize(configAddresses.size());
             } catch (FileNotFoundException e) {
                 log.error("error reading hzConfig for: " + instance.getName() + " at: "
                         + configLocation, e);
@@ -107,11 +112,20 @@ public abstract class BaseHazelcastMembershipListener implements MembershipListe
     }
 
     protected boolean clusterIsPartitioned() {
-        if (configAddresses.size() > getMembershipCount()) {
-            return true;
+        return getExpectedClusterSize() > getMembershipCount();
+    }
+
+    protected int getExpectedClusterSize() {
+        int clusterSize = Settings.getConfiguration().getInt(CLUSTER_SIZE_OVERRIDE_PROPERTY, 0);
+        if (clusterSize != 0) {
+            return clusterSize;
         } else {
-            return false;
+            return expectedClusterSize;
         }
+    }
+
+    protected void setExpectedClusterSize(int clusterSize) {
+        this.expectedClusterSize = clusterSize;
     }
 
     public abstract void handleMemberAddedEvent();

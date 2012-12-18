@@ -1,9 +1,36 @@
+/**
+ * This work was created by participants in the DataONE project, and is
+ * jointly copyrighted by participating institutions in DataONE. For
+ * more information on DataONE, see our web site at http://dataone.org.
+ *
+ *   Copyright ${year}
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package org.dataone.cn.hazelcast.membership;
 
+import org.apache.commons.lang.StringUtils;
 import org.dataone.cn.hazelcast.HazelcastClientFactory;
 import org.dataone.configuration.Settings;
 
 public class ClusterPartitionMonitor {
+
+    private static final String DEFAULT_STORAGE_CLUSTER_CONFIG = "/etc/dataone/storage/hazelcast.xml";
+    private static final String DEFAULT_PROCESS_CLUSTER_CONFIG = "/etc/dataone/process/hazelcast.xml";
+    private static final String DEFAULT_SESSION_CLUSTER_CONFIG = "/etc/dataone/portal/hazelcast.xml";
+
+    private static final String STORAGE_CLUSTER_OVERRIDE_PROPERTY = "dataone.hazelcast.location.clientconfig";
+    private static final String PROCESSING_CLUSTER_OVERRIDE_PROPERTY = "dataone.hazelcast.location.processing.clientconfig";
 
     private static ClusterPartitionMembershipListener storageMembershipListener = null;
     private static boolean storagePartition = false;
@@ -19,9 +46,9 @@ public class ClusterPartitionMonitor {
 
     public static void startStorageMonitor() {
         String configLocationSetting = Settings.getConfiguration().getString(
-                "dataone.hazelcast.location.clientconfig");
-        if (configLocationSetting == null) {
-            configLocationSetting = "/etc/dataone/storage/hazelcast.xml";
+                STORAGE_CLUSTER_OVERRIDE_PROPERTY);
+        if (StringUtils.isNotBlank(configLocationSetting)) {
+            configLocationSetting = DEFAULT_STORAGE_CLUSTER_CONFIG;
         }
 
         storageMembershipListener = new ClusterPartitionMembershipListener(
@@ -32,9 +59,9 @@ public class ClusterPartitionMonitor {
 
     public static void startProcessingMonitor() {
         String configLocationSetting = Settings.getConfiguration().getString(
-                "dataone.hazelcast.location.processing.clientconfig");
-        if (configLocationSetting == null) {
-            configLocationSetting = "/etc/dataone/process/hazelcast.xml";
+                PROCESSING_CLUSTER_OVERRIDE_PROPERTY);
+        if (StringUtils.isNotBlank(configLocationSetting)) {
+            configLocationSetting = DEFAULT_PROCESS_CLUSTER_CONFIG;
         }
         processingMembershipListener = new ClusterPartitionMembershipListener(
                 HazelcastClientFactory.getProcessingClient(), configLocationSetting,
@@ -44,7 +71,7 @@ public class ClusterPartitionMonitor {
 
     public static void startSessionMonitor() {
         sessionMembershipListener = new ClusterPartitionMembershipListener(
-                HazelcastClientFactory.getSessionClient(), "/etc/dataone/portal/hazelcast.xml",
+                HazelcastClientFactory.getSessionClient(), DEFAULT_SESSION_CLUSTER_CONFIG,
                 ClusterPartitionMembershipListener.SESSION);
         sessionMembershipListener.startListener();
     }
