@@ -26,7 +26,6 @@ import java.io.FileNotFoundException;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.dataone.configuration.Settings;
 
 import com.hazelcast.client.ClientConfig;
 import com.hazelcast.client.HazelcastClient;
@@ -48,63 +47,49 @@ public class HazelcastClientFactory {
 
     public static final Log logger = LogFactory.getLog(HazelcastClientFactory.class);
 
-    // storage cluster config
     private static HazelcastClient hzStorageClient = null;
-    private static final String hzStorageConfigSettingsOverrideLocation = Settings
-            .getConfiguration().getString("dataone.hazelcast.location.clientconfig");
-    private static final String defaultStorageConfigLocation = "/etc/dataone/storage/hazelcast.xml";
-
-    // processing cluster config
     private static HazelcastClient hzProcessingClient = null;
-    private static final String hzProcessingConfigSettingsOverrideLocation = Settings
-            .getConfiguration().getString("dataone.hazelcast.location.processing.clientconfig");
-    private static final String defaultProcessingConfigLocation = "/etc/dataone/process/hazelcast.xml";
-
     private static HazelcastClient hzSessionClient = null;
-    private static final String defaultSessionConfigLocation = "/etc/dataone/portal/hazelcast.xml";
 
     private HazelcastClientFactory() {
     };
 
     public static HazelcastClient getStorageClient() {
         if (hzStorageClient == null) {
-            hzStorageClient = getHazelcastClient(hzStorageConfigSettingsOverrideLocation,
-                    defaultStorageConfigLocation);
+            hzStorageClient = getHazelcastClient(HazelcastConfigLocationFactory
+                    .getStorageConfigLocation());
         }
         return hzStorageClient;
     }
 
     public static HazelcastClient getProcessingClient() {
         if (hzProcessingClient == null) {
-            hzProcessingClient = getHazelcastClient(hzProcessingConfigSettingsOverrideLocation,
-                    defaultProcessingConfigLocation);
+            hzProcessingClient = getHazelcastClient(HazelcastConfigLocationFactory
+                    .getProcessingConfigLocation());
         }
         return hzProcessingClient;
     }
 
     public static HazelcastClient getSessionClient() {
         if (hzSessionClient == null) {
-            hzSessionClient = getHazelcastClient(null, defaultSessionConfigLocation);
+            hzSessionClient = getHazelcastClient(HazelcastConfigLocationFactory
+                    .getSessionConfigLocation());
         }
         return hzSessionClient;
     }
 
-    private static HazelcastClient getHazelcastClient(String configLocationSetting,
-            String defaultLocation) {
+    private static HazelcastClient getHazelcastClient(String configLocation) {
         ClientConfiguration clientConfiguration = null;
         try {
-            if (configLocationSetting != null) {
+            if (configLocation != null) {
                 // for testing purposes
-                if (configLocationSetting.startsWith("classpath:")) {
-                    String hzConfigLocationConfig = configLocationSetting.replace("classpath:", "");
+                if (configLocation.startsWith("classpath:")) {
+                    String hzConfigLocationConfig = configLocation.replace("classpath:", "");
                     ClasspathXmlConfig config = new ClasspathXmlConfig(hzConfigLocationConfig);
                     clientConfiguration = new ClientConfiguration(config);
                 } else {
-                    // to override the default behavior
-                    clientConfiguration = new ClientConfiguration(configLocationSetting);
+                    clientConfiguration = new ClientConfiguration(configLocation);
                 }
-            } else {
-                clientConfiguration = new ClientConfiguration(defaultLocation);
             }
         } catch (FileNotFoundException ex) {
             throw new NullPointerException("FileNotFound so clientConfiguration is Null: "

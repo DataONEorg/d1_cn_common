@@ -19,18 +19,10 @@
  */
 package org.dataone.cn.hazelcast.membership;
 
-import org.apache.commons.lang.StringUtils;
 import org.dataone.cn.hazelcast.HazelcastClientFactory;
-import org.dataone.configuration.Settings;
+import org.dataone.cn.hazelcast.HazelcastConfigLocationFactory;
 
 public class ClusterPartitionMonitor {
-
-    private static final String DEFAULT_STORAGE_CLUSTER_CONFIG = "/etc/dataone/storage/hazelcast.xml";
-    private static final String DEFAULT_PROCESS_CLUSTER_CONFIG = "/etc/dataone/process/hazelcast.xml";
-    private static final String DEFAULT_SESSION_CLUSTER_CONFIG = "/etc/dataone/portal/hazelcast.xml";
-
-    private static final String STORAGE_CLUSTER_OVERRIDE_PROPERTY = "dataone.hazelcast.location.clientconfig";
-    private static final String PROCESSING_CLUSTER_OVERRIDE_PROPERTY = "dataone.hazelcast.location.processing.clientconfig";
 
     private static ClusterPartitionMembershipListener storageMembershipListener = null;
     private static boolean storagePartition = false;
@@ -45,33 +37,25 @@ public class ClusterPartitionMonitor {
     }
 
     public static void startStorageMonitor() {
-        String configLocationSetting = Settings.getConfiguration().getString(
-                STORAGE_CLUSTER_OVERRIDE_PROPERTY);
-        if (StringUtils.isNotBlank(configLocationSetting)) {
-            configLocationSetting = DEFAULT_STORAGE_CLUSTER_CONFIG;
-        }
-
         storageMembershipListener = new ClusterPartitionMembershipListener(
-                HazelcastClientFactory.getStorageClient(), configLocationSetting,
+                HazelcastClientFactory.getStorageClient(),
+                HazelcastConfigLocationFactory.getStorageConfigLocation(),
                 ClusterPartitionMembershipListener.STORAGE);
         storageMembershipListener.startListener();
     }
 
     public static void startProcessingMonitor() {
-        String configLocationSetting = Settings.getConfiguration().getString(
-                PROCESSING_CLUSTER_OVERRIDE_PROPERTY);
-        if (StringUtils.isNotBlank(configLocationSetting)) {
-            configLocationSetting = DEFAULT_PROCESS_CLUSTER_CONFIG;
-        }
         processingMembershipListener = new ClusterPartitionMembershipListener(
-                HazelcastClientFactory.getProcessingClient(), configLocationSetting,
+                HazelcastClientFactory.getProcessingClient(),
+                HazelcastConfigLocationFactory.getProcessingConfigLocation(),
                 ClusterPartitionMembershipListener.PROCESSING);
         processingMembershipListener.startListener();
     }
 
     public static void startSessionMonitor() {
         sessionMembershipListener = new ClusterPartitionMembershipListener(
-                HazelcastClientFactory.getSessionClient(), DEFAULT_SESSION_CLUSTER_CONFIG,
+                HazelcastClientFactory.getSessionClient(),
+                HazelcastConfigLocationFactory.getSessionConfigLocation(),
                 ClusterPartitionMembershipListener.SESSION);
         sessionMembershipListener.startListener();
     }
