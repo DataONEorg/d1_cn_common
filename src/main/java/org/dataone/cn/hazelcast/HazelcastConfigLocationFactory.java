@@ -32,6 +32,7 @@ public class HazelcastConfigLocationFactory {
 
     private static final String STORAGE_CLUSTER_OVERRIDE_PROPERTY = "dataone.hazelcast.location.clientconfig";
     private static final String PROCESS_CLUSTER_OVERRIDE_PROPERTY = "dataone.hazelcast.location.processing.clientconfig";
+    private static final String SESSION_CLUSTER_OVERRIDE_PROPERTY = "dataone.hazelcast.location.session.clientconfig";
 
     public static String getStorageConfigLocation() {
         return getConfigLocation(DEFAULT_STORAGE_CLUSTER_CONFIG, STORAGE_CLUSTER_OVERRIDE_PROPERTY);
@@ -42,7 +43,7 @@ public class HazelcastConfigLocationFactory {
     }
 
     public static String getSessionConfigLocation() {
-        return getConfigLocation(DEFAULT_SESSION_CLUSTER_CONFIG, null);
+        return getConfigLocation(DEFAULT_SESSION_CLUSTER_CONFIG, SESSION_CLUSTER_OVERRIDE_PROPERTY);
     }
 
     private static String getConfigLocation(String defaultLocation, String overrideProperty) {
