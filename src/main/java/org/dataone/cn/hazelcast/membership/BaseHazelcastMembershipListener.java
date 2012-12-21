@@ -128,6 +128,10 @@ public abstract class BaseHazelcastMembershipListener implements MembershipListe
         this.expectedClusterSize = clusterSize;
     }
 
+    protected String getClusterName() {
+        return this.hzInstance.getName();
+    }
+
     public abstract void handleMemberAddedEvent();
 
     public abstract void handleMemberRemovedEvent();
