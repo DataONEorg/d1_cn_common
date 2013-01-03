@@ -40,10 +40,10 @@ public abstract class BaseHazelcastMembershipListener implements MembershipListe
 
     private static final String CLUSTER_SIZE_OVERRIDE_PROPERTY = "dataone.hazelcast.cluster.size";
 
-    private HazelcastInstance hzInstance = null;
-    private List<Address> configAddresses = new ArrayList<Address>();
-    private boolean listening = false;
-    private int expectedClusterSize = 1;
+    protected HazelcastInstance hzInstance = null;
+    protected List<Address> configAddresses = new ArrayList<Address>();
+    protected boolean listening = false;
+    protected int expectedClusterSize = 1;
 
     /**
      * Used for testing only when a configuration location is not available.
