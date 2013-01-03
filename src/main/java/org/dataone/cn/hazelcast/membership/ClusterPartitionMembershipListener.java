@@ -22,6 +22,7 @@ package org.dataone.cn.hazelcast.membership;
 import org.apache.log4j.Logger;
 
 import com.hazelcast.core.HazelcastInstance;
+import com.hazelcast.core.MembershipEvent;
 
 public class ClusterPartitionMembershipListener extends BaseHazelcastMembershipListener {
 
@@ -41,12 +42,12 @@ public class ClusterPartitionMembershipListener extends BaseHazelcastMembershipL
     }
 
     @Override
-    public void handleMemberAddedEvent() {
+    public void handleMemberAddedEvent(MembershipEvent membershipEvent) {
         setPartitionStatus();
     }
 
     @Override
-    public void handleMemberRemovedEvent() {
+    public void handleMemberRemovedEvent(MembershipEvent membershipEvent) {
         setPartitionStatus();
     }
 

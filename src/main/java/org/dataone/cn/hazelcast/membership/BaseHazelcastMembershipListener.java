@@ -98,13 +98,13 @@ public abstract class BaseHazelcastMembershipListener implements MembershipListe
     @Override
     public void memberAdded(MembershipEvent membershipEvent) {
         logEvent(membershipEvent);
-        handleMemberAddedEvent();
+        handleMemberAddedEvent(membershipEvent);
     }
 
     @Override
     public void memberRemoved(MembershipEvent membershipEvent) {
         logEvent(membershipEvent);
-        handleMemberRemovedEvent();
+        handleMemberRemovedEvent(membershipEvent);
     }
 
     protected int getMembershipCount() {
@@ -132,26 +132,29 @@ public abstract class BaseHazelcastMembershipListener implements MembershipListe
         return this.hzInstance.getName();
     }
 
-    public abstract void handleMemberAddedEvent();
+    public abstract void handleMemberAddedEvent(MembershipEvent membershipEvent);
 
-    public abstract void handleMemberRemovedEvent();
+    public abstract void handleMemberRemovedEvent(MembershipEvent membershipEvent);
 
     protected void logEvent(MembershipEvent membershipEvent) {
-        String eventType = "unknown operationed";
-        if (MembershipEvent.MEMBER_ADDED == membershipEvent.getEventType()) {
-            eventType = "added";
-        } else if (MembershipEvent.MEMBER_REMOVED == membershipEvent.getEventType()) {
-            eventType = "removed";
+        if (log.isDebugEnabled()) {
+            String eventType = "unknown operationed";
+            if (MembershipEvent.MEMBER_ADDED == membershipEvent.getEventType()) {
+                eventType = "added";
+            } else if (MembershipEvent.MEMBER_REMOVED == membershipEvent.getEventType()) {
+                eventType = "removed";
+            }
+
+            String ip = membershipEvent.getMember().getInetSocketAddress().getAddress()
+                    .getHostAddress();
+            int port = membershipEvent.getMember().getInetSocketAddress().getPort();
+
+            log.debug("Member " + eventType + " to/from cluster instance: "
+                    + this.hzInstance.getName());
+            log.debug("Member " + eventType + " is: " + ip + port);
+            log.debug("Cluster size: " + this.hzInstance.getCluster().getMembers().size());
+            log.debug("Cluster members: " + this.hzInstance.getCluster().getMembers());
         }
-
-        String ip = membershipEvent.getMember().getInetSocketAddress().getAddress()
-                .getHostAddress();
-        int port = membershipEvent.getMember().getInetSocketAddress().getPort();
-
-        log.debug("Member " + eventType + " to/from cluster instance: " + this.hzInstance.getName());
-        log.debug("Member " + eventType + " is: " + ip + port);
-        log.debug("Cluster size: " + this.hzInstance.getCluster().getMembers().size());
-        log.debug("Cluster members: " + this.hzInstance.getCluster().getMembers());
     }
 
 }
