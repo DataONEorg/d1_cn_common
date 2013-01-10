@@ -21,8 +21,12 @@ package org.dataone.cn.hazelcast.membership;
 
 import org.dataone.cn.hazelcast.HazelcastClientFactory;
 import org.dataone.cn.hazelcast.HazelcastConfigLocationFactory;
+import org.dataone.cn.hazelcast.HazelcastInstanceFactory;
+import org.dataone.configuration.Settings;
 
 public class ClusterPartitionMonitor {
+
+    private static final String IPLIST_PROPERTY = "dataone.hazelcast.iplist";
 
     private static ClusterPartitionMembershipListener storageMembershipListener = null;
     private static boolean storagePartition = false;
@@ -46,9 +50,10 @@ public class ClusterPartitionMonitor {
 
     public static void startProcessingMonitor() {
         processingMembershipListener = new ClusterPartitionMembershipListener(
-                HazelcastClientFactory.getProcessingClient(),
-                HazelcastConfigLocationFactory.getProcessingConfigLocation(),
+                HazelcastInstanceFactory.getProcessingInstance(),
                 ClusterPartitionMembershipListener.PROCESSING);
+        processingMembershipListener.setExpectedIPList(Settings.getConfiguration().getString(
+                IPLIST_PROPERTY));
         processingMembershipListener.startListener();
     }
 

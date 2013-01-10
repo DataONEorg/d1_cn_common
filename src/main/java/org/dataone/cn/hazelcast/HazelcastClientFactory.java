@@ -26,6 +26,7 @@ import java.io.FileNotFoundException;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.dataone.configuration.Settings;
 
 import com.hazelcast.client.ClientConfig;
 import com.hazelcast.client.HazelcastClient;
@@ -56,7 +57,7 @@ public class HazelcastClientFactory {
 
     public static HazelcastClient getStorageClient() {
         if (hzStorageClient == null) {
-            hzStorageClient = getHazelcastClient(HazelcastConfigLocationFactory
+            hzStorageClient = getHazelcastClientUsingConfig(HazelcastConfigLocationFactory
                     .getStorageConfigLocation());
         }
         return hzStorageClient;
@@ -64,21 +65,32 @@ public class HazelcastClientFactory {
 
     public static HazelcastClient getProcessingClient() {
         if (hzProcessingClient == null) {
-            hzProcessingClient = getHazelcastClient(HazelcastConfigLocationFactory
-                    .getProcessingConfigLocation());
+            String group = Settings.getConfiguration().getString(
+                    "dataone.hazelcast.process.groupName");
+            String password = Settings.getConfiguration().getString(
+                    "dataone.hazelcast.process.groupPassword");
+            String localhost = "127.0.0.1";
+            String port = Settings.getConfiguration().getString("dataone.hazelcast.process.port");
+
+            ClientConfig cc = new ClientConfig();
+            cc.getGroupConfig().setName(group);
+            cc.getGroupConfig().setPassword(password);
+            cc.addAddress(localhost + ":" + port);
+            HazelcastClient client = HazelcastClient.newHazelcastClient(cc);
+            return client;
         }
         return hzProcessingClient;
     }
 
     public static HazelcastClient getSessionClient() {
         if (hzSessionClient == null) {
-            hzSessionClient = getHazelcastClient(HazelcastConfigLocationFactory
+            hzSessionClient = getHazelcastClientUsingConfig(HazelcastConfigLocationFactory
                     .getSessionConfigLocation());
         }
         return hzSessionClient;
     }
 
-    private static HazelcastClient getHazelcastClient(String configLocation) {
+    private static HazelcastClient getHazelcastClientUsingConfig(String configLocation) {
         ClientConfiguration clientConfiguration = null;
         try {
             if (configLocation != null) {

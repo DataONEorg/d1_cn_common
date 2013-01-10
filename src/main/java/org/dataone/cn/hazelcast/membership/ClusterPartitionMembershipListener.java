@@ -41,6 +41,11 @@ public class ClusterPartitionMembershipListener extends BaseHazelcastMembershipL
         cluster = clusterName;
     }
 
+    public ClusterPartitionMembershipListener(HazelcastInstance instance, String clusterName) {
+        super(instance);
+        cluster = clusterName;
+    }
+
     @Override
     public void handleMemberAddedEvent(MembershipEvent membershipEvent) {
         setPartitionStatus();

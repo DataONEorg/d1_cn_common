@@ -20,9 +20,11 @@
 package org.dataone.cn.hazelcast.membership;
 
 import java.io.FileNotFoundException;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.dataone.configuration.Settings;
 
@@ -41,7 +43,7 @@ public abstract class BaseHazelcastMembershipListener implements MembershipListe
     private static final String CLUSTER_SIZE_OVERRIDE_PROPERTY = "dataone.hazelcast.cluster.size";
 
     protected HazelcastInstance hzInstance = null;
-    protected List<Address> configAddresses = new ArrayList<Address>();
+    protected List<String> configAddresses = new ArrayList<String>();
     protected boolean listening = false;
     protected int expectedClusterSize = 1;
 
@@ -67,12 +69,20 @@ public abstract class BaseHazelcastMembershipListener implements MembershipListe
                     configBuilder = new XmlConfigBuilder(configLocation);
                     hzConfig = configBuilder.build();
                 }
-                configAddresses = hzConfig.getNetworkConfig().getJoin().getTcpIpConfig()
+                List<Address> addresses = hzConfig.getNetworkConfig().getJoin().getTcpIpConfig()
                         .getAddresses();
+                for (Address address : addresses) {
+                    configAddresses.add(address.getInetSocketAddress().getHostName());
+                }
                 setExpectedClusterSize(configAddresses.size());
             } catch (FileNotFoundException e) {
                 log.error("error reading hzConfig for: " + instance.getName() + " at: "
                         + configLocation, e);
+                e.printStackTrace();
+            } catch (UnknownHostException uhe) {
+                log.error("unknown host getting addresses for instance: " + instance.getName()
+                        + ".");
+                uhe.printStackTrace();
             }
         }
     }
@@ -154,6 +164,17 @@ public abstract class BaseHazelcastMembershipListener implements MembershipListe
             log.debug("Member " + eventType + " is: " + ip + port);
             log.debug("Cluster size: " + this.hzInstance.getCluster().getMembers().size());
             log.debug("Cluster members: " + this.hzInstance.getCluster().getMembers());
+        }
+    }
+
+    public void setExpectedIPList(String ipString) {
+        configAddresses.clear();
+        if (ipString != null) {
+            String[] ips = StringUtils.split(ipString, ",");
+            for (int i = 0; i < ips.length; i++) {
+                String ip = ips[i].trim();
+                configAddresses.add(ip);
+            }
         }
     }
 
