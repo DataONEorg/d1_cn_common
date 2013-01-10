@@ -58,16 +58,20 @@ public abstract class BaseHazelcastMembershipListener implements MembershipListe
 
     public BaseHazelcastMembershipListener(HazelcastInstance instance, String configLocation) {
         this.hzInstance = instance;
+        log.debug("creating membership listener for instance: " + instance.getName()
+                + " with config: " + configLocation);
         if (configLocation != null) {
             try {
                 Config hzConfig = null;
                 if (configLocation.startsWith("classpath:")) {
                     String hzConfigLocationConfig = configLocation.replace("classpath:", "");
                     hzConfig = new ClasspathXmlConfig(hzConfigLocationConfig);
+                    log.debug("config does not start with classpath");
                 } else {
                     XmlConfigBuilder configBuilder;
                     configBuilder = new XmlConfigBuilder(configLocation);
                     hzConfig = configBuilder.build();
+                    log.debug("config does not start with classpath");
                 }
                 List<Address> addresses = hzConfig.getNetworkConfig().getJoin().getTcpIpConfig()
                         .getAddresses();
