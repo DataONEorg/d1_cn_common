@@ -71,8 +71,12 @@ public abstract class BaseHazelcastMembershipListener implements MembershipListe
                 }
                 List<Address> addresses = hzConfig.getNetworkConfig().getJoin().getTcpIpConfig()
                         .getAddresses();
+                log.debug("Found: " + addresses.size() + " for cluster config: "
+                        + instance.getName());
                 for (Address address : addresses) {
                     configAddresses.add(address.getInetSocketAddress().getHostName());
+                    log.debug("adding: " + address.getInetSocketAddress().getHostName()
+                            + " to expected ip list.");
                 }
                 setExpectedClusterSize(configAddresses.size());
             } catch (FileNotFoundException e) {
@@ -84,6 +88,8 @@ public abstract class BaseHazelcastMembershipListener implements MembershipListe
                         + ".");
                 uhe.printStackTrace();
             }
+        } else {
+            log.debug("Config location is null for listener for instance: " + instance.getName());
         }
     }
 
