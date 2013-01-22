@@ -76,8 +76,12 @@ public class HazelcastClientFactory {
             cc.getGroupConfig().setName(group);
             cc.getGroupConfig().setPassword(password);
             cc.addAddress(localhost + ":" + port);
-            HazelcastClient client = HazelcastClient.newHazelcastClient(cc);
-            return client;
+            try {
+                hzProcessingClient = HazelcastClient.newHazelcastClient(cc);
+            } catch (Exception e) {
+                logger.error("Unable to create hazelcast client: ", e);
+                e.printStackTrace();
+            }
         }
         return hzProcessingClient;
     }
@@ -116,7 +120,14 @@ public class HazelcastClientFactory {
         cc.getGroupConfig().setName(clientConfiguration.getGroup());
         cc.getGroupConfig().setPassword(clientConfiguration.getPassword());
         cc.addAddress(clientConfiguration.getLocalhost());
-        HazelcastClient client = HazelcastClient.newHazelcastClient(cc);
+        HazelcastClient client = null;
+        try {
+            client = HazelcastClient.newHazelcastClient(cc);
+        } catch (Exception e) {
+            logger.error("Unable to create hazelcast client: ", e);
+            e.printStackTrace();
+        }
+
         return client;
     }
 }
