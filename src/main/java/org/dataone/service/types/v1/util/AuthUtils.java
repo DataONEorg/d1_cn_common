@@ -228,7 +228,7 @@ public class AuthUtils {
 	public static boolean comparePermissions(Permission requested, Collection<Permission> allowed) 
 	{
 		if (CollectionUtils.isEmpty(allowed))
-				return false;
+			return false;
 		
 		if (requested.equals(Permission.READ)) 
 			// if this far, then request READ is always true

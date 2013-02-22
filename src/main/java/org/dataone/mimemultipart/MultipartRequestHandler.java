@@ -28,7 +28,6 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
-import java.util.Date;
 import java.util.Vector;
 
 import org.apache.commons.io.IOUtils;
@@ -231,11 +230,9 @@ public class MultipartRequestHandler
     }
          
     
-    private File generateTempFile()
+    private File generateTempFile() throws IOException
     {
-    	Date d = new Date();
-		File tmpDir = new File(Constants.TEMP_DIR);
-		File outputFile = new File(tmpDir, "mmp.output." + d.getTime());
+		File outputFile =  File.createTempFile("mmp.output.", null);
 		String afp = outputFile.getAbsolutePath();
 		tempfileNames.add(afp);
 		logger.info("temp outputFile is: " + outputFile.getAbsolutePath());

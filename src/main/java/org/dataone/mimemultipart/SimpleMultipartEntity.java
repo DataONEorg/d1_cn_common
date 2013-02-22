@@ -28,7 +28,6 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
-import java.util.Date;
 import java.util.Vector;
 
 import org.apache.commons.logging.Log;
@@ -36,7 +35,6 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.http.entity.mime.MultipartEntity;
 import org.apache.http.entity.mime.content.FileBody;
 import org.apache.http.entity.mime.content.StringBody;
-import org.dataone.service.util.Constants;
 import org.dataone.service.util.TypeMarshaller;
 import org.jibx.runtime.JiBXException;
 
@@ -206,12 +204,8 @@ public class SimpleMultipartEntity extends MultipartEntity
              
     
     private File generateTempFile() throws IOException
-    {
-    	Date d = new Date();
-		File tmpDir = new File(Constants.TEMP_DIR);
-                
-		//File outputFile = new File(tmpDir, "mmp.output." + Thread.currentThread().getId() + "." + d.getTime());
-		File outputFile = File.createTempFile("mmp.output.", null, tmpDir);
+    {                
+		File outputFile = File.createTempFile("mmp.output.", null);
 
 		tempFiles.add(outputFile);
 		log.info("temp outputFile is: " + outputFile.getAbsolutePath());

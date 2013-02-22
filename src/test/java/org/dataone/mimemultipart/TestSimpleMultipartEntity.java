@@ -28,7 +28,6 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Date;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.logging.Log;
@@ -38,7 +37,6 @@ import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.HttpEntityEnclosingRequestBase;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
-import org.dataone.service.util.Constants;
 import org.junit.Test;
 
 
@@ -133,9 +131,7 @@ public class TestSimpleMultipartEntity {
 		
 		smpe.addParamPart("testOne", "bizbazbuzzzz");
 		
-		Date d = new Date();
-		File tmpDir = new File(Constants.TEMP_DIR);
-		File outputFile = new File(tmpDir, "mmp.output." + d.getTime());
+		File outputFile = File.createTempFile("mmp.output.", null);
 		FileWriter fw = new FileWriter(outputFile);
 		fw.write("flip-flap-flop");
 		fw.flush();

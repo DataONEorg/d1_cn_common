@@ -124,7 +124,9 @@ public class Constants {
     public static final String RESOURCE_REPLICAS = "replica";
     
    
-    /** Temporary file directory */
+    /** Temporary file directory 
+     * @deprecated this is OS-specific and should not be used
+     * */
     public static final String TEMP_DIR = "/tmp";
     
     /** Authorization section */
