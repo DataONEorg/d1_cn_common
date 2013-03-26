@@ -7,6 +7,8 @@ import org.springframework.jdbc.core.JdbcTemplate;
 
 public class ReplicationDaoMetacatImplTestUtil {
 
+    public static final String cnNodeId = "urn:node:cnDev";
+
     public static void createTables(JdbcTemplate jdbc) {
         jdbc.execute("CREATE TABLE IF NOT EXISTS smreplicationstatus " + //
                 "(guid text, member_node varchar(250), " + //

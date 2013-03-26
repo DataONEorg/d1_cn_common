@@ -191,15 +191,18 @@ public class ReplicationDaoMetacatImpl implements ReplicationDao {
 
     /**
      */
-    public List<Identifier> getCompletedMemberNodeReplicasByDate(Date auditDate,
-            final int pageNumber, final int pageSize) throws DataAccessException {
+    public List<Identifier> getCompletedMemberNodeReplicasByDate(Date auditDate, int pageNumber,
+            int pageSize) throws DataAccessException {
 
         List<Identifier> results = new ArrayList<Identifier>();
-        if (pageSize < 1 || pageNumber < 1) {
-            return results;
-        }
 
         final Timestamp timestamp = new Timestamp(auditDate.getTime());
+        if (pageSize < 1) {
+            pageNumber = 0;
+        }
+        final int finalPageNumber = pageNumber;
+        final int finalPageSize = pageSize;
+
         final int offset = (pageNumber - 1) * pageSize;
 
         try {
@@ -212,8 +215,17 @@ public class ReplicationDaoMetacatImpl implements ReplicationDao {
                             + "  WHERE date_verified <= ? " //
                             + "  AND status = 'COMPLETED' " //
                             + "  AND member_node <> '" + cnNodeId + "'" //
-                            + "  ORDER BY date_verified ASC           " //
-                            + "  OFFSET " + offset + "  LIMIT " + pageSize + ";";
+                            + "  ORDER BY date_verified ASC "; //
+
+                    if (finalPageSize > 0 && finalPageNumber > 0) {
+                        sqlStatement += " LIMIT " + finalPageSize;
+                    }
+
+                    if (finalPageNumber > 0) {
+                        sqlStatement += " OFFSET " + offset;
+                    }
+
+                    sqlStatement += ";";
 
                     PreparedStatement statement = conn.prepareStatement(sqlStatement);
                     statement.setTimestamp(1, timestamp);
@@ -229,14 +241,16 @@ public class ReplicationDaoMetacatImpl implements ReplicationDao {
     }
 
     public List<Identifier> getCompletedCoordinatingNodeReplicasByDate(Date auditDate,
-            final int pageNumber, final int pageSize) throws DataAccessException {
+            int pageNumber, int pageSize) throws DataAccessException {
 
         List<Identifier> results = new ArrayList<Identifier>();
-        if (pageSize < 1 || pageNumber < 1) {
-            return results;
-        }
 
         final Timestamp timestamp = new Timestamp(auditDate.getTime());
+        if (pageSize < 1) {
+            pageNumber = 0;
+        }
+        final int finalPageNumber = pageNumber;
+        final int finalPageSize = pageSize;
         final int offset = (pageNumber - 1) * pageSize;
 
         try {
@@ -249,8 +263,17 @@ public class ReplicationDaoMetacatImpl implements ReplicationDao {
                             + "  WHERE date_verified <= ? " //
                             + "  AND status = 'COMPLETED' " //
                             + "  AND member_node = '" + cnNodeId + "'" //
-                            + "  ORDER BY date_verified ASC           " //
-                            + "  OFFSET " + offset + "  LIMIT " + pageSize + ";";
+                            + "  ORDER BY date_verified ASC"; //
+
+                    if (finalPageSize > 0 && finalPageNumber > 0) {
+                        sqlStatement += " LIMIT " + finalPageSize;
+                    }
+
+                    if (finalPageNumber > 0) {
+                        sqlStatement += " OFFSET " + offset;
+                    }
+
+                    sqlStatement += ";";
 
                     PreparedStatement statement = conn.prepareStatement(sqlStatement);
                     statement.setTimestamp(1, timestamp);
