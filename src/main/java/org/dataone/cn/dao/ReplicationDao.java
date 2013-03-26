@@ -23,7 +23,6 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import org.dataone.cn.dao.exceptions.DataAccessException;
 import org.dataone.service.types.v1.Identifier;
@@ -41,9 +40,11 @@ public interface ReplicationDao {
 
     /**
      * Returns paged list of distinct DataONE Identifier objects with at least
-     * one replica with a replica verified date previous to the auditDate
+     * one member node replica with a replica verified date previous to the auditDate
      * parameter. Results to be ordered so identifiers with oldest replica
      * verified dates are returned first. (ascending by replica verified date).
+     * 
+     * Results are filtered to only include 'completed' member node replicas.
      * 
      * @param auditDate
      *            - Identifiers with one or more replica verified dates after
@@ -52,31 +53,32 @@ public interface ReplicationDao {
      * @param pageNumber
      * @return distinct identifiers ordered by ascending replica verified date.
      */
-    public List<Identifier> getReplicasByDate(Date auditDate, int pageSize, int pageNumber)
-            throws DataAccessException;
+    public List<Identifier> getCompletedMemberNodeReplicasByDate(Date auditDate, int pageNumber,
+            int pageSize) throws DataAccessException;
+
+    /**
+     * Returns paged list of distinct DataONE Identifier objects with at least
+     * one coordinating node replica with a replica verified date previous to the auditDate
+     * parameter. Results to be ordered so identifiers with oldest replica
+     * verified dates are returned first. (ascending by replica verified date).
+     * 
+     * Results are filtered to only include 'completed' coordinating node replicas.
+     * 
+     * @param auditDate
+     *            - Identifiers with one or more replica verified dates after
+     *            audit date are returned.
+     * @param pageSize
+     * @param pageNumber
+     * @return distinct identifiers ordered by ascending replica verified date.
+     */
+    public List<Identifier> getCompletedCoordinatingNodeReplicasByDate(Date auditDate,
+            int pageNumber, int pageSize) throws DataAccessException;
 
     /**
      * Return a map of member node to replica count entries where the replica
      * status is either queued or requested
      */
     public Map<NodeReference, Integer> getPendingReplicasByNode() throws DataAccessException;
-
-    /**
-     * Returns a list of distinct identifier-nodeId to Map.Entry pairs
-     * (Identifier and NodeReference in the Entry), with at least one replica
-     * with a replica verified date previous to the auditDate parameter and a
-     * status of requested or queued. Results are ordered so identifiers with
-     * oldest replica verified dates are returned first (ascending by replica
-     * verified date).
-     * 
-     * @param auditDate
-     *            - Identifiers with one or more replica verified dates after
-     *            audit date are returned.
-     * @return map a map of distinct identifiers ordered by ascending replica
-     *         verified date.
-     */
-    public List<Entry<Identifier, NodeReference>> getPendingReplicasByDate(Date auditDate)
-            throws DataAccessException;
 
     /**
      * Return a map of member node to replica count entries where the replica
@@ -115,15 +117,6 @@ public interface ReplicationDao {
      * @throws DataAccessException
      */
     public int getRequestedReplicationCount(NodeReference nodeReference) throws DataAccessException;
-
-    /**
-     * Returns a List of ReplicaDto objects, which represent replica objects
-     * that are in 'queued' status and have a verified date before cutoffDate.
-     * 
-     * @param cutoffDate
-     * @throws DataAccessException
-     */
-    public List<ReplicaDto> getQueuedReplicasByDate(Date cutoffDate) throws DataAccessException;
 
     /**
      * Returns a Collection of NodeReference objects which have at least one

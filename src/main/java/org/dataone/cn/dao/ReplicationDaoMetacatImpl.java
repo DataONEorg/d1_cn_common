@@ -32,8 +32,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.FastDateFormat;
@@ -64,6 +62,8 @@ import org.springframework.jdbc.core.RowMapper;
 public class ReplicationDaoMetacatImpl implements ReplicationDao {
 
     private static final Log log = LogFactory.getLog(ReplicationDaoMetacatImpl.class);
+
+    private static final String cnNodeId = "urn:node:cnDev";
 
     private JdbcTemplate jdbcTemplate;
 
@@ -189,23 +189,31 @@ public class ReplicationDaoMetacatImpl implements ReplicationDao {
         return false;
     }
 
-    public List<Identifier> getReplicasByDate(Date auditDate, int pageSize, int pageNumber)
-            throws DataAccessException {
-
-        final Timestamp timestamp = new Timestamp(auditDate.getTime());
+    /**
+     */
+    public List<Identifier> getCompletedMemberNodeReplicasByDate(Date auditDate,
+            final int pageNumber, final int pageSize) throws DataAccessException {
 
         List<Identifier> results = new ArrayList<Identifier>();
+        if (pageSize < 1 || pageNumber < 1) {
+            return results;
+        }
+
+        final Timestamp timestamp = new Timestamp(auditDate.getTime());
+        final int offset = (pageNumber - 1) * pageSize;
+
         try {
             results = this.jdbcTemplate.query(new PreparedStatementCreator() {
                 public PreparedStatement createPreparedStatement(Connection conn)
                         throws SQLException {
 
-                    String sqlStatement = "SELECT DISTINCT        "
-                            + "  guid,                                "
-                            + "  date_verified                        "
-                            + "  FROM  smreplicationstatus"
-                            + "  WHERE date_verified <= ?             "
-                            + "  ORDER BY date_verified ASC;          ";
+                    String sqlStatement = "SELECT DISTINCT guid, date_verified" //
+                            + "  FROM  smreplicationstatus" //
+                            + "  WHERE date_verified <= ? " //
+                            + "  AND status = 'COMPLETED' " //
+                            + "  AND member_node <> '" + cnNodeId + "'" //
+                            + "  ORDER BY date_verified ASC           " //
+                            + "  OFFSET " + offset + "  LIMIT " + pageSize + ";";
 
                     PreparedStatement statement = conn.prepareStatement(sqlStatement);
                     statement.setTimestamp(1, timestamp);
@@ -216,7 +224,43 @@ public class ReplicationDaoMetacatImpl implements ReplicationDao {
 
         } catch (org.springframework.dao.DataAccessException dae) {
             handleJdbcDataAccessException(dae);
+        }
+        return results;
+    }
 
+    public List<Identifier> getCompletedCoordinatingNodeReplicasByDate(Date auditDate,
+            final int pageNumber, final int pageSize) throws DataAccessException {
+
+        List<Identifier> results = new ArrayList<Identifier>();
+        if (pageSize < 1 || pageNumber < 1) {
+            return results;
+        }
+
+        final Timestamp timestamp = new Timestamp(auditDate.getTime());
+        final int offset = (pageNumber - 1) * pageSize;
+
+        try {
+            results = this.jdbcTemplate.query(new PreparedStatementCreator() {
+                public PreparedStatement createPreparedStatement(Connection conn)
+                        throws SQLException {
+
+                    String sqlStatement = "SELECT DISTINCT guid, date_verified" //
+                            + "  FROM  smreplicationstatus" //
+                            + "  WHERE date_verified <= ? " //
+                            + "  AND status = 'COMPLETED' " //
+                            + "  AND member_node = '" + cnNodeId + "'" //
+                            + "  ORDER BY date_verified ASC           " //
+                            + "  OFFSET " + offset + "  LIMIT " + pageSize + ";";
+
+                    PreparedStatement statement = conn.prepareStatement(sqlStatement);
+                    statement.setTimestamp(1, timestamp);
+                    log.debug("getRecentCompletedReplicas statement is: " + statement);
+                    return statement;
+                }
+            }, new IdentifierMapper());
+
+        } catch (org.springframework.dao.DataAccessException dae) {
+            handleJdbcDataAccessException(dae);
         }
         return results;
     }
@@ -243,39 +287,6 @@ public class ReplicationDaoMetacatImpl implements ReplicationDao {
                     PreparedStatement statement = conn.prepareStatement(sqlStatement);
                     statement.setTimestamp(1, timestamp);
                     log.debug("getRequestedReplicasByDate statement is: " + statement);
-                    return statement;
-                }
-            }, new ReplicaResultMapper());
-
-        } catch (org.springframework.dao.DataAccessException dae) {
-            handleJdbcDataAccessException(dae);
-
-        }
-        return results;
-    }
-
-    public List<ReplicaDto> getQueuedReplicasByDate(Date cutoffDate) throws DataAccessException {
-
-        final Timestamp timestamp = new Timestamp(cutoffDate.getTime());
-        List<ReplicaDto> results = new ArrayList<ReplicaDto>();
-        try {
-            results = this.jdbcTemplate.query(new PreparedStatementCreator() {
-                public PreparedStatement createPreparedStatement(Connection conn)
-                        throws SQLException {
-
-                    String sqlStatement = "SELECT      "
-                            + "  guid,                                "
-                            + "  member_node,                         "
-                            + "  status,                              "
-                            + "  date_verified                        "
-                            + "  FROM  smreplicationstatus            "
-                            + "  WHERE date_verified <= ?             "
-                            + "  AND status = 'QUEUED'             "
-                            + "  ORDER BY date_verified ASC;          ";
-
-                    PreparedStatement statement = conn.prepareStatement(sqlStatement);
-                    statement.setTimestamp(1, timestamp);
-                    log.debug("getQueuedReplicasByDate statement is: " + statement);
                     return statement;
                 }
             }, new ReplicaResultMapper());
@@ -718,69 +729,5 @@ public class ReplicationDaoMetacatImpl implements ReplicationDao {
         }
 
         return replicaCountsByNodeStatus;
-    }
-
-    /**
-     * Returns a paged list of distinct identifier objects with at least one
-     * replica with a replica verified date previous to the auditDate parameter
-     * and a status of requested or queued. Results are ordered so identifiers
-     * with oldest replica verified dates are returned first (ascending by
-     * replica verified date).
-     * 
-     * @return results the list of identifiers
-     * @param auditDate
-     *            the replica verified date cutoff; older identifiers are
-     *            returned
-     * @param pageSize
-     *            the nimber of identifiers per page of the result
-     * @param pageNumber
-     *            the page number to start from
-     */
-    @Override
-    public List<Entry<Identifier, NodeReference>> getPendingReplicasByDate(Date auditDate)
-            throws DataAccessException {
-
-        final Timestamp timestamp = new Timestamp(auditDate.getTime());
-
-        List<Map<Identifier, NodeReference>> results = new ArrayList<Map<Identifier, NodeReference>>();
-
-        // a list of the composite row results.
-        List<Map.Entry<Identifier, NodeReference>> replicaByNodeMap = new ArrayList<Map.Entry<Identifier, NodeReference>>();
-
-        try {
-            results = this.jdbcTemplate.query(new PreparedStatementCreator() {
-                public PreparedStatement createPreparedStatement(Connection conn)
-                        throws SQLException {
-
-                    String sqlStatement = "SELECT    " + " guid,                      "
-                            + " member_node,               " + " date_verified              "
-                            + " FROM  smreplicationstatus  " + " WHERE date_verified <= ?   "
-                            + " AND (status = 'QUEUED'     " + " OR   status = 'REQUESTED') "
-                            + " ORDER BY date_verified ASC;";
-
-                    PreparedStatement statement = conn.prepareStatement(sqlStatement);
-                    statement.setTimestamp(1, timestamp);
-                    log.debug("getPendingReplicasByDate statement is: " + statement);
-                    return statement;
-                }
-            }, new PendingReplicaMapper());
-
-        } catch (org.springframework.dao.DataAccessException dae) {
-            handleJdbcDataAccessException(dae);
-
-        }
-
-        // take each map from the results and push it into a master list with
-        // the concatenation the Map.entry as the member
-        for (Map<Identifier, NodeReference> result : results) {
-            Set<Entry<Identifier, NodeReference>> entrySet = result.entrySet();
-            for (Entry<Identifier, NodeReference> entry : entrySet) {
-                replicaByNodeMap.add(entry);
-
-            }
-
-        }
-
-        return replicaByNodeMap;
     }
 }

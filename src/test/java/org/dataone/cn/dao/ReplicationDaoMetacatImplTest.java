@@ -63,8 +63,8 @@ public class ReplicationDaoMetacatImplTest {
         jdbc.execute("INSERT INTO smreplicationstatus VALUES ('test_guid2','mn:test:2','QUEUED',TIMESTAMP '2012-01-01 12:00:00')");
         jdbc.execute("INSERT INTO smreplicationstatus VALUES ('test_guid3','mn:test:1','REQUESTED',TIMESTAMP '2020-01-01 12:00:00')");
 
-        List<Identifier> results = replicationDao.getReplicasByDate(
-                new Date(System.currentTimeMillis()), 100, 1);
+        List<Identifier> results = replicationDao.getCompletedMemberNodeReplicasByDate(new Date(
+                System.currentTimeMillis()), 100, 1);
         Assert.assertTrue(results.size() == 2);
         Assert.assertTrue(results.get(0).getValue().equals("test_guid"));
         Assert.assertTrue(results.get(1).getValue().equals("test_guid2"));
