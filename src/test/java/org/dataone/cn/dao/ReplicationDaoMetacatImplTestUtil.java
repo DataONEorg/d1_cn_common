@@ -3,11 +3,13 @@ package org.dataone.cn.dao;
 import java.sql.Types;
 import java.util.Date;
 
+import org.dataone.configuration.Settings;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 public class ReplicationDaoMetacatImplTestUtil {
 
-    public static final String cnNodeId = "urn:node:cnDev";
+    public static final String cnNodeId = Settings.getConfiguration().getString("cn.router.nodeId",
+            "urn:node:cnDev");
 
     public static void createTables(JdbcTemplate jdbc) {
         jdbc.execute("CREATE TABLE IF NOT EXISTS smreplicationstatus " + //
