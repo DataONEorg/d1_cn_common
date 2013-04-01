@@ -63,7 +63,8 @@ public class ReplicationDaoMetacatImpl implements ReplicationDao {
 
     private static final Log log = LogFactory.getLog(ReplicationDaoMetacatImpl.class);
 
-    private static final String cnNodeId = "urn:node:cnDev";
+    private static final String cnNodeId = Settings.getConfiguration().getString(
+            "cn.router.nodeId", "urn:node:CN");
 
     private JdbcTemplate jdbcTemplate;
 
