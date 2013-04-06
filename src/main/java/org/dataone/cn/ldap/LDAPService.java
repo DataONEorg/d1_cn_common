@@ -196,7 +196,15 @@ public abstract class LDAPService {
         return true;
     }
 
-    // check the attribute for a given subject
+    /**
+     * check the attribute for a given subject
+     * @see http://www.ietf.org/rfc/rfc2254.txt for considerations on special characters
+     * @param dn
+     * @param attributeName
+     * @param attributeValue
+     * @return
+     */
+    
     public boolean checkAttribute(String dn, String attributeName, String attributeValue) {
         try {
             DirContext ctx = getContext();
@@ -204,7 +212,10 @@ public abstract class LDAPService {
             ctls.setSearchScope(SearchControls.OBJECT_SCOPE);
             ctls.setReturningAttributes(new String[0]); // do not return any
                                                         // attributes
-
+            
+            // Handle escaping the escape character in filter
+            // @see http://www.ietf.org/rfc/rfc2254.txt
+            attributeValue = attributeValue.replace("\\", "\\5c");
             String searchCriteria = attributeName + "=" + attributeValue;
 
             NamingEnumeration results = ctx.search(dn, searchCriteria, ctls);
@@ -264,6 +275,8 @@ public abstract class LDAPService {
             start = temp.indexOf("=") + 1;
             temp = temp.substring(start);
             result = temp;
+            // for escaped characters in the RDN
+            result = (String) Rdn.unescapeValue(result);
         } catch (Exception e) {
             log.warn("could not parse attribute from string");
         }
