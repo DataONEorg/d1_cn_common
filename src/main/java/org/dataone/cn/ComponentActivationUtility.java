@@ -24,7 +24,7 @@ package org.dataone.cn;
 import org.dataone.configuration.Settings;
 
 /**
- * Class to capture common replication utility logic.
+ * Class to capture common component activation logic.
  * 
  * @author sroseboo
  * 
@@ -46,11 +46,27 @@ public class ComponentActivationUtility {
         // !ClusterPartitionMonitor.getStoragePartion();
     }
 
+    public static boolean replicationMNAuditorIsActive() {
+        return replicationMNAuditorComponenentActive();
+    }
+
+    public static boolean replicationCNAuditorIsActive() {
+        return replicationCNAuditorComponenentActive();
+    }
+
     private static boolean replicationComponentActive() {
         return Settings.getConfiguration().getBoolean("Replication.active");
     }
 
     private static boolean sychronizationComponentActive() {
         return Settings.getConfiguration().getBoolean("Synchronization.active");
+    }
+
+    private static boolean replicationMNAuditorComponenentActive() {
+        return Settings.getConfiguration().getBoolean("Replication.audit.mn.active");
+    }
+
+    private static boolean replicationCNAuditorComponenentActive() {
+        return Settings.getConfiguration().getBoolean("Replication.audit.cn.active");
     }
 }
