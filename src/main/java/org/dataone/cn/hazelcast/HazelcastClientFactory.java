@@ -112,8 +112,7 @@ public class HazelcastClientFactory {
                     + ex.getMessage());
         }
 
-        logger.info("group " + clientConfiguration.getGroup() + " pwd "
-                + clientConfiguration.getPassword() + " addresses "
+        logger.info("group " + clientConfiguration.getGroup() + " addresses "
                 + clientConfiguration.getLocalhost());
 
         ClientConfig cc = new ClientConfig();
