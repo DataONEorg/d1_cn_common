@@ -4,13 +4,13 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.dataone</groupId>
     <artifactId>d1_cn_common</artifactId>
-    <version>1.1.0</version>
+    <version>1.1.1</version>
     <name>DataONE_Cn_Common</name>
     <url>http://dataone.org</url>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <hazelcast.version>2.4.1</hazelcast.version>
-        <d1_common_java_version>1.1.0</d1_common_java_version>
+        <d1_common_java_version>1.1.2</d1_common_java_version>
         <spring.version>3.1.1.RELEASE</spring.version>
     </properties>
     <repositories>
