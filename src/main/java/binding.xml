@@ -1,4 +1,0 @@
-<binding  name="binding" package="org.dataone.service" trim-whitespace="true">
-    <include path="binding_v1.xml" precompiled="false"/>
-    <include path="binding_v1_1.xml" precompiled="false"/>
-</binding>

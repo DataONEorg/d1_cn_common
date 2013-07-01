@@ -1,16 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!-- Apache Commons Configuration -->
 <configuration>
-	<!-- configuration entries override those below them -->
-	<!-- include System properties -->
-<!-- 	<system/> -->
-	<!-- test variable interpolation (if supplied) -->
-	
-<!-- 	<properties fileName="${optional.properties.filename}" optional="true"/> -->
-	
-	<!-- override some defaults properties -->
-	<properties fileName="user.properties"/>
-	<!-- default properties -->
-	<properties fileName="default.properties"/>
-	
+	<properties fileName="test-jdbc.properties"/>
 </configuration>
