@@ -75,6 +75,21 @@ public interface ReplicationDao {
             int pageNumber, int pageSize) throws DataAccessException;
 
     /**
+     * Returns a paged list of distinct DataONE Identifier objects with at least one
+     * invalid member node replica with a replica verified date previous to the
+     * auditDate parameter.  Results to be ordered to identifiers with oldest replica
+     * verified dates are returned first. (ascending by replica verified date).
+     * 
+     * @param auditDate
+     * @param pageNumber
+     * @param pageSize
+     * @return
+     * @throws DataAccessException
+     */
+    public List<Identifier> getInvalidMemberNodeReplicasByDate(Date auditDate, int pageNumber,
+            int pageSize) throws DataAccessException;
+
+    /**
      * Return a map of member node to replica count entries where the replica
      * status is either queued or requested
      */

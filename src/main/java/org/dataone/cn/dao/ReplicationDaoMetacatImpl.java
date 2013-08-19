@@ -190,8 +190,53 @@ public class ReplicationDaoMetacatImpl implements ReplicationDao {
         return false;
     }
 
-    /**
-     */
+    public List<Identifier> getInvalidMemberNodeReplicasByDate(Date auditDate, int pageNumber,
+            int pageSize) throws DataAccessException {
+
+        List<Identifier> results = new ArrayList<Identifier>();
+
+        final Timestamp timestamp = new Timestamp(auditDate.getTime());
+        if (pageSize < 1) {
+            pageNumber = 0;
+        }
+        final int finalPageNumber = pageNumber;
+        final int finalPageSize = pageSize;
+        final int offset = (pageNumber - 1) * pageSize;
+        try {
+            results = this.jdbcTemplate.query(new PreparedStatementCreator() {
+                public PreparedStatement createPreparedStatement(Connection conn)
+                        throws SQLException {
+
+                    String sqlStatement = "SELECT DISTINCT guid, date_verified" //
+                            + "  FROM  smreplicationstatus" //
+                            + "  WHERE date_verified <= ? " //
+                            + "  AND status = 'INVALIDATED' " //
+                            + "  AND member_node <> '" + cnNodeId + "'" //
+                            + "  ORDER BY date_verified ASC "; //
+
+                    if (finalPageSize > 0 && finalPageNumber > 0) {
+                        sqlStatement += " LIMIT " + finalPageSize;
+                    }
+
+                    if (finalPageNumber > 0) {
+                        sqlStatement += " OFFSET " + offset;
+                    }
+
+                    sqlStatement += ";";
+
+                    PreparedStatement statement = conn.prepareStatement(sqlStatement);
+                    statement.setTimestamp(1, timestamp);
+                    log.debug("getInvalidMemberNodeReplicas statement is: " + statement);
+                    return statement;
+                }
+            }, new IdentifierMapper());
+
+        } catch (org.springframework.dao.DataAccessException dae) {
+            handleJdbcDataAccessException(dae);
+        }
+        return results;
+    }
+
     public List<Identifier> getCompletedMemberNodeReplicasByDate(Date auditDate, int pageNumber,
             int pageSize) throws DataAccessException {
 
@@ -230,7 +275,7 @@ public class ReplicationDaoMetacatImpl implements ReplicationDao {
 
                     PreparedStatement statement = conn.prepareStatement(sqlStatement);
                     statement.setTimestamp(1, timestamp);
-                    log.debug("getRecentCompletedReplicas statement is: " + statement);
+                    log.debug("getCompletedMemberNodeReplicas statement is: " + statement);
                     return statement;
                 }
             }, new IdentifierMapper());
@@ -278,7 +323,7 @@ public class ReplicationDaoMetacatImpl implements ReplicationDao {
 
                     PreparedStatement statement = conn.prepareStatement(sqlStatement);
                     statement.setTimestamp(1, timestamp);
-                    log.debug("getRecentCompletedReplicas statement is: " + statement);
+                    log.debug("getCompletedCoordinatingNodeReplicas statement is: " + statement);
                     return statement;
                 }
             }, new IdentifierMapper());
