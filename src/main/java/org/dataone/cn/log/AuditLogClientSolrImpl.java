@@ -33,6 +33,15 @@ import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.client.solrj.util.ClientUtils;
 import org.dataone.configuration.Settings;
 
+/**
+ * AuditLogClient implementation using a solr index as the backing datastore.
+ * 
+ * Assumes a solr4 cloud and writes to the local solr cn-audit index only - 
+ * assuming cloud replication to other nodes.
+ * 
+ * @author sroseboo
+ *
+ */
 public class AuditLogClientSolrImpl implements AuditLogClient {
 
     private static Logger log = Logger.getLogger(AuditLogClientSolrImpl.class.getName());

@@ -23,6 +23,15 @@ import java.util.Date;
 
 import org.apache.solr.client.solrj.beans.Field;
 
+/**
+ * AuditLogEntry model class.  Represents an audit log entry message.
+ * Internal unique id property is not exposed through java class, just
+ * provided for solr index - in order to have a unique field defined.
+ * 
+ * 
+ * @author sroseboo
+ *
+ */
 public class AuditLogEntry {
 
     private static final String seperatorChar = "|";
@@ -42,8 +51,11 @@ public class AuditLogEntry {
     @Field
     private Date dateLogged;
 
+    /**
+     * Descriptive text for the log entry message.
+     */
     @Field
-    private String logText; // descriptive text
+    private String logText;
 
     public AuditLogEntry() {
     }

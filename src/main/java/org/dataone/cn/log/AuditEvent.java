@@ -19,6 +19,13 @@
  */
 package org.dataone.cn.log;
 
+/**
+ * Audit Log Event enumeration.  An enumeration class for defining audit log event
+ * messages.  Ensures consistent encoding of log events.
+ * 
+ * @author sroseboo
+ *
+ */
 public enum AuditEvent {
 
     REPLICA_AUDIT_FAILED("replica audit failed"), //
