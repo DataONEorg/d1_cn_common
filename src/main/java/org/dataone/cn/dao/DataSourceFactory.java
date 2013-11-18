@@ -40,8 +40,8 @@ public class DataSourceFactory {
 
     private static final String metacatUrlProperty = "metacat.datasource.url";
     private static final String metacatDriverClassProperty = "metacat.datasource.driverClass";
-    private static final String metacatUsernameProperty = "metacat.datasource.username";
-    private static final String metacatPasswordProperty = "metacat.datasource.password";
+    private static final String metacatUsernameProperty = "database.user";
+    private static final String metacatPasswordProperty = "database.password";
     private static final String metacatInitialPoolSizeProperty = "metacat.datasource.initialSize";
     private static final String metacatMaxPoolSizeProperty = "metacat.datasource.maxSize";
 
@@ -79,8 +79,8 @@ public class DataSourceFactory {
             log.debug("Metacat Data Source JDBC settings:");
             log.debug("\tmetacat.datasource.url:" + metacatUrl);
             log.debug("\tmetacat.datasource.driverClass:" + metacatDriverClass);
-            log.debug("\tmetacat.datasource.username:" + metacatUsername);
-            log.debug("\tmetacat.datasource.password:" + metacatPassword);
+            log.debug("\tdatabase.user:" + metacatUsername);
+            log.debug("\tdatabase.password:" + metacatPassword);
             log.debug("\tmetacat.datasource.initialSize:"
                     + metacatInitialPoolSize);
             log.debug("\tmetacat.datasource.maxSize:" + metacatMaxPoolSize);
