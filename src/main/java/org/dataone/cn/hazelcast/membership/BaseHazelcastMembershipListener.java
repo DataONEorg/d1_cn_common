@@ -45,7 +45,8 @@ public abstract class BaseHazelcastMembershipListener implements MembershipListe
     protected HazelcastInstance hzInstance = null;
     protected List<String> configAddresses = new ArrayList<String>();
     protected boolean listening = false;
-    protected int expectedClusterSize = 1;
+    protected int expectedClusterSize = Settings.getConfiguration().getInt(
+            CLUSTER_SIZE_OVERRIDE_PROPERTY, 1);
 
     /**
      * Used for testing only when a configuration location is not available.
@@ -68,15 +69,15 @@ public abstract class BaseHazelcastMembershipListener implements MembershipListe
                     hzConfig = new ClasspathXmlConfig(hzConfigLocationConfig);
                     log.debug("config does not start with classpath");
                 } else {
-                    XmlConfigBuilder configBuilder;
-                    configBuilder = new XmlConfigBuilder(configLocation);
+                    XmlConfigBuilder configBuilder = new XmlConfigBuilder(configLocation);
                     hzConfig = configBuilder.build();
                     log.debug("config does not start with classpath");
                 }
                 List<Address> addresses = hzConfig.getNetworkConfig().getJoin().getTcpIpConfig()
                         .getAddresses();
-                log.debug("Found: " + addresses.size() + " for cluster config: "
+                log.debug("Found: " + addresses.size() + " for cluster config JOIN: "
                         + instance.getName());
+
                 for (Address address : addresses) {
                     configAddresses.add(address.getInetSocketAddress().getHostName());
                     log.debug("adding: " + address.getInetSocketAddress().getHostName()
@@ -136,12 +137,7 @@ public abstract class BaseHazelcastMembershipListener implements MembershipListe
     }
 
     protected int getExpectedClusterSize() {
-        int clusterSize = Settings.getConfiguration().getInt(CLUSTER_SIZE_OVERRIDE_PROPERTY, 0);
-        if (clusterSize != 0) {
-            return clusterSize;
-        } else {
-            return expectedClusterSize;
-        }
+        return expectedClusterSize;
     }
 
     protected void setExpectedClusterSize(int clusterSize) {
