@@ -30,6 +30,7 @@ package org.dataone.cn.dao;
 public class DaoFactory {
 
     private static ReplicationDao replicationDao;
+    private static SystemMetadataDao systemMetadataDao;
 
     private DaoFactory() {
     }
@@ -45,4 +46,17 @@ public class DaoFactory {
         }
         return replicationDao;
     }
+    
+    /**
+     * Returns a concrete instance of the SystemMetadataDao interface.
+     * 
+     * @return SystemMetadataDao
+     */
+    public static final SystemMetadataDao getSystemMetadataDao() {
+        if (systemMetadataDao == null) {
+        	systemMetadataDao = new SystemMetadataDaoMetacatImpl();
+        }
+        return systemMetadataDao;
+    }
+
 }
