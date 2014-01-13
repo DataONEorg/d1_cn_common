@@ -19,7 +19,11 @@
  */
 package org.dataone.cn.dao;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.sql.Types;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -31,6 +35,7 @@ import org.dataone.cn.dao.exceptions.DataAccessException;
 import org.dataone.service.types.v1.Identifier;
 import org.dataone.service.types.v1.SystemMetadata;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.PreparedStatementCreator;
 
 /**
  * A concrete implementation of the systemMetadataDao inteface against the Metacat 
@@ -50,12 +55,19 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
     private static final String SM_STATUS_TABLE  = "smreplicationstatus";
     private static final String ACCESS_TABLE     = "xml_access";
     private JdbcTemplate jdbcTemplate;
+    
     /*
      * @see org.dataone.cn.dao.SystemMetadataDao#getSystemMetadataCount()
      */
 	@Override
 	public int getSystemMetadataCount() throws DataAccessException {
-		return 0;
+		
+        // query the systemmetadata table
+        String sqlStatement = "SELECT count(guid) FROM " + SYSMETA_TABLE;
+
+        int count = this.jdbcTemplate.queryForInt(sqlStatement);
+
+		return count;
 	}
 
     /*
