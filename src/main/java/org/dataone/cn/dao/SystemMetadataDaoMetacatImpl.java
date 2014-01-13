@@ -212,7 +212,7 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
     /*
      * Check to see if a mapping exists for the pid
      * @param pid
-     * @return
+     * @return mapped  true if it exists
      * @throws DataAccessException
      */
     private boolean hasMapping(Identifier pid) throws DataAccessException {
@@ -235,5 +235,32 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
         
     	return mapped;
     }
-    
+
+    /*
+     * Check to see if a system metadata record exists for the pid
+     * @param pid
+     * @return hasSysMeta  true if it exists
+     * @throws DataAccessException
+     */
+    private boolean hasSystemMetadata(Identifier pid) throws DataAccessException {
+    	
+    	boolean hasSysMeta = false;
+        int countReturned = 0;
+        
+    	if ( pid.getValue() == null ) {
+    		throw new DataAccessException(new Exception("The given identifier was null"));
+    	}
+    	        
+        // query the identifier table
+        String sqlStatement = "SELECT guid FROM " + SYSMETA_TABLE + "where guid = ?";
+
+        countReturned = this.jdbcTemplate.queryForInt(sqlStatement, new Object[]{pid.getValue()});
+
+        if ( countReturned > 0 ) {
+        	hasSysMeta = true;
+        }
+        
+    	return hasSysMeta;
+    }
+
 }
