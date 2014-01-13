@@ -19,8 +19,10 @@
  */
 package org.dataone.cn.dao;
 
+import java.math.BigInteger;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
 import java.util.ArrayList;
@@ -36,6 +38,7 @@ import org.dataone.service.types.v1.Identifier;
 import org.dataone.service.types.v1.SystemMetadata;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
+import org.springframework.jdbc.core.RowMapper;
 
 /**
  * A concrete implementation of the systemMetadataDao inteface against the Metacat 
@@ -75,8 +78,49 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
      */
     @Override
     public List<SystemMetadataStatus> listSystemMetadataStatus(int pageNumber, int pageSize) 
-    		throws DataAccessException {
-        return null;
+    	throws DataAccessException {
+    	
+    	List<SystemMetadataStatus> sysMetaStatusList = new ArrayList<SystemMetadataStatus>();
+        
+    	// reset negative page numbers and sizes
+        if ( pageNumber < 1) { pageNumber = 0; }
+        if ( pageSize < 0) { pageSize = 0; }
+
+        final int finalPageNumber = pageNumber;
+        final int finalPageSize = pageSize;
+        final int offset = (pageNumber - 1) * pageSize;
+        
+        try {
+        	// populate the systemMetadataStatus list with rows from the database
+        	sysMetaStatusList = this.jdbcTemplate.query(new PreparedStatementCreator() {
+                public PreparedStatement createPreparedStatement(Connection conn)
+                        throws SQLException {
+
+                    String sqlStatement = 
+                    	"SELECT guid, serial_version, date_modified, archived FROM " +
+                    	SYSMETA_TABLE + " ORDER BY guid;";
+
+                    if (finalPageSize > 0 && finalPageNumber > 0) {
+                        sqlStatement += " LIMIT " + finalPageSize;
+                    }
+
+                    if (finalPageNumber > 0) {
+                        sqlStatement += " OFFSET " + offset;
+                    }
+
+                    sqlStatement += ";";
+
+                    PreparedStatement statement = conn.prepareStatement(sqlStatement);
+                    log.debug("sysMetaStatusList statement is: " + statement);
+                    return statement;
+                }
+            }, new SystemMetadataMapper());
+
+        } catch (org.springframework.dao.DataAccessException dae) {
+            throw new DataAccessException(dae);
+        }
+
+        return sysMetaStatusList;
     }
 
     /*
@@ -85,7 +129,7 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
     @Override
     public SystemMetadata getSystemMetadata(Identifier pid)
             throws DataAccessException {
-        // TODO Auto-generated method stub
+        
         return null;
     }
 
@@ -275,4 +319,42 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
     	return hasSysMeta;
     }
 
+    /**
+     * A class used to map system metadata status results into SystemMetadataStatus data transfer objects
+     * 
+     * @author cjones
+     *
+     */
+    public class SystemMetadataMapper implements RowMapper<SystemMetadataStatus> {
+
+    	/**
+    	 * Map each row into a SystemMetadataStatus object
+    	 */
+		@Override
+		public SystemMetadataStatus mapRow(ResultSet resultSet, int rowNumber) throws SQLException {
+			
+			// resultSet contains guid, serialVersion, date_modified, and archived column data
+			SystemMetadataStatus systemMetadataStatus = new SystemMetadataStatus();
+			
+			// add guid
+			Identifier pid = new Identifier();
+			pid.setValue(resultSet.getString("guid"));
+			systemMetadataStatus.setPid(pid);
+			
+			// add serialVersion
+			BigInteger serialVersion = new BigInteger(resultSet.getString("serialVersion"));
+			systemMetadataStatus.setSerialVersion(serialVersion);
+			
+			// add date_modified
+			Date dateSystemMetadataLastModified = resultSet.getDate("date_modified");
+			systemMetadataStatus.setLastSystemMetadataModificationDate(dateSystemMetadataLastModified);
+			
+			// add archived
+			boolean archived = resultSet.getBoolean("archived");
+			systemMetadataStatus.setDeleted(new Boolean(archived));
+			
+			return systemMetadataStatus;
+		}
+    	
+    }
 }
