@@ -156,6 +156,7 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
 		// does the mapping already exist?
 		identifier.setValue(guid);
 		if ( hasMapping(identifier) ) {
+			log.info("The database already has a mapping for " + guid + ". Skipping the create.");
 			return;
 			
 		} else {
