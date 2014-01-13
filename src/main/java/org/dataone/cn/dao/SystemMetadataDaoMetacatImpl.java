@@ -19,14 +19,25 @@
  */
 package org.dataone.cn.dao;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Types;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.dataone.cn.dao.exceptions.DataAccessException;
 import org.dataone.service.types.v1.Identifier;
 import org.dataone.service.types.v1.SystemMetadata;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.PreparedStatementCreator;
+import org.springframework.jdbc.core.RowMapper;
 
 /**
  * A concrete implementation of the systemMetadataDao inteface against the Metacat 
@@ -37,7 +48,15 @@ import org.dataone.service.types.v1.SystemMetadata;
  */
 public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
 
+    private static final Log log = LogFactory.getLog(SystemMetadataDaoMetacatImpl.class);
+
     private static int documentIdCounter = 0;
+    private static final String IDENTIFIER_TABLE = "identifier";
+    private static final String SYSMETA_TABLE    = "systemmetadata";
+    private static final String SM_POLICY_TABLE  = "smreplicationpolicy";
+    private static final String SM_STATUS_TABLE  = "smreplicationstatus";
+    private static final String ACCESS_TABLE     = "xml_access";
+    private JdbcTemplate jdbcTemplate;
     /*
      * @see org.dataone.cn.dao.SystemMetadataDao#getSystemMetadataCount()
      */
@@ -80,16 +99,72 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
     @Override
     public Identifier insertSystemMetadata(Identifier pid,
             SystemMetadata systemMetadata) throws DataAccessException {
+    	
+    	// need to test for mapping existence, sysmeta existence, etc
+    	// then will call generateDocumentId(), createMapping(), then the inserts
         return null;
     }
 
     /**
-     * create a mapping in the identifier table
+     * Create a mapping in the identifier table of the pid to local docid. this method should be
+     * used cautiously.  Metacat should have created a mapping on create() of an object, or via 
+     * Metacat replication.  Creating a mapping should only happen if an audit shows a clear need
+     * to repair the database content.  In theory, hasMapping() should always return true for a
+     * pid known on one CN, and this method shouldn't be used.
+     * 
      * @param guid
      * @param localId
      */
-    private void createMapping(String guid, String localId) {        
-    	// stub only
+    private void createMapping(String guid, String localId) throws DataAccessException {
+    	
+    	String separator = ".";
+    	String docNumber;
+    	String docid;
+    	String rev;
+    	Identifier identifier = new Identifier();
+    	// Ensure the strings are not null
+        if ( localId == null || guid == null ) {
+        	throw new DataAccessException(new Exception("The given id was null"));
+        	
+        }
+        
+        // Ensure the localId syntax is correct
+        int lastIndex;
+        int secondToLastIndex;
+		try {
+			lastIndex = localId.lastIndexOf(separator);
+			secondToLastIndex = localId.lastIndexOf(separator, lastIndex);
+	          rev = localId.substring(lastIndex + 1);
+	          docNumber = localId.substring(secondToLastIndex, lastIndex - 1);
+	          docid = localId.substring(0, secondToLastIndex -1);
+	          int revAsInt = (new Integer(rev)).intValue();
+	          int docNumberAsInt = (new Integer(docNumber)).intValue();
+	          if ( log.isDebugEnabled() ) {
+	        	  log.debug("Creating mapping for - docid: " + docid + 
+	        			    ", docNumber: " + docNumber +
+	        			    ", rev: " + rev);
+	          }
+	          
+		} catch (IndexOutOfBoundsException iobe) {
+			throw new DataAccessException(iobe.getCause()); // bad localId syntax
+			
+		} catch (NumberFormatException nfe) {
+			throw new DataAccessException(nfe.getCause()); // bad localId syntax
+
+		}
+		
+		// does the mapping already exist?
+		identifier.setValue(guid);
+		if ( hasMapping(identifier) ) {
+			return;
+			
+		} else {
+			String sqlStatement = "INSERT into " + IDENTIFIER_TABLE + 
+					" (guid, docid, rev) VALUES (?, ?, ?);";
+			this.jdbcTemplate.update(sqlStatement, new Object[]{guid, docid, rev}, 
+				new int[]{Types.VARCHAR, Types.VARCHAR, Types.INTEGER});
+		}
+
     }
 
     /**
@@ -138,5 +213,32 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
         }
         return docid.toString();
     }
+    
+    /*
+     * Check to see if a mapping exists for the pid
+     * @param pid
+     * @return
+     * @throws DataAccessException
+     */
+    private boolean hasMapping(Identifier pid) throws DataAccessException {
+    	
+    	boolean mapped = false;
+        int countReturned = 0;
+        
+    	if ( pid.getValue() == null ) {
+    		throw new DataAccessException(new Exception("The given identifier was null"));
+    	}
+    	        
+        // query the identifier table
+        String sqlStatement = "SELECT guid FROM " + IDENTIFIER_TABLE + "where guid = ?";
 
+        countReturned = this.jdbcTemplate.queryForInt(sqlStatement, new Object[]{pid.getValue()});
+
+        if ( countReturned > 0 ) {
+        	mapped = true;
+        }
+        
+    	return mapped;
+    }
+    
 }
