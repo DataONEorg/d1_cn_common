@@ -19,12 +19,7 @@
  */
 package org.dataone.cn.dao;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Types;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -36,8 +31,6 @@ import org.dataone.cn.dao.exceptions.DataAccessException;
 import org.dataone.service.types.v1.Identifier;
 import org.dataone.service.types.v1.SystemMetadata;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.PreparedStatementCreator;
-import org.springframework.jdbc.core.RowMapper;
 
 /**
  * A concrete implementation of the systemMetadataDao inteface against the Metacat 
@@ -164,6 +157,7 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
 					" (guid, docid, rev) VALUES (?, ?, ?);";
 			this.jdbcTemplate.update(sqlStatement, new Object[]{guid, docid, rev}, 
 				new int[]{Types.VARCHAR, Types.VARCHAR, Types.INTEGER});
+			log.info("Created mapping for " + guid + "and " + localId);
 		}
 
     }
