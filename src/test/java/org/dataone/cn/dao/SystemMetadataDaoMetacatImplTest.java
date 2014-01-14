@@ -19,8 +19,11 @@
  */
 package org.dataone.cn.dao;
 
+import java.util.List;
+
 import junit.framework.Assert;
 
+import org.dataone.cn.dao.exceptions.DataAccessException;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -56,8 +59,36 @@ public class SystemMetadataDaoMetacatImplTest {
     	
     }
 
+    /**
+     * Init test
+     */
     @Test
     public void testInit() {
     	Assert.assertTrue(1 == 1);
     }
+    
+    @Test
+    public void testGetSystemMetadataCount() throws DataAccessException {
+    	
+    	// Get some data into systemmetadata
+    	SystemMetadataDaoMetacatImplTestUtil.populateSystemMetadata(jdbc);
+    	
+    	int systemMetadataCount = systemMetadataDao.getSystemMetadataCount();
+    	Assert.assertTrue(systemMetadataCount == 10);
+    }
+    
+    /**
+     * Test listing of system metadata status DTOs
+     */
+    @Test
+    public void testListSystemMetadataStatus() throws DataAccessException {
+    	
+    	SystemMetadataDaoMetacatImplTestUtil.populateSystemMetadata(jdbc);
+        
+        List<SystemMetadataStatus> statusList = systemMetadataDao.listSystemMetadataStatus(0, 0);
+
+        Assert.assertTrue(statusList.size() == 10);
+        
+    }
+    
 }
