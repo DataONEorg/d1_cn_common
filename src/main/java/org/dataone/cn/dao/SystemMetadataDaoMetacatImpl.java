@@ -63,8 +63,10 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
      * Constructor. Creates an instance of SystemMetadataDaoMetacatImpl
      */
     public SystemMetadataDaoMetacatImpl() {
-    	
+        this.jdbcTemplate = new JdbcTemplate(DataSourceFactory.getMetacatDataSource());
+
     }
+    
     /*
      * @see org.dataone.cn.dao.SystemMetadataDao#getSystemMetadataCount()
      */
@@ -74,7 +76,14 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
         // query the systemmetadata table
         String sqlStatement = "SELECT count(guid) FROM " + SYSMETA_TABLE;
 
-        int count = this.jdbcTemplate.queryForInt(sqlStatement);
+        int count = 0;
+		try {
+			count = this.jdbcTemplate.queryForInt(sqlStatement);
+			
+		} catch (org.springframework.dao.DataAccessException dae) {
+			handleJdbcDataAccessException(dae);
+			
+		}
 
 		return count;
 	}
@@ -104,7 +113,7 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
 
                     String sqlStatement = 
                     	"SELECT guid, serial_version, date_modified, archived FROM " +
-                    	SYSMETA_TABLE + " ORDER BY guid;";
+                    	SYSMETA_TABLE + " ORDER BY guid";
 
                     if (finalPageSize > 0 && finalPageNumber > 0) {
                         sqlStatement += " LIMIT " + finalPageSize;
@@ -124,6 +133,7 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
 
         } catch (org.springframework.dao.DataAccessException dae) {
             throw new DataAccessException(dae);
+            
         }
 
         return sysMetaStatusList;
@@ -331,7 +341,7 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
      * @author cjones
      *
      */
-    public class SystemMetadataMapper implements RowMapper<SystemMetadataStatus> {
+    public static final class SystemMetadataMapper implements RowMapper<SystemMetadataStatus> {
 
     	/**
     	 * Map each row into a SystemMetadataStatus object
@@ -348,7 +358,7 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
 			systemMetadataStatus.setPid(pid);
 			
 			// add serialVersion
-			BigInteger serialVersion = new BigInteger(resultSet.getString("serialVersion"));
+			BigInteger serialVersion = new BigInteger(resultSet.getString("serial_version"));
 			systemMetadataStatus.setSerialVersion(serialVersion);
 			
 			// add date_modified
@@ -363,4 +373,19 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
 		}
     	
     }
+    
+    /*
+     * Handle data access exceptions thrown by the underlying JDBC calls
+     * 
+     * @param dae the DataAccessException thrown
+     * 
+     * @throws DataAccessException
+     */
+    private void handleJdbcDataAccessException(org.springframework.dao.DataAccessException dae)
+            throws DataAccessException {
+        log.error("Jdbc Data access exception occurred: " + dae.getRootCause().getMessage());
+        dae.printStackTrace();
+        throw dae;
+    }
+
 }
