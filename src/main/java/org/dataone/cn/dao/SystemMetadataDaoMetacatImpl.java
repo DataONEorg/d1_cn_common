@@ -58,7 +58,13 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
     private static final String SM_STATUS_TABLE  = "smreplicationstatus";
     private static final String ACCESS_TABLE     = "xml_access";
     private JdbcTemplate jdbcTemplate;
-    
+
+    /**
+     * Constructor. Creates an instance of SystemMetadataDaoMetacatImpl
+     */
+    public SystemMetadataDaoMetacatImpl() {
+    	
+    }
     /*
      * @see org.dataone.cn.dao.SystemMetadataDao#getSystemMetadataCount()
      */
