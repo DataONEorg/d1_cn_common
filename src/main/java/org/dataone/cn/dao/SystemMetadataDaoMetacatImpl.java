@@ -34,7 +34,13 @@ import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.dataone.cn.dao.exceptions.DataAccessException;
+import org.dataone.service.types.v1.AccessPolicy;
+import org.dataone.service.types.v1.Checksum;
 import org.dataone.service.types.v1.Identifier;
+import org.dataone.service.types.v1.NodeReference;
+import org.dataone.service.types.v1.ObjectFormatIdentifier;
+import org.dataone.service.types.v1.ReplicationPolicy;
+import org.dataone.service.types.v1.Subject;
 import org.dataone.service.types.v1.SystemMetadata;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
@@ -57,13 +63,13 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
     private static final String SM_POLICY_TABLE  = "smreplicationpolicy";
     private static final String SM_STATUS_TABLE  = "smreplicationstatus";
     private static final String ACCESS_TABLE     = "xml_access";
-    private JdbcTemplate jdbcTemplate;
+    private static JdbcTemplate jdbcTemplate = new JdbcTemplate(DataSourceFactory.getMetacatDataSource());
 
     /**
      * Constructor. Creates an instance of SystemMetadataDaoMetacatImpl
      */
     public SystemMetadataDaoMetacatImpl() {
-        this.jdbcTemplate = new JdbcTemplate(DataSourceFactory.getMetacatDataSource());
+        // this.jdbcTemplate = new JdbcTemplate(DataSourceFactory.getMetacatDataSource());
 
     }
     
@@ -78,7 +84,7 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
 
         int count = 0;
 		try {
-			count = this.jdbcTemplate.queryForInt(sqlStatement);
+			count = SystemMetadataDaoMetacatImpl.jdbcTemplate.queryForInt(sqlStatement);
 			
 		} catch (org.springframework.dao.DataAccessException dae) {
 			handleJdbcDataAccessException(dae);
@@ -107,7 +113,7 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
         
         try {
         	// populate the systemMetadataStatus list with rows from the database
-        	sysMetaStatusList = this.jdbcTemplate.query(new PreparedStatementCreator() {
+        	sysMetaStatusList = SystemMetadataDaoMetacatImpl.jdbcTemplate.query(new PreparedStatementCreator() {
                 public PreparedStatement createPreparedStatement(Connection conn)
                         throws SQLException {
 
@@ -129,7 +135,7 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
                     log.debug("sysMetaStatusList statement is: " + statement);
                     return statement;
                 }
-            }, new SystemMetadataMapper());
+            }, new SystemMetadataStatusMapper());
 
         } catch (org.springframework.dao.DataAccessException dae) {
             throw new DataAccessException(dae);
@@ -140,13 +146,80 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
     }
 
     /*
+     * Get the replication policy entries for a given identifier. This returns the entries with
+     * the preferred or blocked member nodes.
+     * @param pid
+     * @param policy
+     * @return
+     * @throws DataAccessException
+     */
+    private static List<ReplicationPolicyEntry> getReplicationPolicies(Identifier pid) throws DataAccessException {
+    	
+    	List<ReplicationPolicyEntry> replicationPolicyEntryList = new ArrayList<ReplicationPolicyEntry>();
+    	    	
+    	replicationPolicyEntryList = SystemMetadataDaoMetacatImpl.jdbcTemplate.query(new PreparedStatementCreator() {
+
+			@Override
+			public PreparedStatement createPreparedStatement(Connection conn)
+					throws SQLException {
+				String sqlStatement = "SELECT guid, policy, member_node FROM " + SM_POLICY_TABLE + ";";
+				
+				PreparedStatement statement = conn.prepareStatement(sqlStatement);
+				return statement;
+			}
+    		
+    	}, new ReplicationPolicyEntryMapper());
+    	// query the smreplicationpolicy table
+    	return replicationPolicyEntryList;	
+    }
+    
+    /*
      * @see org.dataone.cn.dao.SystemMetadataDao#getSystemMetadata(org.dataone.service.types.v1.Identifier)
      */
     @Override
-    public SystemMetadata getSystemMetadata(Identifier pid)
+    public SystemMetadata getSystemMetadata(final Identifier pid)
             throws DataAccessException {
         
-        return null;
+    	List<SystemMetadata> systemMetadataList = new ArrayList<SystemMetadata>();
+    	SystemMetadata systemMetadata = null;
+    	
+        // query the systemmetadata table        
+		try {
+			systemMetadataList = SystemMetadataDaoMetacatImpl.jdbcTemplate.query(new PreparedStatementCreator() {
+
+				@Override
+				public PreparedStatement createPreparedStatement(Connection conn)
+						throws SQLException {
+			        String sqlStatement = "SELECT guid, date_uploaded, rights_holder, checksum, " + 
+			        		"checksum_algorithm, origin_member_node, authoritive_member_node, " + 
+			        		"date_modified, submitter, object_format, size, replication_allowed, " +
+			        		"number_replicas, obsoletes, obsoleted_by, serial_version, archived " +
+			                "FROM systemmetadata WHERE guid = ?;";
+                    
+			        PreparedStatement statement = conn.prepareStatement(sqlStatement);
+			        statement.setString(1, pid.getValue());
+					
+			        return statement;
+				}
+				
+			}, new SystemMetadataMapper());
+			
+		} catch (org.springframework.dao.DataAccessException dae) {
+			handleJdbcDataAccessException(dae);
+			
+		}
+
+		// The list should have only one record
+		if ( systemMetadataList.size() > 0 ) {
+			systemMetadata = systemMetadataList.get(0);
+			
+		} else {
+			throw new DataAccessException(new Exception("Couldn't get system metadata for identifier " +
+		        pid.getValue()));
+		}
+		
+		return systemMetadata;
+		
     }
 
     /*
@@ -227,7 +300,7 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
 		} else {
 			String sqlStatement = "INSERT into " + IDENTIFIER_TABLE + 
 					" (guid, docid, rev) VALUES (?, ?, ?);";
-			this.jdbcTemplate.update(sqlStatement, new Object[]{guid, docid, rev}, 
+			SystemMetadataDaoMetacatImpl.jdbcTemplate.update(sqlStatement, new Object[]{guid, docid, rev}, 
 				new int[]{Types.VARCHAR, Types.VARCHAR, Types.INTEGER});
 			log.info("Created mapping for " + guid + "and " + localId);
 		}
@@ -299,7 +372,7 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
         // query the identifier table
         String sqlStatement = "SELECT guid FROM " + IDENTIFIER_TABLE + "where guid = ?";
 
-        countReturned = this.jdbcTemplate.queryForInt(sqlStatement, new Object[]{pid.getValue()});
+        countReturned = SystemMetadataDaoMetacatImpl.jdbcTemplate.queryForInt(sqlStatement, new Object[]{pid.getValue()});
 
         if ( countReturned > 0 ) {
         	mapped = true;
@@ -326,7 +399,7 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
         // query the identifier table
         String sqlStatement = "SELECT guid FROM " + SYSMETA_TABLE + "where guid = ?";
 
-        countReturned = this.jdbcTemplate.queryForInt(sqlStatement, new Object[]{pid.getValue()});
+        countReturned = SystemMetadataDaoMetacatImpl.jdbcTemplate.queryForInt(sqlStatement, new Object[]{pid.getValue()});
 
         if ( countReturned > 0 ) {
         	hasSysMeta = true;
@@ -341,7 +414,7 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
      * @author cjones
      *
      */
-    public static final class SystemMetadataMapper implements RowMapper<SystemMetadataStatus> {
+    public static final class SystemMetadataStatusMapper implements RowMapper<SystemMetadataStatus> {
 
     	/**
     	 * Map each row into a SystemMetadataStatus object
@@ -373,7 +446,202 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
 		}
     	
     }
+
+    /**
+     * A class to map replication policy list results into ReplicationPolicyEntry data transfer objects
+     * 
+     * @author cjones
+     *
+     */
+    public static final class ReplicationPolicyEntryMapper implements RowMapper<ReplicationPolicyEntry> {
+
+    	/**
+    	 * Map each row into a ReplicationPolicyEntry object
+    	 */
+		@Override
+		public ReplicationPolicyEntry mapRow(ResultSet resultSet, int rowNumber)
+				throws SQLException {
+			ReplicationPolicyEntry replPolicyEntry = new ReplicationPolicyEntry();
+			
+			// add guid
+			Identifier pid = new Identifier();
+			pid.setValue(resultSet.getString("guid"));
+			replPolicyEntry.setPid(pid);
+
+			// add policy type
+			String policy = resultSet.getString("policy");
+			replPolicyEntry.setPolicy(policy);
+			
+			// add member node
+			String nodeid = resultSet.getString("member_node");
+			NodeReference nodeRef = new NodeReference();
+			nodeRef.setValue(nodeid);
+			replPolicyEntry.setMemberNode(nodeRef);
+			
+			return replPolicyEntry;
+		}
+    	
+    }
     
+    /**
+     * A class used to map system metadata status results into SystemMetadata data transfer objects
+     * 
+     * @author cjones
+     *
+     */
+    public static final class SystemMetadataMapper implements RowMapper<SystemMetadata> {
+
+    	/**
+    	 * Map each row into a SystemMetadata object
+    	 */
+		@Override
+		public SystemMetadata mapRow(ResultSet resultSet, int rowNumber) throws SQLException {
+			
+			// resultSet contains guid, serialVersion, date_modified, and archived column data
+			SystemMetadata systemMetadata = new SystemMetadata();
+			ReplicationPolicy replPolicy = new ReplicationPolicy();
+			AccessPolicy accessPolicy = new AccessPolicy();
+			
+			// add guid
+			Identifier pid = new Identifier();
+			pid.setValue(resultSet.getString("guid"));
+			systemMetadata.setIdentifier(pid);
+			
+			// add serialVersion
+			BigInteger serialVersion = new BigInteger(resultSet.getString("serial_version"));
+			systemMetadata.setSerialVersion(serialVersion);
+			
+			// add date_modified
+			Date dateSystemMetadataLastModified = resultSet.getDate("date_modified");
+			systemMetadata.setDateSysMetadataModified(dateSystemMetadataLastModified);
+			
+			// add archived
+			boolean archived = resultSet.getBoolean("archived");
+			systemMetadata.setArchived(new Boolean(archived));
+			
+			// add date_uploaded
+			Date dateUploaded = resultSet.getDate("date_uploaded");
+			systemMetadata.setDateUploaded(dateUploaded);
+			
+			// add rights_holder
+			Subject rightsHolderSubject = new Subject();
+			String rightsHolder = resultSet.getString("rights_holder");
+			rightsHolderSubject.setValue(rightsHolder);
+			systemMetadata.setRightsHolder(rightsHolderSubject);
+
+			// add checksum, checksum_algorithm
+			String checksum = resultSet.getString("checksum");
+			String checksumAlgorithm = resultSet.getString("checksum_algorithm");
+            Checksum checksumObject = new Checksum();
+            checksumObject.setValue(checksum);
+            checksumObject.setAlgorithm(checksumAlgorithm);
+            systemMetadata.setChecksum(checksumObject);
+
+			// add origin_member_node
+			String originMemberNode = resultSet.getString("origin_member_node");
+            if (originMemberNode != null) {
+                NodeReference omn = new NodeReference();
+                omn.setValue(originMemberNode);
+                systemMetadata.setOriginMemberNode(omn);
+            }
+
+			// add authoritive_member_node
+			String authoritativeMemberNode = resultSet.getString("authoritive_member_node");
+            if (originMemberNode != null) {
+                NodeReference amn = new NodeReference();
+                amn.setValue(authoritativeMemberNode);
+                systemMetadata.setAuthoritativeMemberNode(amn);
+            }
+
+			// add submitter
+            String submitter = resultSet.getString("submitter");
+            if (submitter != null) {
+                Subject submitterSubject = new Subject();
+                submitterSubject.setValue(submitter);
+                systemMetadata.setSubmitter(submitterSubject);
+            }
+
+			// add object_format
+            String fmtidStr = resultSet.getString("object_format");
+            ObjectFormatIdentifier fmtid = new ObjectFormatIdentifier();
+            fmtid.setValue(fmtidStr);
+            systemMetadata.setFormatId(fmtid);
+
+			// add size
+            String size = resultSet.getString("size");
+            systemMetadata.setSize(new BigInteger(size));
+                        
+			// add obsoletes
+            String obsoletes = resultSet.getString("obsoletes");
+            if ( obsoletes != null ) {
+            	Identifier obsoletesId = new Identifier();
+            	obsoletesId.setValue(obsoletes);
+            	systemMetadata.setObsoletes(obsoletesId);
+            }
+			// add obsoleted_by
+            String obsoletedBy = resultSet.getString("obsoleted_by");
+            if ( obsoletedBy != null ) {
+            	Identifier obsoletedById = new Identifier();
+            	obsoletedById.setValue(obsoletes);
+            	systemMetadata.setObsoletedBy(obsoletedById);
+            }
+            
+            // populate and add ReplicationPolicy
+            ReplicationPolicy replicationPolicy = new ReplicationPolicy();
+			
+            // add replication_allowed
+            boolean replAllowed = resultSet.getBoolean("replication_allowed");
+            replicationPolicy.setReplicationAllowed(new Boolean(replAllowed));
+			
+            // add number_replicas
+            int numberOfReplicas = resultSet.getInt("number_replicas");
+            if ( numberOfReplicas > 0 ) {
+            	replicationPolicy.setNumberReplicas(new Integer(numberOfReplicas));
+            	
+            }
+            
+            // add preferred and blocked lists
+            List<ReplicationPolicyEntry> replPolicies = new ArrayList<ReplicationPolicyEntry>();
+            List<NodeReference> preferredNodes = new ArrayList<NodeReference>();
+            List<NodeReference> blockedNodes = new ArrayList<NodeReference>();
+
+            try {
+				replPolicies = SystemMetadataDaoMetacatImpl.getReplicationPolicies(pid);
+				
+			} catch (DataAccessException e) {
+				//TODO: we need to not swallow this, but the interface throws SQLException. hmm.
+				log.error("couldn't get replication policy entries for identifier " + pid.getValue() +
+					": " + e.getMessage());
+				if ( log.isDebugEnabled() ) {
+					e.printStackTrace();
+				}
+			}
+            
+            for ( ReplicationPolicyEntry policy : replPolicies ) {
+            	Identifier id = policy.getPid(); 
+            	String entryPolicy = policy.getPolicy();
+            	NodeReference node = policy.getMemberNode();
+            	
+            	if ( entryPolicy.equals("preferred") ) {
+            		preferredNodes.add(node);
+            		
+            	} else if (entryPolicy.equals("blocked") ) {
+            		blockedNodes.add(node);
+            		
+            	}
+            }
+            
+            replicationPolicy.setPreferredMemberNodeList(preferredNodes);
+            replicationPolicy.setBlockedMemberNodeList(blockedNodes);
+            
+            systemMetadata.setReplicationPolicy(replicationPolicy);
+            // TODO: populate and add AccessPolicy
+
+			return systemMetadata;
+		}
+    	
+    }
+
     /*
      * Handle data access exceptions thrown by the underlying JDBC calls
      * 
