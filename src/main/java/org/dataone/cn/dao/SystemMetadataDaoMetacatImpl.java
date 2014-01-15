@@ -39,7 +39,9 @@ import org.dataone.service.types.v1.Checksum;
 import org.dataone.service.types.v1.Identifier;
 import org.dataone.service.types.v1.NodeReference;
 import org.dataone.service.types.v1.ObjectFormatIdentifier;
+import org.dataone.service.types.v1.Replica;
 import org.dataone.service.types.v1.ReplicationPolicy;
+import org.dataone.service.types.v1.ReplicationStatus;
 import org.dataone.service.types.v1.Subject;
 import org.dataone.service.types.v1.SystemMetadata;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -152,9 +154,9 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
      * @return
      * @throws DataAccessException
      */
-    private static List<ReplicaEntry> listReplicaEntries(Identifier pid) throws DataAccessException {
+    private static List<Replica> listReplicaEntries(Identifier pid) throws DataAccessException {
     	
-    	List<ReplicaEntry> replicaEntries = new ArrayList<ReplicaEntry>();
+    	List<Replica> replicaEntries = new ArrayList<Replica>();
     	
     	replicaEntries = SystemMetadataDaoMetacatImpl.jdbcTemplate.query(new PreparedStatementCreator() {
 
@@ -468,37 +470,32 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
      * A class to map replica entry list results into ReplicayEntry data transfer objects
      * 
      * @author cjones
-     *
      */
-    public static final class ReplicaEntryMapper implements RowMapper<ReplicaEntry> {
+    public static final class ReplicaEntryMapper implements RowMapper<Replica> {
 
     	/**
     	 * Map each row into a ReplicaEntry object
     	 */
 		@Override
-		public ReplicaEntry mapRow(ResultSet resultSet, int rowNumber)
+		public Replica mapRow(ResultSet resultSet, int rowNumber)
 				throws SQLException {
-			ReplicaEntry replicaEntry = new ReplicaEntry();
-			
-			// add guid
-			Identifier pid = new Identifier();
-			pid.setValue(resultSet.getString("guid"));
-			replicaEntry.setPid(pid);
-			
+			Replica replica = new Replica();
+						
 			// add member_node
 			NodeReference nodeid = new NodeReference();
 			nodeid.setValue(resultSet.getString("member_node"));
-			replicaEntry.setMemberNode(nodeid);
+			replica.setReplicaMemberNode(nodeid);
 			
 			// add status
 			String status = resultSet.getString("status");
-			replicaEntry.setStatus(status);
+			ReplicationStatus replStatus = ReplicationStatus.convert(status);
+			replica.setReplicationStatus(replStatus);
 			
 			// add date_verified
 			Date dateVerified = resultSet.getDate("date_verified");
-			replicaEntry.setDateVerified(dateVerified);
+			replica.setReplicaVerified(dateVerified);
 			
-			return replicaEntry;
+			return replica;
 		}
     	
     }
@@ -542,7 +539,6 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
      * A class used to map system metadata status results into SystemMetadata data transfer objects
      * 
      * @author cjones
-     *
      */
     public static final class SystemMetadataMapper implements RowMapper<SystemMetadata> {
 
@@ -690,6 +686,15 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
             replicationPolicy.setBlockedMemberNodeList(blockedNodes);
             
             systemMetadata.setReplicationPolicy(replicationPolicy);
+            
+            // populate and add replicas list
+            
+            List<Replica> replicas = new ArrayList<Replica>();
+            
+            for ( Replica replica : replicas ) {
+            	systemMetadata.addReplica(replica);
+            }
+            
             // TODO: populate and add AccessPolicy
 
 			return systemMetadata;
