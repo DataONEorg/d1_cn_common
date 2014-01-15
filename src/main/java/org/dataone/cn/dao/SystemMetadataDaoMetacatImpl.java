@@ -448,10 +448,48 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
     }
 
     /**
-     * A class to map replication policy list results into ReplicationPolicyEntry data transfer objects
+     * A class to map replica entry list results into ReplicayEntry data transfer objects
      * 
      * @author cjones
      *
+     */
+    public static final class ReplicaEntryMapper implements RowMapper<ReplicaEntry> {
+
+    	/**
+    	 * Map each row into a ReplicaEntry object
+    	 */
+		@Override
+		public ReplicaEntry mapRow(ResultSet resultSet, int rowNumber)
+				throws SQLException {
+			ReplicaEntry replicaEntry = new ReplicaEntry();
+			
+			// add guid
+			Identifier pid = new Identifier();
+			pid.setValue(resultSet.getString("guid"));
+			replicaEntry.setPid(pid);
+			
+			// add member_node
+			NodeReference nodeid = new NodeReference();
+			nodeid.setValue(resultSet.getString("member_node"));
+			replicaEntry.setMemberNode(nodeid);
+			
+			// add status
+			String status = resultSet.getString("status");
+			replicaEntry.setStatus(status);
+			
+			// add date_verified
+			Date dateVerified = resultSet.getDate("date_verified");
+			replicaEntry.setDateVerified(dateVerified);
+			
+			return replicaEntry;
+		}
+    	
+    }
+    
+    /**
+     * A class to map replication policy list results into ReplicationPolicyEntry data transfer objects
+     * 
+     * @author cjones
      */
     public static final class ReplicationPolicyEntryMapper implements RowMapper<ReplicationPolicyEntry> {
 
