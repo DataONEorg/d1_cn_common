@@ -59,22 +59,12 @@ public interface SystemMetadataDao {
 	public SystemMetadata getSystemMetadata(Identifier pid) throws DataAccessException;
 	
 	/**
-	 * Update the system metadata entry for a given identifier
+	 * Save the system metadata entry for a given identifier
 	 * 
 	 * @param pid
 	 * @return
 	 * @throws DataAccessException
 	 */
-	public Identifier updateSystemMetadata(SystemMetadata systemMetadata) throws DataAccessException;
-
-	/**
-	 * Insert system metadata entry for a given identifier (when the db doesn't have it)
-	 * 
-	 * @param pid
-	 * @return
-	 * @throws DataAccessException
-	 */
-	public Identifier insertSystemMetadata(Identifier pid, SystemMetadata systemMetadata) 
-		throws DataAccessException;
+	public Identifier saveSystemMetadata(SystemMetadata systemMetadata) throws DataAccessException;
 
 }

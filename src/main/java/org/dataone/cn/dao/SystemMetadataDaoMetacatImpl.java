@@ -146,6 +146,35 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
     }
 
     /*
+     * Get the replica entries list for a given identifier.  This returns the replica status for 
+     * each entry, along with the member node and date verified fields.
+     * @param pid
+     * @return
+     * @throws DataAccessException
+     */
+    private static List<ReplicaEntry> listReplicaEntries(Identifier pid) throws DataAccessException {
+    	
+    	List<ReplicaEntry> replicaEntries = new ArrayList<ReplicaEntry>();
+    	
+    	replicaEntries = SystemMetadataDaoMetacatImpl.jdbcTemplate.query(new PreparedStatementCreator() {
+
+			@Override
+			public PreparedStatement createPreparedStatement(Connection conn)
+					throws SQLException {
+				String sqlStatement = "SELECT guid, meber_node, status, date_verified FROM " + 
+					SM_STATUS_TABLE + ";";
+				
+				PreparedStatement statement = conn.prepareStatement(sqlStatement);
+
+				return statement;
+			}
+    		
+    	}, new ReplicaEntryMapper());
+    	
+    	return replicaEntries;
+    }
+    
+    /*
      * Get the replication policy entries for a given identifier. This returns the entries with
      * the preferred or blocked member nodes.
      * @param pid
@@ -223,23 +252,11 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
     }
 
     /*
-     * @see org.dataone.cn.dao.SystemMetadataDao#updateSystemMetadata(org.dataone.service.types.v1.SystemMetadata)
+     * @see org.dataone.cn.dao.SystemMetadataDao#saveSystemMetadata(org.dataone.service.types.v1.SystemMetadata)
      */
     @Override
-    public Identifier updateSystemMetadata(SystemMetadata systemMetadata)
+    public Identifier saveSystemMetadata(SystemMetadata systemMetadata)
             throws DataAccessException {
-        return null;
-    }
-
-    /*
-     * @see org.dataone.cn.dao.SystemMetadataDao#insertSystemMetadata(org.dataone.service.types.v1.Identifier, org.dataone.service.types.v1.SystemMetadata)
-     */
-    @Override
-    public Identifier insertSystemMetadata(Identifier pid,
-            SystemMetadata systemMetadata) throws DataAccessException {
-    	
-    	// need to test for mapping existence, sysmeta existence, etc
-    	// then will call generateDocumentId(), createMapping(), then the inserts
         return null;
     }
 
