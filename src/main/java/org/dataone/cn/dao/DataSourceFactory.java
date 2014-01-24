@@ -53,8 +53,8 @@ public class DataSourceFactory {
 
     private static final String urlProp = "datasource.postgres.url";
     private static final String driverClassProp = "datasource.postgres.driverClass";
-    private static final String usernameProp = "database.postgres.user";
-    private static final String passwordProperty = "database.postgres.password";
+    private static final String usernameProp = "datasource.postgres.user";
+    private static final String passwordProperty = "datasource.postgres.password";
     private static final String initialPoolSizeProperty = "datasource.postgres.initialSize";
     private static final String maxPoolSizeProperty = "datasource.postgres.maxSize";
 
