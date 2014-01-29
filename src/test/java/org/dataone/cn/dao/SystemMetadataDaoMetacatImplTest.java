@@ -19,7 +19,9 @@
  */
 package org.dataone.cn.dao;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import junit.framework.Assert;
 
@@ -72,8 +74,9 @@ public class SystemMetadataDaoMetacatImplTest {
     	
     	// Get some data into systemmetadata
     	SystemMetadataDaoMetacatImplTestUtil.populateSystemMetadata(jdbc);
-    	
-    	int systemMetadataCount = systemMetadataDao.getSystemMetadataCount();
+    	Map<String, String> tableMap = getTableMap(""); //use an empty prefix for this test
+    	int systemMetadataCount = 
+    		systemMetadataDao.getSystemMetadataCount(DataSourceFactory.getMetacatDataSource(), tableMap);
     	Assert.assertTrue(systemMetadataCount == 10);
     }
     
@@ -84,11 +87,25 @@ public class SystemMetadataDaoMetacatImplTest {
     public void testListSystemMetadataStatus() throws DataAccessException {
     	
     	SystemMetadataDaoMetacatImplTestUtil.populateSystemMetadata(jdbc);
-        
-        List<SystemMetadataStatus> statusList = systemMetadataDao.listSystemMetadataStatus(0, 0);
+    	Map<String, String> tableMap = getTableMap(""); //use an empty prefix for this test
+
+        List<SystemMetadataStatus> statusList = 
+        	systemMetadataDao.listSystemMetadataStatus(0, 0, DataSourceFactory.getMetacatDataSource(), tableMap);
 
         Assert.assertTrue(statusList.size() == 10);
         
     }
-    
+ 
+    /*
+     * Create a table map of standard system metadata table names to custom prefixed names
+     */
+    private Map<String, String> getTableMap(String prefix) {
+    	Map<String, String> tableMap = new HashMap<String,String>();
+    	tableMap.put("identifier", prefix + "identifier");
+    	tableMap.put("systemmetadata", prefix + "systemmetadata");
+    	tableMap.put("smreplicationpolicy", prefix + "smreplicationpolicy");
+    	tableMap.put("smreplicationstatus", prefix + "smreplicationstatus");
+    	tableMap.put("xml_access", prefix + "xml_access");
+    	return tableMap;
+    }
 }

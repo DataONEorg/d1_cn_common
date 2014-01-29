@@ -30,6 +30,9 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.Map;
+
+import javax.sql.DataSource;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -65,13 +68,14 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
     private static final String SM_POLICY_TABLE  = "smreplicationpolicy";
     private static final String SM_STATUS_TABLE  = "smreplicationstatus";
     private static final String ACCESS_TABLE     = "xml_access";
-    private static JdbcTemplate jdbcTemplate = new JdbcTemplate(DataSourceFactory.getMetacatDataSource());
+    private DataSource dataSource;
+    private JdbcTemplate jdbcTemplate;
+    private Map<String, String> tableMap;
 
     /**
      * Constructor. Creates an instance of SystemMetadataDaoMetacatImpl
      */
     public SystemMetadataDaoMetacatImpl() {
-        // this.jdbcTemplate = new JdbcTemplate(DataSourceFactory.getMetacatDataSource());
 
     }
     
@@ -79,14 +83,17 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
      * @see org.dataone.cn.dao.SystemMetadataDao#getSystemMetadataCount()
      */
 	@Override
-	public int getSystemMetadataCount() throws DataAccessException {
+	public int getSystemMetadataCount(DataSource dataSource, Map<String, String> tableMap) 
+		throws DataAccessException {
+		setDataSource(dataSource);
+		setJdbcTemplate(new JdbcTemplate(this.dataSource));
 		
         // query the systemmetadata table
-        String sqlStatement = "SELECT count(guid) FROM " + SYSMETA_TABLE;
+        String sqlStatement = "SELECT count(guid) FROM " + (String) tableMap.get(SYSMETA_TABLE);
 
         int count = 0;
 		try {
-			count = SystemMetadataDaoMetacatImpl.jdbcTemplate.queryForInt(sqlStatement);
+			count = jdbcTemplate.queryForInt(sqlStatement);
 			
 		} catch (org.springframework.dao.DataAccessException dae) {
 			handleJdbcDataAccessException(dae);
@@ -100,9 +107,12 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
      * @see org.dataone.cn.dao.SystemMetadataDao#listSystemMetadata()
      */
     @Override
-    public List<SystemMetadataStatus> listSystemMetadataStatus(int pageNumber, int pageSize) 
-    	throws DataAccessException {
+    public List<SystemMetadataStatus> listSystemMetadataStatus(int pageNumber, int pageSize, 
+    	DataSource dataSource, Map<String, String> tableMap) throws DataAccessException {
     	
+		setDataSource(dataSource);
+		setJdbcTemplate(new JdbcTemplate(this.dataSource));
+		
     	List<SystemMetadataStatus> sysMetaStatusList = new ArrayList<SystemMetadataStatus>();
         
     	// reset negative page numbers and sizes
@@ -112,16 +122,16 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
         final int finalPageNumber = pageNumber;
         final int finalPageSize = pageSize;
         final int offset = (pageNumber - 1) * pageSize;
-        
+        final Map<String, String> finalTableMap = tableMap;
         try {
         	// populate the systemMetadataStatus list with rows from the database
-        	sysMetaStatusList = SystemMetadataDaoMetacatImpl.jdbcTemplate.query(new PreparedStatementCreator() {
+        	sysMetaStatusList = this.jdbcTemplate.query(new PreparedStatementCreator() {
                 public PreparedStatement createPreparedStatement(Connection conn)
                         throws SQLException {
 
                     String sqlStatement = 
                     	"SELECT guid, serial_version, date_modified, archived FROM " +
-                    	SYSMETA_TABLE + " ORDER BY guid";
+                    	finalTableMap.get(SYSMETA_TABLE) + " ORDER BY guid";
 
                     if (finalPageSize > 0 && finalPageNumber > 0) {
                         sqlStatement += " LIMIT " + finalPageSize;
@@ -154,17 +164,18 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
      * @return
      * @throws DataAccessException
      */
-    private static List<Replica> listReplicaEntries(Identifier pid) throws DataAccessException {
+    private List<Replica> listReplicaEntries(Identifier pid, Map<String, String> tableMap) 
+    		throws DataAccessException {
     	
     	List<Replica> replicaEntries = new ArrayList<Replica>();
-    	
-    	replicaEntries = SystemMetadataDaoMetacatImpl.jdbcTemplate.query(new PreparedStatementCreator() {
+    	final Map<String, String> finalTableMap = tableMap;
+    	replicaEntries = this.jdbcTemplate.query(new PreparedStatementCreator() {
 
 			@Override
 			public PreparedStatement createPreparedStatement(Connection conn)
 					throws SQLException {
 				String sqlStatement = "SELECT guid, meber_node, status, date_verified FROM " + 
-					SM_STATUS_TABLE + ";";
+					finalTableMap.get(SM_STATUS_TABLE) + ";";
 				
 				PreparedStatement statement = conn.prepareStatement(sqlStatement);
 
@@ -184,16 +195,19 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
      * @return
      * @throws DataAccessException
      */
-    private static List<ReplicationPolicyEntry> getReplicationPolicies(Identifier pid) throws DataAccessException {
+    private List<ReplicationPolicyEntry> getReplicationPolicies(Identifier pid, 
+    	Map<String, String> tableMap) throws DataAccessException {
     	
     	List<ReplicationPolicyEntry> replicationPolicyEntryList = new ArrayList<ReplicationPolicyEntry>();
-    	    	
-    	replicationPolicyEntryList = SystemMetadataDaoMetacatImpl.jdbcTemplate.query(new PreparedStatementCreator() {
+    	final Map<String, String> finalTableMap = tableMap;
+    	
+    	replicationPolicyEntryList = this.jdbcTemplate.query(new PreparedStatementCreator() {
 
 			@Override
 			public PreparedStatement createPreparedStatement(Connection conn)
 					throws SQLException {
-				String sqlStatement = "SELECT guid, policy, member_node FROM " + SM_POLICY_TABLE + ";";
+				String sqlStatement = "SELECT guid, policy, member_node FROM " + 
+					finalTableMap.get(SM_POLICY_TABLE) + ";";
 				
 				PreparedStatement statement = conn.prepareStatement(sqlStatement);
 				return statement;
@@ -208,15 +222,24 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
      * @see org.dataone.cn.dao.SystemMetadataDao#getSystemMetadata(org.dataone.service.types.v1.Identifier)
      */
     @Override
-    public SystemMetadata getSystemMetadata(final Identifier pid)
-            throws DataAccessException {
+    public SystemMetadata getSystemMetadata(final Identifier pid, DataSource dataSource, 
+    	Map<String, String> tableMap) throws DataAccessException {
         
+		setDataSource(dataSource);
+		setJdbcTemplate(new JdbcTemplate(this.dataSource));
+		setTableMap(tableMap);
     	List<SystemMetadata> systemMetadataList = new ArrayList<SystemMetadata>();
     	SystemMetadata systemMetadata = null;
     	
+    	final String idTable         = (String) tableMap.get(IDENTIFIER_TABLE);
+    	final String sysMetaTable    = (String) tableMap.get(SYSMETA_TABLE);
+    	final String replPolicyTable = (String) tableMap.get(SM_POLICY_TABLE);
+    	final String replStatusTable = (String) tableMap.get(SM_STATUS_TABLE);
+    	final String xmlAccessTable  = (String) tableMap.get(ACCESS_TABLE);
+    	
         // query the systemmetadata table        
 		try {
-			systemMetadataList = SystemMetadataDaoMetacatImpl.jdbcTemplate.query(new PreparedStatementCreator() {
+			systemMetadataList = this.jdbcTemplate.query(new PreparedStatementCreator() {
 
 				@Override
 				public PreparedStatement createPreparedStatement(Connection conn)
@@ -225,7 +248,7 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
 			        		"checksum_algorithm, origin_member_node, authoritive_member_node, " + 
 			        		"date_modified, submitter, object_format, size, replication_allowed, " +
 			        		"number_replicas, obsoletes, obsoleted_by, serial_version, archived " +
-			                "FROM systemmetadata WHERE guid = ?;";
+			                "FROM " + sysMetaTable + " WHERE guid = ?;";
                     
 			        PreparedStatement statement = conn.prepareStatement(sqlStatement);
 			        statement.setString(1, pid.getValue());
@@ -257,9 +280,12 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
      * @see org.dataone.cn.dao.SystemMetadataDao#saveSystemMetadata(org.dataone.service.types.v1.SystemMetadata)
      */
     @Override
-    public Identifier saveSystemMetadata(SystemMetadata systemMetadata)
-            throws DataAccessException {
-        return null;
+    public Identifier saveSystemMetadata(SystemMetadata systemMetadata, DataSource dataSource, 
+    	Map<String, String> tableMap) throws DataAccessException {
+		setDataSource(dataSource);
+		setJdbcTemplate(new JdbcTemplate(this.dataSource));
+		return null;
+		
     }
 
     /**
@@ -319,7 +345,7 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
 		} else {
 			String sqlStatement = "INSERT into " + IDENTIFIER_TABLE + 
 					" (guid, docid, rev) VALUES (?, ?, ?);";
-			SystemMetadataDaoMetacatImpl.jdbcTemplate.update(sqlStatement, new Object[]{guid, docid, rev}, 
+			this.jdbcTemplate.update(sqlStatement, new Object[]{guid, docid, rev}, 
 				new int[]{Types.VARCHAR, Types.VARCHAR, Types.INTEGER});
 			log.info("Created mapping for " + guid + "and " + localId);
 		}
@@ -391,7 +417,7 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
         // query the identifier table
         String sqlStatement = "SELECT guid FROM " + IDENTIFIER_TABLE + "where guid = ?";
 
-        countReturned = SystemMetadataDaoMetacatImpl.jdbcTemplate.queryForInt(sqlStatement, new Object[]{pid.getValue()});
+        countReturned = this.jdbcTemplate.queryForInt(sqlStatement, new Object[]{pid.getValue()});
 
         if ( countReturned > 0 ) {
         	mapped = true;
@@ -418,7 +444,7 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
         // query the identifier table
         String sqlStatement = "SELECT guid FROM " + SYSMETA_TABLE + "where guid = ?";
 
-        countReturned = SystemMetadataDaoMetacatImpl.jdbcTemplate.queryForInt(sqlStatement, new Object[]{pid.getValue()});
+        countReturned = this.jdbcTemplate.queryForInt(sqlStatement, new Object[]{pid.getValue()});
 
         if ( countReturned > 0 ) {
         	hasSysMeta = true;
@@ -433,7 +459,7 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
      * @author cjones
      *
      */
-    public static final class SystemMetadataStatusMapper implements RowMapper<SystemMetadataStatus> {
+    public final class SystemMetadataStatusMapper implements RowMapper<SystemMetadataStatus> {
 
     	/**
     	 * Map each row into a SystemMetadataStatus object
@@ -471,7 +497,7 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
      * 
      * @author cjones
      */
-    public static final class ReplicaEntryMapper implements RowMapper<Replica> {
+    public final class ReplicaEntryMapper implements RowMapper<Replica> {
 
     	/**
     	 * Map each row into a ReplicaEntry object
@@ -505,7 +531,7 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
      * 
      * @author cjones
      */
-    public static final class ReplicationPolicyEntryMapper implements RowMapper<ReplicationPolicyEntry> {
+    public final class ReplicationPolicyEntryMapper implements RowMapper<ReplicationPolicyEntry> {
 
     	/**
     	 * Map each row into a ReplicationPolicyEntry object
@@ -540,7 +566,7 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
      * 
      * @author cjones
      */
-    public static final class SystemMetadataMapper implements RowMapper<SystemMetadata> {
+    public final class SystemMetadataMapper implements RowMapper<SystemMetadata> {
 
     	/**
     	 * Map each row into a SystemMetadata object
@@ -657,7 +683,7 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
             List<NodeReference> blockedNodes = new ArrayList<NodeReference>();
 
             try {
-				replPolicies = SystemMetadataDaoMetacatImpl.getReplicationPolicies(pid);
+				replPolicies = getReplicationPolicies(pid, SystemMetadataDaoMetacatImpl.this.tableMap);
 				
 			} catch (DataAccessException e) {
 				//TODO: we need to not swallow this, but the interface throws SQLException. hmm.
@@ -690,6 +716,17 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
             // populate and add replicas list
             
             List<Replica> replicas = new ArrayList<Replica>();
+            try {
+            	replicas = listReplicaEntries(pid, SystemMetadataDaoMetacatImpl.this.tableMap);	
+			
+            } catch (DataAccessException e) {
+				//TODO: we need to not swallow this
+				log.error("couldn't get replica entries for identifier " + pid.getValue() +
+					": " + e.getMessage());
+				if ( log.isDebugEnabled() ) {
+					e.printStackTrace();
+				}
+			}
             
             for ( Replica replica : replicas ) {
             	systemMetadata.addReplica(replica);
@@ -716,4 +753,28 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
         throw dae;
     }
 
+
+    /*
+     * (non-Javadoc)
+     * @see org.dataone.cn.dao.SystemMetadataDao#listIdentifiers()
+     */
+	@Override
+	public List<Identifier> listIdentifiers(DataSource dataSource, 
+		Map<String, String> tableMap) throws DataAccessException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public void setDataSource(DataSource dataSource) {
+		this.dataSource = dataSource;
+	}
+	
+	public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
+		this.jdbcTemplate = jdbcTemplate;
+	}
+	
+	public void setTableMap(Map<String, String> tableMap) {
+		this.tableMap = tableMap;
+		
+	}
 }
