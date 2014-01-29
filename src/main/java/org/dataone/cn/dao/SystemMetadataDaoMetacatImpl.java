@@ -78,15 +78,23 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
     public SystemMetadataDaoMetacatImpl() {
 
     }
+
+    /**
+     * Constructor. Creates an instance of SystemMetadataDaoMetacatImpl using the given data source
+     */
+    public SystemMetadataDaoMetacatImpl(DataSource dataSource) {
+		setDataSource(dataSource);
+		setJdbcTemplate(new JdbcTemplate(this.dataSource));
+
+    }
     
+
     /*
      * @see org.dataone.cn.dao.SystemMetadataDao#getSystemMetadataCount()
      */
 	@Override
-	public int getSystemMetadataCount(DataSource dataSource, Map<String, String> tableMap) 
+	public int getSystemMetadataCount(Map<String, String> tableMap) 
 		throws DataAccessException {
-		setDataSource(dataSource);
-		setJdbcTemplate(new JdbcTemplate(this.dataSource));
 		
         // query the systemmetadata table
         String sqlStatement = "SELECT count(guid) FROM " + (String) tableMap.get(SYSMETA_TABLE);
@@ -108,11 +116,8 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
      */
     @Override
     public List<SystemMetadataStatus> listSystemMetadataStatus(int pageNumber, int pageSize, 
-    	DataSource dataSource, Map<String, String> tableMap) throws DataAccessException {
+    	Map<String, String> tableMap) throws DataAccessException {
     	
-		setDataSource(dataSource);
-		setJdbcTemplate(new JdbcTemplate(this.dataSource));
-		
     	List<SystemMetadataStatus> sysMetaStatusList = new ArrayList<SystemMetadataStatus>();
         
     	// reset negative page numbers and sizes
@@ -222,11 +227,9 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
      * @see org.dataone.cn.dao.SystemMetadataDao#getSystemMetadata(org.dataone.service.types.v1.Identifier)
      */
     @Override
-    public SystemMetadata getSystemMetadata(final Identifier pid, DataSource dataSource, 
-    	Map<String, String> tableMap) throws DataAccessException {
+    public SystemMetadata getSystemMetadata(final Identifier pid, Map<String, String> tableMap) 
+    	throws DataAccessException {
         
-		setDataSource(dataSource);
-		setJdbcTemplate(new JdbcTemplate(this.dataSource));
 		setTableMap(tableMap);
     	List<SystemMetadata> systemMetadataList = new ArrayList<SystemMetadata>();
     	SystemMetadata systemMetadata = null;
@@ -280,11 +283,10 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
      * @see org.dataone.cn.dao.SystemMetadataDao#saveSystemMetadata(org.dataone.service.types.v1.SystemMetadata)
      */
     @Override
-    public Identifier saveSystemMetadata(SystemMetadata systemMetadata, DataSource dataSource, 
-    	Map<String, String> tableMap) throws DataAccessException {
-		setDataSource(dataSource);
-		setJdbcTemplate(new JdbcTemplate(this.dataSource));
-		return null;
+    public Identifier saveSystemMetadata(SystemMetadata systemMetadata, Map<String, String> tableMap) 
+    	throws DataAccessException {
+
+    	return null;
 		
     }
 
@@ -759,8 +761,7 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
      * @see org.dataone.cn.dao.SystemMetadataDao#listIdentifiers()
      */
 	@Override
-	public List<Identifier> listIdentifiers(DataSource dataSource, 
-		Map<String, String> tableMap) throws DataAccessException {
+	public List<Identifier> listIdentifiers(Map<String, String> tableMap) throws DataAccessException {
 		// TODO Auto-generated method stub
 		return null;
 	}

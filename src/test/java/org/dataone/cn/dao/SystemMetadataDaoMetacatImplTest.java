@@ -76,7 +76,7 @@ public class SystemMetadataDaoMetacatImplTest {
     	SystemMetadataDaoMetacatImplTestUtil.populateSystemMetadata(jdbc);
     	Map<String, String> tableMap = getTableMap(""); //use an empty prefix for this test
     	int systemMetadataCount = 
-    		systemMetadataDao.getSystemMetadataCount(DataSourceFactory.getMetacatDataSource(), tableMap);
+    		systemMetadataDao.getSystemMetadataCount(tableMap);
     	Assert.assertTrue(systemMetadataCount == 10);
     }
     
@@ -90,7 +90,7 @@ public class SystemMetadataDaoMetacatImplTest {
     	Map<String, String> tableMap = getTableMap(""); //use an empty prefix for this test
 
         List<SystemMetadataStatus> statusList = 
-        	systemMetadataDao.listSystemMetadataStatus(0, 0, DataSourceFactory.getMetacatDataSource(), tableMap);
+        	systemMetadataDao.listSystemMetadataStatus(0, 0, tableMap);
 
         Assert.assertTrue(statusList.size() == 10);
         
