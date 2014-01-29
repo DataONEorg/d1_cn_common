@@ -27,10 +27,15 @@ import java.io.FileNotFoundException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.dataone.configuration.Settings;
+import org.dataone.service.types.v1.Identifier;
+import org.dataone.service.types.v1.Node;
+import org.dataone.service.types.v1.NodeReference;
+import org.dataone.service.types.v1.SystemMetadata;
 
 import com.hazelcast.client.ClientConfig;
 import com.hazelcast.client.HazelcastClient;
 import com.hazelcast.config.ClasspathXmlConfig;
+import com.hazelcast.core.IMap;
 
 /**
  * 
@@ -48,12 +53,31 @@ public class HazelcastClientFactory {
 
     public static final Log logger = LogFactory.getLog(HazelcastClientFactory.class);
 
+    private static final String HZ_SYSTEM_METADATA = Settings.getConfiguration().getString(
+            "dataone.hazelcast.systemMetadata");
+    private static final String HZ_NODE_MAP = Settings.getConfiguration().getString(
+            "dataone.hazelcast.nodes");
+
     private static HazelcastClient hzStorageClient = null;
     private static HazelcastClient hzProcessingClient = null;
     private static HazelcastClient hzSessionClient = null;
 
     private HazelcastClientFactory() {
     };
+
+    public static IMap<Identifier, SystemMetadata> getSystemMetadataMap() {
+        if (getStorageClient() != null) {
+            return getStorageClient().getMap(HZ_SYSTEM_METADATA);
+        }
+        return null;
+    }
+
+    public static IMap<NodeReference, Node> getNodeMap() {
+        if (getStorageClient() != null) {
+            return getStorageClient().getMap(HZ_NODE_MAP);
+        }
+        return null;
+    }
 
     public static HazelcastClient getStorageClient() {
         if (hzStorageClient == null) {
