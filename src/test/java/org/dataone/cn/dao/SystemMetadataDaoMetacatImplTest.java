@@ -38,10 +38,11 @@ import org.springframework.jdbc.core.JdbcTemplate;
  *
  */
 public class SystemMetadataDaoMetacatImplTest {
-    
-	private JdbcTemplate jdbc = new JdbcTemplate(DataSourceFactory.getMetacatDataSource());
 
-    private SystemMetadataDao systemMetadataDao = DaoFactory.getSystemMetadataDao();
+    private JdbcTemplate jdbc = new JdbcTemplate(DataSourceFactory.getMetacatDataSource());
+
+    private SystemMetadataDaoMetacatImpl systemMetadataDao = new SystemMetadataDaoMetacatImpl(
+            DataSourceFactory.getMetacatDataSource());
 
     /**
      * Create tables before testing
@@ -49,7 +50,7 @@ public class SystemMetadataDaoMetacatImplTest {
     @Before
     public void createTables() {
         SystemMetadataDaoMetacatImplTestUtil.createTables(jdbc);
-        
+
     }
 
     /**
@@ -57,55 +58,46 @@ public class SystemMetadataDaoMetacatImplTest {
      */
     @After
     public void dropTables() {
-    	SystemMetadataDaoMetacatImplTestUtil.dropTables(jdbc);
-    	
+        SystemMetadataDaoMetacatImplTestUtil.dropTables(jdbc);
+
     }
 
-    /**
-     * Init test
-     */
-    @Test
-    public void testInit() {
-    	Assert.assertTrue(1 == 1);
-    }
-    
     @Test
     public void testGetSystemMetadataCount() throws DataAccessException {
-    	
-    	// Get some data into systemmetadata
-    	SystemMetadataDaoMetacatImplTestUtil.populateSystemMetadata(jdbc);
-    	Map<String, String> tableMap = getTableMap(""); //use an empty prefix for this test
-    	int systemMetadataCount = 
-    		systemMetadataDao.getSystemMetadataCount(tableMap);
-    	Assert.assertTrue(systemMetadataCount == 10);
+
+        // Get some data into systemmetadata
+        SystemMetadataDaoMetacatImplTestUtil.populateSystemMetadata(jdbc);
+        Map<String, String> tableMap = getTableMap(""); //use an empty prefix for this test
+        int systemMetadataCount = systemMetadataDao.getSystemMetadataCount(tableMap);
+        Assert.assertTrue(systemMetadataCount == 10);
     }
-    
+
     /**
      * Test listing of system metadata status DTOs
      */
     @Test
     public void testListSystemMetadataStatus() throws DataAccessException {
-    	
-    	SystemMetadataDaoMetacatImplTestUtil.populateSystemMetadata(jdbc);
-    	Map<String, String> tableMap = getTableMap(""); //use an empty prefix for this test
 
-        List<SystemMetadataStatus> statusList = 
-        	systemMetadataDao.listSystemMetadataStatus(0, 0, tableMap);
+        SystemMetadataDaoMetacatImplTestUtil.populateSystemMetadata(jdbc);
+        Map<String, String> tableMap = getTableMap(""); //use an empty prefix for this test
+
+        List<SystemMetadataStatus> statusList = systemMetadataDao.listSystemMetadataStatus(0, 0,
+                tableMap);
 
         Assert.assertTrue(statusList.size() == 10);
-        
+
     }
- 
+
     /*
      * Create a table map of standard system metadata table names to custom prefixed names
      */
     private Map<String, String> getTableMap(String prefix) {
-    	Map<String, String> tableMap = new HashMap<String,String>();
-    	tableMap.put("identifier", prefix + "identifier");
-    	tableMap.put("systemmetadata", prefix + "systemmetadata");
-    	tableMap.put("smreplicationpolicy", prefix + "smreplicationpolicy");
-    	tableMap.put("smreplicationstatus", prefix + "smreplicationstatus");
-    	tableMap.put("xml_access", prefix + "xml_access");
-    	return tableMap;
+        Map<String, String> tableMap = new HashMap<String, String>();
+        tableMap.put("identifier", prefix + "identifier");
+        tableMap.put("systemmetadata", prefix + "systemmetadata");
+        tableMap.put("smreplicationpolicy", prefix + "smreplicationpolicy");
+        tableMap.put("smreplicationstatus", prefix + "smreplicationstatus");
+        tableMap.put("xml_access", prefix + "xml_access");
+        return tableMap;
     }
 }
