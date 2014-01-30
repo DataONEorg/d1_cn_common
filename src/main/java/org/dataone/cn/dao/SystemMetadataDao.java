@@ -42,14 +42,7 @@ public interface SystemMetadataDao {
 	 * @throws DataAccessException
 	 */
 	public int getSystemMetadataCount(Map<String, String> tableMap) throws DataAccessException;
-	
-	/**
-	 * List all of the identifiers found in all CN identifier tables in the database
-	 * @return
-	 * @throws DataAccessException
-	 */
-	public List<Identifier> listIdentifiers(Map<String, String> tableMap) throws DataAccessException;
-	
+		
 	/**
 	 * List object status information with SystemMetadata in the database
 	 * @param pageNumber

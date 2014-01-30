@@ -807,17 +807,6 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
         throw dae;
     }
 
-
-    /*
-     * (non-Javadoc)
-     * @see org.dataone.cn.dao.SystemMetadataDao#listIdentifiers()
-     */
-	@Override
-	public List<Identifier> listIdentifiers(Map<String, String> tableMap) throws DataAccessException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 	public void setDataSource(DataSource dataSource) {
 		this.dataSource = dataSource;
 	}
