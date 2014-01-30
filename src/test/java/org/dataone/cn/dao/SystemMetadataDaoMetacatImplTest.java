@@ -41,8 +41,7 @@ public class SystemMetadataDaoMetacatImplTest {
 
     private JdbcTemplate jdbc = new JdbcTemplate(DataSourceFactory.getMetacatDataSource());
 
-    private SystemMetadataDaoMetacatImpl systemMetadataDao = new SystemMetadataDaoMetacatImpl(
-            DataSourceFactory.getMetacatDataSource());
+    private SystemMetadataDaoMetacatImpl systemMetadataDao = new SystemMetadataDaoMetacatImpl();
 
     /**
      * Create tables before testing
