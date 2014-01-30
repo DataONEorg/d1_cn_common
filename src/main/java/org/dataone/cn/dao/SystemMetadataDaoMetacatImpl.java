@@ -19,6 +19,8 @@
  */
 package org.dataone.cn.dao;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.math.BigInteger;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -38,15 +40,19 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.dataone.cn.dao.exceptions.DataAccessException;
 import org.dataone.service.types.v1.AccessPolicy;
+import org.dataone.service.types.v1.AccessRule;
 import org.dataone.service.types.v1.Checksum;
 import org.dataone.service.types.v1.Identifier;
 import org.dataone.service.types.v1.NodeReference;
 import org.dataone.service.types.v1.ObjectFormatIdentifier;
+import org.dataone.service.types.v1.Permission;
 import org.dataone.service.types.v1.Replica;
 import org.dataone.service.types.v1.ReplicationPolicy;
 import org.dataone.service.types.v1.ReplicationStatus;
 import org.dataone.service.types.v1.Subject;
 import org.dataone.service.types.v1.SystemMetadata;
+import org.dataone.service.util.TypeMarshaller;
+import org.jibx.runtime.JiBXException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
@@ -162,6 +168,37 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
         return sysMetaStatusList;
     }
 
+    
+    /*
+     * Get the list of access rules for a given
+     * @param pid
+     * @param tableMap
+     * @return
+     * @throws DataAccessException
+     */
+    private List<AccessRule> listAccessRules(final Identifier pid, Map<String, String> tableMap) 
+    	throws SQLException {
+    	List<AccessRule> accessEntries = new ArrayList<AccessRule>();
+    	final Map<String, String> finalTableMap = tableMap;
+    	
+    	accessEntries = this.jdbcTemplate.query(new PreparedStatementCreator() {
+
+			@Override
+			public PreparedStatement createPreparedStatement(Connection conn)
+					throws SQLException {
+				String sqlStatement = "SELECT guid, principal_name, permission FROM " + 
+						finalTableMap.get(ACCESS_TABLE) + " WHERE perm_type = 'allow' AND guid = ?;";
+					
+					PreparedStatement statement = conn.prepareStatement(sqlStatement);
+					statement.setString(1, pid.getValue());
+					
+					return statement;
+			}
+
+    	}, new AccessRuleMapper());
+    	return accessEntries;
+    }
+    
     /*
      * Get the replica entries list for a given identifier.  This returns the replica status for 
      * each entry, along with the member node and date verified fields.
@@ -170,7 +207,7 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
      * @throws DataAccessException
      */
     private List<Replica> listReplicaEntries(Identifier pid, Map<String, String> tableMap) 
-    		throws DataAccessException {
+    		throws SQLException {
     	
     	List<Replica> replicaEntries = new ArrayList<Replica>();
     	final Map<String, String> finalTableMap = tableMap;
@@ -179,7 +216,7 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
 			@Override
 			public PreparedStatement createPreparedStatement(Connection conn)
 					throws SQLException {
-				String sqlStatement = "SELECT guid, meber_node, status, date_verified FROM " + 
+				String sqlStatement = "SELECT guid, member_node, status, date_verified FROM " + 
 					finalTableMap.get(SM_STATUS_TABLE) + ";";
 				
 				PreparedStatement statement = conn.prepareStatement(sqlStatement);
@@ -200,8 +237,8 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
      * @return
      * @throws DataAccessException
      */
-    private List<ReplicationPolicyEntry> getReplicationPolicies(Identifier pid, 
-    	Map<String, String> tableMap) throws DataAccessException {
+    private List<ReplicationPolicyEntry> listReplicationPolicies(Identifier pid, 
+    	Map<String, String> tableMap) throws SQLException {
     	
     	List<ReplicationPolicyEntry> replicationPolicyEntryList = new ArrayList<ReplicationPolicyEntry>();
     	final Map<String, String> finalTableMap = tableMap;
@@ -562,6 +599,26 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
 		}
     	
     }
+
+    public final class AccessRuleMapper implements RowMapper<AccessRule> {
+
+		@Override
+		public AccessRule mapRow(ResultSet resultSet, int rowNumber) throws SQLException {
+			
+			// add the subject
+			AccessRule accessRule = new AccessRule();
+			Subject subject = new Subject();
+			subject.setValue(resultSet.getString("principal_name"));
+			accessRule.addSubject(subject);
+			
+			// add the permissions
+			List<Permission> permissions = convertPermission(resultSet.getInt("permission"));
+			accessRule.setPermissionList(permissions);
+			
+			return accessRule;
+		}
+    	
+    }
     
     /**
      * A class used to map system metadata status results into SystemMetadata data transfer objects
@@ -684,18 +741,8 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
             List<NodeReference> preferredNodes = new ArrayList<NodeReference>();
             List<NodeReference> blockedNodes = new ArrayList<NodeReference>();
 
-            try {
-				replPolicies = getReplicationPolicies(pid, SystemMetadataDaoMetacatImpl.this.tableMap);
-				
-			} catch (DataAccessException e) {
-				//TODO: we need to not swallow this, but the interface throws SQLException. hmm.
-				log.error("couldn't get replication policy entries for identifier " + pid.getValue() +
-					": " + e.getMessage());
-				if ( log.isDebugEnabled() ) {
-					e.printStackTrace();
-				}
-			}
-            
+			replPolicies = listReplicationPolicies(pid, SystemMetadataDaoMetacatImpl.this.tableMap);
+				            
             for ( ReplicationPolicyEntry policy : replPolicies ) {
             	Identifier id = policy.getPid(); 
             	String entryPolicy = policy.getPolicy();
@@ -718,24 +765,29 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
             // populate and add replicas list
             
             List<Replica> replicas = new ArrayList<Replica>();
-            try {
-            	replicas = listReplicaEntries(pid, SystemMetadataDaoMetacatImpl.this.tableMap);	
-			
-            } catch (DataAccessException e) {
-				//TODO: we need to not swallow this
-				log.error("couldn't get replica entries for identifier " + pid.getValue() +
-					": " + e.getMessage());
-				if ( log.isDebugEnabled() ) {
+            replicas = listReplicaEntries(pid, SystemMetadataDaoMetacatImpl.this.tableMap);	
+            systemMetadata.setReplicaList(replicas);
+            
+            // populate and add AccessPolicy
+            List<AccessRule> accessRules = new ArrayList<AccessRule>();
+            accessRules = listAccessRules(pid, SystemMetadataDaoMetacatImpl.this.tableMap);            
+            accessPolicy.setAllowList(accessRules);
+            
+            // Validate the system metadata in debug mode using TypeMarshaller
+            if ( log.isDebugEnabled() ) {
+            	try {
+					ByteArrayOutputStream baos = new ByteArrayOutputStream();
+					TypeMarshaller.marshalTypeToOutputStream(systemMetadata, baos);
+					log.debug("SystemMetadata for pid " + pid.getValue() + " is: " + baos.toString());
+					
+				} catch (JiBXException e) {
 					e.printStackTrace();
+					
+				} catch (IOException e) {
+					e.printStackTrace();
+					
 				}
-			}
-            
-            for ( Replica replica : replicas ) {
-            	systemMetadata.addReplica(replica);
             }
-            
-            // TODO: populate and add AccessPolicy
-
 			return systemMetadata;
 		}
     	
@@ -777,5 +829,39 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
 	public void setTableMap(Map<String, String> tableMap) {
 		this.tableMap = tableMap;
 		
+	}
+	
+	/**
+	 * Convert integer-based permission values to string-based permissions
+	 * @param value  the integer value of the permission
+	 * @return permissions  the list of permissions 
+	 */
+	private List<Permission> convertPermission(int value) {
+		
+		List<Permission> permissions = new ArrayList<Permission>();
+		
+		final int CHMOD = 1;
+		final int WRITE = 2;
+		final int READ = 4;
+		final int ALL = 7;
+
+    	if (value == ALL) {
+    		permissions.add(Permission.READ);
+    		permissions.add(Permission.WRITE);
+    		permissions.add(Permission.CHANGE_PERMISSION);
+    		return permissions;
+    	}
+    	
+    	if ((value & CHMOD) == CHMOD) {
+    		permissions.add(Permission.CHANGE_PERMISSION);
+    	}
+    	if ((value & READ) == READ) {
+    		permissions.add(Permission.READ);
+    	}
+    	if ((value & WRITE) == WRITE) {
+    		permissions.add(Permission.WRITE);
+    	}
+    	
+		return permissions;
 	}
 }
