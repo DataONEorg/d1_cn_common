@@ -31,6 +31,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -76,7 +77,7 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
     public static final String ACCESS_TABLE = "xml_access";
 
     private JdbcTemplate jdbcTemplate;
-    private static Map<String, String> tableMap;
+    private static Map<String, String> tableMap = new HashMap<String, String>();
 
     static {
         tableMap.put(IDENTIFIER_TABLE, IDENTIFIER_TABLE);
