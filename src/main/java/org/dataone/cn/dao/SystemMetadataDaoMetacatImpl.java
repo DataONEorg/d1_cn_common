@@ -76,7 +76,15 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
     public static final String ACCESS_TABLE = "xml_access";
 
     private JdbcTemplate jdbcTemplate;
-    private Map<String, String> tableMap;
+    private static Map<String, String> tableMap;
+
+    static {
+        tableMap.put(IDENTIFIER_TABLE, IDENTIFIER_TABLE);
+        tableMap.put(SYSMETA_TABLE, SYSMETA_TABLE);
+        tableMap.put(SM_POLICY_TABLE, SM_POLICY_TABLE);
+        tableMap.put(SM_STATUS_TABLE, SM_STATUS_TABLE);
+        tableMap.put(ACCESS_TABLE, ACCESS_TABLE);
+    }
 
     /**
      * Constructor. Creates an instance of SystemMetadataDaoMetacatImpl
@@ -92,10 +100,26 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
         jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
+    public int getSystemMetadataCount() throws DataAccessException {
+        return getSystemMetadataCount(tableMap);
+    }
+
+    public List<SystemMetadataStatus> listSystemMetadataStatus(int pageNumber, int pageSize)
+            throws DataAccessException {
+        return listSystemMetadataStatus(pageNumber, pageSize, tableMap);
+    }
+
+    public SystemMetadata getSystemMetadata(Identifier pid) throws DataAccessException {
+        return getSystemMetadata(pid, tableMap);
+    }
+
+    public Identifier saveSystemMetadata(SystemMetadata systemMetadata) throws DataAccessException {
+        return saveSystemMetadata(systemMetadata, tableMap);
+    }
+
     /*
      * @see org.dataone.cn.dao.SystemMetadataDao#getSystemMetadataCount()
      */
-    @Override
     public int getSystemMetadataCount(Map<String, String> tableMap) throws DataAccessException {
 
         // query the systemmetadata table
@@ -116,7 +140,6 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
     /*
      * @see org.dataone.cn.dao.SystemMetadataDao#listSystemMetadata()
      */
-    @Override
     public List<SystemMetadataStatus> listSystemMetadataStatus(int pageNumber, int pageSize,
             Map<String, String> tableMap) throws DataAccessException {
 
@@ -259,7 +282,6 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
     /*
      * @see org.dataone.cn.dao.SystemMetadataDao#getSystemMetadata(org.dataone.service.types.v1.Identifier)
      */
-    @Override
     public SystemMetadata getSystemMetadata(final Identifier pid, Map<String, String> tableMap)
             throws DataAccessException {
 
@@ -315,7 +337,6 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
     /*
      * @see org.dataone.cn.dao.SystemMetadataDao#saveSystemMetadata(org.dataone.service.types.v1.SystemMetadata)
      */
-    @Override
     public Identifier saveSystemMetadata(SystemMetadata systemMetadata, Map<String, String> tableMap)
             throws DataAccessException {
 
