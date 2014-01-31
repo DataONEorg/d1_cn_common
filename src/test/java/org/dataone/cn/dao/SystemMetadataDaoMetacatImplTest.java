@@ -92,11 +92,11 @@ public class SystemMetadataDaoMetacatImplTest {
      */
     private Map<String, String> getTableMap(String prefix) {
         Map<String, String> tableMap = new HashMap<String, String>();
-        tableMap.put("identifier", prefix + "identifier");
-        tableMap.put("systemmetadata", prefix + "systemmetadata");
-        tableMap.put("smreplicationpolicy", prefix + "smreplicationpolicy");
-        tableMap.put("smreplicationstatus", prefix + "smreplicationstatus");
-        tableMap.put("xml_access", prefix + "xml_access");
+        tableMap.put(SystemMetadataDaoMetacatImpl.IDENTIFIER_TABLE, prefix + "identifier");
+        tableMap.put(SystemMetadataDaoMetacatImpl.SYSMETA_TABLE, prefix + "systemmetadata");
+        tableMap.put(SystemMetadataDaoMetacatImpl.SM_POLICY_TABLE, prefix + "smreplicationpolicy");
+        tableMap.put(SystemMetadataDaoMetacatImpl.SM_STATUS_TABLE, prefix + "smreplicationstatus");
+        tableMap.put(SystemMetadataDaoMetacatImpl.ACCESS_TABLE, prefix + "xml_access");
         return tableMap;
     }
 }
