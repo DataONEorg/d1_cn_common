@@ -68,12 +68,13 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
 
     private static final Log log = LogFactory.getLog(SystemMetadataDaoMetacatImpl.class);
 
-    private static int documentIdCounter = 0;
-    private static final String IDENTIFIER_TABLE = "identifier";
-    private static final String SYSMETA_TABLE = "systemmetadata";
-    private static final String SM_POLICY_TABLE = "smreplicationpolicy";
-    private static final String SM_STATUS_TABLE = "smreplicationstatus";
-    private static final String ACCESS_TABLE = "xml_access";
+    protected static int documentIdCounter = 0;
+    public static final String IDENTIFIER_TABLE = "identifier";
+    public static final String SYSMETA_TABLE = "systemmetadata";
+    public static final String SM_POLICY_TABLE = "smreplicationpolicy";
+    public static final String SM_STATUS_TABLE = "smreplicationstatus";
+    public static final String ACCESS_TABLE = "xml_access";
+
     private JdbcTemplate jdbcTemplate;
     private Map<String, String> tableMap;
 
@@ -81,14 +82,14 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
      * Constructor. Creates an instance of SystemMetadataDaoMetacatImpl
      */
     public SystemMetadataDaoMetacatImpl() {
-        jdbcTemplate = (new JdbcTemplate(DataSourceFactory.getMetacatDataSource()));
+        jdbcTemplate = new JdbcTemplate(DataSourceFactory.getMetacatDataSource());
     }
 
     /**
      * Constructor. Creates an instance of SystemMetadataDaoMetacatImpl using the given data source
      */
     public SystemMetadataDaoMetacatImpl(DataSource dataSource) {
-        jdbcTemplate = (new JdbcTemplate(dataSource));
+        jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
     /*
