@@ -40,6 +40,8 @@ import javax.sql.DataSource;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.dataone.cn.dao.exceptions.DataAccessException;
+import org.dataone.service.exceptions.InvalidSystemMetadata;
+import org.dataone.service.exceptions.NotFound;
 import org.dataone.service.types.v1.AccessPolicy;
 import org.dataone.service.types.v1.AccessRule;
 import org.dataone.service.types.v1.Checksum;
@@ -57,6 +59,13 @@ import org.jibx.runtime.JiBXException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.transaction.TransactionDefinition;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.support.AbstractPlatformTransactionManager;
+import org.springframework.transaction.support.TransactionCallback;
+import org.springframework.transaction.support.TransactionCallbackWithoutResult;
+import org.springframework.transaction.support.TransactionTemplate;
 
 /**
  * A concrete implementation of the systemMetadataDao inteface against the Metacat 
@@ -78,7 +87,9 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
 
     private JdbcTemplate jdbcTemplate;
     private static Map<String, String> tableMap = new HashMap<String, String>();
-
+    private AbstractPlatformTransactionManager txManager;
+    private TransactionTemplate txTemplate;
+    
     static {
         tableMap.put(IDENTIFIER_TABLE, IDENTIFIER_TABLE);
         tableMap.put(SYSMETA_TABLE, SYSMETA_TABLE);
@@ -92,6 +103,9 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
      */
     public SystemMetadataDaoMetacatImpl() {
         jdbcTemplate = new JdbcTemplate(DataSourceFactory.getMetacatDataSource());
+        txManager = new DataSourceTransactionManager(DataSourceFactory.getMetacatDataSource());
+        txTemplate = new TransactionTemplate(txManager);
+        txTemplate.setIsolationLevel(TransactionDefinition.ISOLATION_READ_COMMITTED);
     }
 
     /**
@@ -99,6 +113,9 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
      */
     public SystemMetadataDaoMetacatImpl(DataSource dataSource) {
         jdbcTemplate = new JdbcTemplate(dataSource);
+        txManager = new DataSourceTransactionManager(dataSource);
+        txTemplate = new TransactionTemplate(txManager);
+        txTemplate.setIsolationLevel(TransactionDefinition.ISOLATION_READ_COMMITTED);
     }
 
     public int getSystemMetadataCount() throws DataAccessException {
@@ -280,7 +297,7 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
         return replicationPolicyEntryList;
     }
 
-    /*
+    /**	
      * @see org.dataone.cn.dao.SystemMetadataDao#getSystemMetadata(org.dataone.service.types.v1.Identifier)
      */
     public SystemMetadata getSystemMetadata(final Identifier pid, Map<String, String> tableMap)
@@ -327,25 +344,303 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
             systemMetadata = systemMetadataList.get(0);
 
         } else {
-            throw new DataAccessException(new Exception(
-                    "Couldn't get system metadata for identifier " + pid.getValue()));
+            throw new DataAccessException(new NotFound("0000",
+                "Couldn't get system metadata for identifier " + pid.getValue()));
         }
 
         return systemMetadata;
 
     }
 
-    /*
+    /**
+     * Saves the given system metadata to the tables indicated in the tableMap
+     * 
      * @see org.dataone.cn.dao.SystemMetadataDao#saveSystemMetadata(org.dataone.service.types.v1.SystemMetadata)
      */
     public Identifier saveSystemMetadata(SystemMetadata systemMetadata, Map<String, String> tableMap)
             throws DataAccessException {
+    	
+    	Boolean updated = new Boolean(false); // the result of all table updates transaction
+    	
+    	// Is the pid valid? (required)
+    	final Identifier pid = systemMetadata.getIdentifier();
+    	if (pid.getValue() == null) {
+    		throw new DataAccessException(new InvalidSystemMetadata("0000", "Identifier cannot be null"));
+    		
+    	}
+    	    	
+    	// prep the transaction
+    	txTemplate.setName(pid.getValue());
+		txTemplate.setReadOnly(false);
+		
+    	// Update system metadata for the given identifier
+    	try {
+    		
+    		// Is it in the table already?
+			SystemMetadata currentSysMeta = getSystemMetadata(pid, tableMap);
+						
+			// we need to update, not insert
+			updated = updateSystemMetadata(systemMetadata, tableMap);
+			
+		} catch (DataAccessException dae) {
+			
+			// we need to insert, then update
+			if ( dae.getCause() instanceof NotFound ) {
+				
+				Boolean inserted = new Boolean(false);
+		    	final String finalSysMetaTable = tableMap.get(this.SYSMETA_TABLE);
 
-        return null;
+		    	// insert just the pid
+				inserted = txTemplate.execute(new TransactionCallback<Boolean>() {
+
+					@Override
+					public Boolean doInTransaction(TransactionStatus arg0) {
+						Boolean success = new Boolean(false);
+						
+						int rows = jdbcTemplate.update("INSERT INTO " + finalSysMetaTable + 
+							" WHERE guid = ?", new Object[] {pid.getValue()}, 
+							new int[] {java.sql.Types.LONGVARCHAR});
+						
+						if ( rows == 1) { 
+							success = new Boolean(true);
+						}
+						
+						return success;
+					}
+					
+				});
+				
+				// then update the system metadata
+				updated = updateSystemMetadata(systemMetadata, tableMap);
+
+			} else {
+				// something went wrong other than NotFound
+				throw dae;
+				
+			}
+		}
+    	
+		// We failed and rolled back
+		if ( !updated.equals(true) ) {
+			throw new DataAccessException(
+				new Exception("Failed to update identifier " + pid.getValue()));
+		}
+
+        return pid;
 
     }
 
+    protected Boolean updateSystemMetadata(SystemMetadata sysMeta, Map<String, String> tableMap) 
+    	throws DataAccessException {
+    	
+		Boolean updated = new Boolean(false);
+    	
+    	// Is the size set? (required)
+    	final BigInteger size = sysMeta.getSize();
+    	if ( size == null ) {
+    		throw new DataAccessException(new InvalidSystemMetadata("0000", "Size cannot be null"));
+	
+    	}
+    	
+    	// Is the checksum set? (required)
+    	final Checksum checksum = sysMeta.getChecksum();
+    	if ( checksum == null ) {
+    		throw new DataAccessException(new InvalidSystemMetadata("0000", "Checksum cannot be null"));
+    		
+    	}
+		
+    	final SystemMetadata finalSysMeta = sysMeta;
+    	final String identifierTable   = tableMap.get(this.IDENTIFIER_TABLE);
+    	final String sysMetaTable      = tableMap.get(this.SYSMETA_TABLE);
+    	final String smReplPolicyTable = tableMap.get(this.SM_POLICY_TABLE);
+    	final String smReplStatusTable = tableMap.get(this.SM_STATUS_TABLE);
+    	final String xmlAccessTable    = tableMap.get(this.ACCESS_TABLE);
+
+		updated = txTemplate.execute(new TransactionCallback<Boolean>() {
+
+			@Override
+			public Boolean doInTransaction(TransactionStatus status) {
+				
+				boolean success = false;
+				// update the system metadata table
+			    String sqlStatement = getSysMetaUpdateStatement(sysMetaTable);
+				Map<String, String> sysMetaMap = 
+					extractSystemMetadataAttrs(finalSysMeta, sysMetaTable);
+				Object[] values = getSysMetaAttrValues(sysMetaMap);
+				int[] types = getSysMetaAttrTypes();
+				int sysMetaRows = jdbcTemplate.update(sqlStatement, values, types);
+				if ( sysMetaRows != 1 ) {
+					success = false;
+				}
+				
+				// TODO: update the smreplicationpolicy table
+				ReplicationPolicy replPolicy = finalSysMeta.getReplicationPolicy();
+				if ( replPolicy != null ) {
+					List<NodeReference> preferredNodes = replPolicy.getPreferredMemberNodeList();
+					if ( preferredNodes != null ) {
+					
+						// 
+					}
+				}
+				
+				// TODO: update the smreplicationstatus table
+				List<Replica> replicas = finalSysMeta.getReplicaList();
+				if ( replicas != null ) {
+					
+				}
+				
+				// TODO: update the xml_access table
+				AccessPolicy accessPolicy = finalSysMeta.getAccessPolicy();
+				int numberOfAccessRules = -1;
+				List<AccessRule> accessRules = new ArrayList<AccessRule>();
+				
+				if ( accessPolicy != null ) {
+					numberOfAccessRules = accessPolicy.sizeAllowList();
+					accessRules = accessPolicy.getAllowList();
+					
+					// first delete existing rules for this pid
+					jdbcTemplate.update("DELETE FROM " + xmlAccessTable + " WHERE guid = ?", 
+						new Object[]{pid.getValue()});
+					
+					// add the new rules back in
+					for ( AccessRule accessRule : accessRules ) {
+						// TODO: insert access rules
+					}
+				}
+				
+				// TODO: Decide what is success
+				
+				// rollback if we don't succeed on all calls
+				status.setRollbackOnly();
+				return new Boolean(success);
+			}
+			
+		});
+
+    	
+    	return updated;
+    	
+    }
+    
     /**
+     * Returns a map of attribute names and values to be used in the statement
+     * to update the given system metadata table
+     * 
+     * @param systemMetadata
+     * @param tableName
+     * @return
+     * @throws DataAccessException 
+     */
+    protected Map<String, String> extractSystemMetadataAttrs(SystemMetadata systemMetadata, 
+    	String tableName) {
+    	
+    	Map<String, String> attrMap = new HashMap<String, String>();
+    	
+    	// TODO: extract attrs from sysmeta
+    	
+		return attrMap;
+	}
+
+    protected String getSysMetaUpdateStatement(String sysMetaTable) {
+    	
+    	StringBuilder sql = new StringBuilder();
+	    sql.append("UPDATE " + sysMetaTable + " SET ");
+	    sql.append("guid                    = ?, ");
+	    sql.append("serial_version          = ?, ");
+	    sql.append("date_uploaded           = ?, ");
+	    sql.append("rights_holder           = ?, ");
+	    sql.append("checksum                = ?, ");
+	    sql.append("checksum_algorithm      = ?, ");
+	    sql.append("origin_member_node      = ?, ");
+	    sql.append("authoritive_member_node = ?, ");
+	    sql.append("date_modified           = ?, ");
+	    sql.append("submitter               = ?, ");
+	    sql.append("object_format           = ?, ");
+	    sql.append("size                    = ?, ");
+	    sql.append("archived                = ?, ");
+	    sql.append("replication_allowed     = ?, ");
+	    sql.append("number_replicas         = ?, ");
+	    sql.append("obsoletes               = ?, ");
+	    sql.append("obsoleted_by            = ?");
+	    sql.append(";");
+
+	    return sql.toString();
+    }
+    protected Object[] getSysMetaAttrValues(Map<String, String> sysMetaMap) {
+    	
+		Object[] values = 
+			new Object[]{
+				sysMetaMap.get("guid"),
+				sysMetaMap.get("serial_version"),
+				sysMetaMap.get("date_uploaded"),
+				sysMetaMap.get("rights_holder"),
+				sysMetaMap.get("checksum"),
+				sysMetaMap.get("checksum_algorithm"),
+				sysMetaMap.get("origin_member_node"),
+				sysMetaMap.get("authoritive_member_node"),
+				sysMetaMap.get("date_modified"),
+				sysMetaMap.get("submitter"),
+				sysMetaMap.get("object_format"),
+				sysMetaMap.get("size"),
+				sysMetaMap.get("archived"),
+				sysMetaMap.get("replication_allowed"),
+				sysMetaMap.get("number_replicas"),
+				sysMetaMap.get("obsoletes"),
+				sysMetaMap.get("obsoleted_by"),
+			};
+		return values;
+    }
+    
+    protected int[] getSysMetaAttrTypes() {
+		int[] types = new int[] {
+			java.sql.Types.LONGVARCHAR, //text                       
+			java.sql.Types.VARCHAR,     //character varying(256)     
+			java.sql.Types.TIMESTAMP,   //timestamp without time zone
+			java.sql.Types.VARCHAR,     //character varying(250)     
+			java.sql.Types.VARCHAR,     //character varying(512)     
+			java.sql.Types.VARCHAR,     //character varying(250)     
+			java.sql.Types.VARCHAR,     //character varying(250)     
+			java.sql.Types.VARCHAR,     //character varying(250)     
+			java.sql.Types.TIMESTAMP,   //timestamp without time zone
+			java.sql.Types.VARCHAR,     //character varying(256)     
+			java.sql.Types.VARCHAR,     //character varying(256)     
+			java.sql.Types.VARCHAR,     //character varying(256)     
+			java.sql.Types.BOOLEAN,     //boolean                    
+			java.sql.Types.BOOLEAN,     //boolean                    
+			java.sql.Types.BIGINT,      //bigint                     
+			java.sql.Types.LONGVARCHAR, //text                       
+			java.sql.Types.LONGVARCHAR  //text                       
+
+		};
+		return types;
+    }
+    
+    /**
+     * Returns a SQL statement and the parameter list (update values) to be used in the statement
+     * to update the given system metadata table
+     * 
+     * @param systemMetadata
+     * @param tableName
+     * @return
+     * @throws DataAccessException 
+     */
+    protected Map<String, List<String>> buildSmReplPolicySqlStatement(SystemMetadata systemMetadata, 
+    	String tableName) {
+    	
+    	List<String> values = new ArrayList<String>();
+    	StringBuilder sql = new StringBuilder();
+    	Map<String, List<String>> sqlStatementMap = new HashMap<String, List<String>>();
+    	
+		sql.append("UPDATE " + tableName + " SET ");
+		sql.append("guid = ?, ");
+		sql.append("member_node = ?, ");
+		sql.append("policy = ? ");
+		sql.append(";");
+
+		return sqlStatementMap;
+	}
+
+	/**
      * Create a mapping in the identifier table of the pid to local docid. this method should be
      * used cautiously.  Metacat should have created a mapping on create() of an object, or via 
      * Metacat replication.  Creating a mapping should only happen if an audit shows a clear need
@@ -616,6 +911,12 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
 
     }
 
+    /**
+     * A class to map access control entry results into AccessRule objects to populate the 
+     * AccessPolicy section of SystemMetadata objects
+     * 
+     * @author cjones
+     */
     public final class AccessRuleMapper implements RowMapper<AccessRule> {
 
         @Override
