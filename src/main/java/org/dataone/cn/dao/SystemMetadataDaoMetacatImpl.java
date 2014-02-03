@@ -646,6 +646,12 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
 		return attrMap;
 	}
 
+    /**
+     * Builds a SQL update statement for use against the systemmetadata table
+     * 
+     * @param sysMetaTable
+     * @return
+     */
     protected String getSysMetaUpdateStatement(String sysMetaTable) {
     	
     	StringBuilder sql = new StringBuilder();
