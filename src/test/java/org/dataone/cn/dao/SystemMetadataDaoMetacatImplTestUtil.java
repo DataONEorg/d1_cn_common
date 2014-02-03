@@ -26,6 +26,8 @@ import java.text.SimpleDateFormat;
 import junit.framework.Assert;
 
 import org.dataone.configuration.Settings;
+import org.dataone.service.types.v1.Replica;
+import org.dataone.service.types.v1.ReplicationStatus;
 import org.dataone.service.types.v1.SystemMetadata;
 import org.springframework.jdbc.core.JdbcTemplate;
 
@@ -227,13 +229,23 @@ public class SystemMetadataDaoMetacatImplTestUtil {
 
         String sysMetaStatement = "INSERT INTO "
                 + sysMetaTable
-                + " VALUES ('6f632bd1cc2772bdcc43bafdbb9d8669.1.1', '1', '2013-07-31 17:00:00', 'uid=cjones,o=NCEAS,dc=ecoinformatics,dc=org', '709eee7f02ff1f12a9084b906ee0770e', 'MD5', 'urn:node:testSource', 'urn:node:testSource', '2013-07-31 15:29:44.429', 'uid=cjones,o=NCEAS,dc=ecoinformatics,dc=org', 'eml://ecoinformatics.org/eml-2.0.1', '14230', false, false, -1, NULL, NULL);";
+                + " VALUES ('6f632bd1cc2772bdcc43bafdbb9d8669.1.1', '1', '2013-07-31 17:00:00', 'uid=cjones,o=NCEAS,dc=ecoinformatics,dc=org', '709eee7f02ff1f12a9084b906ee0770e', 'MD5', 'urn:node:testSource', 'urn:node:testSource', '2013-07-31 15:29:44.429', 'uid=cjones,o=NCEAS,dc=ecoinformatics,dc=org', 'eml://ecoinformatics.org/eml-2.0.1', '14230', false, false, 1, NULL, NULL);";
         jdbc.execute(sysMetaStatement);
 
         String accessStatement = "INSERT INTO "
                 + accessTable
                 + " VALUES ('6f632bd1cc2772bdcc43bafdbb9d8669.1.1', NULL, 'public', 4, 'allow', 'allowFirst', NULL, NULL, NULL, NULL, NULL, NULL);";
         jdbc.execute(accessStatement);
+
+        String policyStatement = "INSERT INTO "
+                + policyTable
+                + " VALUES ('6f632bd1cc2772bdcc43bafdbb9d8669.1.1', 'urn:node:testNode2', 'PREFERRED');";
+        jdbc.execute(policyStatement);
+
+        String statusStatement = "INSERT INTO "
+                + statusTable
+                + " VALUES ('6f632bd1cc2772bdcc43bafdbb9d8669.1.1','urn:node:testNode2','completed','2013-08-05 16:40:00.000');";
+        jdbc.execute(statusStatement);
     }
 
     public static void verifyTestA(SystemMetadata sysMeta) throws ParseException {
@@ -262,8 +274,7 @@ public class SystemMetadataDaoMetacatImplTestUtil {
                 sysMeta.getAuthoritativeMemberNode().getValue());
 
         Assert.assertEquals("Modified Date does not match",
-                modFormat.parseObject("2013-07-31 15:29:44.429"),
-                sysMeta.getDateSysMetadataModified());
+                modFormat.parse("2013-07-31 15:29:44.429"), sysMeta.getDateSysMetadataModified());
 
         Assert.assertEquals("Submitter does not match",
                 "uid=cjones,o=NCEAS,dc=ecoinformatics,dc=org", sysMeta.getSubmitter().getValue());
@@ -286,7 +297,18 @@ public class SystemMetadataDaoMetacatImplTestUtil {
         Assert.assertEquals("Replication allowed does not match", false, sysMeta
                 .getReplicationPolicy().getReplicationAllowed().booleanValue());
 
-        Assert.assertEquals("Number replicas does not match", -1, sysMeta.getReplicationPolicy()
+        Assert.assertEquals("Number replicas does not match", 1, sysMeta.getReplicationPolicy()
                 .getNumberReplicas().intValue());
+
+        Assert.assertEquals("Replica list size is wrong", 1, sysMeta.getReplicaList());
+
+        Replica replica = sysMeta.getReplica(0);
+        Assert.assertEquals("Replica node does not match", "urn:node:TestNode2", replica
+                .getReplicaMemberNode().getValue());
+        Assert.assertEquals("Replica status does not match", ReplicationStatus.COMPLETED,
+                replica.getReplicationStatus());
+        Assert.assertEquals("Replica status date does not match",
+                modFormat.parse("2013-08-05 16:40:00.000"), replica.getReplicaVerified());
+
     }
 }
