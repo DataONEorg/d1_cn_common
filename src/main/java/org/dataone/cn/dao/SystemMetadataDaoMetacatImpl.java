@@ -435,6 +435,13 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
     	
 		Boolean updated = new Boolean(false);
     	
+		// Is the pid valid? (required)
+    	final Identifier pid = sysMeta.getIdentifier();
+    	if (pid.getValue() == null) {
+    		throw new DataAccessException(new InvalidSystemMetadata("0000", "Identifier cannot be null"));
+    		
+    	}
+    	
     	// Is the size set? (required)
     	final BigInteger size = sysMeta.getSize();
     	if ( size == null ) {
