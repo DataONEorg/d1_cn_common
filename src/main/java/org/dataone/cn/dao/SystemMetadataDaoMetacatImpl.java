@@ -972,7 +972,7 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
             systemMetadata.setSerialVersion(serialVersion);
 
             // add date_modified
-            Date dateSystemMetadataLastModified = resultSet.getDate("date_modified");
+            Date dateSystemMetadataLastModified = resultSet.getTimestamp("date_modified");
             systemMetadata.setDateSysMetadataModified(dateSystemMetadataLastModified);
 
             // add archived
@@ -980,7 +980,7 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
             systemMetadata.setArchived(new Boolean(archived));
 
             // add date_uploaded
-            Date dateUploaded = resultSet.getDate("date_uploaded");
+            Date dateUploaded = resultSet.getTimestamp("date_uploaded");
             systemMetadata.setDateUploaded(dateUploaded);
 
             // add rights_holder
