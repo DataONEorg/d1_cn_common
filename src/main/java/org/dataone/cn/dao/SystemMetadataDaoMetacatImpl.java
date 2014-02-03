@@ -65,7 +65,6 @@ import org.springframework.transaction.TransactionDefinition;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.AbstractPlatformTransactionManager;
 import org.springframework.transaction.support.TransactionCallback;
-import org.springframework.transaction.support.TransactionCallbackWithoutResult;
 import org.springframework.transaction.support.TransactionTemplate;
 
 /**
@@ -952,7 +951,7 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
             systemMetadataStatus.setSerialVersion(serialVersion);
 
             // add date_modified
-            Date dateSystemMetadataLastModified = resultSet.getDate("date_modified");
+            Date dateSystemMetadataLastModified = resultSet.getTimestamp("date_modified");
             systemMetadataStatus
                     .setLastSystemMetadataModificationDate(dateSystemMetadataLastModified);
 
@@ -990,7 +989,7 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
             replica.setReplicationStatus(replStatus);
 
             // add date_verified
-            Date dateVerified = resultSet.getDate("date_verified");
+            Date dateVerified = resultSet.getTimestamp("date_verified");
             replica.setReplicaVerified(dateVerified);
 
             return replica;
@@ -1180,7 +1179,7 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
             List<NodeReference> preferredNodes = new ArrayList<NodeReference>();
             List<NodeReference> blockedNodes = new ArrayList<NodeReference>();
 
-            replPolicies = listReplicationPolicies(pid, SystemMetadataDaoMetacatImpl.this.tableMap);
+            replPolicies = listReplicationPolicies(pid, tableMap);
 
             for (ReplicationPolicyEntry policy : replPolicies) {
                 Identifier id = policy.getPid();
@@ -1204,12 +1203,12 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
             // populate and add replicas list
 
             List<Replica> replicas = new ArrayList<Replica>();
-            replicas = listReplicaEntries(pid, SystemMetadataDaoMetacatImpl.this.tableMap);
+            replicas = listReplicaEntries(pid, tableMap);
             systemMetadata.setReplicaList(replicas);
 
             // populate and add AccessPolicy
             List<AccessRule> accessRules = new ArrayList<AccessRule>();
-            accessRules = listAccessRules(pid, SystemMetadataDaoMetacatImpl.this.tableMap);
+            accessRules = listAccessRules(pid, tableMap);
             accessPolicy.setAllowList(accessRules);
 
             // Validate the system metadata in debug mode using TypeMarshaller
