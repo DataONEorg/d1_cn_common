@@ -19,7 +19,14 @@
  */
 package org.dataone.cn.dao;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+
+import junit.framework.Assert;
+
 import org.dataone.configuration.Settings;
+import org.dataone.service.types.v1.SystemMetadata;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 /**
@@ -28,6 +35,9 @@ import org.springframework.jdbc.core.JdbcTemplate;
  * @author cjones
  */
 public class SystemMetadataDaoMetacatImplTestUtil {
+
+    private static final DateFormat uploadFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    private static final DateFormat modFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
 
     // provide the CN router id for insert statements
     public static final String cnNodeId = Settings.getConfiguration().getString("cn.router.nodeId",
@@ -40,7 +50,6 @@ public class SystemMetadataDaoMetacatImplTestUtil {
                 SystemMetadataDaoMetacatImpl.SM_POLICY_TABLE,
                 SystemMetadataDaoMetacatImpl.SM_STATUS_TABLE,
                 SystemMetadataDaoMetacatImpl.ACCESS_TABLE);
-
     }
 
     /**
@@ -206,5 +215,60 @@ public class SystemMetadataDaoMetacatImplTestUtil {
                 + sysMetaTable
                 + " VALUES ('pisco-test-774d0eb40bb051046a5469be7d912d30.1.1', '1', '2013-07-31 17:00:00', 'uid=cjones,o=NCEAS,dc=ecoinformatics,dc=org', '1842c6ce6c398afe62f15a01063b39a9', 'MD5', '', '', '2013-07-31 17:41:42.331', 'uid=cjones,o=NCEAS,dc=ecoinformatics,dc=org', 'eml://ecoinformatics.org/eml-2.0.1', '17211', false, false, -1, NULL, NULL);";
         jdbc.execute(str);
+    }
+
+    public static void populateTablesWithTestA(JdbcTemplate jdbc, String idTable,
+            String sysMetaTable, String policyTable, String statusTable, String accessTable) {
+
+        String identifierStatement = "INSERT INTO "
+                + idTable
+                + " VALUES ('6f632bd1cc2772bdcc43bafdbb9d8669.1.1', '6f632bd1cc2772bdcc43bafdbb9d8669.1', 1);";
+        jdbc.execute(identifierStatement);
+
+        String sysMetaStatement = "INSERT INTO "
+                + sysMetaTable
+                + " VALUES ('6f632bd1cc2772bdcc43bafdbb9d8669.1.1', '1', '2013-07-31 17:00:00', 'uid=cjones,o=NCEAS,dc=ecoinformatics,dc=org', '709eee7f02ff1f12a9084b906ee0770e', 'MD5', 'urn:node:testSource', 'urn:node:testSource', '2013-07-31 15:29:44.429', 'uid=cjones,o=NCEAS,dc=ecoinformatics,dc=org', 'eml://ecoinformatics.org/eml-2.0.1', '14230', false, false, -1, NULL, NULL);";
+        jdbc.execute(sysMetaStatement);
+
+        String accessStatement = "INSERT INTO "
+                + accessTable
+                + " VALUES ('6f632bd1cc2772bdcc43bafdbb9d8669.1.1', NULL, 'public', 4, 'allow', 'allowFirst', NULL, NULL, NULL, NULL, NULL, NULL);";
+        jdbc.execute(accessStatement);
+    }
+
+    public static void verifyTestA(SystemMetadata sysMeta) throws ParseException {
+        Assert.assertEquals("Identifier does not match.", "6f632bd1cc2772bdcc43bafdbb9d8669.1.1",
+                sysMeta.getIdentifier().getValue());
+
+        Assert.assertEquals("Serial Version does not match.", 1, sysMeta.getSerialVersion()
+                .intValue());
+
+        Assert.assertEquals("Uploaded Date does not match.",
+                uploadFormat.parse("2013-07-31 17:00:00"), sysMeta.getDateUploaded());
+
+        Assert.assertEquals("Rights holder does not match",
+                "uid=cjones,o=NCEAS,dc=ecoinformatics,dc=org", sysMeta.getRightsHolder().getValue());
+
+        Assert.assertEquals("Checksum does not match", "709eee7f02ff1f12a9084b906ee0770e", sysMeta
+                .getChecksum().getValue());
+
+        Assert.assertEquals("Checksum algo does not match", "MD5", sysMeta.getChecksum()
+                .getAlgorithm());
+
+        Assert.assertEquals("Origin Member node does not match", "urn:node:testSource", sysMeta
+                .getOriginMemberNode().getValue());
+
+        Assert.assertEquals("Authoritative Member node does not match", "urn:node:testSource",
+                sysMeta.getAuthoritativeMemberNode().getValue());
+
+        Assert.assertEquals("Modified Date does not match",
+                modFormat.parseObject("2013-07-31 15:29:44.429"),
+                sysMeta.getDateSysMetadataModified());
+
+        Assert.assertEquals("Submitter does not match",
+                "uid=cjones,o=NCEAS,dc=ecoinformatics,dc=org", sysMeta.getSubmitter().getValue());
+
+        Assert.assertEquals("Object format does not match", "eml://ecoinformatics.org/eml-2.0.1",
+                sysMeta.getFormatId().getValue());
     }
 }
