@@ -1156,7 +1156,7 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
             String obsoletedBy = resultSet.getString("obsoleted_by");
             if (obsoletedBy != null) {
                 Identifier obsoletedById = new Identifier();
-                obsoletedById.setValue(obsoletes);
+                obsoletedById.setValue(obsoletedBy);
                 systemMetadata.setObsoletedBy(obsoletedById);
             }
 

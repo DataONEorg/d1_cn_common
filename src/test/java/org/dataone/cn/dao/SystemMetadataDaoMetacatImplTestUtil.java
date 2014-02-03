@@ -239,7 +239,7 @@ public class SystemMetadataDaoMetacatImplTestUtil {
 
         String sysMetaStatement = "INSERT INTO "
                 + sysMetaTable
-                + " VALUES ('6f632bd1cc2772bdcc43bafdbb9d8669.1.1', '1', '2013-07-31 17:00:00', 'uid=cjones,o=NCEAS,dc=ecoinformatics,dc=org', '709eee7f02ff1f12a9084b906ee0770e', 'MD5', 'urn:node:testSource', 'urn:node:testSource', '2013-07-31 15:29:44.429', 'uid=cjones,o=NCEAS,dc=ecoinformatics,dc=org', 'eml://ecoinformatics.org/eml-2.0.1', '14230', false, false, 1, NULL, NULL);";
+                + " VALUES ('6f632bd1cc2772bdcc43bafdbb9d8669.1.1', '1', '2013-07-31 17:00:00', 'uid=cjones,o=NCEAS,dc=ecoinformatics,dc=org', '709eee7f02ff1f12a9084b906ee0770e', 'MD5', 'urn:node:testSource', 'urn:node:testSource', '2013-07-31 15:29:44.429', 'uid=cjones,o=NCEAS,dc=ecoinformatics,dc=org', 'eml://ecoinformatics.org/eml-2.0.1', '14230', false, false, 1, '6f632bd1cc2772bdcc43bafdbb9d8669.1.0', '6f632bd1cc2772bdcc43bafdbb9d8669.1.2');";
         jdbc.execute(sysMetaStatement);
 
         String accessStatement = "INSERT INTO "
@@ -296,9 +296,11 @@ public class SystemMetadataDaoMetacatImplTestUtil {
 
         Assert.assertEquals("Archived does not match", false, sysMeta.getArchived().booleanValue());
 
-        Assert.assertNull("Obsoletes should be null", sysMeta.getObsoletes());
+        Assert.assertEquals("Obsoletes does not match", "6f632bd1cc2772bdcc43bafdbb9d8669.1.0",
+                sysMeta.getObsoletes().getValue());
 
-        Assert.assertNull("ObsoletedBy should be null", sysMeta.getObsoletedBy());
+        Assert.assertEquals("ObsoletedBy does not match", "6f632bd1cc2772bdcc43bafdbb9d8669.1.2",
+                sysMeta.getObsoletedBy().getValue());
 
         // verify replica policy
         Assert.assertNotNull("Replication Policy should not be null",
