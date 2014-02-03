@@ -732,7 +732,7 @@ public class ReplicationDaoMetacatImpl implements ReplicationDao {
                     .getString("status")));
             replica.setReplicationStatus(status);
 
-            Date verifiedDate = rs.getDate("date_verified");
+            Date verifiedDate = rs.getTimestamp("date_verified");
             replica.setReplicaVerified(verifiedDate);
 
             result.replica = replica;
