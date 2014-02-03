@@ -270,5 +270,23 @@ public class SystemMetadataDaoMetacatImplTestUtil {
 
         Assert.assertEquals("Object format does not match", "eml://ecoinformatics.org/eml-2.0.1",
                 sysMeta.getFormatId().getValue());
+
+        Assert.assertEquals("Size does not match", 14230, sysMeta.getSize().intValue());
+
+        Assert.assertEquals("Archived does not match", false, sysMeta.getArchived().booleanValue());
+
+        Assert.assertNull("Obsoletes should be null", sysMeta.getObsoletes());
+        Assert.assertNull("ObsoletedBy should be null", sysMeta.getObsoletedBy());
+
+        Assert.assertNotNull("Access policy should not be null", sysMeta.getAccessPolicy());
+
+        Assert.assertNotNull("Replication Policy should not be null",
+                sysMeta.getReplicationPolicy());
+
+        Assert.assertEquals("Replication allowed does not match", false, sysMeta
+                .getReplicationPolicy().getReplicationAllowed().booleanValue());
+
+        Assert.assertEquals("Number replicas does not match", -1, sysMeta.getReplicationPolicy()
+                .getNumberReplicas().intValue());
     }
 }
