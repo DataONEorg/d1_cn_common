@@ -1210,6 +1210,7 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
             List<AccessRule> accessRules = new ArrayList<AccessRule>();
             accessRules = listAccessRules(pid, tableMap);
             accessPolicy.setAllowList(accessRules);
+            systemMetadata.setAccessPolicy(accessPolicy);
 
             // Validate the system metadata in debug mode using TypeMarshaller
             if (log.isDebugEnabled()) {

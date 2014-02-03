@@ -26,6 +26,8 @@ import java.text.SimpleDateFormat;
 import junit.framework.Assert;
 
 import org.dataone.configuration.Settings;
+import org.dataone.service.types.v1.AccessRule;
+import org.dataone.service.types.v1.Permission;
 import org.dataone.service.types.v1.Replica;
 import org.dataone.service.types.v1.ReplicationStatus;
 import org.dataone.service.types.v1.SystemMetadata;
@@ -287,28 +289,53 @@ public class SystemMetadataDaoMetacatImplTestUtil {
         Assert.assertEquals("Archived does not match", false, sysMeta.getArchived().booleanValue());
 
         Assert.assertNull("Obsoletes should be null", sysMeta.getObsoletes());
+
         Assert.assertNull("ObsoletedBy should be null", sysMeta.getObsoletedBy());
 
+        // verify replica policy
         Assert.assertNotNull("Replication Policy should not be null",
                 sysMeta.getReplicationPolicy());
+
         Assert.assertEquals("Replication allowed does not match", false, sysMeta
                 .getReplicationPolicy().getReplicationAllowed().booleanValue());
+
         Assert.assertEquals("Number replicas does not match", 1, sysMeta.getReplicationPolicy()
                 .getNumberReplicas().intValue());
+
         Assert.assertEquals("Number of preferred replica nodes does not match", 1, sysMeta
-                .getReplicationPolicy().getPreferredMemberNodeList().size());
+                .getReplicationPolicy().sizePreferredMemberNodeList());
+
         Assert.assertEquals("Preferred replica node does not match", "urn:node:testNode2", sysMeta
                 .getReplicationPolicy().getPreferredMemberNode(0).getValue());
 
-        Assert.assertEquals("Replica list size is wrong", 1, sysMeta.getReplicaList().size());
+        // verify replica list
+        Assert.assertEquals("Replica list size is wrong", 1, sysMeta.sizeReplicaList());
+
         Replica replica = sysMeta.getReplica(0);
+
         Assert.assertEquals("Replica node does not match", "urn:node:testNode2", replica
                 .getReplicaMemberNode().getValue());
+
         Assert.assertEquals("Replica status does not match", ReplicationStatus.COMPLETED,
                 replica.getReplicationStatus());
+
         Assert.assertEquals("Replica status date does not match",
                 modFormat.parse("2013-08-05 16:40:00.000"), replica.getReplicaVerified());
 
-        // Assert.assertNotNull("Access policy should not be null", sysMeta.getAccessPolicy());
+        // verify access policy
+        Assert.assertNotNull("Access policy should not be null", sysMeta.getAccessPolicy());
+
+        Assert.assertEquals("Access policy allowed list size is wrong", 1, sysMeta
+                .getAccessPolicy().sizeAllowList());
+
+        AccessRule rule = sysMeta.getAccessPolicy().getAllow(0);
+        Assert.assertEquals("Allow rule subject list size is off", 1, rule.sizeSubjectList());
+
+        Assert.assertEquals("Access policy allow subject does not match", "public", rule
+                .getSubject(0).getValue());
+
+        Assert.assertEquals("Allow rule permission size is off", 1, rule.sizePermissionList());
+        Assert.assertEquals("Allow rule permission does not match", Permission.READ,
+                rule.getPermission(0));
     }
 }
