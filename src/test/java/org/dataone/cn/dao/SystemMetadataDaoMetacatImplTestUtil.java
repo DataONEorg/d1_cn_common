@@ -221,6 +221,14 @@ public class SystemMetadataDaoMetacatImplTestUtil {
         jdbc.execute(str);
     }
 
+    public static void populateTablesWithTestA(JdbcTemplate jdbc) {
+        populateTablesWithTestA(jdbc, SystemMetadataDaoMetacatImpl.IDENTIFIER_TABLE,
+                SystemMetadataDaoMetacatImpl.SYSMETA_TABLE,
+                SystemMetadataDaoMetacatImpl.SM_POLICY_TABLE,
+                SystemMetadataDaoMetacatImpl.SM_STATUS_TABLE,
+                SystemMetadataDaoMetacatImpl.ACCESS_TABLE);
+    }
+
     public static void populateTablesWithTestA(JdbcTemplate jdbc, String idTable,
             String sysMetaTable, String policyTable, String statusTable, String accessTable) {
 

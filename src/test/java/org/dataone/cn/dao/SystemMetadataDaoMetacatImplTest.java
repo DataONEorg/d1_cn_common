@@ -19,6 +19,7 @@
  */
 package org.dataone.cn.dao;
 
+import java.text.ParseException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,6 +27,8 @@ import java.util.Map;
 import junit.framework.Assert;
 
 import org.dataone.cn.dao.exceptions.DataAccessException;
+import org.dataone.service.types.v1.Identifier;
+import org.dataone.service.types.v1.SystemMetadata;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -85,6 +88,18 @@ public class SystemMetadataDaoMetacatImplTest {
 
         Assert.assertTrue(statusList.size() == 10);
 
+    }
+
+    @Test
+    public void testGetSystemMetadata() throws DataAccessException, ParseException {
+        SystemMetadataDaoMetacatImplTestUtil.populateTablesWithTestA(jdbc);
+
+        Identifier id = new Identifier();
+        id.setValue("6f632bd1cc2772bdcc43bafdbb9d8669.1.1");
+        SystemMetadata smd = systemMetadataDao.getSystemMetadata(id);
+        Assert.assertNotNull(smd);
+
+        SystemMetadataDaoMetacatImplTestUtil.verifyTestA(smd);
     }
 
     /*
