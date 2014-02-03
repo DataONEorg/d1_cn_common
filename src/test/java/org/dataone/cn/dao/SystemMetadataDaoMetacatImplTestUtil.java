@@ -293,15 +293,16 @@ public class SystemMetadataDaoMetacatImplTestUtil {
 
         Assert.assertNotNull("Replication Policy should not be null",
                 sysMeta.getReplicationPolicy());
-
         Assert.assertEquals("Replication allowed does not match", false, sysMeta
                 .getReplicationPolicy().getReplicationAllowed().booleanValue());
-
         Assert.assertEquals("Number replicas does not match", 1, sysMeta.getReplicationPolicy()
                 .getNumberReplicas().intValue());
+        Assert.assertEquals("Number of preferred replica nodes does not match", 1, sysMeta
+                .getReplicationPolicy().getPreferredMemberNodeList().size());
+        Assert.assertEquals("Preferred replica node does not match", "urn:node:TestNode2", sysMeta
+                .getReplicationPolicy().getPreferredMemberNode(0));
 
         Assert.assertEquals("Replica list size is wrong", 1, sysMeta.getReplicaList());
-
         Replica replica = sysMeta.getReplica(0);
         Assert.assertEquals("Replica node does not match", "urn:node:TestNode2", replica
                 .getReplicaMemberNode().getValue());
