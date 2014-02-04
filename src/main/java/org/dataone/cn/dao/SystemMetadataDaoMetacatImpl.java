@@ -485,25 +485,109 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
 					success = false;
 				}
 				
-				// TODO: update the smreplicationpolicy table
+				// Update the smreplicationpolicy table
 				ReplicationPolicy replPolicy = finalSysMeta.getReplicationPolicy();
+				int totalReplPolicies = 0;
+				int updatedReplPolicies = 0;
+
 				if ( replPolicy != null ) {
 					List<NodeReference> preferredNodes = replPolicy.getPreferredMemberNodeList();
-					if ( preferredNodes != null ) {
+					List<NodeReference> blockedNodes   = replPolicy.getBlockedMemberNodeList();
+
+					// first remove listed policy entries
+					if ( preferredNodes !=null || blockedNodes != null ) {
+						jdbcTemplate.update("DELETE FROM " + smReplPolicyTable
+								+ "WHERE guid = ?", new Object[] { pid.getValue() });
+					}
 					
-						// 
+
+					// count the number of total policies needed to be updated
+					if ( preferredNodes != null ) {
+						totalReplPolicies = totalReplPolicies + preferredNodes.size();
+						
+						// then update the preferred entries
+						for ( NodeReference preferredNode : preferredNodes ) {
+							String preferredNodeStr = preferredNode.getValue();
+							int preferredRows = 
+								jdbcTemplate.update("INSERT INTO " + smReplPolicyTable + 
+								" (guid, member_node, policy) VALUES (?, ?, ?);", 
+								new Object[] {pid.getValue(), preferredNodeStr, "preferred"}, 
+								new int[] {java.sql.Types.LONGNVARCHAR, 
+										   java.sql.Types.VARCHAR, 
+									       java.sql.Types.VARCHAR});
+							updatedReplPolicies += preferredRows;
+						}
+
+					}
+					
+					if ( blockedNodes != null ) {
+						totalReplPolicies = totalReplPolicies + blockedNodes.size();
+						
+						// then update the blocked entries
+						for ( NodeReference blockedNode : preferredNodes ) {
+							int blockedRows =
+							jdbcTemplate.update("INSERT INTO " + smReplPolicyTable + 
+							" (guid, member_node, policy) VALUES (?, ?, ?);", 
+							new Object[] {pid.getValue(), blockedNode.getValue(), "blocked"}, 
+							new int[] {java.sql.Types.LONGVARCHAR, 
+									   java.sql.Types.VARCHAR, 
+									   java.sql.Types.VARCHAR});
+							updatedReplPolicies += blockedRows;
+
+						}
+						
+					}
+					
+					// did we update what we were supposed to?
+					if ( updatedReplPolicies != totalReplPolicies ) {
+						success = false;
+						log.error("For identifier " + pid.getValue() + ", only " + 
+							updatedReplPolicies + "replication policies of " + 
+							totalReplPolicies + "were inserted.");
+						
 					}
 				}
 				
 				// TODO: update the smreplicationstatus table
 				List<Replica> replicas = finalSysMeta.getReplicaList();
+				int totalReplicas = 0;
+				int updatedReplicas = 0;
+				
 				if ( replicas != null ) {
+					totalReplicas = totalReplicas + replicas.size();
 					
+					// first remove listed replicas
+					jdbcTemplate.update("DELETE FROM " + smReplStatusTable + " WHERE guid = ?", 
+						new Object[] {pid.getValue()});
+					
+					for ( Replica replica : replicas ) {
+						int replicaRows =
+							jdbcTemplate.update("INSERT INTO " + smReplStatusTable + 
+							" (guid, member_node, status, date_verified) VALUES (?, ?, ?, ?)", 
+							new Object[] {pid.getValue(), 
+									     (replica.getReplicaMemberNode().getValue()),
+									     replica.getReplicationStatus(),
+									     new Timestamp(replica.getReplicaVerified().getTime())}, 
+						    new int[] {java.sql.Types.LONGVARCHAR,
+						               java.sql.Types.VARCHAR,
+						               java.sql.Types.VARCHAR,
+						               java.sql.Types.TIMESTAMP});
+						updatedReplicas += replicaRows;
+					}
+
+				}
+				
+				if ( updatedReplicas != totalReplicas ) {
+					success = false;
+					log.error("For identifier " + pid.getValue() + ", only " + 
+							updatedReplicas + "replicas of " + 
+							totalReplicas + "were inserted.");
+
 				}
 				
 				// TODO: update the xml_access table
 				AccessPolicy accessPolicy = finalSysMeta.getAccessPolicy();
-				int numberOfAccessRules = -1;
+				int numberOfAccessRules = 0;
 				List<AccessRule> accessRules = new ArrayList<AccessRule>();
 				
 				if ( accessPolicy != null ) {
@@ -516,7 +600,20 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
 					
 					// add the new rules back in
 					for ( AccessRule accessRule : accessRules ) {
-						// TODO: insert access rules
+						List<Subject> subjects = accessRule.getSubjectList();
+						List<Permission> permissions = accessRule.getPermissionList();
+						// TODO: need to convert permissions from text to int
+						
+						// TODO: finish this:
+						// for (Subject subject : subjects) {
+						// 	int accessRows = jdbcTemplate.update("INSERT INTO " + xmlAccessTable +
+						// 		" (guid, principal_name, permission, perm_type) VALUES (?, ?, ?, ?)",
+						// 	new Object[] { pid.getValue(), subject, permission, "allow" }, 
+						// 	new int[] {java.sql.Types.LONGVARCHAR,
+						// 			   java.sql.Types.VARCHAR,
+						// 			   java.sql.Types.INTEGER,
+						// 			   java.sql.Types.VARCHAR });
+						// }
 					}
 				}
 				
@@ -736,31 +833,6 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
 		return types;
     }
     
-    /**
-     * Returns a SQL statement and the parameter list (update values) to be used in the statement
-     * to update the given system metadata table
-     * 
-     * @param systemMetadata
-     * @param tableName
-     * @return
-     * @throws DataAccessException 
-     */
-    protected Map<String, List<String>> buildSmReplPolicySqlStatement(SystemMetadata systemMetadata, 
-    	String tableName) {
-    	
-    	List<String> values = new ArrayList<String>();
-    	StringBuilder sql = new StringBuilder();
-    	Map<String, List<String>> sqlStatementMap = new HashMap<String, List<String>>();
-    	
-		sql.append("UPDATE " + tableName + " SET ");
-		sql.append("guid = ?, ");
-		sql.append("member_node = ?, ");
-		sql.append("policy = ? ");
-		sql.append(";");
-
-		return sqlStatementMap;
-	}
-
 	/**
      * Create a mapping in the identifier table of the pid to local docid. this method should be
      * used cautiously.  Metacat should have created a mapping on create() of an object, or via 
