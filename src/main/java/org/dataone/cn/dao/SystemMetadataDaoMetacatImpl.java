@@ -548,7 +548,7 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
 					}
 				}
 				
-				// TODO: update the smreplicationstatus table
+				// Update the smreplicationstatus table
 				List<Replica> replicas = finalSysMeta.getReplicaList();
 				int totalReplicas = 0;
 				int updatedReplicas = 0;
@@ -585,13 +585,13 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
 
 				}
 				
-				// TODO: update the xml_access table
+				// Update the xml_access table
 				AccessPolicy accessPolicy = finalSysMeta.getAccessPolicy();
-				int numberOfAccessRules = 0;
+				int updatedAccessRows = 0;
+				int numberOfSubjects = 0;
 				List<AccessRule> accessRules = new ArrayList<AccessRule>();
 				
 				if ( accessPolicy != null ) {
-					numberOfAccessRules = accessPolicy.sizeAllowList();
 					accessRules = accessPolicy.getAllowList();
 					
 					// first delete existing rules for this pid
@@ -601,24 +601,49 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
 					// add the new rules back in
 					for ( AccessRule accessRule : accessRules ) {
 						List<Subject> subjects = accessRule.getSubjectList();
+						numberOfSubjects += subjects.size();
 						List<Permission> permissions = accessRule.getPermissionList();
-						// TODO: need to convert permissions from text to int
+						// convert permissions from text to int
+						Integer perm = null;
+						for ( Permission permission : permissions ) {
+							if ( perm != null ) {
+								perm &= convertPermission(permission);
+								
+							} else {
+								perm = convertPermission(permission);
+							}
+							
+						}
 						
-						// TODO: finish this:
-						// for (Subject subject : subjects) {
-						// 	int accessRows = jdbcTemplate.update("INSERT INTO " + xmlAccessTable +
-						// 		" (guid, principal_name, permission, perm_type) VALUES (?, ?, ?, ?)",
-						// 	new Object[] { pid.getValue(), subject, permission, "allow" }, 
-						// 	new int[] {java.sql.Types.LONGVARCHAR,
-						// 			   java.sql.Types.VARCHAR,
-						// 			   java.sql.Types.INTEGER,
-						// 			   java.sql.Types.VARCHAR });
-						// }
+						for (Subject subject : subjects) {
+							int accessRows = jdbcTemplate.update("INSERT INTO " + xmlAccessTable +
+								" (guid, principal_name, permission, perm_type, perm_order) " + 
+								" VALUES (?, ?, ?, ?, ?)",
+							new Object[] { pid.getValue(), 
+									       subject.getValue(), 
+									       perm, 
+									       "allow", 
+									       "allowFirst"}, 
+							new int[] {java.sql.Types.LONGVARCHAR,
+									   java.sql.Types.VARCHAR,
+									   java.sql.Types.INTEGER,
+									   java.sql.Types.VARCHAR,
+									   java.sql.Types.VARCHAR});
+							updatedAccessRows += accessRows;
+						}
 					}
+					
+					// Determine success for access policy updates
+					if ( updatedAccessRows != numberOfSubjects ) {
+						success = false;
+						log.error("For identifier " + pid.getValue() + ", only " + 
+								updatedAccessRows + "replicas of " + 
+								numberOfSubjects + "were inserted.");
+
+					}
+					
 				}
-				
-				// TODO: Decide what is success
-				
+								
 				// rollback if we don't succeed on all calls
 				status.setRollbackOnly();
 				return new Boolean(success);
@@ -1324,6 +1349,32 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
 
     }
 
+    /**
+     * Convert string-based permission values to Metacat integer-based values
+     * 
+     * @param permission
+     * @return
+     */
+    public int convertPermission(Permission permission) {
+
+        final int CHMOD = 1;
+        final int WRITE = 2;
+        final int READ = 4;
+        final int ALL = 7;
+
+    	if (permission.equals(Permission.READ)) {
+    		return READ;
+    	}
+    	if (permission.equals(Permission.WRITE)) {
+    		return WRITE;
+    	}
+    	if (permission.equals(Permission.CHANGE_PERMISSION)) {
+    		return CHMOD;
+    	}
+		return -1;
+    }
+
+    
     /**
      * Convert integer-based permission values to string-based permissions
      * @param value  the integer value of the permission
