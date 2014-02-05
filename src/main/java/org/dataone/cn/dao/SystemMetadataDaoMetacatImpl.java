@@ -102,10 +102,7 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
      * Constructor. Creates an instance of SystemMetadataDaoMetacatImpl
      */
     public SystemMetadataDaoMetacatImpl() {
-        jdbcTemplate = new JdbcTemplate(DataSourceFactory.getMetacatDataSource());
-        txManager = new DataSourceTransactionManager(DataSourceFactory.getMetacatDataSource());
-        txTemplate = new TransactionTemplate(txManager);
-        txTemplate.setIsolationLevel(TransactionDefinition.ISOLATION_READ_COMMITTED);
+        this(DataSourceFactory.getMetacatDataSource());
     }
 
     /**
