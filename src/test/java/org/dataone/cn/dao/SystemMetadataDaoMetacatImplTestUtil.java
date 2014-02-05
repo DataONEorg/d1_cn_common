@@ -247,14 +247,34 @@ public class SystemMetadataDaoMetacatImplTestUtil {
                 + " VALUES ('6f632bd1cc2772bdcc43bafdbb9d8669.1.1', NULL, 'public', 4, 'allow', 'allowFirst', NULL, NULL, NULL, NULL, NULL, NULL);";
         jdbc.execute(accessStatement);
 
+        accessStatement = "INSERT INTO "
+                + accessTable
+                + " VALUES ('6f632bd1cc2772bdcc43bafdbb9d8669.1.1', NULL, 'testSubject', 7, 'allow', 'allowFirst', NULL, NULL, NULL, NULL, NULL, NULL);";
+        jdbc.execute(accessStatement);
+
         String policyStatement = "INSERT INTO "
                 + policyTable
                 + " VALUES ('6f632bd1cc2772bdcc43bafdbb9d8669.1.1', 'urn:node:testNode2', 'preferred');";
         jdbc.execute(policyStatement);
 
+        policyStatement = "INSERT INTO "
+                + policyTable
+                + " VALUES ('6f632bd1cc2772bdcc43bafdbb9d8669.1.1', 'urn:node:testNode4', 'preferred');";
+        jdbc.execute(policyStatement);
+
+        policyStatement = "INSERT INTO "
+                + policyTable
+                + " VALUES ('6f632bd1cc2772bdcc43bafdbb9d8669.1.1', 'urn:node:testNode3', 'blocked');";
+        jdbc.execute(policyStatement);
+
         String statusStatement = "INSERT INTO "
                 + statusTable
                 + " VALUES ('6f632bd1cc2772bdcc43bafdbb9d8669.1.1','urn:node:testNode2','completed','2013-08-05 16:40:00.000');";
+        jdbc.execute(statusStatement);
+
+        statusStatement = "INSERT INTO "
+                + statusTable
+                + " VALUES ('6f632bd1cc2772bdcc43bafdbb9d8669.1.1','urn:node:testNode4','queued','2013-08-05 16:25:00.000');";
         jdbc.execute(statusStatement);
     }
 
@@ -312,14 +332,20 @@ public class SystemMetadataDaoMetacatImplTestUtil {
         Assert.assertEquals("Number replicas does not match", 1, sysMeta.getReplicationPolicy()
                 .getNumberReplicas().intValue());
 
-        Assert.assertEquals("Number of preferred replica nodes does not match", 1, sysMeta
+        Assert.assertEquals("Number of preferred replica nodes does not match", 2, sysMeta
                 .getReplicationPolicy().sizePreferredMemberNodeList());
 
         Assert.assertEquals("Preferred replica node does not match", "urn:node:testNode2", sysMeta
                 .getReplicationPolicy().getPreferredMemberNode(0).getValue());
 
+        Assert.assertEquals("Preferred replica node does not match", "urn:node:testNode4", sysMeta
+                .getReplicationPolicy().getPreferredMemberNode(1).getValue());
+
+        Assert.assertEquals("Number of blocked replica nodes does not match", 1, sysMeta
+                .getReplicationPolicy().sizeBlockedMemberNodeList(), 1);
+
         // verify replica list
-        Assert.assertEquals("Replica list size is wrong", 1, sysMeta.sizeReplicaList());
+        Assert.assertEquals("Replica list size is wrong", 2, sysMeta.sizeReplicaList());
 
         Replica replica = sysMeta.getReplica(0);
 
@@ -332,10 +358,21 @@ public class SystemMetadataDaoMetacatImplTestUtil {
         Assert.assertEquals("Replica status date does not match",
                 modFormat.parse("2013-08-05 16:40:00.000"), replica.getReplicaVerified());
 
+        replica = sysMeta.getReplica(1);
+
+        Assert.assertEquals("Replica node does not match", "urn:node:testNode4", replica
+                .getReplicaMemberNode().getValue());
+
+        Assert.assertEquals("Replica status does not match", ReplicationStatus.QUEUED,
+                replica.getReplicationStatus());
+
+        Assert.assertEquals("Replica status date does not match",
+                modFormat.parse("2013-08-05 16:25:00.000"), replica.getReplicaVerified());
+
         // verify access policy
         Assert.assertNotNull("Access policy should not be null", sysMeta.getAccessPolicy());
 
-        Assert.assertEquals("Access policy allowed list size is wrong", 1, sysMeta
+        Assert.assertEquals("Access policy allowed list size is wrong", 2, sysMeta
                 .getAccessPolicy().sizeAllowList());
 
         AccessRule rule = sysMeta.getAccessPolicy().getAllow(0);
@@ -347,5 +384,20 @@ public class SystemMetadataDaoMetacatImplTestUtil {
         Assert.assertEquals("Allow rule permission size is off", 1, rule.sizePermissionList());
         Assert.assertEquals("Allow rule permission does not match", Permission.READ,
                 rule.getPermission(0));
+
+        rule = sysMeta.getAccessPolicy().getAllow(1);
+        Assert.assertEquals("Allow rule subject list size is off", 1, rule.sizeSubjectList());
+
+        Assert.assertEquals("Access policy allow subject does not match", "testSubject", rule
+                .getSubject(0).getValue());
+
+        Assert.assertEquals("Allow rule permission size is off", 3, rule.sizePermissionList());
+        Assert.assertTrue("Allow rule all permission missing READ persmission", rule
+                .getPermissionList()
+                .contains(Permission.READ));
+        Assert.assertTrue("Allow rule all permission missing WRITE persmission", rule
+                .getPermissionList().contains(Permission.WRITE));
+        Assert.assertTrue("Allow rule all permission missing CHANGE persmission", rule
+                .getPermissionList().contains(Permission.CHANGE_PERMISSION));
     }
 }
