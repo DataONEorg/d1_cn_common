@@ -20,9 +20,7 @@
 package org.dataone.cn.dao;
 
 import java.text.ParseException;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import junit.framework.Assert;
 
@@ -66,11 +64,9 @@ public class SystemMetadataDaoMetacatImplTest {
 
     @Test
     public void testGetSystemMetadataCount() throws DataAccessException {
-
         // Get some data into systemmetadata
         SystemMetadataDaoMetacatImplTestUtil.populateSystemMetadata(jdbc);
-        Map<String, String> tableMap = getTableMap(""); //use an empty prefix for this test
-        int systemMetadataCount = systemMetadataDao.getSystemMetadataCount(tableMap);
+        int systemMetadataCount = systemMetadataDao.getSystemMetadataCount();
         Assert.assertTrue(systemMetadataCount == 10);
     }
 
@@ -79,15 +75,9 @@ public class SystemMetadataDaoMetacatImplTest {
      */
     @Test
     public void testListSystemMetadataStatus() throws DataAccessException {
-
         SystemMetadataDaoMetacatImplTestUtil.populateSystemMetadata(jdbc);
-        Map<String, String> tableMap = getTableMap(""); //use an empty prefix for this test
-
-        List<SystemMetadataStatus> statusList = systemMetadataDao.listSystemMetadataStatus(0, 0,
-                tableMap);
-
+        List<SystemMetadataStatus> statusList = systemMetadataDao.listSystemMetadataStatus(0, 0);
         Assert.assertTrue(statusList.size() == 10);
-
     }
 
     @Test
@@ -100,18 +90,5 @@ public class SystemMetadataDaoMetacatImplTest {
         Assert.assertNotNull(smd);
 
         SystemMetadataDaoMetacatImplTestUtil.verifyTestA(smd);
-    }
-
-    /*
-     * Create a table map of standard system metadata table names to custom prefixed names
-     */
-    private Map<String, String> getTableMap(String prefix) {
-        Map<String, String> tableMap = new HashMap<String, String>();
-        tableMap.put(SystemMetadataDaoMetacatImpl.IDENTIFIER_TABLE, prefix + "identifier");
-        tableMap.put(SystemMetadataDaoMetacatImpl.SYSMETA_TABLE, prefix + "systemmetadata");
-        tableMap.put(SystemMetadataDaoMetacatImpl.SM_POLICY_TABLE, prefix + "smreplicationpolicy");
-        tableMap.put(SystemMetadataDaoMetacatImpl.SM_STATUS_TABLE, prefix + "smreplicationstatus");
-        tableMap.put(SystemMetadataDaoMetacatImpl.ACCESS_TABLE, prefix + "xml_access");
-        return tableMap;
     }
 }
