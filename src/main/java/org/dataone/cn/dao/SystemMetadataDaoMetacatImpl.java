@@ -102,7 +102,10 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
      * Constructor. Creates an instance of SystemMetadataDaoMetacatImpl
      */
     public SystemMetadataDaoMetacatImpl() {
-        this(DataSourceFactory.getMetacatDataSource());
+        jdbcTemplate = new JdbcTemplate(DataSourceFactory.getMetacatDataSource());
+        txManager = new DataSourceTransactionManager(DataSourceFactory.getMetacatDataSource());
+        txTemplate = new TransactionTemplate(txManager);
+        txTemplate.setIsolationLevel(TransactionDefinition.ISOLATION_READ_COMMITTED);
     }
 
     /**
@@ -478,8 +481,8 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
 				Object[] values = getSysMetaAttrValues(sysMetaMap);
 				int[] types = getSysMetaAttrTypes();
 				int sysMetaRows = jdbcTemplate.update(sqlStatement, values, types);
-				if ( sysMetaRows != 1 ) {
-					success = false;
+				if ( sysMetaRows == 1 ) {
+					success = true;
 				}
 				
 				// Update the smreplicationpolicy table
@@ -536,12 +539,15 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
 					}
 					
 					// did we update what we were supposed to?
-					if ( updatedReplPolicies != totalReplPolicies ) {
+					if ( updatedReplPolicies == totalReplPolicies ) {
+						success = true;
+						
+					} else {
 						success = false;
 						log.error("For identifier " + pid.getValue() + ", only " + 
 							updatedReplPolicies + "replication policies of " + 
 							totalReplPolicies + "were inserted.");
-						
+
 					}
 				}
 				
@@ -574,7 +580,10 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
 
 				}
 				
-				if ( updatedReplicas != totalReplicas ) {
+				if ( updatedReplicas == totalReplicas ) {
+					success = true;
+
+				} else {
 					success = false;
 					log.error("For identifier " + pid.getValue() + ", only " + 
 							updatedReplicas + "replicas of " + 
@@ -631,7 +640,10 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
 					}
 					
 					// Determine success for access policy updates
-					if ( updatedAccessRows != numberOfSubjects ) {
+					if ( updatedAccessRows == numberOfSubjects ) {
+						success = true;
+
+					} else {
 						success = false;
 						log.error("For identifier " + pid.getValue() + ", only " + 
 								updatedAccessRows + "replicas of " + 
