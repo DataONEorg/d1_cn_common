@@ -64,17 +64,4 @@ public interface SystemMetadataDao {
      */
     public SystemMetadata getSystemMetadata(Identifier pid) throws DataAccessException;
 
-    /**
-     * Save the system metadata entry for a given identifier
-     * 
-     * @param pid
-     * @param dataSource  The data source instance of the database to connect to
-     * @param tableMap   The lookup map of table names. The map must include 'identifier', 'systemmetadata', 
-     * 'smreplicationpolicy', 'smreplicationstatus', and 'xml_access' keys and their respective
-     * values that are table names specific to the cached CN data (like 'ucsb_identifier')
-     * @return
-     * @throws DataAccessException
-     */
-    public Identifier saveSystemMetadata(SystemMetadata systemMetadata) throws DataAccessException;
-
 }

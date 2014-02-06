@@ -86,7 +86,7 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
     public static final String ACCESS_TABLE = "xml_access";
 
     private JdbcTemplate jdbcTemplate;
-    private static Map<String, String> tableMap = new HashMap<String, String>();
+    protected static Map<String, String> tableMap = new HashMap<String, String>();
     private AbstractPlatformTransactionManager txManager;
     private TransactionTemplate txTemplate;
     
@@ -102,10 +102,7 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
      * Constructor. Creates an instance of SystemMetadataDaoMetacatImpl
      */
     public SystemMetadataDaoMetacatImpl() {
-        jdbcTemplate = new JdbcTemplate(DataSourceFactory.getMetacatDataSource());
-        txManager = new DataSourceTransactionManager(DataSourceFactory.getMetacatDataSource());
-        txTemplate = new TransactionTemplate(txManager);
-        txTemplate.setIsolationLevel(TransactionDefinition.ISOLATION_READ_COMMITTED);
+        this(DataSourceFactory.getMetacatDataSource());
     }
 
     /**
@@ -129,10 +126,6 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
 
     public SystemMetadata getSystemMetadata(Identifier pid) throws DataAccessException {
         return getSystemMetadata(pid, tableMap);
-    }
-
-    public Identifier saveSystemMetadata(SystemMetadata systemMetadata) throws DataAccessException {
-        return saveSystemMetadata(systemMetadata, tableMap);
     }
 
     /*
@@ -303,15 +296,10 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
     public SystemMetadata getSystemMetadata(final Identifier pid, Map<String, String> tableMap)
             throws DataAccessException {
 
-        setTableMap(tableMap);
         List<SystemMetadata> systemMetadataList = new ArrayList<SystemMetadata>();
         SystemMetadata systemMetadata = null;
 
-        final String idTable = (String) tableMap.get(IDENTIFIER_TABLE);
         final String sysMetaTable = (String) tableMap.get(SYSMETA_TABLE);
-        final String replPolicyTable = (String) tableMap.get(SM_POLICY_TABLE);
-        final String replStatusTable = (String) tableMap.get(SM_STATUS_TABLE);
-        final String xmlAccessTable = (String) tableMap.get(ACCESS_TABLE);
 
         // query the systemmetadata table        
         try {
@@ -332,7 +320,7 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
                     return statement;
                 }
 
-            }, new SystemMetadataMapper());
+            }, new SystemMetadataMapper(tableMap));
 
         } catch (org.springframework.dao.DataAccessException dae) {
             handleJdbcDataAccessException(dae);
@@ -385,7 +373,7 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
 			if ( dae.getCause() instanceof NotFound ) {
 				
 				Boolean inserted = new Boolean(false);
-		    	final String finalSysMetaTable = tableMap.get(this.SYSMETA_TABLE);
+                final String finalSysMetaTable = tableMap.get(SYSMETA_TABLE);
 
 		    	// insert just the pid
 				inserted = txTemplate.execute(new TransactionCallback<Boolean>() {
@@ -394,23 +382,19 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
 					public Boolean doInTransaction(TransactionStatus arg0) {
 						Boolean success = new Boolean(false);
 						
-						int rows = jdbcTemplate.update("INSERT INTO " + finalSysMetaTable + 
-							" WHERE guid = ?", new Object[] {pid.getValue()}, 
+                        int rows = jdbcTemplate.update("INSERT INTO " + finalSysMetaTable
+                                + " (guid) VALUES (?);", new Object[] { pid.getValue() },
 							new int[] {java.sql.Types.LONGVARCHAR});
 						
 						if ( rows == 1) { 
 							success = new Boolean(true);
 						}
-						
 						return success;
 					}
-					
 				});
-				
 			} else {
 				// something went wrong other than NotFound
 				throw dae;
-				
 			}
 		}
     	
@@ -462,11 +446,10 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
     	}
 		
     	final SystemMetadata finalSysMeta = sysMeta;
-    	final String identifierTable   = tableMap.get(this.IDENTIFIER_TABLE);
-    	final String sysMetaTable      = tableMap.get(this.SYSMETA_TABLE);
-    	final String smReplPolicyTable = tableMap.get(this.SM_POLICY_TABLE);
-    	final String smReplStatusTable = tableMap.get(this.SM_STATUS_TABLE);
-    	final String xmlAccessTable    = tableMap.get(this.ACCESS_TABLE);
+        final String sysMetaTable = tableMap.get(SYSMETA_TABLE);
+        final String smReplPolicyTable = tableMap.get(SM_POLICY_TABLE);
+        final String smReplStatusTable = tableMap.get(SM_STATUS_TABLE);
+        final String xmlAccessTable = tableMap.get(ACCESS_TABLE);
 
 		updated = txTemplate.execute(new TransactionCallback<Boolean>() {
 
@@ -654,7 +637,7 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
 				}
 								
 				// rollback if we don't succeed on all calls
-				status.setRollbackOnly();
+                status.setRollbackOnly();
 				return new Boolean(success);
 			}
 			
@@ -1171,6 +1154,12 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
      */
     public final class SystemMetadataMapper implements RowMapper<SystemMetadata> {
 
+        private Map<String, String> localTableMap;
+
+        public SystemMetadataMapper(Map<String, String> tableMap) {
+            localTableMap = tableMap;
+        }
+
         /**
          * Map each row into a SystemMetadata object
          */
@@ -1285,7 +1274,7 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
             List<NodeReference> preferredNodes = new ArrayList<NodeReference>();
             List<NodeReference> blockedNodes = new ArrayList<NodeReference>();
 
-            replPolicies = listReplicationPolicies(pid, tableMap);
+            replPolicies = listReplicationPolicies(pid, localTableMap);
 
             for (ReplicationPolicyEntry policy : replPolicies) {
                 Identifier id = policy.getPid();
@@ -1309,12 +1298,12 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
             // populate and add replicas list
 
             List<Replica> replicas = new ArrayList<Replica>();
-            replicas = listReplicaEntries(pid, tableMap);
+            replicas = listReplicaEntries(pid, localTableMap);
             systemMetadata.setReplicaList(replicas);
 
             // populate and add AccessPolicy
             List<AccessRule> accessRules = new ArrayList<AccessRule>();
-            accessRules = listAccessRules(pid, tableMap);
+            accessRules = listAccessRules(pid, localTableMap);
             accessPolicy.setAllowList(accessRules);
             systemMetadata.setAccessPolicy(accessPolicy);
 
@@ -1351,11 +1340,6 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
         log.error("Jdbc Data access exception occurred: " + dae.getRootCause().getMessage());
         dae.printStackTrace();
         throw dae;
-    }
-
-    public void setTableMap(Map<String, String> tableMap) {
-        this.tableMap = tableMap;
-
     }
 
     /**
