@@ -27,11 +27,16 @@ import java.util.List;
 import junit.framework.Assert;
 
 import org.dataone.cn.dao.exceptions.DataAccessException;
+import org.dataone.service.types.v1.AccessPolicy;
+import org.dataone.service.types.v1.AccessRule;
 import org.dataone.service.types.v1.Checksum;
 import org.dataone.service.types.v1.Identifier;
 import org.dataone.service.types.v1.NodeReference;
 import org.dataone.service.types.v1.ObjectFormatIdentifier;
+import org.dataone.service.types.v1.Permission;
+import org.dataone.service.types.v1.Replica;
 import org.dataone.service.types.v1.ReplicationPolicy;
+import org.dataone.service.types.v1.ReplicationStatus;
 import org.dataone.service.types.v1.Subject;
 import org.dataone.service.types.v1.SystemMetadata;
 import org.junit.After;
@@ -154,7 +159,7 @@ public class SystemMetadataDaoMetacatImplTest {
         expectedSmd.setAuthoritativeMemberNode(authNodeRef);
 
         Subject submitter = new Subject();
-        submitter.setValue("test submitter rights holder");
+        submitter.setValue("test submitter subject");
         expectedSmd.setSubmitter(submitter);
 
         ObjectFormatIdentifier objectFormatIdentifier = new ObjectFormatIdentifier();
@@ -195,8 +200,43 @@ public class SystemMetadataDaoMetacatImplTest {
         expectedSmd.setReplicationPolicy(replicationPolicy);
 
         // replication list
+        Replica replica1 = new Replica();
+        replica1.setReplicaMemberNode(preferred1);
+        replica1.setReplicationStatus(ReplicationStatus.COMPLETED);
+        replica1.setReplicaVerified(new Date(System.currentTimeMillis()));
+        expectedSmd.addReplica(replica1);
+
+        Replica replica2 = new Replica();
+        replica2.setReplicaMemberNode(preferred2);
+        replica2.setReplicationStatus(ReplicationStatus.FAILED);
+        replica2.setReplicaVerified(new Date(System.currentTimeMillis()));
+        expectedSmd.addReplica(replica2);
+
+        Replica replica3 = new Replica();
+        NodeReference cnNodeRef = new NodeReference();
+        cnNodeRef.setValue("urn:node:cnDev");
+        replica3.setReplicaMemberNode(cnNodeRef);
+        replica3.setReplicationStatus(ReplicationStatus.REQUESTED);
+        replica3.setReplicaVerified(new Date(System.currentTimeMillis()));
+        expectedSmd.addReplica(replica3);
 
         // access policy
+        AccessPolicy accessPolicy = new AccessPolicy();
+        AccessRule allowRule1 = new AccessRule();
+        allowRule1.addPermission(Permission.READ);
+        Subject publicSub = new Subject();
+        publicSub.setValue("public");
+        allowRule1.addSubject(publicSub);
+        accessPolicy.addAllow(allowRule1);
+
+        AccessRule allowRule2 = new AccessRule();
+        allowRule2.addPermission(Permission.READ);
+        allowRule2.addPermission(Permission.WRITE);
+        allowRule2.addPermission(Permission.CHANGE_PERMISSION);
+        allowRule2.addSubject(submitter);
+        allowRule2.addSubject(rightsHolder);
+        accessPolicy.addAllow(allowRule2);
+        expectedSmd.setAccessPolicy(accessPolicy);
 
         systemMetadataDao.saveSystemMetadata(expectedSmd, SystemMetadataDaoMetacatImpl.tableMap);
         SystemMetadata actualSmd = systemMetadataDao.getSystemMetadata(expectedSmd.getIdentifier());

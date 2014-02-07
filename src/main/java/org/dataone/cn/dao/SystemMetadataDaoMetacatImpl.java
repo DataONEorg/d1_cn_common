@@ -552,7 +552,7 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
 							" (guid, member_node, status, date_verified) VALUES (?, ?, ?, ?)", 
 							new Object[] {pid.getValue(), 
 									     (replica.getReplicaMemberNode().getValue()),
-									     replica.getReplicationStatus(),
+                                                replica.getReplicationStatus().xmlValue(),
 									     new Timestamp(replica.getReplicaVerified().getTime())}, 
 						    new int[] {java.sql.Types.LONGVARCHAR,
 						               java.sql.Types.VARCHAR,
