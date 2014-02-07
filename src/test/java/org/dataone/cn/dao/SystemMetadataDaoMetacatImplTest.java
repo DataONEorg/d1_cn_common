@@ -97,7 +97,7 @@ public class SystemMetadataDaoMetacatImplTest {
     }
 
     @Test
-    public void testSaveSystemMetadata() throws DataAccessException {
+    public void testSimpleSaveSystemMetadata() throws DataAccessException {
         SystemMetadata expectedSmd = new SystemMetadata();
         // required (by dao) attributes - id, size, checksum
         Identifier id = new Identifier();

@@ -32,6 +32,7 @@ import org.dataone.service.types.v1.NodeReference;
 import org.dataone.service.types.v1.Permission;
 import org.dataone.service.types.v1.Replica;
 import org.dataone.service.types.v1.ReplicationStatus;
+import org.dataone.service.types.v1.Subject;
 import org.dataone.service.types.v1.SystemMetadata;
 import org.springframework.jdbc.core.JdbcTemplate;
 
@@ -575,29 +576,68 @@ public class SystemMetadataDaoMetacatImplTestUtil {
         }
 
         // verify access policy
-        //        if (expected.getAccessPolicy() != null) {
-        //            Assert.assertEquals("Access policy allowed list size do not match", expected
-        //                    .getAccessPolicy().sizeAllowList(), actual.getAccessPolicy().sizeAllowList());
-        //            for (AccessRule expectedAllowRule : expected.getAccessPolicy().getAllowList()) {
-        //                //               Assert.assertEquals("access policy subject list size not equal", expectedAllowRule.getSubjectList(), actual)
-        //                expectedAllowRule.getSubjectList();
-        //                expectedAllowRule.getPermissionList();
-        //                // TODO: find an actual AccessRule that has the same subjectList and same permissionList
-        //                actual.getAccessPolicy().getAllowList();
-        //            }
-        //        } else if (actual.getAccessPolicy() != null) {
-        //            Assert.assertEquals(0, actual.getAccessPolicy().sizeAllowList());
-        //        } else {
-        //            Assert.assertNull(actual.getAccessPolicy());
-        //        }
+        if (expected.getAccessPolicy() != null) {
+            Assert.assertEquals("Access policy allowed list size do not match", expected
+                    .getAccessPolicy().sizeAllowList(), actual.getAccessPolicy().sizeAllowList());
+            boolean accessPolicyMatch = areReplicPolicyEquals(expected, actual);
+            Assert.assertTrue("Access Policy do not match", accessPolicyMatch);
+        } else if (actual.getAccessPolicy() != null) {
+            Assert.assertEquals(0, actual.getAccessPolicy().sizeAllowList());
+        } else {
+            Assert.assertNull(actual.getAccessPolicy());
+        }
+    }
 
-        //        List<String> diffs = TypeCompareUtil.compareSystemMetadata(expectedSmd, actualSmd);
-        //        if (diffs.size() == 1) {
-        //            Assert.assertTrue(diffs.get(0).equals("OK"));
-        //        } else {
-        //            Assert.assertTrue("Differences detected in system metadata after save, retrieve.",
-        //                    diffs.size() == 0);
-        //        }
+    private static boolean areReplicPolicyEquals(SystemMetadata expected, SystemMetadata actual) {
+        boolean accessPolicyMatch = false;
+        for (AccessRule expectedAllowRule : expected.getAccessPolicy().getAllowList()) {
+            boolean allowRuleMatch = false;
+            for (AccessRule actualAllowRule : actual.getAccessPolicy().getAllowList()) {
+                if (expectedAllowRule.sizeSubjectList() == actualAllowRule.sizeSubjectList()
+                        && expectedAllowRule.sizePermissionList() == actualAllowRule
+                                .sizePermissionList()) {
+                    boolean allSubjectMatch = true;
+                    boolean allPermissionMatch = true;
+                    for (Subject expectedSubject : expectedAllowRule.getSubjectList()) {
+                        boolean subjectMatch = false;
+                        for (Subject actualSubject : actualAllowRule.getSubjectList()) {
+                            if (expectedSubject.getValue().equals(actualSubject.getValue())) {
+                                subjectMatch = true;
+                                break;
+                            }
+                        }
+                        if (subjectMatch == false) {
+                            allSubjectMatch = false;
+                            break;
+                        }
+                    }
+                    if (allSubjectMatch == true) {
+                        for (Permission expectedPermission : expectedAllowRule.getPermissionList()) {
+                            boolean permissionMatch = false;
+                            for (Permission actualPermission : actualAllowRule.getPermissionList()) {
+                                if (expectedPermission.equals(actualPermission)) {
+                                    permissionMatch = true;
+                                    break;
+                                }
+                            }
+                            if (permissionMatch == false) {
+                                allPermissionMatch = false;
+                                break;
+                            }
+                        }
+                    }
+                    if (allSubjectMatch == true && allPermissionMatch == true) {
+                        allowRuleMatch = true;
+                        break;
+                    }
+                }
+            }
+            if (allowRuleMatch == false) {
+                accessPolicyMatch = false;
+                break;
+            }
+        }
+        return accessPolicyMatch;
     }
 
     private static Replica getReplicaForMN(NodeReference targetMN, List<Replica> replicaList) {
