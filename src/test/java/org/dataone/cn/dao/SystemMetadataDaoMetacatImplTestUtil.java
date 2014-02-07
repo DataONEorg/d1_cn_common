@@ -22,11 +22,13 @@ package org.dataone.cn.dao;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.List;
 
 import junit.framework.Assert;
 
 import org.dataone.configuration.Settings;
 import org.dataone.service.types.v1.AccessRule;
+import org.dataone.service.types.v1.NodeReference;
 import org.dataone.service.types.v1.Permission;
 import org.dataone.service.types.v1.Replica;
 import org.dataone.service.types.v1.ReplicationStatus;
@@ -393,11 +395,222 @@ public class SystemMetadataDaoMetacatImplTestUtil {
 
         Assert.assertEquals("Allow rule permission size is off", 3, rule.sizePermissionList());
         Assert.assertTrue("Allow rule all permission missing READ persmission", rule
-                .getPermissionList()
-                .contains(Permission.READ));
+                .getPermissionList().contains(Permission.READ));
         Assert.assertTrue("Allow rule all permission missing WRITE persmission", rule
                 .getPermissionList().contains(Permission.WRITE));
         Assert.assertTrue("Allow rule all permission missing CHANGE persmission", rule
                 .getPermissionList().contains(Permission.CHANGE_PERMISSION));
+    }
+
+    public static void verifySystemMetadataFields(SystemMetadata expected, SystemMetadata actual) {
+
+        // required (by dao)
+        Assert.assertEquals("Identifier does not match", expected.getIdentifier(),
+                actual.getIdentifier());
+
+        // required (by dao)
+        Assert.assertEquals("Checksum does not match", expected.getChecksum().getValue(), actual
+                .getChecksum().getValue());
+
+        Assert.assertEquals("Checksum algo does not match", expected.getChecksum().getAlgorithm(),
+                actual.getChecksum().getAlgorithm());
+
+        // required (by dao)
+        Assert.assertEquals("Size does not match", expected.getSize().intValue(), actual.getSize()
+                .intValue());
+
+        Assert.assertEquals("Serial Version does not match.", expected.getSerialVersion()
+                .intValue(), actual.getSerialVersion().intValue());
+
+        Assert.assertEquals("Uploaded Date does not match.", expected.getDateUploaded(),
+                actual.getDateUploaded());
+
+        Assert.assertEquals("Modified Date does not match", expected.getDateSysMetadataModified(),
+                actual.getDateSysMetadataModified());
+
+        if (expected.getRightsHolder() != null && expected.getRightsHolder().getValue() != null) {
+            Assert.assertEquals("Rights holder does not match", expected.getRightsHolder()
+                    .getValue(), actual.getRightsHolder().getValue());
+        } else if (actual.getRightsHolder() != null) {
+            Assert.assertNull(actual.getRightsHolder().getValue());
+        } else {
+            Assert.assertNull(actual.getRightsHolder());
+        }
+
+        if (expected.getOriginMemberNode() != null
+                && expected.getOriginMemberNode().getValue() != null) {
+            Assert.assertEquals("Origin Member node does not match", expected.getOriginMemberNode()
+                    .getValue(), actual.getOriginMemberNode().getValue());
+        } else if (actual.getOriginMemberNode() != null) {
+            Assert.assertNull(actual.getOriginMemberNode().getValue());
+        } else {
+            Assert.assertNull(actual.getOriginMemberNode());
+        }
+
+        if (expected.getAuthoritativeMemberNode() != null
+                && expected.getAuthoritativeMemberNode().getValue() != null) {
+            Assert.assertEquals("Authoritative Member node does not match", expected
+                    .getAuthoritativeMemberNode().getValue(), actual.getAuthoritativeMemberNode()
+                    .getValue());
+        } else if (actual.getAuthoritativeMemberNode() != null) {
+            Assert.assertNull(actual.getAuthoritativeMemberNode().getValue());
+        } else {
+            Assert.assertNull(actual.getAuthoritativeMemberNode());
+        }
+
+        if (expected.getSubmitter() != null && expected.getSubmitter().getValue() != null) {
+            Assert.assertEquals("Submitter does not match", expected.getSubmitter().getValue(),
+                    actual.getSubmitter().getValue());
+        } else if (actual.getSubmitter() != null) {
+            Assert.assertNull(actual.getSubmitter().getValue());
+        } else {
+            Assert.assertNull(actual.getSubmitter());
+        }
+
+        if (expected.getFormatId() != null && expected.getFormatId().getValue() != null) {
+            Assert.assertEquals("Object format does not match", expected.getFormatId().getValue(),
+                    actual.getFormatId().getValue());
+        } else if (actual.getFormatId() != null) {
+            Assert.assertNull(actual.getFormatId().getValue());
+        } else {
+            Assert.assertNull(actual.getFormatId());
+        }
+
+        if (expected.getArchived() != null) {
+            Assert.assertEquals("Archived does not match", expected.getArchived().booleanValue(),
+                    actual.getArchived().booleanValue());
+        } else if (actual.getArchived() != null) {
+            Assert.assertFalse(actual.getArchived().booleanValue());
+        }
+
+        if (expected.getObsoletes() != null && expected.getObsoletes().getValue() != null) {
+            Assert.assertEquals("Obsoletes does not match", expected.getObsoletes().getValue(),
+                    actual.getObsoletes().getValue());
+        } else if (actual.getObsoletes() != null) {
+            Assert.assertNull(actual.getObsoletes().getValue());
+        } else {
+            Assert.assertNull(actual.getObsoletes());
+        }
+
+        if (expected.getObsoletedBy() != null && expected.getObsoletedBy().getValue() != null) {
+            Assert.assertEquals("ObsoletedBy does not match", expected.getObsoletedBy().getValue(),
+                    actual.getObsoletedBy().getValue());
+        } else if (actual.getObsoletedBy() != null) {
+            Assert.assertNull(actual.getObsoletedBy().getValue());
+        } else {
+            Assert.assertNull(actual.getObsoletedBy());
+        }
+
+        // verify replica policy
+        if (expected.getReplicationPolicy() != null) {
+            if (expected.getReplicationPolicy().getReplicationAllowed() != null) {
+                Assert.assertEquals("Replication allowed does not match", expected
+                        .getReplicationPolicy().getReplicationAllowed().booleanValue(), actual
+                        .getReplicationPolicy().getReplicationAllowed().booleanValue());
+            } else if (actual.getReplicationPolicy().getReplicationAllowed() != null) {
+                Assert.assertFalse(actual.getReplicationPolicy().getReplicationAllowed()
+                        .booleanValue());
+            } else {
+                Assert.assertNull(actual.getReplicationPolicy().getReplicationAllowed());
+            }
+
+            if (expected.getReplicationPolicy().getNumberReplicas() != null) {
+                Assert.assertEquals("Number replicas does not match", expected
+                        .getReplicationPolicy().getNumberReplicas().intValue(), actual
+                        .getReplicationPolicy().getNumberReplicas().intValue());
+            } else if (actual.getReplicationPolicy().getNumberReplicas() != null) {
+                Assert.assertEquals(0, actual.getReplicationPolicy().getNumberReplicas().intValue());
+            } else {
+                Assert.assertNull(actual.getReplicationPolicy().getNumberReplicas());
+            }
+
+            Assert.assertEquals("Number of preferred replica nodes does not match", expected
+                    .getReplicationPolicy().sizePreferredMemberNodeList(), actual
+                    .getReplicationPolicy().sizePreferredMemberNodeList());
+            if (expected.getReplicationPolicy().sizePreferredMemberNodeList() > 0) {
+                // TODO: Needs work
+                Assert.assertEquals("Preferred replica node does not match", expected
+                        .getReplicationPolicy().getPreferredMemberNode(0), actual
+                        .getReplicationPolicy().getPreferredMemberNode(0).getValue());
+            }
+
+            Assert.assertEquals("Number of blocked replica nodes does not match", expected
+                    .getReplicationPolicy().sizeBlockedMemberNodeList(), actual
+                    .getReplicationPolicy().sizeBlockedMemberNodeList());
+            if (expected.getReplicationPolicy().sizeBlockedMemberNodeList() > 0) {
+                // TODO: Needs work
+                Assert.assertEquals("Blocked replica node does not match", expected
+                        .getReplicationPolicy().getBlockedMemberNode(0), actual
+                        .getReplicationPolicy().getBlockedMemberNode(0));
+            }
+
+        } else if (actual.getReplicationPolicy() != null) {
+            Assert.assertTrue(actual.getReplicationPolicy().getReplicationAllowed() == null
+                    || actual.getReplicationPolicy().getReplicationAllowed().booleanValue() == false);
+            Assert.assertTrue(actual.getReplicationPolicy().getNumberReplicas() == null
+                    || actual.getReplicationPolicy().getNumberReplicas().intValue() == 0);
+            Assert.assertEquals(0, actual.getReplicationPolicy().sizeBlockedMemberNodeList());
+            Assert.assertEquals(0, actual.getReplicationPolicy().sizePreferredMemberNodeList());
+        } else {
+            Assert.assertNull(actual.getReplicationPolicy());
+        }
+
+        // verify replica list
+        Assert.assertEquals("Replica list sizes are different", expected.sizeReplicaList(),
+                actual.sizeReplicaList());
+        for (Replica expectedReplica : expected.getReplicaList()) {
+            Replica actualReplica = getReplicaForMN(expectedReplica.getReplicaMemberNode(),
+                    actual.getReplicaList());
+
+            Assert.assertNotNull("Replica not found for node", actualReplica);
+
+            Assert.assertEquals("Replica node does not match",
+                    expectedReplica.getReplicaMemberNode(), actualReplica.getReplicaMemberNode());
+
+            Assert.assertEquals("Replica status does not match",
+                    expectedReplica.getReplicationStatus(), actualReplica.getReplicationStatus());
+
+            Assert.assertEquals("Replica verified date does not match",
+                    expectedReplica.getReplicaVerified(), actualReplica.getReplicaVerified());
+        }
+
+        // verify access policy
+        //        if (expected.getAccessPolicy() != null) {
+        //            Assert.assertEquals("Access policy allowed list size do not match", expected
+        //                    .getAccessPolicy().sizeAllowList(), actual.getAccessPolicy().sizeAllowList());
+        //            for (AccessRule expectedAllowRule : expected.getAccessPolicy().getAllowList()) {
+        //                //               Assert.assertEquals("access policy subject list size not equal", expectedAllowRule.getSubjectList(), actual)
+        //                expectedAllowRule.getSubjectList();
+        //                expectedAllowRule.getPermissionList();
+        //                // TODO: find an actual AccessRule that has the same subjectList and same permissionList
+        //                actual.getAccessPolicy().getAllowList();
+        //            }
+        //        } else if (actual.getAccessPolicy() != null) {
+        //            Assert.assertEquals(0, actual.getAccessPolicy().sizeAllowList());
+        //        } else {
+        //            Assert.assertNull(actual.getAccessPolicy());
+        //        }
+
+        //        List<String> diffs = TypeCompareUtil.compareSystemMetadata(expectedSmd, actualSmd);
+        //        if (diffs.size() == 1) {
+        //            Assert.assertTrue(diffs.get(0).equals("OK"));
+        //        } else {
+        //            Assert.assertTrue("Differences detected in system metadata after save, retrieve.",
+        //                    diffs.size() == 0);
+        //        }
+    }
+
+    private static Replica getReplicaForMN(NodeReference targetMN, List<Replica> replicaList) {
+        if (targetMN == null || replicaList == null) {
+            return null;
+        }
+        Replica match = null;
+        for (Replica replica : replicaList) {
+            if (replica.getReplicaMemberNode().equals(targetMN)) {
+                match = replica;
+                break;
+            }
+        }
+        return match;
     }
 }

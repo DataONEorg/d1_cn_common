@@ -637,7 +637,7 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
 				}
 								
 				// rollback if we don't succeed on all calls
-                status.setRollbackOnly();
+                //  status.setRollbackOnly();  // seems to only trigger rollback, no commit
 				return new Boolean(success);
 			}
 			

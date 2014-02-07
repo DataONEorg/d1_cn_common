@@ -19,13 +19,17 @@
  */
 package org.dataone.cn.dao;
 
+import java.math.BigInteger;
 import java.text.ParseException;
+import java.util.Date;
 import java.util.List;
 
 import junit.framework.Assert;
 
 import org.dataone.cn.dao.exceptions.DataAccessException;
+import org.dataone.service.types.v1.Checksum;
 import org.dataone.service.types.v1.Identifier;
+import org.dataone.service.types.v1.ObjectFormatIdentifier;
 import org.dataone.service.types.v1.SystemMetadata;
 import org.junit.After;
 import org.junit.Before;
@@ -90,5 +94,32 @@ public class SystemMetadataDaoMetacatImplTest {
         Assert.assertNotNull(smd);
 
         SystemMetadataDaoMetacatImplTestUtil.verifyTestA(smd);
+    }
+
+    @Test
+    public void testSaveSystemMetadata() throws DataAccessException {
+        SystemMetadata expectedSmd = new SystemMetadata();
+        // required (by dao) attributes - id, size, checksum
+        Identifier id = new Identifier();
+        id.setValue("testId");
+        expectedSmd.setIdentifier(id);
+        expectedSmd.setSize(new BigInteger("123456"));
+
+        Checksum checksum = new Checksum();
+        checksum.setAlgorithm("MD5");
+        checksum.setValue("e3l2k4kja03j2h3hj490ajh3101");
+        expectedSmd.setChecksum(checksum);
+
+        expectedSmd.setDateUploaded(new Date(System.currentTimeMillis()));
+        expectedSmd.setSerialVersion(new BigInteger("87"));
+
+        ObjectFormatIdentifier objectFormatIdentifier = new ObjectFormatIdentifier();
+        objectFormatIdentifier.setValue("testFormatIdentifier");
+        expectedSmd.setFormatId(objectFormatIdentifier);
+
+        systemMetadataDao.saveSystemMetadata(expectedSmd, SystemMetadataDaoMetacatImpl.tableMap);
+        SystemMetadata actualSmd = systemMetadataDao.getSystemMetadata(expectedSmd.getIdentifier());
+
+        SystemMetadataDaoMetacatImplTestUtil.verifySystemMetadataFields(expectedSmd, actualSmd);
     }
 }
