@@ -495,7 +495,7 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
 								jdbcTemplate.update("INSERT INTO " + smReplPolicyTable + 
 								" (guid, member_node, policy) VALUES (?, ?, ?);", 
 								new Object[] {pid.getValue(), preferredNodeStr, "preferred"}, 
-								new int[] {java.sql.Types.LONGNVARCHAR, 
+								new int[] {java.sql.Types.LONGVARCHAR, 
 										   java.sql.Types.VARCHAR, 
 									       java.sql.Types.VARCHAR});
 							updatedReplPolicies += preferredRows;
