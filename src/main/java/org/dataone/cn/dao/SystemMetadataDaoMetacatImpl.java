@@ -596,7 +596,7 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
 						Integer perm = null;
 						for ( Permission permission : permissions ) {
 							if ( perm != null ) {
-								perm &= convertPermission(permission);
+								perm |= convertPermission(permission);
 								
 							} else {
 								perm = convertPermission(permission);
