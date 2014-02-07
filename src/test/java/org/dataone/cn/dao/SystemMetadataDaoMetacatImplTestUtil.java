@@ -601,7 +601,7 @@ public class SystemMetadataDaoMetacatImplTestUtil {
     }
 
     private static boolean areReplicPolicyEquals(SystemMetadata expected, SystemMetadata actual) {
-        boolean accessPolicyMatch = false;
+        boolean accessPolicyMatch = true;
         for (AccessRule expectedAllowRule : expected.getAccessPolicy().getAllowList()) {
             boolean allowRuleMatch = false;
             for (AccessRule actualAllowRule : actual.getAccessPolicy().getAllowList()) {
