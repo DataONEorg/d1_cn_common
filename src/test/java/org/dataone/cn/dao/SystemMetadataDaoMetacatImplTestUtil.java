@@ -528,21 +528,33 @@ public class SystemMetadataDaoMetacatImplTestUtil {
             Assert.assertEquals("Number of preferred replica nodes does not match", expected
                     .getReplicationPolicy().sizePreferredMemberNodeList(), actual
                     .getReplicationPolicy().sizePreferredMemberNodeList());
-            if (expected.getReplicationPolicy().sizePreferredMemberNodeList() > 0) {
-                // TODO: Needs work
-                Assert.assertEquals("Preferred replica node does not match", expected
-                        .getReplicationPolicy().getPreferredMemberNode(0), actual
-                        .getReplicationPolicy().getPreferredMemberNode(0).getValue());
+            for (NodeReference expectedNodeRef : expected.getReplicationPolicy()
+                    .getPreferredMemberNodeList()) {
+                boolean nodeMatch = false;
+                for (NodeReference actualNodeRef : actual.getReplicationPolicy()
+                        .getPreferredMemberNodeList()) {
+                    if (expectedNodeRef.getValue().equals(actualNodeRef.getValue())) {
+                        nodeMatch = true;
+                        break;
+                    }
+                }
+                Assert.assertTrue("Missing preferred node", nodeMatch);
             }
 
             Assert.assertEquals("Number of blocked replica nodes does not match", expected
                     .getReplicationPolicy().sizeBlockedMemberNodeList(), actual
                     .getReplicationPolicy().sizeBlockedMemberNodeList());
-            if (expected.getReplicationPolicy().sizeBlockedMemberNodeList() > 0) {
-                // TODO: Needs work
-                Assert.assertEquals("Blocked replica node does not match", expected
-                        .getReplicationPolicy().getBlockedMemberNode(0), actual
-                        .getReplicationPolicy().getBlockedMemberNode(0));
+            for (NodeReference expectedNodeRef : expected.getReplicationPolicy()
+                    .getBlockedMemberNodeList()) {
+                boolean nodeMatch = false;
+                for (NodeReference actualNodeRef : actual.getReplicationPolicy()
+                        .getBlockedMemberNodeList()) {
+                    if (expectedNodeRef.getValue().equals(actualNodeRef.getValue())) {
+                        nodeMatch = true;
+                        break;
+                    }
+                }
+                Assert.assertTrue("Missing blocked node", nodeMatch);
             }
 
         } else if (actual.getReplicationPolicy() != null) {
