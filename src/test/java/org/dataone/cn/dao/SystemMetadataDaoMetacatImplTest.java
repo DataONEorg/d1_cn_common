@@ -233,7 +233,6 @@ public class SystemMetadataDaoMetacatImplTest {
         allowRule2.addPermission(Permission.READ);
         allowRule2.addPermission(Permission.WRITE);
         allowRule2.addPermission(Permission.CHANGE_PERMISSION);
-        allowRule2.addSubject(submitter);
         allowRule2.addSubject(rightsHolder);
         accessPolicy.addAllow(allowRule2);
         expectedSmd.setAccessPolicy(accessPolicy);
