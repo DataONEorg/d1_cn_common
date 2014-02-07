@@ -29,7 +29,10 @@ import junit.framework.Assert;
 import org.dataone.cn.dao.exceptions.DataAccessException;
 import org.dataone.service.types.v1.Checksum;
 import org.dataone.service.types.v1.Identifier;
+import org.dataone.service.types.v1.NodeReference;
 import org.dataone.service.types.v1.ObjectFormatIdentifier;
+import org.dataone.service.types.v1.ReplicationPolicy;
+import org.dataone.service.types.v1.Subject;
 import org.dataone.service.types.v1.SystemMetadata;
 import org.junit.After;
 import org.junit.Before;
@@ -113,9 +116,87 @@ public class SystemMetadataDaoMetacatImplTest {
         expectedSmd.setDateUploaded(new Date(System.currentTimeMillis()));
         expectedSmd.setSerialVersion(new BigInteger("87"));
 
+        systemMetadataDao.saveSystemMetadata(expectedSmd, SystemMetadataDaoMetacatImpl.tableMap);
+        SystemMetadata actualSmd = systemMetadataDao.getSystemMetadata(expectedSmd.getIdentifier());
+
+        SystemMetadataDaoMetacatImplTestUtil.verifySystemMetadataFields(expectedSmd, actualSmd);
+    }
+
+    @Test
+    public void testComplexSaveSystemMetadata() throws DataAccessException {
+        SystemMetadata expectedSmd = new SystemMetadata();
+        // required (by dao) attributes - id, size, checksum
+        Identifier id = new Identifier();
+        id.setValue("testCompPid");
+        expectedSmd.setIdentifier(id);
+        expectedSmd.setSize(new BigInteger("45321"));
+
+        Checksum checksum = new Checksum();
+        checksum.setAlgorithm("MD5");
+        checksum.setValue("e334wasf3w3akja03j2h3hj490ajh3101");
+        expectedSmd.setChecksum(checksum);
+
+        expectedSmd.setDateUploaded(new Date(System.currentTimeMillis()));
+        expectedSmd.setSerialVersion(new BigInteger("8"));
+
+        expectedSmd.setDateSysMetadataModified(new Date(System.currentTimeMillis()));
+
+        Subject rightsHolder = new Subject();
+        rightsHolder.setValue("test subject rights holder");
+        expectedSmd.setRightsHolder(rightsHolder);
+
+        NodeReference originNodeRef = new NodeReference();
+        originNodeRef.setValue("urn:node:testOriginMN");
+        expectedSmd.setOriginMemberNode(originNodeRef);
+
+        NodeReference authNodeRef = new NodeReference();
+        authNodeRef.setValue("urn:node:testAuthMN");
+        expectedSmd.setAuthoritativeMemberNode(authNodeRef);
+
+        Subject submitter = new Subject();
+        submitter.setValue("test submitter rights holder");
+        expectedSmd.setSubmitter(submitter);
+
         ObjectFormatIdentifier objectFormatIdentifier = new ObjectFormatIdentifier();
         objectFormatIdentifier.setValue("testFormatIdentifier");
         expectedSmd.setFormatId(objectFormatIdentifier);
+
+        expectedSmd.setArchived(Boolean.FALSE);
+
+        Identifier obsoletesId = new Identifier();
+        obsoletesId.setValue("obsoletesPid");
+        expectedSmd.setObsoletes(obsoletesId);
+
+        Identifier obsoletedById = new Identifier();
+        obsoletedById.setValue("obsoletedByPid");
+        expectedSmd.setObsoletedBy(obsoletedById);
+
+        // replication policy
+        ReplicationPolicy replicationPolicy = new ReplicationPolicy();
+        replicationPolicy.setReplicationAllowed(Boolean.TRUE);
+        replicationPolicy.setNumberReplicas(Integer.valueOf(5));
+
+        NodeReference preferred1 = new NodeReference();
+        preferred1.setValue("urn:node:preferred1");
+        replicationPolicy.addPreferredMemberNode(preferred1);
+
+        NodeReference preferred2 = new NodeReference();
+        preferred2.setValue("urn:node:preferred2");
+        replicationPolicy.addPreferredMemberNode(preferred2);
+
+        NodeReference blocked1 = new NodeReference();
+        blocked1.setValue("urn:node:blockedA");
+        replicationPolicy.addBlockedMemberNode(blocked1);
+
+        NodeReference blocked2 = new NodeReference();
+        blocked2.setValue("urn:node:blockedB");
+        replicationPolicy.addBlockedMemberNode(blocked2);
+
+        expectedSmd.setReplicationPolicy(replicationPolicy);
+
+        // replication list
+
+        // access policy
 
         systemMetadataDao.saveSystemMetadata(expectedSmd, SystemMetadataDaoMetacatImpl.tableMap);
         SystemMetadata actualSmd = systemMetadataDao.getSystemMetadata(expectedSmd.getIdentifier());

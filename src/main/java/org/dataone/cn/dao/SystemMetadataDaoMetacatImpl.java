@@ -479,8 +479,8 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
 
 					// first remove listed policy entries
 					if ( preferredNodes !=null || blockedNodes != null ) {
-						jdbcTemplate.update("DELETE FROM " + smReplPolicyTable
-								+ "WHERE guid = ?", new Object[] { pid.getValue() });
+                        jdbcTemplate.update("DELETE FROM " + smReplPolicyTable + " WHERE guid = ?",
+                                new Object[] { pid.getValue() });
 					}
 					
 
@@ -507,7 +507,7 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
 						totalReplPolicies = totalReplPolicies + blockedNodes.size();
 						
 						// then update the blocked entries
-						for ( NodeReference blockedNode : preferredNodes ) {
+                        for (NodeReference blockedNode : blockedNodes) {
 							int blockedRows =
 							jdbcTemplate.update("INSERT INTO " + smReplPolicyTable + 
 							" (guid, member_node, policy) VALUES (?, ?, ?);", 
@@ -815,7 +815,7 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
 				(String)     sysMetaMap.get("size"),
 				(Boolean)    sysMetaMap.get("archived"),
 				(Boolean)    sysMetaMap.get("replication_allowed"),
-				(BigInteger) sysMetaMap.get("number_replicas"),
+                (Integer) sysMetaMap.get("number_replicas"),
 				(String)     sysMetaMap.get("obsoletes"),
 				(String)     sysMetaMap.get("obsoleted_by"),
 			};
