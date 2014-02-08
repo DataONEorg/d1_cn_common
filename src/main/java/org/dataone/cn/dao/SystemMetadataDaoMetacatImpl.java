@@ -658,7 +658,7 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
         // get guid
         Identifier pid = systemMetadata.getIdentifier();
         String pidStr = pid.getValue() == null ? null : pid.getValue();
-        attrMap.put("guid", pidStr);
+        //attrMap.put("guid", pidStr);
 
         // get serial_version
         BigInteger serialVersion = systemMetadata.getSerialVersion();
@@ -763,7 +763,7 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
 
         StringBuilder sql = new StringBuilder();
         sql.append("UPDATE " + sysMetaTable + " SET ");
-        sql.append("guid                    = ?, ");
+        // sql.append("guid                    = ?, ");
         sql.append("serial_version          = ?, ");
         sql.append("date_uploaded           = ?, ");
         sql.append("rights_holder           = ?, ");
@@ -793,7 +793,8 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
      */
     protected Object[] getSysMetaAttrValues(Map<String, Object> sysMetaMap) {
 
-        Object[] values = new Object[] { (String) sysMetaMap.get("guid"),
+        Object[] values = new Object[] {
+                //(String) sysMetaMap.get("guid"),
                 (String) sysMetaMap.get("serial_version"),
                 (Timestamp) sysMetaMap.get("date_uploaded"),
                 (String) sysMetaMap.get("rights_holder"), (String) sysMetaMap.get("checksum"),
@@ -814,7 +815,8 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
      * @return
      */
     protected int[] getSysMetaAttrTypes() {
-        int[] types = new int[] { java.sql.Types.LONGVARCHAR, //text                       
+        int[] types = new int[] {
+                //java.sql.Types.LONGVARCHAR, //text                       
                 java.sql.Types.VARCHAR, //character varying(256)     
                 java.sql.Types.TIMESTAMP, //timestamp without time zone
                 java.sql.Types.VARCHAR, //character varying(250)     
