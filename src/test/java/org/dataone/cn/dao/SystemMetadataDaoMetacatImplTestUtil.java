@@ -272,12 +272,12 @@ public class SystemMetadataDaoMetacatImplTestUtil {
 
         String statusStatement = "INSERT INTO "
                 + statusTable
-                + " VALUES ('6f632bd1cc2772bdcc43bafdbb9d8669.1.1','urn:node:testNode2','completed','2013-08-05 16:40:00.000');";
+                + " VALUES ('6f632bd1cc2772bdcc43bafdbb9d8669.1.1','urn:node:testNode2','COMPLETED','2013-08-05 16:40:00.000');";
         jdbc.execute(statusStatement);
 
         statusStatement = "INSERT INTO "
                 + statusTable
-                + " VALUES ('6f632bd1cc2772bdcc43bafdbb9d8669.1.1','urn:node:testNode4','queued','2013-08-05 16:25:00.000');";
+                + " VALUES ('6f632bd1cc2772bdcc43bafdbb9d8669.1.1','urn:node:testNode4','QUEUED','2013-08-05 16:25:00.000');";
         jdbc.execute(statusStatement);
     }
 

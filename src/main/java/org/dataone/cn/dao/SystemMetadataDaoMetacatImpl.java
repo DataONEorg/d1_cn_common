@@ -89,7 +89,7 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
     protected static Map<String, String> tableMap = new HashMap<String, String>();
     private AbstractPlatformTransactionManager txManager;
     private TransactionTemplate txTemplate;
-    
+
     static {
         tableMap.put(IDENTIFIER_TABLE, IDENTIFIER_TABLE);
         tableMap.put(SYSMETA_TABLE, SYSMETA_TABLE);
@@ -333,7 +333,7 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
 
         } else {
             throw new DataAccessException(new NotFound("0000",
-                "Couldn't get system metadata for identifier " + pid.getValue()));
+                    "Couldn't get system metadata for identifier " + pid.getValue()));
         }
 
         return systemMetadata;
@@ -347,65 +347,66 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
      */
     public Identifier saveSystemMetadata(SystemMetadata systemMetadata, Map<String, String> tableMap)
             throws DataAccessException {
-    	
-    	Boolean updated = new Boolean(false); // the result of all table updates transaction
-    	
-    	// Is the pid valid? (required)
-    	final Identifier pid = systemMetadata.getIdentifier();
-    	if (pid.getValue() == null) {
-    		throw new DataAccessException(new InvalidSystemMetadata("0000", "Identifier cannot be null"));
-    		
-    	}
-    	    	
-    	// prep the transaction
-    	txTemplate.setName(pid.getValue());
-		txTemplate.setReadOnly(false);
-		
-    	// Update system metadata for the given identifier
-    	try {
-    		
-    		// Is it in the table already?
-			SystemMetadata currentSysMeta = getSystemMetadata(pid, tableMap);
-						
-		} catch (DataAccessException dae) {
-			
-			// we need to insert the pid first
-			if ( dae.getCause() instanceof NotFound ) {
-				
-				Boolean inserted = new Boolean(false);
+
+        Boolean updated = new Boolean(false); // the result of all table updates transaction
+
+        // Is the pid valid? (required)
+        final Identifier pid = systemMetadata.getIdentifier();
+        if (pid.getValue() == null) {
+            throw new DataAccessException(new InvalidSystemMetadata("0000",
+                    "Identifier cannot be null"));
+
+        }
+
+        // prep the transaction
+        txTemplate.setName(pid.getValue());
+        txTemplate.setReadOnly(false);
+
+        // Update system metadata for the given identifier
+        try {
+
+            // Is it in the table already?
+            SystemMetadata currentSysMeta = getSystemMetadata(pid, tableMap);
+
+        } catch (DataAccessException dae) {
+
+            // we need to insert the pid first
+            if (dae.getCause() instanceof NotFound) {
+
+                Boolean inserted = new Boolean(false);
                 final String finalSysMetaTable = tableMap.get(SYSMETA_TABLE);
 
-		    	// insert just the pid
-				inserted = txTemplate.execute(new TransactionCallback<Boolean>() {
+                // insert just the pid
+                inserted = txTemplate.execute(new TransactionCallback<Boolean>() {
 
-					@Override
-					public Boolean doInTransaction(TransactionStatus arg0) {
-						Boolean success = new Boolean(false);
-						
+                    @Override
+                    public Boolean doInTransaction(TransactionStatus arg0) {
+                        Boolean success = new Boolean(false);
+
                         int rows = jdbcTemplate.update("INSERT INTO " + finalSysMetaTable
                                 + " (guid) VALUES (?);", new Object[] { pid.getValue() },
-							new int[] {java.sql.Types.LONGVARCHAR});
-						
-						if ( rows == 1) { 
-							success = new Boolean(true);
-						}
-						return success;
-					}
-				});
-			} else {
-				// something went wrong other than NotFound
-				throw dae;
-			}
-		}
-    	
-		// then update the system metadata
-		updated = updateSystemMetadata(systemMetadata, tableMap);
+                                new int[] { java.sql.Types.LONGVARCHAR });
 
-		// We failed and rolled back
-		if ( !updated.equals(true) ) {
-			throw new DataAccessException(
-				new Exception("Failed to update identifier " + pid.getValue()));
-		}
+                        if (rows == 1) {
+                            success = new Boolean(true);
+                        }
+                        return success;
+                    }
+                });
+            } else {
+                // something went wrong other than NotFound
+                throw dae;
+            }
+        }
+
+        // then update the system metadata
+        updated = updateSystemMetadata(systemMetadata, tableMap);
+
+        // We failed and rolled back
+        if (!updated.equals(true)) {
+            throw new DataAccessException(new Exception("Failed to update identifier "
+                    + pid.getValue()));
+        }
 
         return pid;
 
@@ -419,235 +420,227 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
      * @return
      * @throws DataAccessException
      */
-    protected Boolean updateSystemMetadata(SystemMetadata sysMeta, Map<String, String> tableMap) 
-    	throws DataAccessException {
-    	
-		Boolean updated = new Boolean(false);
-    	
-		// Is the pid valid? (required)
-    	final Identifier pid = sysMeta.getIdentifier();
-    	if (pid.getValue() == null) {
-    		throw new DataAccessException(new InvalidSystemMetadata("0000", "Identifier cannot be null"));
-    		
-    	}
-    	
-    	// Is the size set? (required)
-    	final BigInteger size = sysMeta.getSize();
-    	if ( size == null ) {
-    		throw new DataAccessException(new InvalidSystemMetadata("0000", "Size cannot be null"));
-	
-    	}
-    	
-    	// Is the checksum set? (required)
-    	final Checksum checksum = sysMeta.getChecksum();
-    	if ( checksum == null ) {
-    		throw new DataAccessException(new InvalidSystemMetadata("0000", "Checksum cannot be null"));
-    		
-    	}
-		
-    	final SystemMetadata finalSysMeta = sysMeta;
+    protected Boolean updateSystemMetadata(SystemMetadata sysMeta, Map<String, String> tableMap)
+            throws DataAccessException {
+
+        Boolean updated = new Boolean(false);
+
+        // Is the pid valid? (required)
+        final Identifier pid = sysMeta.getIdentifier();
+        if (pid.getValue() == null) {
+            throw new DataAccessException(new InvalidSystemMetadata("0000",
+                    "Identifier cannot be null"));
+
+        }
+
+        // Is the size set? (required)
+        final BigInteger size = sysMeta.getSize();
+        if (size == null) {
+            throw new DataAccessException(new InvalidSystemMetadata("0000", "Size cannot be null"));
+
+        }
+
+        // Is the checksum set? (required)
+        final Checksum checksum = sysMeta.getChecksum();
+        if (checksum == null) {
+            throw new DataAccessException(new InvalidSystemMetadata("0000",
+                    "Checksum cannot be null"));
+
+        }
+
+        final SystemMetadata finalSysMeta = sysMeta;
         final String sysMetaTable = tableMap.get(SYSMETA_TABLE);
         final String smReplPolicyTable = tableMap.get(SM_POLICY_TABLE);
         final String smReplStatusTable = tableMap.get(SM_STATUS_TABLE);
         final String xmlAccessTable = tableMap.get(ACCESS_TABLE);
 
-		updated = txTemplate.execute(new TransactionCallback<Boolean>() {
+        updated = txTemplate.execute(new TransactionCallback<Boolean>() {
 
-			@Override
-			public Boolean doInTransaction(TransactionStatus status) {
-				
-				boolean success = false;
-				// update the system metadata table
-			    String sqlStatement = getSysMetaUpdateStatement(sysMetaTable);
-				Map<String, Object> sysMetaMap = 
-					extractSystemMetadataAttrs(finalSysMeta, sysMetaTable);
-				Object[] values = getSysMetaAttrValues(sysMetaMap);
-				int[] types = getSysMetaAttrTypes();
-				int sysMetaRows = jdbcTemplate.update(sqlStatement, values, types);
-				if ( sysMetaRows == 1 ) {
-					success = true;
-				}
-				
-				// Update the smreplicationpolicy table
-				ReplicationPolicy replPolicy = finalSysMeta.getReplicationPolicy();
-				int totalReplPolicies = 0;
-				int updatedReplPolicies = 0;
+            @Override
+            public Boolean doInTransaction(TransactionStatus status) {
 
-				if ( replPolicy != null ) {
-					List<NodeReference> preferredNodes = replPolicy.getPreferredMemberNodeList();
-					List<NodeReference> blockedNodes   = replPolicy.getBlockedMemberNodeList();
+                boolean success = false;
+                // update the system metadata table
+                String sqlStatement = getSysMetaUpdateStatement(sysMetaTable);
+                Map<String, Object> sysMetaMap = extractSystemMetadataAttrs(finalSysMeta,
+                        sysMetaTable);
+                Object[] values = getSysMetaAttrValues(sysMetaMap);
+                int[] types = getSysMetaAttrTypes();
+                int sysMetaRows = jdbcTemplate.update(sqlStatement, values, types);
+                if (sysMetaRows == 1) {
+                    success = true;
+                }
 
-					// first remove listed policy entries
-					if ( preferredNodes !=null || blockedNodes != null ) {
+                // Update the smreplicationpolicy table
+                ReplicationPolicy replPolicy = finalSysMeta.getReplicationPolicy();
+                int totalReplPolicies = 0;
+                int updatedReplPolicies = 0;
+
+                if (replPolicy != null) {
+                    List<NodeReference> preferredNodes = replPolicy.getPreferredMemberNodeList();
+                    List<NodeReference> blockedNodes = replPolicy.getBlockedMemberNodeList();
+
+                    // first remove listed policy entries
+                    if (preferredNodes != null || blockedNodes != null) {
                         jdbcTemplate.update("DELETE FROM " + smReplPolicyTable + " WHERE guid = ?",
                                 new Object[] { pid.getValue() });
-					}
-					
+                    }
 
-					// count the number of total policies needed to be updated
-					if ( preferredNodes != null ) {
-						totalReplPolicies = totalReplPolicies + preferredNodes.size();
-						
-						// then update the preferred entries
-						for ( NodeReference preferredNode : preferredNodes ) {
-							String preferredNodeStr = preferredNode.getValue();
-							int preferredRows = 
-								jdbcTemplate.update("INSERT INTO " + smReplPolicyTable + 
-								" (guid, member_node, policy) VALUES (?, ?, ?);", 
-								new Object[] {pid.getValue(), preferredNodeStr, "preferred"}, 
-								new int[] {java.sql.Types.LONGVARCHAR, 
-										   java.sql.Types.VARCHAR, 
-									       java.sql.Types.VARCHAR});
-							updatedReplPolicies += preferredRows;
-						}
+                    // count the number of total policies needed to be updated
+                    if (preferredNodes != null) {
+                        totalReplPolicies = totalReplPolicies + preferredNodes.size();
 
-					}
-					
-					if ( blockedNodes != null ) {
-						totalReplPolicies = totalReplPolicies + blockedNodes.size();
-						
-						// then update the blocked entries
+                        // then update the preferred entries
+                        for (NodeReference preferredNode : preferredNodes) {
+                            String preferredNodeStr = preferredNode.getValue();
+                            int preferredRows = jdbcTemplate.update("INSERT INTO "
+                                    + smReplPolicyTable
+                                    + " (guid, member_node, policy) VALUES (?, ?, ?);",
+                                    new Object[] { pid.getValue(), preferredNodeStr, "preferred" },
+                                    new int[] { java.sql.Types.LONGVARCHAR, java.sql.Types.VARCHAR,
+                                            java.sql.Types.VARCHAR });
+                            updatedReplPolicies += preferredRows;
+                        }
+
+                    }
+
+                    if (blockedNodes != null) {
+                        totalReplPolicies = totalReplPolicies + blockedNodes.size();
+
+                        // then update the blocked entries
                         for (NodeReference blockedNode : blockedNodes) {
-							int blockedRows =
-							jdbcTemplate.update("INSERT INTO " + smReplPolicyTable + 
-							" (guid, member_node, policy) VALUES (?, ?, ?);", 
-							new Object[] {pid.getValue(), blockedNode.getValue(), "blocked"}, 
-							new int[] {java.sql.Types.LONGVARCHAR, 
-									   java.sql.Types.VARCHAR, 
-									   java.sql.Types.VARCHAR});
-							updatedReplPolicies += blockedRows;
+                            int blockedRows = jdbcTemplate.update("INSERT INTO "
+                                    + smReplPolicyTable
+                                    + " (guid, member_node, policy) VALUES (?, ?, ?);",
+                                    new Object[] { pid.getValue(), blockedNode.getValue(),
+                                            "blocked" }, new int[] { java.sql.Types.LONGVARCHAR,
+                                            java.sql.Types.VARCHAR, java.sql.Types.VARCHAR });
+                            updatedReplPolicies += blockedRows;
 
-						}
-						
-					}
-					
-					// did we update what we were supposed to?
-					if ( updatedReplPolicies == totalReplPolicies ) {
-						success = true;
-						
-					} else {
-						success = false;
-						log.error("For identifier " + pid.getValue() + ", only " + 
-							updatedReplPolicies + "replication policies of " + 
-							totalReplPolicies + "were inserted.");
+                        }
 
-					}
-				}
-				
-				// Update the smreplicationstatus table
-				List<Replica> replicas = finalSysMeta.getReplicaList();
-				int totalReplicas = 0;
-				int updatedReplicas = 0;
-				
-				if ( replicas != null ) {
-					totalReplicas = totalReplicas + replicas.size();
-					
-					// first remove listed replicas
-					jdbcTemplate.update("DELETE FROM " + smReplStatusTable + " WHERE guid = ?", 
-						new Object[] {pid.getValue()});
-					
-					for ( Replica replica : replicas ) {
-						int replicaRows =
-							jdbcTemplate.update("INSERT INTO " + smReplStatusTable + 
-							" (guid, member_node, status, date_verified) VALUES (?, ?, ?, ?)", 
-							new Object[] {pid.getValue(), 
-									     (replica.getReplicaMemberNode().getValue()),
-                                                replica.getReplicationStatus().xmlValue(),
-									     new Timestamp(replica.getReplicaVerified().getTime())}, 
-						    new int[] {java.sql.Types.LONGVARCHAR,
-						               java.sql.Types.VARCHAR,
-						               java.sql.Types.VARCHAR,
-						               java.sql.Types.TIMESTAMP});
-						updatedReplicas += replicaRows;
-					}
+                    }
 
-				}
-				
-				if ( updatedReplicas == totalReplicas ) {
-					success = true;
+                    // did we update what we were supposed to?
+                    if (updatedReplPolicies == totalReplPolicies) {
+                        success = true;
 
-				} else {
-					success = false;
-					log.error("For identifier " + pid.getValue() + ", only " + 
-							updatedReplicas + "replicas of " + 
-							totalReplicas + "were inserted.");
+                    } else {
+                        success = false;
+                        log.error("For identifier " + pid.getValue() + ", only "
+                                + updatedReplPolicies + "replication policies of "
+                                + totalReplPolicies + "were inserted.");
 
-				}
-				
-				// Update the xml_access table
-				AccessPolicy accessPolicy = finalSysMeta.getAccessPolicy();
-				int updatedAccessRows = 0;
-				int numberOfSubjects = 0;
-				List<AccessRule> accessRules = new ArrayList<AccessRule>();
-				
-				if ( accessPolicy != null ) {
-					accessRules = accessPolicy.getAllowList();
-					
-					// first delete existing rules for this pid
-					jdbcTemplate.update("DELETE FROM " + xmlAccessTable + " WHERE guid = ?", 
-						new Object[]{pid.getValue()});
-					
-					// add the new rules back in
-					for ( AccessRule accessRule : accessRules ) {
-						List<Subject> subjects = accessRule.getSubjectList();
-						numberOfSubjects += subjects.size();
-						List<Permission> permissions = accessRule.getPermissionList();
-						// convert permissions from text to int
-						Integer perm = null;
-						for ( Permission permission : permissions ) {
-							if ( perm != null ) {
-								perm |= convertPermission(permission);
-								
-							} else {
-								perm = convertPermission(permission);
-							}
-							
-						}
-						
-						for (Subject subject : subjects) {
-							int accessRows = jdbcTemplate.update("INSERT INTO " + xmlAccessTable +
-								" (guid, principal_name, permission, perm_type, perm_order) " + 
-								" VALUES (?, ?, ?, ?, ?)",
-							new Object[] { pid.getValue(), 
-									       subject.getValue(), 
-									       perm, 
-									       "allow", 
-									       "allowFirst"}, 
-							new int[] {java.sql.Types.LONGVARCHAR,
-									   java.sql.Types.VARCHAR,
-									   java.sql.Types.INTEGER,
-									   java.sql.Types.VARCHAR,
-									   java.sql.Types.VARCHAR});
-							updatedAccessRows += accessRows;
-						}
-					}
-					
-					// Determine success for access policy updates
-					if ( updatedAccessRows == numberOfSubjects ) {
-						success = true;
+                    }
+                }
 
-					} else {
-						success = false;
-						log.error("For identifier " + pid.getValue() + ", only " + 
-								updatedAccessRows + "replicas of " + 
-								numberOfSubjects + "were inserted.");
+                // Update the smreplicationstatus table
+                List<Replica> replicas = finalSysMeta.getReplicaList();
+                int totalReplicas = 0;
+                int updatedReplicas = 0;
 
-					}
-					
-				}
-								
-				// rollback if we don't succeed on all calls
+                if (replicas != null) {
+                    totalReplicas = totalReplicas + replicas.size();
+
+                    // first remove listed replicas
+                    jdbcTemplate.update("DELETE FROM " + smReplStatusTable + " WHERE guid = ?",
+                            new Object[] { pid.getValue() });
+
+                    for (Replica replica : replicas) {
+                        int replicaRows = jdbcTemplate
+                                .update("INSERT INTO "
+                                        + smReplStatusTable
+                                        + " (guid, member_node, status, date_verified) VALUES (?, ?, ?, ?)",
+                                        new Object[] {
+                                                pid.getValue(),
+                                                (replica.getReplicaMemberNode().getValue()),
+                                                replica.getReplicationStatus().toString(),
+                                                new Timestamp(replica.getReplicaVerified()
+                                                        .getTime()) }, new int[] {
+                                                java.sql.Types.LONGVARCHAR, java.sql.Types.VARCHAR,
+                                                java.sql.Types.VARCHAR, java.sql.Types.TIMESTAMP });
+                        updatedReplicas += replicaRows;
+                    }
+
+                }
+
+                if (updatedReplicas == totalReplicas) {
+                    success = true;
+
+                } else {
+                    success = false;
+                    log.error("For identifier " + pid.getValue() + ", only " + updatedReplicas
+                            + "replicas of " + totalReplicas + "were inserted.");
+
+                }
+
+                // Update the xml_access table
+                AccessPolicy accessPolicy = finalSysMeta.getAccessPolicy();
+                int updatedAccessRows = 0;
+                int numberOfSubjects = 0;
+                List<AccessRule> accessRules = new ArrayList<AccessRule>();
+
+                if (accessPolicy != null) {
+                    accessRules = accessPolicy.getAllowList();
+
+                    // first delete existing rules for this pid
+                    jdbcTemplate.update("DELETE FROM " + xmlAccessTable + " WHERE guid = ?",
+                            new Object[] { pid.getValue() });
+
+                    // add the new rules back in
+                    for (AccessRule accessRule : accessRules) {
+                        List<Subject> subjects = accessRule.getSubjectList();
+                        numberOfSubjects += subjects.size();
+                        List<Permission> permissions = accessRule.getPermissionList();
+                        // convert permissions from text to int
+                        Integer perm = null;
+                        for (Permission permission : permissions) {
+                            if (perm != null) {
+                                perm |= convertPermission(permission);
+
+                            } else {
+                                perm = convertPermission(permission);
+                            }
+
+                        }
+
+                        for (Subject subject : subjects) {
+                            int accessRows = jdbcTemplate.update("INSERT INTO " + xmlAccessTable
+                                    + " (guid, principal_name, permission, perm_type, perm_order) "
+                                    + " VALUES (?, ?, ?, ?, ?)", new Object[] { pid.getValue(),
+                                    subject.getValue(), perm, "allow", "allowFirst" }, new int[] {
+                                    java.sql.Types.LONGVARCHAR, java.sql.Types.VARCHAR,
+                                    java.sql.Types.INTEGER, java.sql.Types.VARCHAR,
+                                    java.sql.Types.VARCHAR });
+                            updatedAccessRows += accessRows;
+                        }
+                    }
+
+                    // Determine success for access policy updates
+                    if (updatedAccessRows == numberOfSubjects) {
+                        success = true;
+
+                    } else {
+                        success = false;
+                        log.error("For identifier " + pid.getValue() + ", only "
+                                + updatedAccessRows + "replicas of " + numberOfSubjects
+                                + "were inserted.");
+
+                    }
+
+                }
+
+                // rollback if we don't succeed on all calls
                 //  status.setRollbackOnly();  // seems to only trigger rollback, no commit
-				return new Boolean(success);
-			}
-			
-		});
+                return new Boolean(success);
+            }
 
-    	
-    	return updated;
-    	
+        });
+
+        return updated;
+
     }
-    
+
     /**
      * Returns a map of attribute names and values to be used in the statement
      * to update the given systemmetadata table
@@ -657,107 +650,108 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
      * @return
      * @throws DataAccessException 
      */
-    protected Map<String, Object> extractSystemMetadataAttrs(SystemMetadata systemMetadata, 
-    	String tableName) {
-    	
-    	Map<String, Object> attrMap = new HashMap<String, Object>();
-    	
-		// get guid
-    	Identifier pid = systemMetadata.getIdentifier();
-    	String pidStr = pid.getValue() == null ? null : pid.getValue();
-		attrMap.put("guid", pidStr);
-    	
-		// get serial_version
-    	BigInteger serialVersion = systemMetadata.getSerialVersion();
-    	String versionStr = serialVersion.toString() == null ? null : serialVersion.toString();
-    	attrMap.put("serial_version", versionStr);
-    	
-		// get date_uploaded
-    	Date dateUploaded = systemMetadata.getDateUploaded();
-    	Timestamp uploadedTime = dateUploaded == null ? null : new Timestamp(dateUploaded.getTime());
-    	attrMap.put("date_uploaded", uploadedTime);
-    	
-		// get rights_holder
-    	Subject rightsHolder = systemMetadata.getRightsHolder();
-    	String rightsHolderStr = rightsHolder == null ? null : rightsHolder.getValue();
-    	attrMap.put("rights_holder", rightsHolderStr);
-    	
-		// get checksum
-    	Checksum checksum = systemMetadata.getChecksum();
-    	String checksumStr = checksum == null ? null : checksum.getValue();
-    	attrMap.put("checksum", checksumStr);
-    	
-		// get checksum_algorithm
-    	String algorithm = null;
-    	if (checksum != null ) {
-        	algorithm = checksum.getAlgorithm();
-        	algorithm = algorithm == null ? null : algorithm;
-    		
-    	}
-    	attrMap.put("checksum_algorithm", algorithm);
-    	
-		// get origin_member_node
-    	NodeReference originNodeid = systemMetadata.getOriginMemberNode();
-    	String originNodeidStr = originNodeid == null ? null : originNodeid.getValue();
-    	attrMap.put("origin_member_node", originNodeidStr);
-    	
-		// get authoritive_member_node
-    	NodeReference authNodeid = systemMetadata.getAuthoritativeMemberNode();
-    	String authNodeidStr = authNodeid == null ? null : authNodeid.getValue();
-    	attrMap.put("authoritive_member_node", authNodeidStr);
+    protected Map<String, Object> extractSystemMetadataAttrs(SystemMetadata systemMetadata,
+            String tableName) {
 
-		// get date_modified
-    	Date dateModified = systemMetadata.getDateSysMetadataModified();
-    	Timestamp modTime = dateModified == null ? null : new Timestamp(dateModified.getTime());
-    	attrMap.put("date_modified", modTime);
+        Map<String, Object> attrMap = new HashMap<String, Object>();
 
-		// get submitter
-    	Subject submitter = systemMetadata.getSubmitter();
-    	String submitterStr = submitter == null ? null : submitter.getValue();
-    	attrMap.put("submitter", submitterStr);
+        // get guid
+        Identifier pid = systemMetadata.getIdentifier();
+        String pidStr = pid.getValue() == null ? null : pid.getValue();
+        attrMap.put("guid", pidStr);
 
-		// get object_format
-    	ObjectFormatIdentifier formatId = systemMetadata.getFormatId();
-    	String formatIdStr = formatId == null ? null : formatId.getValue();
-    	attrMap.put("object_format", formatIdStr);
-    	
-		// get size
-    	BigInteger size = systemMetadata.getSize();
-    	String sizeStr = size == null ? null : size.toString();
-    	attrMap.put("size", sizeStr);
-    	
-		// get archived
-    	Boolean archived = systemMetadata.getArchived();
-    	archived = archived == null ? false : archived;
-    	attrMap.put("archived", archived);
-    	
-		// get replication_allowed
-		// get number_replicas
+        // get serial_version
+        BigInteger serialVersion = systemMetadata.getSerialVersion();
+        String versionStr = serialVersion.toString() == null ? null : serialVersion.toString();
+        attrMap.put("serial_version", versionStr);
+
+        // get date_uploaded
+        Date dateUploaded = systemMetadata.getDateUploaded();
+        Timestamp uploadedTime = dateUploaded == null ? null
+                : new Timestamp(dateUploaded.getTime());
+        attrMap.put("date_uploaded", uploadedTime);
+
+        // get rights_holder
+        Subject rightsHolder = systemMetadata.getRightsHolder();
+        String rightsHolderStr = rightsHolder == null ? null : rightsHolder.getValue();
+        attrMap.put("rights_holder", rightsHolderStr);
+
+        // get checksum
+        Checksum checksum = systemMetadata.getChecksum();
+        String checksumStr = checksum == null ? null : checksum.getValue();
+        attrMap.put("checksum", checksumStr);
+
+        // get checksum_algorithm
+        String algorithm = null;
+        if (checksum != null) {
+            algorithm = checksum.getAlgorithm();
+            algorithm = algorithm == null ? null : algorithm;
+
+        }
+        attrMap.put("checksum_algorithm", algorithm);
+
+        // get origin_member_node
+        NodeReference originNodeid = systemMetadata.getOriginMemberNode();
+        String originNodeidStr = originNodeid == null ? null : originNodeid.getValue();
+        attrMap.put("origin_member_node", originNodeidStr);
+
+        // get authoritive_member_node
+        NodeReference authNodeid = systemMetadata.getAuthoritativeMemberNode();
+        String authNodeidStr = authNodeid == null ? null : authNodeid.getValue();
+        attrMap.put("authoritive_member_node", authNodeidStr);
+
+        // get date_modified
+        Date dateModified = systemMetadata.getDateSysMetadataModified();
+        Timestamp modTime = dateModified == null ? null : new Timestamp(dateModified.getTime());
+        attrMap.put("date_modified", modTime);
+
+        // get submitter
+        Subject submitter = systemMetadata.getSubmitter();
+        String submitterStr = submitter == null ? null : submitter.getValue();
+        attrMap.put("submitter", submitterStr);
+
+        // get object_format
+        ObjectFormatIdentifier formatId = systemMetadata.getFormatId();
+        String formatIdStr = formatId == null ? null : formatId.getValue();
+        attrMap.put("object_format", formatIdStr);
+
+        // get size
+        BigInteger size = systemMetadata.getSize();
+        String sizeStr = size == null ? null : size.toString();
+        attrMap.put("size", sizeStr);
+
+        // get archived
+        Boolean archived = systemMetadata.getArchived();
+        archived = archived == null ? false : archived;
+        attrMap.put("archived", archived);
+
+        // get replication_allowed
+        // get number_replicas
         Boolean replicationAllowed = false;
-  		Integer numberReplicas = null;
-      	ReplicationPolicy replicationPolicy = systemMetadata.getReplicationPolicy();
-      	if (replicationPolicy != null) {
-      		replicationAllowed = replicationPolicy.getReplicationAllowed();
-      		replicationAllowed = replicationAllowed == null ? false : replicationAllowed;
-      		numberReplicas = replicationPolicy.getNumberReplicas();
-      		replicationAllowed = replicationAllowed == null ? false: replicationAllowed;
-      		numberReplicas = numberReplicas == null ? -1: numberReplicas;
-      	}
-      	attrMap.put("replication_allowed", replicationAllowed);
-      	attrMap.put("number_replicas", numberReplicas);
+        Integer numberReplicas = null;
+        ReplicationPolicy replicationPolicy = systemMetadata.getReplicationPolicy();
+        if (replicationPolicy != null) {
+            replicationAllowed = replicationPolicy.getReplicationAllowed();
+            replicationAllowed = replicationAllowed == null ? false : replicationAllowed;
+            numberReplicas = replicationPolicy.getNumberReplicas();
+            replicationAllowed = replicationAllowed == null ? false : replicationAllowed;
+            numberReplicas = numberReplicas == null ? -1 : numberReplicas;
+        }
+        attrMap.put("replication_allowed", replicationAllowed);
+        attrMap.put("number_replicas", numberReplicas);
 
-		// get obsoletes
-      	Identifier obsoletes = systemMetadata.getObsoletes();
-      	String obsoletesStr = obsoletes == null ? null : obsoletes.getValue();
-      	attrMap.put("obsoletes", obsoletesStr);
-      	
-		// get obsoleted_by
-      	Identifier obsoletedBy = systemMetadata.getObsoletedBy();
-      	String obsoletedByStr = obsoletedBy == null ? null : obsoletedBy.getValue();
-      	attrMap.put("obsoleted_by", obsoletedByStr);
+        // get obsoletes
+        Identifier obsoletes = systemMetadata.getObsoletes();
+        String obsoletesStr = obsoletes == null ? null : obsoletes.getValue();
+        attrMap.put("obsoletes", obsoletesStr);
 
-		return attrMap;
-	}
+        // get obsoleted_by
+        Identifier obsoletedBy = systemMetadata.getObsoletedBy();
+        String obsoletedByStr = obsoletedBy == null ? null : obsoletedBy.getValue();
+        attrMap.put("obsoleted_by", obsoletedByStr);
+
+        return attrMap;
+    }
 
     /**
      * Builds a SQL update statement for use against the systemmetadata table
@@ -766,31 +760,31 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
      * @return
      */
     protected String getSysMetaUpdateStatement(String sysMetaTable) {
-    	
-    	StringBuilder sql = new StringBuilder();
-	    sql.append("UPDATE " + sysMetaTable + " SET ");
-	    sql.append("guid                    = ?, ");
-	    sql.append("serial_version          = ?, ");
-	    sql.append("date_uploaded           = ?, ");
-	    sql.append("rights_holder           = ?, ");
-	    sql.append("checksum                = ?, ");
-	    sql.append("checksum_algorithm      = ?, ");
-	    sql.append("origin_member_node      = ?, ");
-	    sql.append("authoritive_member_node = ?, ");
-	    sql.append("date_modified           = ?, ");
-	    sql.append("submitter               = ?, ");
-	    sql.append("object_format           = ?, ");
-	    sql.append("size                    = ?, ");
-	    sql.append("archived                = ?, ");
-	    sql.append("replication_allowed     = ?, ");
-	    sql.append("number_replicas         = ?, ");
-	    sql.append("obsoletes               = ?, ");
-	    sql.append("obsoleted_by            = ?");
-	    sql.append(";");
 
-	    return sql.toString();
+        StringBuilder sql = new StringBuilder();
+        sql.append("UPDATE " + sysMetaTable + " SET ");
+        sql.append("guid                    = ?, ");
+        sql.append("serial_version          = ?, ");
+        sql.append("date_uploaded           = ?, ");
+        sql.append("rights_holder           = ?, ");
+        sql.append("checksum                = ?, ");
+        sql.append("checksum_algorithm      = ?, ");
+        sql.append("origin_member_node      = ?, ");
+        sql.append("authoritive_member_node = ?, ");
+        sql.append("date_modified           = ?, ");
+        sql.append("submitter               = ?, ");
+        sql.append("object_format           = ?, ");
+        sql.append("size                    = ?, ");
+        sql.append("archived                = ?, ");
+        sql.append("replication_allowed     = ?, ");
+        sql.append("number_replicas         = ?, ");
+        sql.append("obsoletes               = ?, ");
+        sql.append("obsoleted_by            = ?");
+        sql.append(";");
+
+        return sql.toString();
     }
-    
+
     /**
      * Returns the values from the given map as an Object array
      * 
@@ -798,28 +792,21 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
      * @return
      */
     protected Object[] getSysMetaAttrValues(Map<String, Object> sysMetaMap) {
-    	
-		Object[] values = 
-			new Object[]{
-				(String)     sysMetaMap.get("guid"),
-				(String)     sysMetaMap.get("serial_version"),
-				(Timestamp)  sysMetaMap.get("date_uploaded"),
-				(String)     sysMetaMap.get("rights_holder"),
-				(String)     sysMetaMap.get("checksum"),
-				(String)     sysMetaMap.get("checksum_algorithm"),
-				(String)     sysMetaMap.get("origin_member_node"),
-				(String)     sysMetaMap.get("authoritive_member_node"),
-				(Timestamp)  sysMetaMap.get("date_modified"),
-				(String)     sysMetaMap.get("submitter"),
-				(String)     sysMetaMap.get("object_format"),
-				(String)     sysMetaMap.get("size"),
-				(Boolean)    sysMetaMap.get("archived"),
-				(Boolean)    sysMetaMap.get("replication_allowed"),
-                (Integer) sysMetaMap.get("number_replicas"),
-				(String)     sysMetaMap.get("obsoletes"),
-				(String)     sysMetaMap.get("obsoleted_by"),
-			};
-		return values;
+
+        Object[] values = new Object[] { (String) sysMetaMap.get("guid"),
+                (String) sysMetaMap.get("serial_version"),
+                (Timestamp) sysMetaMap.get("date_uploaded"),
+                (String) sysMetaMap.get("rights_holder"), (String) sysMetaMap.get("checksum"),
+                (String) sysMetaMap.get("checksum_algorithm"),
+                (String) sysMetaMap.get("origin_member_node"),
+                (String) sysMetaMap.get("authoritive_member_node"),
+                (Timestamp) sysMetaMap.get("date_modified"), (String) sysMetaMap.get("submitter"),
+                (String) sysMetaMap.get("object_format"), (String) sysMetaMap.get("size"),
+                (Boolean) sysMetaMap.get("archived"),
+                (Boolean) sysMetaMap.get("replication_allowed"),
+                (Integer) sysMetaMap.get("number_replicas"), (String) sysMetaMap.get("obsoletes"),
+                (String) sysMetaMap.get("obsoleted_by"), };
+        return values;
     }
 
     /**
@@ -827,30 +814,29 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
      * @return
      */
     protected int[] getSysMetaAttrTypes() {
-		int[] types = new int[] {
-			java.sql.Types.LONGVARCHAR, //text                       
-			java.sql.Types.VARCHAR,     //character varying(256)     
-			java.sql.Types.TIMESTAMP,   //timestamp without time zone
-			java.sql.Types.VARCHAR,     //character varying(250)     
-			java.sql.Types.VARCHAR,     //character varying(512)     
-			java.sql.Types.VARCHAR,     //character varying(250)     
-			java.sql.Types.VARCHAR,     //character varying(250)     
-			java.sql.Types.VARCHAR,     //character varying(250)     
-			java.sql.Types.TIMESTAMP,   //timestamp without time zone
-			java.sql.Types.VARCHAR,     //character varying(256)     
-			java.sql.Types.VARCHAR,     //character varying(256)     
-			java.sql.Types.VARCHAR,     //character varying(256)     
-			java.sql.Types.BOOLEAN,     //boolean                    
-			java.sql.Types.BOOLEAN,     //boolean                    
-			java.sql.Types.BIGINT,      //bigint                     
-			java.sql.Types.LONGVARCHAR, //text                       
-			java.sql.Types.LONGVARCHAR  //text                       
+        int[] types = new int[] { java.sql.Types.LONGVARCHAR, //text                       
+                java.sql.Types.VARCHAR, //character varying(256)     
+                java.sql.Types.TIMESTAMP, //timestamp without time zone
+                java.sql.Types.VARCHAR, //character varying(250)     
+                java.sql.Types.VARCHAR, //character varying(512)     
+                java.sql.Types.VARCHAR, //character varying(250)     
+                java.sql.Types.VARCHAR, //character varying(250)     
+                java.sql.Types.VARCHAR, //character varying(250)     
+                java.sql.Types.TIMESTAMP, //timestamp without time zone
+                java.sql.Types.VARCHAR, //character varying(256)     
+                java.sql.Types.VARCHAR, //character varying(256)     
+                java.sql.Types.VARCHAR, //character varying(256)     
+                java.sql.Types.BOOLEAN, //boolean                    
+                java.sql.Types.BOOLEAN, //boolean                    
+                java.sql.Types.BIGINT, //bigint                     
+                java.sql.Types.LONGVARCHAR, //text                       
+                java.sql.Types.LONGVARCHAR //text                       
 
-		};
-		return types;
+        };
+        return types;
     }
-    
-	/**
+
+    /**
      * Create a mapping in the identifier table of the pid to local docid. this method should be
      * used cautiously.  Metacat should have created a mapping on create() of an object, or via 
      * Metacat replication.  Creating a mapping should only happen if an audit shows a clear need
@@ -1074,7 +1060,7 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
 
             // add status
             String status = resultSet.getString("status");
-            ReplicationStatus replStatus = ReplicationStatus.convert(status);
+            ReplicationStatus replStatus = ReplicationStatus.valueOf(status);
             replica.setReplicationStatus(replStatus);
 
             // add date_verified
@@ -1355,19 +1341,18 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
         final int READ = 4;
         final int ALL = 7;
 
-    	if (permission.equals(Permission.READ)) {
-    		return READ;
-    	}
-    	if (permission.equals(Permission.WRITE)) {
-    		return WRITE;
-    	}
-    	if (permission.equals(Permission.CHANGE_PERMISSION)) {
-    		return CHMOD;
-    	}
-		return -1;
+        if (permission.equals(Permission.READ)) {
+            return READ;
+        }
+        if (permission.equals(Permission.WRITE)) {
+            return WRITE;
+        }
+        if (permission.equals(Permission.CHANGE_PERMISSION)) {
+            return CHMOD;
+        }
+        return -1;
     }
 
-    
     /**
      * Convert integer-based permission values to string-based permissions
      * @param value  the integer value of the permission
