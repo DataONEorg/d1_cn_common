@@ -242,16 +242,17 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
             throws SQLException {
 
         List<Replica> replicaEntries = new ArrayList<Replica>();
+        final String pidStr = pid.getValue();
         final Map<String, String> finalTableMap = tableMap;
         replicaEntries = this.jdbcTemplate.query(new PreparedStatementCreator() {
 
             @Override
             public PreparedStatement createPreparedStatement(Connection conn) throws SQLException {
                 String sqlStatement = "SELECT guid, member_node, status, date_verified FROM "
-                        + finalTableMap.get(SM_STATUS_TABLE) + ";";
+                        + finalTableMap.get(SM_STATUS_TABLE) + " WHERE guid = ?";
 
                 PreparedStatement statement = conn.prepareStatement(sqlStatement);
-
+                statement.setString(1, pidStr);
                 return statement;
             }
 
@@ -273,15 +274,17 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
 
         List<ReplicationPolicyEntry> replicationPolicyEntryList = new ArrayList<ReplicationPolicyEntry>();
         final Map<String, String> finalTableMap = tableMap;
-
+        final String pidStr = pid.getValue();
+        
         replicationPolicyEntryList = this.jdbcTemplate.query(new PreparedStatementCreator() {
 
             @Override
             public PreparedStatement createPreparedStatement(Connection conn) throws SQLException {
                 String sqlStatement = "SELECT guid, policy, member_node FROM "
-                        + finalTableMap.get(SM_POLICY_TABLE) + ";";
+                        + finalTableMap.get(SM_POLICY_TABLE) + " WHERE guid = ?";
 
                 PreparedStatement statement = conn.prepareStatement(sqlStatement);
+                statement.setString(1, pidStr);
                 return statement;
             }
 
