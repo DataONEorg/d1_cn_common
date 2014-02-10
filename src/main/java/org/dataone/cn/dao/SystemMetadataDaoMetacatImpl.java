@@ -275,7 +275,7 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
         List<ReplicationPolicyEntry> replicationPolicyEntryList = new ArrayList<ReplicationPolicyEntry>();
         final Map<String, String> finalTableMap = tableMap;
         final String pidStr = pid.getValue();
-        
+
         replicationPolicyEntryList = this.jdbcTemplate.query(new PreparedStatementCreator() {
 
             @Override
@@ -658,11 +658,6 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
 
         Map<String, Object> attrMap = new HashMap<String, Object>();
 
-        // get guid
-        Identifier pid = systemMetadata.getIdentifier();
-        String pidStr = pid.getValue() == null ? null : pid.getValue();
-        //attrMap.put("guid", pidStr);
-
         // get serial_version
         BigInteger serialVersion = systemMetadata.getSerialVersion();
         String versionStr = serialVersion.toString() == null ? null : serialVersion.toString();
@@ -753,6 +748,11 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
         String obsoletedByStr = obsoletedBy == null ? null : obsoletedBy.getValue();
         attrMap.put("obsoleted_by", obsoletedByStr);
 
+        // get guid
+        Identifier pid = systemMetadata.getIdentifier();
+        String pidStr = pid.getValue() == null ? null : pid.getValue();
+        attrMap.put("guid", pidStr);
+
         return attrMap;
     }
 
@@ -783,7 +783,7 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
         sql.append("number_replicas         = ?, ");
         sql.append("obsoletes               = ?, ");
         sql.append("obsoleted_by            = ?");
-        sql.append(";");
+        sql.append(" WHERE guid = ? ;");
 
         return sql.toString();
     }
@@ -796,9 +796,7 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
      */
     protected Object[] getSysMetaAttrValues(Map<String, Object> sysMetaMap) {
 
-        Object[] values = new Object[] {
-                //(String) sysMetaMap.get("guid"),
-                (String) sysMetaMap.get("serial_version"),
+        Object[] values = new Object[] { (String) sysMetaMap.get("serial_version"),
                 (Timestamp) sysMetaMap.get("date_uploaded"),
                 (String) sysMetaMap.get("rights_holder"), (String) sysMetaMap.get("checksum"),
                 (String) sysMetaMap.get("checksum_algorithm"),
@@ -809,7 +807,7 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
                 (Boolean) sysMetaMap.get("archived"),
                 (Boolean) sysMetaMap.get("replication_allowed"),
                 (Integer) sysMetaMap.get("number_replicas"), (String) sysMetaMap.get("obsoletes"),
-                (String) sysMetaMap.get("obsoleted_by"), };
+                (String) sysMetaMap.get("obsoleted_by"), (String) sysMetaMap.get("guid"), };
         return values;
     }
 
@@ -818,9 +816,7 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
      * @return
      */
     protected int[] getSysMetaAttrTypes() {
-        int[] types = new int[] {
-                //java.sql.Types.LONGVARCHAR, //text                       
-                java.sql.Types.VARCHAR, //character varying(256)     
+        int[] types = new int[] { java.sql.Types.VARCHAR, //character varying(256)     
                 java.sql.Types.TIMESTAMP, //timestamp without time zone
                 java.sql.Types.VARCHAR, //character varying(250)     
                 java.sql.Types.VARCHAR, //character varying(512)     
@@ -835,7 +831,8 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
                 java.sql.Types.BOOLEAN, //boolean                    
                 java.sql.Types.BIGINT, //bigint                     
                 java.sql.Types.LONGVARCHAR, //text                       
-                java.sql.Types.LONGVARCHAR //text                       
+                java.sql.Types.LONGVARCHAR, //text                       
+                java.sql.Types.LONGVARCHAR, //text                       
 
         };
         return types;
