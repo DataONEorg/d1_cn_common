@@ -19,18 +19,25 @@
  */
 package org.dataone.cn.dao;
 
+import java.math.BigInteger;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import junit.framework.Assert;
 
 import org.dataone.configuration.Settings;
+import org.dataone.service.types.v1.AccessPolicy;
 import org.dataone.service.types.v1.AccessRule;
+import org.dataone.service.types.v1.Checksum;
+import org.dataone.service.types.v1.Identifier;
 import org.dataone.service.types.v1.NodeReference;
+import org.dataone.service.types.v1.ObjectFormatIdentifier;
 import org.dataone.service.types.v1.Permission;
 import org.dataone.service.types.v1.Replica;
+import org.dataone.service.types.v1.ReplicationPolicy;
 import org.dataone.service.types.v1.ReplicationStatus;
 import org.dataone.service.types.v1.Subject;
 import org.dataone.service.types.v1.SystemMetadata;
@@ -664,5 +671,135 @@ public class SystemMetadataDaoMetacatImplTestUtil {
             }
         }
         return match;
+    }
+
+    public static SystemMetadata createSimpleSystemMetadata(String pidValue, String size) {
+        SystemMetadata expectedSmd = new SystemMetadata();
+        // required (by dao) attributes - id, size, checksum
+        Identifier id = new Identifier();
+        id.setValue(pidValue);
+        expectedSmd.setIdentifier(id);
+        expectedSmd.setSize(new BigInteger(size));
+
+        Checksum checksum = new Checksum();
+        checksum.setAlgorithm("MD5");
+        checksum.setValue("e3l2k4kja03j2h3hj490ajh3101");
+        expectedSmd.setChecksum(checksum);
+
+        expectedSmd.setDateUploaded(new Date(System.currentTimeMillis()));
+        expectedSmd.setSerialVersion(new BigInteger("87"));
+        return expectedSmd;
+    }
+
+    public static SystemMetadata createComplexSystemMetadata(String pidValue, String size) {
+        SystemMetadata expectedSmd = new SystemMetadata();
+        // required (by dao) attributes - id, size, checksum
+        Identifier id = new Identifier();
+        id.setValue(pidValue);
+        expectedSmd.setIdentifier(id);
+        expectedSmd.setSize(new BigInteger(size));
+
+        Checksum checksum = new Checksum();
+        checksum.setAlgorithm("MD5");
+        checksum.setValue("e334wasf3w3akja03j2h3hj490ajh3101");
+        expectedSmd.setChecksum(checksum);
+
+        expectedSmd.setDateUploaded(new Date(System.currentTimeMillis()));
+        expectedSmd.setSerialVersion(new BigInteger("8"));
+
+        expectedSmd.setDateSysMetadataModified(new Date(System.currentTimeMillis()));
+
+        Subject rightsHolder = new Subject();
+        rightsHolder.setValue("test subject rights holder");
+        expectedSmd.setRightsHolder(rightsHolder);
+
+        NodeReference originNodeRef = new NodeReference();
+        originNodeRef.setValue("urn:node:testOriginMN");
+        expectedSmd.setOriginMemberNode(originNodeRef);
+
+        NodeReference authNodeRef = new NodeReference();
+        authNodeRef.setValue("urn:node:testAuthMN");
+        expectedSmd.setAuthoritativeMemberNode(authNodeRef);
+
+        Subject submitter = new Subject();
+        submitter.setValue("test submitter subject");
+        expectedSmd.setSubmitter(submitter);
+
+        ObjectFormatIdentifier objectFormatIdentifier = new ObjectFormatIdentifier();
+        objectFormatIdentifier.setValue("testFormatIdentifier");
+        expectedSmd.setFormatId(objectFormatIdentifier);
+
+        expectedSmd.setArchived(Boolean.FALSE);
+
+        Identifier obsoletesId = new Identifier();
+        obsoletesId.setValue("obsoletesPid");
+        expectedSmd.setObsoletes(obsoletesId);
+
+        Identifier obsoletedById = new Identifier();
+        obsoletedById.setValue("obsoletedByPid");
+        expectedSmd.setObsoletedBy(obsoletedById);
+
+        // replication policy
+        ReplicationPolicy replicationPolicy = new ReplicationPolicy();
+        replicationPolicy.setReplicationAllowed(Boolean.TRUE);
+        replicationPolicy.setNumberReplicas(Integer.valueOf(5));
+
+        NodeReference preferred1 = new NodeReference();
+        preferred1.setValue("urn:node:preferred1");
+        replicationPolicy.addPreferredMemberNode(preferred1);
+
+        NodeReference preferred2 = new NodeReference();
+        preferred2.setValue("urn:node:preferred2");
+        replicationPolicy.addPreferredMemberNode(preferred2);
+
+        NodeReference blocked1 = new NodeReference();
+        blocked1.setValue("urn:node:blockedA");
+        replicationPolicy.addBlockedMemberNode(blocked1);
+
+        NodeReference blocked2 = new NodeReference();
+        blocked2.setValue("urn:node:blockedB");
+        replicationPolicy.addBlockedMemberNode(blocked2);
+
+        expectedSmd.setReplicationPolicy(replicationPolicy);
+
+        // replication list
+        Replica replica1 = new Replica();
+        replica1.setReplicaMemberNode(preferred1);
+        replica1.setReplicationStatus(ReplicationStatus.COMPLETED);
+        replica1.setReplicaVerified(new Date(System.currentTimeMillis()));
+        expectedSmd.addReplica(replica1);
+
+        Replica replica2 = new Replica();
+        replica2.setReplicaMemberNode(preferred2);
+        replica2.setReplicationStatus(ReplicationStatus.FAILED);
+        replica2.setReplicaVerified(new Date(System.currentTimeMillis()));
+        expectedSmd.addReplica(replica2);
+
+        Replica replica3 = new Replica();
+        NodeReference cnNodeRef = new NodeReference();
+        cnNodeRef.setValue("urn:node:cnDev");
+        replica3.setReplicaMemberNode(cnNodeRef);
+        replica3.setReplicationStatus(ReplicationStatus.REQUESTED);
+        replica3.setReplicaVerified(new Date(System.currentTimeMillis()));
+        expectedSmd.addReplica(replica3);
+
+        // access policy
+        AccessPolicy accessPolicy = new AccessPolicy();
+        AccessRule allowRule1 = new AccessRule();
+        allowRule1.addPermission(Permission.READ);
+        Subject publicSub = new Subject();
+        publicSub.setValue("public");
+        allowRule1.addSubject(publicSub);
+        accessPolicy.addAllow(allowRule1);
+
+        AccessRule allowRule2 = new AccessRule();
+        allowRule2.addPermission(Permission.READ);
+        allowRule2.addPermission(Permission.WRITE);
+        allowRule2.addPermission(Permission.CHANGE_PERMISSION);
+        allowRule2.addSubject(rightsHolder);
+        accessPolicy.addAllow(allowRule2);
+        expectedSmd.setAccessPolicy(accessPolicy);
+
+        return expectedSmd;
     }
 }
