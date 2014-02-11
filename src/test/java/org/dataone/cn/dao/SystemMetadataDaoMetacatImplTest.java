@@ -119,14 +119,14 @@ public class SystemMetadataDaoMetacatImplTest {
     @Test
     public void testComplexSaveSystemMetadata() throws DataAccessException {
         List<SystemMetadata> smdList = new ArrayList<SystemMetadata>();
-        smdList.add(SystemMetadataDaoMetacatImplTestUtil.createComplexSystemMetadata(
-                "testCompPid", "12345"));
-        smdList.add(SystemMetadataDaoMetacatImplTestUtil.createComplexSystemMetadata(
-                "noisePid1", "456"));
-        smdList.add(SystemMetadataDaoMetacatImplTestUtil.createComplexSystemMetadata(
-                "noisePid.2", "1111"));
-        smdList.add(SystemMetadataDaoMetacatImplTestUtil.createComplexSystemMetadata(
-                "noisePid.3", "2222"));
+        smdList.add(SystemMetadataDaoMetacatImplTestUtil.createComplexSystemMetadata("testCompPid",
+                "12345"));
+        smdList.add(SystemMetadataDaoMetacatImplTestUtil.createComplexSystemMetadata("noisePid1",
+                "456"));
+        smdList.add(SystemMetadataDaoMetacatImplTestUtil.createComplexSystemMetadata("noisePid.2",
+                "1111"));
+        smdList.add(SystemMetadataDaoMetacatImplTestUtil.createComplexSystemMetadata("noisePid.3",
+                "2222"));
 
         for (SystemMetadata smd : smdList) {
             systemMetadataDao.saveSystemMetadata(smd, SystemMetadataDaoMetacatImpl.tableMap);
@@ -143,14 +143,14 @@ public class SystemMetadataDaoMetacatImplTest {
     @Test
     public void testSimpleAndComplexSaveSystemMetadata() throws DataAccessException {
         List<SystemMetadata> smdList = new ArrayList<SystemMetadata>();
-        smdList.add(SystemMetadataDaoMetacatImplTestUtil.createComplexSystemMetadata(
-                "testCompPid", "12345"));
-        smdList.add(SystemMetadataDaoMetacatImplTestUtil.createComplexSystemMetadata(
-                "noisePid1", "456"));
-        smdList.add(SystemMetadataDaoMetacatImplTestUtil.createComplexSystemMetadata(
-                "noisePid.2", "1111"));
-        smdList.add(SystemMetadataDaoMetacatImplTestUtil.createComplexSystemMetadata(
-                "noisePid.3", "2222"));
+        smdList.add(SystemMetadataDaoMetacatImplTestUtil.createComplexSystemMetadata("testCompPid",
+                "12345"));
+        smdList.add(SystemMetadataDaoMetacatImplTestUtil.createComplexSystemMetadata("noisePid1",
+                "456"));
+        smdList.add(SystemMetadataDaoMetacatImplTestUtil.createComplexSystemMetadata("noisePid.2",
+                "1111"));
+        smdList.add(SystemMetadataDaoMetacatImplTestUtil.createComplexSystemMetadata("noisePid.3",
+                "2222"));
 
         smdList.add(SystemMetadataDaoMetacatImplTestUtil.createSimpleSystemMetadata(
                 "simple.test-id", "887721"));
@@ -168,5 +168,18 @@ public class SystemMetadataDaoMetacatImplTest {
             SystemMetadata actualSmd = systemMetadataDao.getSystemMetadata(smd.getIdentifier());
             SystemMetadataDaoMetacatImplTestUtil.verifySystemMetadataFields(smd, actualSmd);
         }
+    }
+
+    @Test
+    public void testUniquePidConstraint() throws DataAccessException {
+        SystemMetadata smd1 = SystemMetadataDaoMetacatImplTestUtil.createComplexSystemMetadata(
+                "pid1", "12345");
+        SystemMetadata smd2 = SystemMetadataDaoMetacatImplTestUtil.createComplexSystemMetadata(
+                "pid1", "456");
+        Identifier id1 = systemMetadataDao.saveSystemMetadata(smd1,
+                SystemMetadataDaoMetacatImpl.tableMap);
+        Identifier id2 = systemMetadataDao.saveSystemMetadata(smd2,
+                SystemMetadataDaoMetacatImpl.tableMap);
+        Assert.assertEquals(1, systemMetadataDao.getSystemMetadataCount());
     }
 }
