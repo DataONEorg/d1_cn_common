@@ -176,10 +176,12 @@ public class SystemMetadataDaoMetacatImplTest {
                 "pid1", "12345");
         SystemMetadata smd2 = SystemMetadataDaoMetacatImplTestUtil.createComplexSystemMetadata(
                 "pid1", "456");
-        Identifier id1 = systemMetadataDao.saveSystemMetadata(smd1,
-                SystemMetadataDaoMetacatImpl.tableMap);
-        Identifier id2 = systemMetadataDao.saveSystemMetadata(smd2,
-                SystemMetadataDaoMetacatImpl.tableMap);
+        systemMetadataDao.saveSystemMetadata(smd1, SystemMetadataDaoMetacatImpl.tableMap);
+        systemMetadataDao.saveSystemMetadata(smd2, SystemMetadataDaoMetacatImpl.tableMap);
         Assert.assertEquals(1, systemMetadataDao.getSystemMetadataCount());
+        Identifier id = new Identifier();
+        id.setValue("pid1");
+        SystemMetadata actual = systemMetadataDao.getSystemMetadata(id);
+        Assert.assertEquals(456, actual.getSize().intValue());
     }
 }
