@@ -42,7 +42,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.dataone.cn.dao.exceptions.DataAccessException;
 import org.dataone.service.exceptions.InvalidSystemMetadata;
-import org.dataone.service.exceptions.NotFound;
 import org.dataone.service.types.v1.AccessPolicy;
 import org.dataone.service.types.v1.AccessRule;
 import org.dataone.service.types.v1.Checksum;
@@ -334,9 +333,6 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
         if (systemMetadataList.size() > 0) {
             systemMetadata = systemMetadataList.get(0);
 
-        } else {
-            throw new DataAccessException(new NotFound("0000",
-                    "Couldn't get system metadata for identifier " + pid.getValue()));
         }
 
         return systemMetadata;
@@ -365,41 +361,28 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
         txTemplate.setName(pid.getValue());
         txTemplate.setReadOnly(false);
 
-        // Update system metadata for the given identifier
-        try {
+        SystemMetadata currentSysMeta = getSystemMetadata(pid, tableMap);
+        // Is it in the table already?
+        if (currentSysMeta == null) {
+            Boolean inserted = new Boolean(false);
+            final String finalSysMetaTable = tableMap.get(SYSMETA_TABLE);
+            // insert just the pid
+            inserted = txTemplate.execute(new TransactionCallback<Boolean>() {
 
-            // Is it in the table already?
-            SystemMetadata currentSysMeta = getSystemMetadata(pid, tableMap);
+                @Override
+                public Boolean doInTransaction(TransactionStatus arg0) {
+                    Boolean success = new Boolean(false);
 
-        } catch (DataAccessException dae) {
+                    int rows = jdbcTemplate.update("INSERT INTO " + finalSysMetaTable
+                            + " (guid) VALUES (?);", new Object[] { pid.getValue() },
+                            new int[] { java.sql.Types.LONGVARCHAR });
 
-            // we need to insert the pid first
-            if (dae.getCause() instanceof NotFound) {
-
-                Boolean inserted = new Boolean(false);
-                final String finalSysMetaTable = tableMap.get(SYSMETA_TABLE);
-
-                // insert just the pid
-                inserted = txTemplate.execute(new TransactionCallback<Boolean>() {
-
-                    @Override
-                    public Boolean doInTransaction(TransactionStatus arg0) {
-                        Boolean success = new Boolean(false);
-
-                        int rows = jdbcTemplate.update("INSERT INTO " + finalSysMetaTable
-                                + " (guid) VALUES (?);", new Object[] { pid.getValue() },
-                                new int[] { java.sql.Types.LONGVARCHAR });
-
-                        if (rows == 1) {
-                            success = new Boolean(true);
-                        }
-                        return success;
+                    if (rows == 1) {
+                        success = new Boolean(true);
                     }
-                });
-            } else {
-                // something went wrong other than NotFound
-                throw dae;
-            }
+                    return success;
+                }
+            });
         }
 
         // then update the system metadata

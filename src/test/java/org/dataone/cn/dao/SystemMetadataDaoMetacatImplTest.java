@@ -184,4 +184,12 @@ public class SystemMetadataDaoMetacatImplTest {
         SystemMetadata actual = systemMetadataDao.getSystemMetadata(id);
         Assert.assertEquals(456, actual.getSize().intValue());
     }
+
+    @Test
+    public void testNotFound() throws DataAccessException {
+        Identifier id = new Identifier();
+        id.setValue("pid1");
+        SystemMetadata actual = systemMetadataDao.getSystemMetadata(id);
+        Assert.assertNull(actual);
+    }
 }
