@@ -73,8 +73,8 @@ public class HazelcastClientFactory {
     }
 
     public static IMap<NodeReference, Node> getNodeMap() {
-        if (getStorageClient() != null) {
-            return getStorageClient().getMap(HZ_NODE_MAP);
+        if (getProcessingClient() != null) {
+            return getProcessingClient().getMap(HZ_NODE_MAP);
         }
         return null;
     }
