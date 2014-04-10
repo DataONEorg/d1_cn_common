@@ -70,29 +70,29 @@ public abstract class LDAPService {
     protected boolean useTLS = Boolean.parseBoolean(Settings.getConfiguration().getString(
             "cn.ldap.useTLS"));
 
-    public DirContext getContext() throws NamingException {
+    public synchronized DirContext getContext() throws NamingException {
         if (context == null) {
-            log.debug("context is null");
-            if (useTLS) {
-                try {
-                    context = getSecureContext();
-                } catch (Throwable e) {
-                    log.error("Could not set up TLS connection, using non-secure communication", e);
+                log.debug("context is null");
+                if (useTLS) {
+                    try {
+                        context = getSecureContext();
+                    } catch (Throwable e) {
+                        log.error("Could not set up TLS connection, using non-secure communication", e);
+                        context = getDefaultContext();
+                    }
+                } else {
                     context = getDefaultContext();
                 }
-            } else {
-                context = getDefaultContext();
-            }
-            D1UnsolicitedNotificationListener d1Listener = new D1UnsolicitedNotificationListener(this);
+                D1UnsolicitedNotificationListener d1Listener = new D1UnsolicitedNotificationListener(this);
 
-            // Register listener with context (all targets equivalent)
-            EventDirContext eventDirContext = (EventDirContext) (context.lookup(""));
-            eventDirContext.addNamingListener("", EventContext.ONELEVEL_SCOPE, d1Listener);
-        }
+                // Register listener with context (all targets equivalent)
+                EventDirContext eventDirContext = (EventDirContext) (context.lookup(""));
+                eventDirContext.addNamingListener("", EventContext.ONELEVEL_SCOPE, d1Listener);
+            }
         return context;
     }
 
-    public void closeContext() {
+    public synchronized void closeContext() {
         if (context != null) {
             try {
                 context.close();
