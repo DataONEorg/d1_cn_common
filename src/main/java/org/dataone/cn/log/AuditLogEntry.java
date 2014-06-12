@@ -21,6 +21,7 @@ package org.dataone.cn.log;
 
 import java.util.Date;
 
+import org.apache.commons.lang.time.FastDateFormat;
 import org.apache.solr.client.solrj.beans.Field;
 
 /**
@@ -35,6 +36,7 @@ import org.apache.solr.client.solrj.beans.Field;
 public class AuditLogEntry {
 
     private static final String seperatorChar = "|";
+    private final FastDateFormat format = FastDateFormat.getInstance("MM/dd/yyyy:HH:mm:ss:SS");
 
     @Field
     private String id;
@@ -137,5 +139,12 @@ public class AuditLogEntry {
             id.append(this.dateLogged);
         }
         return id.toString();
+    }
+
+    @Override
+    public String toString() {
+        return "AuditLogEntry {id: " + id + ", pid: " + pid + ", auditEvent: " + event.toString()
+                + ", nodeId: " + nodeId + ", dateLogged: " + format.format(dateLogged)
+                + ", log text: " + logText + "'}";
     }
 }

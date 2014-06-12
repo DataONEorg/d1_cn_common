@@ -19,23 +19,14 @@
  */
 package org.dataone.cn.log;
 
-/**
- * Factory pattern class to hide implementation of AuditLogClient.
- * 
- * Current factory creates a static instance of a solr 
- * implementation of the AuditLogClient.
- * @author sroseboo
- *
- */
-public class AuditLogClientFactory {
+public class AuditLogQueryClientNullObjectImpl implements AuditLogQueryClient {
 
-    //private static AuditLogClient auditLogClient = new AuditLogClientSolrImpl();
-    private static AuditLogClient auditLogClient = new AuditLogClientSplunkImpl();
-
-    private AuditLogClientFactory() {
+    public String queryLog(String query, Integer start, Integer rows) {
+        return null;
     }
 
-    public static AuditLogClient getAuditLogClient() {
-        return auditLogClient;
+    public String queryLog(AuditLogEntry logEntry, Integer start, Integer rows) {
+        return null;
     }
+
 }

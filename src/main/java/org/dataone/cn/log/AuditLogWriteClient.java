@@ -20,22 +20,28 @@
 package org.dataone.cn.log;
 
 /**
- * Factory pattern class to hide implementation of AuditLogClient.
+ * Audit log writing client interface.  Defines the usage inteface to the audit log.
+ * Hides the implementation choice of the audit log data store.
  * 
- * Current factory creates a static instance of a solr 
- * implementation of the AuditLogClient.
  * @author sroseboo
  *
  */
-public class AuditLogClientFactory {
+public interface AuditLogWriteClient {
 
-    //private static AuditLogClient auditLogClient = new AuditLogClientSolrImpl();
-    private static AuditLogClient auditLogClient = new AuditLogClientSplunkImpl();
+    /**
+     * Add a new log entry to the audit log.
+     * 
+     * @param logEntry
+     * @return success/failure of call.
+     */
+    public boolean logAuditEvent(AuditLogEntry logEntry);
 
-    private AuditLogClientFactory() {
-    }
-
-    public static AuditLogClient getAuditLogClient() {
-        return auditLogClient;
-    }
+    /**
+     * Removes audit log entries based on the pid, nodeId, event type contained in
+     * AuditLogEntry parameter logEntry.
+     * 
+     * @param logEntry
+     * @return success/fail of operation.
+     */
+    public boolean removeReplicaAuditEvent(AuditLogEntry logEntry);
 }
