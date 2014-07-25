@@ -23,7 +23,7 @@ import java.util.List;
 
 import org.dataone.cn.dao.exceptions.DataAccessException;
 import org.dataone.service.types.v1.Identifier;
-import org.dataone.service.types.v1.SystemMetadata;
+import org.dataone.service.types.v2.SystemMetadata;
 
 /**
  * A specification for accessing and manipulating system metadata attributes in a database

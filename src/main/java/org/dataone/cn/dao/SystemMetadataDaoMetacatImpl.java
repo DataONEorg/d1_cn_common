@@ -53,7 +53,7 @@ import org.dataone.service.types.v1.Replica;
 import org.dataone.service.types.v1.ReplicationPolicy;
 import org.dataone.service.types.v1.ReplicationStatus;
 import org.dataone.service.types.v1.Subject;
-import org.dataone.service.types.v1.SystemMetadata;
+import org.dataone.service.types.v2.SystemMetadata;
 import org.dataone.service.util.TypeMarshaller;
 import org.jibx.runtime.JiBXException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -310,7 +310,7 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
                 @Override
                 public PreparedStatement createPreparedStatement(Connection conn)
                         throws SQLException {
-                    String sqlStatement = "SELECT guid, date_uploaded, rights_holder, checksum, "
+                    String sqlStatement = "SELECT guid, series_id, date_uploaded, rights_holder, checksum, "
                             + "checksum_algorithm, origin_member_node, authoritive_member_node, "
                             + "date_modified, submitter, object_format, size, replication_allowed, "
                             + "number_replicas, obsoletes, obsoleted_by, serial_version, archived "
@@ -640,6 +640,11 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
             String tableName) {
 
         Map<String, Object> attrMap = new HashMap<String, Object>();
+        
+        // get seriesId
+        Identifier seriesId = systemMetadata.getSeriesId();
+        String seriesIdStr = seriesId == null ? null : seriesId.getValue();
+        attrMap.put("series_id", seriesIdStr);
 
         // get serial_version
         BigInteger serialVersion = systemMetadata.getSerialVersion();
@@ -733,7 +738,7 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
 
         // get guid
         Identifier pid = systemMetadata.getIdentifier();
-        String pidStr = pid.getValue() == null ? null : pid.getValue();
+        String pidStr = pid == null ? null : pid.getValue();
         attrMap.put("guid", pidStr);
 
         return attrMap;
@@ -750,6 +755,7 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
         StringBuilder sql = new StringBuilder();
         sql.append("UPDATE " + sysMetaTable + " SET ");
         // sql.append("guid                    = ?, ");
+        sql.append("series_id		        = ?, ");
         sql.append("serial_version          = ?, ");
         sql.append("date_uploaded           = ?, ");
         sql.append("rights_holder           = ?, ");
@@ -779,18 +785,25 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
      */
     protected Object[] getSysMetaAttrValues(Map<String, Object> sysMetaMap) {
 
-        Object[] values = new Object[] { (String) sysMetaMap.get("serial_version"),
+        Object[] values = new Object[] { 
+        		(String) sysMetaMap.get("series_id"),
+        		(String) sysMetaMap.get("serial_version"),
                 (Timestamp) sysMetaMap.get("date_uploaded"),
-                (String) sysMetaMap.get("rights_holder"), (String) sysMetaMap.get("checksum"),
+                (String) sysMetaMap.get("rights_holder"), 
+                (String) sysMetaMap.get("checksum"),
                 (String) sysMetaMap.get("checksum_algorithm"),
                 (String) sysMetaMap.get("origin_member_node"),
                 (String) sysMetaMap.get("authoritive_member_node"),
-                (Timestamp) sysMetaMap.get("date_modified"), (String) sysMetaMap.get("submitter"),
-                (String) sysMetaMap.get("object_format"), (String) sysMetaMap.get("size"),
+                (Timestamp) sysMetaMap.get("date_modified"), 
+                (String) sysMetaMap.get("submitter"),
+                (String) sysMetaMap.get("object_format"), 
+                (String) sysMetaMap.get("size"),
                 (Boolean) sysMetaMap.get("archived"),
                 (Boolean) sysMetaMap.get("replication_allowed"),
-                (Integer) sysMetaMap.get("number_replicas"), (String) sysMetaMap.get("obsoletes"),
-                (String) sysMetaMap.get("obsoleted_by"), (String) sysMetaMap.get("guid"), };
+                (Integer) sysMetaMap.get("number_replicas"), 
+                (String) sysMetaMap.get("obsoletes"),
+                (String) sysMetaMap.get("obsoleted_by"), 
+                (String) sysMetaMap.get("guid"), };
         return values;
     }
 
@@ -799,7 +812,9 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
      * @return
      */
     protected int[] getSysMetaAttrTypes() {
-        int[] types = new int[] { java.sql.Types.VARCHAR, //character varying(256)     
+        int[] types = new int[] { 
+                java.sql.Types.LONGVARCHAR, //text        
+        		java.sql.Types.VARCHAR, //character varying(256)     
                 java.sql.Types.TIMESTAMP, //timestamp without time zone
                 java.sql.Types.VARCHAR, //character varying(250)     
                 java.sql.Types.VARCHAR, //character varying(512)     
@@ -1146,6 +1161,11 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
             Identifier pid = new Identifier();
             pid.setValue(resultSet.getString("guid"));
             systemMetadata.setIdentifier(pid);
+            
+            // add seriesId
+            Identifier seriesId = new Identifier();
+            seriesId.setValue(resultSet.getString("series_id"));
+            systemMetadata.setSeriesId(seriesId);
 
             // add serialVersion
             BigInteger serialVersion = new BigInteger(resultSet.getString("serial_version"));
