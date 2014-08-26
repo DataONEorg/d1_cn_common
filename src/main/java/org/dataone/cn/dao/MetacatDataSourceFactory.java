@@ -25,24 +25,18 @@ import org.apache.commons.logging.LogFactory;
 import org.dataone.configuration.Settings;
 
 /**
- * Factory class to provide consumers obtaining a handle on various
+ * Factory class to provide consumers obtaining a handle on a metacat db schema
  * BasicDataSource instances. org.apache.commons.dbcp.BasicDataSource instances
  * provide connection pooling for jdbc data sources.
- * 
- * Postgres datasource is a generic version of the metacat flavored datasource.
- * Allows postgres datasource properties to be set via a more generic property names.
- * 
- * Functionally they are equivalent, one is just more 'metacat' flavored.
  * 
  * @author sroseboo
  * 
  */
-public class DataSourceFactory {
+public class MetacatDataSourceFactory {
 
-    private static final Log log = LogFactory.getLog(DataSourceFactory.class);
+    private static final Log log = LogFactory.getLog(MetacatDataSourceFactory.class);
 
     private static BasicDataSource metacatDataSource;
-    private static BasicDataSource postgresDataSource;
 
     private static final String metacatUrlProperty = "metacat.datasource.url";
     private static final String metacatDriverClassProperty = "metacat.datasource.driverClass";
@@ -50,23 +44,6 @@ public class DataSourceFactory {
     private static final String metacatPasswordProperty = "database.password";
     private static final String metacatInitialPoolSizeProperty = "metacat.datasource.initialSize";
     private static final String metacatMaxPoolSizeProperty = "metacat.datasource.maxSize";
-
-    private static final String urlProp = "datasource.postgres.url";
-    private static final String driverClassProp = "datasource.postgres.driverClass";
-    private static final String usernameProp = "datasource.postgres.user";
-    private static final String passwordProperty = "datasource.postgres.password";
-    private static final String initialPoolSizeProperty = "datasource.postgres.initialSize";
-    private static final String maxPoolSizeProperty = "datasource.postgres.maxSize";
-
-    private static final String url = Settings.getConfiguration().getString(urlProp);
-    private static final String driverClass = Settings.getConfiguration()
-            .getString(driverClassProp);
-    private static final String username = Settings.getConfiguration().getString(usernameProp);
-    private static final String password = Settings.getConfiguration().getString(passwordProperty);
-    private static final String initialPoolSize = Settings.getConfiguration().getString(
-            initialPoolSizeProperty);
-    private static final String maxPoolSize = Settings.getConfiguration().getString(
-            maxPoolSizeProperty);
 
     private static final String metacatUrl = Settings.getConfiguration().getString(
             metacatUrlProperty);
@@ -81,7 +58,7 @@ public class DataSourceFactory {
     private static final String metacatMaxPoolSize = Settings.getConfiguration().getString(
             metacatMaxPoolSizeProperty);
 
-    private DataSourceFactory() {
+    private MetacatDataSourceFactory() {
     }
 
     /**
@@ -95,13 +72,6 @@ public class DataSourceFactory {
             initMetacatDataSource();
         }
         return metacatDataSource;
-    }
-
-    public static BasicDataSource getPostgresDataSource() {
-        if (postgresDataSource == null) {
-            initPostgresDataSource();
-        }
-        return postgresDataSource;
     }
 
     private static void initMetacatDataSource() {
@@ -123,13 +93,4 @@ public class DataSourceFactory {
         metacatDataSource.setMaxActive(Integer.valueOf(metacatMaxPoolSize).intValue());
     }
 
-    private static void initPostgresDataSource() {
-        postgresDataSource = new BasicDataSource();
-        postgresDataSource.setUrl(url);
-        postgresDataSource.setDriverClassName(driverClass);
-        postgresDataSource.setUsername(username);
-        postgresDataSource.setPassword(password);
-        postgresDataSource.setInitialSize(Integer.valueOf(initialPoolSize).intValue());
-        postgresDataSource.setMaxActive(Integer.valueOf(maxPoolSize).intValue());
-    }
 }

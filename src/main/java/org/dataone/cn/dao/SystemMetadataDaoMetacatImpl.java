@@ -101,7 +101,7 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
      * Constructor. Creates an instance of SystemMetadataDaoMetacatImpl
      */
     public SystemMetadataDaoMetacatImpl() {
-        this(DataSourceFactory.getMetacatDataSource());
+        this(MetacatDataSourceFactory.getMetacatDataSource());
     }
 
     /**

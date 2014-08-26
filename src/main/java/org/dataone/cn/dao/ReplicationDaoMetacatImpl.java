@@ -74,7 +74,7 @@ public class ReplicationDaoMetacatImpl implements ReplicationDao {
     private int failureWindow = 3600;
 
     public ReplicationDaoMetacatImpl() {
-        this.jdbcTemplate = new JdbcTemplate(DataSourceFactory.getMetacatDataSource());
+        this.jdbcTemplate = new JdbcTemplate(MetacatDataSourceFactory.getMetacatDataSource());
         this.failureWindow = Settings.getConfiguration().getInt("replication.failure.query.window",
                 failureWindow);
     }

@@ -38,7 +38,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 
 public class ReplicationDaoMetacatImplTest {
 
-    private JdbcTemplate jdbc = new JdbcTemplate(DataSourceFactory.getMetacatDataSource());
+    private JdbcTemplate jdbc = new JdbcTemplate(MetacatDataSourceFactory.getMetacatDataSource());
 
     private ReplicationDao replicationDao = DaoFactory.getReplicationDao();
 
