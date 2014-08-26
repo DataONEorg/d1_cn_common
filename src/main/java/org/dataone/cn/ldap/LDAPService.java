@@ -49,7 +49,7 @@ import org.apache.http.conn.ssl.AllowAllHostnameVerifier;
 import org.dataone.configuration.Settings;
 
 /**
- * Base LDAP class for shared LDAP operations Intended to be used by the
+ * Base LDAP class for shared LDAP operations. Intended to be used by the
  * Identity Manager and the Identifier Reservation systems
  * 
  * @author leinfelder
@@ -326,11 +326,11 @@ public abstract class LDAPService {
     }
 
     /**
-     * Adds the organization branch O=University of
-     * Chicago,C=US,DC=cilogon,DC=org
+     * Adds the organization branch of the given DN to the Context.
+     * For example, "O=University of Chicago,C=US,DC=cilogon,DC=org",
+     * add "O=University of Chicago" to "DC=cilogon,DC=org"
      * 
-     * @param dn
-     *            the DN for the Organization being added
+     * @param dn: the DN for the Organization being added
      * @return true if added sucessfully
      * @throws NamingException
      */
@@ -357,7 +357,8 @@ public abstract class LDAPService {
     }
 
     /**
-     * Adds the country branch C=US,DC=cilogon,DC=org
+     * Adds the country branch of the given DN to the Context.  for example:
+     * "C=US,DC=cilogon,DC=org" adds 'C=US' to 'DC=cilogon,DC=org' 
      * 
      * @param dn
      *            the DN of the country being added
@@ -386,6 +387,13 @@ public abstract class LDAPService {
         return true;
     }
 
+    /**
+     * return the next value of a NamingEnumeration, or empty String if there are
+     * not any more.  (Guaranteed not to return null).  
+     * @param namingEnum
+     * @return
+     * @throws NamingException
+     */
     public String getEnumerationValueString(NamingEnumeration namingEnum) throws NamingException {
         if (namingEnum.hasMore()) {
             return (String) namingEnum.next();
