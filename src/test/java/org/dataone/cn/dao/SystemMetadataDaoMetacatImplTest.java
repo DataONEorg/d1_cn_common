@@ -41,7 +41,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
  */
 public class SystemMetadataDaoMetacatImplTest {
 
-    private JdbcTemplate jdbc = new JdbcTemplate(DataSourceFactory.getMetacatDataSource());
+    private JdbcTemplate jdbc = new JdbcTemplate(MetacatDataSourceFactory.getMetacatDataSource());
 
     private SystemMetadataDaoMetacatImpl systemMetadataDao = new SystemMetadataDaoMetacatImpl();
 
