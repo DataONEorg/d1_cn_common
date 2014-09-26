@@ -15,7 +15,7 @@
     <repositories>
         <repository>
             <id>dataone.org</id>
-            <url>http://maven.dataone.org/maven</url>
+            <url>http://maven.dataone.org</url>
             <releases>
                 <enabled>true</enabled>
             </releases>
