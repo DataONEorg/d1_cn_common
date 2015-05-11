@@ -24,6 +24,7 @@ package org.dataone.cn.ldap;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Hashtable;
 import java.util.List;
 
@@ -285,8 +286,10 @@ public abstract class LDAPService {
 
     /**
      * Constructs the necessary LDAP tree for the given DN Assuming CILogon
-     * format of CN=Benjamin Leinfelder A515,O=University of
-     * Chicago,C=US,DC=cilogon,DC=org
+     * format:
+     * "CN=Benjamin Leinfelder A515,O=University of Chicago,C=US,DC=cilogon,DC=org"
+     * or LDAP format:
+     * "uid=kepler,o=unaffiliated,dc=ecoinformatics,dc=org"
      * 
      * @param dn
      *            the full DN from CILogon
@@ -294,34 +297,41 @@ public abstract class LDAPService {
      * @throws NamingException
      */
     protected boolean constructTree(String dn) throws NamingException {
-        // get the attributes
-        String org = parseAttribute(dn, "o");
-        String country = parseAttribute(dn, "c");
+        
+    	// get the attributes
+    	LdapName ldapName = new LdapName(dn);
+    	List<Rdn> rdns = ldapName.getRdns();
+    	// iterate to build missing tree components
+    	LdapName partialDn = null;
+    	for (int i = rdns.size()-1 ; i >= 0; i--) {
+    		Rdn rdn = rdns.get(i);
+    		if (partialDn == null) {
+    			partialDn = new LdapName(Arrays.asList(rdn));
+    		} else {
+        		partialDn.add(rdn);
+    		}
+    		boolean exists = false;
+            // check for the the dn
+            try {
+                exists = checkAttribute(partialDn.toString(), rdn.getType(), rdn.getValue().toString());
+            } catch (Exception e) {
+                exists = false;
+            }
+            if (!exists) {
+            	String type = rdn.getType();
+            	if (type.equalsIgnoreCase("c")) {
+            		addCountry(partialDn.toString());
+            	}
+            	if (type.equalsIgnoreCase("o")) {
+            		addOrg(partialDn.toString());
+            	}
+            	if (type.equalsIgnoreCase("dc")) {
+            		addDc(partialDn.toString());
+            	}
+            }
+    		
+    	}
 
-        // get the partial DNs
-        String orgDN = dn.substring(dn.indexOf(",") + 1);
-        String countryDN = orgDN.substring(orgDN.indexOf(",") + 1);
-
-        boolean exists = false;
-        // check for the country
-        try {
-            exists = checkAttribute(countryDN, "c", country);
-        } catch (Exception e) {
-            exists = false;
-        }
-        if (!exists) {
-            addCountry(countryDN);
-        }
-
-        // check for the org
-        try {
-            exists = checkAttribute(orgDN, "o", org);
-        } catch (Exception e) {
-            exists = false;
-        }
-        if (!exists) {
-            addOrg(orgDN);
-        }
         return true;
     }
 
@@ -348,6 +358,37 @@ public abstract class LDAPService {
         Attributes orig = new BasicAttributes();
         orig.put(objClasses);
         orig.put(oAttribute);
+
+        // Add the entry
+        ctx.createSubcontext(dn, orig);
+        log.debug("Added entry " + dn);
+
+        return true;
+    }
+    
+    /**
+     * Adds the DC branch of the given DN to the Context.
+     * For example, "DC=ecoinformatics,DC=org",
+     * add ""DC=ecoinformatics" to "DC=org"
+     * 
+     * @param dn: the DN for the DC being added
+     * @return true if added successfully
+     * @throws NamingException
+     */
+    protected boolean addDc(String dn) throws NamingException {
+        // Values we'll use in creating the entry
+        Attribute objClasses = new BasicAttribute("objectclass");
+        objClasses.add("dcObject");
+        objClasses.add("organization");
+
+        // get the parts
+        String org = parseAttribute(dn, "dc");
+        Attribute dcAttribute = new BasicAttribute("dc", org);
+
+        DirContext ctx = getContext();
+        Attributes orig = new BasicAttributes();
+        orig.put(objClasses);
+        orig.put(dcAttribute);
 
         // Add the entry
         ctx.createSubcontext(dn, orig);
