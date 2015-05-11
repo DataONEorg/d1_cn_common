@@ -229,7 +229,7 @@ public abstract class LDAPService {
             }
             return result;
         } catch (NamingException e) {
-            log.error("Problem checking attribute: " + attributeName, e);
+            log.warn("Problem checking attribute: " + attributeName, e);
         }
         return false;
 
@@ -279,7 +279,7 @@ public abstract class LDAPService {
             // for escaped characters in the RDN
             result = (String) Rdn.unescapeValue(result);
         } catch (Exception e) {
-            log.warn("could not parse attribute from string");
+            log.warn("could not parse attribute from string: " + original, e);
         }
         return result;
     }
