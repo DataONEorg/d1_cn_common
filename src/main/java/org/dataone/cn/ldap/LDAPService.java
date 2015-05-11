@@ -382,13 +382,15 @@ public abstract class LDAPService {
         objClasses.add("organization");
 
         // get the parts
-        String org = parseAttribute(dn, "dc");
-        Attribute dcAttribute = new BasicAttribute("dc", org);
+        String dc = parseAttribute(dn, "dc");
+        Attribute dcAttribute = new BasicAttribute("dc", dc);
+        Attribute oAttribute = new BasicAttribute("o", dc);
 
         DirContext ctx = getContext();
         Attributes orig = new BasicAttributes();
         orig.put(objClasses);
         orig.put(dcAttribute);
+        orig.put(oAttribute);
 
         // Add the entry
         ctx.createSubcontext(dn, orig);
