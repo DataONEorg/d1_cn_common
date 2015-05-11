@@ -303,7 +303,7 @@ public abstract class LDAPService {
     	List<Rdn> rdns = ldapName.getRdns();
     	// iterate to build missing tree components
     	LdapName partialDn = null;
-    	for (int i = rdns.size()-1 ; i >= 0; i--) {
+    	for (int i = 0 ; i < rdns.size(); i++) {
     		Rdn rdn = rdns.get(i);
     		if (partialDn == null) {
     			partialDn = new LdapName(Arrays.asList(rdn));
