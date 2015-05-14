@@ -325,6 +325,9 @@ public abstract class LDAPService {
             	if (type.equalsIgnoreCase("o")) {
             		addOrg(partialDn.toString());
             	}
+            	if (type.equalsIgnoreCase("ou")) {
+            		addOrgUnit(partialDn.toString());
+            	}
             	if (type.equalsIgnoreCase("dc")) {
             		addDc(partialDn.toString());
             	}
@@ -353,6 +356,37 @@ public abstract class LDAPService {
         // get the parts
         String org = parseAttribute(dn, "o");
         Attribute oAttribute = new BasicAttribute("o", org);
+
+        DirContext ctx = getContext();
+        Attributes orig = new BasicAttributes();
+        orig.put(objClasses);
+        orig.put(oAttribute);
+
+        // Add the entry
+        ctx.createSubcontext(dn, orig);
+        log.debug("Added entry " + dn);
+
+        return true;
+    }
+    
+    /**
+     * Adds the organization unit of the given DN to the Context.
+     * For example, "OU=Account,DC=ecoinformatics,DC=org",
+     * add "OU=Account" to "DC=ecoinformatics,DC=org"
+     * 
+     * @param dn: the DN for the Organizational Unit being added
+     * @return true if added sucessfully
+     * @throws NamingException
+     */
+    protected boolean addOrgUnit(String dn) throws NamingException {
+        // Values we'll use in creating the entry
+        Attribute objClasses = new BasicAttribute("objectclass");
+        // objClasses.add("top");
+        objClasses.add("organizationalUnit");
+
+        // get the parts
+        String orgUnit = parseAttribute(dn, "ou");
+        Attribute oAttribute = new BasicAttribute("ou", orgUnit);
 
         DirContext ctx = getContext();
         Attributes orig = new BasicAttributes();
