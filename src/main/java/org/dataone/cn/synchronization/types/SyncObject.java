@@ -24,6 +24,9 @@ package org.dataone.cn.synchronization.types;
 
 import java.io.Serializable;
 
+import org.dataone.service.types.v1.Identifier;
+import org.dataone.service.types.v1.NodeReference;
+
 /**
  * A localization of a DataONE object using the Identifier and NodeId
  * @author waltz
@@ -35,6 +38,10 @@ public class SyncObject implements Serializable {
     private final String taskLabel;
     private Integer attempt = 1;
 
+    public SyncObject(NodeReference nodeId, Identifier pid) {
+        this(nodeId.getValue(), pid.getValue());
+    }
+    
     public SyncObject(String nodeId, String pid) {
         this.nodeId = nodeId;
         this.pid = pid;
