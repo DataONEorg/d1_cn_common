@@ -57,6 +57,8 @@ public class HazelcastClientFactory {
             "dataone.hazelcast.systemMetadata");
     private static final String HZ_NODE_MAP = Settings.getConfiguration().getString(
             "dataone.hazelcast.nodes");
+    private static final String HZ_OBJECT_PATH = Settings.getConfiguration().getString(
+            "dataone.hazelcast.objectPath");
 
     private static HazelcastClient hzStorageClient = null;
     private static HazelcastClient hzProcessingClient = null;
@@ -68,6 +70,13 @@ public class HazelcastClientFactory {
     public static IMap<Identifier, SystemMetadata> getSystemMetadataMap() {
         if (getStorageClient() != null) {
             return getStorageClient().getMap(HZ_SYSTEM_METADATA);
+        }
+        return null;
+    }
+    
+    public static IMap<Identifier, String> getObjectPathMap() {
+        if (getStorageClient() != null) {
+            return getStorageClient().getMap(HZ_OBJECT_PATH);
         }
         return null;
     }
