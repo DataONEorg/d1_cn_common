@@ -96,6 +96,10 @@ public class HazelcastClientFactory {
         return hzStorageClient;
     }
 
+    /**
+     * Gets a processing client.  Can return null if one cannot be obtained.
+     * @return
+     */
     public static HazelcastClient getProcessingClient() {
         if (hzProcessingClient == null) {
             String group = Settings.getConfiguration().getString(
@@ -119,6 +123,10 @@ public class HazelcastClientFactory {
         return hzProcessingClient;
     }
 
+    /**
+     * Gets a session client using the configuration.  Can return null if one cannot be obtained.
+     * @return
+     */
     public static HazelcastClient getSessionClient() {
         if (hzSessionClient == null) {
             hzSessionClient = getHazelcastClientUsingConfig(HazelcastConfigLocationFactory
