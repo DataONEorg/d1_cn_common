@@ -272,7 +272,11 @@ public abstract class LDAPService {
             // ignore case
             int start = temp.toLowerCase().indexOf(attribute.toLowerCase() + "=");
             int end = temp.indexOf(",", start);
-            temp = temp.substring(start, end);
+            if (end < 0) {
+                temp = temp.substring(start);
+            } else {
+            	temp = temp.substring(start, end);
+            }
             start = temp.indexOf("=") + 1;
             temp = temp.substring(start);
             result = temp;
