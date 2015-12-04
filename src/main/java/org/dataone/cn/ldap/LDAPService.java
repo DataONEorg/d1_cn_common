@@ -187,7 +187,7 @@ public abstract class LDAPService {
     public boolean removeEntry(String dn) {
         try {
             DirContext ctx = getContext();
-            ctx.destroySubcontext(dn);
+            ctx.destroySubcontext(new LdapName(dn));
             log.debug("Removed entry: " + dn);
         } catch (NamingException e) {
             log.error("Error removing entry: " + dn, e);
@@ -219,7 +219,7 @@ public abstract class LDAPService {
             attributeValue = attributeValue.replace("\\", "\\5c");
             String searchCriteria = attributeName + "=" + attributeValue;
 
-            NamingEnumeration results = ctx.search(dn, searchCriteria, ctls);
+            NamingEnumeration results = ctx.search(new LdapName(dn), searchCriteria, ctls);
 
             boolean result = (results != null && results.hasMoreElements());
             if (result) {
@@ -245,7 +245,7 @@ public abstract class LDAPService {
 
         String searchCriteria = attributeName + "=*";
 
-        NamingEnumeration<SearchResult> results = ctx.search(dn, searchCriteria, ctls);
+        NamingEnumeration<SearchResult> results = ctx.search(new LdapName(dn), searchCriteria, ctls);
 
         SearchResult result;
         if (results != null) {
