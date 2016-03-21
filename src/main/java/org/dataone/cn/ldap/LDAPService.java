@@ -29,6 +29,7 @@ import java.util.Hashtable;
 import java.util.List;
 
 import javax.naming.Context;
+import javax.naming.NameNotFoundException;
 import javax.naming.NamingEnumeration;
 import javax.naming.NamingException;
 import javax.naming.directory.Attribute;
@@ -245,7 +246,14 @@ public abstract class LDAPService {
 
         String searchCriteria = attributeName + "=*";
 
-        NamingEnumeration<SearchResult> results = ctx.search(new LdapName(dn), searchCriteria, ctls);
+        NamingEnumeration<SearchResult> results = null;
+        try {
+        	results = ctx.search(new LdapName(dn), searchCriteria, ctls);
+        } catch (NameNotFoundException nnfe) {
+        	// certainly won't have attributes
+        	log.warn("Could not find LDAP entry for DN: " + dn);
+        	return null;
+        }
 
         SearchResult result;
         if (results != null) {
