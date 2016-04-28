@@ -37,6 +37,8 @@ public class SyncObject implements Serializable {
     private final String pid;
     private final String taskLabel;
     private Integer attempt = 1;
+    private Integer lockAttempt = 1;
+    private long sleepUntil = -1L;
 
     public SyncObject(NodeReference nodeId, Identifier pid) {
         this(nodeId.getValue(), pid.getValue());
@@ -65,10 +67,9 @@ public class SyncObject implements Serializable {
         return taskLabel;
     }
 
-   /** The number of times this object has been attempted to be synchronized
-    *  it may be attempted multiple times due to a lock being present
-    *  or another process changing the systemMetadata before
-    *  the call to the CN for updating succeeds
+   /** 
+    * The number of times this object has been attempted to be synchronized
+    *  (after a lock has been gained)
     */
     public Integer getAttempt() {
         return attempt;
@@ -76,6 +77,26 @@ public class SyncObject implements Serializable {
 
     public void setAttempt(Integer attempt) {
         this.attempt = attempt;
+    }
+    
+    /** 
+     * The number of times this object has been attempted to be locked 
+     * for synchronization.
+     */
+    public Integer getLockAttempt() {
+        return lockAttempt;
+    }
+
+    public void setLockAttempt(Integer attempt) {
+        this.lockAttempt = attempt;
+    }
+    
+    public long getSleepUntil() {
+        return this.sleepUntil;
+    }
+    
+    public void setSleepUntil(long dateTimeLong) {
+        this.sleepUntil = dateTimeLong;
     }
 
 
