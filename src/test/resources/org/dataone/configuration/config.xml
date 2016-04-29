@@ -2,4 +2,5 @@
 <!-- Apache Commons Configuration -->
 <configuration>
 	<properties fileName="test-jdbc.properties"/>
+        <properties fileName="test-ldap.properties"/>
 </configuration>

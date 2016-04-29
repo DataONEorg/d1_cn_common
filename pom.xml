@@ -11,6 +11,7 @@
         <d1_common_java.version>2.2.0-SNAPSHOT</d1_common_java.version>
         <spring.version>3.1.4.RELEASE</spring.version>
         <solrj.version>3.4.0</solrj.version>
+        <d1_test_resources.version>2.2.0-SNAPSHOT </d1_test_resources.version>
     </properties>
     <repositories>
         <repository>
@@ -70,14 +71,14 @@
             <type>jar</type>
         </dependency>
         <dependency>
-        	<groupId>com.hazelcast</groupId>
-        	<artifactId>hazelcast-client</artifactId>
-        	<version>${hazelcast.version}</version>
-        	<type>jar</type>
-        	<scope>compile</scope>
+            <groupId>com.hazelcast</groupId>
+            <artifactId>hazelcast-client</artifactId>
+            <version>${hazelcast.version}</version>
+            <type>jar</type>
+            <scope>compile</scope>
         </dependency>
-		<dependency>
-			<artifactId>solr-solrj</artifactId>
+        <dependency>
+            <artifactId>solr-solrj</artifactId>
             <groupId>org.apache.solr</groupId>
             <version>${solrj.version}</version>
         </dependency>
@@ -95,16 +96,16 @@
             <artifactId>spring-data-jpa</artifactId>
             <version>1.4.5.RELEASE</version>
         </dependency>
-		<dependency>
-			<groupId>org.springframework.data</groupId>
-			<artifactId>spring-data-commons</artifactId>
-			<version>1.6.5.RELEASE</version>
-		</dependency>
-		<dependency>
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-entitymanager</artifactId>
-			<version>3.6.10.Final</version>
-		</dependency>
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-commons</artifactId>
+            <version>1.6.5.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-entitymanager</artifactId>
+            <version>3.6.10.Final</version>
+        </dependency>
         <dependency>
             <groupId>cglib</groupId>
             <artifactId>cglib</artifactId>
@@ -123,7 +124,7 @@
         
         
         
-       <dependency>
+        <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-core</artifactId>
             <version>${spring.version}</version>
@@ -193,12 +194,24 @@
             <scope>test</scope>
         </dependency>
         
-		<dependency>
-			<groupId>com.h2database</groupId>
-			<artifactId>h2</artifactId>
-			<version>1.3.163</version>
-			<scope>test</scope>
-		</dependency>        
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <version>1.3.163</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-pool2</artifactId>
+            <version>2.4.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.dataone</groupId>
+            <artifactId>d1_test_resources</artifactId>
+            <version>${d1_test_resources.version}</version>
+            <type>jar</type>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
     <build>
         <plugins>
@@ -229,8 +242,8 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
-                 <version>2.2</version>
-                  <configuration>
+                <version>2.2</version>
+                <configuration>
                     <archive>
                         <manifestEntries>
                             <D1-version>${project.version}</D1-version>
@@ -241,12 +254,12 @@
                     </archive>
                 </configuration>
                 <executions>
-		         <execution>
-		           <goals>
-		             <goal>test-jar</goal>
-		           </goals>
-		         </execution>
-		       </executions>
+                    <execution>
+                        <goals>
+                            <goal>test-jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin> 
             <plugin>
                 <groupId>com.mycila.maven-license-plugin</groupId>
@@ -255,24 +268,30 @@
                     <header>src/license-header.txt</header>
                 </configuration>
             </plugin>
-
+            <plugin>
+                <groupId>org.apache.felix</groupId>
+                <artifactId>maven-bundle-plugin</artifactId>
+                <inherited>true</inherited>
+                <extensions>true</extensions>
+            </plugin>
         </plugins>
-		<resources>
-	      <resource>
-	        <directory>src/main/resources</directory>
-	        <filtering>true</filtering>
-	        <includes>
-	          <include>buildInfo/buildInfo.properties</include>
-	        </includes>
-	      </resource>
-	      <resource>
-	        <directory>src/main/resources</directory>
-	        <filtering>false</filtering>
-	        <includes>
-	          <include>**/*.*</include>
-	        </includes>
-	      </resource>
-		</resources>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+                <includes>
+                    <include>buildInfo/buildInfo.properties</include>
+                </includes>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>false</filtering>
+                <includes>
+                    <include>**/*.*</include>
+                </includes>
+            </resource>
+              
+        </resources>
     </build>
     <licenses>
         <license>
@@ -281,9 +300,9 @@
         </license>
     </licenses>
     <scm>
-      <url>https://repository.dataone.org/software/cicore</url>
-      <connection>scm:svn:https://repository.dataone.org/software/cicore</connection>
-      <developerConnection>scm:svn:https://repository.dataone.org/software/cicore</developerConnection>
-      <tag>HEAD</tag>
+        <url>https://repository.dataone.org/software/cicore</url>
+        <connection>scm:svn:https://repository.dataone.org/software/cicore</connection>
+        <developerConnection>scm:svn:https://repository.dataone.org/software/cicore</developerConnection>
+        <tag>HEAD</tag>
     </scm>
 </project>

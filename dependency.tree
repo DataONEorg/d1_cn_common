@@ -1,0 +1,322 @@
+[INFO] Scanning for projects...
+[WARNING] 
+[WARNING] Some problems were encountered while building the effective model for org.dataone:d1_cn_common:jar:2.2.0-SNAPSHOT
+[WARNING] 'build.plugins.plugin.version' for org.apache.maven.plugins:maven-compiler-plugin is missing. @ line 205, column 21
+[WARNING] 'build.plugins.plugin.version' for org.codehaus.mojo:buildnumber-maven-plugin is missing. @ line 213, column 21
+[WARNING] 'build.plugins.plugin.version' for com.mycila.maven-license-plugin:maven-license-plugin is missing. @ line 251, column 21
+[WARNING] 
+[WARNING] It is highly recommended to fix these problems because they threaten the stability of your build.
+[WARNING] 
+[WARNING] For this reason, future Maven versions might no longer support building such malformed projects.
+[WARNING] 
+[INFO]                                                                         
+[INFO] ------------------------------------------------------------------------
+[INFO] Building DataONE_Cn_Common 2.2.0-SNAPSHOT
+[INFO] ------------------------------------------------------------------------
+Downloading: http://repository.springsource.com/maven/bundles/release/org/dataone/d1_jibx_extensions/2.2.0-SNAPSHOT/maven-metadata.xml
+[WARNING] The POM for org.slf4j:slf4j-api:jar:1.5.8 is invalid, transitive dependencies (if any) will not be available, enable debug logging for more details
+[INFO] 
+[INFO] --- maven-dependency-plugin:2.1:tree (default-cli) @ d1_cn_common ---
+[WARNING] Invalid POM for org.slf4j:slf4j-api:jar:1.5.8, transitive dependencies (if any) will not be available, enable debug logging for more details
+[INFO] org.dataone:d1_cn_common:jar:2.2.0-SNAPSHOT
+[INFO] +- com.hazelcast:hazelcast:jar:2.4.1:compile
+[INFO] +- commons-lang:commons-lang:jar:2.6:compile
+[INFO] +- commons-logging:commons-logging:jar:1.1.1:compile
+[INFO] +- org.slf4j:slf4j-api:jar:1.7.5:compile
+[INFO] +- org.slf4j:slf4j-log4j12:jar:1.7.5:compile
+[INFO] |  +- (org.slf4j:slf4j-api:jar:1.7.5:compile - omitted for duplicate)
+[INFO] |  \- log4j:log4j:jar:1.2.17:compile
+[INFO] +- junit:junit:jar:4.7:test (scope not updated to compile)
+[INFO] +- org.dataone:d1_common_java:jar:2.2.0-SNAPSHOT:compile
+[INFO] |  +- javax.mail:mail:jar:1.4.1:compile
+[INFO] |  |  \- javax.activation:activation:jar:1.1:compile
+[INFO] |  +- org.jibx:jibx-run:jar:1.2.5:compile
+[INFO] |  |  +- (joda-time:joda-time:jar:2.1:compile - omitted for duplicate)
+[INFO] |  |  \- xpp3:xpp3:jar:1.1.3.4.O:compile
+[INFO] |  +- org.jibx:maven-jibx-plugin:jar:1.2.5:compile
+[INFO] |  |  +- org.apache.maven:maven-plugin-api:jar:2.2.1:compile
+[INFO] |  |  +- org.apache.maven:maven-project:jar:2.2.1:compile
+[INFO] |  |  |  +- org.apache.maven:maven-settings:jar:2.2.1:compile
+[INFO] |  |  |  |  +- (org.apache.maven:maven-model:jar:2.2.1:compile - omitted for duplicate)
+[INFO] |  |  |  |  +- (org.codehaus.plexus:plexus-interpolation:jar:1.11:compile - omitted for duplicate)
+[INFO] |  |  |  |  +- (org.codehaus.plexus:plexus-utils:jar:1.5.15:compile - omitted for duplicate)
+[INFO] |  |  |  |  \- (org.codehaus.plexus:plexus-container-default:jar:1.0-alpha-9-stable-1:compile - omitted for duplicate)
+[INFO] |  |  |  +- org.apache.maven:maven-profile:jar:2.2.1:compile
+[INFO] |  |  |  |  +- (org.apache.maven:maven-model:jar:2.2.1:compile - omitted for duplicate)
+[INFO] |  |  |  |  +- (org.codehaus.plexus:plexus-utils:jar:1.5.15:compile - omitted for duplicate)
+[INFO] |  |  |  |  +- (org.codehaus.plexus:plexus-interpolation:jar:1.11:compile - omitted for duplicate)
+[INFO] |  |  |  |  \- (org.codehaus.plexus:plexus-container-default:jar:1.0-alpha-9-stable-1:compile - omitted for duplicate)
+[INFO] |  |  |  +- org.apache.maven:maven-model:jar:2.0.6:compile
+[INFO] |  |  |  |  \- (org.codehaus.plexus:plexus-utils:jar:1.5.15:compile - omitted for duplicate)
+[INFO] |  |  |  +- org.apache.maven:maven-artifact-manager:jar:2.2.1:compile
+[INFO] |  |  |  |  +- (org.apache.maven:maven-repository-metadata:jar:2.2.1:compile - omitted for conflict with 2.0.6)
+[INFO] |  |  |  |  +- (org.codehaus.plexus:plexus-utils:jar:1.5.15:compile - omitted for duplicate)
+[INFO] |  |  |  |  +- (org.apache.maven:maven-artifact:jar:2.2.1:compile - omitted for duplicate)
+[INFO] |  |  |  |  +- (org.codehaus.plexus:plexus-container-default:jar:1.0-alpha-9-stable-1:compile - omitted for duplicate)
+[INFO] |  |  |  |  +- (org.apache.maven.wagon:wagon-provider-api:jar:1.0-beta-6:compile - omitted for conflict with 1.0-beta-2)
+[INFO] |  |  |  |  \- backport-util-concurrent:backport-util-concurrent:jar:3.1:compile
+[INFO] |  |  |  +- org.apache.maven:maven-plugin-registry:jar:2.2.1:compile
+[INFO] |  |  |  |  +- (org.codehaus.plexus:plexus-utils:jar:1.5.15:compile - omitted for duplicate)
+[INFO] |  |  |  |  \- (org.codehaus.plexus:plexus-container-default:jar:1.0-alpha-9-stable-1:compile - omitted for duplicate)
+[INFO] |  |  |  +- org.codehaus.plexus:plexus-interpolation:jar:1.11:compile
+[INFO] |  |  |  +- (org.codehaus.plexus:plexus-utils:jar:1.5.15:compile - omitted for conflict with 2.0.5)
+[INFO] |  |  |  +- (org.apache.maven:maven-artifact:jar:2.2.1:compile - omitted for conflict with 2.0.6)
+[INFO] |  |  |  \- (org.codehaus.plexus:plexus-container-default:jar:1.0-alpha-9-stable-1:compile - omitted for duplicate)
+[INFO] |  |  +- org.jibx:jibx-tools:jar:1.2.5:compile
+[INFO] |  |  |  +- org.jibx:jibx-schema:jar:1.2.5:compile
+[INFO] |  |  |  |  +- (org.jibx:jibx-bind:jar:1.2.5:compile - omitted for duplicate)
+[INFO] |  |  |  |  \- (org.jibx:jibx-extras:jar:1.2.5:compile - omitted for duplicate)
+[INFO] |  |  |  +- org.jibx.config.3rdparty.org.eclipse:org.eclipse.core.contenttype:jar:3.4.100.v20110423-0524:compile
+[INFO] |  |  |  +- org.jibx.config.3rdparty.org.eclipse:org.eclipse.core.jobs:jar:3.5.100.v20110404:compile
+[INFO] |  |  |  +- org.jibx.config.3rdparty.org.eclipse:org.eclipse.core.resources:jar:3.7.100.v20110510-0712:compile
+[INFO] |  |  |  +- org.jibx.config.3rdparty.org.eclipse:org.eclipse.core.runtime:jar:3.7.0.v20110110:compile
+[INFO] |  |  |  +- org.jibx.config.3rdparty.org.eclipse:org.eclipse.equinox.common:jar:3.6.0.v20110523:compile
+[INFO] |  |  |  +- org.jibx.config.3rdparty.org.eclipse:org.eclipse.equinox.preferences:jar:3.4.0.v20110502:compile
+[INFO] |  |  |  +- org.jibx.config.3rdparty.org.eclipse:org.eclipse.jdt.core:jar:3.7.0.v_B61:compile
+[INFO] |  |  |  +- org.jibx.config.3rdparty.org.eclipse:org.eclipse.osgi:jar:3.7.0.v20110613:compile
+[INFO] |  |  |  \- org.jibx.config.3rdparty.org.eclipse:org.eclipse.text:jar:3.5.100.v20110505-0800:compile
+[INFO] |  |  +- org.jibx:jibx-bind:jar:1.2.5:compile
+[INFO] |  |  |  +- (org.jibx:jibx-run:jar:1.2.5:compile - omitted for duplicate)
+[INFO] |  |  |  +- bcel:bcel:jar:5.1:compile
+[INFO] |  |  |  +- (log4j:log4j:jar:1.2.17:compile - omitted for duplicate)
+[INFO] |  |  |  \- (com.thoughtworks.qdox:qdox:jar:1.12.1:compile - omitted for duplicate)
+[INFO] |  |  +- org.jibx:jibx-extras:jar:1.2.5:compile
+[INFO] |  |  |  +- (org.jibx:jibx-run:jar:1.2.5:compile - omitted for duplicate)
+[INFO] |  |  |  +- (dom4j:dom4j:jar:1.6.1:compile - omitted for duplicate)
+[INFO] |  |  |  \- org.jdom:jdom:jar:1.1.3:compile
+[INFO] |  |  +- (org.jibx:jibx-run:jar:1.2.5:compile - omitted for duplicate)
+[INFO] |  |  +- org.codehaus.plexus:plexus-utils:jar:2.0.5:compile
+[INFO] |  |  +- (xpp3:xpp3:jar:1.1.3.4.O:compile - omitted for duplicate)
+[INFO] |  |  +- com.thoughtworks.qdox:qdox:jar:1.12.1:compile
+[INFO] |  |  +- (commons-io:commons-io:jar:1.1:compile - omitted for conflict with 2.4)
+[INFO] |  |  \- (log4j:log4j:jar:1.2.17:compile - omitted for duplicate)
+[INFO] |  +- joda-time:joda-time:jar:2.1:compile
+[INFO] |  +- org.apache.maven.plugins:maven-compiler-plugin:maven-plugin:2.3.1:compile
+[INFO] |  |  +- org.codehaus.plexus:plexus-container-default:jar:1.0-alpha-9-stable-1:compile
+[INFO] |  |  |  +- (junit:junit:jar:3.8.1:compile - omitted for conflict with 4.7)
+[INFO] |  |  |  +- (org.codehaus.plexus:plexus-utils:jar:1.0.4:compile - omitted for conflict with 2.0.5)
+[INFO] |  |  |  \- classworlds:classworlds:jar:1.1-alpha-2:compile
+[INFO] |  |  +- (org.apache.maven:maven-plugin-api:jar:2.0.6:compile - omitted for conflict with 2.2.1)
+[INFO] |  |  +- org.apache.maven:maven-artifact:jar:2.0.6:compile
+[INFO] |  |  |  \- (org.codehaus.plexus:plexus-utils:jar:1.4.1:compile - omitted for conflict with 2.0.5)
+[INFO] |  |  +- org.apache.maven:maven-core:jar:2.0.6:compile
+[INFO] |  |  |  +- (org.apache.maven:maven-settings:jar:2.0.6:compile - omitted for conflict with 2.2.1)
+[INFO] |  |  |  +- org.apache.maven.wagon:wagon-file:jar:1.0-beta-2:runtime
+[INFO] |  |  |  |  \- (org.apache.maven.wagon:wagon-provider-api:jar:1.0-beta-2:runtime - omitted for conflict with 1.0-beta-6)
+[INFO] |  |  |  +- org.apache.maven:maven-plugin-parameter-documenter:jar:2.0.6:compile
+[INFO] |  |  |  |  +- (org.codehaus.plexus:plexus-utils:jar:1.4.1:compile - omitted for conflict with 2.0.5)
+[INFO] |  |  |  |  \- (org.codehaus.plexus:plexus-container-default:jar:1.0-alpha-9-stable-1:compile - omitted for duplicate)
+[INFO] |  |  |  +- org.apache.maven.wagon:wagon-http-lightweight:jar:1.0-beta-2:runtime
+[INFO] |  |  |  |  +- org.apache.maven.wagon:wagon-http-shared:jar:1.0-beta-2:runtime
+[INFO] |  |  |  |  |  +- jtidy:jtidy:jar:4aug2000r7-dev:runtime
+[INFO] |  |  |  |  |  \- (org.apache.maven.wagon:wagon-provider-api:jar:1.0-beta-2:runtime - omitted for conflict with 1.0-beta-6)
+[INFO] |  |  |  |  +- (xml-apis:xml-apis:jar:1.0.b2:runtime - omitted for duplicate)
+[INFO] |  |  |  |  \- (org.apache.maven.wagon:wagon-provider-api:jar:1.0-beta-2:runtime - omitted for conflict with 1.0-beta-6)
+[INFO] |  |  |  +- org.apache.maven.reporting:maven-reporting-api:jar:2.0.6:compile
+[INFO] |  |  |  |  \- org.apache.maven.doxia:doxia-sink-api:jar:1.0-alpha-7:compile
+[INFO] |  |  |  +- (org.apache.maven:maven-profile:jar:2.0.6:compile - omitted for conflict with 2.2.1)
+[INFO] |  |  |  +- (org.apache.maven:maven-model:jar:2.0.6:compile - omitted for conflict with 2.0.6)
+[INFO] |  |  |  +- (org.apache.maven:maven-artifact:jar:2.0.6:compile - omitted for duplicate)
+[INFO] |  |  |  +- org.apache.maven.wagon:wagon-provider-api:jar:1.0-beta-2:compile
+[INFO] |  |  |  |  \- (org.codehaus.plexus:plexus-utils:jar:1.0.4:compile - omitted for conflict with 2.0.5)
+[INFO] |  |  |  +- (org.codehaus.plexus:plexus-container-default:jar:1.0-alpha-9-stable-1:compile - omitted for duplicate)
+[INFO] |  |  |  +- org.apache.maven:maven-repository-metadata:jar:2.0.6:compile
+[INFO] |  |  |  |  \- (org.codehaus.plexus:plexus-utils:jar:1.4.1:compile - omitted for conflict with 2.0.5)
+[INFO] |  |  |  +- org.apache.maven:maven-error-diagnostics:jar:2.0.6:compile
+[INFO] |  |  |  |  \- (org.codehaus.plexus:plexus-container-default:jar:1.0-alpha-9-stable-1:compile - omitted for duplicate)
+[INFO] |  |  |  +- (org.apache.maven:maven-project:jar:2.0.6:compile - omitted for conflict with 2.2.1)
+[INFO] |  |  |  +- commons-cli:commons-cli:jar:1.0:compile
+[INFO] |  |  |  +- (org.apache.maven:maven-plugin-api:jar:2.0.6:compile - omitted for conflict with 2.2.1)
+[INFO] |  |  |  +- org.apache.maven.wagon:wagon-ssh-external:jar:1.0-beta-2:runtime
+[INFO] |  |  |  |  +- (org.codehaus.plexus:plexus-utils:jar:1.0.4:runtime - omitted for conflict with 2.0.5)
+[INFO] |  |  |  |  +- org.apache.maven.wagon:wagon-ssh-common:jar:1.0-beta-2:runtime
+[INFO] |  |  |  |  |  +- (org.codehaus.plexus:plexus-utils:jar:1.0.4:runtime - omitted for conflict with 2.0.5)
+[INFO] |  |  |  |  |  +- (org.codehaus.plexus:plexus-interactivity-api:jar:1.0-alpha-4:runtime - omitted for duplicate)
+[INFO] |  |  |  |  |  \- (org.apache.maven.wagon:wagon-provider-api:jar:1.0-beta-2:runtime - omitted for duplicate)
+[INFO] |  |  |  |  \- (org.apache.maven.wagon:wagon-provider-api:jar:1.0-beta-2:runtime - omitted for duplicate)
+[INFO] |  |  |  +- org.apache.maven:maven-plugin-descriptor:jar:2.0.6:compile
+[INFO] |  |  |  |  +- (org.apache.maven:maven-plugin-api:jar:2.0.6:compile - omitted for conflict with 2.2.1)
+[INFO] |  |  |  |  +- (org.apache.maven:maven-artifact:jar:2.0.6:compile - omitted for duplicate)
+[INFO] |  |  |  |  \- (org.codehaus.plexus:plexus-container-default:jar:1.0-alpha-9-stable-1:compile - omitted for duplicate)
+[INFO] |  |  |  +- org.codehaus.plexus:plexus-interactivity-api:jar:1.0-alpha-4:compile
+[INFO] |  |  |  |  \- (classworlds:classworlds:jar:1.1-alpha-2:compile - omitted for duplicate)
+[INFO] |  |  |  +- (org.apache.maven:maven-artifact-manager:jar:2.0.6:compile - omitted for conflict with 2.2.1)
+[INFO] |  |  |  +- org.apache.maven:maven-monitor:jar:2.0.6:compile
+[INFO] |  |  |  +- org.apache.maven.wagon:wagon-ssh:jar:1.0-beta-2:runtime
+[INFO] |  |  |  |  +- com.jcraft:jsch:jar:0.1.27:runtime
+[INFO] |  |  |  |  +- (org.codehaus.plexus:plexus-interactivity-api:jar:1.0-alpha-4:runtime - omitted for duplicate)
+[INFO] |  |  |  |  +- (org.codehaus.plexus:plexus-utils:jar:1.0.4:runtime - omitted for conflict with 2.0.5)
+[INFO] |  |  |  |  +- (org.apache.maven.wagon:wagon-ssh-common:jar:1.0-beta-2:runtime - omitted for duplicate)
+[INFO] |  |  |  |  \- (org.apache.maven.wagon:wagon-provider-api:jar:1.0-beta-2:runtime - omitted for duplicate)
+[INFO] |  |  |  +- (org.codehaus.plexus:plexus-utils:jar:1.4.1:compile - omitted for conflict with 2.0.5)
+[INFO] |  |  |  \- (classworlds:classworlds:jar:1.1:compile - omitted for conflict with 1.1-alpha-2)
+[INFO] |  |  +- (org.codehaus.plexus:plexus-utils:jar:2.0.5:compile - omitted for duplicate)
+[INFO] |  |  +- org.codehaus.plexus:plexus-compiler-api:jar:1.8:compile
+[INFO] |  |  |  \- (org.codehaus.plexus:plexus-utils:jar:1.5.5:compile - omitted for conflict with 2.0.5)
+[INFO] |  |  +- org.apache.maven:maven-toolchain:jar:1.0:compile
+[INFO] |  |  |  +- (org.apache.maven:maven-core:jar:2.0.6:compile - omitted for duplicate)
+[INFO] |  |  |  \- (org.apache.maven:maven-artifact:jar:2.0.6:compile - omitted for duplicate)
+[INFO] |  |  +- org.codehaus.plexus:plexus-compiler-manager:jar:1.8:compile
+[INFO] |  |  |  \- (org.codehaus.plexus:plexus-compiler-api:jar:1.8:compile - omitted for duplicate)
+[INFO] |  |  \- org.codehaus.plexus:plexus-compiler-javac:jar:1.8:runtime
+[INFO] |  |     +- (org.codehaus.plexus:plexus-utils:jar:1.5.5:runtime - omitted for conflict with 2.0.5)
+[INFO] |  |     \- (org.codehaus.plexus:plexus-compiler-api:jar:1.8:runtime - omitted for duplicate)
+[INFO] |  +- org.apache.maven.plugins:maven-jar-plugin:maven-plugin:2.3.1:compile
+[INFO] |  |  +- (org.apache.maven:maven-plugin-api:jar:2.0.6:compile - omitted for conflict with 2.2.1)
+[INFO] |  |  +- (org.apache.maven:maven-project:jar:2.0.6:compile - omitted for conflict with 2.2.1)
+[INFO] |  |  +- (org.apache.maven:maven-model:jar:2.0.6:compile - scope updated from runtime; omitted for duplicate)
+[INFO] |  |  +- (org.apache.maven:maven-artifact:jar:2.0.6:compile - omitted for duplicate)
+[INFO] |  |  +- org.apache.maven:maven-archiver:jar:2.4.1:compile
+[INFO] |  |  |  +- (org.apache.maven:maven-artifact:jar:2.0.6:compile - omitted for duplicate)
+[INFO] |  |  |  +- (org.apache.maven:maven-model:jar:2.0.6:compile - omitted for duplicate)
+[INFO] |  |  |  +- (org.codehaus.plexus:plexus-archiver:jar:1.0:compile - omitted for duplicate)
+[INFO] |  |  |  +- (org.codehaus.plexus:plexus-utils:jar:2.0.5:compile - omitted for duplicate)
+[INFO] |  |  |  \- (org.codehaus.plexus:plexus-interpolation:jar:1.13:compile - omitted for conflict with 1.11)
+[INFO] |  |  +- org.codehaus.plexus:plexus-archiver:jar:1.0:compile
+[INFO] |  |  |  +- (org.codehaus.plexus:plexus-utils:jar:2.0.5:compile - omitted for duplicate)
+[INFO] |  |  |  \- org.codehaus.plexus:plexus-io:jar:1.0:compile
+[INFO] |  |  |     \- (org.codehaus.plexus:plexus-utils:jar:2.0.5:compile - omitted for duplicate)
+[INFO] |  |  \- (org.codehaus.plexus:plexus-utils:jar:2.0.5:compile - omitted for duplicate)
+[INFO] |  +- org.apache.maven.plugins:maven-clean-plugin:maven-plugin:2.4.1:compile
+[INFO] |  |  +- (org.apache.maven:maven-plugin-api:jar:2.0.6:compile - omitted for conflict with 2.2.1)
+[INFO] |  |  \- (org.codehaus.plexus:plexus-utils:jar:2.0.5:compile - omitted for duplicate)
+[INFO] |  +- commons-fileupload:commons-fileupload:jar:1.3.1:compile
+[INFO] |  |  \- (commons-io:commons-io:jar:2.2:compile - omitted for conflict with 1.1)
+[INFO] |  +- org.apache.httpcomponents:httpmime:jar:4.3.3:compile
+[INFO] |  |  \- org.apache.httpcomponents:httpclient:jar:4.3.3:compile
+[INFO] |  |     +- org.apache.httpcomponents:httpcore:jar:4.3.2:compile
+[INFO] |  |     +- (commons-logging:commons-logging:jar:1.1.3:compile - omitted for conflict with 1.1.1)
+[INFO] |  |     \- (commons-codec:commons-codec:jar:1.6:compile - omitted for conflict with 1.2)
+[INFO] |  +- org.apache.commons:commons-collections4:jar:4.0:compile
+[INFO] |  +- org.apache.commons:commons-lang3:jar:3.3.2:compile
+[INFO] |  +- commons-configuration:commons-configuration:jar:1.7:compile
+[INFO] |  |  +- commons-collections:commons-collections:jar:3.2.1:compile
+[INFO] |  |  +- (commons-lang:commons-lang:jar:2.6:compile - omitted for duplicate)
+[INFO] |  |  +- (commons-logging:commons-logging:jar:1.1.1:compile - omitted for duplicate)
+[INFO] |  |  +- commons-digester:commons-digester:jar:1.8.1:compile
+[INFO] |  |  |  +- (commons-beanutils:commons-beanutils:jar:1.8.0:compile - omitted for conflict with 1.8.3)
+[INFO] |  |  |  \- (commons-logging:commons-logging:jar:1.1.1:compile - omitted for duplicate)
+[INFO] |  |  \- (commons-beanutils:commons-beanutils:jar:1.8.3:compile - omitted for conflict with 1.9.2)
+[INFO] |  +- commons-io:commons-io:jar:2.4:compile
+[INFO] |  +- commons-beanutils:commons-beanutils:jar:1.9.2:compile
+[INFO] |  |  +- (commons-logging:commons-logging:jar:1.1.1:compile - omitted for duplicate)
+[INFO] |  |  \- (commons-collections:commons-collections:jar:3.2.1:compile - omitted for duplicate)
+[INFO] |  \- org.dataone:d1_jibx_extensions:jar:2.2.0-SNAPSHOT:compile
+[INFO] |     \- (org.jibx:jibx-run:jar:1.2.5:compile - omitted for duplicate)
+[INFO] +- com.hazelcast:hazelcast-client:jar:2.4.1:compile
+[INFO] |  \- (com.hazelcast:hazelcast:jar:2.4.1:compile - omitted for duplicate)
+[INFO] +- org.apache.solr:solr-solrj:jar:3.4.0:compile
+[INFO] |  +- org.apache.lucene:lucene-core:jar:3.4.0:compile
+[INFO] |  +- commons-httpclient:commons-httpclient:jar:3.1:compile
+[INFO] |  |  +- (commons-logging:commons-logging:jar:1.0.4:compile - omitted for conflict with 1.1.1)
+[INFO] |  |  \- commons-codec:commons-codec:jar:1.2:compile
+[INFO] |  +- (commons-io:commons-io:jar:1.4:compile - omitted for conflict with 2.4)
+[INFO] |  +- org.apache.geronimo.specs:geronimo-stax-api_1.0_spec:jar:1.0.1:compile
+[INFO] |  +- org.apache.zookeeper:zookeeper:jar:3.3.1:compile
+[INFO] |  |  +- (log4j:log4j:jar:1.2.15:compile - omitted for conflict with 1.2.17)
+[INFO] |  |  \- jline:jline:jar:0.9.94:compile
+[INFO] |  |     \- (junit:junit:jar:3.8.1:compile - omitted for conflict with 4.7)
+[INFO] |  +- org.codehaus.woodstox:wstx-asl:jar:3.2.7:compile
+[INFO] |  |  \- stax:stax-api:jar:1.0.1:compile
+[INFO] |  \- (org.slf4j:slf4j-api:jar:1.6.1:compile - omitted for conflict with 1.7.5)
+[INFO] +- javax.servlet:servlet-api:jar:2.5:provided
+[INFO] +- org.springframework.data:spring-data-jpa:jar:1.4.5.RELEASE:compile
+[INFO] |  +- (org.springframework.data:spring-data-commons:jar:1.6.5.RELEASE:compile - omitted for duplicate)
+[INFO] |  +- (org.springframework:spring-orm:jar:3.1.4.RELEASE:compile - omitted for duplicate)
+[INFO] |  +- (org.springframework:spring-context:jar:3.1.4.RELEASE:compile - omitted for duplicate)
+[INFO] |  +- org.springframework:spring-aop:jar:3.1.4.RELEASE:compile
+[INFO] |  |  +- (aopalliance:aopalliance:jar:1.0:compile - omitted for duplicate)
+[INFO] |  |  +- (org.springframework:spring-asm:jar:3.1.4.RELEASE:compile - omitted for duplicate)
+[INFO] |  |  +- (org.springframework:spring-beans:jar:3.1.4.RELEASE:compile - omitted for duplicate)
+[INFO] |  |  \- (org.springframework:spring-core:jar:3.1.4.RELEASE:compile - omitted for duplicate)
+[INFO] |  +- (org.springframework:spring-tx:jar:3.1.4.RELEASE:compile - omitted for duplicate)
+[INFO] |  +- (org.springframework:spring-beans:jar:3.1.4.RELEASE:compile - omitted for duplicate)
+[INFO] |  +- (org.springframework:spring-core:jar:3.1.4.RELEASE:compile - omitted for duplicate)
+[INFO] |  +- org.aspectj:aspectjrt:jar:1.7.2:compile
+[INFO] |  +- (org.slf4j:slf4j-api:jar:1.7.1:compile - omitted for conflict with 1.7.5)
+[INFO] |  \- org.slf4j:jcl-over-slf4j:jar:1.7.1:runtime
+[INFO] |     \- (org.slf4j:slf4j-api:jar:1.7.1:runtime - omitted for conflict with 1.7.5)
+[INFO] +- org.springframework.data:spring-data-commons:jar:1.6.5.RELEASE:compile
+[INFO] |  +- (org.springframework:spring-core:jar:3.1.4.RELEASE:compile - omitted for duplicate)
+[INFO] |  +- (org.springframework:spring-beans:jar:3.1.4.RELEASE:compile - omitted for duplicate)
+[INFO] |  +- (org.slf4j:slf4j-api:jar:1.7.1:compile - omitted for conflict with 1.7.5)
+[INFO] |  \- (org.slf4j:jcl-over-slf4j:jar:1.7.1:runtime - omitted for duplicate)
+[INFO] +- org.hibernate:hibernate-entitymanager:jar:3.6.10.Final:compile
+[INFO] |  +- org.hibernate:hibernate-core:jar:3.6.10.Final:compile
+[INFO] |  |  +- antlr:antlr:jar:2.7.6:compile
+[INFO] |  |  +- (commons-collections:commons-collections:jar:3.1:compile - omitted for conflict with 3.2.1)
+[INFO] |  |  +- dom4j:dom4j:jar:1.6.1:compile
+[INFO] |  |  +- org.hibernate:hibernate-commons-annotations:jar:3.2.0.Final:compile
+[INFO] |  |  |  \- (org.slf4j:slf4j-api:jar:1.5.8:compile - omitted for conflict with 1.7.5)
+[INFO] |  |  +- (org.hibernate.javax.persistence:hibernate-jpa-2.0-api:jar:1.0.1.Final:compile - omitted for duplicate)
+[INFO] |  |  +- javax.transaction:jta:jar:1.1:compile
+[INFO] |  |  \- (org.slf4j:slf4j-api:jar:1.6.1:compile - omitted for conflict with 1.7.5)
+[INFO] |  +- (cglib:cglib:jar:2.2:compile - omitted for conflict with 3.1)
+[INFO] |  +- javassist:javassist:jar:3.12.0.GA:compile
+[INFO] |  +- org.hibernate.javax.persistence:hibernate-jpa-2.0-api:jar:1.0.1.Final:compile
+[INFO] |  \- (org.slf4j:slf4j-api:jar:1.6.1:compile - omitted for conflict with 1.7.5)
+[INFO] +- cglib:cglib:jar:3.1:compile
+[INFO] |  \- org.ow2.asm:asm:jar:4.2:compile
+[INFO] +- commons-dbcp:commons-dbcp:jar:1.2.2:compile
+[INFO] |  \- commons-pool:commons-pool:jar:1.3:compile
+[INFO] +- postgresql:postgresql:jar:8.4-702.jdbc4:compile
+[INFO] +- org.springframework:spring-core:jar:3.1.4.RELEASE:compile
+[INFO] |  +- org.springframework:spring-asm:jar:3.1.4.RELEASE:compile
+[INFO] |  \- (commons-logging:commons-logging:jar:1.1.1:compile - omitted for duplicate)
+[INFO] +- org.springframework:spring-jdbc:jar:3.1.4.RELEASE:compile
+[INFO] |  +- (org.springframework:spring-beans:jar:3.1.4.RELEASE:compile - omitted for duplicate)
+[INFO] |  +- (org.springframework:spring-core:jar:3.1.4.RELEASE:compile - omitted for duplicate)
+[INFO] |  \- (org.springframework:spring-tx:jar:3.1.4.RELEASE:compile - omitted for duplicate)
+[INFO] +- org.springframework:spring-tx:jar:3.1.4.RELEASE:compile
+[INFO] |  +- aopalliance:aopalliance:jar:1.0:compile
+[INFO] |  +- (org.springframework:spring-aop:jar:3.1.4.RELEASE:compile - omitted for duplicate)
+[INFO] |  +- (org.springframework:spring-beans:jar:3.1.4.RELEASE:compile - omitted for duplicate)
+[INFO] |  +- (org.springframework:spring-context:jar:3.1.4.RELEASE:compile - omitted for duplicate)
+[INFO] |  \- (org.springframework:spring-core:jar:3.1.4.RELEASE:compile - omitted for duplicate)
+[INFO] +- org.springframework:spring-beans:jar:3.1.4.RELEASE:compile
+[INFO] |  \- (org.springframework:spring-core:jar:3.1.4.RELEASE:compile - omitted for duplicate)
+[INFO] +- org.springframework:spring-context:jar:3.1.4.RELEASE:compile
+[INFO] |  +- (org.springframework:spring-aop:jar:3.1.4.RELEASE:compile - omitted for duplicate)
+[INFO] |  +- (org.springframework:spring-beans:jar:3.1.4.RELEASE:compile - omitted for duplicate)
+[INFO] |  +- (org.springframework:spring-core:jar:3.1.4.RELEASE:compile - omitted for duplicate)
+[INFO] |  +- org.springframework:spring-expression:jar:3.1.4.RELEASE:compile
+[INFO] |  |  \- (org.springframework:spring-core:jar:3.1.4.RELEASE:compile - omitted for duplicate)
+[INFO] |  \- (org.springframework:spring-asm:jar:3.1.4.RELEASE:compile - omitted for duplicate)
+[INFO] +- org.springframework:spring-orm:jar:3.1.4.RELEASE:compile
+[INFO] |  +- (org.springframework:spring-beans:jar:3.1.4.RELEASE:compile - omitted for duplicate)
+[INFO] |  +- (org.springframework:spring-core:jar:3.1.4.RELEASE:compile - omitted for duplicate)
+[INFO] |  +- (org.springframework:spring-jdbc:jar:3.1.4.RELEASE:compile - omitted for duplicate)
+[INFO] |  \- (org.springframework:spring-tx:jar:3.1.4.RELEASE:compile - omitted for duplicate)
+[INFO] +- org.springframework:spring-web:jar:3.1.4.RELEASE:test
+[INFO] |  +- (aopalliance:aopalliance:jar:1.0:test - omitted for duplicate)
+[INFO] |  +- (org.springframework:spring-aop:jar:3.1.4.RELEASE:test - omitted for duplicate)
+[INFO] |  +- (org.springframework:spring-beans:jar:3.1.4.RELEASE:test - omitted for duplicate)
+[INFO] |  +- (org.springframework:spring-context:jar:3.1.4.RELEASE:test - omitted for duplicate)
+[INFO] |  \- (org.springframework:spring-core:jar:3.1.4.RELEASE:test - omitted for duplicate)
+[INFO] +- org.springframework:spring-webmvc:jar:3.1.4.RELEASE:test
+[INFO] |  +- (org.springframework:spring-asm:jar:3.1.4.RELEASE:test - omitted for duplicate)
+[INFO] |  +- (org.springframework:spring-beans:jar:3.1.4.RELEASE:test - omitted for duplicate)
+[INFO] |  +- (org.springframework:spring-context:jar:3.1.4.RELEASE:test - omitted for duplicate)
+[INFO] |  +- org.springframework:spring-context-support:jar:3.1.4.RELEASE:test
+[INFO] |  |  +- (org.springframework:spring-beans:jar:3.1.4.RELEASE:test - omitted for duplicate)
+[INFO] |  |  +- (org.springframework:spring-context:jar:3.1.4.RELEASE:test - omitted for duplicate)
+[INFO] |  |  \- (org.springframework:spring-core:jar:3.1.4.RELEASE:test - omitted for duplicate)
+[INFO] |  +- (org.springframework:spring-core:jar:3.1.4.RELEASE:test - omitted for duplicate)
+[INFO] |  +- (org.springframework:spring-expression:jar:3.1.4.RELEASE:test - omitted for duplicate)
+[INFO] |  \- (org.springframework:spring-web:jar:3.1.4.RELEASE:test - omitted for duplicate)
+[INFO] +- org.springframework:spring-webmvc-portlet:jar:3.1.4.RELEASE:test
+[INFO] |  +- (org.springframework:spring-asm:jar:3.1.4.RELEASE:test - omitted for duplicate)
+[INFO] |  +- (org.springframework:spring-beans:jar:3.1.4.RELEASE:test - omitted for duplicate)
+[INFO] |  +- (org.springframework:spring-context:jar:3.1.4.RELEASE:test - omitted for duplicate)
+[INFO] |  +- (org.springframework:spring-core:jar:3.1.4.RELEASE:test - omitted for duplicate)
+[INFO] |  +- (org.springframework:spring-web:jar:3.1.4.RELEASE:test - omitted for duplicate)
+[INFO] |  \- (org.springframework:spring-webmvc:jar:3.1.4.RELEASE:test - omitted for duplicate)
+[INFO] +- org.springframework:spring-test:jar:3.1.4.RELEASE:test
+[INFO] \- com.h2database:h2:jar:1.3.163:test
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time: 6.408s
+[INFO] Finished at: Mon Apr 04 10:40:44 EDT 2016
+[INFO] Final Memory: 16M/266M
+[INFO] ------------------------------------------------------------------------

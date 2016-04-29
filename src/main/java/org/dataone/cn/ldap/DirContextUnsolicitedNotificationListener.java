@@ -4,6 +4,8 @@
  */
 package org.dataone.cn.ldap;
 
+import javax.naming.NamingException;
+import javax.naming.directory.DirContext;
 import javax.naming.event.NamingExceptionEvent;
 import javax.naming.ldap.UnsolicitedNotificationEvent;
 import javax.naming.ldap.UnsolicitedNotificationListener;
@@ -12,7 +14,7 @@ import org.apache.commons.logging.LogFactory;
 
 /**
 * 
-* Close the ldapService if a namingException is thrown,
+* Close the dirContext if a namingException is thrown,
 * this will force a reconnection to LDAP for the Service upon the next
 * request.
 * 
@@ -20,12 +22,12 @@ import org.apache.commons.logging.LogFactory;
 * notificationReceived is not called at all
 * 
 */
-class D1UnsolicitedNotificationListener implements UnsolicitedNotificationListener {
-    public static Log log = LogFactory.getLog(D1UnsolicitedNotificationListener.class);
-    LDAPService ldapService = null;
+class DirContextUnsolicitedNotificationListener implements UnsolicitedNotificationListener {
+    public static Log log = LogFactory.getLog(DirContextUnsolicitedNotificationListener.class);
+    DirContext dirContext = null;
 
-    public D1UnsolicitedNotificationListener(LDAPService ldap) {
-        this.ldapService = ldap;
+    public DirContextUnsolicitedNotificationListener(DirContext ldap) {
+        this.dirContext = ldap;
     }
     public void notificationReceived(UnsolicitedNotificationEvent evt) {
         log.warn("received: " + evt + "-" + evt.getNotification().getID());
@@ -33,8 +35,8 @@ class D1UnsolicitedNotificationListener implements UnsolicitedNotificationListen
 
     public void namingExceptionThrown(NamingExceptionEvent evt) {
         log.warn(evt.getException());
-//        ldapService.closeContext();
-        evt.getException().printStackTrace();
+
+
     }
 
 }
