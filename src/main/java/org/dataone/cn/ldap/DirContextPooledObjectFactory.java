@@ -150,14 +150,17 @@ public class DirContextPooledObjectFactory extends BasePooledObjectFactory<DirCo
         log.info("Destroying context");
         try {
             p.getObject().close();
-
         } catch (NamingException ex) {
             if (ex instanceof CommunicationException) {
                 log.warn(ex.getMessage());
             } else {
+                log.error(ex.getMessage(),ex);
                 throw ex;
             }
             
+        } catch (Exception e) {
+            log.error(e.getMessage(),e);
+            throw e;
         }
         // currently,  in BasePooledObjectFactory, this method is a no-op
         super.destroyObject(p);
