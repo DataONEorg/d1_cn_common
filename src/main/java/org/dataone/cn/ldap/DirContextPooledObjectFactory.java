@@ -54,7 +54,7 @@ public class DirContextPooledObjectFactory extends BasePooledObjectFactory<DirCo
     @Override
     public DirContext create() throws Exception {
         DirContext context = null;
-        log.debug("context is null");
+        log.info("creating new context");
         if (useTLS) {
             try {
                 context = getSecureContext();
@@ -147,6 +147,7 @@ public class DirContextPooledObjectFactory extends BasePooledObjectFactory<DirCo
 
     @Override
     public void destroyObject(PooledObject<DirContext> p) throws Exception  {
+        log.info("Destroying context");
         try {
             p.getObject().close();
 
