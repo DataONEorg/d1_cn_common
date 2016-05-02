@@ -89,7 +89,10 @@ public class DirContextPooledObjectFactory extends BasePooledObjectFactory<DirCo
         env.put(Context.SECURITY_AUTHENTICATION, "simple");
         env.put(Context.SECURITY_PRINCIPAL, admin);
         env.put(Context.SECURITY_CREDENTIALS, password);
-
+        env.put("com.sun.jndi.ldap.read.timeout", "1000");
+        env.put("com.sun.jndi.ldap.connect.timeout", "1000");
+        // Tried with both pooling and without - doesn't solve problems
+        env.put("com.sun.jndi.ldap.connect.pool", "false");
         /* get a handle to an Initial DirContext */
         DirContext ctx = new InitialDirContext(env);
         return ctx;

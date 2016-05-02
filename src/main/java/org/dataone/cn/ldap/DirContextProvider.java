@@ -30,12 +30,12 @@ import org.dataone.configuration.Settings;
 public class DirContextProvider {
     public static Log log = LogFactory.getLog(DirContextProvider.class);
     private static boolean BLOCK_WHEN_EXHAUSTED =  Settings.getConfiguration().getBoolean("cn.ldap.pool.block_when_exhausted", true);
-    private static long MAX_WAIT_MILLIS = Settings.getConfiguration().getLong("cn.ldap.pool.max_wait_millis", 2000);
-    private static long MIN_EVICTABLE_IDLE_TIME_MILLIS = Settings.getConfiguration().getLong("cn.ldap.pool.min_evictable_idle_time_millis", 4000);
-    private static long TIME_BETWEEN_EVICTION_RUNS_MILLIS = Settings.getConfiguration().getLong("cn.ldap.pool.time_between_eviction_runs_millis", 5000);
+    private static long MAX_WAIT_MILLIS = Settings.getConfiguration().getLong("cn.ldap.pool.max_wait_millis", 2500);
+    private static long MIN_EVICTABLE_IDLE_TIME_MILLIS = Settings.getConfiguration().getLong("cn.ldap.pool.min_evictable_idle_time_millis", 5000);
+    private static long TIME_BETWEEN_EVICTION_RUNS_MILLIS = Settings.getConfiguration().getLong("cn.ldap.pool.time_between_eviction_runs_millis", 10000);
     private static int MAX_TOTAL_POOL_OBJECTS = Settings.getConfiguration().getInt("cn.ldap.pool.max_total", 20);
     private static int MAX_IDLE_POOL_OBJECTS = Settings.getConfiguration().getInt("cn.ldap.pool.max_idle", 10);
-    private static int MIN_IDLE_POOL_OBJECTS = Settings.getConfiguration().getInt("cn.ldap.pool.min_idle", 2);
+    private static int MIN_IDLE_POOL_OBJECTS = Settings.getConfiguration().getInt("cn.ldap.pool.min_idle", 1);
     private static final long serialVersionUID = 1L;
     private GenericObjectPool<DirContext> dirContextPool ;
     static private volatile DirContextProvider dirContextPoolProvider;
