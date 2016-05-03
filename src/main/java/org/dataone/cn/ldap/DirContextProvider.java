@@ -79,13 +79,13 @@ public class DirContextProvider {
 
             Date borrowedDate = new Date(defaultPooledObject.getLastBorrowTime());
             Date returnedDate = new Date(defaultPooledObject.getLastReturnTime());
-            log.info("Before ObjectID " + defaultPooledObject.getPooledObjectToString() + " Borrowed Count "  + defaultPooledObject.getBorrowedCount() + (borrowedDate.before(returnedDate) ? " returned" : " notreturned") );
+            log.info("Before ObjectID " + defaultPooledObject.getPooledObjectToString()  + (borrowedDate.before(returnedDate) ? " returned" : " notreturned") );
         }
         dirContextPool.returnObject(context);
         for (DefaultPooledObjectInfo defaultPooledObject : dirContextPool.listAllObjects()) {
             Date borrowedDate = new Date(defaultPooledObject.getLastBorrowTime());
             Date returnedDate = new Date(defaultPooledObject.getLastReturnTime());
-            log.info("After ObjectID " + defaultPooledObject.getPooledObjectToString() + " Borrowed Count "  +defaultPooledObject.getBorrowedCount() + (borrowedDate.before(returnedDate) ? " returned" : " notreturned") );
+            log.info("After ObjectID " + defaultPooledObject.getPooledObjectToString()  + (borrowedDate.before(returnedDate) ? " returned" : " notreturned") );
         }
     }
     

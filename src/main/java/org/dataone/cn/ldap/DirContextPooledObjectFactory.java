@@ -7,6 +7,7 @@ package org.dataone.cn.ldap;
 
 import java.io.IOException;
 import java.util.Hashtable;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.naming.CommunicationException;
@@ -31,17 +32,16 @@ import org.apache.commons.pool2.PooledObject;
 import org.apache.commons.pool2.impl.DefaultPooledObject;
 
 /**
- * 
- * Wraps a DirContext as a PooledObject in order to be managed By Apache's 
- * GenericObjectPool or DirContextObjectPool.
- * 
- * The DirContext may be a Secured or NonSecure connection. NonSecured connections are 
- * used for Testing purposes only. The wrapped object is created and also may be 
- * validated or destroyed by the class.
+ *
+ * Wraps a DirContext as a PooledObject in order to be managed By Apache's GenericObjectPool or DirContextObjectPool.
+ *
+ * The DirContext may be a Secured or NonSecure connection. NonSecured connections are used for Testing purposes only.
+ * The wrapped object is created and also may be validated or destroyed by the class.
  *
  * @author waltz
  */
 public class DirContextPooledObjectFactory extends BasePooledObjectFactory<DirContext> {
+
     public static Log log = LogFactory.getLog(DirContextPooledObjectFactory.class);
     // look up defaults from configuration
     protected String server = Settings.getConfiguration().getString("cn.ldap.server");
@@ -50,6 +50,8 @@ public class DirContextPooledObjectFactory extends BasePooledObjectFactory<DirCo
 
     protected boolean useTLS = Boolean.parseBoolean(Settings.getConfiguration().getString(
             "cn.ldap.useTLS"));
+
+    private static ConcurrentHashMap<DirContext, StartTlsResponse> tlsHashMap = new ConcurrentHashMap<>();
 
     @Override
     public DirContext create() throws Exception {
@@ -123,7 +125,7 @@ public class DirContextPooledObjectFactory extends BasePooledObjectFactory<DirCo
         ctx.addToEnvironment(Context.SECURITY_AUTHENTICATION, "simple");
         ctx.addToEnvironment(Context.SECURITY_PRINCIPAL, admin);
         ctx.addToEnvironment(Context.SECURITY_CREDENTIALS, password);
-
+        tlsHashMap.put(ctx, tls);
         return ctx;
     }
 
@@ -149,20 +151,31 @@ public class DirContextPooledObjectFactory extends BasePooledObjectFactory<DirCo
     }
 
     @Override
-    public void destroyObject(PooledObject<DirContext> p) throws Exception  {
+    public void destroyObject(PooledObject<DirContext> p) throws Exception {
         log.info("Destroying context");
+        DirContext dirContext = p.getObject();
+        if (tlsHashMap.containsKey(dirContext)) {
+            StartTlsResponse tls = tlsHashMap.get(dirContext);
+            if (tls != null) {
+                try {
+                    tls.close();
+                } catch (Exception ex) {
+                    log.error(ex.getMessage(), ex);
+                }
+            }
+        }
         try {
             p.getObject().close();
         } catch (NamingException ex) {
             if (ex instanceof CommunicationException) {
                 log.warn(ex.getMessage());
             } else {
-                log.error(ex.getMessage(),ex);
+                log.error(ex.getMessage(), ex);
                 throw ex;
             }
-            
+
         } catch (Exception e) {
-            log.error(e.getMessage(),e);
+            log.error(e.getMessage(), e);
             throw e;
         }
         // currently,  in BasePooledObjectFactory, this method is a no-op
