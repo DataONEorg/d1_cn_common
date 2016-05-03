@@ -154,18 +154,9 @@ public class DirContextPooledObjectFactory extends BasePooledObjectFactory<DirCo
     public void destroyObject(PooledObject<DirContext> p) throws Exception {
         log.info("Destroying context");
         DirContext dirContext = p.getObject();
-        if (tlsHashMap.containsKey(dirContext)) {
-            StartTlsResponse tls = tlsHashMap.get(dirContext);
-            if (tls != null) {
-                try {
-                    tls.close();
-                } catch (Exception ex) {
-                    log.error(ex.getMessage(), ex);
-                }
-            }
-        }
+
         try {
-            p.getObject().close();
+            dirContext.close();
         } catch (NamingException ex) {
             if (ex instanceof CommunicationException) {
                 log.warn(ex.getMessage());
@@ -177,6 +168,17 @@ public class DirContextPooledObjectFactory extends BasePooledObjectFactory<DirCo
         } catch (Exception e) {
             log.error(e.getMessage(), e);
             throw e;
+        } finally {
+            if (tlsHashMap.containsKey(dirContext)) {
+                StartTlsResponse tls = tlsHashMap.get(dirContext);
+                if (tls != null) {
+                    try {
+                        tls.close();
+                    } catch (Exception ex) {
+                        log.error(ex.getMessage(), ex);
+                    }
+                }
+            }  
         }
         // currently,  in BasePooledObjectFactory, this method is a no-op
         super.destroyObject(p);
