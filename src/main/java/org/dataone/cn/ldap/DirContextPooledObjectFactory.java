@@ -51,7 +51,7 @@ public class DirContextPooledObjectFactory extends BasePooledObjectFactory<DirCo
     protected boolean useTLS = Boolean.parseBoolean(Settings.getConfiguration().getString(
             "cn.ldap.useTLS"));
 
-    private static ConcurrentHashMap<DirContext, StartTlsResponse> tlsHashMap = new ConcurrentHashMap<>();
+    private static ConcurrentHashMap<DirContext, DirContextStash> tlsHashMap = new ConcurrentHashMap<>();
 
     @Override
     public DirContext create() throws Exception {
@@ -70,9 +70,13 @@ public class DirContextPooledObjectFactory extends BasePooledObjectFactory<DirCo
         DirContextUnsolicitedNotificationListener d1Listener = new DirContextUnsolicitedNotificationListener(context);
 
         // Register listener with context (all targets equivalent)
+        
         EventDirContext eventDirContext = (EventDirContext) (context.lookup(""));
         eventDirContext.addNamingListener("", EventContext.ONELEVEL_SCOPE, d1Listener);
-
+        if (tlsHashMap.containsKey(context)) {
+            tlsHashMap.get(context).eventDirContext = eventDirContext;
+            tlsHashMap.get(context).d1Listener = d1Listener;
+        }
         return context;
     }
 
@@ -125,7 +129,8 @@ public class DirContextPooledObjectFactory extends BasePooledObjectFactory<DirCo
         ctx.addToEnvironment(Context.SECURITY_AUTHENTICATION, "simple");
         ctx.addToEnvironment(Context.SECURITY_PRINCIPAL, admin);
         ctx.addToEnvironment(Context.SECURITY_CREDENTIALS, password);
-        tlsHashMap.put(ctx, tls);
+        DirContextStash dirContextStash = new DirContextStash(tls);
+        tlsHashMap.put(ctx, dirContextStash);
         return ctx;
     }
 
@@ -152,7 +157,7 @@ public class DirContextPooledObjectFactory extends BasePooledObjectFactory<DirCo
 
     @Override
     public void destroyObject(PooledObject<DirContext> p) throws Exception {
-        log.info("Destroying context");
+        log.debug("Destroying context");
         DirContext dirContext = p.getObject();
 
         try {
@@ -169,19 +174,32 @@ public class DirContextPooledObjectFactory extends BasePooledObjectFactory<DirCo
             log.error(e.getMessage(), e);
             throw e;
         } finally {
+
             if (tlsHashMap.containsKey(dirContext)) {
-                StartTlsResponse tls = tlsHashMap.get(dirContext);
-                if (tls != null) {
-                    try {
-                        tls.close();
-                    } catch (Exception ex) {
-                        log.error(ex.getMessage(), ex);
-                    }
+                DirContextStash dirContextStash = tlsHashMap.get(dirContext);
+                // turn off the listener so that when we close the TLS connection
+                // we don't get spammed with a Warning Log message
+                dirContextStash.eventDirContext.removeNamingListener(dirContextStash.d1Listener);
+
+                try {
+                    dirContextStash.startTlsResponse.close();
+                } catch (Exception ex) {
+                    log.error(ex.getMessage(), ex);
                 }
-            }  
+
+            }
         }
         // currently,  in BasePooledObjectFactory, this method is a no-op
         super.destroyObject(p);
     }
 
+    private class DirContextStash {
+        public StartTlsResponse startTlsResponse;
+        public DirContextUnsolicitedNotificationListener d1Listener;
+        EventDirContext eventDirContext;
+        
+        public DirContextStash(StartTlsResponse startTlsResponse) {
+            this.startTlsResponse = startTlsResponse;
+        }
+    }
 }
