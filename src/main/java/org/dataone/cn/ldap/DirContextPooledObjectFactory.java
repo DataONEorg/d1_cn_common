@@ -56,7 +56,7 @@ public class DirContextPooledObjectFactory extends BasePooledObjectFactory<DirCo
     @Override
     public DirContext create() throws Exception {
         DirContext context = null;
-        log.info("creating new context");
+        log.debug("creating new context");
         if (useTLS) {
             try {
                 context = getSecureContext();
@@ -141,7 +141,7 @@ public class DirContextPooledObjectFactory extends BasePooledObjectFactory<DirCo
 
     @Override
     public boolean validateObject(PooledObject<DirContext> p) {
-        log.info(p.getObject().toString() + " has a state of " + p.getState().name());
+        log.debug(p.getObject().toString() + " has a state of " + p.getState().name());
         DirContext dirContext = p.getObject();
         try {
             // check if return client in current service list if
@@ -176,7 +176,8 @@ public class DirContextPooledObjectFactory extends BasePooledObjectFactory<DirCo
         } finally {
 
             if (tlsHashMap.containsKey(dirContext)) {
-                DirContextStash dirContextStash = tlsHashMap.get(dirContext);
+                DirContextStash dirContextStash = tlsHashMap.remove(dirContext);
+                
                 // turn off the listener so that when we close the TLS connection
                 // we don't get spammed with a Warning Log message
                 dirContextStash.eventDirContext.removeNamingListener(dirContextStash.d1Listener);
@@ -193,6 +194,17 @@ public class DirContextPooledObjectFactory extends BasePooledObjectFactory<DirCo
         super.destroyObject(p);
     }
 
+    /* The information is needed for when a DirContext is closed by the pooling manager.
+       startTlsResponse allows access to the TLS connection that needs to be closed.
+       d1Listener was attached to the EventDirContext to report any events on 
+       the DirContext such as javax.naming.CommunicationException.
+       When the TLS connection closes, regardless of if the DirContext is closed,
+       a CommunicationException event will be fired and logged by the d1Listener.
+       Having such a warning in the log file sets up a false flag for investigation,
+       since the code intends to close the TLS connection gracefully.
+       So, in the destroy method, attempt to deregister the listener from the
+       EventDirContext before closing the  TLS connection to avoid the log message.
+    */
     private class DirContextStash {
         public StartTlsResponse startTlsResponse;
         public DirContextUnsolicitedNotificationListener d1Listener;
