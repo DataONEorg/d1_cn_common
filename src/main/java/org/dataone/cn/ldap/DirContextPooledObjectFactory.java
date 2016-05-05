@@ -8,8 +8,6 @@ package org.dataone.cn.ldap;
 import java.io.IOException;
 import java.util.Hashtable;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.naming.CommunicationException;
 
 import javax.naming.Context;
@@ -24,7 +22,6 @@ import javax.net.ssl.SSLSession;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.http.conn.ssl.AllowAllHostnameVerifier;
-import static org.dataone.cn.ldap.LDAPService.log;
 import org.dataone.configuration.Settings;
 
 import org.apache.commons.pool2.BasePooledObjectFactory;
