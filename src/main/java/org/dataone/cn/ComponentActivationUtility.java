@@ -21,6 +21,7 @@
 
 package org.dataone.cn;
 
+import java.util.concurrent.atomic.AtomicBoolean;
 import org.dataone.configuration.Settings;
 
 /**
@@ -31,6 +32,8 @@ import org.dataone.configuration.Settings;
  */
 public class ComponentActivationUtility {
 
+    private static AtomicBoolean runSynchronization = new AtomicBoolean(true);
+    
     private ComponentActivationUtility() {
     }
 
@@ -53,13 +56,23 @@ public class ComponentActivationUtility {
     public static boolean replicationCNAuditorIsActive() {
         return replicationCNAuditorComponenentActive();
     }
-
+    
+    /* 
+     *  disable running of synchronization in
+     *  case of catastrophic failure of a subcomponent
+     *
+     *  see https://redmine.dataone.org/issues/7706
+    */
+    public static boolean disableSynchronization() {
+        return runSynchronization.compareAndSet(true, false);
+    }
+    
     private static boolean replicationComponentActive() {
         return Settings.getConfiguration().getBoolean("Replication.active");
     }
 
     private static boolean sychronizationComponentActive() {
-        return Settings.getConfiguration().getBoolean("Synchronization.active");
+        return Settings.getConfiguration().getBoolean("Synchronization.active") && runSynchronization.get();
     }
 
     private static boolean replicationMNAuditorComponenentActive() {
