@@ -61,6 +61,19 @@ public class MetricLogEntry {
      *
      */
     private Long timeToCompleteEventMS;
+    
+    /* 
+     * thread name
+     * 
+    */
+    private String threadName = Thread.currentThread().getName();
+    
+    /* 
+     * thread id
+     * 
+    */    
+    private long threadId = Thread.currentThread().getId();
+    
     /**
      * The date that the event occurred
      *
@@ -164,30 +177,34 @@ public class MetricLogEntry {
     @Override
     public String toString() {
         StringBuilder jsonBuilder = new StringBuilder();
-        jsonBuilder.append("{\"event\": \"");
+        jsonBuilder.append("{\"event\":\"");
         jsonBuilder.append(event.toString());
         jsonBuilder.append("\"");
         if (nodeId != null) {
-            jsonBuilder.append(",\"nodeId\": \"");
+            jsonBuilder.append(",\"nodeId\":\"");
             jsonBuilder.append(nodeId.getValue());
             jsonBuilder.append("\"");
         }
         if (pid != null) {
-            jsonBuilder.append(",\"pid\": \"");
+            jsonBuilder.append(",\"pid\":\"");
             jsonBuilder.append(pid.getValue());
             jsonBuilder.append("\"");
         }
         if (message != null) {
-            jsonBuilder.append("\",\"message\": \"");
+            jsonBuilder.append(",\"message\":\"");
             jsonBuilder.append(message);
             jsonBuilder.append("\"");
         }
         if (timeToCompleteEventMS != null) {
-            jsonBuilder.append("\",\"timeToCompleteEventMS\": \"");
+            jsonBuilder.append(",\"timeToCompleteEventMS\":");
             jsonBuilder.append(timeToCompleteEventMS);
-            jsonBuilder.append("\"");
         }
-        jsonBuilder.append("\",\"dateLogged\": \"");
+        jsonBuilder.append(",\"threadName\":\"");
+        jsonBuilder.append(threadName);
+        jsonBuilder.append("\"");   
+        jsonBuilder.append(",\"threadId\":");
+        jsonBuilder.append(threadId);  
+        jsonBuilder.append(",\"dateLogged\":\"");
         jsonBuilder.append(DateTimeMarshaller.serializeDateToUTC(dateLogged));
         jsonBuilder.append("\"}");
         return jsonBuilder.toString();
