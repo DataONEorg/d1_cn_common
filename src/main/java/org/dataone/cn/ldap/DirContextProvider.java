@@ -53,7 +53,7 @@ public class DirContextProvider {
        conf.setMaxIdle(MAX_IDLE_POOL_OBJECTS);
        conf.setMinIdle(MIN_IDLE_POOL_OBJECTS);
        conf.setTestWhileIdle(true);
-       conf.setTestOnReturn(true);
+       conf.setTestOnReturn(false);
        conf.setTestOnBorrow(true);
        dirContextPool  = new GenericObjectPool<DirContext>(dirContextPooledObjectFactory,conf);
     }
@@ -76,16 +76,13 @@ public class DirContextProvider {
     public void returnDirContext(DirContext context) {
         
         for (DefaultPooledObjectInfo defaultPooledObject : dirContextPool.listAllObjects()) {
-
             Date borrowedDate = new Date(defaultPooledObject.getLastBorrowTime());
             Date returnedDate = new Date(defaultPooledObject.getLastReturnTime());
-            log.debug("Before ObjectID " + defaultPooledObject.getPooledObjectToString()  + (borrowedDate.before(returnedDate) ? " returned" : " notreturned") );
         }
         dirContextPool.returnObject(context);
         for (DefaultPooledObjectInfo defaultPooledObject : dirContextPool.listAllObjects()) {
             Date borrowedDate = new Date(defaultPooledObject.getLastBorrowTime());
             Date returnedDate = new Date(defaultPooledObject.getLastReturnTime());
-            log.debug("After ObjectID " + defaultPooledObject.getPooledObjectToString()  + (borrowedDate.before(returnedDate) ? " returned" : " notreturned") );
         }
     }
     

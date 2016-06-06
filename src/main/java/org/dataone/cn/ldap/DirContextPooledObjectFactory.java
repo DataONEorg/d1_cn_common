@@ -11,7 +11,10 @@ import java.util.concurrent.ConcurrentHashMap;
 import javax.naming.CommunicationException;
 
 import javax.naming.Context;
+import javax.naming.NamingEnumeration;
 import javax.naming.NamingException;
+import javax.naming.directory.Attribute;
+import javax.naming.directory.Attributes;
 import javax.naming.directory.DirContext;
 import javax.naming.directory.InitialDirContext;
 import javax.naming.event.EventContext;
@@ -138,12 +141,12 @@ public class DirContextPooledObjectFactory extends BasePooledObjectFactory<DirCo
 
     @Override
     public boolean validateObject(PooledObject<DirContext> p) {
-        log.debug(p.getObject().toString() + " has a state of " + p.getState().name());
         DirContext dirContext = p.getObject();
         try {
             // check if return client in current service list if
-
-            dirContext.getNameInNamespace();
+            Attributes attributes = dirContext.getAttributes( "dc=org");
+            NamingEnumeration<?> all = attributes.getAll();
+            all.close();
         } catch (NamingException ex) {
             log.error(ex, ex);
             return false;
