@@ -10,7 +10,7 @@
         <hazelcast.version>2.4.1</hazelcast.version>
         <d1_common_java.version>2.2.0-SNAPSHOT</d1_common_java.version>
         <spring.version>3.1.4.RELEASE</spring.version>
-        <solrj.version>3.4.0</solrj.version>
+        <solr.version>5.2.1</solr.version>
         <d1_test_resources.version>2.2.0-SNAPSHOT </d1_test_resources.version>
     </properties>
     <repositories>
@@ -78,9 +78,9 @@
             <scope>compile</scope>
         </dependency>
         <dependency>
-            <artifactId>solr-solrj</artifactId>
             <groupId>org.apache.solr</groupId>
-            <version>${solrj.version}</version>
+            <artifactId>solr-solrj</artifactId>
+            <version>${solr.version}</version>
         </dependency>
         
         <dependency>

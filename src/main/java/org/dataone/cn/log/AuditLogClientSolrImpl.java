@@ -28,7 +28,7 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrServerException;
-import org.apache.solr.client.solrj.impl.CommonsHttpSolrServer;
+import org.apache.solr.client.solrj.impl.HttpSolrClient;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.client.solrj.util.ClientUtils;
 import org.dataone.configuration.Settings;
@@ -49,14 +49,13 @@ public class AuditLogClientSolrImpl implements AuditLogClient {
     private static final String AUDIT_LOG_URL = Settings.getConfiguration().getString(
             "cn.audit.log.url", "http://localhost:8983/solr4/cn-audit/");
 
-    private static CommonsHttpSolrServer server = null;
+    private static HttpSolrClient server = null;
+    
 
     static {
-        try {
-            server = new CommonsHttpSolrServer(AUDIT_LOG_URL);
-        } catch (MalformedURLException e) {
-            log.error("Exception attempting to create common solr server", e);
-        }
+           
+            server = new HttpSolrClient(AUDIT_LOG_URL);
+
     }
 
     public AuditLogClientSolrImpl() {
@@ -91,7 +90,7 @@ public class AuditLogClientSolrImpl implements AuditLogClient {
         try {
             QueryResponse response = server.query(solrQuery);
             returnVal = response.toString();
-        } catch (SolrServerException e) {
+        } catch (SolrServerException | IOException e) {
             log.error("exception querying audit log", e);
         }
         return returnVal;
@@ -116,7 +115,7 @@ public class AuditLogClientSolrImpl implements AuditLogClient {
         try {
             QueryResponse response = server.query(solrQuery);
             returnVal = response.toString();
-        } catch (SolrServerException e) {
+        } catch (SolrServerException | IOException e) {
             log.error("exception querying audit log", e);
         }
         return returnVal;
