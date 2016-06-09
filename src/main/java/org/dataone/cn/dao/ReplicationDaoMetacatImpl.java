@@ -86,7 +86,10 @@ public class ReplicationDaoMetacatImpl implements ReplicationDao {
                 public PreparedStatement createPreparedStatement(Connection conn)
                         throws SQLException {
 
-                    String sqlStatement = "SELECT DISTINCT member_node FROM smreplicationstatus WHERE status='QUEUED';";
+                    String sqlStatement = "SELECT        " +
+                    		" DISTINCT member_node       " +
+                    		" FROM smreplicationstatus   " +
+                    		" WHERE status='QUEUED';     ";
                     PreparedStatement statement = conn.prepareStatement(sqlStatement);
                     log.debug("getMemberNodesWithQueuedReplica statement is: " + statement);
                     return statement;
@@ -171,8 +174,8 @@ public class ReplicationDaoMetacatImpl implements ReplicationDao {
                             + "  FROM  smreplicationstatus            "
                             + "  WHERE guid = ?                       "
                             + "  AND member_node = ?                  "
-                            + "  AND status = 'QUEUED'                "
-                            + "  ORDER BY date_verified ASC;          ";
+                            + "  AND status = 'QUEUED'                ";
+//                            + "  ORDER BY date_verified ASC;          ";
 
                     PreparedStatement statement = conn.prepareStatement(sqlStatement);
                     statement.setString(1, identifier);
@@ -418,10 +421,14 @@ public class ReplicationDaoMetacatImpl implements ReplicationDao {
                 public PreparedStatement createPreparedStatement(Connection conn)
                         throws SQLException {
 
-                    String sqlStatement = "SELECT       " + "   member_node,              "
-                            + "  count(status) AS count     " + "  FROM  smreplicationstatus  "
-                            + "  WHERE status = 'REQUESTED' " + "  OR    status = 'QUEUED'    "
-                            + "  GROUP BY member_node       " + "  ORDER BY member_node;      ";
+                    String sqlStatement = "SELECT       " 
+                            + "    member_node,              "
+                            + "    count(status) AS count     " 
+                            + "  FROM  smreplicationstatus  "
+                            + "  WHERE status = 'REQUESTED' " 
+                            + "    OR  status = 'QUEUED'    "
+                            + "  GROUP BY member_node       " 
+                            + "  ORDER BY member_node;      ";
 
                     PreparedStatement statement = conn.prepareStatement(sqlStatement);
                     log.debug("getPendingReplicasbyNode statement is: " + statement);

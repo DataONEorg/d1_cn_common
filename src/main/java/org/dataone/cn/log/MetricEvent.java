@@ -32,7 +32,10 @@ public enum MetricEvent {
     SYNCHRONIZATION_HARVEST_SUBMITTED("synchronization harvest submitted"),
     SYNCHRONIZATION_QUEUED("synchronization queued"),
     LOG_AGGREGATION_HARVEST_RETRIEVED("log aggregation harvest retrieved"),
-    LOG_AGGREGATION_HARVEST_SUBMITTED("log aggregation harvest submitted");
+    LOG_AGGREGATION_HARVEST_SUBMITTED("log aggregation harvest submitted"),
+    REPLICATION_TASKS("replication tasks"),
+    REPLICA_STATUS("replication status"),
+    ;
 
     private final String value;
 
