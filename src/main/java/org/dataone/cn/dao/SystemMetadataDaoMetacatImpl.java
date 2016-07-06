@@ -38,6 +38,7 @@ import java.util.Map;
 
 import javax.sql.DataSource;
 
+import org.dataone.exceptions.MarshallingException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.dataone.cn.dao.exceptions.DataAccessException;
@@ -55,7 +56,6 @@ import org.dataone.service.types.v1.ReplicationStatus;
 import org.dataone.service.types.v1.Subject;
 import org.dataone.service.types.v2.SystemMetadata;
 import org.dataone.service.util.TypeMarshaller;
-import org.jibx.runtime.JiBXException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
@@ -713,7 +713,7 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
 
         // get replication_allowed
         // get number_replicas
-        Boolean replicationAllowed = false;
+        Boolean replicationAllowed = null;
         Integer numberReplicas = null;
         ReplicationPolicy replicationPolicy = systemMetadata.getReplicationPolicy();
         if (replicationPolicy != null) {
@@ -1031,7 +1031,7 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
                     .setLastSystemMetadataModificationDate(dateSystemMetadataLastModified);
 
             // add archived
-            boolean archived = resultSet.getBoolean("archived");
+            boolean archived = resultSet.getBoolean("archived");  // getBoolean returns false for null results
             systemMetadataStatus.setDeleted(new Boolean(archived));
 
             return systemMetadataStatus;
@@ -1125,7 +1125,8 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
             accessRule.addSubject(subject);
 
             // add the permissions
-            List<Permission> permissions = convertPermission(resultSet.getInt("permission"));
+            // a 0 return for null value situations is harmless
+            List<Permission> permissions = convertPermission(resultSet.getInt("permission")); // getInt returns 0 for null values
             accessRule.setPermissionList(permissions);
 
             return accessRule;
@@ -1175,9 +1176,10 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
             Date dateSystemMetadataLastModified = resultSet.getTimestamp("date_modified");
             systemMetadata.setDateSysMetadataModified(dateSystemMetadataLastModified);
 
-            // add archived
-            boolean archived = resultSet.getBoolean("archived");
-            systemMetadata.setArchived(new Boolean(archived));
+            // add archived value, if it was stored
+            boolean archived = resultSet.getBoolean("archived");  // getBoolean returns false for null results
+            if (!resultSet.wasNull())
+                systemMetadata.setArchived(new Boolean(archived));
 
             // add date_uploaded
             Date dateUploaded = resultSet.getTimestamp("date_uploaded");
@@ -1246,45 +1248,52 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
                 systemMetadata.setObsoletedBy(obsoletedById);
             }
 
-            // populate and add ReplicationPolicy
-            ReplicationPolicy replicationPolicy = new ReplicationPolicy();
+            // potentially build a ReplicationPolicy
+            
+            // add replication_allowed, if it was persisted
+            boolean replAllowed = resultSet.getBoolean("replication_allowed");  // getBoolean returns false for null results
+            
+            if (!resultSet.wasNull()) {
+                // populate and add ReplicationPolicy
+                ReplicationPolicy replicationPolicy = new ReplicationPolicy();
+            
+                replicationPolicy.setReplicationAllowed(new Boolean(replAllowed));
 
-            // add replication_allowed
-            boolean replAllowed = resultSet.getBoolean("replication_allowed");
-            replicationPolicy.setReplicationAllowed(new Boolean(replAllowed));
-
-            // add number_replicas
-            int numberOfReplicas = resultSet.getInt("number_replicas");
-            if (numberOfReplicas > 0) {
-                replicationPolicy.setNumberReplicas(new Integer(numberOfReplicas));
-
-            }
-
-            // add preferred and blocked lists
-            List<ReplicationPolicyEntry> replPolicies = new ArrayList<ReplicationPolicyEntry>();
-            List<NodeReference> preferredNodes = new ArrayList<NodeReference>();
-            List<NodeReference> blockedNodes = new ArrayList<NodeReference>();
-
-            replPolicies = listReplicationPolicies(pid, localTableMap);
-
-            for (ReplicationPolicyEntry policy : replPolicies) {
-                Identifier id = policy.getPid();
-                String entryPolicy = policy.getPolicy();
-                NodeReference node = policy.getMemberNode();
-
-                if (entryPolicy.equals("preferred")) {
-                    preferredNodes.add(node);
-
-                } else if (entryPolicy.equals("blocked")) {
-                    blockedNodes.add(node);
+                // add number_replicas
+                int numberOfReplicas = resultSet.getInt("number_replicas"); // getInt returns 0 for null values
+                if (numberOfReplicas > 0) {
+                    replicationPolicy.setNumberReplicas(new Integer(numberOfReplicas));
 
                 }
+
+                // add preferred and blocked lists
+                List<ReplicationPolicyEntry> replPolicies = new ArrayList<ReplicationPolicyEntry>();
+                List<NodeReference> preferredNodes = new ArrayList<NodeReference>();
+                List<NodeReference> blockedNodes = new ArrayList<NodeReference>();
+
+                replPolicies = listReplicationPolicies(pid, localTableMap);
+
+                for (ReplicationPolicyEntry policy : replPolicies) {
+                    Identifier id = policy.getPid();
+                    String entryPolicy = policy.getPolicy();
+                    NodeReference node = policy.getMemberNode();
+
+                    if (entryPolicy.equals("preferred")) {
+                        preferredNodes.add(node);
+
+                    } else if (entryPolicy.equals("blocked")) {
+                        blockedNodes.add(node);
+
+                    }
+                }
+
+                replicationPolicy.setPreferredMemberNodeList(preferredNodes);
+                replicationPolicy.setBlockedMemberNodeList(blockedNodes);
+
+                systemMetadata.setReplicationPolicy(replicationPolicy);
+            } else {
+                systemMetadata.setReplicationPolicy(null);
             }
-
-            replicationPolicy.setPreferredMemberNodeList(preferredNodes);
-            replicationPolicy.setBlockedMemberNodeList(blockedNodes);
-
-            systemMetadata.setReplicationPolicy(replicationPolicy);
 
             // populate and add replicas list
 
@@ -1306,7 +1315,7 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
                     log.debug("SystemMetadata for pid " + pid.getValue() + " is: "
                             + baos.toString());
 
-                } catch (JiBXException e) {
+                } catch (MarshallingException e) {
                     e.printStackTrace();
 
                 } catch (IOException e) {
@@ -1360,6 +1369,7 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
 
     /**
      * Convert integer-based permission values to string-based permissions
+     * A value of 0 is silently ignored
      * @param value  the integer value of the permission
      * @return permissions  the list of permissions 
      */

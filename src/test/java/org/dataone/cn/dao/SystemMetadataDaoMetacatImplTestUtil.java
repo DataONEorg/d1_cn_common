@@ -566,8 +566,8 @@ public class SystemMetadataDaoMetacatImplTestUtil {
             }
 
         } else if (actual.getReplicationPolicy() != null) {
-            Assert.assertTrue(actual.getReplicationPolicy().getReplicationAllowed() == null
-                    || actual.getReplicationPolicy().getReplicationAllowed().booleanValue() == false);
+            Assert.assertTrue(actual.getReplicationPolicy().getReplicationAllowed() == null);
+//                    || actual.getReplicationPolicy().getReplicationAllowed().booleanValue() == false);
             Assert.assertTrue(actual.getReplicationPolicy().getNumberReplicas() == null
                     || actual.getReplicationPolicy().getNumberReplicas().intValue() == 0);
             Assert.assertEquals(0, actual.getReplicationPolicy().sizeBlockedMemberNodeList());
