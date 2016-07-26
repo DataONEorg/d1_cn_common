@@ -143,8 +143,13 @@ public abstract class LDAPService {
                 result = results.next();
                 NamingEnumeration<? extends Attribute> attributes = result.getAttributes().getAll();
                 while (attributes.hasMore()) {
-                    Object value = attributes.next().get();
-                    values.add(value);
+                	Attribute attribute = attributes.next();
+                	NamingEnumeration<?> attributeValues = attribute.getAll();
+                    while (attributeValues.hasMore()) {
+	                    Object value = attributeValues.next();
+	                    values.add(value);
+	                    log.debug("Attribute value: " + value);
+                    }
                 }
             }
             return values;
