@@ -12,6 +12,7 @@
         <spring.version>3.1.4.RELEASE</spring.version>
         <solr.version>5.2.1</solr.version>
         <d1_test_resources.version>2.3.0-SNAPSHOT</d1_test_resources.version>
+        <compiler.target.version>1.7</compiler.target.version>
     </properties>
     <repositories>
         <repository>
@@ -220,7 +221,7 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
                     <source>1.7</source>
-                    <target>1.7</target>
+                    <target>${compiler.target.version}</target>
                 </configuration>
             </plugin>
             <plugin>
