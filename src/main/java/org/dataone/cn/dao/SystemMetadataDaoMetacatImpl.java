@@ -135,16 +135,17 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
         // query the systemmetadata table
         String sqlStatement = "SELECT count(guid) FROM " + (String) tableMap.get(SYSMETA_TABLE);
 
-        int count = 0;
+        Integer count = 0;
         try {
-            count = jdbcTemplate.queryForInt(sqlStatement);
+            count = jdbcTemplate.queryForObject(sqlStatement,Integer.class);
 
         } catch (org.springframework.dao.DataAccessException dae) {
             handleJdbcDataAccessException(dae);
-
+           
         }
-
-        return count;
+        // refactoring out the deprecated queryForInt method allows a null value for count
+        // so the converstion of null to 0 matches previous behavior.
+        return (count != null ? count.intValue() : 0);
     }
 
     /*
@@ -952,7 +953,7 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
     private boolean hasMapping(Identifier pid) throws DataAccessException {
 
         boolean mapped = false;
-        int countReturned = 0;
+        Integer countReturned = 0;
 
         if (pid.getValue() == null) {
             throw new DataAccessException(new Exception("The given identifier was null"));
@@ -962,9 +963,9 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
         String sqlStatement = "SELECT guid FROM " + IDENTIFIER_TABLE + "where guid = ?";
 
         countReturned = this.jdbcTemplate
-                .queryForInt(sqlStatement, new Object[] { pid.getValue() });
+                .queryForObject(sqlStatement, new Object[] { pid.getValue() }, Integer.class);
 
-        if (countReturned > 0) {
+        if (countReturned != null && countReturned > 0) {
             mapped = true;
         }
 
@@ -980,7 +981,7 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
     private boolean hasSystemMetadata(Identifier pid) throws DataAccessException {
 
         boolean hasSysMeta = false;
-        int countReturned = 0;
+        Integer countReturned = 0;
 
         if (pid.getValue() == null) {
             throw new DataAccessException(new Exception("The given identifier was null"));
@@ -990,9 +991,9 @@ public class SystemMetadataDaoMetacatImpl implements SystemMetadataDao {
         String sqlStatement = "SELECT guid FROM " + SYSMETA_TABLE + "where guid = ?";
 
         countReturned = this.jdbcTemplate
-                .queryForInt(sqlStatement, new Object[] { pid.getValue() });
+                .queryForObject(sqlStatement, new Object[] { pid.getValue() }, Integer.class);
 
-        if (countReturned > 0) {
+        if (countReturned != null && countReturned > 0) {
             hasSysMeta = true;
         }
 

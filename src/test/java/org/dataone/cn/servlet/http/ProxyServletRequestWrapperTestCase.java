@@ -62,7 +62,7 @@ public class ProxyServletRequestWrapperTestCase {
         logger.info("proxy.request Method: " + request.getMethod());
         logger.info("proxy.request toString:" + request.toString());
         /*      uncomment to see what the parameters of servlet passed in are  */
-        Map<String, String> requestParameterMap = request.getParameterMap();
+        Map<String, String[]> requestParameterMap = request.getParameterMap();
         for (String key : requestParameterMap.keySet()) {
             String[] values = request.getParameterValues(key);
             for (int i = 0; values.length > i; ++i) {

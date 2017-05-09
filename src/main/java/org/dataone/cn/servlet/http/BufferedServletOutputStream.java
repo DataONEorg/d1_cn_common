@@ -34,6 +34,7 @@ import javax.servlet.*;
 public class BufferedServletOutputStream extends ServletOutputStream {
     // the actual buffer
     private ByteArrayOutputStream bos = new ByteArrayOutputStream( );
+//    private WriteListener wListener;
 
     /**
      * @return the contents of the buffer.
@@ -48,6 +49,7 @@ public class BufferedServletOutputStream extends ServletOutputStream {
     @Override
     public void write(int data) throws IOException {
         this.bos.write(data);
+//        wListener.notifyAll();
     }
     /**
      * This method must be defined for custom servlet output streams.
@@ -55,6 +57,7 @@ public class BufferedServletOutputStream extends ServletOutputStream {
     @Override
     public void write(byte[] b) throws IOException {
         this.bos.write(b);
+//        wListener.notifyAll();
     }
     /**
      * This method must be defined for custom servlet output streams.
@@ -63,6 +66,7 @@ public class BufferedServletOutputStream extends ServletOutputStream {
     public void write(byte[] b, int off, int len) throws IOException {
 
         this.bos.write(b,off,len);
+//        wListener.notifyAll();
     }
     // BufferedHttpResponseWrapper calls this method
     public void reset( ) {
@@ -74,4 +78,16 @@ public class BufferedServletOutputStream extends ServletOutputStream {
         // no way to resize an existing ByteArrayOutputStream
         this.bos = new ByteArrayOutputStream(size);
     }
+
+//    @Override
+//    public boolean isReady() {
+//        // can data be written without blocking?
+//        return true;
+//    }
+
+//    @Override
+//    public void setWriteListener(WriteListener arg0) {
+//        this.wListener = arg0;
+//        
+//    }
 }
