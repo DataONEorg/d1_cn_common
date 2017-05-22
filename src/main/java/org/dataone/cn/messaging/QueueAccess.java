@@ -1,11 +1,9 @@
 package org.dataone.cn.messaging;
 
-import java.io.IOException;
-//import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -13,28 +11,25 @@ import org.apache.log4j.Logger;
 import org.springframework.amqp.AmqpException;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.core.MessageListener;
-import org.springframework.amqp.core.MessageProperties;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
-import org.springframework.amqp.rabbit.connection.ChannelProxy;
 import org.springframework.amqp.rabbit.core.ChannelAwareMessageListener;
-import org.springframework.amqp.rabbit.core.ChannelCallback;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
-import org.springframework.amqp.rabbit.support.ConsumerCancelledException;
+import org.springframework.amqp.rabbit.listener.MessageListenerContainer;
+import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
 import org.springframework.amqp.rabbit.support.CorrelationData;
-import org.springframework.amqp.rabbit.support.DefaultMessagePropertiesConverter;
-import org.springframework.amqp.rabbit.support.Delivery;
-import org.springframework.amqp.rabbit.support.MessagePropertiesConverter;
-
-import com.rabbitmq.client.AMQP.BasicProperties;
-import com.rabbitmq.client.Channel;
-import com.rabbitmq.client.DefaultConsumer;
-import com.rabbitmq.client.Envelope;
 
 
 /**
- * QueueAccess is a class for pushing a message onto a queue, or consuming one off the end.
- * The method implementations wrap and a Spring-AMQP RabbitTemplate. 
- * It ensures publishing confirmations from the broker, and 
+ * QueueAccess is a class for reading from and writing to a queue.  Both synchronous 
+ * and asynchronous reading strategies are supported.
+ * <p/>
+ * It is meant as a facade for Spring-rabbit package to implement a standard
+ * set of behaviors to simplify client interaction with the RabbitMQ broker. 
+ * Specifically, publisher confirmations are enabled, consumer acknowledgments
+ * are send after message processing, and a AMQP basic.qos of 1 are employed
+ * to support a competing consumer pattern with message durability. 
+ * delivery 
+ * 
  * @author rnahf
  *
  */
@@ -44,8 +39,9 @@ public class QueueAccess {
     CachingConnectionFactory connectionFactory;
     RabbitTemplate template;
     String queueName;
-    MessageListener messageListener = null;
+    ChannelAwareMessageListener messageListener = null;
     PublisherConfirmCallback pubCallback;
+    List<SimpleMessageListenerContainer> listenerContainers;
     
     static final long DEFAULT_CONSUME_TIMEOUT = 10 * 1000;
     static Logger logger = Logger.getLogger(QueueAccess.class.getName());
@@ -62,13 +58,14 @@ public class QueueAccess {
         this.template.setConfirmCallback(this.pubCallback);
  
         this.queueName = queueName;
+        listenerContainers = new ArrayList<>();
     }
     
     
     /** 
-     * publish a message to the queue
+     * Publishes a message to the associated queue.
      * @param message
-     * @return
+     * @return false upon AmqpException (a RuntimeException)
      */
     public boolean publish(Message message) {
         try { 
@@ -91,193 +88,71 @@ public class QueueAccess {
         @Override
         public void confirm(CorrelationData correlationData, boolean ack,
                 String cause) {
-            if(ack){
-                 LOGGER.info("ACK received");
-            }
-            else{
-                LOGGER.info("NACK received");
-            }       
+            String ackType = ack ? "ACK" : "NACK";
+
+            LOGGER.info(String.format("%s received from broker: [%s : %s]",
+                    ackType, cause,  correlationData == null ? "null" : correlationData.getId()));
         }
     }
     
-    
     /**
-     * The synchronous consume method for getting the next item off the queue,
+     * The synchronous consumer method for getting the next item off the queue,
      * blocking for the timeout period before returning a Message or null.
-     * 
-     * This method does  wait to acknowledge receipt of Message, so if called,
-     * the Message received from the queue is in an unpersisted state.
-     * 
-     * For control over acknowledging consumption, use the Handler methods.
-     * 
-     * @param timeoutMillis - the time to wait for a Message
-     * @return - a Message or null
-     * @throws AmqpException - a runtime exception
+     * <p/>
+     * If a message is returned an ACK to the broker has been sent.
      */
-    public Message consumeNextNoAck(final long timeoutMillis) throws AmqpException {
-        return this.template.execute(new ChannelCallback<Message>() {
-
-            @Override
-            public Message doInRabbit(Channel channel) throws Exception {
-                
-                Delivery delivery = consumeDelivery(channel, queueName, timeoutMillis);
-                if (delivery == null) {
-                    return null;
-                }
-                MessagePropertiesConverter mpc = new DefaultMessagePropertiesConverter();
-                MessageProperties mp = mpc.toMessageProperties(delivery.getProperties(), delivery.getEnvelope(), "");
-                return new Message(delivery.getBody(),mp);       
-            }
-        });
+    public Message getNextDelivery(final long timeoutMillis) {
+        return this.template.receive(this.queueName, timeoutMillis);
     }
     
     
-    public void acknowledgeConsume(Message m) {
-        final long tag = m.getMessageProperties().getDeliveryTag();
-        this.template.execute(new ChannelCallback<Boolean>() {
-
-            @Override
-            public Boolean doInRabbit(Channel channel) throws Exception {
-                channel.basicAck(tag, false);
-                return true;
-            }   
-        });
-        
-    }
-    
-    // copied from RabbitTemplate  https://github.com/spring-projects/spring-amqp/blob/master/spring-rabbit/src/main/java/org/springframework/amqp/rabbit/core/RabbitTemplate.java     
-    // to gain control over acknowledgements
-    private Delivery consumeDelivery(Channel channel, String queueName, long timeoutMillis) throws Exception {
-        Delivery delivery = null;
-//        Throwable exception = null;
-//        CompletableFuture<Delivery> future = new CompletableFuture<>();
-//        DefaultConsumer consumer = createConsumer(queueName, channel, future,
-//                timeoutMillis < 0 ? DEFAULT_CONSUME_TIMEOUT : timeoutMillis);
-//        try {
-//            if (timeoutMillis < 0) {
-//                delivery = future.get();
-//            }
-//            else {
-//                delivery = future.get(timeoutMillis, TimeUnit.MILLISECONDS);
-//            }
-//        }
-//        catch (ExecutionException e) {
-//            logger.error("Consumer failed to receive message: " + consumer, e.getCause());
-//            exception = e.getCause();
-//        }
-//        catch (InterruptedException e) {
-//            Thread.currentThread().interrupt();
-//        }
-//        catch (TimeoutException e) {
-//            // no result in time
-//        }
-//        try {
-//            if (exception == null || !(exception instanceof ConsumerCancelledException)) {
-//                channel.basicCancel(consumer.getConsumerTag());
-//            }
-//        }
-//        catch (Exception e) {
-//            if (logger.isDebugEnabled()) {
-//                logger.debug("Failed to cancel consumer: " + consumer, e);
-//            }
-//        }
-//        if (exception != null) {
-//            if (exception instanceof RuntimeException) {
-//                throw (RuntimeException) exception;
-//            }
-//            else if (exception instanceof Error) {
-//                throw (Error) exception;
-//            }
-//            else  {
-//                throw new AmqpException(exception);
-//            }
-//        }
-        return delivery;
-    }
-    
-    // copied from RabbitAccessor https://github.com/spring-projects/spring-amqp/blob/master/spring-rabbit/src/main/java/org/springframework/amqp/rabbit/connection/RabbitAccessor.java
-//    private DefaultConsumer createConsumer(final String queueName, Channel channel,
-//           final CompletableFuture<Delivery> future, long timeoutMillis) throws Exception {
-//        channel.basicQos(1);
-//        final CountDownLatch latch = new CountDownLatch(1);
-//        DefaultConsumer consumer = new TemplateConsumer(channel) {
-//
-//            @Override
-//            public void handleCancel(String consumerTag) throws IOException {
-//                future.completeExceptionally(new ConsumerCancelledException());
-//            }
-//
-//            @Override
-//            public void handleConsumeOk(String consumerTag) {
-//                super.handleConsumeOk(consumerTag);
-//                latch.countDown();
-//            }
-//
-//            @Override
-//            public void handleDelivery(String consumerTag, Envelope envelope, BasicProperties properties, byte[] body)
-//                    throws IOException {
-//                future.complete(new Delivery(consumerTag, envelope, properties, body));
-//            }
-//
-//        };
-//        channel.basicConsume(queueName, consumer);
-//        if (!latch.await(timeoutMillis, TimeUnit.MILLISECONDS)) {
-//            if (channel instanceof ChannelProxy) {
-//                ((ChannelProxy) channel).getTargetChannel().close();
-//            }
-//            future.completeExceptionally(
-//                    new AmqpException("Blocking receive, consumer failed to consume: " + consumer));
-//        }
-//        return consumer;
-//    }
-    
+            
+            
     /**
-     * Adds {@link #toString()} to the {@link DefaultConsumer}.
-     * @since 2.0
+     * This attaches one or more competing consumers to the channel that the channel triggers when
+     * a message is available.  The consumer containers will be in AcknowledgementMode.AUTO (default) 
+     * which means they acknowledge message receipt if the messageListener does not throw an exception.
+     * <p/>
+     * If count is more than one, note that all containers will be sharing the 
+     * same MessageListener instance, but each will get its own thread.  To instantiate separate 
+     * instances of MessageListeners, multiple QueueAccess instances will be needed. 
+     * <p/> 
+     *  
+     * @param - the number of competing consumers to register.
+     * @param channelAwareMessageListener
+     * @throws RuntimeException - throwing a runtime exception prevents the consumer from acknowledging
+     * receipt of the message, and it remains on the source queue.
      */
-    protected static abstract class TemplateConsumer extends DefaultConsumer {
+    public void registerAsynchronousMessageListener(int count, MessageListener messageListener) {
+       
+        ExecutorService executors = Executors.newFixedThreadPool(count);
+        for (int i=0; i<count; i++) {
+            
+            SimpleMessageListenerContainer container = new SimpleMessageListenerContainer();
+            container.addQueueNames(this.queueName);
+            container.setConnectionFactory(this.connectionFactory);
 
-        public TemplateConsumer(Channel channel) {
-            super(channel);
-        }
+            container.setupMessageListener(messageListener);
+            this.listenerContainers.add(container);
 
-        @Override
-        public String toString() {
-            return "TemplateConsumer [channel=" + this.getChannel() + ", consumerTag=" + this.getConsumerTag() + "]";
-        }
-
+            // should each container just use a single thread executor?
+            container.setTaskExecutor(executors);
+            // need to start the listener container 
+            container.start();
+        }  
     }
+
+    /**
+     * Call this method to stop the registered message listener
+     */
+    public void clearAsynchronousMessageListener() {
         
-   
-            
-            
-    
-//    public void registerAsynchronousMessageListener(MessageListener listener) {
-//        this.messageListener = listener;
-//        
-//    }
-//        
-//            ChannelAwareMessageListener consumer  = new ChannelAwareMessageListener() {
-//
-//                @Override
-//                public void onMessage(Message message, Channel channel)
-//                        throws Exception {
-//                    
-//                    if (preAcknowledgeHandler(message)) {
-//                        channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
-//                    }
-//                    postAcknowledgeHandler(message);
-//                }
-//                
-//            };
-//            
-//    
-//    public boolean preAcknowledgeHandler(Message message) {
-//        return true;
-//    }
-//    
-//    public boolean postAcknowledgeHandler(Message message) {
-//        return true;
-//    }
-   
+        // no need to clear out the property
+        if (this.listenerContainers != null) {
+            for (MessageListenerContainer c : this.listenerContainers) {
+                c.stop();
+            }
+        }
+    }
+
 }
