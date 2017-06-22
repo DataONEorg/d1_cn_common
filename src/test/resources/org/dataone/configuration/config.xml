@@ -2,5 +2,7 @@
 <!-- Apache Commons Configuration -->
 <configuration>
 	<properties fileName="test-jdbc.properties"/>
-        <properties fileName="test-ldap.properties"/>
+    <properties fileName="test-ldap.properties"/>
+    <propteries fileName="qpid-ampq-config.json"/>
+    <properties fileName="test-rabbitmMQ-context.xml"/>
 </configuration>

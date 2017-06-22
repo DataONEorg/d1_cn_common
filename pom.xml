@@ -232,12 +232,6 @@
             <version>4.1.0</version>
         </dependency>
         <!--  an in-memory AMQP broker for unit testing -->
-        <dependency>
-            <groupId>org.apache.qpid</groupId>
-            <artifactId>qpid-broker</artifactId>
-            <version>6.1.2</version>
-            <scope>test</scope>
-         </dependency>
     </dependencies>
     <build>
         <plugins>

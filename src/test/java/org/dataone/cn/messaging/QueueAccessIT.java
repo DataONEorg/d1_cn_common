@@ -90,7 +90,7 @@ public class QueueAccessIT {
 
     //   @Ignore
     @Test
-    public void testConsumeFromNonExistingQueue_ShouldThrowAMQUException() {
+    public void testConsumeFromNonExistingQueue_ShouldThrowAMQPException() {
         try { 
             Object o = rabbitTemplate.receiveAndConvert("aNonExistingQueue",500);
             fail("Should not successfully retrieve from non existing queue");
@@ -219,11 +219,20 @@ public class QueueAccessIT {
         Thread.sleep(10500); // sleep in parallel with onMessage
         logger.warn("*#*#*#*#*#*#*#*#*#*   Please check broker for message count. should now be 0");
         Thread.sleep(3000);
-        qa.clearAsynchronousMessageListener();
+        qa.clearAsynchronousMessageListeners();
     }
 
 
-    
+    /**
+     * This test uses Spring's rabbit template to send messages,
+     * and QueueAccess asynchronousMessageListeners to consume them.
+     * The listener registration method configures the number of consumers
+     * 
+     * (The listeners are instantiations of anonymous MessageListener interface )
+     * (Output is all through System.out)
+     * (Timing is measured by shared Map of timestamps between the consumer threads and the main thread)
+     * @throws InterruptedException
+     */
     @Test
     public void testParallelConsumption_TimingShouldBeLikeOneMessage() throws InterruptedException {
 
@@ -238,7 +247,7 @@ public class QueueAccessIT {
         rabbitTemplate.convertAndSend(testQueueName,"simpleMessage8");
 
         logger.warn("*#*#*#*#*#*#*#*#*#*   Please check broker for message count. should be 8");
-        Thread.sleep(5 * 1000);
+        Thread.sleep(10 * 1000);
 
         long start = System.currentTimeMillis();
         final Map<String,Long> threadTimings = new HashMap<>();
@@ -279,7 +288,7 @@ public class QueueAccessIT {
         assertTrue("Total time to process should be less than or equal to size of one task sleep (plus small amount)",
                 latest - start < 4000 + overheadTime);
         
-        qa.clearAsynchronousMessageListener();
+        qa.clearAsynchronousMessageListeners();
     }
 
 
