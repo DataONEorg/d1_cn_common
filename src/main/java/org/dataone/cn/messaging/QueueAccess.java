@@ -55,9 +55,6 @@ public class QueueAccess {
     public QueueAccess(CachingConnectionFactory connFactory, String queueName) {
         this.connectionFactory = connFactory;
         
-
-
-        
         this.template = new RabbitTemplate(this.connectionFactory);
         this.pubCallback = new PublisherConfirmCallback();
         this.template.setConfirmCallback(this.pubCallback);
@@ -82,6 +79,37 @@ public class QueueAccess {
     public String getQueueName() {
         return queueName;
     }
+ 
+
+    /** 
+     * Publishes a message to the specified exchange
+     * @param exchange
+     * @return false upon AmqpException (a RuntimeException)
+     */
+    public boolean publish(String exchange, Message message) {
+        try {
+            CorrelationData cData = new CorrelationData();
+            String uniqueId = String.format("%s : exchange = %s : routingKey = %s", UUID.randomUUID().toString(), exchange, this.queueName);
+
+            cData.setId(uniqueId);
+//            correlationIdMap.put(uniqueId, getQueueName() );
+            
+            if (connectionFactory.isPublisherReturns()) {
+                this.template.sendAndReceive(exchange, null, message, cData);
+            }
+            else if (connectionFactory.isPublisherConfirms()) {
+                this.template.send(exchange, null, message, cData);
+            }
+            else { 
+                this.template.send(exchange, null, message, null);
+            }
+            return true;
+            
+        } catch (AmqpException runtimeException) {
+            runtimeException.printStackTrace();
+            return false;
+        }
+    }
     
     
     /** 
@@ -90,11 +118,12 @@ public class QueueAccess {
      * @return false upon AmqpException (a RuntimeException)
      */
     public boolean publish(Message message) {
+
         try {
             CorrelationData cData = new CorrelationData();
-            String uniqueId = UUID.randomUUID().toString() + this.queueName;
+            String uniqueId = String.format("%s : exchange = %s : routingKey = %s", UUID.randomUUID().toString(), "", this.queueName);
             cData.setId(uniqueId);
-            correlationIdMap.put(uniqueId, getQueueName() );
+//            correlationIdMap.put(uniqueId, getQueueName() );
             
             if (connectionFactory.isPublisherReturns()) {
                 this.template.sendAndReceive(null, this.queueName, message, cData);
@@ -128,7 +157,7 @@ public class QueueAccess {
             String ackType = ack ? "ACK" : "NACK";
 
 //            LOGGER.info(
-            System.out.println(        String.format("%s received from broker: [%s : %s]",
+            System.out.println(        String.format("%s received from broker: [cause=%s : correlationData=%s]",
                     ackType, cause,  correlationData == null ? "null" : correlationData.getId()));
         }
     }
