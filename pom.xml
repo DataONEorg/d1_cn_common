@@ -11,8 +11,8 @@
         <d1_common_java.version>2.4.0-SNAPSHOT</d1_common_java.version>
         <spring.version>4.3.8.RELEASE</spring.version>
         <solr.version>5.2.1</solr.version>
-        <d1_test_resources.version>2.3.0-SNAPSHOT</d1_test_resources.version>
-        <compiler.target.version>1.7</compiler.target.version>
+        <d1_test_resources.version>2.4.0-SNAPSHOT</d1_test_resources.version>
+        <compiler.target.version>1.8</compiler.target.version>
     </properties>
     <repositories>
         <repository>
@@ -95,18 +95,25 @@
         <dependency>
             <groupId>org.springframework.data</groupId>
             <artifactId>spring-data-jpa</artifactId>
-            <version>1.4.5.RELEASE</version>
+            <version>1.11.4.RELEASE</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.data</groupId>
             <artifactId>spring-data-commons</artifactId>
-            <version>1.6.5.RELEASE</version>
+            <version>1.13.4.RELEASE</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.amqp</groupId>
             <artifactId>spring-rabbit</artifactId>
-            <version>1.7.2.RELEASE</version>
+            <version>1.7.3.RELEASE</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/org.springframework.amqp/spring-amqp -->
+        <dependency>
+             <groupId>org.springframework.amqp</groupId>
+             <artifactId>spring-amqp</artifactId>
+             <version>1.7.3.RELEASE</version>
+        </dependency>
+        
         
         <dependency>
             <groupId>org.hibernate</groupId>
