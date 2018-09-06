@@ -101,20 +101,7 @@
             <groupId>org.springframework.data</groupId>
             <artifactId>spring-data-commons</artifactId>
             <version>1.13.4.RELEASE</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.amqp</groupId>
-            <artifactId>spring-rabbit</artifactId>
-            <version>1.7.3.RELEASE</version>
-        </dependency>
-        <!-- https://mvnrepository.com/artifact/org.springframework.amqp/spring-amqp -->
-        <dependency>
-             <groupId>org.springframework.amqp</groupId>
-             <artifactId>spring-amqp</artifactId>
-             <version>1.7.3.RELEASE</version>
-        </dependency>
-        
-        
+        </dependency>        
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-entitymanager</artifactId>
@@ -134,10 +121,7 @@
             <groupId>postgresql</groupId>
             <artifactId>postgresql</artifactId>
             <version>8.4-702.jdbc4</version>
-        </dependency>
-        
-        
-        
+        </dependency>       
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-core</artifactId>
@@ -232,13 +216,6 @@
             <type>jar</type>
             <scope>test</scope>
         </dependency>
-               <!-- https://mvnrepository.com/artifact/com.rabbitmq/amqp-client -->
-        <dependency>
-            <groupId>com.rabbitmq</groupId>
-            <artifactId>amqp-client</artifactId>
-            <version>4.1.0</version>
-        </dependency>
-        <!--  an in-memory AMQP broker for unit testing -->
     </dependencies>
     <build>
         <plugins>
