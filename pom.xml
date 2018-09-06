@@ -10,7 +10,7 @@
         <hazelcast.version>2.4.1</hazelcast.version>
         <d1_common_java.version>2.4.0-SNAPSHOT</d1_common_java.version>
         <spring.version>4.3.8.RELEASE</spring.version>
-        <solr.version>5.2.1</solr.version>
+        <solr.version>7.1.0</solr.version>
         <d1_test_resources.version>2.4.0-SNAPSHOT</d1_test_resources.version>
         <compiler.target.version>1.8</compiler.target.version>
     </properties>
@@ -61,7 +61,7 @@
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>4.7</version>
+            <version>4.12</version>
             <type>jar</type>
             <scope>test</scope>
         </dependency>
