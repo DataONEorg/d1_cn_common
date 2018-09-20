@@ -53,8 +53,8 @@ public class AuditLogClientSolrImpl implements AuditLogClient {
     
 
     static {
-           
-            server = new HttpSolrClient.Builder(AUDIT_LOG_URL).build();
+            server = new HttpSolrClient(AUDIT_LOG_URL);
+//            server = new HttpSolrClient.Builder(AUDIT_LOG_URL).build();
 
     }
 
