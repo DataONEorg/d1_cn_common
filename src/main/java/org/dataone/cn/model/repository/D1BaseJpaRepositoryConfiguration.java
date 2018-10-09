@@ -41,7 +41,8 @@ public abstract class D1BaseJpaRepositoryConfiguration {
     }
 
     public void closeContext() {
-        context.close();
+        if (context != null) 
+            context.close();
         context = null;
     }
 

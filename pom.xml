@@ -92,15 +92,16 @@
             <scope>provided</scope>  <!--  provided by tomcat7, TTBOMK -->
         </dependency>
 
+		<!-- can't advance this version until main spring framework is ugraded past 3.1.x -->
         <dependency>
             <groupId>org.springframework.data</groupId>
             <artifactId>spring-data-jpa</artifactId>
-            <version>1.11.4.RELEASE</version>
+            <version>1.4.5.RELEASE</version> 
         </dependency>
         <dependency>
             <groupId>org.springframework.data</groupId>
             <artifactId>spring-data-commons</artifactId>
-            <version>1.13.4.RELEASE</version>
+            <version>1.6.5.RELEASE</version>
         </dependency>        
         <dependency>
             <groupId>org.hibernate</groupId>
