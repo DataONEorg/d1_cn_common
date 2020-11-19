@@ -23,6 +23,12 @@
     </developer>
   </developers>
     <repositories>
+    <repository>
+        <id>oss.sonatype.org-snapshot</id>
+        <url>http://oss.sonatype.org/content/repositories/snapshots</url>
+        <releases><enabled>false</enabled></releases>
+        <snapshots><enabled>true</enabled></snapshots>
+    </repository>
         <repository>
             <id>com.springsource.repository.bundles.release</id>
             <name>EBR Spring Release Repository</name>
