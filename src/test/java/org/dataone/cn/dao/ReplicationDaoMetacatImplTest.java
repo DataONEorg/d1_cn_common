@@ -142,7 +142,7 @@ public class ReplicationDaoMetacatImplTest {
         jdbc.execute("INSERT INTO smreplicationstatus VALUES ('test_guid2','mn:test:1','REQUESTED',TIMESTAMP '2012-01-01 12:00:00')");
         jdbc.execute("INSERT INTO smreplicationstatus VALUES ('test_guid2','mn:test:2','QUEUED',TIMESTAMP '2012-01-01 12:00:00')");
         jdbc.execute("INSERT INTO smreplicationstatus VALUES ('test_guid3','mn:test:1','REQUESTED',TIMESTAMP '2012-01-01 12:00:00')");
-        jdbc.execute("INSERT INTO smreplicationstatus VALUES ('test_guid3','mn:test:3','REQUESTED',TIMESTAMP '2020-01-01 12:00:00')");
+        jdbc.execute("INSERT INTO smreplicationstatus VALUES ('test_guid3','mn:test:3','REQUESTED',TIMESTAMP '2025-01-01 12:00:00')");
 
         List<ReplicaDto> results = replicationDao.getRequestedReplicasByDate(new Date(System
                 .currentTimeMillis()));
