@@ -360,9 +360,19 @@
         </license>
     </licenses>
     <scm>
-        <url>https://repository.dataone.org/software/cicore</url>
-        <connection>scm:svn:https://repository.dataone.org/software/cicore</connection>
-        <developerConnection>scm:svn:https://repository.dataone.org/software/cicore</developerConnection>
+        <url>https://github.com/DataONEorg/d1_cn_common</url>
+        <connection>scm:git:ssh://github.com:DataONEorg/d1_cn_common.git</connection>
+        <developerConnection>scm:git:ssh://git@github.com:DataONEorg/d1_cn_common.git</developerConnection>
         <tag>HEAD</tag>
     </scm>
+  <distributionManagement>
+    <snapshotRepository>
+      <id>ossrh</id>
+      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+    </snapshotRepository>
+    <repository>
+      <id>ossrh</id>
+      <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+    </repository>
+  </distributionManagement>        
 </project>
